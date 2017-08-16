@@ -15,8 +15,8 @@ class Tags extends React.Component {
       return (
         <div>
           	<Tabs onChange={this.callback.bind(this)} type="card">
-		    	<TabPane tab="Tab 1" key="1"><EditableTable/></TabPane>
-		    	<TabPane tab="Tab 2" key="2"><Infrastructure/></TabPane>
+		    	<TabPane tab="账号管理" key="1"><EditableTable/></TabPane>
+		    	<TabPane tab="基础设置" key="2"><Infrastructure/></TabPane>
  			</Tabs>
         </div>
     )
@@ -31,20 +31,26 @@ class EditableTable extends React.Component {
   constructor(props) {
     super(props);
     this.columns = [{
-      title: 'name',
+      title: '姓名',
       dataIndex: 'name',
       width: '30%',
       render: (text, record, index) => (
         <span>{text}</span>
       ),
     }, {
-      title: 'age',
+      title: '账号手机',
       dataIndex: 'age',
     }, {
-      title: 'address',
+      title: '账号权限',
       dataIndex: 'address',
-    }, {
-      title: 'operation',
+    },{
+      title: '账号状态',
+      dataIndex: 'address2s',
+    },{
+      title: '更新时间',
+      dataIndex: 'addresss12',
+    },{
+      title: '操作',
       dataIndex: 'operation',
       render: (text, record, index) => {
         return (

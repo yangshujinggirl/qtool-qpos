@@ -14,6 +14,7 @@ class Logo extends React.Component {
   }
 }
 
+
 //登录form
 const FormItem = Form.Item;
 class NormalLoginForm extends React.Component {
@@ -23,6 +24,7 @@ class NormalLoginForm extends React.Component {
       login:true
     }
   }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -31,10 +33,9 @@ class NormalLoginForm extends React.Component {
             result.then((res) => {
               return res;
             }).then((json) => {
-                console.log(json)
-                this.props.postpath('/cashier','')
-                if(json.code=='0'){
-                    this.props.postpath('/cashier','')
+              let a={code:0}
+                if(a.code=='0'){
+                     this.context.router.push('/cashier')
                 }else{  
                   this.setState({
                     login:false
@@ -44,6 +45,7 @@ class NormalLoginForm extends React.Component {
       }
     })
   }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -70,7 +72,12 @@ class NormalLoginForm extends React.Component {
     );
   }
 }
+NormalLoginForm.contextTypes= {
+    router: React.PropTypes.object
+}
 const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
+
+
 
 //index
 class IndexPage extends React.Component {
@@ -78,7 +85,7 @@ class IndexPage extends React.Component {
       return (
         <div className='login'>
           <Logo/>
-          <div className='login-form'><WrappedNormalLoginForm postpath={this.props.history.push.bind(this)}/></div>
+          <div className='login-form'><WrappedNormalLoginForm/></div>
         </div>
     )
   }

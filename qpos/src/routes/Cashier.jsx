@@ -11,7 +11,6 @@ function Cashier({data}) {
 }
 
 function mapStateToProps(state) {
-	console.log(state)
 	 const { data } = state.header;
   	return { data };
 }

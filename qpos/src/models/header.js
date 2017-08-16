@@ -7,8 +7,7 @@ export default {
   },
   reducers: {
     save(state, { payload: { data } }) {
-      console.log(state)
-      console.log(data)
+    
       //计算新state
       return { ...state};
     },
