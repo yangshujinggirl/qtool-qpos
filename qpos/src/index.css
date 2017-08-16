@@ -1,5 +1,59 @@
+html, body, :global(#root) {height: 100%;padding:0;margin:0;border: 0;}
+li{list-style: none;}
+input::-ms-input-placeholder{text-align: center;}
+input::-webkit-input-placeholder{text-align: center;}
+.clearfix:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+.clearfix { display: inline-table; }
+* html .clearfix { height: 1%; }
+.clearfix { display: block; *zoom:1;}
 
-html, body, :global(#root) {
-  height: 100%;
-}
+
+
+/*组件*/
+.header_bgcolor{background: #35BAB0;width: 100%;height: 93px;}
+.header_bgcolor_ano{background:#FC4F4F;width: 100%;height: 93px;}
+.menu_list0,.menu_list1,.menu_list2,.menu_list3,.menu_list4{width:90px;height: 100%;float: left;text-align: center;height: 93px;color: #384162;}
+.menu_list0 .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_member.png) no-repeat center center;background-size:cover;}
+.menu_list1 .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_delivery.png) no-repeat center center;background-size:cover;}
+.menu_list2 .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_goods.png) no-repeat center center;background-size:cover;}
+.menu_list3 .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_sell.png) no-repeat center center;background-size:cover;}
+.menu_list4 .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_setting.png) no-repeat center center;background-size:cover;}
+.menu_list0:hover,.menu_list1:hover,.menu_list2:hover,.menu_list3:hover,.menu_list4:hover{background: #38B58F;}
+.menu_list0:hover .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_member_hover.png) no-repeat center center;background-size:cover;}
+.menu_list1:hover .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_delivery_hover.png) no-repeat center center;background-size:cover;}
+.menu_list2:hover .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_goods_hover.png) no-repeat center center;background-size:cover;}
+.menu_list3:hover .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_sell_hover.png) no-repeat center center;background-size:cover;}
+.menu_list4:hover .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_setting_hover.png) no-repeat center center;background-size:cover;}
+.menu_list0:hover .menu_list_p,.menu_list1:hover .menu_list_p,.menu_list2:hover .menu_list_p,.menu_list3:hover .menu_list_p,.menu_list4:hover .menu_list_p{font-size:10px;color:#fff}
+.menu_list_p{font-size:10px;color:#384162}
+.menu{float: left;}
+.userinfo{float: right;}
+.menuitem{font-size:14px;color:#74777F}
+.menuitem:hover{color:#35BAB0;}
+
+
+.menuiconcount{width: 84px;height: 34px;margin-left: 30px;margin-top: 30px;}
+.menuiconcount img{width:100%;height: 100%;}
+
+/*界面*/
+/*登录页面*/
+.login{width: 550px;height: 440px;box-shadow: 0 0 50px 0 rgba(56,65,98,0.10);overflow: hidden;position: absolute;left:50%;top:50%; transform: translate(-50%, -60%);}
+.login-logo{width: 100%;height: 168px;background: #35BAB0;overflow: hidden;}
+.login-logobox{width:210px;height: 83px;margin:0 auto;margin-top: 43px;}
+.login-logobox img{width:100%;height:100%;}
+.login-form{width: 100%;height: 272px;background: #fff;overflow: hidden;}
+.login-form .ant-btn-lg{height: 49px;font-size: 14px;}
+.login-form .ant-btn-primary{border:0;}
+.login-form .ant-btn-primary:hover{background: #35BAB0;}
+.login-form .ant-input-lg{height: 52px;}
+.login-form .ant-input{border:0;border-bottom: 1px solid rgba(56,65,98,0.1);text-align: center;}
+.login-form .ant-input:hover{border:0;border-bottom: 1px solid rgba(56,65,98,0.1)}
+.login-form .ant-input:focus{border:0;border-bottom: 1px solid rgba(56,65,98,0.1);box-shadow:none;}
+.login-form .ant-form-item{margin-bottom: 18px;}
+.login-form .anticon-user:before{content:none;}
+.login-form .anticon{display: none;}
+.login_form {max-width: 400px;margin:0 auto;margin-top:30px;}
+.login_form_forgot {float: right;display: none;}
+.login_form_button {width: 100%;margin-top: 12px;}
+.login_form_forgots{float: right;}
 

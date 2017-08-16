@@ -10,9 +10,11 @@
     "install-node": "6.9.2"
   },
   "dependencies": {
-    "antd": "^2.12.6",
+    "antd": "^2.12.4",
     "babel-runtime": "^6.9.2",
     "dva": "^1.2.1",
+    "echarts": "^3.6.2",
+    "echarts-for-react": "^1.4.4",
     "react": "^15.4.0",
     "react-dom": "^15.4.0"
   },
