@@ -1,17 +1,66 @@
-html, body, :global(#root) {height: 100%;padding:0;margin:0;border: 0;}
+html, body, :global(#root) {height: 100%;padding:0;margin:0;border: 0;background:#F4F4F4;overflow-x:hidden;}
 li{list-style: none;}
-input::-ms-input-placeholder{text-align: center;}
-input::-webkit-input-placeholder{text-align: center;}
 .clearfix:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
 .clearfix { display: inline-table; }
 * html .clearfix { height: 1%; }
 .clearfix { display: block; *zoom:1;}
+.fl{float: left}
+.fr{float: right;}
+.tc{text-align: center;}
+.w{margin:0 auto;}
+.posion{position: relative;}
+.w100{width: 100%;}
+.h100{height: 100%;}
+.themecolor{color: #35BAB0}
+.mr10{margin-right: 10px}
+.mt20{margin-top: 20px;}
+.ml20{margin-left: 20px;}
+.m30{margin-left: 30px;}
+.mr30{margin-right: 30px;}
+.p30{padding-left: 30px;}
+.f14{font-size: 14px;}
+.btn{width: 100px;height: 40px;}
+.count{padding:0 30px;position: relative;}
+.fff{color: #fff;}
+.h40{height: 40px;line-height: 40px;}
 
 
 
-/*组件*/
-.header_bgcolor{background: #35BAB0;width: 100%;height: 93px;}
-.header_bgcolor_ano{background:#FC4F4F;width: 100%;height: 93px;}
+
+/*--antd--*/
+span.ant-radio + *{font-size: 12px;color: #74777F;}
+.ant-radio-inner{border-radius: 0;width: 16px;height: 16px;}
+.ant-radio-inner:after{border-radius: 0;left: 4px;top:4px;}
+.ant-modal-footer{height: 40px;padding:0;}
+.ant-modal-header{text-align: center;}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-ink-bar{visibility:visible;}
+.ant-table-tbody .table_white{background: white;}/*设置隔行变色*/
+.ant-table-tbody .table_gray{background: #f4f4f4}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container{height: 54px;}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{height: 54px;width: 200px;padding:0;text-align: center;line-height: 54px;font-size: 14px;border:1px solid #d9d9d9}
+.ant-tabs-bar{margin-bottom: 0;}
+.ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{background: #FFFFFF;border: 1px solid #E7E8EC;border-radius: 0 0 3px 3px;border-top:0;overflow: hidden;}
+.ant-message-notice-content{background: #384162;box-shadow: 0 0 30px 0 rgba(0,0,0,0.30);border-radius: 5px;font-size: 30px;color: #FFFFFF;padding:24px 20px;}
+.ant-message .anticon{top:0;font-size: 26px;}
+
+.ant-tabs-vertical.ant-tabs-left > .ant-tabs-bar .ant-tabs-tab{height: 80px;margin-bottom: 0;padding:0;}
+.ant-tabs-vertical.ant-tabs-left{border-top: 1px solid #E7E8EC;}
+.ant-tabs-vertical.ant-tabs-left > .ant-tabs-bar .ant-tabs-tab-active{background:#35BAB0;width: 330px;position: relative;}
+.ant-tabs-vertical.ant-tabs-left > .ant-tabs-bar .ant-tabs-tab-active p div{color: #fff}
+.ant-tabs-vertical.ant-tabs-left > .ant-tabs-bar .ant-tabs-tab-active:after{content:'';width: 0;height: 0;display: block;border-top: 40px solid transparent;border-bottom: 40px solid transparent;
+    border-left: 10px solid #35BAB0;position: absolute;top:0;right:-10px;}
+.ant-tabs-nav-container,.ant-tabs-nav-wrap,.ant-tabs-nav-scroll{overflow:visible;}
+.ant-tabs-top .ant-tabs-ink-bar-animated, .ant-tabs-bottom .ant-tabs-ink-bar-animated{transition:none;}
+.searchqery .ant-input,.persontime .ant-input{height: 40px;width: 200px;font-size: 14px;}/*日期框*/
+/*table*/
+.ant-table-bordered .ant-table-thead > tr > th, .ant-table-bordered .ant-table-tbody > tr > td{text-align: center;}
+.ant-table-bordered .ant-table-thead > tr > th{font-size: 14px;color: #74777F;border-right:1px solid #e9e9e9}
+.ant-table-bordered .ant-table-tbody > tr > td{font-size: 14px;color: #384162;border-right:none}
+.ant-table-tbody > tr > td{border-bottom:0;}
+
+
+
+/*header组件*/
 .menu_list0,.menu_list1,.menu_list2,.menu_list3,.menu_list4{width:90px;height: 100%;float: left;text-align: center;height: 93px;color: #384162;}
 .menu_list0 .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_member.png) no-repeat center center;background-size:cover;}
 .menu_list1 .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_delivery.png) no-repeat center center;background-size:cover;}
@@ -26,21 +75,22 @@ input::-webkit-input-placeholder{text-align: center;}
 .menu_list4:hover .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_setting_hover.png) no-repeat center center;background-size:cover;}
 .menu_list0:hover .menu_list_p,.menu_list1:hover .menu_list_p,.menu_list2:hover .menu_list_p,.menu_list3:hover .menu_list_p,.menu_list4:hover .menu_list_p{font-size:10px;color:#fff}
 .menu_list_p{font-size:10px;color:#384162}
-.menu{float: left;}
-.userinfo{float: right;}
 .menuitem{font-size:14px;color:#74777F}
 .menuitem:hover{color:#35BAB0;}
+.shift_bottom_list{background: #fff;}
+.shift_bottom_list li{width: 110px;height:62px;border:1px solid #F4F4F4;box-shadow:0 0 11px 0 rgba(0,0,0,0.10);text-align:center;float:left;background: #fff;margin:22px 11px 0;}
+.dropdownmodal .ant-modal-content{width: 550px;}
+.dropdownmodal .ant-modal-header{display: none;}
+.dropdownmodal .ant-modal-body{padding:0;}
+.dropdownmodal .ant-modal-footer{border-top:0;width: 508px;height: 60px;margin:0 auto;padding:0;margin-top: 22px;border-top:1px solid #F4F4F4;}
 
-
-.menuiconcount{width: 84px;height: 34px;margin-left: 30px;margin-top: 30px;}
-.menuiconcount img{width:100%;height: 100%;}
 
 /*界面*/
 /*登录页面*/
+.loginindex{height: 100%;background:url(images/Qpos_bg.png) no-repeat center center;background-size: cover;}
 .login{width: 550px;height: 440px;box-shadow: 0 0 50px 0 rgba(56,65,98,0.10);overflow: hidden;position: absolute;left:50%;top:50%; transform: translate(-50%, -60%);}
-.login-logo{width: 100%;height: 168px;background: #35BAB0;overflow: hidden;border-radius: 3px 3px 0 0;}
-.login-logobox{width:210px;height: 83px;margin:0 auto;margin-top: 43px;}
-.login-logobox img{width:100%;height:100%;}
+.login input::-ms-input-placeholder{text-align: center;}
+.login input::-webkit-input-placeholder{text-align: center;}
 .login-form{width: 100%;height: 272px;background: #fff;overflow: hidden;border-radius: 0 0 3px 3px;}
 .login-form .ant-btn-lg{height: 49px;font-size: 14px;}
 .login-form .ant-btn-primary{border:0;}
@@ -52,9 +102,31 @@ input::-webkit-input-placeholder{text-align: center;}
 .login-form .ant-form-item{margin-bottom: 18px;}
 .login-form .anticon-user:before{content:none;}
 .login-form .anticon{display: none;}
-.login_form {max-width: 400px;margin:0 auto;margin-top:30px;}
 .login_form_forgot {float: right;display: none;}
-.login_form_button {width: 100%;margin-top: 12px;}
-.login_form_forgots{float: right;}
-
 .login-form .ant-input-affix-wrapper .ant-input:not(:first-child){padding-left: 7px;}
+/*销售订单*/
+.searchselect .ant-select-selection--single{height: 40px;}
+.searchselect .ant-select-selection__rendered{height: 40px;line-height: 40px;font-size: 14px;color: #384162;}
+.sellinfolist li{padding:20px 30px 10px 20px;border-bottom: 1px solid #E7E8EC;}
+.sellinfolist li p{font-size: 14px;color: #1A1D00;margin-bottom: 10px;display: flex;justify-content:space-between}
+.sellinfolist li span{font-size: 14px;color: #74777F;}
+.slidecountcztop{padding:20px 30px 10px 20px;border-bottom: 1px solid #E7E8EC;}
+.slidecountcztop p{font-size: 14px;color: #1A1D00;margin-bottom: 10px;display: flex;justify-content:space-between}
+.slidecountcztop span{font-size: 14px;color: #74777F;}
+.slidecountczbo{padding:20px 30px 10px 20px;}
+.slidecountczbo p{font-size: 14px;color: #1A1D00;margin-bottom: 10px;}
+.slidecountczbo span{font-size: 14px;color: #74777F;}
+.searchqery{margin:20px 0;}
+.slidetitle .p1{margin-top:20px}
+.slidetitle .p2{ font-size:18px;color: #384162}
+.slidetitle .p3{font-size: 18px;color:#74777F;margin-right:30px}
+/*会员管理*/
+.birthday .ant-table-tbody > tr{border: 1px solid #E7E8EC;display: inline-block;border-radius: 3px;width: 250px;height: 40px;padding:0;}
+.birthday .ant-table-tbody > tr>td{height: 40px;display: inline-block;padding:0;}
+.birthday .ant-select-selection{border:0;}
+.birthday .ant-select-focused .ant-select-selection, .ant-select-selection:focus, .ant-select-selection:active{box-shadow:none;}
+.birthday .ant-table-thead > tr.ant-table-row-hover > td, .ant-table-tbody > tr.ant-table-row-hover > td, .ant-table-thead > tr:hover > td, .ant-table-tbody > tr:hover > td{background: #fff;}
+.addicon{vertical-align: top;}
+.birthday .ant-switch-inner{margin-left: 22px;font-size: 10px;}
+.birthday .ant-switch-inner:after{width:16px;height: 16px;left: 2px;top:2px;}
+.birthday .ant-switch-checked .ant-switch-inner{margin-left: 4px;font-size: 10px;}
