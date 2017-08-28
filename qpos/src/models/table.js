@@ -1,6 +1,6 @@
 
 export default {
-  namespace: 'users',
+  namespace: 'table',
   state: {},
   reducers: {},
   effects: {},

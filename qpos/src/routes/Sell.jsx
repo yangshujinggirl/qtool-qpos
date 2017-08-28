@@ -294,19 +294,18 @@ function Sellclerk() {
   )
 }
 
-function Sell({data}) {
+function Sell() {
   return (
     <div>
-    	<Header type={false} data={data} color={true}/>
+    	<Header type={false} color={true}/>
     	<Tags/>
     </div>
   );
 }
 
 function mapStateToProps(state) {
-  console.log(state)
-  const {data}=state.header
-  return {data};
+ 
+  return {};
 }
 
 export default connect(mapStateToProps)(Sell);

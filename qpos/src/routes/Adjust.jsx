@@ -123,10 +123,10 @@ class EditableTable extends React.Component {
 }
 
 
-function Adjust({data}) {
+function Adjust() {
   return (
     <div>
-      <Header type={false} data={data} color={true}/>
+      <Header type={false} color={true}/>
       <Searchcomponent/>
       <div className='count' style={{marginTop:'10px'}}><EditableTable/></div>
     </div>
@@ -134,8 +134,7 @@ function Adjust({data}) {
 }
 
 function mapStateToProps(state) {
-  const {data}=state.header
-  	return {data};
+  	return {};
 }
 
 export default connect(mapStateToProps)(Adjust);

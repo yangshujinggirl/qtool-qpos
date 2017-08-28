@@ -132,10 +132,10 @@ class EditableTable extends React.Component {
 
 
 
-function Inventory({data}) {
+function Inventory() {
   return (
     <div>
-    	<Header type={false} data={data} color={true}/>
+    	<Header type={false} color={true}/>
     	<Searchcomponent/>
     	<div className='count' style={{marginTop:'10px'}}><EditableTable/></div>
     </div>
@@ -143,8 +143,8 @@ function Inventory({data}) {
 }
 
 function mapStateToProps(state) {
-    const {data}=state.header
-  	return {data};
+ 
+  	return {};
 }
 
 export default connect(mapStateToProps)(Inventory);

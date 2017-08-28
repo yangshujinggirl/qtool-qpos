@@ -14,14 +14,15 @@ const header_bgcolor_ano={
 	height: '93px',
 	marginBottom:'20px'
 }
-function Header({type,data,color}) {
+function Header({type,color}) {
   return (
     <div style={color?header_bgcolor:header_bgcolor_ano}>
     	<div className='clearfix'>
       		<div className='fl'><Menu type={type}/></div>
-      		<div className='fr'><Userinfo data={data}/></div>
+      		<div className='fr'><Userinfo/></div>
       	</div>
     </div>
   )
 }
-export default Header;
+export default Header 
+

@@ -1,33 +1,66 @@
-import * as usersService from '../services/services';
+import {GetServerData} from '../services/services';
+import {message} from 'antd';
+import { routerRedux } from 'dva/router';
 
 export default {
-  namespace: 'header',
-  state: {  
-    data:[1,2,3]
-  },
-  reducers: {
-    save(state, { payload: { data } }) {
-    
-      //计算新state
-      return { ...state};
-    },
-  },
-  effects: {
-    *fetch({ payload: {code,values} }, { call, put }) {
-       const { data, headers }=yield call(usersService.GetServerDatas,code,values);
-      yield put({   
-        type: 'save',
-        payload: {data}
-      });
-    },
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-        if (pathname === '/cashier') {
-          dispatch({ type: 'save', payload: {code:'qerp.web.bs.menu',values:''} });
+    namespace: 'header',
+    state: {  
+        urUser:{
+            shop:{
+                name:''
+            }
         }
-      });
+      },
+    reducers: {
+        save(state, { payload: urUser}) {
+            console.log(urUser)
+            return {...state,urUser}
+        },
     },
+    effects: {
+        *fetch({ payload: {code,values} }, { call, put }) {
+            const result=yield call(GetServerData,code,values);
+            if(result.code=='0'){
+                const {urUser}=result
+                console.log(urUser)
+                yield put({   
+                    type: 'save',
+                    payload:urUser
+                });
+            }else{
+                message.error(data.message);
+            }   
+        },
+        *shift({ payload: {code,values} }, { call, put }) {
+            const result=yield call(GetServerData,code,values);
+            console.log(result)
+            if(result.code=='0'){
+                // const {urUser}=result
+                // console.log(urUser)
+                // yield put({   
+                //     type: 'save',
+                //     payload:urUser
+                // });
+            }else{
+                message.error(data.message);
+            }   
+        },
+        *logout({ payload: {code,values} }, { call, put }) {
+            const result=yield call(GetServerData,code,values);
+            if(result.code=='0'){
+                yield put(routerRedux.push('/'));
+            }else{
+                message.error(data.message);
+            }   
+        },
   },
+    subscriptions: {
+        setup({ dispatch, history }) {
+            return history.listen(({ pathname, query }) => {
+                if (pathname === '/cashier') {
+                    dispatch({ type: 'fetch', payload: {code:'qerp.pos.ur.user.info',values:{urUserId:null}} });
+                }
+            });
+        },
+    }
 };

@@ -119,10 +119,10 @@ class EditableTable extends React.Component {
   	}
 }
 
-function Inventorydiff({data}) {
+function Inventorydiff() {
   	return (
 	    <div>
-	     	<Header type={false} data={data} color={true}/>
+	     	<Header type={false} color={true}/>
 	     	<Searchcomponent/>
 	      	<div className='count' style={{marginTop:'10px'}}><EditableTable/></div>
 	    </div>
@@ -130,8 +130,8 @@ function Inventorydiff({data}) {
 }
 
 function mapStateToProps(state) {
-   	const {data}=state.header
-  	return {data};
+   
+  	return {};
 }
 
 export default connect(mapStateToProps)(Inventorydiff);

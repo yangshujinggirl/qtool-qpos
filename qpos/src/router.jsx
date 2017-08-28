@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route } from 'dva/router';
 import Cashier from './routes/Cashier';
-import Login from './routes/Login';
+import IndexPage from './routes/Login';
 import Account from "./routes/Account";
 import Member from "./routes/Member";
 import Receivegoods from "./routes/Receivegoods";
@@ -15,7 +15,7 @@ import Inventorydiff from "./routes/Inventorydiff";
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path='/' component={Login} />
+      <Route path='/' component={IndexPage} />
       <Route path='/cashier' component={Cashier} />
       <Route path="/account" component={Account} />
       <Route path="/member" component={Member} />

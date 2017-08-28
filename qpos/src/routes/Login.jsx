@@ -1,9 +1,7 @@
 import React from 'react';
-import { connect } from 'dva';
 import { Form, Icon, Input, Button } from 'antd';
 import {GetServerData} from '../services/services';
 
-const FormItem = Form.Item;
 //css
 const loginlogo={
     width: '100%',
@@ -30,6 +28,8 @@ const login_form={
 const f13={
     fontSize:'13px'
 }
+const FormItem = Form.Item;
+
 function Logo() {
     return (
         <div style={loginlogo}>
@@ -52,17 +52,12 @@ class NormalLoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                let a={code:0}
-                if(a.code=='0'){
-                    this.context.router.push('/cashier')
-                }
-                const result=GetServerData('qerp.web.bs.login',values)
+                const result=GetServerData('qerp.pos.ur.user.login',values)
                 result.then((res) => {
                   return res;
                 }).then((json) => {
-                    let a={code:0}
-                    if(a.code=='0'){
-                        this.context.router.push('/cashier')
+                    if(json.code=='0'){
+                       this.context.router.push('/cashier')
                     }else{  
                         this.setState({
                             login:false
@@ -77,7 +72,7 @@ class NormalLoginForm extends React.Component {
         return (
             <Form onSubmit={this.handleSubmit} style={login_form}>
                 <FormItem>
-                    {getFieldDecorator('userName', {})(
+                    {getFieldDecorator('username', {})(
                         <Input prefix={<Icon type="user" style={f13} />} placeholder="输入手机号" />
                     )}
                 </FormItem>
@@ -87,7 +82,7 @@ class NormalLoginForm extends React.Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <span className={this.state.login?'login_form_forgot':'fr'}>账号或密码输入错误</span>
+                    <div className={this.state.login?'login_form_forgot':'tc'} style={{fontSize:'12px',color: '#D7636B'}}>手机号或密码错误，请重新输入</div>
                     <Button type="primary" htmlType="submit" style={loginformbutton}>
                         立即登录
                     </Button>
@@ -114,7 +109,8 @@ class IndexPage extends React.Component {
         )
     }
 }
-export default connect()(IndexPage);
+
+export default IndexPage;
 
 
 

@@ -367,10 +367,10 @@ function Searchcomponent() {
 }
 
 //index
-function Member({data}) {
+function Member() {
   return (
     <div>
-     <Header type={false} data={data} color={true}/>
+     <Header type={false} color={true}/>
      <div style={{marginBottom:'10px'}}><Searchcomponent/></div>
      <div style={{padding:'0 30px',background:'#fff'}}><EditableTable/></div>
     </div>
@@ -378,9 +378,7 @@ function Member({data}) {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
-  const {data}=state.header
-  return {data};
+  return {};
 }
 
 export default connect(mapStateToProps)(Member);

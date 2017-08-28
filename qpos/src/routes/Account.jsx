@@ -2,7 +2,10 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message} from 'antd';
 import Header from '../components/header/Header';
-import {LocalizedModal,Buttonico} from '../components/Button/Button';
+import Buttonico from '../components/Button/Button';
+import Modelform from '../components/Modelform/Modelform.jsx';
+import {GetServerData} from '../services/services';
+
 
 //css
 const btn={
@@ -58,6 +61,7 @@ class Tags extends React.Component {
     tabBarExtraContent:true
   }
 	callback=(key)=>{
+        console.log(this)
 		 console.log(key);
      if(key=='1'){
       this.setState({
@@ -70,12 +74,13 @@ class Tags extends React.Component {
       })
      }
 	}
+
   render() {
     return (
       <div className='count'>
         <div className='posion'>
-          <Tabs onChange={this.callback.bind(this)} type="card" tabBarStyle={{height:'54px'}} tabBarExtraContent={ this.state.tabBarExtraContent?<LocalizedModal text='新增账号' width='450' content={<WrappedNormalLoginForm/>}/>:null}>
-  		    	<TabPane tab="账号管理" key="1"><EditableTable/></TabPane>
+          <Tabs onChange={this.callback.bind(this)} type="card" tabBarStyle={{height:'54px'}} tabBarExtraContent={ this.state.tabBarExtraContent?<Modelform record={{}} text='新增账号' width='450' dispatch={this.props.dispatch}/>:null}>
+  		    	<TabPane tab="账号管理" key="1"><EditableTable users={this.props.users}/></TabPane>
   		    	<TabPane tab="基础设置" key="2"><Infrastructureform/></TabPane>
    			  </Tabs>
         </div>
@@ -85,72 +90,12 @@ class Tags extends React.Component {
 }
 
 
-//新增账号
-class NormalLoginForm extends React.Component {
-    state = {
-    value: 1,
-  }
-   onChange = (e) => {
-    console.log('radio checked', e.target.value);
-    this.setState({
-      value: e.target.value,
-    });
-  }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  }
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSubmit} className="">
-        <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <div><span style={addaccountspan}>账号名称</span><Input placeholder="请输入1-5位会员姓名" style={inputwidth}/></div>
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <div><span style={addaccountspan}>账号电话</span><Input placeholder="请输入11位手机号" style={inputwidth}/></div>
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('password2', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <div><span style={addaccountspan}>会员权限</span><RadioGroup onChange={this.onChange} value={this.state.value}>
-                <Radio value={1}>店主</Radio>
-                <Radio value={2}>店员</Radio>
-            </RadioGroup>
-          </div>
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('passwords', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <div><span style={addaccountspan}>账号状态</span><RadioGroup onChange={this.onChange} value={this.state.value}>
-                <Radio value={1}>启用</Radio>
-                <Radio value={2}>禁用</Radio>
-            </RadioGroup>
-            </div>
-          )}
-        </FormItem>
-      </Form>
-    );
-  }
-}
 
-const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
+
+
+
+
 
 
 
@@ -229,23 +174,23 @@ class EditableTable extends React.Component {
     super(props);
     this.columns = [{
       title: '姓名',
-      dataIndex: 'name',
+      dataIndex: 'nickname',
       width: '30%',
       render: (text, record, index) => (
         <span>{text}</span>
       ),
     }, {
       title: '账号手机',
-      dataIndex: 'age',
+      dataIndex: 'username',
     }, {
       title: '账号权限',
-      dataIndex: 'address',
+      dataIndex: 'roleStr',
     },{
       title: '账号状态',
-      dataIndex: 'address2s',
+      dataIndex: 'statusStr',
     },{
       title: '更新时间',
-      dataIndex: 'addresss12',
+      dataIndex: 'discountLeast',
     },{
       title: '操作',
       dataIndex: 'operation',
@@ -293,6 +238,7 @@ class EditableTable extends React.Component {
     });
   }
   handleOk = () => {
+
      this.setState({ visible: false });
   }
   handleCancel = () => {
@@ -336,7 +282,7 @@ class EditableTable extends React.Component {
     const columns = this.columns;
     return (
       <div>
-        <Table bordered dataSource={dataSource} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+        <Table bordered dataSource={this.props.users} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
         <Modal
           title='账号修改'
           visible={this.state.visible}
@@ -356,6 +302,8 @@ class EditableTable extends React.Component {
     );
   }
 }
+
+
 
 
 
@@ -464,19 +412,19 @@ const Infrastructureform = Form.create()(App);
 
 
 //主页面
-function Account({data}) {
+function Account({users,dispatch}) {
   return (
     <div>
-      <Header type={false} data={data} color={true}/>
-      <Tags/>
+      <Header type={false} color={true}/>
+      <Tags users={users} dispatch={dispatch}/>
     </div>
   );
 }
 
 function mapStateToProps(state) {
-	console.log(state)
-	const {data}=state.header
-  return {data};
+  console.log(state)
+	 const {users} = state.account;
+     return {users};
 }
 
 export default connect(mapStateToProps)(Account);

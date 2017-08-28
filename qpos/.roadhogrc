@@ -17,8 +17,8 @@
     }
   },
  "proxy": {
-    "/erpWebRest": {
-        "target": "http://192.168.1.10:8186",
+    "/erpQposRest": {
+        "target": "http://192.168.2.10:8186",
         "secure": false
       }
     },
