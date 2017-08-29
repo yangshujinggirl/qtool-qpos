@@ -31,15 +31,27 @@ export default {
                 message.error(data.message);
             }   
         },
-        *save({ payload: {code,values} }, { call, put }) {
+        *save({ payload: {code,values,type} }, { call, put }) {
+          console.log(type)
             const result=yield call(GetServerData,code,values);
             console.log(result)
             if(result.code=='0'){
-                Messagesuccess('新建账号成功',4,yield put({   
+                if(type){
+                   Messagesuccess('新建账号成功',4,yield put({   
                     type: 'fetch',
                     payload: {code:'qerp.pos.ur.user.query'}
                 }))
+                }else{
+                   Messagesuccess('账号修改成功',4,yield put({   
+                    type: 'fetch',
+                    payload: {code:'qerp.pos.ur.user.query'}
+                }))
+                }
+               
                 
+
+
+
             }else{
                  message.error(data.message);
             }   

@@ -66,21 +66,22 @@ class Modelform extends Component {
       visible: false,
        membervalue: 1,
        accountvalue:1
+      
     };
   }
 
 
      MemberonChange = (e) => {
         console.log('radio checked', e.target.value);
-        this.setState({
-            membervalue: e.target.value,
-        })
+       	 this.props.form.setFieldsValue({
+      		role: e.target.value,
+    });
     }
     AccountonChange = (e) => {
         console.log('radio checked', e.target.value);
-        this.setState({
-            accountvalue: e.target.value,
-        })
+        this.props.form.setFieldsValue({
+      		status: e.target.value,
+    });
     }
 
 
@@ -103,31 +104,46 @@ class Modelform extends Component {
   handleOk = () => {
   	  this.props.form.validateFields((err, values) => {
       if (!err) {
-       values.role=this.state.membervalue
-       values.status=this.state.accountvalue
         console.log(values)
-        //进行数据请求
+        if(this.props.type==false){
+        	values.urUserId=this.props.record.urUserId
+        }
+
         	this.props.dispatch({
                 type:'account/save',
-                payload: {code:'qerp.pos.ur.user.save',values}
+                payload: {code:'qerp.pos.ur.user.save',values,type:this.props.type}
             })
  	  this.setState({ visible: false });
+
+
+
+
       }
     });
 
   }
 
-
-
+NicknameHindchange=(e)=>{
+	this.setState({
+		nickname:e.target.value
+	})
+}
+UsernameHindchange=(e)=>{
+	this.setState({
+		username:e.target.value
+	})
+}
 
 
 
 
   render() {
   	const asd=(Number(this.props.width)-2)/2+'px'
-    const { children } = this.props;
+ 
     const { getFieldDecorator } = this.props.form;
-     const { name, email, website } = this.props.record;
+     const { nickname, username, role,status } = this.props.record;
+
+     console.log(this)
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
@@ -135,9 +151,10 @@ class Modelform extends Component {
 
     return (
       <div>
-       <div style={widthmeth} onClick={this.showModal.bind(this)}>
+       <div style={this.props.type?widthmeth:null} onClick={this.showModal.bind(this)}>
       			{this.props.text}
     	</div>
+
         <Modal
            title={this.props.text}
           	visible={this.state.visible}
@@ -153,41 +170,50 @@ class Modelform extends Component {
               <div style={dividingline} key='line'></div>
           ]}
         >
-          <Form horizontal onSubmit={this.okHandler}>
-           	<FormItem>
+          <Form>
+		
+
+
+
+
+           	<FormItem label="帐号名称">
           {getFieldDecorator('nickname', {
+          	initialValue: nickname,
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
-            <div><span style={addaccountspan}>账号名称</span><Input placeholder="请输入1-5位会员姓名" style={inputwidth}/></div>
+           <Input placeholder="请输入1-5位会员姓名" style={inputwidth} />
           )}
         </FormItem>
-        <FormItem>
+        <FormItem label="帐号电话">
           {getFieldDecorator('username', {
+          	initialValue: username,
             rules: [{ required: true, message: 'Please input your Password!' }],
           })(
-            <div><span style={addaccountspan}>账号电话</span><Input placeholder="请输入11位手机号" style={inputwidth}/></div>
+            <Input placeholder="请输入11位手机号" style={inputwidth} />
           )}
         </FormItem>
-        <FormItem>
+        <FormItem  label="会员权限">
           {getFieldDecorator('role', {
+          	initialValue: Number(role)
           })(
-            <div><span style={addaccountspan}>会员权限</span><RadioGroup onChange={this.MemberonChange.bind(this)} value={this.state.membervalue}>
+            <RadioGroup onChange={this.MemberonChange.bind(this)}>
                 <Radio value={1}>店主</Radio>
                 <Radio value={2}>店长</Radio>
                 <Radio value={3}>店员</Radio>
             </RadioGroup>
-          </div>
+         
           )}
         </FormItem>
-        <FormItem>
+        <FormItem label="帐号状态">
           {getFieldDecorator('status', {
-           
+          	initialValue: Number(status)
           })(
-            <div><span style={addaccountspan}>账号状态</span><RadioGroup onChange={this.AccountonChange.bind(this)} value={this.state.accountvalue}>
+
+          <RadioGroup onChange={this.AccountonChange.bind(this)}>
                 <Radio value={1}>启用</Radio>
                 <Radio value={0}>禁用</Radio>
             </RadioGroup>
-            </div>
+           
           )}
         </FormItem>
           </Form>
