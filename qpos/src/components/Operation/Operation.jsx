@@ -131,10 +131,6 @@ Operationls.contextTypes= {
     router: React.PropTypes.object
 }
 
-
-
-
-
 class Operationr extends React.Component {
 	hindclick=()=>{
 		console.log(1)

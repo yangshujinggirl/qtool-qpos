@@ -61,6 +61,56 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
+
+//table组件：账号设置
+class EditableTable extends React.Component {
+    constructor(props) {
+        super(props);
+        this.columns = [{
+            title: '姓名',
+            dataIndex: 'nickname'
+        }, {
+            title: '账号手机',
+            dataIndex: 'username'
+        }, {
+            title: '账号权限',
+            dataIndex: 'roleStr'
+        },{
+            title: '账号状态',
+            dataIndex: 'statusStr'
+        },{
+            title: '更新时间',
+            dataIndex: 'discountLeast'
+        },{
+            title: '操作',
+            dataIndex: 'operation',
+            render: (text, record, index) => {
+                return (
+                    this.props.users.length > 0 ?
+                    (
+                        <Modelform  record={record} text='修改密码' width='450' dispatch={this.props.dispatch} type={false}/>
+                    ) : null
+                )
+            },
+        }];
+    }
+    rowClassName=(record, index)=>{
+        if (index % 2) {
+            return 'table_gray'
+        }else{
+            return 'table_white'
+        }
+    }
+    render() {
+        const columns = this.columns;
+        return (
+            <div>
+                <Table bordered dataSource={this.props.users} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+            </div>
+        )
+    }
+}
+
  //基础设置组件
 class App extends React.Component {
     state={
@@ -190,54 +240,6 @@ class Tags extends React.Component {
 }
 
 
-//table组件：账号设置
-class EditableTable extends React.Component {
-    constructor(props) {
-        super(props);
-        this.columns = [{
-            title: '姓名',
-            dataIndex: 'nickname'
-        }, {
-            title: '账号手机',
-            dataIndex: 'username'
-        }, {
-            title: '账号权限',
-            dataIndex: 'roleStr'
-        },{
-            title: '账号状态',
-            dataIndex: 'statusStr'
-        },{
-            title: '更新时间',
-            dataIndex: 'discountLeast'
-        },{
-            title: '操作',
-            dataIndex: 'operation',
-            render: (text, record, index) => {
-                return (
-                    this.props.users.length > 0 ?
-                    (
-                        <Modelform  record={record} text='修改密码' width='450' dispatch={this.props.dispatch} type={false}/>
-                    ) : null
-                )
-            },
-        }];
-    }
-    rowClassName=(record, index)=>{
-        if (index % 2) {
-            return 'table_gray'
-        }else{
-            return 'table_white'
-        }
-    }
-    render() {
-        const columns = this.columns;
-        return (
-            <div>
-                <Table bordered dataSource={this.props.users} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
-            </div>
-        )
-    }
-}
 
 //主页面
 function Account({users,dispatch}) {

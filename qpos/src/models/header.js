@@ -10,7 +10,7 @@ export default {
                 name:''
             }
         }
-      },
+    },
     reducers: {
         save(state, { payload: urUser}) {
             console.log(urUser)
@@ -53,7 +53,7 @@ export default {
                 message.error(data.message);
             }   
         },
-  },
+    },
     subscriptions: {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
