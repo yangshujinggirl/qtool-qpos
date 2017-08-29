@@ -12,16 +12,23 @@ li{list-style: none;}
 .w100{width: 100%;}
 .h100{height: 100%;}
 .themecolor{color: #35BAB0}
+
+/*位置*/
 .ml10{margin-left: 10px}
 .mr10{margin-right: 10px}
+.mt10{margin-top: 10px}
+.mb10{margin-bottom: 10px}
 .mt20{margin-top: 20px;}
 .ml20{margin-left: 20px;}
+.ml30{margin-left: 30px;}
 .mr30{margin-right: 30px;}
+.p30{padding:30px;}
+.pl30{padding-left: 30px;}
 
-.m30{margin-left: 30px;}
-.p30{padding-left: 30px;}
 
 
+
+.bgf{background:#fff;}
 .f12{font-size: 12PX;}
 .f14{font-size: 14px;}
 .f20{font-size: 20px}

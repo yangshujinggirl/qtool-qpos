@@ -1,92 +1,362 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm,Modal,Form,Select,Radio,Switch} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,Switch} from 'antd';
 import Header from '../components/header/Header';
+import Buttonico from '../components/Button/Button';
 import Searchinput from '../components/Searchinput/Searchinput';
-import {LocalizedModal,Buttonico} from '../components/Button/Button';
-
-
-// css
+import {Messagesuccess} from '../components/Method/Method';
+import {GetServerData} from '../services/services';
+import {Gettime} from '../services/data';
+//css
+const btn={
+    position:'absolute',
+    right:'0',
+    'top':'0'
+}
 const inputwidth={
-  width:'340px',
-  height:'40px'
+    width:'340px',
+    height:'40px'
 }
 const addaccountspan={
-  marginRight:'10px',
-  fontSize:'16px',
-  color: '#74777F'
+    marginRight:'10px',
+    fontSize:'14px',
+    color: '#74777F'
+}
+
+const hrefshift_box={
+    'width':'224px',
+    'fontSize': '14px'
+}
+const hrefshift_boxs={
+    'width':'224px',
+    'fontSize': '14px',
+    color:'#35BAB0'
 }
 const dividingline={
-  width: '2px',
-  height: '15px',
-  background:'#E7E8EC',
-  margin:'0 auto',
-  marginTop:'12px'
+    width: '2px',
+    height: '15px',
+    background:'#E7E8EC',
+    margin:'0 auto',
+    marginTop: '3px'
+}
+const widthmeth={
+    width:'100px',
+    height:'40px',
+    background:'#FFF',
+    border: '1px solid #E7E8EC',
+    borderRadius: '3px',
+    color: '#35BAB0',
+    fontSize: '14px',
+    textAlign:'center',
+    lineHeight:'40px',
+    cursor: 'pointer'
+}
+const textcoloe={
+    color: '#35BAB0'
+}
+const modelfooters={
+    height:'20px',
+    lineHeight:'20px',
+    marginTop:'40px'
+}
+const footleft={
+    width:'224px',
+    fontSize: '14px',
+    height:'60px',
+    lineHeight:'60px'
+}
+const footlefts={
+    width:'175px',
+    fontSize: '14px',
+    height:'60px',
+    lineHeight:'60px'
+}
+const footright={
+    width:'224px',
+    fontSize: '14px',
+    color:'#35BAB0',
+    height:'60px',
+    lineHeight:'60px'
+}
+const footrights={
+    width:'175px',
+    fontSize: '14px',
+    color:'#35BAB0',
+    height:'60px',
+    lineHeight:'60px'
+}
+const footcen={
+    width: '2px',
+    height: '15px',
+    background:'#E7E8EC',
+    margin:'0 auto',
+    marginTop: '20px'
+}
+const footcens={
+    width:'100px',
+    fontSize: '14px',
+    height:'60px',
+    lineHeight:'60px',
+    margin:'0 auto',
+    textAlign:'center'
+}
+
+const textplace={
+    fontSize: '16px',
+    color: '#74777F'
 }
 
 
+
+
+//常量
+const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
-//宝宝生日组件
+const batrhdata=Gettime()
+//pop弹窗
+class Modelform extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            visible: false,
+            membervalue: 1,
+            accountvalue:1
+        }
+    }
+    MemberonChange = (e) => {
+        console.log('radio checked', e.target.value);
+        this.props.form.setFieldsValue({
+            role: e.target.value,
+        });
+    }
+    AccountonChange = (e) => {
+        console.log('radio checked', e.target.value);
+        this.props.form.setFieldsValue({
+            status: e.target.value,
+        });
+    }
+    showModal = () => {
+        console.log(2)
+        this.setState({
+            visible: true
+        });
+    }
+    hideModal = () => {
+        this.setState({
+            visible: false,
+        });
+        this.props.form.resetFields()
+    }
+    handleCancel = () => {
+        this.setState({ visible: false });
+        this.props.form.resetFields()
+    }
+    handleOk = () => {
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                console.log(values)
+                // if(this.props.type==false){
+                //     values.urUserId=this.props.record.urUserId
+                // }
+                // this.props.dispatch({
+                //     type:'account/save',
+                //     payload: {code:'qerp.pos.ur.user.save',values,type:this.props.type,meth:this.hideModal}
+                // })
+                
+            }
+        });
+    }
+
+    NicknameHindchange=(e)=>{
+        this.setState({
+            nickname:e.target.value
+        })
+    }
+    UsernameHindchange=(e)=>{
+        this.setState({
+            username:e.target.value
+        })
+    }
+    revisepassword=()=>{
+        if(this.props.type==false){
+            let urUserId = sessionStorage.getItem("urUserId");
+            let values={urUserId:urUserId}
+            console.log(urUserId)
+            console.log(sessionStorage)
+            const result=GetServerData('qerp.pos.ur.user.passwordreset',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                        Messagesuccess(json.newPassword)
+                    }else{  
+                       
+                    }
+                })
+        }
+    }
+
+    render() {
+        const type=this.props.type
+        const { getFieldDecorator } = this.props.form;
+        const { name, mobile, cardNo,level } = this.props.record;
+        console.log(this)
+        return (
+            <div>
+                <div style={this.props.type?widthmeth:textcoloe} onClick={this.showModal.bind(this)}>
+                    {this.props.text}
+                </div>
+                <Modal
+                    title={this.props.text}
+                    visible={this.state.visible}
+                    onOk={this.hideModal}
+                    onCancel={this.hideModal}
+                    okText="确认"
+                    cancelText="取消"
+                    width={this.props.width+'px'}
+                    closable={false}
+                    width={450}
+                    footer={[
+                        <div className='fl tc' style={type?footleft:footlefts} key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
+                        <div className='fr tc' style={type?footright:footrights} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
+                        <div style={type?footcen:footcens} key='line' onClick={this.revisepassword.bind(this)}>{type?null:'重置密码'}</div>
+                    ]}
+                >
+                    <Form className='formdis'>
+                        <FormItem 
+                            label="会员姓名"
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 8 }}
+                            >
+                            {getFieldDecorator('name', {
+                                initialValue: name,
+                                rules: [{ required: true, message: '请输入账号名称' }],
+                            })(
+                                <Input placeholder="请输入1-5位会员姓名" style={inputwidth} />
+                            )}
+                        </FormItem>
+                        <FormItem 
+                            label="会员电话"
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 8 }}
+                            >
+                            {getFieldDecorator('mobile', {
+                                initialValue: mobile,
+                                rules: [{ required: true, message: '请输入帐号电话' }],
+                            })(
+                                <Input placeholder="请输入11位手机号" style={inputwidth} />
+                            )}
+                        </FormItem>
+                        <FormItem 
+                            label="会员卡号"
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 8 }}
+                            >
+                            {getFieldDecorator('cardNo', {
+                                initialValue: cardNo,
+                                rules: [{ required: true, message: '请输入帐号电话' }],
+                            })(
+                                <Input placeholder="请输入6位会员卡号" style={inputwidth} />
+                            )}
+                        </FormItem>
+                        <FormItem 
+                            label="宝宝生日"
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 8 }}
+                            >
+                            {getFieldDecorator('mbCardBirths', {
+                                // initialValue: cardNo,
+                                // rules: [{ required: true, message: '请输入帐号电话' }],
+                            })(
+                                <EditableTablebaby/>
+                            )}
+                        </FormItem>
+                        <FormItem  label="会员级别">
+                            {getFieldDecorator('level', {
+                                initialValue: Number(level)
+                            })(
+                                <RadioGroup onChange={this.MemberonChange.bind(this)}>
+                                    <Radio value={1}>金卡</Radio>
+                                    <Radio value={2}>银卡</Radio>
+                                    <Radio value={3}>普卡</Radio>
+                                </RadioGroup>
+                            )}
+                        </FormItem>
+                        
+                    </Form>
+                </Modal>
+            </div>
+        );
+    }
+}
+
+const Modelforms=Form.create()(Modelform);
+
+//宝宝生日table
+
 class EditableTablebaby extends React.Component {
   constructor(props) {
     super(props);
     this.state={
        
     }
-
-
     this.columns = [{
-      title: 'name',
-      dataIndex: 'name',
-      width: '30%',
+      title: 'year',
+      dataIndex: 'year',
       render: (text, record, index) => (
         <div>
-            <Select defaultValue="lucy" style={{ width: 60 }} onChange={this.handleChange.bind(this)}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="Yiminghe">yiminghe</Option>
+            <Select  style={{ width: 60 }} onChange={this.yearhandleChange.bind(this,index)}>
+            {
+                batrhdata.year.map((item,index)=>{
+                    return (<Option  key={index} value={item}>{item}</Option>)
+                })
+            }
             </Select>
-            <span>年</span>
+            <span style={textplace}>年</span>
         </div>
       ),
     }, {
-      title: 'age',
-      dataIndex: 'age',
+      title: 'month',
+      dataIndex: 'month',
       width: '30%',
       render: (text, record, index) => (
         <div>
-            <Select defaultValue="lucy" style={{ width: 60 }} onChange={this.handleChange.bind(this)}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="Yiminghe">yiminghe</Option>
+            <Select style={{ width: 60 }} onChange={this.monthhandleChange.bind(this,index)}>
+              {
+                batrhdata.month.map((item,index)=>{
+                    return (<Option  key={index} value={item}>{item}</Option>)
+                })
+            }
             </Select>
-            <span>月</span>
+            <span style={textplace}>月</span>
         </div>
       )
     }, {
-      title: 'address',
-      dataIndex: 'address',
+      title: 'day',
+      dataIndex: 'day',
       width: '30%',
       render: (text, record, index) => (
          <div>
-            <Select defaultValue="lucy" style={{ width: 60 }} onChange={this.handleChange.bind(this)}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="Yiminghe">yiminghe</Option>
+            <Select style={{ width: 60 }} onChange={this.dayhandleChange.bind(this,index)}>
+              {
+                batrhdata.day.map((item,index)=>{
+                    return (<Option  key={index} value={item}>{item}</Option>)
+                })
+            }
             </Select>
-            <span>日</span>
+            <span style={textplace}>日</span>
         </div>
       )
     }];
-
     this.state = {
       dataSource: [{
         key: '0',
-        name: 'Edward King 0',
-        age: '32',
-        address: 'London, Park Lane no. 0',
+        year: '',
+        month: '',
+        day: '',
       }],
       count: 2,
     };
@@ -120,16 +390,36 @@ class EditableTablebaby extends React.Component {
   SwitchChange=(checked)=>{
     console.log(checked)
   }
-
-  handleChange=(value)=>{
-    console.log(`selected ${value}`)
+  yearhandleChange=(index,value)=>{
+    console.log(index)
+    const ds=this.state.dataSource
+    ds[index].year=value
+    this.setState({
+        dataSource:ds
+    })
   }
-
+  monthhandleChange=(index,value)=>{
+    console.log(index)
+    const ds=this.state.dataSource
+    ds[index].month=value
+    this.setState({
+        dataSource:ds
+    })
+  }
+  dayhandleChange=(index,value)=>{
+        console.log(index)
+        const ds=this.state.dataSource
+        ds[index].day=value
+        this.setState({
+            dataSource:ds
+        })
+  }
   render() {
+    console.log(this)
     const { dataSource } = this.state;
     const columns = this.columns;
     return (
-      <div className='clearfix'>
+      <div className='clearfix birthday' style={{width:'340px'}}>
         <div className='fl' style={{width:'250px'}}><Table bordered dataSource={dataSource} columns={columns} pagination={false} showHeader={false} bordered={false}/></div>
         <div className='fl clearfix' style={{width:'90px'}}>
             <div style={{width:'16px',height:'16px',borderRadius:'50%',border: '1px solid #E7E8EC',float:'left',margin:'10px'}} onClick={this.handleAdd}><i style={{position:'relative',top:'-10px',left:'2px',color:'#35bab0'}}>+</i></div>
@@ -142,243 +432,89 @@ class EditableTablebaby extends React.Component {
 
 
 
-//table组件
+
+
+
+
+
+
+//table
 class EditableTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.columns = [{
-      title: 'name',
-      dataIndex: 'name',
-      width: '30%',
-      render: (text, record, index) => (
-       <span>{text}</span>
-      ),
-    }, {
-      title: 'age',
-      dataIndex: 'age',
-    }, {
-      title: 'address',
-      dataIndex: 'address',
-    }, {
-      title: 'operation',
-      dataIndex: 'operation',
-      render: (text, record, index) => {
-        return (
-          this.state.dataSource.length > 0 ?
-          (
-            <span onClick={this.showModal.bind(this)} className='themecolor'>修改</span>
-          ) : null
-        );
-      },
-    }];
-
-    this.state = {
-      dataSource: [{
-        key: '0',
-        name: 'Edward King 0',
-        age: '32',
-        address: 'London, Park Lane no. 0',
-      }, {
-        key: '1',
-        name: 'Edward King 1',
-        age: '32',
-        address: 'London, Park Lane no. 1',
-      }],
-      count: 2,
-      visible: false
-    };
-  }
-
-  handleCancel = () => {
-    this.setState({ visible: false });
-  }
-  handleOk = () => {
-   this.setState({ visible: false });
-  }
-  handsearch=()=>{
-    console.log(1)
-  }
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  }
-  hideModal = () => {
-    // console.log(this)
-    // const handleSubmit=this.refs.wrappedApps.handleSubmit
-    // handleSubmit()
-    this.setState({
-      visible: false,
-    });
-  }
-  rowClassName=(record, index)=>{
-    if (index % 2) {
-      return 'table_gray'
-    }else{
-      return 'table_white'
+    constructor(props) {
+        super(props);
+        this.columns = [{
+            title: '姓名',
+            dataIndex: 'nickname'
+        }, {
+            title: '账号手机',
+            dataIndex: 'username'
+        }, {
+            title: '账号权限',
+            dataIndex: 'roleStr'
+        },{
+            title: '账号状态',
+            dataIndex: 'statusStr'
+        },{
+            title: '更新时间',
+            dataIndex: 'discountLeast'
+        },{
+            title: '操作',
+            dataIndex: 'operation',
+            render: (text, record, index) => {
+                return (
+                    this.props.mbCards.length > 0 ?
+                    (
+                        <Modelforms  record={record} text='修改' width='450' dispatch={this.props.dispatch} type={false}/>
+                    ) : null
+                )
+            },
+        }];
     }
-  }
-  onCellChange = (index, key) => {
-    return (value) => {
-      const dataSource = [...this.state.dataSource];
-      dataSource[index][key] = value;
-      this.setState({ dataSource });
-    };
-  }
-  onDelete = (index) => {
-    const dataSource = [...this.state.dataSource];
-    dataSource.splice(index, 1);
-    this.setState({ dataSource });
-  }
-
-  render() {
-    const { dataSource } = this.state;
-    const columns = this.columns;
-    return (
-      <div>
-        <Table bordered dataSource={dataSource} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
-        <Modal
-          title='会员修改'
-          visible={this.state.visible}
-          onOk={this.hideModal}
-          onCancel={this.hideModal}
-          width={450}
-          okText="确认"
-          cancelText="取消"
-          closable={false}
-          footer={[
-              <div className='fl tc' style={{width:'219px',fontSize: '14px',height:'40px',lineHeight:'40px'}} key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
-              <div className='fl tc' style={{width:'219px',fontSize: '14px',color:'#35BAB0',height:'40px',lineHeight:'40px'}} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
-              <div style={dividingline} key='line'></div>
-          ]}
-        >
-         <WrappedApps ref='wrappedApps'/>
-        </Modal>
-      </div>
-    );
-  }
-}
-
-//弹窗中form
-class App extends React.Component {
-  state = {
-    value: 1,
-  }
-  handleSubmit = (e) => {
-    console.log(111)
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  }
-  handleSelectChange = (value) => {
-    console.log(value);
-    this.props.form.setFieldsValue({
-      note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-    });
-  }
-
-  HindonChange=(e)=>{
-    console.log('radio checked', e.target.value);
-    this.setState({
-      value: e.target.value,
-    });
-  }
-
-
-  render() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <Form onSubmit={this.handleSubmit}>
-         <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <div><span style={addaccountspan}>会员姓名</span><Input placeholder="请输入1-5位会员姓名" style={inputwidth}/></div>
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <div><span style={addaccountspan}>会员电话</span><Input placeholder="请输入1-5位会员姓名" style={inputwidth}/></div>
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <div><span style={addaccountspan}>会员卡号</span><Input placeholder="请输入1-5位会员姓名" style={inputwidth}/></div>
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <div className='birthday clearfix'><span style={addaccountspan} className='fl'>宝宝生日</span> <EditableTablebaby className='fl'/></div>
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <div><span style={addaccountspan}>会员级别</span>
-                <RadioGroup onChange={this.HindonChange} value={this.state.value}>
-                  <Radio value={1}>A</Radio>
-                  <Radio value={2}>B</Radio>
-                  <Radio value={3}>C</Radio>
-            </RadioGroup>
+    rowClassName=(record, index)=>{
+        if (index % 2) {
+            return 'table_gray'
+        }else{
+            return 'table_white'
+        }
+    }
+    render() {
+        const columns = this.columns;
+        return (
+            <div className='bgf'>
+                <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
             </div>
-          )}
-        </FormItem>
-      </Form>
-    );
-  }
-}
-
-const WrappedApp = Form.create({ withRef: true })(App);
-
-
-class WrappedApps extends React.Component {
-  handleSubmit=()=>{
-    const handleSubmit=this.refs.wrappedApp.refs.wrappedComponent.refs.formWrappedComponent.handleSubmit
-    handleSubmit()
-  }
-  render() {
-    return (
-      <div>
-          <WrappedApp ref="wrappedApp"/>
-      </div>
-    );
-  }
+        )
+    }
 }
 
 //搜索区
-function Searchcomponent() {
+function Searchcomponent(dispatch) {
   return (
     <div className='clearfix'>
-      <div className='m30 btn fl'></div>
-      <div className='fr' style={{marginRight:'30px'}}>
+      <div className='fl ml30'><Modelforms record={{level:'1'}} text='新增会员'  dispatch={dispatch} type={true}/></div>
+      <div className='fr mr30'>
           <Searchinput text='请输入会员姓名、手机、会员卡号、级别'/>
       </div>
     </div>
   );
 }
+ 
 
-//index
-function Member() {
-  return (
-    <div>
-     <Header type={false} color={true}/>
-     <div style={{marginBottom:'10px'}}><Searchcomponent/></div>
-     <div style={{padding:'0 30px',background:'#fff'}}><EditableTable/></div>
-    </div>
-  );
+//主页面
+function Member({mbCards,dispatch}) {
+    return (
+        <div>
+            <Header type={false} color={true}/>
+            <Searchcomponent dispatch={dispatch}/>
+            <div className='count mt10'><EditableTable mbCards={mbCards} dispatch={dispatch}/></div>
+        </div>
+    )
 }
 
 function mapStateToProps(state) {
-  return {};
+    console.log(state)
+    const {mbCards} = state.member;
+    return {mbCards};
 }
 
 export default connect(mapStateToProps)(Member);

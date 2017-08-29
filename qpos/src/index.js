@@ -15,6 +15,7 @@ const app = dva();
 // 3. Model
 // app.model(require('./models/example'));
 app.model(require("./models/header"));
+app.model(require("./models/member"));
 app.model(require("./models/table"));
 app.model(require("./models/account"));
 
