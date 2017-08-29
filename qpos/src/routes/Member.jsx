@@ -358,7 +358,7 @@ class WrappedApps extends React.Component {
 function Searchcomponent() {
   return (
     <div className='clearfix'>
-      <div className='m30 btn fl'><LocalizedModal text='新增会员' width='450' content={<WrappedApps/>}/></div>
+      <div className='m30 btn fl'></div>
       <div className='fr' style={{marginRight:'30px'}}>
           <Searchinput text='请输入会员姓名、手机、会员卡号、级别'/>
       </div>

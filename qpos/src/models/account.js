@@ -30,24 +30,28 @@ export default {
                 message.error(data.message);
             }   
         },
-        *save({ payload: {code,values,type} }, { call, put }) {
+        *save({ payload: {code,values,type,meth} }, { call, put }) {
+            console.log(meth)
             console.log(type)
+            const hidemodel=meth
             const result=yield call(GetServerData,code,values);
             console.log(result)
             if(result.code=='0'){
                 if(type){
+                    hidemodel()
                     Messagesuccess('新建账号成功',4,yield put({   
                         type: 'fetch',
                         payload: {code:'qerp.pos.ur.user.query'}
                     }))
                 }else{
+                    hidemodel()
                     Messagesuccess('账号修改成功',4,yield put({   
                         type: 'fetch',
                         payload: {code:'qerp.pos.ur.user.query'}
                     }))
                 }
             }else{
-                message.error(data.message);
+                message.error(result.message);
             }   
         },  
     },

@@ -23,6 +23,15 @@ export default {
             if(result.code=='0'){
                 const {urUser}=result
                 console.log(urUser)
+                sessionStorage.setItem('nickname',urUser.nickname);
+                sessionStorage.setItem('urUserId',urUser.urUserId);
+                sessionStorage.setItem('username',urUser.username);
+                sessionStorage.setItem('spShop',urUser.shop.name);
+                sessionStorage.setItem('spShopId',urUser.shop.spShopId);
+                sessionStorage.setItem('role',urUser.role);
+                sessionStorage.setItem('status',urUser.status);
+
+
                 yield put({   
                     type: 'save',
                     payload:urUser

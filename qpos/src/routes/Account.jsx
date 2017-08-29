@@ -88,7 +88,7 @@ class EditableTable extends React.Component {
                 return (
                     this.props.users.length > 0 ?
                     (
-                        <Modelform  record={record} text='修改密码' width='450' dispatch={this.props.dispatch} type={false}/>
+                        <Modelform  record={record} text='修改' width='450' dispatch={this.props.dispatch} type={false}/>
                     ) : null
                 )
             },
@@ -157,7 +157,7 @@ class App extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'50px'}} className='formdis'>
+        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'50px',padding:'30px'}} className='formdis'>
             <FormItem
                 label="选择打印机"
             >

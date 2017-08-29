@@ -1,6 +1,8 @@
 import React,{Component} from 'react';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message} from 'antd';
 import {GetServerData} from '../../services/services';
+import {Messagesuccess} from '../Method/Method';
+
 
 
 const widthmeth={
@@ -19,10 +21,6 @@ const widthmeth={
 const textcoloe={
     color: '#35BAB0'
 }
-
-
-
-
 const addaccountspan={
   	marginRight:'10px',
   	fontSize:'14px',
@@ -35,12 +33,12 @@ const btn={
 }
 const inputwidth={
   	width:'340px',
- 	height:'40px'
+ 	  height:'40px'
 }
 const modelfooters={
   	height:'20px',
   	lineHeight:'20px',
-  	marginTop:'20px'
+  	marginTop:'40px'
 }
 const hrefshift_box={
   	width:'224px',
@@ -51,13 +49,50 @@ const hrefshift_boxs={
   	fontSize: '14px',
    	color:'#35BAB0'
 }
-const dividingline={
-  	width: '2px',
-  	height: '15px',
-  	background:'#E7E8EC',
-  	margin:'0 auto',
-  	marginTop: '3px'
+const footleft={
+    width:'224px',
+    fontSize: '14px',
+    height:'60px',
+    lineHeight:'60px'
 }
+const footlefts={
+    width:'175px',
+    fontSize: '14px',
+    height:'60px',
+    lineHeight:'60px'
+}
+const footright={
+    width:'224px',
+    fontSize: '14px',
+    color:'#35BAB0',
+    height:'60px',
+    lineHeight:'60px'
+}
+const footrights={
+    width:'175px',
+    fontSize: '14px',
+    color:'#35BAB0',
+    height:'60px',
+    lineHeight:'60px'
+}
+
+
+const footcen={
+    width: '2px',
+    height: '15px',
+    background:'#E7E8EC',
+    margin:'0 auto',
+    marginTop: '20px'
+}
+const footcens={
+    width:'100px',
+    fontSize: '14px',
+    height:'60px',
+    lineHeight:'60px',
+    margin:'0 auto',
+    textAlign:'center'
+}
+
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -93,9 +128,11 @@ class Modelform extends Component {
     	this.setState({
       		visible: false,
     	});
+        this.props.form.resetFields()
   	}
     handleCancel = () => {
     	this.setState({ visible: false });
+        this.props.form.resetFields()
   	}
   	handleOk = () => {
   	  	this.props.form.validateFields((err, values) => {
@@ -106,9 +143,9 @@ class Modelform extends Component {
         		}
         		this.props.dispatch({
                 	type:'account/save',
-                	payload: {code:'qerp.pos.ur.user.save',values,type:this.props.type}
+                	payload: {code:'qerp.pos.ur.user.save',values,type:this.props.type,meth:this.hideModal}
             	})
- 	  			this.setState({ visible: false });
+ 	  			
 			}
     	});
 	}
@@ -123,16 +160,30 @@ class Modelform extends Component {
 			username:e.target.value
 		})
 	}
+    revisepassword=()=>{
+        if(this.props.type==false){
+            let urUserId = sessionStorage.getItem("urUserId");
+            let values={urUserId:urUserId}
+            console.log(urUserId)
+            console.log(sessionStorage)
+            const result=GetServerData('qerp.pos.ur.user.passwordreset',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                        Messagesuccess(json.newPassword)
+                    }else{  
+                       
+                    }
+                })
+        }
+    }
 
   	render() {
-  		const asd=(Number(this.props.width)-2)/2+'px'
+        const type=this.props.type
     	const { getFieldDecorator } = this.props.form;
      	const { nickname, username, role,status } = this.props.record;
-     	console.log(this)
-    	const formItemLayout = {
-      		labelCol: { span: 6 },
-      		wrapperCol: { span: 14 },
-    	};
     	return (
       		<div>
        			<div style={this.props.type?widthmeth:textcoloe} onClick={this.showModal.bind(this)}>
@@ -147,25 +198,37 @@ class Modelform extends Component {
           			cancelText="取消"
           			width={this.props.width+'px'}
           			closable={false}
+                    width={450}
           			footer={[
-              			<div className='fl tc' style={{width:asd,fontSize: '14px',height:'40px',lineHeight:'40px'}} key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
-              			<div className='fl tc' style={{width:asd,fontSize: '14px',color:'#35BAB0',height:'40px',lineHeight:'40px'}} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
-              			<div style={dividingline} key='line'></div>
+              			<div className='fl tc' style={type?footleft:footlefts} key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
+              			<div className='fr tc' style={type?footright:footrights} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
+              			<div style={type?footcen:footcens} key='line' onClick={this.revisepassword.bind(this)}>{type?null:'重置密码'}</div>
+
+
+                       
           			]}
         		>
           			<Form className='formdis'>
-           				<FormItem label="帐号名称">
+           				<FormItem 
+                            label="帐号名称"
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 8 }}
+                            >
           					{getFieldDecorator('nickname', {
           						initialValue: nickname,
-            					
+            					rules: [{ required: true, message: '请输入账号名称' }],
           					})(
            						<Input placeholder="请输入1-5位会员姓名" style={inputwidth} />
           					)}
         				</FormItem>
-				        <FormItem label="帐号电话">
+				        <FormItem 
+                            label="帐号电话"
+                            labelCol={{ span: 4 }}
+                            wrapperCol={{ span: 8 }}
+                            >
 				          	{getFieldDecorator('username', {
 				          		initialValue: username,
-				            	
+				            	rules: [{ required: true, message: '请输入帐号电话' }],
 				          	})(
 				            	<Input placeholder="请输入11位手机号" style={inputwidth} />
 				          	)}
