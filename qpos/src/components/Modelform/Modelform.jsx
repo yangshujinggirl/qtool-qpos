@@ -16,6 +16,13 @@ const widthmeth={
     cursor: 'pointer'
 }
 
+const textcoloe={
+    color: '#35BAB0'
+}
+
+
+
+
 const addaccountspan={
   	marginRight:'10px',
   	fontSize:'14px',
@@ -128,7 +135,7 @@ class Modelform extends Component {
     	};
     	return (
       		<div>
-       			<div style={this.props.type?widthmeth:null} onClick={this.showModal.bind(this)}>
+       			<div style={this.props.type?widthmeth:textcoloe} onClick={this.showModal.bind(this)}>
       				{this.props.text}
     			</div>
         		<Modal
@@ -146,11 +153,11 @@ class Modelform extends Component {
               			<div style={dividingline} key='line'></div>
           			]}
         		>
-          			<Form>
+          			<Form className='formdis'>
            				<FormItem label="帐号名称">
           					{getFieldDecorator('nickname', {
           						initialValue: nickname,
-            					rules: [{ required: true, message: 'Please input your username!' }],
+            					
           					})(
            						<Input placeholder="请输入1-5位会员姓名" style={inputwidth} />
           					)}
@@ -158,7 +165,7 @@ class Modelform extends Component {
 				        <FormItem label="帐号电话">
 				          	{getFieldDecorator('username', {
 				          		initialValue: username,
-				            	rules: [{ required: true, message: 'Please input your Password!' }],
+				            	
 				          	})(
 				            	<Input placeholder="请输入11位手机号" style={inputwidth} />
 				          	)}

@@ -122,6 +122,17 @@ class App extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
+                const result=GetServerData('qerp.pos.sy.config.save',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       // this.context.router.push('/cashier')
+                    }else{  
+                       
+                    }
+                })
             }
         });
     }
@@ -135,64 +146,71 @@ class App extends React.Component {
             value: e.target.value,
         });
     }
-
+    paperSizeonChange=(e)=>{
+         this.props.form.setFieldsValue({
+            paperSize: e.target.value,
+        });
+    }
     handleSelectChange = (value) => {
         console.log(value);
     }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'50px'}}>
-            <FormItem>
-                {getFieldDecorator('passwords', {
+        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'50px'}} className='formdis'>
+            <FormItem
+                label="选择打印机"
+            >
+                {getFieldDecorator('printDevice', {
                 })(
-                    <div>
-                        <span style={addaccountspan}>选择打印机</span>
-                        <Select
-                            placeholder="请选择"
-                            onChange={this.handleSelectChange}
-                            style={{width:'175px'}}
-                        >
+                    <Select
+                    placeholder="请选择"
+                    onChange={this.handleSelectChange}
+                    style={{width:'175px'}}
+                    >
                         <Option value="male">male</Option>
                         <Option value="female">female</Option>
-                        </Select>
-                    </div>
+                    </Select>
+                    
                 )}
             </FormItem>
-            <FormItem>
-                {getFieldDecorator('passwords', {
+            <FormItem
+                label="纸张大小"
+                >
+                {getFieldDecorator('paperSize', {
+                    initialValue: 80,
                 })(
-                    <div>
-                        <span style={addaccountspan}>纸张大小</span>
-                        <RadioGroup onChange={this.onChange} value={this.state.value}>
-                            <Radio value={1}>80mm</Radio>
-                            <Radio value={2}>58mm</Radio>
-                        </RadioGroup>
-                    </div>
-                )}
-            </FormItem>
-            <FormItem>
-                {getFieldDecorator('passwords', {
-                })(
-                    <div>
-                        <span style={addaccountspan}>计算后打印</span>
-                        <RadioGroup onChange={this.onChange} value={this.state.value}>
-                            <Radio value={1}>是</Radio>
-                            <Radio value={2}>否</Radio>
-                        </RadioGroup>
-                    </div>
-                )}
-            </FormItem>
-            <FormItem>
-            {getFieldDecorator('passwords', { 
-            })(
-                <div>
-                    <span style={addaccountspan}>充值后打印</span>
-                    <RadioGroup onChange={this.onChange} value={this.state.value}>
-                        <Radio value={1}>是</Radio>
-                        <Radio value={2}>否</Radio>
+                    <RadioGroup onChange={this.paperSizeonChange}>
+                        <Radio value={80}>80mm</Radio>
+                        <Radio value={58}>58mm</Radio>
                     </RadioGroup>
-                </div>
+                    
+                )}
+            </FormItem>
+            <FormItem
+                label="计算后打印"
+            >
+                {getFieldDecorator('submitPrint', {
+                    initialValue: 1,
+                })(
+                    <RadioGroup onChange={this.onChange}>
+                        <Radio value={1}>是</Radio>
+                        <Radio value={0}>否</Radio>
+                    </RadioGroup>
+                    
+                )}
+            </FormItem>
+            <FormItem
+                label="充值后打印"
+            >
+            {getFieldDecorator('rechargePrint', { 
+                initialValue: 1,
+            })(
+                <RadioGroup onChange={this.onChange}>
+                    <Radio value={1}>是</Radio>
+                    <Radio value={0}>否</Radio>
+                </RadioGroup>
+               
             )}
             </FormItem>
             <FormItem>

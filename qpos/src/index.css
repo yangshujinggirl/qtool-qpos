@@ -67,6 +67,7 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .ant-tabs-extra-content{position: relative;z-index: 1000;}
 .ant-tabs-nav-container{position: relative;z-index: 1;}
 
+
 /*header组件*/
 .menu_list0,.menu_list1,.menu_list2,.menu_list3,.menu_list4{width:90px;height: 100%;float: left;text-align: center;height: 93px;color: #384162;}
 .menu_list0 .menu_list{width:40px;height:40px;margin:0 auto;margin-top:20px;background: url(images/icon_member.png) no-repeat center center;background-size:cover;}
@@ -96,8 +97,6 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .operationl{margin-top:30px;}
 .operationl input::-ms-input-placeholder{font-size: 30px;color: #74777F;text-align: center;font-weight: 550;}
 .operationl input::-webkit-input-placeholder{font-size: 30px;color: #74777F;text-align: center;font-weight: 550;}
-
-
 
 /*界面*/
 /*登录页面*/
@@ -148,3 +147,7 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .cashier{width: 300px;height: 40px;margin-left: 30px;}
 .cashier .ant-switch{width: 300px;height: 40px;line-height: 40px;}
 .cashier .ant-switch:after{top:11px;}
+
+/*账号*/
+.formdis .ant-form-item-label label{font-size:14px;color: #74777F}
+.formdis .ant-form-item-control-wrapper{display: inline-block;}
