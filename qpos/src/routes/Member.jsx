@@ -122,7 +122,8 @@ class Modelform extends Component {
         this.state = {
             visible: false,
             membervalue: 1,
-            accountvalue:1
+            accountvalue:1,
+            mbCardBirths:[]
         }
     }
     MemberonChange = (e) => {
@@ -138,6 +139,19 @@ class Modelform extends Component {
         });
     }
     showModal = () => {
+        if(this.props.type==false){
+            
+
+
+
+
+
+            
+
+
+        }
+
+
         console.log(2)
         this.setState({
             visible: true
@@ -157,13 +171,18 @@ class Modelform extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log(values)
+                console.log(this)
+                const dataSource=this.props.dataSource
+                console.log(dataSource)
+                values.mbCardBirths=dataSource
+                let valuesdata={mbCardInfo:values}
                 // if(this.props.type==false){
                 //     values.urUserId=this.props.record.urUserId
                 // }
-                // this.props.dispatch({
-                //     type:'account/save',
-                //     payload: {code:'qerp.pos.ur.user.save',values,type:this.props.type,meth:this.hideModal}
-                // })
+                this.props.dispatch({
+                    type:'member/save',
+                    payload: {code:'qerp.pos.mb.card.save',valuesdata,type:true,meth:this.hideModal}
+                })
                 
             }
         });
@@ -201,8 +220,10 @@ class Modelform extends Component {
 
     render() {
         const type=this.props.type
-        const { getFieldDecorator } = this.props.form;
-        const { name, mobile, cardNo,level } = this.props.record;
+        const { getFieldDecorator,getFieldInstance,getFieldProps } = this.props.form;
+        const { name, mobile, cardNo,level} = this.props.record;
+        const mbCardBirths=this.state.mbCardBirths
+        console.log(mbCardBirths)
         console.log(this)
         return (
             <div>
@@ -271,7 +292,7 @@ class Modelform extends Component {
                                 // initialValue: cardNo,
                                 // rules: [{ required: true, message: '请输入帐号电话' }],
                             })(
-                                <EditableTablebaby/>
+                                <EditableTablebaby dispatch={this.props.dispatch} mbCardBirths={mbCardBirths} mbCardId={this.props.mbCardId}/>
                             )}
                         </FormItem>
                         <FormItem  label="会员级别">
@@ -291,24 +312,21 @@ class Modelform extends Component {
             </div>
         );
     }
+    
 }
 
 const Modelforms=Form.create()(Modelform);
 
 //宝宝生日table
-
 class EditableTablebaby extends React.Component {
   constructor(props) {
     super(props);
-    this.state={
-       
-    }
     this.columns = [{
       title: 'year',
       dataIndex: 'year',
       render: (text, record, index) => (
         <div>
-            <Select  style={{ width: 60 }} onChange={this.yearhandleChange.bind(this,index)}>
+            <Select  defaultValue={text} style={{ width: 60 }} onChange={this.yearhandleChange.bind(this,index)}>
             {
                 batrhdata.year.map((item,index)=>{
                     return (<Option  key={index} value={item}>{item}</Option>)
@@ -324,7 +342,7 @@ class EditableTablebaby extends React.Component {
       width: '30%',
       render: (text, record, index) => (
         <div>
-            <Select style={{ width: 60 }} onChange={this.monthhandleChange.bind(this,index)}>
+            <Select defaultValue={text} style={{ width: 60 }} onChange={this.monthhandleChange.bind(this,index)}>
               {
                 batrhdata.month.map((item,index)=>{
                     return (<Option  key={index} value={item}>{item}</Option>)
@@ -340,7 +358,7 @@ class EditableTablebaby extends React.Component {
       width: '30%',
       render: (text, record, index) => (
          <div>
-            <Select style={{ width: 60 }} onChange={this.dayhandleChange.bind(this,index)}>
+            <Select defaultValue={text} style={{ width: 60 }} onChange={this.dayhandleChange.bind(this,index)}>
               {
                 batrhdata.day.map((item,index)=>{
                     return (<Option  key={index} value={item}>{item}</Option>)
@@ -353,12 +371,14 @@ class EditableTablebaby extends React.Component {
     }];
     this.state = {
       dataSource: [{
-        key: '0',
+        key: 0,
         year: '',
         month: '',
         day: '',
+        type:'2'
       }],
       count: 2,
+      type:2
     };
   }
   onCellChange = (index, key) => {
@@ -369,6 +389,30 @@ class EditableTablebaby extends React.Component {
     };
   }
   
+  setdata=()=>{
+            const mbCardId=this.props.mbCardId
+            console.log(mbCardId)
+            let values={mbCardId:mbCardId}
+            const result=GetServerData('qerp.pos.mb.card.info',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       // this.setState({
+                       //  mbCardBirths:json.mbCardBirths
+                       // })
+                       console.log(this)
+                       this.setState({
+                        dataSource:json.mbCardInfo.mbCardBirths
+                       },function(){
+                        console.log(this)
+                       })
+                    }else{  
+                       
+                    }
+                })
+  }
   onDelete = (index) => {
     const dataSource = [...this.state.dataSource];
     dataSource.splice(index, 1);
@@ -378,9 +422,10 @@ class EditableTablebaby extends React.Component {
     const { count, dataSource } = this.state;
     const newData = {
       key: count,
-      name: `Edward King ${count}`,
-      age: 32,
-      address: `London, Park Lane no. ${count}`,
+      year:'',
+      month:'',
+      day:'',
+      type:this.state.type
     };
     this.setState({
       dataSource: [...dataSource, newData],
@@ -388,30 +433,85 @@ class EditableTablebaby extends React.Component {
     });
   }
   SwitchChange=(checked)=>{
+    const dispatch=this.props.dispatch
     console.log(checked)
+    if(checked){
+        let ds=this.state.dataSource
+        for(var i=0;i<ds.length;i++){
+            ds[i].type=1
+        }
+
+        this.setState({
+            dataSource:ds,
+            type:1
+        },function(){
+            dispatch({
+                type:'member/dataSource',
+                payload: {dataSource:this.state.dataSource}
+        })
+        })
+        
+    }else{
+        let ds=this.state.dataSource
+        for(var i=0;i<ds.length;i++){
+            ds[i].type=2
+        }
+
+        this.setState({
+            dataSource:ds,
+            type:2
+        },function(){
+            dispatch({
+                type:'member/dataSource',
+                payload: {dataSource:this.state.dataSource}
+        })
+        })
+    }
+
   }
   yearhandleChange=(index,value)=>{
+    console.log(this)
+    const dispatch=this.props.dispatch
     console.log(index)
-    const ds=this.state.dataSource
+    let ds=this.state.dataSource
     ds[index].year=value
     this.setState({
         dataSource:ds
+    },function(){
+        dispatch({
+            type:'member/dataSource',
+            payload: {dataSource:this.state.dataSource}
+
+        })
     })
   }
   monthhandleChange=(index,value)=>{
     console.log(index)
-    const ds=this.state.dataSource
+    let ds=this.state.dataSource
+    const dispatch=this.props.dispatch
     ds[index].month=value
     this.setState({
         dataSource:ds
+    },function(){
+        dispatch({
+            type:'member/dataSource',
+            payload: {dataSource:this.state.dataSource}
+        })
     })
   }
   dayhandleChange=(index,value)=>{
+    console.log(text)
+        const dispatch=this.props.dispatch
         console.log(index)
-        const ds=this.state.dataSource
+        let ds=this.state.dataSource
         ds[index].day=value
         this.setState({
             dataSource:ds
+        },function(){
+            dispatch({
+            type:'member/dataSource',
+            payload: {dataSource:this.state.dataSource}
+        })
         })
   }
   render() {
@@ -420,7 +520,7 @@ class EditableTablebaby extends React.Component {
     const columns = this.columns;
     return (
       <div className='clearfix birthday' style={{width:'340px'}}>
-        <div className='fl' style={{width:'250px'}}><Table bordered dataSource={dataSource} columns={columns} pagination={false} showHeader={false} bordered={false}/></div>
+        <div className='fl' style={{width:'250px'}}><Table bordered dataSource={this.state.dataSource} columns={columns} pagination={false} showHeader={false} bordered={false}/></div>
         <div className='fl clearfix' style={{width:'90px'}}>
             <div style={{width:'16px',height:'16px',borderRadius:'50%',border: '1px solid #E7E8EC',float:'left',margin:'10px'}} onClick={this.handleAdd}><i style={{position:'relative',top:'-10px',left:'2px',color:'#35bab0'}}>+</i></div>
             <div className='fl' style={{width:'54px'}}><Switch checkedChildren="公历" unCheckedChildren="农历" onChange={this.SwitchChange.bind(this)}/></div>
@@ -428,6 +528,11 @@ class EditableTablebaby extends React.Component {
       </div>
     );
   }
+  componentDidMount(){
+        this.setdata()
+        
+    }
+
 }
 
 
@@ -443,20 +548,23 @@ class EditableTable extends React.Component {
     constructor(props) {
         super(props);
         this.columns = [{
-            title: '姓名',
-            dataIndex: 'nickname'
+            title: '会员姓名',
+            dataIndex: 'name'
         }, {
-            title: '账号手机',
-            dataIndex: 'username'
+            title: '会员电话',
+            dataIndex: 'mobile'
         }, {
-            title: '账号权限',
-            dataIndex: 'roleStr'
+            title: '会员卡号',
+            dataIndex: 'cardNo'
         },{
-            title: '账号状态',
-            dataIndex: 'statusStr'
+            title: '会员级别',
+            dataIndex: 'level'
         },{
-            title: '更新时间',
-            dataIndex: 'discountLeast'
+            title: '账户余额',
+            dataIndex: 'amount'
+        },{
+            title: '会员积分',
+            dataIndex: 'point'
         },{
             title: '操作',
             dataIndex: 'operation',
@@ -464,12 +572,34 @@ class EditableTable extends React.Component {
                 return (
                     this.props.mbCards.length > 0 ?
                     (
-                        <Modelforms  record={record} text='修改' width='450' dispatch={this.props.dispatch} type={false}/>
+                        <Modelforms  record={record} text='修改' width='450' dispatch={this.props.dispatch} type={false} cardinfo={this.cardinfo.bind(this,record)} mbCardId={record.mbCardId}/>
                     ) : null
                 )
             },
         }];
     }
+
+    cardinfo=(record)=>{
+        // console.log(record.mbCardId)
+        // const mbCardId=record.mbCardId
+        // let values={mbCardId:mbCardId}
+        // const result=GetServerData('qerp.pos.mb.card.info',values)
+        //         result.then((res) => {
+        //           return res;
+        //         }).then((json) => {
+        //             console.log(json)
+        //             if(json.code=='0'){
+        //                this.setState({
+        //                 mbCardInfo:json.mbCardInfo
+        //                })
+        //             }else{  
+                       
+        //             }
+        //         })
+
+
+    }
+
     rowClassName=(record, index)=>{
         if (index % 2) {
             return 'table_gray'
@@ -488,10 +618,12 @@ class EditableTable extends React.Component {
 }
 
 //搜索区
-function Searchcomponent(dispatch) {
+function Searchcomponent({dispatch,dataSource}) {
+    console.log(dispatch)
+    console.log(dataSource)
   return (
     <div className='clearfix'>
-      <div className='fl ml30'><Modelforms record={{level:'1'}} text='新增会员'  dispatch={dispatch} type={true}/></div>
+      <div className='fl ml30'><Modelforms record={{level:'1'}} text='新增会员'  dispatch={dispatch} type={true} dataSource={dataSource}/></div>
       <div className='fr mr30'>
           <Searchinput text='请输入会员姓名、手机、会员卡号、级别'/>
       </div>
@@ -501,11 +633,12 @@ function Searchcomponent(dispatch) {
  
 
 //主页面
-function Member({mbCards,dispatch}) {
+function Member({mbCards,dispatch,dataSource}) {
+    console.log(dataSource)
     return (
         <div>
             <Header type={false} color={true}/>
-            <Searchcomponent dispatch={dispatch}/>
+            <Searchcomponent dispatch={dispatch} dataSource={dataSource}/>
             <div className='count mt10'><EditableTable mbCards={mbCards} dispatch={dispatch}/></div>
         </div>
     )
@@ -513,8 +646,8 @@ function Member({mbCards,dispatch}) {
 
 function mapStateToProps(state) {
     console.log(state)
-    const {mbCards} = state.member;
-    return {mbCards};
+    const {mbCards,dataSource} = state.member;
+    return {mbCards,dataSource};
 }
 
 export default connect(mapStateToProps)(Member);

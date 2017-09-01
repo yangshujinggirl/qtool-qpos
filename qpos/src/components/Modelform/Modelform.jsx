@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message} from 'antd';
 import {GetServerData} from '../../services/services';
-import {Messagesuccess} from '../Method/Method';
+import {Messagesuccess,openNotificationWithIcon} from '../Method/Method';
 
 
 
@@ -94,6 +94,11 @@ const footcens={
 }
 
 
+
+
+
+
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -166,17 +171,19 @@ class Modelform extends Component {
             let values={urUserId:urUserId}
             console.log(urUserId)
             console.log(sessionStorage)
-            const result=GetServerData('qerp.pos.ur.user.passwordreset',values)
-                result.then((res) => {
-                  return res;
-                }).then((json) => {
-                    console.log(json)
-                    if(json.code=='0'){
-                        Messagesuccess(json.newPassword)
-                    }else{  
+             openNotificationWithIcon('success')
+            // const result=GetServerData('qerp.pos.ur.user.passwordreset',values)
+            //     result.then((res) => {
+            //       return res;
+            //     }).then((json) => {
+            //         console.log(json)
+            //         if(json.code=='0'){
+            //             //Messagesuccess(json.newPa,1000)
                        
-                    }
-                })
+            //         }else{  
+                       
+            //         }
+            //     })
         }
     }
 

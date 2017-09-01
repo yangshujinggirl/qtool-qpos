@@ -6,7 +6,7 @@ import EchartsPie from '../charts/EchartsPie';
 import Echartsaxis from '../charts/Echartsaxis';
 import moment from 'moment';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
-
+import {GetServerData} from '../services/services';
 // css
 const slideinfo={
     width:'300px',
@@ -48,7 +48,7 @@ class Tags extends React.Component {
         return (
             <div className='count'>
                 <Tabs type="card">
-		    	     <TabPane tab="销售订单" key="1"><Sellorder/></TabPane>
+		    	     <TabPane tab="销售订单" key="1"><Sellorder qposStSaleOrders={this.props.qposStSaleOrders} dispatch={this.props.dispatch}/></TabPane>
 		    	     <TabPane tab="店员销售" key="2"><Sellclerk/></TabPane>
  			    </Tabs>
             </div>
@@ -57,12 +57,41 @@ class Tags extends React.Component {
 }
 //搜索组件
 class Searchcompon extends React.Component {
+    state={
+        selectvalue:null,
+        inpurvalue:'',
+        startTime:null,
+        endTime:null
+
+    }
     timechange=(date, dateString)=>{
       console.log(date, dateString);
+      this.setState({
+        startTime:dateString[0],
+        endTime:dateString[1]
+      },function(){
+        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime} }})
+      })
+
+
     }
     handleChange=(value)=>{
        console.log(`selected ${value}`);
+       this.setState({
+        selectvalue:value
+       },function(){
+          this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime} }})
+       })
     }
+    revisemessage=(messages)=>{
+        this.setState({
+            inpurvalue:messages
+        })
+    }
+    hindsearch=()=>{
+         this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime} }})
+    }
+
     render(){
         return(
             <div className='clearfix searchqery'>
@@ -72,16 +101,16 @@ class Searchcompon extends React.Component {
                 </div>
                 <div className='fr clearfix'>
                     <div className='searchselect clearfix fl'>
-                        <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>商品分类</label>
-                        <Select defaultValue="all" style={{ width: 100,height:40,marginRight:'20px' }} onChange={this.handleChange.bind(this)}>
-                            <Option value="all">全部分类</Option>
-                            <Option value="lucy">两点上课</Option>
-                            <Option value="disabled">两点上课</Option>
-                            <Option value="Yiminghe">两点上课</Option>
+                        <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>订单分类</label>
+                        <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'20px' }} onChange={this.handleChange.bind(this)}>
+                            <Option value="0">全部分类</Option>
+                            <Option value="1">销售订单</Option>
+                            <Option value="2">退货订单</Option>
+                            <Option value="3">充值订单</Option>
                         </Select>
                     </div>
                     <div className='fl' style={{marginRight:'30px'}}>
-                        <Searchinput text='请输入商品条码、名称、订单号'/>
+                        <Searchinput text='请输入商品条码、名称、订单号' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/>
                     </div>
                 </div>
           </div>
@@ -90,19 +119,23 @@ class Searchcompon extends React.Component {
 }
 
 //tap tit
-function Slidetitle() {
+function Slidetitle({item}) {
   return (
     <div style={slideinfo} className='slidetitle'>
-        <p className='clearfix p1'><div className='fl p2'>XS001177883001</div><div className='fr p3'>08/07 11:53</div></p>
-        <p className='clearfix' style={slideinfos}><div className='fl'><span>客户：金卡</span><span style={{marginLeft:'60px'}}>折</span></div><div className='fr' style={{marginRight:'30px'}}>收银：120000.00元</div></p>
+        <p className='clearfix p1'><div className='fl p2'>{item.outNo}</div><div className='fr p3'>{item.createTime}</div></p>
+        <p className='clearfix' style={slideinfos}><div className='fl'><span>客户：{item.levelStr}</span><span style={{marginLeft:'60px'}}>{item.isdiscount=='0'?null:'折'}</span></div><div className='fr' style={{marginRight:'30px'}}>收银：{item.amount}元</div></p>
     </div>
   );
 }
 
 //tap count 销售
-function Slidecountsell() {
-  return (
-    <div>
+class Slidecountsell extends React.Component {
+    state={
+
+    }
+    render(){
+        return(
+                <div>
         <ul className='sellinfolist'>
             <li>
                 <p><div><span>销售订单</span>：XS001177883001</div></p>
@@ -120,40 +153,106 @@ function Slidecountsell() {
             </li>
         </ul>
     </div>
-  )
-}
+            )
+    }
+    componentDidMount(){
+        const outId=this.props.outId
+        const type=this.props.type
+        let values={
+            outId:outId,
+            type:type
+        }
+        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       
+                    }else{  
+                        
+                    }
+                })
 
+    }
+}
 //tap count 退货
-function Slidecountback() {
-  return (
-    <div>
+
+
+class Slidecountback extends React.Component {
+    state={
+        mbCard:{},
+        odReturn:{},
+        returnOrderDetails:[]
+    }
+    render(){
+        return(
+                <div>
         <ul className='sellinfolist'>
             <li>
-                <p><div><span>退货订单</span>：TH001177883001 </div><div> <span>销售订单</span>：XS000189891122</div></p>
-                <p><div><span>退货时间</span>：08/07 11:53 </div><div> <span>退货员</span>：大湿湿</div></p>
+                <p><div><span>退货订单</span>：{this.state.odReturn.returnNo} </div><div> <span>销售订单</span>：{this.state.odReturn.orderNo}</div></p>
+                <p><div><span>退货时间</span>：{this.state.odReturn.createTime}</div><div> <span>退货员</span>：{this.state.odReturn.nickname}</div></p>
             </li>
-            <li>
-                <p><div><span>商品名称</span>：德国贝生超级薄男女婴儿纸尿片S40</div> </p>
-                <p><div><span>商品条码</span>：12345678901122 </div><div><span>规格</span>：PRE段/1岁</div></p>
-                <p><div><span>数量</span>：2 </div><div><span>零售价</span>：120.00 </div><div><span>折后价</span>：120.00 </div><div><span>折扣</span>：120.00</div></p>
+            
+            {
+                this.state.returnOrderDetails.map((item,index)=>{
+                    return (
+                            <li key={index}>
+                                <p><div><span>商品名称</span>：{item.name}</div> </p>
+                                <p><div><span>商品条码</span>： {item.name}</div><div><span>规格</span>：{item.displayName}</div></p>
+                                <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>折扣</span>：{item.discount}</div></p>
             </li>
+                        )
+                })
+            }
             <li style={{borderBottom:'0'}}>
-                <p><div><span>会员姓名</span>：大湿湿 </div><div><span>会员电话</span>：156 2186 4099 </div><div><span>扣除积分</span>：23499</div></p>
+                <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>扣除积分</span>：{this.state.mbCard.point}</div></p>
                 <p><div><span>结算收银</span>：2345.00「<span>会员卡支付</span>：321.00、<span>微信支付</span>：2000.00、<span>支付宝</span>：199.00」</div></p>
             </li>
         </ul>
     </div>
-  )
+            )
+    }
+    componentDidMount(){
+        const outId=this.props.outId
+        const type=this.props.type
+        let values={
+            outId:outId,
+            type:type
+        }
+        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       this.setState({
+                        mbCard:json.mbCard,
+                        odReturn:json.odReturn,
+                        returnOrderDetails:json.returnOrderDetails
+                       })
+                    }else{  
+                        
+                    }
+                })
+
+    }
 }
 //tap count 充值
-function Slidecountcz() {
-    return (
-        <div>
-            <div className='slidecountcztop'>
-                <p><div><span>充值订单</span>：CZ001177883001</div></p>
-                <p><div><span>充值时间</span>：08/07 11:53</div> <div><span>销售员</span>：大湿湿</div></p>
-            </div>
-            <div className='slidecountczbo'>
+
+
+class Slidecountcz extends React.Component {
+    state={
+
+    }
+    render(){
+        return(
+                <div>
+                    <div className='slidecountcztop'>
+                        <p><div><span>充值订单</span>：CZ001177883001</div></p>
+                    <p><div><span>充值时间</span>：08/07 11:53</div> <div><span>销售员</span>：大湿湿</div></p>
+                </div>
+                <div className='slidecountczbo'>
                 <p><span>会员姓名</span>：大湿湿</p>
                 <p><span>会员卡号</span>：12345678901122</p>
                 <p><span>会员手机</span>：158 2139 4843</p>
@@ -161,9 +260,31 @@ function Slidecountcz() {
                 <p><span>充值余额</span>：123456789.00元「<span>微信支付</span>」</p>
                 <p><span>充值前的余额</span>：123456789.00元</p>
                 <p><span>充值后的余额</span>：123456789.00元</p>
-            </div>
-        </div>
-  )
+                </div>
+                </div>
+            )
+    }
+    componentDidMount(){
+        const outId=this.props.outId
+        const type=this.props.type
+        let values={
+            outId:outId,
+            type:type
+        }
+        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       
+                    }else{  
+                        
+                    }
+                })
+
+    }
+
 }
 //count tap切换
 class Ordertap extends React.Component {
@@ -171,18 +292,26 @@ class Ordertap extends React.Component {
         tabPosition: 'left'
     }
   render() {
+    const qposStSaleOrders=this.props.qposStSaleOrders
     return (
         <div>
             <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'600px'}}>
-                <TabPane tab={<Slidetitle/>} key="1"><Slidecountsell/></TabPane>
-                <TabPane tab={<Slidetitle/>} key="2"><Slidecountback/></TabPane>
-                <TabPane tab={<Slidetitle/>} key="3"><Slidecountcz/></TabPane>
-                <TabPane tab="Tab 4" key="4">Content of Tab 4</TabPane>
-                <TabPane tab="Tab 5" key="5">Content of Tab 5</TabPane>
-                <TabPane tab="Tab 6" key="6">Content of Tab6</TabPane>
-                <TabPane tab="Tab 7" key="7">Content of Tab 7</TabPane>
-                <TabPane tab="Tab 8" key="8">Content of Tab 8</TabPane>
-                <TabPane tab="Tab 9" key="9">Content of Tab 9</TabPane>
+                {
+                    qposStSaleOrders.map((item,index)=>{
+                        return (
+                            <TabPane tab={<Slidetitle item={item}/>} key={index}>
+                            {
+                                item.type=='1'?<Slidecountsell outId={item.outId} type={item.type}/>:(item.type=='2'?<Slidecountcz outId={item.outId} type={item.type}/>:<Slidecountback outId={item.outId} type={item.type}/>)
+                            }
+                        </TabPane>)
+                    })
+
+
+                }
+
+                
+                
+                
             </Tabs>
         </div>
     )
@@ -266,11 +395,11 @@ class EditableTable extends React.Component {
 }
 
 //销售订单count
-function Sellorder() {
+function Sellorder({qposStSaleOrders,dispatch}) {
     return (
         <div>
-   		   <Searchcompon/>
-           <Ordertap/>
+   		   <Searchcompon dispatch={dispatch}/>
+           <Ordertap qposStSaleOrders={qposStSaleOrders}/>
         </div>
   )
 }
@@ -294,18 +423,19 @@ function Sellclerk() {
   )
 }
 
-function Sell() {
+function Sell({qposStSaleOrders,dispatch}) {
   return (
     <div>
     	<Header type={false} color={true}/>
-    	<Tags/>
+    	<Tags qposStSaleOrders={qposStSaleOrders} dispatch={dispatch}/>
     </div>
   );
 }
 
 function mapStateToProps(state) {
- 
-  return {};
+    console.log(state)
+    const {qposStSaleOrders} = state.sell;
+    return {qposStSaleOrders};
 }
 
 export default connect(mapStateToProps)(Sell);

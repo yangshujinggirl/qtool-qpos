@@ -2,6 +2,9 @@ import {GetServerData} from '../services/services';
 import {message} from 'antd';
 import { routerRedux } from 'dva/router';
 
+
+
+
 export default {
     namespace: 'header',
     state: {  
@@ -9,12 +12,15 @@ export default {
             shop:{
                 name:''
             }
-        }
+        },
+        saleDataDetail:{}
     },
     reducers: {
         save(state, { payload: urUser}) {
-            console.log(urUser)
             return {...state,urUser}
+        },
+        usershift(state, { payload: saleDataDetail}) {
+            return {...state,saleDataDetail}
         },
     },
     effects: {
@@ -22,7 +28,6 @@ export default {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
                 const {urUser}=result
-                console.log(urUser)
                 sessionStorage.setItem('nickname',urUser.nickname);
                 sessionStorage.setItem('urUserId',urUser.urUserId);
                 sessionStorage.setItem('username',urUser.username);
@@ -30,28 +35,25 @@ export default {
                 sessionStorage.setItem('spShopId',urUser.shop.spShopId);
                 sessionStorage.setItem('role',urUser.role);
                 sessionStorage.setItem('status',urUser.status);
-
-
                 yield put({   
                     type: 'save',
                     payload:urUser
                 });
             }else{
-                message.error(data.message);
+                message.error(result.message);
             }   
         },
         *shift({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             console.log(result)
             if(result.code=='0'){
-                // const {urUser}=result
-                // console.log(urUser)
-                // yield put({   
-                //     type: 'save',
-                //     payload:urUser
-                // });
+                const {saleDataDetail}=result
+                yield put({   
+                    type: 'usershift',
+                    payload:saleDataDetail
+                });
             }else{
-                message.error(data.message);
+                 message.error(result.message);
             }   
         },
         *logout({ payload: {code,values} }, { call, put }) {

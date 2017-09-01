@@ -18,12 +18,19 @@ class Searchcomponent extends React.Component {
     callback=()=>{
     	
     }
+    lendin=()=>{
+        console.log(23)
+        
+
+
+
+    }
     render(){
         return(
             <div className='clearfix'>
 	      		<div className='m30 fl clearfix'>
 	      			<div className='fl btn'><Buttonico text='下载盘点模板'/></div>
-	      			<div className='fl btn ml20'><Buttonico text='导入盘点结果'/></div>
+	      			<div className='fl btn ml20' onClick={this.lendin.bind(this)}><Buttonico text='导入盘点结果'/></div>
 	      		</div>
       			<div className='fr' style={{marginRight:'30px'}}>
           			<div className='searchselect clearfix'>
@@ -44,39 +51,29 @@ class EditableTable extends React.Component {
   	constructor(props) {
     	super(props);
     	this.columns = [{
-      		title: 'age',
-      		dataIndex: 'age'
+      		title: '序号',
+      		dataIndex: 'index'
+    	},{
+            title: '商品条码',
+            dataIndex: 'barcode'
+        },{
+            title: '商品名称',
+            dataIndex: 'name'
+        }, {
+      		title: '规格',
+      		dataIndex: 'displayName'
     	}, {
-      		title: 'address',
-      		dataIndex: 'address'
-    	}, {
-      		title: 'operation',
-      		dataIndex: 'operation',
-      		render: (text, record, index) => {
-        	return (
-          	this.state.dataSource.length > 1 ?
-          		(
-	            	<Popconfirm title="Sure to delete?" onConfirm={() => this.onDelete(index)}>
-	              		<a href="#">Delete</a>
-	            	</Popconfirm>
-	          	) : null
-        		)
-      			}
+            title: '系统数量',
+            dataIndex: 'inventory'
+        },{
+      		title: '盘点数',
+      		dataIndex: 'checkQty',
+      		
     		}
     	];
 
 	    this.state = {
-	      	dataSource: [{
-	        	key: '0',
-	        	name: 'Edward King 0',
-	        	age: '32',
-	        	address: 'London, Park Lane no. 0'
-	      	}, {
-	        	key: '1',
-	        	name: 'Edward King 1',
-	        	age: '32',
-	        	address: 'London, Park Lane no. 1'
-	      	}],
+	      	dataSource: [],
 	      	count: 2
 	    };
   	}
@@ -117,7 +114,7 @@ class EditableTable extends React.Component {
     	const columns = this.columns;
     	return (
       		<div style={{background:'#fff'}}>
-        		<Table bordered dataSource={dataSource} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+        		<Table bordered dataSource={this.props.pdSpus} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
       		</div>
     	);
   	}
@@ -143,8 +140,9 @@ function Inventory() {
 }
 
 function mapStateToProps(state) {
- 
-  	return {};
+    // console.log(state)
+    // const {pdSpus} = state.inventory;
+    return {};
 }
 
 export default connect(mapStateToProps)(Inventory);

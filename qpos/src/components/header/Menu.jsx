@@ -2,12 +2,9 @@ import React from 'react';
 import { Link } from 'dva/router'
 
 //css
-const menuiconcount={
-    width: '84px',
-    height: '34px',
-    marginLeft: '30px',
-    marginTop: '30px'
-}
+const menuiconcount={width: '84px',height: '34px'}
+const menuuselogo={width:'256px',height:'93px'}
+const menuuselogobox={width:'184px',height:'30px'}
 
 const menus=[ 
                 {icon:'icon_member.png',title:'会员管理',router:'/member'},
@@ -19,7 +16,7 @@ const menus=[
 function Menuuse() {
     return (
         <div className='clearfix'>
-            <div style={{float:'left',width:'256px',height:'93px'}}><div style={{width:'184px',height:'30px',margin:'0 auto',marginTop:'30px'}}><img src={require('../../images/logo.png')} style={{width:'100%',height:'100%'}}/></div></div>
+            <div style={menuuselogo} className='fl'><div style={menuuselogobox} className='mt30 w'><img src={require('../../images/logo.png')} className='w100 h100'/></div></div>
             <ul className='clearfix fl'>
                 {
                     menus.map((item,index)=>{
@@ -39,7 +36,7 @@ function Menuuse() {
 function Menuicon() {
     return (
         <div className='menuicon'>
-            <div style={menuiconcount}><Link to='/cashier'><img src={require('../../images/icon_back.png')} className='w100 h100'/></Link></div>
+            <div style={menuiconcount} className='ml30 mt30'><Link to='/cashier'><img src={require('../../images/icon_back.png')} className='w100 h100'/></Link></div>
         </div>
   )
 }
