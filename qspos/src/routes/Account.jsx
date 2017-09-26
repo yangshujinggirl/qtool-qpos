@@ -333,19 +333,12 @@ class App extends React.Component {
         return (
         <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'50px',padding:'30px'}} className='formdis accformdis'>
             <FormItem
-                label="选择打印机"
+                label="打印控件"
             >
                 {getFieldDecorator('printDevice', {
                 })(
 
-                    <Select
-                    placeholder="请选择"
-                    onChange={this.handleSelectChange}
-                    style={{width:'175px'}}
-                    >
-                        <Option value="male">male</Option>
-                        
-                    </Select>   
+                    <p style={{fontSize:'12px',marginTop:'5px'}}><a href='www.baidu.com'>下载打印控件</a></p> 
                 )}
             </FormItem>
             <FormItem
@@ -354,7 +347,7 @@ class App extends React.Component {
                 {getFieldDecorator('paperSize', {
                     initialValue: 80,
                 })(
-                    <RadioGroup onChange={this.paperSizeonChange}>
+                    <RadioGroup onChange={this.paperSizeonChange} style={{marginTop:'4px'}}>
                         <Radio value={80}>80mm</Radio>
                         <Radio value={58}>58mm</Radio>
                     </RadioGroup>
@@ -367,7 +360,7 @@ class App extends React.Component {
                 {getFieldDecorator('submitPrint', {
                     initialValue: 1,
                 })(
-                    <RadioGroup onChange={this.onChange}>
+                    <RadioGroup onChange={this.onChange} style={{marginTop:'4px'}}>
                         <Radio value={1}>是</Radio>
                         <Radio value={0}>否</Radio>
                     </RadioGroup>
@@ -380,7 +373,7 @@ class App extends React.Component {
             {getFieldDecorator('rechargePrint', { 
                 initialValue: 1,
             })(
-                <RadioGroup onChange={this.onChange}>
+                <RadioGroup onChange={this.onChange} style={{marginTop:'4px'}}>
                     <Radio value={1}>是</Radio>
                     <Radio value={0}>否</Radio>
                 </RadioGroup>

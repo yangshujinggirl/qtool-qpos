@@ -45,24 +45,35 @@ class Modelform extends Component {
             accountvalue:1,
             mbCardBirths:[],
             key:0,
+            keys:0
             
         },
-        this.babydatasouces=[]
+        this.babydatasouces=[],
+        this.datavalue={
+            name:'',
+            mobile:'',
+            cardNo:'',
+            level:''
+        }
     }
     MemberonChange = (e) => {
         this.props.form.setFieldsValue({
             role: e.target.value,
         });
+        this.datavalue.level=e.target.value
+
     }
     showModal = () => {
+        var myDate=new Date()
         this.setState({
-            visible: true
-           
+            visible: true,
+            keys:myDate
         });
     }
     hideModal = () => {
         this.setState({
             visible: false,
+            
         });
         this.props.form.resetFields()
        
@@ -73,13 +84,22 @@ class Modelform extends Component {
         
     }
     handleOk = () => {
+        console.log(this)
+        console.log(this.datavalue)
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                console.log(this.datavalue)
+                console.log(values)
+                values.name=this.datavalue.name
+                values.mobile=this.datavalue.mobile
+                values.cardNo=this.datavalue.cardNo
+                values.level=this.datavalue.level
                 values.mbCardBirths=this.babydatasouces
                 if(this.props.type==false){
                     const {mbCardId} = this.props.record; 
                     values.mbCardId=mbCardId
                 }
+                console.log(values)
                 let valuesdata={mbCardInfo:values}
                 const result=GetServerData('qerp.pos.mb.card.save',valuesdata)
                 result.then((res) => {
@@ -104,6 +124,25 @@ class Modelform extends Component {
     receivebabydata=(dataSource)=>{
         this.babydatasouces=dataSource
     }
+
+
+    namechange=(e)=>{
+        this.datavalue.name=e.target.value
+        console.log(this.datavalue)
+    }
+    mobilechange=(e)=>{
+        this.datavalue.mobile=e.target.value
+    }
+
+    cardNochange=(e)=>{
+        this.datavalue.cardNo=e.target.value
+    }
+
+
+
+
+
+
     render() {
         const type=this.props.type
         const { getFieldDecorator,getFieldInstance,getFieldProps } = this.props.form;
@@ -121,7 +160,6 @@ class Modelform extends Component {
                     onCancel={this.hideModal}
                     okText="确认"
                     cancelText="取消"
-                    width={this.props.width+'px'}
                     closable={false}
                     width={450}
                     footer={[
@@ -129,6 +167,7 @@ class Modelform extends Component {
                         <div className='fr tc' style={type?footright:footrights} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
                         <div style={footcen} key='line'></div>
                     ]}
+                    key={this.state.keys}
                 >
                     <Form className='formdis'>
                         <FormItem 
@@ -140,7 +179,7 @@ class Modelform extends Component {
                                 initialValue: name,
                                 rules: [{ required: true, message: '请输入1-5位会员姓名' }],
                             })(
-                                <Input placeholder="请输入1-5位会员姓名" style={inputwidth} />
+                                <Input placeholder="请输入1-5位会员姓名" style={inputwidth} onChange={this.namechange.bind(this)}/>
                             )}
                         </FormItem>
                         <FormItem 
@@ -152,7 +191,7 @@ class Modelform extends Component {
                                 initialValue: mobile,
                                 rules: [{ required: true, message: '请输入11位手机号' }],
                             })(
-                                <Input placeholder="请输入11位手机号" style={inputwidth} />
+                                <Input placeholder="请输入11位手机号" style={inputwidth} onChange={this.mobilechange.bind(this)}/>
                             )}
                         </FormItem>
                         <FormItem 
@@ -164,7 +203,7 @@ class Modelform extends Component {
                                 initialValue: cardNo,
                                 rules: [{ required: true, message: '请输入6位会员卡号' }],
                             })(
-                                <Input placeholder="请输入6位会员卡号" style={inputwidth} />
+                                <Input placeholder="请输入6位会员卡号" style={inputwidth} onChange={this.cardNochange.bind(this)}/>
                             )}
                         </FormItem>
                         <FormItem 
@@ -180,7 +219,6 @@ class Modelform extends Component {
                                     mbCardId={this.props.mbCardId} 
                                     receivebabydata={this.receivebabydata.bind(this)} 
                                     type={this.props.type}
-                                    
                                 />
                             )}
                         </FormItem>
@@ -226,6 +264,16 @@ class Modelform extends Component {
                 </Modal>
             </div>
         );
+    }
+    componentDidMount(){
+        this.datavalue={
+            name:this.props.record.name,
+            mobile:this.props.record.mobile,
+            cardNo:this.props.record.cardNo,
+            level:this.props.record.level,
+            amount:this.props.record.amount,
+            point:this.props.record.point
+        }
     }
     
 }
@@ -426,13 +474,15 @@ class EditableTablebaby extends React.Component {
                         let mbCardInfo=json.mbCardInfo.mbCardBirths
                         if(mbCardInfo.length>0){
                             const barthtype=mbCardInfo[0].type
+                            console.log(barthtype)
                             for(var i=0;i<mbCardInfo.length;i++){
                                 mbCardInfo[i].key=i
                             }
                             if(barthtype=='1'){
                                 this.setState({
                                     type:true,
-                                    dataSource:mbCardInfo
+                                    dataSource:mbCardInfo,
+                                    checked:true
                                 },function(){
                                     this.props.receivebabydata(this.state.dataSource)
                                 })
@@ -440,7 +490,9 @@ class EditableTablebaby extends React.Component {
                             if(barthtype=='2'){
                                 this.setState({
                                     type:false,
-                                    dataSource:mbCardInfo
+                                    dataSource:mbCardInfo,
+                                    checked:false
+
                                 },function(){
                                     this.props.receivebabydata(this.state.dataSource)
                                 })
@@ -500,6 +552,7 @@ class EditableTable extends React.Component {
                             amount={record.amount}
                             point={record.point}
                             texts='修改会员信息'
+
                         />
                     ) : null
                 )
