@@ -107,13 +107,6 @@ class Modelform extends Component {
                 })
 
 
-
-
-
-
-
-
-                
                 
             }
         });
