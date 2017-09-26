@@ -1,0 +1,36 @@
+{
+  "entry": "src/index.js",
+  "disableCSSModules": true,
+  "env": {
+    "development": {
+      "extraBabelPlugins": [
+        "dva-hmr",
+        "transform-runtime",
+        ["import", { "libraryName": "antd", "style": "true" }]
+      ]
+    },
+    "production": {
+      "extraBabelPlugins": [
+        "transform-runtime",
+        ["import", { "libraryName": "antd", "style": "true" }]
+      ]
+    }
+  },
+ "proxy": {
+    "/erpQposRest": {
+        "target": "http://v2.qpos.test.qtoolsbaby.cn:81",
+        "secure": false,
+        "changeOrigin": true
+      }
+    },
+  "theme": {
+    "@primary-color": "#35BAB0",
+    "@link-color": "#1DA57A",
+    "@border-radius-base": "3px",
+    "@font-size-base": "16px",
+    "@line-height-base": "1.2"
+  }
+
+
+
+}
