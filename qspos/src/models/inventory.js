@@ -6,12 +6,12 @@ import {Messagesuccess} from '../components/Method/Method';
 export default {
     namespace: 'inventory',
     state: {
-  	    pdCheckDetails:[]
-  	    
+  	    pdCheckDetails:[],
+  	    pdCheckId:null
     },
     reducers: {
-  	    pdCheckId(state, { payload: pdCheckDetails}) {
-           return {...state,pdCheckDetails}
+  	    pdCheckId(state, { payload: {pdCheckDetails,pdCheckId}}) {
+           return {...state,pdCheckDetails,pdCheckId}
         }
     },
     effects: {

@@ -10,6 +10,12 @@ import { Link } from 'dva/router'
 
 class Searchcomponent extends React.Component {
     Hindok=()=>{
+        const pdCheckDetails=this.props.pdCheckDetails
+        for(var i=0;i<pdCheckDetails.length;i++){
+            pdCheckDetails[i].adjustQty=pdCheckDetails[i].difQty
+        }
+
+
     	const values={adjusts:this.props.pdCheckDetails}
         const result=GetServerData('qerp.pos.pd.adjust.save',values)
             result.then((res) => {
@@ -28,7 +34,12 @@ class Searchcomponent extends React.Component {
     callback=()=>{
     }
     download=()=>{
-        window.open('../../static/盘点.xlsx')
+        let values={pdCheckId:this.props.pdCheckId}
+        let Strdatanume=JSON.stringify(values)
+        Strdatanume=encodeURI(Strdatanume)
+        let url='/erpWebRest/webrestExport.htm?data='+Strdatanume+'&code=qerp.qpos.pd.check.export'
+        console.log(url)
+        window.open(url)
     }
     render(){
         return(
@@ -73,7 +84,9 @@ class EditableTable extends React.Component {
 
 	    this.state = {
 	      	dataSource: [],
-	      	count: 2
+	      	count: 2,
+            pdCheckId:null,
+            total:0
 	    };
   	}
   
@@ -84,33 +97,80 @@ class EditableTable extends React.Component {
       		return 'table_white'
     	}
   	}
+
+    //数据请求
+    //根据id请求数据
+    setdatas=(messages)=>{
+        const result=GetServerData('qerp.pos.pd.check.info',messages)
+                    result.then((res) => {
+                      return res;
+                    }).then((json) => {
+                        console.log(json)
+                        if(json.code=='0'){
+                           this.setState({
+                                dataSource:json.pdCheckDetails,
+                                total:json.total
+                           })
+                            
+                        }else{  
+                            message.warning(json.message);
+                        }
+                    })
+    }
+
   	
+    pagechange=(page)=>{
+        console.log(page)
+        var pages=Number(page.current)-1
+        let values={pdCheckId:this.state.pdCheckId,limit:10,currentPage:pages}
+        this.setdatas(values)
+  
+    }
+
+
   	render() {
     	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
       		<div className='bgf'>
-        		<Table bordered dataSource={this.props.pdCheckDetails} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+        		<Table bordered 
+                    dataSource={this.state.dataSource} 
+                    columns={columns} 
+                    rowClassName={this.rowClassName.bind(this)}
+                    pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
+                    onChange={this.pagechange.bind(this)}
+                    />
       		</div>
     	);
   	}
+    componentDidMount(){
+        this.setState({
+            pdCheckId:this.props.pdCheckId
+        },function(){
+            let values={pdCheckId:this.state.pdCheckId,limit:10,currentPage:0}
+            this.setdatas(values)
+        })
+        
+
+    }
 }
 
-function Inventorydiff({pdCheckDetails}) {
+function Inventorydiff({pdCheckDetails,pdCheckId}) {
   	return (
 	    <div>
 	     	<Header type={false} color={true}/>
             <div className='counters'>
-	     	    <Searchcomponent pdCheckDetails={pdCheckDetails}/>
-	      	    <EditableTable pdCheckDetails={pdCheckDetails}/>
+	     	    <Searchcomponent pdCheckDetails={pdCheckDetails} pdCheckId={pdCheckId}/>
+	      	    <EditableTable pdCheckDetails={pdCheckDetails} pdCheckId={pdCheckId}/>
             </div>
 	    </div>
   );
 }
 
 function mapStateToProps(state) {
-    const {pdCheckDetails} = state.inventory;
-  	return {pdCheckDetails};
+    console.log(state)
+    const {pdCheckDetails,pdCheckId} = state.inventory;
+  	return {pdCheckDetails,pdCheckId};
 }
 
 export default connect(mapStateToProps)(Inventorydiff);

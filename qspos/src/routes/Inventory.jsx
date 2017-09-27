@@ -23,23 +23,9 @@ class MyUpload extends React.Component {
                 if(file.response.code=='0'){
                     console.log(file.response)
                     const pdCheckId=file.response.pdCheckId
-                    let values={pdCheckId:pdCheckId}
-                    const result=GetServerData('qerp.pos.pd.check.info',values)
-                    result.then((res) => {
-                      return res;
-                    }).then((json) => {
-                        console.log(json)
-                        if(json.code=='0'){
-                            this.props.dispatch({
-                                type:'inventory/pdCheckDetails',
-                                payload: json.pdCheckDetails
-                            })
-                            const Setdate=this.props.Setdate
-                            Setdate(json.pdCheckDetails)
-                        }else{  
-                            message.warning(json.message);
-                        }
-                    })
+                    let values={pdCheckId:pdCheckId,limit:10,currentPage:0}
+                    this.setdatas(values)
+                    
                 }else{
                     message.warning(file.response.message);
                 }
@@ -49,6 +35,27 @@ class MyUpload extends React.Component {
         });
         this.setState({ fileList });
     }
+
+    //根据id请求数据
+    setdatas=(messages)=>{
+        const result=GetServerData('qerp.pos.pd.check.info',messages)
+                    result.then((res) => {
+                      return res;
+                    }).then((json) => {
+                        console.log(json)
+                        if(json.code=='0'){
+                            this.props.dispatch({
+                                type:'inventory/pdCheckId',
+                                payload: {pdCheckDetails:json.pdCheckDetails,pdCheckId:messages.pdCheckId}
+                            })
+                            const Setdate=this.props.Setdate
+                            Setdate(json.pdCheckDetails,json.total,messages.pdCheckId)
+                        }else{  
+                            message.warning(json.message);
+                        }
+                    })
+    }
+
     render() {
         const props = {
             action: '/erpQposRest/qposrest.htm?code=qerp.pos.pd.check.import',
@@ -75,22 +82,29 @@ class Searchcomponent extends React.Component {
             inventorygoods:true
         })
     }
-    Setdate=(message)=>{
+    Setdate=(message,total,id)=>{
         console.log(message)
         for(var i=0;i<message.length;i++){
             message[i].key=i+1
         }
-        this.props.setdayasouce(message)
+        this.props.setdayasouce(message,total,id)
     }
+    Setdates=(messages)=>{
+        console.log(this)
+        const Setdates=this.refs.up.setdatas
+        Setdates(messages)
+    }
+
+
     download=()=>{
-        window.open('../../static/盘点.xlsx')
+        window.open('../static/inventory.xlsx')
     }
     render(){
         return(
             <div className='clearfix mb10'>
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载盘点模板'/></div>
-	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch}/></div>
+	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'/></div>
 	      		</div>
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
           			<div className='searchselect clearfix'>
@@ -129,7 +143,9 @@ class EditableTable extends React.Component {
     	];
 	    this.state = {
 	      	dataSource: [],
-	      	count: 2
+	      	count: 2,
+            pdCheckId:null,
+            total:0
 	    };
   	}
   	rowClassName=(record, index)=>{
@@ -139,42 +155,65 @@ class EditableTable extends React.Component {
       		return 'table_white'
     	}
   	}
-    setdatasouce=(messages)=>{
+    setdatasouce=(messages,total,id)=>{
         console.log(messages)
         this.setState({
-            dataSource:messages
+            dataSource:messages,
+            total:total,
+            pdCheckId:id
         },function(){
             const seracedatasouce=this.props.seracedatasouce
             seracedatasouce(this.state.dataSource)
+            
         })
+    }
+    pagechange=(page)=>{
+        console.log(page)
+        var pages=Number(page.current)-1
+        let values={pdCheckId:this.state.pdCheckId,limit:10,currentPage:pages}
+        console.log(this)
+        const setdatas=this.props.setdatas
+        setdatas(values)
+  
     }
   	render() {
     	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
       		<div className='bgf'>
-        		<Table bordered dataSource={this.props.pdSpus} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+        		<Table bordered dataSource={this.state.dataSource} columns={columns} 
+                rowClassName={this.rowClassName.bind(this)}
+                pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
+                onChange={this.pagechange.bind(this)}
+                />
       		</div>
     	);
   	}
 }
 
 class Inventory extends React.Component{
-     setdayasouce=(messages)=>{
+     setdayasouce=(messages,total,id)=>{
         const setdatasouce=this.refs.inventory.setdatasouce
-        setdatasouce(messages)
+        setdatasouce(messages,total,id)
     }
     seracedatasouce=(messages)=>{
         const revisedaramessages=this.refs.search.revisedaramessages
         revisedaramessages(messages)
     }
+    setdatas=(messages)=>{
+        console.log(this)
+        const setdatas=this.refs.search.Setdates
+        setdatas(messages)
+    }
+
+
     render() {
         return (
             <div>
                 <Header type={false} color={true}/>
                 <div className='counters'>
                     <Searchcomponent setdayasouce={this.setdayasouce.bind(this)} ref='search' dispatch={this.props.dispatch}/>
-                    <EditableTable ref='inventory' seracedatasouce={this.seracedatasouce.bind(this)}/>
+                    <EditableTable ref='inventory' seracedatasouce={this.seracedatasouce.bind(this)} setdatas={this.setdatas.bind(this)}/>
                 </div>
             </div>
         );

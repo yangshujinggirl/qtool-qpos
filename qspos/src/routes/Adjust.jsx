@@ -110,7 +110,7 @@ class Searchcomponent extends React.Component {
             })
     }
     download=()=>{
-        window.open('../../static/损益.xlsx')
+        window.open('../static/adjust.xlsx')
     }
     Setdate=(message)=>{
         for(var i=0;i<message.length;i++){

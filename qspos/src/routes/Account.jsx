@@ -331,7 +331,9 @@ class App extends React.Component {
                 {getFieldDecorator('printDevice', {
                 })(
 
-                    <p style={{fontSize:'12px',marginTop:'5px'}}><a href='www.baidu.com'>下载打印控件</a></p> 
+                    <p style={{fontSize:'12px',marginTop:'5px'}}>
+                        <a href='/static/install_lodop32.exe' target='_self'>下载打印控件</a>
+                    </p> 
                 )}
             </FormItem>
             <FormItem
