@@ -82,7 +82,6 @@ class Operationls extends React.Component {
 	//会员号
 	memberHindonKeyUp=(e)=>{
 		if(e.keyCode==9){
-			console.log(123467899)
          	this.focustap()
          }
          if(e.keyCode==13){
@@ -90,7 +89,7 @@ class Operationls extends React.Component {
          }
 	}
 
-	// 很具会员号或手机号查询会员信息
+	// 根据会员号或手机号查询会员信息
 	searchmemberinfo=()=>{
 		let values={cardNoMobile:this.state.cardNoMobile}
          	 const result=GetServerData('qerp.pos.mb.card.find',values)
@@ -114,7 +113,7 @@ class Operationls extends React.Component {
 
                             })
                         }else{  
-                            console.log(json.message)   
+                            message.warning(json.message)   
                         }
                     })
 	}

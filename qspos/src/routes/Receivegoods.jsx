@@ -38,7 +38,7 @@ class EditableTable extends React.Component {
             title: '规格',
             dataIndex: 'displayName'
         },{
-            title: '代收数量',
+            title: '待收数量',
             dataIndex: 'unReceiveQty'
         },{
             title: '本次数量',
@@ -85,6 +85,7 @@ class EditableTable extends React.Component {
 
 
     setqtys=(index,e)=>{
+        console.log(index)
         var zindex=this.zindex(index)
         const dataSources=this.state.dataSource
         dataSources[zindex].receiveQty=e.target.value
@@ -95,7 +96,11 @@ class EditableTable extends React.Component {
 
     //数量失去焦点
     discountblur=(index,e)=>{
-        var zindex=this.zindex(index)
+        //判断ispdOrder是true还是false false 没扫描过配货单
+        console.log(this.state.ispdOrder)
+        if(this.state.ispdOrder){
+            //扫描过配货单
+                  var zindex=this.zindex(index)
         const dataSources=this.state.dataSource
         if((e.target.value<dataSources[zindex].unReceiveQty) || (e.target.value==dataSources[zindex].unReceiveQty)){
             this.setState({
@@ -125,6 +130,33 @@ class EditableTable extends React.Component {
                     message.warning('超出应收数量，默认为总数');
                 })
         }
+
+
+
+        }else{
+            //没扫描过配货单
+            var zindex=this.zindex(index)
+            const dataSources=this.state.dataSource
+            this.setState({
+                dataSource:dataSources
+            },function(){
+                const clearingdatas=this.props.clearingdatas
+                const dataSources=this.state.dataSource
+                var numberdata=0;
+                for(var i=0;i<dataSources.length;i++){
+                    numberdata=numberdata+Number(dataSources[i].receiveQty)
+                }
+                clearingdatas(dataSources.length,numberdata)
+            })
+
+
+
+
+        }
+
+
+
+       
     }
     rowClassName=(record, index)=>{
         if(index==this.state.index){
@@ -214,11 +246,12 @@ class EditableTable extends React.Component {
     barcoderevisedata=(messages)=>{
         //判断ispdOrders是true还是false,如果是true,说明已经扫描过配货单，如果是false，说明没扫描过配货单
         const ispdOrders=this.state.ispdOrder
+        console.log(ispdOrders)
         if(ispdOrders){
             let datasouces=this.state.dataSource
             var i=this.isInArray(datasouces,messages.barCode)
             if(i===false){
-                 message.ispdOrders('条码不在配货单中')
+                 message.warning('条码不在配货单中')
             }else{
                 if(Number(datasouces[i].receiveQty)<Number(datasouces[i].unReceiveQty)){
                     datasouces[i].receiveQty=Number(datasouces[i].receiveQty)+1
@@ -301,14 +334,18 @@ class EditableTable extends React.Component {
         })
     }
 
+
+    
     //收货
     receiveQty=()=>{
         const datasouces=this.state.dataSource
         if(datasouces.length>0 && Number(this.state.spu)>0 && Number(this.state.number)>0){
+            var pdOrderReceives=this.state.dataSource
+            pdOrderReceives=pdOrderReceives.filter(item => item.receiveQty!=0) 
             //判断有没有配货单号id
             let value={
                 pdOrderId:this.state.pdOrderId,
-                pdOrderReceives:this.state.dataSource
+                pdOrderReceives:pdOrderReceives
             }
             const result=GetServerData('qerp.pos.pd.order.receive',value)
              result.then((res) => {
@@ -341,7 +378,7 @@ class EditableTable extends React.Component {
     initdata=()=>{
         this.setState({
             dataSource: [],
-            ispdOrder:true,
+            ispdOrder:false,
             index:0,
             pdOrderId:null,
             spu:0,

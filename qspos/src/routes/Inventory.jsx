@@ -23,7 +23,7 @@ class MyUpload extends React.Component {
                 if(file.response.code=='0'){
                     console.log(file.response)
                     const pdCheckId=file.response.pdCheckId
-                    let values={pdCheckId:pdCheckId,limit:10,currentPage:0}
+                    let values={pdCheckId:pdCheckId,limit:100000,currentPage:0}
                     this.setdatas(values)
                     
                 }else{
