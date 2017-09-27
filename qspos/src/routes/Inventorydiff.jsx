@@ -106,9 +106,15 @@ class EditableTable extends React.Component {
                       return res;
                     }).then((json) => {
                         console.log(json)
+                        const messagedata=json.pdCheckDetails
+                        for(var i=0;i<messagedata.length;i++){
+                            messagedata[i].index=i+1
+                        }
+
+
                         if(json.code=='0'){
                            this.setState({
-                                dataSource:json.pdCheckDetails,
+                                dataSource:messagedata,
                                 total:json.total
                            })
                             

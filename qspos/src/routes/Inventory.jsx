@@ -157,8 +157,12 @@ class EditableTable extends React.Component {
   	}
     setdatasouce=(messages,total,id)=>{
         console.log(messages)
+        const messagedata=messages
+        for(var i=0;i<messagedata.length;i++){
+            messagedata[i].index=i+1
+        }
         this.setState({
-            dataSource:messages,
+            dataSource:messagedata,
             total:total,
             pdCheckId:id
         },function(){

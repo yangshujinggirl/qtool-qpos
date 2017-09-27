@@ -14,13 +14,12 @@ class Searchcomponent extends React.Component {
         selectvalue:null
     }
     handleChange=(value)=>{
-       	console.log(`selected ${value}`);
         this.setState({
             selectvalue:value
         },function(){
             this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
             })
         })  
     }
@@ -33,7 +32,14 @@ class Searchcomponent extends React.Component {
     hindsearch=()=>{
         this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
+        })
+    }
+
+    pagefresh=(currentPage)=>{
+        this.props.dispatch({
+                type:'goods/fetch',
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:currentPage} }
         })
     }
     render(){
@@ -106,34 +112,57 @@ class EditableTable extends React.Component {
       		return 'table_white'
     	}
   	}
-    
+    pagechange=(page)=>{
+        console.log(page)
+        var pages=Number(page.current)-1
+        //取得方法
+        this.props.pagefresh(pages)
+    }
   	render() {
     	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
       		<div className='bgf'>
-        		<Table bordered dataSource={this.props.pdSpus} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+        		<Table bordered dataSource={this.props.pdSpus} columns={columns} 
+                rowClassName={this.rowClassName.bind(this)}
+                pagination={{'showQuickJumper':true,'total':Number(this.props.total)}}
+                onChange={this.pagechange.bind(this)}
+                />
       		</div>
     	);
   	}
 }
 
-function Goods({pdSpus,pdCategories,dispatch}) {
-  return (
-    <div>
-        <Header type={false} color={true}/>
-        <div className='counters'>
-            <Searchcomponent pdCategories={pdCategories} dispatch={dispatch}/>
-            <EditableTable pdSpus={pdSpus}/>
-        </div>
-    </div>
-  );
+
+class Goods extends React.Component {
+    pagefresh=(currentPage)=>{
+        const pagefreshs=this.refs.search.pagefresh
+        pagefreshs(currentPage)
+    }
+
+
+    render() {
+        return (
+            <div>
+                <Header type={false} color={true}/>
+                <div className='counters'>
+                    <Searchcomponent pdCategories={this.props.pdCategories} dispatch={this.props.dispatch} ref='search'/>
+                    <EditableTable pdSpus={this.props.pdSpus} total={this.props.total} dispatch={this.props.dispatch} pagefresh={this.pagefresh.bind(this)}/>
+                </div>
+            </div>
+        );
+    }
+
+
 }
+
+
+
 
 function mapStateToProps(state) {
      console.log(state)
-    const {pdSpus,pdCategories} = state.goods;
-    return {pdSpus,pdCategories};
+    const {pdSpus,pdCategories,total} = state.goods;
+    return {pdSpus,pdCategories,total};
 }
 
 export default connect(mapStateToProps)(Goods);

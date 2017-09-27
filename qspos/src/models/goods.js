@@ -7,11 +7,12 @@ export default {
     namespace: 'goods',
     state: {
   	    pdSpus:[],
-  	    pdCategories:[]
+  	    pdCategories:[],
+        total:0
     },
     reducers: {
-  	    spulist(state, { payload: pdSpus}) {
-           return {...state,pdSpus}
+  	    spulist(state, { payload: {pdSpus,total}}) {
+           return {...state,pdSpus,total}
           
         },
         pdCategories(state, { payload: pdCategories}) {
@@ -24,13 +25,13 @@ export default {
             const result=yield call(GetServerData,code,values);
             console.log(result)
             if(result.code=='0'){
-                let {pdSpus}=result
+                let {pdSpus,total}=result
                 for(var i=0;i<pdSpus.length;i++){
                 	pdSpus[i].key=i
                 }
                 yield put({   
                     type: 'spulist',
-                    payload:pdSpus
+                    payload:{pdSpus:pdSpus,total:total}
                 });
             }else{
                  message.error(result.message);
