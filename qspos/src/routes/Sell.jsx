@@ -454,13 +454,17 @@ class EditableTable extends React.Component {
             return 'table_white'
         }
     }
+
+
+
     render() {
         const { dataSource } = this.state;
         const columns = this.columns;
         const userSales=this.props.userSales
+
         return (
         <div>
-            <Table bordered dataSource={this.props.userSales} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+            <Table bordered dataSource={this.props.touserSales} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
         </div>
         )
     }
@@ -483,7 +487,8 @@ function Sellorder({qposStSaleOrders,dispatch}) {
 class Sellclerk extends React.Component {
     state={
         totlo:[],
-        userSales:[]
+        userSales:[],
+        touserSales:[]
     }
     initdataspuce=(values)=>{
          const result=GetServerData('qerp.web.qpos.st.user.sale.query',values)
@@ -492,17 +497,28 @@ class Sellclerk extends React.Component {
                 }).then((json) => {
                     console.log(json)
                     if(json.code=='0'){
-                       // let totalUserSaledatas=json.totalUserSale
-                       // let userSalesdatas=json.userSales
-                       // console.log(userSalesdatas)
-                       // var totlo=userSalesdatas
-                       // console.log(totlo)
-                       // totlo.push(totalUserSaledatas)
-                        //console.log(totlo)
+                            const userSales=json.userSales
+                            const totalUserSale=json.totalUserSale
+                            var touserSales=userSales
+                            let totlo={}
+                            totlo.nickname='合计'
+                            totlo.amount=totalUserSale.amount
+                            totlo.icAmount=totalUserSale.icAmount
+                            totlo.orderQty=totalUserSale.orderQty
+                            totlo.wechatAmount=totalUserSale.wechatAmount
+                            totlo.alipayAmount=totalUserSale.alipayAmount
+                            totlo.unionpayAmount=totalUserSale.unionpayAmount
+                            totlo.cashAmount=totalUserSale.cashAmount
+                            totlo.cardChargeAmount=totalUserSale.cardChargeAmount
+                            totlo.cardConsumeAmount=totalUserSale.cardConsumeAmount
+                            totlo.pointAmount=totalUserSale.pointAmount
+                            totlo.refundAmount=totalUserSale.refundAmount
+                            totlo.key=-1
+                            touserSales.push(totlo)
                         this.setState({
-                            // totlo:totlo,
                             userSales:json.userSales,
-                            totalUserSale:json.totalUserSale
+                            totalUserSale:json.totalUserSale,
+                            touserSales:touserSales
                         })
                     }else{  
                         message.error(json.message) 
@@ -522,7 +538,7 @@ class Sellclerk extends React.Component {
                         <div className='fl'><EchartsPie userSales={this.state.userSales}/></div>
                     </div>
                     <p style={tit}>详细数据</p>
-                    <EditableTable userSales={this.state.userSales}/>
+                    <EditableTable touserSales={this.state.touserSales}/>
                 </div>
             </div>
         )

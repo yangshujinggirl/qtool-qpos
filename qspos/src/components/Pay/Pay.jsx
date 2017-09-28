@@ -33,7 +33,7 @@ class Pay extends React.Component {
             name:'会员卡',
             value:''
         },
-        totolamount:'',
+        totolamount:'',//总金额
         backmoney:0,
         listarrs:[
                 {name:'微信',style:'list',disabled:false},
@@ -54,7 +54,9 @@ class Pay extends React.Component {
         datatotalamount:'0.00',
         datajifen:0,
         warning:false,
-        text:''
+        text:'',
+        membermoney:'' ,//会员卡金额
+        pointmoney:''//积分金额
     }
 
     //接收函数
@@ -145,13 +147,16 @@ class Pay extends React.Component {
                 visible: true,
                 group:false,
                 paynext:payinput,
-                totolamount:data.totalamount,
+                totolamount:data.totalamount, 
                 backmoney:backmoney,
                 listarrs:listarrs,
                 type:1,
                 usetype:true,
                 warning:false,
-                text:''
+                text:'',
+                membermoney:data.memberinfo,
+                pointmoney:null
+
             },function(){
                 this.listclick(4)
             });
@@ -176,7 +181,9 @@ class Pay extends React.Component {
                 type:2,
                 usetype:true,
                 warning:true,
-                text:'会员卡余额不足，请组合其他付款方式'
+                text:'会员卡余额不足，请组合其他付款方式',
+                membermoney:data.memberinfo,
+                pointmoney:null
               },function(){
                 this.listclick(4)
             })
@@ -200,7 +207,9 @@ class Pay extends React.Component {
                 type:3,
                 usetype:true,
                 warning:false,
-                text:''
+                text:'',
+                membermoney:null,
+                pointmoney:data.integral
             },function(){
                 this.listclick(5)
             });
@@ -224,7 +233,9 @@ class Pay extends React.Component {
                 type:4,
                 usetype:true,
                 warning:true,
-                text:'积分低值余额不足，请组合其他付款方式'
+                text:'积分低值余额不足，请组合其他付款方式',
+                membermoney:null,
+                pointmoney:data.integral
             },function(){
                 this.listclick(5)
             })
@@ -252,7 +263,9 @@ class Pay extends React.Component {
                 type:5,
                 usetype:true,
                 warning:false,
-                text:''
+                text:'',
+                membermoney:null,
+                pointmoney:null
             },function(){
                 this.listclick(0)
             });
@@ -393,6 +406,28 @@ class Pay extends React.Component {
                     payfirst.value=this.state.paysecond.value
                     paysecond.name=listarrs[this.lists[1]].name
                     paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    if(payfirst.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
+                        payfirst.value=this.state.membermoney,
+                        paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    }
+                    if(payfirst.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
+                        payfirst.value=this.state.pointmoney
+                        paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    }
+
+
+
+                    if(paysecond.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
+                        paysecond.value=this.state.membermoney
+                        payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    }
+                    if(paysecond.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
+                        paysecond.value=this.state.pointmoney
+                        payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    }
+                   
+
+
                     this.setState({
                         listarrs:listarrs,
                         payfirst:payfirst,
@@ -405,9 +440,37 @@ class Pay extends React.Component {
             }
         }else{
             console.log(this.lists)
+            //重复点击处理
+            const payfirst=this.state.payfirst
+                const paysecond=this.state.paysecond
+                if(this.lists[0]<0){
+                    listarrs[this.lists[1]].style='listoff'
+                    paysecond.name=listarrs[this.lists[1]].name
+                    paysecond.value=this.state.paynext.value
+                    this.setState({
+                        listarrs:listarrs,
+                        paysecond:paysecond,
+                        warning:false,
+                        text:''
+                    })
+                }else{
+                    listarrs[this.lists[0]].style='listoff'
+                    listarrs[this.lists[1]].style='listoff'
+                    payfirst.name=listarrs[this.lists[0]].name
+                    payfirst.value=this.state.paysecond.value
+                    paysecond.name=listarrs[this.lists[1]].name
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    this.setState({
+                        listarrs:listarrs,
+                        payfirst:payfirst,
+                        paysecond:paysecond,
+                        backmoney:'0.00',
+                        warning:false,
+                        text:''
+                    })
+                }
+
         }
-
-
 
         }else{
             //非组合支付
@@ -418,15 +481,30 @@ class Pay extends React.Component {
             const payinput=this.state.paynext
             payinput.name=listarrs[this.lists[1]].name
             payinput.value=this.state.totolamount
+            if(payinput.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
+                payinput.value=this.state.membermoney
+            }
+            if(payinput.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
+                payinput.value=this.state.pointmoney
+            }
             const paysecond=this.state.paysecond
             paysecond.name=listarrs[this.lists[1]].name
             paysecond.value=this.state.paynext.value
+            if(paysecond.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
+                paysecond.value=this.state.membermoney
+            }
+            if(paysecond.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
+                paysecond.value=this.state.pointmoney
+            }
+            //计算找零
+            const backmoney=this.backmoneymeth(this.state.totolamount,this.state.paynext.value,0)
             this.setState({
                 listarrs:listarrs,
                 paynext:payinput,
                 paysecond:paysecond,
                 warning:false,
-                text:''
+                text:'',
+                backmoney:backmoney
             }) 
         }
     }
