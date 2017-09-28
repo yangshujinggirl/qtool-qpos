@@ -1001,15 +1001,19 @@ class Cashier extends React.Component {
 
     handleokent=(e)=>{
         console.log(e.keyCode)
-        //空格
+        console.log(this)
         if(e.keyCode=='32'){
-           var totalamount=this.totalamount
+            const visible=this.refs.pay.state.visible
+            if(visible){
+                //结算按钮
+               const hindpayclick=this.refs.pay.hindpayclick
+               hindpayclick()
+            }else{
+               
+                //出弹窗
+                var totalamount=this.totalamount
            var integral=this.integral
            var memberinfo=this.memberinfo
-           console.log(totalamount)
-           console.log(integral)
-           console.log(memberinfo)
-
            if(totalamount==0 || totalamount<0){
                 message.warning('商品数量为0，不能结算')
            }else{
@@ -1067,6 +1071,24 @@ class Cashier extends React.Component {
 
                         }
                     }
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           
 
         }
         // tap

@@ -347,11 +347,13 @@ class Pay extends React.Component {
     handleOk = (e) => {
         this.setState({
           visible: false,
+          nozero:false
         });
     }
     handleCancel = (e) => {
         this.setState({
           visible: false,
+          nozero:false
         });
     }
   //js判断是否在数组中
@@ -594,7 +596,7 @@ class Pay extends React.Component {
                                 payAmount:this.state.datatotalamount,
                                 qty:this.state.datanumber,
                                 skuQty:this.state.datadatasoucerlength,
-                                cutAmount:this.state.cutAmount
+                                cutAmount:this.state.cutAmount,
                             },
                             orderDetails:this.state.datadatasoucer,
                             orderPay:orderPay
@@ -730,10 +732,21 @@ class Pay extends React.Component {
                     cutAmount:'0.'+sp
                 })
             }else{
-                const paynextvalue=this.state.paynext.value
+                //判断第二个输入框是会员还是积分还是其他
+                const paynextvalue=this.state.paynext
+                paynextvalue.value=totolamount
+                if(paynextvalue.name=='会员卡'){
+                    paynextvalue.value=this.state.membermoney
+                }
+                if(paynextvalue.name=='积分'){
+                    paynextvalue.value=this.state.pointmoney
+                }
+
+
                 this.setState({
                     totolamount:totolamount,
-                    backmoney:this.backmoneymeth(totolamount,paynextvalue,0),
+                    paynext:paynextvalue,
+                    backmoney:this.backmoneymeth(totolamount,paynextvalue.value,0),
                     cutAmount:'0.'+sp
                 })
             }
@@ -817,7 +830,7 @@ class Pay extends React.Component {
         	         	}
                  		<Input  addonBefore='找零' style={lh} value={this.state.backmoney} onChange={this.backmoney.bind(this)} disabled/>
                  		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>
-                        <Button style={lhs} className='tc mt25' onClick={this.hindpayclick.bind(this)} onKeyUp={this.hindpay.bind(this)}>结算<p className='iconk'>「回车键」</p></Button>
+                        <Button style={lhs} className='tc mt25' onClick={this.hindpayclick.bind(this)} onKeyUp={this.hindpay.bind(this)}>结算<p className='iconk'>「空格键」</p></Button>
                	 	</div>
                     <div className='fr' style={{width:'274px'}}>
                         <div>
