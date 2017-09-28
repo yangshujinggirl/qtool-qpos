@@ -79,6 +79,7 @@ class Pay extends React.Component {
             })
         }
         if(messagedata.type==4){
+            console.log(messagedata)
             //数量和总额
             this.setState({
                 datanumber:messagedata.data,
@@ -94,6 +95,7 @@ class Pay extends React.Component {
         if(messagedata.type==6){
             //退货datasouce 和订单id odOrderId 会员id 还要计算商品数 
             const redatasouce=messagedata.data
+            console.log(redatasouce)
             const odOrderId=redatasouce[0].odOrderId
             const mbCardId=messagedata.mbCardId
             var renumber=0
@@ -401,7 +403,12 @@ class Pay extends React.Component {
                     })
                 } 
             }
+        }else{
+            console.log(this.lists)
         }
+
+
+
         }else{
             //非组合支付
             this.lists=[-1]
@@ -692,6 +699,9 @@ class Pay extends React.Component {
      handprint = (id,type,orderNo) => {
         GetLodop(id,type,orderNo)
     }
+    hindpay=()=>{
+        this.hindpayclick()
+    }
 
 
     render() {
@@ -721,7 +731,7 @@ class Pay extends React.Component {
         	         	}
                  		<Input  addonBefore='找零' style={lh} value={this.state.backmoney} onChange={this.backmoney.bind(this)} disabled/>
                  		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>
-                        <Button style={lhs} className='tc mt25' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button>
+                        <Button style={lhs} className='tc mt25' onClick={this.hindpayclick.bind(this)} onKeyUp={this.hindpay.bind(this)}>结算<p className='iconk'>「回车键」</p></Button>
                	 	</div>
                     <div className='fr' style={{width:'274px'}}>
                         <div>

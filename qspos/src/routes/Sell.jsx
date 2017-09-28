@@ -136,29 +136,61 @@ class Slidecountsell extends React.Component {
                             }
                         </li>
                         {
-                            this.state.orOrderPay.length>0
+
+                            this.state.mbCard==null || undefined || '' 
                             ?
-                            (
-                                this.state.orOrderPay.length>1
-                                ?
-                                <li style={{borderBottom:'0'}}>
-                                    <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
-                                    <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                    <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
-                                </li>
-                                :
-                                <li style={{borderBottom:'0'}}>
-                                    <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
-                                    <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                    <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
-                                </li>
-                            )
+                                (
+                                    this.state.orOrderPay.length>0
+                            ?
+                                (
+                                    this.state.orOrderPay.length>1
+                                    ?
+                                    <li style={{borderBottom:'0'}}>
+                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
+                                    </li>
+                                    :
+                                    <li style={{borderBottom:'0'}}>
+                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
+                                    </li>
+                                )
                             :
-                            <li style={{borderBottom:'0'}}>
-                                    <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
-                                    <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                    <p><div><span>结算收银</span>：{this.state.odOrder.amount}</div></p>
-                            </li>
+                                <li style={{borderBottom:'0'}}>
+                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}</div></p>
+                                </li>
+                                )
+                            :
+                            (
+                                this.state.orOrderPay.length>0
+                            ?
+                                (
+                                    this.state.orOrderPay.length>1
+                                    ?
+                                    <li style={{borderBottom:'0'}}>
+                                        <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
+                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
+                                    </li>
+                                    :
+                                    <li style={{borderBottom:'0'}}>
+                                        <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
+                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
+                                    </li>
+                                )
+                            :
+                                <li style={{borderBottom:'0'}}>
+                                        <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
+                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}</div></p>
+                                </li>
+                                )
+
+
+
+                            
 
                         }
                     </ul>
@@ -341,23 +373,28 @@ class Perdontime extends React.Component {
         this.props.initdataspuce(values)
     }
     render() {
-        let d=new Date();
-        let year=d.getFullYear();
-        let month=d.getMonth()+1
-        let data=d.getDate()
-        let datas=data-1
-        let today=year+'-'+ month + '-'+data
-        let yesterday=year+'-'+ month + '-'+datas
+        let d= new Date()
+         d.setDate(d.getDate()-1)
+         let dy=d.getFullYear() //年
+         let dm=d.getMonth()+1//月
+         let dd=d.getDate()//日
+         let dds=d.getDate()+1//日
+         let b=dy+'-'+dm+'-'+dds
+         let a=dy+'-'+dm+'-'+dd
         return(
             <div className='fr mr30 mt20 clearfix'>
                 <div className='mr10 fl h40'>选择时间</div>
                     <RangePicker 
-                        defaultValue={[moment(yesterday, dateFormat), moment(today, dateFormat)]} 
+                        defaultValue={[moment(a, dateFormat), moment(b, dateFormat)]}
                         format={dateFormat} 
                         style={{width:'200px',height:'40px'}} 
                         className='fl'
                         onChange={this.onChange.bind(this)}
+                        format="YYYY-MM-DD"
+                        showTime
                     />
+
+                    
             </div>
             )
     }
@@ -420,9 +457,10 @@ class EditableTable extends React.Component {
     render() {
         const { dataSource } = this.state;
         const columns = this.columns;
+        const userSales=this.props.userSales
         return (
         <div>
-            <Table bordered dataSource={this.props.totlo} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+            <Table bordered dataSource={this.props.userSales} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
         </div>
         )
     }
@@ -454,15 +492,15 @@ class Sellclerk extends React.Component {
                 }).then((json) => {
                     console.log(json)
                     if(json.code=='0'){
-                       let totalUserSaledatas=json.totalUserSale
-                       let userSalesdatas=json.userSales
-                       console.log(userSalesdatas)
-                       var totlo=userSalesdatas
-                       console.log(totlo)
-                       totlo.push(totalUserSaledatas)
-                        console.log(totlo)
+                       // let totalUserSaledatas=json.totalUserSale
+                       // let userSalesdatas=json.userSales
+                       // console.log(userSalesdatas)
+                       // var totlo=userSalesdatas
+                       // console.log(totlo)
+                       // totlo.push(totalUserSaledatas)
+                        //console.log(totlo)
                         this.setState({
-                            totlo:totlo,
+                            // totlo:totlo,
                             userSales:json.userSales,
                             totalUserSale:json.totalUserSale
                         })
@@ -484,15 +522,23 @@ class Sellclerk extends React.Component {
                         <div className='fl'><EchartsPie userSales={this.state.userSales}/></div>
                     </div>
                     <p style={tit}>详细数据</p>
-                    <EditableTable totlo={this.state.totlo}/>
+                    <EditableTable userSales={this.state.userSales}/>
                 </div>
             </div>
         )
     }
     componentDidMount(){
+         let d= new Date()
+         d.setDate(d.getDate()-1)
+         let dy=d.getFullYear() //年
+         var dm=("0" + (d.getMonth() + 1)).slice(-2);
+         var dd=("0"+d.getDate()).slice(-2);
+         var dds=("0"+d.getDate()+1).slice(-2);
+         let b=dy+'-'+dm+'-'+dds
+         let a=dy+'-'+dm+'-'+dd
         let values={
-            dateStart:'2017-09-04',
-            dateEnd:'2017-09-05'
+            dateStart:a,
+            dateEnd:b
         }
         this.initdataspuce(values)
     }

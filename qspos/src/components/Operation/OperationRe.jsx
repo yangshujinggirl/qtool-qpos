@@ -32,7 +32,6 @@ class Modales extends React.Component {
 					visible: false,
 				},function(){
 					this.props.searchmemberinfo()
-                    //打印
                     this.chargeInfo(json.mbCardMoneyChargeId)
 				});
             }else{  
@@ -52,6 +51,7 @@ class Modales extends React.Component {
                     if(json.code=='0'){
                         //打印
                             this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
+                            message.success('充值成功')
                         }else{   
                             message.warning(json.message)
                         }

@@ -191,9 +191,13 @@ class EditableTable extends React.Component {
         })
     }
     qtyblur=(index)=>{
+        //里面的正整数
+        var r = /^\+?[1-9][0-9]*$/;
         let changedataSource=this.state.dataSource
-        if(changedataSource[index].qty<changedataSource[index].inventory || changedataSource[index].qty==changedataSource[index].inventory){
-            changedataSource[index].payPrice=this.payPrice(changedataSource[index].toCPrice,changedataSource[index].qty,changedataSource[index].discount)
+        if(Number(changedataSource[index].qty)<=Number(changedataSource[index].inventory)){
+            //判断是否为正整数
+            if(r.test(Number(changedataSource[index].qty))){
+                changedataSource[index].payPrice=this.payPrice(changedataSource[index].toCPrice,changedataSource[index].qty,changedataSource[index].discount)
             this.setState({
                 dataSource:changedataSource
             },function(){
@@ -203,11 +207,7 @@ class EditableTable extends React.Component {
                 data:this.state.dataSource
             }
             revisedata(messages)
-           
-
-
-
-                const dataSources=this.state.dataSo
+                const dataSources=this.state.dataSource
                 var quantity=0
                 var totalamount=0
                 var integertotalamount=0
@@ -220,8 +220,62 @@ class EditableTable extends React.Component {
                 this.props.clearingdata(quantity,totalamount)
                 this.props.clearingdatal(integertotalamount)
             })
+
+            }else{
+                changedataSource[index].qty=1
+                changedataSource[index].payPrice=this.payPrice(changedataSource[index].toCPrice,changedataSource[index].qty,changedataSource[index].discount)
+                this.setState({
+                    dataSource:changedataSource
+                },function(){
+                const revisedata=this.props.revisedata
+                let messages={
+                    type:1,
+                    data:this.state.dataSource
+                }
+                revisedata(messages)
+                const dataSources=this.state.dataSo
+                var quantity=0
+                var totalamount=0
+                var integertotalamount=0
+                    for(var i=0;i<dataSources.length;i++){
+                        quantity=quantity+Number(dataSources[i].qty)
+                        totalamount=totalamount+parseFloat(dataSources[i].payPrice) //计算出来的真实值，number
+                    }
+                    integertotalamount=Math.round(totalamount) //四舍五入取整
+                    totalamount=totalamount.toFixed(2)//取两位小数，字符串
+                    this.props.clearingdata(quantity,totalamount)
+                    this.props.clearingdatal(integertotalamount)
+                })
+                message.warning('数量智能是大于等于0的整数')
+
+            }
         }else{
-            message.error('库存不够')
+            //大于库存
+            changedataSource[index].qty=changedataSource[index].inventory
+                changedataSource[index].payPrice=this.payPrice(changedataSource[index].toCPrice,changedataSource[index].qty,changedataSource[index].discount)
+            this.setState({
+                dataSource:changedataSource
+            },function(){
+                const revisedata=this.props.revisedata
+            let messages={
+                type:1,
+                data:this.state.dataSource
+            }
+            revisedata(messages)
+                const dataSources=this.state.dataSource
+                var quantity=0
+                var totalamount=0
+                var integertotalamount=0
+                for(var i=0;i<dataSources.length;i++){
+                    quantity=quantity+Number(dataSources[i].qty)
+                    totalamount=totalamount+parseFloat(dataSources[i].payPrice) //计算出来的真实值，number
+                }
+                integertotalamount=Math.round(totalamount) //四舍五入取整
+                totalamount=totalamount.toFixed(2)//取两位小数，字符串
+                this.props.clearingdata(quantity,totalamount)
+                this.props.clearingdatal(integertotalamount)
+            })
+            message.warning('库存不够')
         }
     }
     discountonchange=(index,e)=>{
@@ -388,7 +442,6 @@ class EditableTable extends React.Component {
                 data:this.state.dataSource
             }
             revisedata(messages)
-           
                     const dataSources=this.state.dataSource
                     var quantity=0
                     var totalamount=0
@@ -687,9 +740,7 @@ class EditableTable extends React.Component {
             var i=this.isInArray(datasouces,messages.barCode)
             console.log(i)
             if(i===false){
-                //没匹配到
-                 console.log(22)
-                    //匹配到,请求数据，插入第一行，并高亮
+                    //没匹配到,请求数据，插入第一行，并高亮
                     const result=GetServerData('qerp.pos.pd.spu.find',messages)
                     result.then((res) => {
                         return res;
@@ -730,15 +781,13 @@ class EditableTable extends React.Component {
                                     this.props.clearingdatal(integertotalamount)
                                 })
                             }else{
-                                message.error('库存不够')
+                                message.error('该条码无库存')
                             }   
                         }else{  
-                            console.log(code.message)   
+                            message.warning(json.message)
                         }
                     })
             }else{
-                 //没匹配到
-                console.log(11)
                     //匹配到了
                     datasouces[i].qty=Number(datasouces[i].qty)+1
                     //库存判断
@@ -772,7 +821,40 @@ class EditableTable extends React.Component {
                             this.props.clearingdatal(integertotalamount)
                         })
                     }else{
+                        datasouces[i].qty=Number(datasouces[i].qty)-1
+                        datasouces[i].payPrice=this.payPrice(datasouces[i].toCPrice,datasouces[i].qty,datasouces[i].discount)
+                        let str = datasouces.splice(i,1); //删除当前
+                        datasouces.unshift(str[0]); //把这个元素添加到开头
+                        this.setState({
+                            index:0,
+                            dataSource:datasouces
+                        },function(){
+                            const revisedata=this.props.revisedata
+                            let messages={
+                                type:1,
+                                data:this.state.dataSource
+                            }
+                            revisedata(messages)
+                           
+                            const dataSources=this.state.dataSource
+       
+                            var quantity=0
+                            var totalamount=0
+                            var integertotalamount=0
+                            for(var i=0;i<dataSources.length;i++){
+                                quantity=quantity+Number(dataSources[i].qty)
+                                totalamount=totalamount+parseFloat(dataSources[i].payPrice) //计算出来的真实值，number
+                            }
+                            integertotalamount=Math.round(totalamount) //四舍五入取整
+                            totalamount=totalamount.toFixed(2)//取两位小数，字符串
+                            this.props.clearingdata(quantity,totalamount)
+                            this.props.clearingdatal(integertotalamount)
+                        })
+
+
                         message.error('库存不够')
+
+
                     } 
             }   
         }else{
@@ -1022,6 +1104,8 @@ class Cashier extends React.Component {
 
     }
     clearingdata=(messages,totalamount)=>{
+        console.log(messages)
+        console.log(totalamount)
         const clearingdatas=this.refs.opera.clearingdatas
         clearingdatas(messages,totalamount)
     }

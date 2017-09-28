@@ -206,7 +206,7 @@ class Operationr extends React.Component {
 			
 		},function(){
             this.props.Backemoney(this.state.totalamount)
-            this.props.revisedata({type:4,data:this.state.quantity,totalamount:this.state.quantity})
+            this.props.revisedata({type:4,data:this.state.quantity,totalamount:this.state.totalamount})
         })
 	}
 
@@ -261,8 +261,9 @@ class Modales extends React.Component {
      							 visible: false,
     						},function(){
     							this.props.searchmemberinfo()
+                                message.success('充值成功')
                                 //打印
-                                this.handprint(json.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeNo)
+                                //this.handprint(json.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeNo)
     						});
                         }else{   
                             message.warning(json.message)

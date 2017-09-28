@@ -16,11 +16,17 @@ const a='1000'
 class EchartsPie extends React.Component {
     render(){
             const userSalesd=this.props.userSales
+            console.log(userSalesd)
             var datarow=[]
             var dataclum=[]
             for(var i=0;i<userSalesd.length;i++){
                 datarow.push(userSalesd[i].nickname)
-                dataclum.push(userSalesd[i].amount)
+                dataclum.push(
+                        {
+                            value:userSalesd[i].amount,name:userSalesd[i].nickname
+
+                        }
+                    )
             }
             const option = {
                 title: {
@@ -35,7 +41,7 @@ class EchartsPie extends React.Component {
                     orient: 'vertical',
                     x: '50%',
                     y:'30%',
-                    data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+                    data:datarow
                 },
                 series: [
                     {
@@ -61,13 +67,7 @@ class EchartsPie extends React.Component {
                                 show: false
                             }
                         },
-                        data:[
-                            {value:335, name:'直接访问'},
-                            {value:310, name:'邮件营销'},
-                            {value:234, name:'联盟广告'},
-                            {value:135, name:'视频广告'},
-                            {value:1548, name:'搜索引擎'}
-                        ],
+                        data:dataclum,
                         center:['20%','60%']
                     },
 

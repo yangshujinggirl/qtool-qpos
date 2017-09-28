@@ -29,7 +29,7 @@ class EditableTable extends React.Component {
         },{
             title: '零售价',
             width:'10%',
-            dataIndex: 'toCPrice'
+            dataIndex: 'price'
         },{
             title: '数量',
             width:'10%',
@@ -209,25 +209,54 @@ class EditableTable extends React.Component {
             dataSource:changedataSource
         })
     }
+
+
     qtyblur=(index)=>{
+        var r = /^\+?[1-9][0-9]*$/;
         let changedataSource=this.state.dataSource
         console.log(changedataSource)
-        if(Number(changedataSource[index].qty)<Number(changedataSource[index].inventory) || changedataSource[index].qty==changedataSource[index].inventory){
-            changedataSource[index].payPrice=this.payPrice(changedataSource[index].toCPrice,changedataSource[index].qty,changedataSource[index].discount)
-            this.setState({
-                dataSource:changedataSource
-            },function(){
-            	this.uptotaldata()
-                if(this.state.ismbCard){
-                            this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                }else{
-                            this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                }
-            })
+        if(Number(changedataSource[index].qty)<=Number(changedataSource[index].inventory)){
+            if(r.test(Number(changedataSource[index].qty))){
+                //如果是正整数
+                changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+                    this.setState({
+                        dataSource:changedataSource
+                    },function(){
+                            this.uptotaldata()
+                            if(this.state.ismbCard){
+                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+                            }else{
+                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+                            }
+                })
+            }else{
+                //如果非整数
+                changedataSource[index].qty=1
+                changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+                    this.setState({
+                        dataSource:changedataSource
+                    },function(){
+                            this.uptotaldata()
+                            if(this.state.ismbCard){
+                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+                            }else{
+                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+                            }
+                })
+
+                    message.warning('数量只能是大于等于0的整数')
+
+            }
+
+
+            
         }else{
-            message.error('库存不够')
+            message.warning('数量不能大于销售数量')
         }
     }
+
+
+
     discountonchange=(index,e)=>{
         let changedataSource=this.state.dataSource
         changedataSource[index].discount=e.target.value
@@ -238,12 +267,13 @@ class EditableTable extends React.Component {
     discountblur=(index)=>{
     	let changedataSource=this.state.dataSource
     	if(changedataSource[index].discount>0 || changedataSource[index].discount==0){
-    		changedataSource[index].payPrice=this.payPrice(changedataSource[index].toCPrice,changedataSource[index].qty,changedataSource[index].discount)
+    		changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
     		this.setState({
     			dataSource:changedataSource
     		},function(){
     			this.uptotaldata()
                 if(this.state.ismbCard){
+                        console.log(this.state.isdataSource)
                         this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
                 }else{
                         this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
@@ -251,7 +281,7 @@ class EditableTable extends React.Component {
     		})
     	}else{
     		changedataSource[index].discount=0
-    		changedataSource[index].payPrice=this.payPrice(changedataSource[index].toCPrice,changedataSource[index].qty,changedataSource[index].discount)
+    		changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
     		this.setState({
     			dataSource:changedataSource
     		},function(){
@@ -273,7 +303,7 @@ class EditableTable extends React.Component {
         if(parseFloat(changedataSource[index].payPrice)<0){
             changedataSource[index].payPrice=0 
         }
-    	changedataSource[index].discount=this.discount(changedataSource[index].toCPrice,changedataSource[index].qty,changedataSource[index].payPrice)
+    	changedataSource[index].discount=this.discount(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].payPrice)
     	changedataSource[index].payPrice=parseFloat(changedataSource[index].payPrice).toFixed(2)
     		this.setState({
     			dataSource:changedataSource
