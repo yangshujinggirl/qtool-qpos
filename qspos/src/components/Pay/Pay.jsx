@@ -56,7 +56,8 @@ class Pay extends React.Component {
         warning:false,
         text:'',
         membermoney:'' ,//会员卡金额
-        pointmoney:''//积分金额
+        pointmoney:'',//积分金额,
+        cutAmount:0
     }
 
     //接收函数
@@ -364,15 +365,15 @@ class Pay extends React.Component {
     }
     //点击不同支付方式
     listclick=(index)=>{
-        if(index==0){
-            this.setState({
-                nonezero:false
-            })
-        }else{
-            this.setState({
-                nonezero:true
-            })
-        }
+        // if(index==0){
+        //     this.setState({
+        //         nonezero:false
+        //     })
+        // }else{
+        //     this.setState({
+        //         nonezero:true
+        //     })
+        // }
         const listarrs=this.state.listarrs
         for(var i=0;i<listarrs.length;i++){
             if(listarrs[i].disabled==false){
@@ -592,7 +593,8 @@ class Pay extends React.Component {
                                 orderPoint:this.state.datajifen,
                                 payAmount:this.state.datatotalamount,
                                 qty:this.state.datanumber,
-                                skuQty:this.state.datadatasoucerlength
+                                skuQty:this.state.datadatasoucerlength,
+                                cutAmount:this.state.cutAmount
                             },
                             orderDetails:this.state.datadatasoucer,
                             orderPay:orderPay
@@ -621,7 +623,8 @@ class Pay extends React.Component {
                                 orderPoint:this.state.datajifen,
                                 payAmount:this.state.datatotalamount,
                                 qty:this.state.datanumber,
-                                skuQty:this.state.datadatasoucerlength
+                                skuQty:this.state.datadatasoucerlength,
+                                cutAmount:this.state.cutAmount
                             },
                             orderDetails:this.state.datadatasoucer,
                             orderPay:orderPay
