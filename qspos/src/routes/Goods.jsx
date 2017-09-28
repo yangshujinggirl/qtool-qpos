@@ -19,7 +19,7 @@ class Searchcomponent extends React.Component {
         },function(){
             this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:100000,currentPage:0} }
             })
         })  
     }

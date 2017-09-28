@@ -57,7 +57,8 @@ class Pay extends React.Component {
         text:'',
         membermoney:'' ,//会员卡金额
         pointmoney:'',//积分金额,
-        cutAmount:'0'
+        cutAmount:'0',
+        waringfirst:true
     }
 
     //接收函数
@@ -347,13 +348,15 @@ class Pay extends React.Component {
     handleOk = (e) => {
         this.setState({
           visible: false,
-          nozero:false
+          nozero:false,
+          waringfirst:true
         });
     }
     handleCancel = (e) => {
         this.setState({
           visible: false,
-          nozero:false
+          nozero:false,
+          waringfirst:true
         });
     }
   //js判断是否在数组中
@@ -396,12 +399,29 @@ class Pay extends React.Component {
                     listarrs[this.lists[1]].style='listoff'
                     paysecond.name=listarrs[this.lists[1]].name
                     paysecond.value=this.state.paynext.value
-                    this.setState({
-                        listarrs:listarrs,
-                        paysecond:paysecond,
-                        warning:false,
-                        text:''
-                    })
+                    
+                    if(this.state.waringfirst){
+                            this.setState({
+                                listarrs:listarrs,
+                                paysecond:paysecond,
+                                warning:true,
+                                waringfirst:false
+                            })
+                    }else{
+                        this.setState({
+                            listarrs:listarrs,
+                            paysecond:paysecond,
+                            warning:false,
+                            waringfirst:false
+                        })
+                    }
+
+
+                    
+
+
+
+
                 }else{
                     listarrs[this.lists[0]].style='listoff'
                     listarrs[this.lists[1]].style='listoff'
@@ -422,23 +442,34 @@ class Pay extends React.Component {
 
                     if(paysecond.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
                         paysecond.value=this.state.membermoney
-                        payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                        payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
                     }
                     if(paysecond.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
                         paysecond.value=this.state.pointmoney
-                        payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                        payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
                     }
-                   
+                   if(this.state.waringfirst){
+                        this.setState({
+                            listarrs:listarrs,
+                            payfirst:payfirst,
+                            paysecond:paysecond,
+                            backmoney:'0.00',
+                            warning:true,
+                            waringfirst:false
+                        })
+                   }else{
+                         this.setState({
+                            listarrs:listarrs,
+                            payfirst:payfirst,
+                            paysecond:paysecond,
+                            backmoney:'0.00',
+                            warning:false,
+                            waringfirst:false
+                        })
+                   }
 
 
-                    this.setState({
-                        listarrs:listarrs,
-                        payfirst:payfirst,
-                        paysecond:paysecond,
-                        backmoney:'0.00',
-                        warning:false,
-                        text:''
-                    })
+                    
                 } 
             }
         }else{
@@ -450,12 +481,26 @@ class Pay extends React.Component {
                     listarrs[this.lists[1]].style='listoff'
                     paysecond.name=listarrs[this.lists[1]].name
                     paysecond.value=this.state.paynext.value
-                    this.setState({
-                        listarrs:listarrs,
-                        paysecond:paysecond,
-                        warning:false,
-                        text:''
-                    })
+                    if(this.state.waringfirst){
+                        this.setState({
+                            listarrs:listarrs,
+                            paysecond:paysecond,
+                            warning:true,
+                            waringfirst:false
+                        })
+
+
+                    }else{
+                        this.setState({
+                            listarrs:listarrs,
+                            paysecond:paysecond,
+                            warning:false,
+                            waringfirst:false
+                        })
+                    }
+
+
+                    
                 }else{
                     listarrs[this.lists[0]].style='listoff'
                     listarrs[this.lists[1]].style='listoff'
@@ -463,14 +508,28 @@ class Pay extends React.Component {
                     payfirst.value=this.state.paysecond.value
                     paysecond.name=listarrs[this.lists[1]].name
                     paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
-                    this.setState({
-                        listarrs:listarrs,
-                        payfirst:payfirst,
-                        paysecond:paysecond,
-                        backmoney:'0.00',
-                        warning:false,
-                        text:''
-                    })
+                    if(this.state.waringfirst){
+                        this.setState({
+                            listarrs:listarrs,
+                            payfirst:payfirst,
+                            paysecond:paysecond,
+                            backmoney:'0.00',
+                            warning:true,
+                            waringfirst:false
+                        })
+                    }else{
+                        this.setState({
+                            listarrs:listarrs,
+                            payfirst:payfirst,
+                            paysecond:paysecond,
+                            backmoney:'0.00',
+                            warning:false,
+                            waringfirst:false
+                        })
+                    }
+
+
+                    
                 }
 
         }
@@ -501,14 +560,25 @@ class Pay extends React.Component {
             }
             //计算找零
             const backmoney=this.backmoneymeth(this.state.totolamount,this.state.paynext.value,0)
-            this.setState({
-                listarrs:listarrs,
-                paynext:payinput,
-                paysecond:paysecond,
-                warning:false,
-                text:'',
-                backmoney:backmoney
-            }) 
+            if(this.state.waringfirst){
+                this.setState({
+                    listarrs:listarrs,
+                    paynext:payinput,
+                    paysecond:paysecond,
+                    warning:false,
+                    backmoney:backmoney,
+                    waringfirst:false
+                }) 
+            }else{
+                this.setState({
+                    listarrs:listarrs,
+                    paynext:payinput,
+                    paysecond:paysecond,
+                    warning:false,
+                    backmoney:backmoney,
+                    waringfirst:false
+                }) 
+            }
         }
     }
     connectclick=()=>{
@@ -565,9 +635,12 @@ class Pay extends React.Component {
     }
     //结算
     hindpayclick=()=>{
+        console.log('spay')
         //判断是收银结算还是退货结算
         const usetype=this.state.usetype
         if(usetype){
+            console.log(usetype)
+            console.log('spay1')
             //判断能不能支付
             // 1.如果支付金额小于总额，总额等于0，不能支付
             // 2.支付方式没有选择，不能支付
@@ -578,6 +651,7 @@ class Pay extends React.Component {
                 //不能结算
                 message.warning('支付数据有错误，不能支付');
             }else{
+                console.log(list[0])
                 if(list[0]<0){
                     if(parseFloat(this.state.paynext.value)< parseFloat(this.state.totolamount)){
                         //不能支付
@@ -603,9 +677,11 @@ class Pay extends React.Component {
                         }
                         //数据请求
                         this.paying(values)
+                        console.log('sapy2')
                     }
                 }
-                if(list[0]>0){
+                if(list[0]>0 || list[0]==0){
+                    console.log('sapy3')
                     const totol=parseFloat(this.state.payfirst.value)+parseFloat(this.state.paysecond.value)
                     if(totol< parseFloat(this.state.totolamount)){
                         //不能支付

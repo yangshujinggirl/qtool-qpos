@@ -169,7 +169,7 @@ class Operationls extends React.Component {
 	    				<div className='clearfix cashierbox_t'><div className='fl'><span className='c74'>会员姓名</span><span className='c38 ml10'>{this.state.name}</span></div><div className='fr'><span className='themecolor mr10'>{this.state.levelStr}</span><span className='mr10'>{this.state.isBirthMonth?'| 生日':null}</span></div></div>
 	    				<div className='clearfix f14 posion cashierbox_b'>
 	    					<div className='fl tc mt10'><p className='c74 clearfix'><div className='fl'>余额</div><div className='rechargebtn'><Modales name={this.state.name} cardNo={this.state.cardNo} amount={this.state.amount} mbCardId={this.state.mbCardId} searchmemberinfo={this.searchmemberinfo.bind(this)}/></div></p><p className='c38'>{this.state.amount}</p></div>
-	    					<div className='fr tc mt10'><p className='c74'>本次积分</p><p className='c38'>{this.state.integertotalamount}</p></div>
+	    					<div className='fr tc mt10'><p className='c74'>本次积分</p><p className='c38'>{this.state.mbCardId?this.state.integertotalamount:null}</p></div>
 	    					<div className='w tc mt10'><p className='c74'>剩余积分</p><p className='c38'>{this.state.point}</p></div>
 	    				</div>
 	    			</div>
@@ -390,7 +390,12 @@ class Operation extends React.Component {
         const initdatar=this.refs.cashier.initdatar
         initdatar()
     }
+    hindpayclick=()=>{
+        const showpops=this.props.showpops
+        showpops()
 
+
+    }
 	render() {
 		return(
 			<div className='count clearfix'>
@@ -405,7 +410,7 @@ class Operation extends React.Component {
                                 revisedata={this.props.revisedata}
                             />			
       				</div>
-      				<div className='operationr fr'>
+      				<div className='operationr fr' onClick={this.hindpayclick.bind(this)}>
                         <Operationr color={this.props.color} type={this.props.type} ref='operationr' Backemoney={this.props.Backemoney} revisedata={this.props.revisedata}/>
                     </div>
       			</div>

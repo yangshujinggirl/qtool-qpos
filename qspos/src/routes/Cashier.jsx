@@ -174,8 +174,9 @@ class EditableTable extends React.Component {
     }
 
     qtyonchange=(index,e)=>{
+        var str=e.target.value.replace(/\s+/g,"");  
         let changedataSource=this.state.dataSource
-        changedataSource[index].qty=e.target.value
+        changedataSource[index].qty=str
         this.setState({
             dataSource:changedataSource
         },function(){
@@ -279,8 +280,9 @@ class EditableTable extends React.Component {
         }
     }
     discountonchange=(index,e)=>{
+        var str=e.target.value.replace(/\s+/g,"");  
         let changedataSource=this.state.dataSource
-        changedataSource[index].discount=e.target.value
+        changedataSource[index].discount=str
         this.setState({
             dataSource:changedataSource
         },function(){
@@ -411,8 +413,9 @@ class EditableTable extends React.Component {
         }
     }
     payPriceonchange=(index,e)=>{
+        var str=e.target.value.replace(/\s+/g,"");  
         let changedataSource=this.state.dataSource
-        changedataSource[index].payPrice=e.target.value
+        changedataSource[index].payPrice=str
         this.setState({
             dataSource:changedataSource
         },function(){
@@ -562,7 +565,7 @@ class EditableTable extends React.Component {
             }
             revisedata(messages)
            
-            const dataSources=this.state.dataS
+            const dataSources=this.state.dataSource
             var quantity=0
             var totalamount=0
             var integertotalamount=0
@@ -591,7 +594,7 @@ class EditableTable extends React.Component {
             revisedata(messages)
            
 
-            const dataSources=this.state.dataS
+            const dataSources=this.state.dataSource
             var quantity=0
             var totalamount=0
             var integertotalamount=0
@@ -606,7 +609,9 @@ class EditableTable extends React.Component {
          })
     }
     takein=()=>{
-        let CashierDatasources=eval('('+sessionStorage.CashierDatasource+')')
+        console.log(sessionStorage)
+        if(sessionStorage.CashierDatasource){
+            let CashierDatasources=eval('('+sessionStorage.CashierDatasource+')')
         this.setState({
             dataSource:CashierDatasources,
             index:0
@@ -618,7 +623,7 @@ class EditableTable extends React.Component {
             }
             revisedata(messages)
            
-            const dataSources=this.state.dataS
+            const dataSources=this.state.dataSource
             var quantity=0
             var totalamount=0
             var integertotalamount=0
@@ -630,7 +635,10 @@ class EditableTable extends React.Component {
             totalamount=totalamount.toFixed(2)//取两位小数，字符串
             this.props.clearingdata(quantity,totalamount)
             this.props.clearingdatal(integertotalamount)
+            sessionStorage.removeItem("CashierDatasource");
         })
+        }
+        
     }
 
    //可操作区计算公式,a为零售价，b为数量，c为折扣，d为折后价
@@ -999,19 +1007,11 @@ class Cashier extends React.Component {
         return (r1/r2)*Math.pow(10,t2-t1);
     }
 
-    handleokent=(e)=>{
-        console.log(e.keyCode)
-        console.log(this)
-        if(e.keyCode=='32'){
-            const visible=this.refs.pay.state.visible
-            if(visible){
-                //结算按钮
-               const hindpayclick=this.refs.pay.hindpayclick
-               hindpayclick()
-            }else{
-               
-                //出弹窗
-                var totalamount=this.totalamount
+
+
+    //出结算弹窗
+    showpops=()=>{
+         var totalamount=this.totalamount
            var integral=this.integral
            var memberinfo=this.memberinfo
            if(totalamount==0 || totalamount<0){
@@ -1073,24 +1073,31 @@ class Cashier extends React.Component {
                     }
 
 
-            }
+            
 
 
 
+    }
 
 
-
-
-
-
-
-
-
-
-
-           
-
+    handleokent=(e)=>{
+        console.log(e.keyCode)
+        console.log(this)
+        console.log(this.refs.pay.state.visible)
+        if(e.keyCode=='32'){
+            const visible=this.refs.pay.state.visible
+            //回焦点
+            const focustap=this.refs.opera.focustap
+            focustap()
+            if(visible){
+                //结算按钮
+               const hindpayclick=this.refs.pay.hindpayclick
+               hindpayclick()
+            }else{
+                //出弹窗
+               this.showpops()
         }
+    }
         // tap
         if(e.keyCode==9 && this.state.onBlur==false){
            const focustap=this.refs.opera.focustap
@@ -1187,6 +1194,7 @@ class Cashier extends React.Component {
                             Backemoney={this.Backemoney.bind(this)}
                             Backmemberinfo={this.Backmemberinfo.bind(this)}
                             revisedata={this.revisedata.bind(this)}
+                            showpops={this.showpops.bind(this)}
                         />
                     </div>
                 </div>
