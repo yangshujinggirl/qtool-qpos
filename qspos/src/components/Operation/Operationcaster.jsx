@@ -259,7 +259,9 @@ class Modales extends React.Component {
                         if(json.code=='0'){
                            	this.setState({
      							 visible: false,
+                                 reamount:''
     						},function(){
+
     							this.props.searchmemberinfo()
                                 message.success('充值成功')
                                 //打印

@@ -57,7 +57,7 @@ class Pay extends React.Component {
         text:'',
         membermoney:'' ,//会员卡金额
         pointmoney:'',//积分金额,
-        cutAmount:0
+        cutAmount:'0'
     }
 
     //接收函数
@@ -665,6 +665,7 @@ class Pay extends React.Component {
                 if(json.code=='0'){
                     this.handleOk()
                     this.props.initdata()
+                    message.success('收银成功')
                     // 打印
                      // this.handprint(json.odOrderId,'odOrder',json.orderNo)
                 }else{
@@ -683,6 +684,7 @@ class Pay extends React.Component {
                      this.handleOk()
                      this.props.reinitdata()
                      this.props.useinitdata()
+                     message.success('退货成功')
                      //打印
                       // this.handprint(json.odReturnId,'odReturn',json.returnNo)
                 }else{
@@ -717,19 +719,22 @@ class Pay extends React.Component {
         },function(){
             const group=this.state.group
             const totolamount=parseInt(this.state.totolamount).toFixed(2)
+            const sp=this.state.totolamount.toString().split('.')[1]
             if(group){
                 var paysecond=this.state.paysecond
                 paysecond.value=(-this.backmoneymeth(totolamount,this.state.payfirst.value,0)).toFixed(2)
                 this.setState({
                     totolamount:totolamount,
                     paysecond:paysecond,
-                    backmoney:this.backmoneymeth(totolamount,this.state.payfirst.value,paysecond.value)
+                    backmoney:this.backmoneymeth(totolamount,this.state.payfirst.value,paysecond.value),
+                    cutAmount:'0.'+sp
                 })
             }else{
                 const paynextvalue=this.state.paynext.value
                 this.setState({
                     totolamount:totolamount,
-                    backmoney:this.backmoneymeth(totolamount,paynextvalue,0)
+                    backmoney:this.backmoneymeth(totolamount,paynextvalue,0),
+                    cutAmount:'0.'+sp
                 })
             }
         })
