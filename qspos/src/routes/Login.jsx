@@ -3,10 +3,6 @@ import { Form, Icon, Input, Button } from 'antd';
 import {GetServerData} from '../services/services';
 
 //css
-
-
-
-
 const f13={
     fontSize:'13px'
 }

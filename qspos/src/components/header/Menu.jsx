@@ -20,7 +20,7 @@ const menuss=[
 function Menuuse({urUser}) {
     return (
         <div className='clearfix'>
-            <div className='fl headermenuuselogo'><div className='mt30 w headermenuuselogobox'><img src={require('../../images/logo.png')} className='w100 h100'/></div></div>
+            <div className='fl headermenuuselogo'><div className='w headermenuuselogobox'><img src={require('../../images/logo.png')} className='w100 h100'/></div></div>
             <ul className='clearfix fl'>
                 {
                     urUser.role==1

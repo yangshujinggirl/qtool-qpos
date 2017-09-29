@@ -134,7 +134,7 @@ class Slidecountsell extends React.Component {
                     <ul className='sellinfolist'>
                         <li>
                             <p><div><span>销售订单</span>：{this.state.odOrder.orderNo}</div></p>
-                            <p><div><span>销售时间</span>：{this.state.odOrder.createTime}</div><div><span>销售员</span>：{this.state.odOrder.nickname}</div></p>
+                            <p><div><span>销售时间</span>：{this.state.odOrder.saleTime}</div><div><span>销售员</span>：{this.state.odOrder.nickname}</div></p>
                         </li>
                         <li>
                             {
@@ -143,7 +143,7 @@ class Slidecountsell extends React.Component {
                                     return(
                                         <div key={index}>
                                             <p><div><span>商品名称</span>：{item.name} </div></p>
-                                            <p><div><span>商品条码</span>：{item.orderNo}</div> <div><span>规格</span>：{item.displayName}</div></p>
+                                            <p><div><span>商品条码</span>：{item.code}</div> <div><span>规格</span>：{item.displayName}</div></p>
                                             <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price}</div><div><span>折后价</span>：{item.payPrice}</div><div><span>折扣</span>：{item.discount}</div></p>
                                         </div>
                                         )
@@ -157,25 +157,25 @@ class Slidecountsell extends React.Component {
                             ?
                                 (
                                     this.state.orOrderPay.length>0
-                            ?
-                                (
-                                    this.state.orOrderPay.length>1
-                                    ?
+                                ?
+                                    (
+                                        this.state.orOrderPay.length>1
+                                        ?
+                                        <li style={{borderBottom:'0'}}>
+                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
+                                        </li>
+                                        :
+                                        <li style={{borderBottom:'0'}}>
+                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
+                                        </li>
+                                    )
+                                :
                                     <li style={{borderBottom:'0'}}>
-                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
+                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.state.odOrder.amount}</div></p>
                                     </li>
-                                    :
-                                    <li style={{borderBottom:'0'}}>
-                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
-                                    </li>
-                                )
-                            :
-                                <li style={{borderBottom:'0'}}>
-                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}</div></p>
-                                </li>
                                 )
                             :
                             (
@@ -184,17 +184,17 @@ class Slidecountsell extends React.Component {
                                 (
                                     this.state.orOrderPay.length>1
                                     ?
-                                    <li style={{borderBottom:'0'}}>
-                                        <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
-                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
-                                    </li>
+                                        <li style={{borderBottom:'0'}}>
+                                            <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
+                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
+                                        </li>
                                     :
-                                    <li style={{borderBottom:'0'}}>
-                                        <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
-                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                        <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
-                                    </li>
+                                        <li style={{borderBottom:'0'}}>
+                                            <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
+                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.state.odOrder.amount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
+                                        </li>
                                 )
                             :
                                 <li style={{borderBottom:'0'}}>
@@ -259,7 +259,7 @@ class Slidecountback extends React.Component {
                             return (
                                     <li key={index}>
                                         <p><div><span>商品名称</span>：{item.name}</div> </p>
-                                        <p><div><span>商品条码</span>： {item.name}</div><div><span>规格</span>：{item.displayName}</div></p>
+                                        <p><div><span>商品条码</span>： {item.code}</div><div><span>规格</span>：{item.displayName}</div></p>
                                         <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>折扣</span>：{item.discount}</div></p>
                                     </li>
                                 )
