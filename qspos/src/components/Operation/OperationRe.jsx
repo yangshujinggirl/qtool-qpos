@@ -30,9 +30,11 @@ class Modales extends React.Component {
             if(json.code=='0'){
                	this.setState({
 					visible: false,
+                    reamount:''
 				},function(){
 					this.props.searchmemberinfo()
-                    this.chargeInfo(json.mbCardMoneyChargeId)
+                    //this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
+                    message.success('充值成功')
 				});
             }else{  
                 console.log(json.message)   
@@ -50,7 +52,7 @@ class Modales extends React.Component {
                     console.log(json)
                     if(json.code=='0'){
                         //打印
-                            this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
+                            //this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
                             message.success('充值成功')
                         }else{   
                             message.warning(json.message)
@@ -164,12 +166,11 @@ class Operationls extends React.Component {
         cardNo:'',
         mbCardId:''
 	}
+    //会员id
 	clearingdata=(integertotalamount)=>{
         if(integertotalamount==null){
             this.setState({
                 cardNoMobile:null
-            },function(){
-                // this.memberinfo()
             })
 
 
@@ -227,8 +228,11 @@ class Operationls extends React.Component {
          	this.props.setonblue(this.state.onBlur)
          })
 	}
+
+
+
 	
-	//请求会员信息
+	//根据订单号给的id请求会员信息
 	memberinfo=()=>{
 		let values={cardNoMobile:this.state.cardNoMobile}
         const result=GetServerData('qerp.pos.mb.card.find',values)
@@ -301,7 +305,7 @@ class Operationls extends React.Component {
 	    			<div className='fl cashierbox'>
 	    				<div className='clearfix cashierbox_t'>
                             <div className='fl'><span className='c74 ml10'>会员姓名</span><span className='c38 ml10'>{this.state.name}</span></div>
-                            <div className='fr'><span className='themecolor mr10'>{this.state.levelStr}</span><span className='mr10'>{this.state.isBirthMonth?'| 生日':null}</span></div>
+                            <div className='fr'><span className='themecolor mr10'>{this.state.levelStr}</span><span className='mr10'>{this.state.isBirthMonth=="true"?'| 生日':null}</span></div>
                         </div>
 	    				<div className='clearfix f14 posion cashierbox_b'>
 	    					<div className='fl tc mt10'>

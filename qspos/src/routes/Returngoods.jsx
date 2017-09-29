@@ -17,7 +17,7 @@ class EditableTable extends React.Component {
         this.columns = [{
             title: '商品条码',
             width:'10%',
-            dataIndex: 'barcode'
+            dataIndex: 'code'
         }, {
             title: '商品名称',
             width:'20%',
@@ -97,45 +97,57 @@ class EditableTable extends React.Component {
             selectedRows:[],
             ismbCard:false,
             isdataSource:[],
-            mbCard:null
+            mbCard:null,
+            selectedRowKeys:[]
 
         };
-       this.rowSelection = {
-		  onSelect:(record,selected,selectedRows)=>{
-            console.log(selectedRows)
-		  	//高亮
-		  	if(selected){
-		  		this.setState({
-		  			index:Number(record.key),
-		  			selectedRows:selectedRows,
+      
+    }
+
+
+
+    hindselect=(record,selected,selectedRows)=>{
+                console.log(selectedRows)
+             //高亮
+             if(selected){
+                 this.setState({
+                     index:Number(record.key),
+                     selectedRows:selectedRows,
                     isdataSource:selectedRows
-		  		},function(){
+                 },function(){
                      if(this.state.ismbCard){
                         this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
                     }else{
                         this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
                     }
-		  			this.uptotaldata()
-		  		})
-		  	}else{
-		  		this.setState({
-		  			selectedRows:selectedRows,
+                     this.uptotaldata()
+                 })
+             }else{
+                 this.setState({
+                     selectedRows:selectedRows,
                     isdataSource:selectedRows
-		  		},function(){
+                 },function(){
                     if(this.state.ismbCard){
                             this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
                     }else{
                             this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
                     }
-		  			this.uptotaldata()
+                     this.uptotaldata()
 
-		  		})
-		  	}
-		  	
-		  }
-		};
+                 })
+             }
     }
-
+    onSelectChange=(selectedRowKeys)=>{
+        this.setState({ selectedRowKeys },function(){
+            const focuser=this.props.focuser
+            focuser()
+        });
+    }   
+    clearselect=()=>{
+        this.setState({
+            selectedRowKeys:[]
+        })
+    }
     // 初始化
     reinitdata=()=>{
         this.setState({
@@ -147,6 +159,8 @@ class EditableTable extends React.Component {
             integertotalamount:0,//总金额取整,
             selectedRows:[],
             ismbCard:false
+        },function(){
+            this.clearselect()
         })
 
     }
@@ -203,8 +217,9 @@ class EditableTable extends React.Component {
     }
 
     qtyonchange=(index,e)=>{
+        var str=e.target.value.replace(/\s+/g,"");  
         let changedataSource=this.state.dataSource
-        changedataSource[index].qty=e.target.value
+        changedataSource[index].qty=str
         this.setState({
             dataSource:changedataSource
         })
@@ -251,15 +266,30 @@ class EditableTable extends React.Component {
 
             
         }else{
+                changedataSource[index].qty=changedataSource[index].inventory
+                changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+                    this.setState({
+                        dataSource:changedataSource
+                    },function(){
+                            this.uptotaldata()
+                            if(this.state.ismbCard){
+                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+                            }else{
+                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+                            }
+
+            })
             message.warning('数量不能大于销售数量')
+            
         }
     }
 
 
 
     discountonchange=(index,e)=>{
+        var str=e.target.value.replace(/\s+/g,"");
         let changedataSource=this.state.dataSource
-        changedataSource[index].discount=e.target.value
+        changedataSource[index].discount=str
         this.setState({
             dataSource:changedataSource
         }) 
@@ -291,8 +321,9 @@ class EditableTable extends React.Component {
     	}  
     }
     payPriceonchange=(index,e)=>{
+        var str=e.target.value.replace(/\s+/g,"");
         let changedataSource=this.state.dataSource
-        changedataSource[index].payPrice=e.target.value
+        changedataSource[index].payPrice=str
         this.setState({
             dataSource:changedataSource
         })
@@ -327,6 +358,34 @@ class EditableTable extends React.Component {
         if(e.keyCode==9){
             e.preventDefault()
         } 
+    }
+    //下键
+    rowchange=()=>{
+        let index=this.state.index
+        console.log(index)
+        if(index==this.state.dataSource.length-1){
+             this.setState({
+                index:0
+            })
+        }else{
+            this.setState({
+                index:index+1
+            })
+        }   
+    }
+    //上缉键
+    onrowchange=()=>{
+        let index=this.state.index
+       console.log(index)
+        if(index==0){
+            this.setState({
+                index:this.state.dataSource.length-1
+            })
+        }else{
+            this.setState({
+                index:index-1
+            })
+        }
     }
    
 
@@ -455,6 +514,15 @@ class EditableTable extends React.Component {
 
               }
     render() {
+        const { loading, selectedRowKeys } = this.state;
+        const rowSelection = {
+              selectedRowKeys,
+              onChange: this.onSelectChange,
+              onSelect:this.hindselect
+        };
+
+
+
         const { dataSource } = this.state;
         const columns = this.columns;
         return (
@@ -466,7 +534,7 @@ class EditableTable extends React.Component {
                 scroll={{ y: 240 }}
                 onRowClick={this.rowclick.bind(this)}
                 rowClassName={this.rowClassName.bind(this)}
-                rowSelection={this.rowSelection}
+                rowSelection={rowSelection}
                 scroll={{ y: 300 }}
             />
         </div>
@@ -500,7 +568,9 @@ class Returngoods extends React.Component {
         console.log(e.keyCode)
         //空格
         if(e.keyCode=='32'){
-            console.log(this)
+            const visible=this.refs.pay.state.visible
+            // const focustap=this.refs.opera.focustap
+            // focustap()
             const jiesuan=this.refs.table.jiesuan
             jiesuan()
         }
@@ -521,7 +591,18 @@ class Returngoods extends React.Component {
             this.rowonDelete()
 
         }
+         //上箭头
+        if(e.keyCode==38){
+            const onrowchange=this.refs.table.onrowchange
+            onrowchange()
 
+        }
+        //下箭头
+        if(e.keyCode==40){  
+            const rowchange=this.refs.table.rowchange
+            rowchange()
+
+        }
     }
     clearingdata=(messages,totalamount)=>{
         const clearingdatas=this.refs.opera.clearingdatas
@@ -568,6 +649,11 @@ class Returngoods extends React.Component {
         initdata()
     }
 
+    focuser=()=>{
+        const focustap=this.refs.opera.focustap
+        focustap()
+    }
+
 
     render() {
         return(
@@ -581,6 +667,7 @@ class Returngoods extends React.Component {
                         updateintegertotalamount={this.updateintegertotalamount.bind(this)}
                         showModal={this.showModals.bind(this)}
                         revisedata={this.revisedata.bind(this)}
+                        focuser={this.focuser.bind(this)}
                         />
                     </div>
                 <div><Pay ref='pay' reinitdata={this.reinitdata.bind(this)} useinitdata={this.useinitdata.bind(this)}/></div>

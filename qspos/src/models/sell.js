@@ -7,11 +7,11 @@ export default {
     namespace: 'sell',
     state: {
   	    qposStSaleOrders:[],
-  	   
+  	     total:0
     },
     reducers: {
-  	    orderlist(state, { payload: qposStSaleOrders}) {
-           return {...state,qposStSaleOrders}
+  	    orderlist(state, { payload: {qposStSaleOrders,total}}) {
+           return {...state,qposStSaleOrders,total}
         },
     },
     effects: {
@@ -19,13 +19,13 @@ export default {
             const result=yield call(GetServerData,code,values);
             console.log(result)
             if(result.code=='0'){
-                let {qposStSaleOrders}=result
+                let {qposStSaleOrders,total}=result
                 for(var i=0;i<qposStSaleOrders.length;i++){
                 	qposStSaleOrders[i].key=i
                 }
                 yield put({   
                     type: 'orderlist',
-                    payload:qposStSaleOrders
+                    payload:{qposStSaleOrders:qposStSaleOrders,total:total}
                 });
             }else{
                  message.error(result.message);
@@ -36,7 +36,7 @@ export default {
   	    setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/sell') {
-                     dispatch({ type: 'fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:null,type:null,startTime:null,endTime:null} }})
+                     dispatch({ type: 'fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:null,type:null,startTime:null,endTime:null,limit:5,currentPage:0} }})
                     
                 }
             });

@@ -136,6 +136,8 @@ class Pay extends React.Component {
         }
     }
     showModal=(type,data) => {
+        console.log(type)
+        console.log(data)
         if(type==1){
             //先判断谁是被禁用的：index:5被禁用
             const backmoney=this.backmoneymeth(data.totalamount,data.totalamount,0)
@@ -349,14 +351,52 @@ class Pay extends React.Component {
         this.setState({
           visible: false,
           nozero:false,
-          waringfirst:true
+          group:true,
+            payfirst:{
+                name:'会员卡',
+                value:''
+            },
+            paysecond:{
+                name:'微信',
+                value:''
+            },
+            paynext:{
+                name:'会员卡',
+                value:''
+            },
+            totolamount:'',//总金额
+            backmoney:0,
+            listarrs:[
+                    {name:'微信',style:'list',disabled:false},
+                    {name:'支付宝',style:'list',disabled:false},
+                    {name:'银联',style:'list',disabled:false},
+                    {name:'现金',style:'list',disabled:false},
+                    {name:'会员卡',style:'list',disabled:false},
+                    {name:'积分',style:'list',disabled:false}
+                ],
+            type:'1',
+            nonezero:false, //是否禁用
+            usetype:true, //收银 false，退货,
+            nozero:false,
+            datamember:null,
+            datadatasoucer:[],
+            datadatasoucerlength:0,
+            datanumber:0,
+            datatotalamount:'0.00',
+            datajifen:0,
+            warning:false,
+            text:'',
+            membermoney:'' ,//会员卡金额
+            pointmoney:'',//积分金额,
+            cutAmount:'0',
+            waringfirst:true
         });
     }
     handleCancel = (e) => {
         this.setState({
           visible: false,
           nozero:false,
-          waringfirst:true
+          waringfirst:true,
         });
     }
   //js判断是否在数组中
@@ -392,36 +432,28 @@ class Pay extends React.Component {
                 if(this.lists.length>2){
                     this.lists.splice(0,this.lists.length-2)
                 }
-            if(this.lists.length>1){
-                const payfirst=this.state.payfirst
-                const paysecond=this.state.paysecond
-                if(this.lists[0]<0){
-                    listarrs[this.lists[1]].style='listoff'
-                    paysecond.name=listarrs[this.lists[1]].name
-                    paysecond.value=this.state.paynext.value
-                    
-                    if(this.state.waringfirst){
+                if(this.lists.length>1){
+                    const payfirst=this.state.payfirst
+                    const paysecond=this.state.paysecond
+                    if(this.lists[0]<0){
+                        listarrs[this.lists[1]].style='listoff'
+                        paysecond.name=listarrs[this.lists[1]].name
+                        paysecond.value=this.state.paynext.value
+                        if(this.state.waringfirst){
+                                this.setState({
+                                    listarrs:listarrs,
+                                    paysecond:paysecond,
+                                    warning:true,
+                                    waringfirst:false
+                                })
+                        }else{
                             this.setState({
                                 listarrs:listarrs,
                                 paysecond:paysecond,
-                                warning:true,
+                                warning:false,
                                 waringfirst:false
                             })
-                    }else{
-                        this.setState({
-                            listarrs:listarrs,
-                            paysecond:paysecond,
-                            warning:false,
-                            waringfirst:false
-                        })
-                    }
-
-
-                    
-
-
-
-
+                        }
                 }else{
                     listarrs[this.lists[0]].style='listoff'
                     listarrs[this.lists[1]].style='listoff'
@@ -488,8 +520,6 @@ class Pay extends React.Component {
                             warning:true,
                             waringfirst:false
                         })
-
-
                     }else{
                         this.setState({
                             listarrs:listarrs,
@@ -498,9 +528,6 @@ class Pay extends React.Component {
                             waringfirst:false
                         })
                     }
-
-
-                    
                 }else{
                     listarrs[this.lists[0]].style='listoff'
                     listarrs[this.lists[1]].style='listoff'
@@ -508,6 +535,31 @@ class Pay extends React.Component {
                     payfirst.value=this.state.paysecond.value
                     paysecond.name=listarrs[this.lists[1]].name
                     paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    
+
+
+                    if(payfirst.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
+                        payfirst.value=this.state.membermoney,
+                        paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    }
+                    if(payfirst.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
+                        payfirst.value=this.state.pointmoney
+                        paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    }
+
+
+
+                    if(paysecond.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
+                        paysecond.value=this.state.membermoney
+                        payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    }
+                    if(paysecond.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
+                        paysecond.value=this.state.pointmoney
+                        payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    }
+
+
+
                     if(this.state.waringfirst){
                         this.setState({
                             listarrs:listarrs,
@@ -635,12 +687,9 @@ class Pay extends React.Component {
     }
     //结算
     hindpayclick=()=>{
-        console.log('spay')
         //判断是收银结算还是退货结算
         const usetype=this.state.usetype
         if(usetype){
-            console.log(usetype)
-            console.log('spay1')
             //判断能不能支付
             // 1.如果支付金额小于总额，总额等于0，不能支付
             // 2.支付方式没有选择，不能支付
@@ -659,7 +708,7 @@ class Pay extends React.Component {
                     }else{
                         //可以支付
                         let type=list[1]+1
-                        let amount=this.state.paynext.value
+                        let amount=this.state.datatotalamount
                         orderPay.push({amount:amount,type:type})
                         //组合参数
                         let values={
@@ -677,11 +726,9 @@ class Pay extends React.Component {
                         }
                         //数据请求
                         this.paying(values)
-                        console.log('sapy2')
                     }
                 }
                 if(list[0]>0 || list[0]==0){
-                    console.log('sapy3')
                     const totol=parseFloat(this.state.payfirst.value)+parseFloat(this.state.paysecond.value)
                     if(totol< parseFloat(this.state.totolamount)){
                         //不能支付
@@ -846,11 +893,62 @@ class Pay extends React.Component {
          const payfirst=this.state.payfirst
          const paysecond=this.state.paysecond
          const totolamount=this.state.totolamount
-         if(parseFloat(payfirst.value)>parseFloat(totolamount)){
+         console.log(payfirst)
+        if(parseFloat(payfirst.value)>parseFloat(totolamount)){
+            //总额
             payfirst.value=totolamount
-         }
-         payfirst.value=parseFloat(payfirst.value).toFixed(2)
-         paysecond.value=(-this.backmoneymeth(totolamount,payfirst.value,this.state.backmoney)).toFixed(2)
+            paysecond.value='0.00'
+            if(payfirst.name=='会员卡'){
+                if(parseFloat(payfirst.value)>parseFloat(totolamount)){
+                    //总额
+                    payfirst.value=totolamount
+                    paysecond.value='0.00'
+                }else{
+                    //会员卡总额
+                    payfirst.value=this.state.membermoney
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    console.log(payfirst)
+                }
+            }
+            if(payfirst.name=='积分'){
+                if(parseFloat(payfirst.value)>parseFloat(totolamount)){
+                    //总额
+                    payfirst.value=totolamount
+                    paysecond.value='0.00'
+                }else{
+                    //会员卡总额
+                    payfirst.value=this.state.membermoney
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    console.log(payfirst)
+                }
+            }
+        }else{
+            //实际金额
+                paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+            if(payfirst.name=='会员卡'){
+                if(parseFloat(payfirst.value)>parseFloat(this.state.membermoney)){
+                    payfirst.value=this.state.membermoney
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    console.log(payfirst)
+                }else{
+                    //会员卡总额
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                }
+            }
+            if(payfirst.name=='积分'){
+                if(parseFloat(payfirst.value)>parseFloat(totolamount)){
+                    //实际金额
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+
+                }else{
+                    //积分总额
+                    payfirst.value=this.state.pointmoney
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    console.log(payfirst)
+                }
+            }
+
+        }
          this.setState({
             payfirst:payfirst,
             paysecond:paysecond
@@ -858,14 +956,64 @@ class Pay extends React.Component {
     }
     paysecondonBlur=()=>{
         const payfirst=this.state.payfirst
-        const paysecond=this.state.paysecond
-        const totolamount=this.state.totolamount
+         const paysecond=this.state.paysecond
+         const totolamount=this.state.totolamount
         if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+            //总额
             paysecond.value=totolamount
+            payfirst.value='0.00'
+            if(paysecond.name=='会员卡'){
+                if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+                    //总额
+                    paysecond.value=totolamount
+                    payfirst.value='0.00'
+                }else{
+                    //会员卡总额
+                    paysecond.value=this.state.membermoney
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    console.log(paysecond)
+                }
+            }
+            if(paysecond.name=='积分'){
+                if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+                    //总额
+                    paysecond.value=totolamount
+                    payfirst.value='0.00'
+                }else{
+                    //会员卡总额
+                    paysecond.value=this.state.membermoney
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    console.log(paysecond)
+                }
+            }
+        }else{
+            //实际金额
+                payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+            if(paysecond.name=='会员卡'){
+                if(parseFloat(paysecond.value)>parseFloat(this.state.membermoney)){
+                    paysecond.value=this.state.membermoney
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    console.log(paysecond)
+                }else{
+                    //会员卡总额
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                }
+            }
+            if(paysecond.name=='积分'){
+                if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+                    //实际金额
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+
+                }else{
+                    //积分总额
+                    paysecond.value=this.state.pointmoney
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    console.log(paysecond)
+                }
+            }
+
         }
-        paysecond.value=parseFloat(paysecond.value).toFixed(2)
-        payfirst.value=(-this.backmoneymeth(totolamount,paysecond.value,this.state.backmoney)).toFixed(2)
-        this.setState({
+         this.setState({
             payfirst:payfirst,
             paysecond:paysecond
          })
@@ -891,6 +1039,7 @@ class Pay extends React.Component {
               closable={false}
               footer={null}
               className='pay'
+
             >
                 <div className='clearfix'>
                 	<div style={lw} className='fl'>

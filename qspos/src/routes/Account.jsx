@@ -89,7 +89,7 @@ class Modelform extends Component {
                                     })
                                 }else{
                                     const showInfomodel=this.props.showInfomodel
-                                    showInfomodel('新建账号成功',json.urUserId,json.password)
+                                    showInfomodel('新建账号成功',json.userName,json.password)
                                     this.props.dispatch({
                                         type:'account/fetch',
                                         payload: {code:'qerp.pos.ur.user.query'}

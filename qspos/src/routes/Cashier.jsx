@@ -314,7 +314,6 @@ class EditableTable extends React.Component {
                 data:this.state.dataSource
             }
             revisedata(messages)
-           
                     const dataSources=this.state.dataSource
                     var quantity=0
                     var totalamount=0
@@ -498,9 +497,7 @@ class EditableTable extends React.Component {
                 data:this.state.dataSource
             }
             revisedata(messages)
-           
-
-                     const dataSources=this.state.dataSource
+            const dataSources=this.state.dataSource
                             var quantity=0
                             var totalamount=0
                             var integertotalamount=0
@@ -858,8 +855,6 @@ class EditableTable extends React.Component {
                             this.props.clearingdata(quantity,totalamount)
                             this.props.clearingdatal(integertotalamount)
                         })
-
-
                         message.error('库存不够')
 
 
@@ -946,6 +941,8 @@ class Btncashier extends React.Component {
     takeout=()=>{
         const takeout=this.props.takeout
         takeout()
+        const ginitdatar=this.props.ginitdatar
+        ginitdatar()
     }
     takein=()=>{
         const takein=this.props.takein
@@ -1073,9 +1070,7 @@ class Cashier extends React.Component {
                     }
 
 
-            
-
-
+        
 
     }
 
@@ -1162,11 +1157,18 @@ class Cashier extends React.Component {
     }
 
     initdata=()=>{
+        this.memberinfo=null,
+        this.integral=null,
+        this.totalamount=0
         const initdata=this.refs.table.initdata
         initdata()
         const initdatar=this.refs.opera.initdatar
         initdatar()
 
+    }
+    ginitdatar=()=>{
+        const initdatar=this.refs.opera.initdatar
+        initdatar()
     }
     render() {
         return(
@@ -1181,7 +1183,7 @@ class Cashier extends React.Component {
                     />
                 </div>
                 <div className='mt30 footer'>
-                    <div><Btncashier rowonDelete={this.rowonDelete.bind(this)} takein={this.takein.bind(this)} takeout={this.takeout.bind(this)}/></div>
+                    <div><Btncashier rowonDelete={this.rowonDelete.bind(this)} takein={this.takein.bind(this)} takeout={this.takeout.bind(this)} ginitdatar={this.ginitdatar.bind(this)}/></div>
                     <div className='mt20'>
                         <Operation 
                             color={true} 

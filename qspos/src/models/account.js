@@ -26,7 +26,7 @@ export default {
                     payload:users
                 });
             }else{
-                message.error(data.message);
+                message.error(result.message);
             }   
         },
         *save({ payload: {code,values,type,meth} }, { call, put }) {

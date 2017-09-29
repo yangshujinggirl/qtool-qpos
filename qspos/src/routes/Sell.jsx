@@ -5,7 +5,7 @@ import Searchinput from '../components/Searchinput/Searchinput';
 import EchartsPie from '../charts/EchartsPie';
 import Echartsaxis from '../charts/Echartsaxis';
 import moment from 'moment';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,Pagination} from 'antd';
 import {GetServerData} from '../services/services';
 // css
 const slideinfo={width:'300px',height:'80px',marginLeft:'30px',borderBottom: '1px solid #E7E8EC',overflow:'hidden'}
@@ -29,7 +29,7 @@ class Tags extends React.Component {
         return (
             <div className='h100'>
                 <Tabs type="card">
-		    	     <TabPane tab="销售订单" key="1"><Sellorder qposStSaleOrders={this.props.qposStSaleOrders} dispatch={this.props.dispatch}/></TabPane>
+		    	     <TabPane tab="销售订单" key="1"><Sellorder qposStSaleOrders={this.props.qposStSaleOrders} dispatch={this.props.dispatch} total={this.props.total}/></TabPane>
 		    	     <TabPane tab="店员销售" key="2"><Sellclerk dispatch={this.props.dispatch}/></TabPane>
  			    </Tabs>
             </div>
@@ -42,7 +42,8 @@ class Searchcompon extends React.Component {
         selectvalue:null,
         inpurvalue:'',
         startTime:null,
-        endTime:null
+        endTime:null,
+        page:0
     }
     timechange=(date, dateString)=>{
         this.setState({
@@ -67,6 +68,21 @@ class Searchcompon extends React.Component {
     hindsearch=()=>{
         this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime} }})
     }
+
+
+    pagechange=()=>{
+        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:5,currentPage:this.state.page} }})
+    }
+    setpage=(page)=>{
+        console.log(page)
+        console.log('12')
+        this.setState({
+            page:page
+        },function(){
+            this.pagechange()
+        })
+    }
+
 
     render(){
         return(
@@ -226,7 +242,7 @@ class Slidecountsell extends React.Component {
 //tap count 退货
 class Slidecountback extends React.Component {
     state={
-        mbCard:{},
+        mbCard:null,
         odReturn:{},
         returnOrderDetails:[]
     }
@@ -249,10 +265,23 @@ class Slidecountback extends React.Component {
                                 )
                         })
                     }
-                    <li style={{borderBottom:'0'}}>
-                        <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>扣除积分</span>：{this.state.mbCard.point}</div></p>
-                        <p><div><span>结算收银</span>：2345.00「<span>会员卡支付</span>：321.00、<span>微信支付</span>：2000.00、<span>支付宝</span>：199.00」</div></p>
-                    </li>
+                    {
+                        this.state.mbCard==null || undefined || '' 
+                        ?
+                        <li style={{borderBottom:'0'}}>
+                            <p><div><span>结算收银</span>：2345.00「<span>会员卡支付</span>：321.00、<span>微信支付</span>：2000.00、<span>支付宝</span>：199.00」</div></p>
+                        </li>
+                        :
+                        <li style={{borderBottom:'0'}}>
+                            <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>扣除积分</span>：{this.state.mbCard.point}</div></p>
+                            <p><div><span>结算收银</span>：2345.00「<span>会员卡支付</span>：321.00、<span>微信支付</span>：2000.00、<span>支付宝</span>：199.00」</div></p>
+                        </li>
+
+
+
+
+                    }
+                    
                 </ul>
             </div>
         )
@@ -337,8 +366,12 @@ class Ordertap extends React.Component {
     state = {
         tabPosition: 'left'
     }
+    pagechange=(page)=>{
+        this.props.revisemessages(page)
+    }
   render() {
     const qposStSaleOrders=this.props.qposStSaleOrders
+    console.log(this.props.total)
     return (
         <div>
             <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'400px'}}>
@@ -349,10 +382,12 @@ class Ordertap extends React.Component {
                                 {
                                     item.type=='1'?<Slidecountsell outId={item.outId} type={item.type}/>:(item.type=='2'?<Slidecountcz outId={item.outId} type={item.type}/>:<Slidecountback outId={item.outId} type={item.type}/>)
                                 }
-                        </TabPane>)
+                            </TabPane>)
                     })
                 }
             </Tabs>
+            <Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)}/>
+
         </div>
     )
   }
@@ -472,14 +507,26 @@ class EditableTable extends React.Component {
 
 
 //销售订单count
-function Sellorder({qposStSaleOrders,dispatch}) {
-    return (
-        <div>
-   		   <Searchcompon dispatch={dispatch}/>
-           <Ordertap qposStSaleOrders={qposStSaleOrders}/>
-        </div>
-  )
+class Sellorder extends React.Component {
+    revisemessages=(page)=>{
+        const setpage=this.refs.search.setpage
+        setpage(page)
+    }
+
+    render(){
+        return (
+            <div>
+               <Searchcompon dispatch={this.props.dispatch} ref='search'/>
+               <Ordertap qposStSaleOrders={this.props.qposStSaleOrders} total={this.props.total} revisemessages={this.revisemessages.bind(this)}/>
+            </div>
+        )
+    }
+
+
+
+
 }
+
 
 
 
@@ -561,19 +608,21 @@ class Sellclerk extends React.Component {
 
 }
 
-function Sell({qposStSaleOrders,dispatch}) {
+function Sell({qposStSaleOrders,dispatch,total}) {
   return (
     <div>
     	<Header type={false} color={true}/>
-    	<div className='counters'><Tags qposStSaleOrders={qposStSaleOrders} dispatch={dispatch}/></div>
+    	<div className='counters'><Tags qposStSaleOrders={qposStSaleOrders} dispatch={dispatch} total={total}/></div>
     </div>
   );
 }
 
 function mapStateToProps(state) {
     console.log(state)
-    const {qposStSaleOrders} = state.sell;
-    return {qposStSaleOrders};
+    const {qposStSaleOrders,total} = state.sell;
+    console.log(qposStSaleOrders)
+    console.log(total)
+    return {qposStSaleOrders,total};
 }
 
 export default connect(mapStateToProps)(Sell);
