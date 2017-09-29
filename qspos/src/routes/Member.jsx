@@ -27,8 +27,6 @@ const footcens={width:'100px',fontSize: '14px',height:'60px',lineHeight:'60px',m
 const textplace={fontSize: '16px',color: '#74777F',display:'inlineBlock',lineHeight:'40px'}
 
 
-
-
 //常量
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
@@ -45,7 +43,6 @@ class Modelform extends Component {
             accountvalue:1,
             mbCardBirths:[],
             key:0,
-            
         },
         this.babydatasouces=[]
     }
@@ -58,9 +55,7 @@ class Modelform extends Component {
         this.setState({
             visible: true
         },function(){
-
             this.memberinit()
-
         });
     }
     hideModal = () => {
@@ -68,17 +63,32 @@ class Modelform extends Component {
             visible: false,
         });
         this.props.form.resetFields()
-       
     }
     handleCancel = () => {
         this.setState({ visible: false });
         this.props.form.resetFields()
-        
     }
     handleOk = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 values.mbCardBirths=this.babydatasouces
+                console.log(values.mbCardBirths)
+                for(var i=0;i<values.mbCardBirths.length;i++){
+                    if(values.mbCardBirths[i].year==null || undefined || ''){
+                        message.warning('生日信息不全')
+                        return
+
+                    }
+                    if(values.mbCardBirths[i].month==null || undefined || ''){
+                        message.warning('生日信息不全')
+                        return
+                    }
+                    if(values.mbCardBirths[i].day==null || undefined || ''){
+                        message.warning('生日信息不全')
+                        return
+                    }
+
+                }
                 if(this.props.type==false){
                     const {mbCardId} = this.props.record; 
                     values.mbCardId=mbCardId
@@ -112,12 +122,6 @@ class Modelform extends Component {
         const memberdatas=this.props.form.getFieldInstance('ref').memberdata
         memberdatas()
     }
-
-
-
-
-
-
     render() {
         const type=this.props.type
         const { getFieldDecorator,getFieldInstance,getFieldProps } = this.props.form;
@@ -255,7 +259,7 @@ class EditableTablebaby extends React.Component {
         dataIndex: 'year',
         render: (text, record, index) => (
             <div>
-                <Select  defaultValue={text} style={{ width: 70 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
+                <Select  style={{ width: 70 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
                 {
                     batrhdata.year.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -271,7 +275,7 @@ class EditableTablebaby extends React.Component {
         width: '30%',
         render: (text, record, index) => (
             <div>
-                <Select defaultValue={text} style={{ width: 50 }} onChange={this.monthhandleChange.bind(this,index)} value={this.state.dataSource[index].month}>
+                <Select  style={{ width: 50 }} onChange={this.monthhandleChange.bind(this,index)} value={this.state.dataSource[index].month}>
                   {
                     batrhdata.month.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -287,7 +291,7 @@ class EditableTablebaby extends React.Component {
         width: '30%',
         render: (text, record, index) => (
              <div>
-                <Select defaultValue={text} style={{ width: 50 }} onChange={this.dayhandleChange.bind(this,index)} value={this.state.dataSource[index].day}>
+                <Select style={{ width: 50 }} onChange={this.dayhandleChange.bind(this,index)} value={this.state.dataSource[index].day}>
                   {
                     batrhdata.day.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -363,7 +367,6 @@ class EditableTablebaby extends React.Component {
         ds[index].year=value
         this.setState({
             dataSource:ds,
-            
         },function(){
             this.props.receivebabydata(this.state.dataSource)
         })
@@ -374,7 +377,6 @@ class EditableTablebaby extends React.Component {
         ds[index].month=value
         this.setState({
             dataSource:ds,
-            
         },function(){
             this.props.receivebabydata(this.state.dataSource)
         })
@@ -392,7 +394,8 @@ class EditableTablebaby extends React.Component {
         })
     }
 
-    //根据id请求会员信息
+
+    //数据请求
     memberdata=()=>{
         this.props.receivebabydata(this.state.dataSource)
         if(this.props.type==false){
@@ -414,7 +417,7 @@ class EditableTablebaby extends React.Component {
                                 this.setState({
                                     type:1,
                                     dataSource:mbCardInfo,
-                                     checked:true
+                                    checked:true
 
                                 },function(){
                                     this.props.receivebabydata(this.state.dataSource)
@@ -429,16 +432,49 @@ class EditableTablebaby extends React.Component {
                                     this.props.receivebabydata(this.state.dataSource)
                                 })
                            }
-                        }  
+                        }else{
+                                this.setState({
+                                    type:1,
+                                    dataSource:[
+                                        {
+                                            year:null,
+                                            month:null,
+                                            day:null,
+                                            key:-1
+                                        }
+                                            ],
+                                    checked:true
+                                },function(){
+                                    this.props.receivebabydata(this.state.dataSource)
+                                })
+                        
+                        }
+
                     }else{  
                         this.props.receivebabydata(this.state.dataSource)
                     }
                 })
+        }else{
+            this.setState({
+                    type:1,
+                    dataSource:[
+                        {
+                            year:null,
+                            month:null,
+                            day:null,
+                            key:-1,
+                            type:'2'
+                        }
+                            ],
+                    checked:true
+                },function(){
+                     this.props.receivebabydata(this.state.dataSource)
+            })
         }
+
 
     }
 
-    
     render() {
         const { dataSource } = this.state;
         const columns = this.columns;
@@ -472,50 +508,7 @@ class EditableTablebaby extends React.Component {
     );
   }
   componentDidMount(){
-        this.props.receivebabydata(this.state.dataSource)
-        if(this.props.type==false){
-            const mbCardId=this.props.mbCardId
-            let values={mbCardId:mbCardId}
-            const result=GetServerData('qerp.pos.mb.card.info',values)
-                result.then((res) => {
-                  return res;
-                }).then((json) => {
-                    console.log(json)
-                    if(json.code=='0'){
-                        let mbCardInfo=json.mbCardInfo.mbCardBirths
-                        if(mbCardInfo.length>0){
-                            const barthtype=mbCardInfo[0].type
-                            for(var i=0;i<mbCardInfo.length;i++){
-                                mbCardInfo[i].key=i
-                            }
-                            if(barthtype=='1'){
-                                this.setState({
-                                    type:1,
-                                    dataSource:mbCardInfo,
-                                     checked:true
-
-                                },function(){
-                                    this.props.receivebabydata(this.state.dataSource)
-                                })
-                            }
-                            if(barthtype=='2'){
-                                this.setState({
-                                    type:2,
-                                    dataSource:mbCardInfo,
-                                     checked:false
-                                },function(){
-                                    this.props.receivebabydata(this.state.dataSource)
-                                })
-                           }
-                        }  
-                    }else{  
-                        this.props.receivebabydata(this.state.dataSource)
-                    }
-                })
-        }
-
-    
-        
+        this.memberdata()
     }
 
 }
@@ -577,7 +570,6 @@ class EditableTable extends React.Component {
     }
     render() {
         const columns = this.columns;
-
         return (
             <div className='bgf'>
                <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}/>
