@@ -281,15 +281,38 @@ class EditableTable extends React.Component {
  //基础设置组件
 class App extends React.Component {
     state={
-        value: 1
+        value: 1,
+        paperSize:"88",
+        submitPrint:"1",
+        rechargePrint:"1"
     }
+
+    //获取设置
+    getSetData = () =>{
+       const result=GetServerData('qerp.pos.sy.config.info')
+       result.then((res) => {
+          return res;
+        }).then((json) => {
+              console.log(json);
+              if(json.code == "0"){
+                 let setData = json.config;
+                 this.setState({
+                    paperSize:setData.paperSize,
+                    submitPrint:setData.submitPrint,
+                    rechargePrint:setData.rechargePrint,
+                  })
+              }
+        })
+    }
+
     handleSubmit = (e) => {
         console.log(1)
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 console.log('Received values of form: ', values);
-                const result=GetServerData('qerp.pos.sy.config.save',values)
+                const config={config:values};
+                const result=GetServerData('qerp.pos.sy.config.save',config)
                 result.then((res) => {
                   return res;
                 }).then((json) => {
@@ -342,7 +365,7 @@ class App extends React.Component {
                 className='paper fires fireses'
                 >
                 {getFieldDecorator('paperSize', {
-                    initialValue: 80,
+                    initialValue: this.state.paperSize,
                 })(
                     <RadioGroup onChange={this.paperSizeonChange}>
                         <Radio value={80}>80mm</Radio>
@@ -356,11 +379,13 @@ class App extends React.Component {
                 className='fireses'
             >
                 {getFieldDecorator('submitPrint', {
-                    initialValue: 1,
+                    initialValue:this.state.submitPrint,
                 })(
+
                     <RadioGroup onChange={this.onChange}>
                         <Radio value={1}>是</Radio>
                         <Radio value={0}>否</Radio>
+
                     </RadioGroup>
                     
                 )}
@@ -370,11 +395,12 @@ class App extends React.Component {
                 className='fireses'
             >
             {getFieldDecorator('rechargePrint', { 
-                initialValue: 1,
+                initialValue: this.state.rechargePrint,
             })(
                 <RadioGroup onChange={this.onChange}>
                     <Radio value={1}>是</Radio>
                     <Radio value={0}>否</Radio>
+
                 </RadioGroup>
                
             )}
@@ -384,8 +410,13 @@ class App extends React.Component {
             </FormItem>
         </Form>
          
-    );
-  }
+     );
+    }
+
+    componentDidMount(){
+        this.getSetData()
+    }
+
 }
 
 const Infrastructureform = Form.create()(App);
