@@ -130,6 +130,7 @@ class Modales extends React.Component {
                     <div key='line' className='footcen'></div>
                     ]}
                 closable={false}
+                className='rechargepays'
             >
                 <p className='clearfix chargep'><span className='fl'>会员姓名</span><span className='fr'>{this.props.name}</span></p>
                 <p className='clearfix chargep'><span className='fl'>会员卡号</span><span className='fr'>{this.props.cardNo}</span></p>
@@ -140,7 +141,7 @@ class Modales extends React.Component {
               		<li onClick={this.typelist.bind(this,3)}><Button className={this.state.typeclick3?'rechargetype':'rechargetypeoff'}>银联</Button></li>
               		<li onClick={this.typelist.bind(this,4)}><Button className={this.state.typeclick4?'rechargetype':'rechargetypeoff'}>现金</Button></li>
               	</ul>
-                <div className='w clearfix mb30 w310'><div className='fl w310l'>充值金额</div> <Input className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/></div>
+                <div className='w clearfix w310'><div className='fl w310l'>充值金额</div> <Input className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/></div>
             </Modal>
         </div>
     );

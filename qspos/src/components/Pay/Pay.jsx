@@ -41,18 +41,38 @@ class Pay extends React.Component {
         nonezero:false, //是否禁用
         usetype:true, //收银 false，退货,
         nozero:false,
-        datamember:null,
-        datadatasoucer:[],
-        datadatasoucerlength:0,
-        datanumber:0,
-        datatotalamount:'0.00',
+        
+        
         datajifen:0,
         warning:false,
         text:'',
         membermoney:'' ,//会员卡金额
         pointmoney:'',//积分金额,
         cutAmount:'0',
-        waringfirst:true
+        waringfirst:true,
+
+
+
+        //接收数据
+        datadatasoucer:[],  //table
+        datadatasoucerlength:0, 
+        datamember:null,//会员
+        datanumber:0, //数量
+        datatotalamount:'0.00', //总额
+
+
+
+        //显示数据
+
+
+
+        //功能状态数据
+
+
+
+
+
+
     }
 
     //接收函数
@@ -129,6 +149,22 @@ class Pay extends React.Component {
             })
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     showModal=(type,data) => {
         console.log(type)
         console.log(data)
@@ -404,15 +440,6 @@ class Pay extends React.Component {
     }
     //点击不同支付方式
     listclick=(index)=>{
-        // if(index==0){
-        //     this.setState({
-        //         nonezero:false
-        //     })
-        // }else{
-        //     this.setState({
-        //         nonezero:true
-        //     })
-        // }
         const listarrs=this.state.listarrs
         for(var i=0;i<listarrs.length;i++){
             if(listarrs[i].disabled==false){
@@ -703,14 +730,19 @@ class Pay extends React.Component {
                         //可以支付
                         let type=list[1]+1
                         let amount=this.state.datatotalamount
-                        orderPay.push({amount:amount,type:type})
+                        
+                        if(this.state.cutAmount==1){
+                            orderPay.push({amount:this.state.paynext.value,type:type})
+                        }else{
+                            orderPay.push({amount:amount,type:type})
+                        }
                         //组合参数
                         let values={
                             mbCard:{mbCardId:this.state.datamember},
                             odOrder:{
                                 amount:this.state.datatotalamount,
                                 orderPoint:this.state.datajifen,
-                                payAmount:this.state.datatotalamount,
+                                payAmount:this.state.paynext.value,
                                 qty:this.state.datanumber,
                                 skuQty:this.state.datadatasoucerlength,
                                 cutAmount:this.state.cutAmount,
@@ -802,11 +834,11 @@ class Pay extends React.Component {
                 if(json.code=='0'){
                      this.handleOk()
                      this.props.reinitdata()
+                      // this.handprint(json.odReturnId,'odReturn',json.returnNo)
+                }else{
                      this.props.useinitdata()
                      message.success('退货成功')
                      //打印
-                      // this.handprint(json.odReturnId,'odReturn',json.returnNo)
-                }else{
                     message.error(json.message)
                 }
         })
@@ -837,7 +869,7 @@ class Pay extends React.Component {
             nozero:true
         },function(){
             const group=this.state.group
-            const totolamount=parseInt(this.state.totolamount).toFixed(2)
+            const totolamount=parseInt(this.state.totolamount).toFixed(2) //整数
             const sp=this.state.totolamount.toString().split('.')[1]
             if(group){
                 var paysecond=this.state.paysecond
@@ -846,7 +878,7 @@ class Pay extends React.Component {
                     totolamount:totolamount,
                     paysecond:paysecond,
                     backmoney:this.backmoneymeth(totolamount,this.state.payfirst.value,paysecond.value),
-                    cutAmount:'0.'+sp
+                    cutAmount:'1'
                 })
             }else{
                 //判断第二个输入框是会员还是积分还是其他
@@ -864,7 +896,7 @@ class Pay extends React.Component {
                     totolamount:totolamount,
                     paynext:paynextvalue,
                     backmoney:this.backmoneymeth(totolamount,paynextvalue.value,0),
-                    cutAmount:'0.'+sp
+                    cutAmount:'1'
                 })
             }
         })

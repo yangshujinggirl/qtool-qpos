@@ -90,7 +90,8 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .ant-radio-inner{border-radius: 3px;width: 16px;height: 16px;top:1;}
 .ant-radio-inner:after{border-radius: 0;left: 4px;top:4px;}
 .ant-modal-footer{height: 60px;padding:0;}
-.ant-modal-header{text-align: center;}
+.ant-modal-header{text-align: center;padding:0;border-radius: 5px;}
+.ant-modal-title{height: 66px;line-height: 66px;}
 .ant-tabs{height: 100%;}
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-ink-bar{visibility:visible;height: 1px;}
 .ant-table-tbody .table_white{background: white;}/*设置隔行变色*/
@@ -129,14 +130,14 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .ant-select-selection-selected-value{line-height: 40px;}
 .ant-modal-title{font-size: 26px;color: #384162;}
 .ant-table-placeholder{display: none;}
-
+.ant-modal-content{border-radius: 5px;}
 
 /*组件*/
 
 /*operation*/
 
 .memberinfobox1{width: 72px;}
-.memberinfobox3{width: 88px;}
+.memberinfobox3{width: 88px; }
 .memberinfobox2{width: 64px;}
 .memberinfobox2 .p1{text-align: right}
 .memberinfobox1 .p2{margin-top: 3px}
@@ -166,8 +167,8 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .tablebox{min-height: 250px;background: #fff;}
 .rechargebtn{width:35px;height:16px;border:1px solid #35BAB0;text-align:center;line-height:14px;font-size:10px;float:left;margin-left:5px;cursor: pointer;border-radius: 3px;margin-top: 1px;}
 .cashierbox{width:300px;height:96px;border:1px solid #E7E8EC;border-radius:3px;margin-left:20px;}
-.footleft{width:174px;font-size: 14px;height:60px;line-height:60px;cursor: pointer;}
-.footright{width:174px;font-size: 14px;color:#35BAB0;height:60px;line-height:60px;cursor: pointer}
+.footleft{width:174px;font-size: 16px;height:60px;line-height:60px;cursor: pointer;}
+.footright{width:174px;font-size: 16px;color:#35BAB0;height:60px;line-height:60px;cursor: pointer}
 .footcen{width: 2px;height: 15px;background:#E7E8EC;margin:0 auto;margin-top: 20px}
 .chargep{width:310px;border-bottom:1px solid #E7E8EC;height:55px;line-height:55px;margin:0 auto}
 .rechargetype{color:#35bab0;border:1px solid #35bab0}
@@ -357,7 +358,7 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .formdis .ant-select-lg .ant-select-selection--single{height: 40px;font-size: 14px;color: #74777F;}
 
 /*结算*/
-.pay .ant-modal-body{padding:30px;}
+.pay .ant-modal-body{padding:30px 23px 30px 30px;}
 .pay .list{width:117px;height:80px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
 .pay .listoff{ width:117px;height:80px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;}
@@ -380,15 +381,16 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
 .pay .ant-input{border-radius: 0 5px 5px 0}
 /*.pay .ant-btn{border-radius: 5px;}
 */
-.paylw{width:580px}
+.paylw{width:580px;}
 .paylh{height:80px}
-.paylhs{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 3px;font-size:40px;color:#fff}
+.paylhs{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff}
 .payharflw{width:280px;height:80px;}
 .payharflwl{width:280px;height:80px;float:left;margin-bottom: 20px;}
 .payharflwr{width:280px;height:80px;float:right;margin-bottom: 20px;}
 .payinputsmodel{padding-right: 20px;}
 .payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);}
 
+.rechargepays .ant-modal-body{padding:0 0 20px 0;}
 
 
 .payends .ant-btn:hover, .ant-btn:focus, .ant-btn:active, .ant-btn.active{background: #35bab0;color:#fff}

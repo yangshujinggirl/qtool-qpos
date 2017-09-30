@@ -352,6 +352,7 @@ class Modales extends React.Component {
       <div>
         <span onClick={this.showModal} className='themecolor'>充值</span>
         <Modal
+            className='rechargepays'
           title="会员充值"
           visible={this.state.visible}
           width={350}
@@ -375,7 +376,7 @@ class Modales extends React.Component {
           		<li onClick={this.typelist.bind(this,4)}><Button className={this.state.typeclick4?'rechargetype':'rechargetypeoff'}>现金</Button></li>
           	</ul>
         
-          <div className='w clearfix mb30 w310'><div className='fl w310l'>充值金额</div> <Input className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/></div>
+          <div className='w clearfix w310'><div className='fl w310l'>充值金额</div> <Input className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/></div>
         </Modal>
       </div>
     );
