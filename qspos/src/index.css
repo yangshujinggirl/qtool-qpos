@@ -358,10 +358,12 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 
 /*结算*/
 .pay .ant-modal-body{padding:30px;}
-.pay .list{width:117px;height:80px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;}
-.pay .listoff{ width:117px;height:80px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;}
-.pay .listdis{ width:117px;height:80px;background:#f7f7f7;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;color: rgba(0, 0, 0, 0.25)}
-.pay .listt{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;}
+.pay .list{width:117px;height:80px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
+.pay .listoff{ width:117px;height:80px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;}
+.pay .listdis{ width:117px;height:80px;background:#f7f7f7;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;color: rgba(0, 0, 0, 0.25);border-radius: 5px;}
+.pay .listt{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
 .pay .listtoff{width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;}
 .pay .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
 .pay .ant-input{border-left: 0;font-size: 40px;color: #384162}
@@ -372,6 +374,7 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .pay .waring{text-align: center;width: 580px;font-size: 12px;color: #D7636B;}
 .pay .waringnone{text-align: center;width: 580px;font-size: 12px;color: #D7636B;opacity: 0}
 .ant-input-group > .ant-input:last-child, .ant-input-group-addon:last-child{height: 80px;}
+.ant-input-group{box-shadow: 0 0 25px 0 rgba(0,0,0,0.10);}
 .ant-input-group-wrapper{margin-bottom: 20px;}
 .payinputshe{height: 80px;}
 .pay .ant-input{border-radius: 0 5px 5px 0}
@@ -384,8 +387,7 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .payharflwl{width:280px;height:80px;float:left;margin-bottom: 20px;}
 .payharflwr{width:280px;height:80px;float:right;margin-bottom: 20px;}
 .payinputsmodel{padding-right: 20px;}
-/*.payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);
-border-radius: 3px;}*/
+.payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);}
 
 
 
@@ -395,8 +397,8 @@ border-radius: 3px;}*/
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px white inset !important; }
 
 .payinputs{padding-right: 20px;}
-.pay .ant-input-group-addon{padding-left: 20px;}
-
+.pay .ant-input-group-addon{padding-left: 20px;border: 1px solid #E7E8EC;border-right: 0;}
+.pay .ant-input{border: 1px solid #E7E8EC;border-left: 0;}
 /*宝宝生日*/
 .babytables .ant-select-enabled{height: 40px;vertical-align: top;}
 .babytables .ant-select-enabled .ant-select-selection--single{height: 38px;vertical-align: top;}

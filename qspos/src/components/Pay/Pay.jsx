@@ -1038,13 +1038,13 @@ class Pay extends React.Component {
         	         	{
         	         		this.state.group && this.lists.length>1 && (this.lists[0]==0 || this.lists[0]>0)
         	         		?<div className='clearfix inputcenter'>
-        						<div className='payharflwl payinputsmodelbox' ><Input  addonBefore={this.state.payfirst.name}  value={this.state.payfirst.value} onChange={this.payfirstchange.bind(this)} onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel'/></div>
-        						<div className='payharflwr payinputsmodelbox'><Input  addonBefore={this.state.paysecond.name} value={this.state.paysecond.value} onChange={this.paysecondchange.bind(this)} onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel'/></div>
+        						<div className='payharflwl' ><Input  addonBefore={this.state.payfirst.name}  value={this.state.payfirst.value} onChange={this.payfirstchange.bind(this)} onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel'/></div>
+        						<div className='payharflwr'><Input  addonBefore={this.state.paysecond.name} value={this.state.paysecond.value} onChange={this.paysecondchange.bind(this)} onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel'/></div>
         	         		</div>
-        	         		:<div className='inputcenter payinputsmodelbox'><Input  addonBefore={this.state.paynext.name} value={this.state.paynext.value} onChange={this.paymoney.bind(this)} ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel'/></div>
+        	         		:<div className='inputcenter'><Input  addonBefore={this.state.paynext.name} value={this.state.paynext.value} onChange={this.paymoney.bind(this)} ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel'/></div>
                             
         	         	}
-                 		<div className='payinputsmodelbox'><Input  addonBefore='找零'  value={this.state.backmoney} onChange={this.backmoney.bind(this)} disabled className='paylh tr payinputsmodel'/></div>
+                 		<div><Input  addonBefore='找零'  value={this.state.backmoney} onChange={this.backmoney.bind(this)} disabled className='paylh tr payinputsmodel'/></div>
                  		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>
                         <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)} onKeyUp={this.hindpay.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
                	 	</div>
