@@ -5,13 +5,7 @@ import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
 import {GetLodop} from '../Method/Print.jsx'
 
-const lw={width:'580px'}
-const lh={height:'90px'}
-const lhs={width:'580px',height:'144px',background: '#35BAB0',border: '1px solid #E7E8EC',
-boxShadow: '0 0 10px 0 rgba(0,0,0,0.10)',borderRadius: '3px',fontSize:'40px',color:'#fff'}
-const harflw={width:'280px',height:'90px',}
-const harflwl={width:'280px',height:'90px',float:'left'}
-const harflwr={width:'280px',height:'90px',float:'right'}
+
 
 class Pay extends React.Component {
      constructor(props) {
@@ -1025,8 +1019,6 @@ class Pay extends React.Component {
     hindpay=()=>{
         this.hindpayclick()
     }
-
-
     render() {
         return (
         <div>
@@ -1039,23 +1031,22 @@ class Pay extends React.Component {
               closable={false}
               footer={null}
               className='pay'
-
             >
                 <div className='clearfix'>
-                	<div style={lw} className='fl'>
-                 		<Input  addonBefore='总额' style={lh} value={this.state.totolamount} onChange={this.totolamountchange.bind(this)} disabled/>
+                	<div className='fl paylw'>
+                 		<Input  addonBefore='总额' value={this.state.totolamount} onChange={this.totolamountchange.bind(this)} disabled className='paylh tr payinputsmodel'/>
         	         	{
         	         		this.state.group && this.lists.length>1 && (this.lists[0]==0 || this.lists[0]>0)
         	         		?<div className='clearfix inputcenter'>
-        						<Input  addonBefore={this.state.payfirst.name} style={harflwl} value={this.state.payfirst.value} onChange={this.payfirstchange.bind(this)} onBlur={this.payfirstonBlur.bind(this)}/>
-        						<Input  addonBefore={this.state.paysecond.name} style={harflwr} value={this.state.paysecond.value} onChange={this.paysecondchange.bind(this)} onBlur={this.paysecondonBlur.bind(this)}/>
+        						<div className='payharflwl payinputsmodelbox' ><Input  addonBefore={this.state.payfirst.name}  value={this.state.payfirst.value} onChange={this.payfirstchange.bind(this)} onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel'/></div>
+        						<div className='payharflwr payinputsmodelbox'><Input  addonBefore={this.state.paysecond.name} value={this.state.paysecond.value} onChange={this.paysecondchange.bind(this)} onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel'/></div>
         	         		</div>
-        	         		:<div className='inputcenter'><Input  addonBefore={this.state.paynext.name} style={lh} value={this.state.paynext.value} onChange={this.paymoney.bind(this)} ref='paymoneys' onBlur={this.hindonBlur.bind(this)}/></div>
+        	         		:<div className='inputcenter payinputsmodelbox'><Input  addonBefore={this.state.paynext.name} value={this.state.paynext.value} onChange={this.paymoney.bind(this)} ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel'/></div>
                             
         	         	}
-                 		<Input  addonBefore='找零' style={lh} value={this.state.backmoney} onChange={this.backmoney.bind(this)} disabled/>
+                 		<div className='payinputsmodelbox'><Input  addonBefore='找零'  value={this.state.backmoney} onChange={this.backmoney.bind(this)} disabled className='paylh tr payinputsmodel'/></div>
                  		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>
-                        <Button style={lhs} className='tc mt25' onClick={this.hindpayclick.bind(this)} onKeyUp={this.hindpay.bind(this)}>结算<p className='iconk'>「空格键」</p></Button>
+                        <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)} onKeyUp={this.hindpay.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
                	 	</div>
                     <div className='fr' style={{width:'274px'}}>
                         <div>
