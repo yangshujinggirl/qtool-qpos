@@ -538,9 +538,16 @@ class EditableTable extends React.Component {
             }
         }
     }
+
     rowClassName=(record, index)=>{
         if(index==this.state.index){
-            return 'table_theme'
+            return 'themebgcolor'
+        }else{
+            if (index % 2) {
+                return 'table_white'
+            }else{
+                return 'table_gray'
+            }
         }
   	}
     onKeydown=(e)=>{

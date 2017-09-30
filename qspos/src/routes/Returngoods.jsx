@@ -351,7 +351,13 @@ class EditableTable extends React.Component {
     }
     rowClassName=(record, index)=>{
         if(index==this.state.index){
-            return 'table_theme'
+            return 'onetypecolor'
+        }else{
+            if (index % 2) {
+                return 'table_white'
+            }else{
+                return 'table_gray'
+            }
         }
     }
     onKeydown=(e)=>{
@@ -536,6 +542,7 @@ class EditableTable extends React.Component {
                 rowClassName={this.rowClassName.bind(this)}
                 rowSelection={rowSelection}
                 scroll={{ y: 300 }}
+                className='returngoodtable'
             />
         </div>
     );

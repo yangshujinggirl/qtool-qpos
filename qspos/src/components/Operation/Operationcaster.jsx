@@ -166,11 +166,25 @@ class Operationls extends React.Component {
 	    		<div className='clearfix mt20'>
 	    			<div className='cashier fl'><Switch checkedChildren="用户退货" unCheckedChildren="对外售卖" onChange={this.hindchange.bind(this)} checked={this.state.checked}/></div>
 	    			<div className='fl cashierbox'>
-	    				<div className='clearfix cashierbox_t'><div className='fl'><span className='c74'>会员姓名</span><span className='c38 ml10'>{this.state.name}</span></div><div className='fr'><span className='themecolor mr10'>{this.state.levelStr}</span><span className='mr10'>{this.state.isBirthMonth=='true'?'| 生日':null}</span></div></div>
-	    				<div className='clearfix f14 posion cashierbox_b'>
-	    					<div className='fl tc mt10'><p className='c74 clearfix'><div className='fl'>余额</div><div className='rechargebtn'><Modales name={this.state.name} cardNo={this.state.cardNo} amount={this.state.amount} mbCardId={this.state.mbCardId} searchmemberinfo={this.searchmemberinfo.bind(this)}/></div></p><p className='c38'>{this.state.amount}</p></div>
-	    					<div className='fr tc mt10'><p className='c74'>本次积分</p><p className='c38'>{this.state.mbCardId?this.state.integertotalamount:null}</p></div>
-	    					<div className='w tc mt10'><p className='c74'>剩余积分</p><p className='c38'>{this.state.point}</p></div>
+	    				<div className='clearfix cashierbox_t'>
+                            <div className='fl'><span className='c74'>会员姓名</span><span className='c38 ml10'>{this.state.name}</span></div>
+                            <div className='fr'><span className='themecolor'>{this.state.levelStr}</span><span>{this.state.isBirthMonth=='true'?<span className='birthline'><span className='line'></span>生日</span>:null}</span></div>
+                        </div>
+	    				<div className='clearfix posion cashierbox_b'>
+	    					<div className='fl tc mt10 memberinfobox1 memberinfoboxlist' >
+                                <p className='c74 clearfix'><div className='fl'>余额</div><div className='rechargebtn'><Modales name={this.state.name} cardNo={this.state.cardNo} amount={this.state.amount} mbCardId={this.state.mbCardId} searchmemberinfo={this.searchmemberinfo.bind(this)}/></div></p>
+                                <p className='c38 p2'>{this.state.amount}</p>
+                            </div>
+                            <div className='fr tc mt10 memberinfobox2 memberinfoboxlist'>
+                                <p className='c74 p1'>本次积分</p>
+                                <p className='c38 p2'>{this.state.mbCardId?this.state.integertotalamount:null}</p>
+                            </div>
+	    					<div className='w tc mt10 memberinfobox3 memberinfoboxlist'>
+                                <p className='c74'>剩余积分</p>
+                                <p className='c38 p2'>{this.state.point}</p>
+                            </div>
+                            <div className='lines lines1'></div>
+                            <div className='lines lines2'></div>
 	    				</div>
 	    			</div>
 	    		</div>
