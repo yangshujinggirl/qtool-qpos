@@ -131,7 +131,10 @@ class Dropdownmenu extends React.Component {
                         this.setState({
                             visible: false
                         },function(){
-                            this.logout()
+                            message.success('交班成功',1,this.logoutsettime())
+                           
+
+
                         })
                     }else{
                         message.error(json.message);
@@ -145,6 +148,11 @@ class Dropdownmenu extends React.Component {
             })
         }   
     }
+
+    logoutsettime=()=>{
+       setTimeout(this.logout,2000)
+    }
+
     logout=()=>{
         this.context.router.push('/')
     }
@@ -206,8 +214,8 @@ class Dropdownmenu extends React.Component {
                     onCancel={this.handleCancel}
                     className='dropdownmodal'
                     footer={[
-                        <div className='fl tc f14 usermodelfootbtn' key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
-                        <div className='fl tc f14 themecolor usermodelfootbtn' key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
+                        <div className='fl tc usermodelfootbtn' key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
+                        <div className='fr tc themecolor usermodelfootbtn' key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
                         <div className='dividingline' key='line'></div>
                     ]}
                 >
