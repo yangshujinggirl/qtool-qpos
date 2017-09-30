@@ -42,13 +42,13 @@ class Infomodel extends React.Component {
                 closable={false}
                 header={null}
                 footer={[
-                        <div className='tc f26'  key='submit' onClick={this.handleOk.bind(this)} style={{height:'60px',lineHeight:'60px',color:'#384162'}}>确定</div>
+                        <div className='tc sureok'  key='submit' onClick={this.handleOk.bind(this)} style={{height:'60px',lineHeight:'60px',color:'#384162'}}>确定</div>
                     ]}
 
             >
-                <p><Icon type="check-circle" className='iconsuccess f26'/><span className='ml20 f30' style={{color:'#384162'}}>{this.state.text}</span></p>
-                <p className='f18 mt20 modeltext'>账号：{this.state.account}</p>
-                <p className='f18 mb10 modeltext'>密码：{this.state.password}</p>
+                <p className='tc'><Icon type="check-circle" className='iconsuccess'/><span className='modelictitle' style={{color:'#384162'}}>{this.state.text}</span></p>
+                <p className='modeltext modeltext1'>账号：{this.state.account}</p>
+                <p className='modeltext modeltext2'>密码：{this.state.password}</p>
             </Modal>
         </div>
     );

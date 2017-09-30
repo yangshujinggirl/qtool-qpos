@@ -8,20 +8,19 @@ import {GetServerData} from '../services/services';
 
 //css
 const btn={position:'absolute',right:'0','top':'0'}
-const inputwidth={width:'340px',height:'40px'}
 const addaccountspan={marginRight:'10px',fontSize:'14px',color: '#74777F'}
 const modelfooters={height:'20px',lineHeight:'20px',marginTop:'20px'}
 const hrefshift_box={'width':'224px','fontSize': '14px'}
 const hrefshift_boxs={'width':'224px','fontSize': '14px',color:'#35BAB0'}
 const dividingline={width: '2px',height: '15px',background:'#E7E8EC',margin:'0 auto',marginTop: '3px'}
-const widthmeth={width:'100px',height:'40px',background:'#FFF',border: '1px solid #E7E8EC',borderRadius: '3px',color: '#35BAB0',fontSize: '14px',textAlign:'center',lineHeight:'40px',cursor: 'pointer'}
+const widthmeth={width:'100px',height:'40px',background:'#FFF',border: '1px solid #E7E8EC',borderRadius: '3px',color: '#35BAB0',fontSize: '14px',textAlign:'center',lineHeight:'40px',cursor: 'pointer',marginLeft:'95px'}
 const textcoloe={color: '#35BAB0',cursor: 'pointer'}
-const footleft={width:'224px',fontSize: '14px',height:'60px',lineHeight:'60px',cursor: 'pointer'}
-const footlefts={width:'175px',fontSize: '14px',height:'60px',lineHeight:'60px',cursor: 'pointer'}
-const footright={width:'224px',fontSize: '14px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
-const footrights={width:'175px',fontSize: '14px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
+const footleft={width:'224px',fontSize: '16px',height:'60px',lineHeight:'60px',cursor: 'pointer'}
+const footlefts={width:'175px',fontSize: '16px',height:'60px',lineHeight:'60px',cursor: 'pointer'}
+const footright={width:'224px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
+const footrights={width:'175px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
 const footcen={width: '1px',height: '15px',background:'#E7E8EC',margin:'0 auto',marginTop: '20px',cursor: 'pointer'}
-const footcens={width:'100px',fontSize: '14px',height:'60px',lineHeight:'60px',margin:'0 auto',textAlign:'center',cursor: 'pointer'}
+const footcens={width:'100px',fontSize: '16px',height:'60px',lineHeight:'60px',margin:'0 auto',textAlign:'center',cursor: 'pointer'}
 
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
@@ -89,7 +88,7 @@ class Modelform extends Component {
                                     })
                                 }else{
                                     const showInfomodel=this.props.showInfomodel
-                                    showInfomodel('新建账号成功',json.userName,json.password)
+                                    showInfomodel('账号新建成功',json.userName,json.password)
                                     this.props.dispatch({
                                         type:'account/fetch',
                                         payload: {code:'qerp.pos.ur.user.query'}
@@ -133,7 +132,7 @@ class Modelform extends Component {
                         this.hideModal()
                         const {username}= this.props.record;
                         const showInfomodel=this.props.showInfomodel
-                        showInfomodel('修改密码成功',username,json.newPassword)
+                        showInfomodel('重置密码成功',username,json.newPassword)
                        
                     }else{  
                        
@@ -152,6 +151,7 @@ class Modelform extends Component {
                     {this.props.text}
                 </div>
                 <Modal
+                    className='accountmodel'
                     title={this.props.texts}
                     visible={this.state.visible}
                     onOk={this.hideModal}
@@ -164,35 +164,35 @@ class Modelform extends Component {
                     footer={[
                         <div className='fl tc' style={type?footleft:footlefts} key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
                         <div className='fr tc' style={type?footright:footrights} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
-                        <div style={type?footcen:footcens} key='line' onClick={this.revisepassword.bind(this)}>{type?null:'重置密码'}</div>
+                        <div style={type?footcen:footcens} key='line' onClick={this.revisepassword.bind(this)}>{type?null:'重置密码'}</div>,
                     ]}
                 >
                     <Form className='formdis'>
                         <FormItem 
                             label="帐号名称"
-                            labelCol={{ span: 4 }}
+                            labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
                             >
                             {getFieldDecorator('nickname', {
                                 initialValue: nickname,
                                 rules: [{ required: true, message: '请输入账号名称' }],
                             })(
-                                <Input placeholder="请输入1-5位会员姓名" style={inputwidth} />
+                                <Input placeholder="请输入1-5位会员姓名" className='inputwidth' />
                             )}
                         </FormItem>
                         <FormItem 
                             label="帐号电话"
-                            labelCol={{ span: 4 }}
+                            labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
                             >
                             {getFieldDecorator('username', {
                                 initialValue: username,
-                                rules: [{ required: true, message: '请输入帐号电话' }],
+                                rules: [{ required: true, message: '请输入11位手机号' }],
                             })(
-                                <Input placeholder="请输入11位手机号" style={inputwidth} />
+                                <Input placeholder="请输入11位手机号" className='inputwidth' />
                             )}
                         </FormItem>
-                        <FormItem  label="会员权限" className='listto'>
+                        <FormItem  label="会员权限" className='listto checkboxlabel'>
                             {getFieldDecorator('role', {
                                 initialValue: Number(role)
                             })(
@@ -202,7 +202,7 @@ class Modelform extends Component {
                                 </RadioGroup>
                             )}
                         </FormItem>
-                        <FormItem label="帐号状态">
+                        <FormItem label="帐号状态" className='checkboxlabel checkboxlabelstatus'>
                             {getFieldDecorator('status', {
                                 initialValue: Number(status)
                             })(
@@ -327,22 +327,24 @@ class App extends React.Component {
         <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'50px',padding:'30px'}} className='formdis accformdis'>
             <FormItem
                 label="打印控件"
+                className='download fires fireses'
             >
                 {getFieldDecorator('printDevice', {
                 })(
 
-                    <p style={{fontSize:'12px',marginTop:'5px'}}>
+                    <p className='downk'>
                         <a href='/static/install_lodop32.exe' target='_self'>下载打印控件</a>
                     </p> 
                 )}
             </FormItem>
             <FormItem
                 label="纸张大小"
+                className='paper fires fireses'
                 >
                 {getFieldDecorator('paperSize', {
                     initialValue: 80,
                 })(
-                    <RadioGroup onChange={this.paperSizeonChange} style={{marginTop:'4px'}}>
+                    <RadioGroup onChange={this.paperSizeonChange}>
                         <Radio value={80}>80mm</Radio>
                         <Radio value={58}>58mm</Radio>
                     </RadioGroup>
@@ -351,11 +353,12 @@ class App extends React.Component {
             </FormItem>
             <FormItem
                 label="结算后打印"
+                className='fireses'
             >
                 {getFieldDecorator('submitPrint', {
                     initialValue: 1,
                 })(
-                    <RadioGroup onChange={this.onChange} style={{marginTop:'4px'}}>
+                    <RadioGroup onChange={this.onChange}>
                         <Radio value={1}>是</Radio>
                         <Radio value={0}>否</Radio>
                     </RadioGroup>
@@ -364,11 +367,12 @@ class App extends React.Component {
             </FormItem>
             <FormItem
                 label="充值后打印"
+                className='fireses'
             >
             {getFieldDecorator('rechargePrint', { 
                 initialValue: 1,
             })(
-                <RadioGroup onChange={this.onChange} style={{marginTop:'4px'}}>
+                <RadioGroup onChange={this.onChange}>
                     <Radio value={1}>是</Radio>
                     <Radio value={0}>否</Radio>
                 </RadioGroup>
@@ -376,7 +380,7 @@ class App extends React.Component {
             )}
             </FormItem>
             <FormItem>
-                <div onClick={this.handleSubmit.bind(this)} style={widthmeth}>确定</div>
+                <div onClick={this.handleSubmit.bind(this)} className='submitform'>确定</div>
             </FormItem>
         </Form>
          
