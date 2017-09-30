@@ -18,12 +18,12 @@ const widthmeth={width:'100px',height:'40px',background:'#FFF',border: '1px soli
 fontSize: '14px',textAlign:'center',lineHeight:'40px',cursor: 'pointer'}
 const textcoloe={color: '#35BAB0',cursor: 'pointer'}
 const modelfooters={height:'20px',lineHeight:'20px',marginTop:'40px'}
-const footleft={width:'224px',fontSize: '14px',height:'60px',lineHeight:'60px',cursor: 'pointer',}
-const footlefts={width:'175px',fontSize: '14px',height:'60px',lineHeight:'60px',cursor: 'pointer'}
-const footright={width:'224px',fontSize: '14px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
-const footrights={width:'175px',fontSize: '14px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
+const footleft={width:'224px',fontSize: '16px',height:'60px',lineHeight:'60px',cursor: 'pointer',}
+const footlefts={width:'175px',fontSize: '16px',height:'60px',lineHeight:'60px',cursor: 'pointer'}
+const footright={width:'224px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
+const footrights={width:'175px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
 const footcen={width: '1px',height: '15px',background:'#E7E8EC',margin:'0 auto',marginTop: '20px'}
-const footcens={width:'100px',fontSize: '14px',height:'60px',lineHeight:'60px',margin:'0 auto',textAlign:'center'}
+const footcens={width:'100px',fontSize: '16px',height:'60px',lineHeight:'60px',margin:'0 auto',textAlign:'center'}
 const textplace={fontSize: '16px',color: '#74777F',display:'inlineBlock',lineHeight:'40px'}
 
 
@@ -100,6 +100,11 @@ class Modelform extends Component {
                 }).then((json) => {
                     console.log(json)
                     if(json.code=='0'){
+                        if(this.props.type){
+                            message.success('会员新建成功')
+                        }else{
+                            message.success('会员信息修改成功')
+                        }
                        this.hideModal()
                        this.props.dispatch({
                             type:'member/fetch',
@@ -151,44 +156,45 @@ class Modelform extends Component {
                     <Form className='formdis'>
                         <FormItem 
                             label="会员姓名"
-                            labelCol={{ span: 4 }}
+                            labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
                             >
                             {getFieldDecorator('name', {
                                 initialValue: name,
                                 rules: [{ required: true, message: '请输入1-5位会员姓名' }],
                             })(
-                                <Input placeholder="请输入1-5位会员姓名" style={inputwidth} />
+                                <Input placeholder="请输入1-5位会员姓名" className='inputwidth'/>
                             )}
                         </FormItem>
                         <FormItem 
                             label="会员电话"
-                            labelCol={{ span: 4 }}
+                            labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
                             >
                             {getFieldDecorator('mobile', {
                                 initialValue: mobile,
                                 rules: [{ required: true, message: '请输入11位手机号' }],
                             })(
-                                <Input placeholder="请输入11位手机号" style={inputwidth} />
+                                <Input placeholder="请输入11位手机号" className='inputwidth' />
                             )}
                         </FormItem>
                         <FormItem 
                             label="会员卡号"
-                            labelCol={{ span: 4 }}
+                            labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
                             >
                             {getFieldDecorator('cardNo', {
                                 initialValue: cardNo,
                                 rules: [{ required: true, message: '请输入6位会员卡号' }],
                             })(
-                                <Input placeholder="请输入6位会员卡号" style={inputwidth} />
+                                <Input placeholder="请输入6位会员卡号" className='inputwidth' />
                             )}
                         </FormItem>
                         <FormItem 
                             label="宝宝生日"
-                            labelCol={{ span: 4 }}
+                            labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
+                            className='listform'
                             >
                             {getFieldDecorator('mbCardBirths', {
                             })(
@@ -202,7 +208,12 @@ class Modelform extends Component {
                                 />
                             )}
                         </FormItem>
-                        <FormItem  label="会员级别">
+                        <FormItem  
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{ span: 8 }}
+                        label="会员级别"
+                        className='listform'
+                        >
                             {getFieldDecorator('level', {
                                 initialValue: Number(level)
                             })(
@@ -218,11 +229,16 @@ class Modelform extends Component {
                             ? 
                                 null
                             :
-                                <FormItem  label="账户金额">
+                                <FormItem  
+                                label="账户金额"
+                                labelCol={{ span: 5 }}
+                                wrapperCol={{ span: 8 }}
+                                className='listform'
+                                >
                                     {getFieldDecorator('amount', {
                                         initialValue: Number(amount)
                                     })(
-                                        <Input style={inputwidth} disabled className='teinput'/>
+                                        <Input className='inputwidth teinput' disabled/>
                                     )}
                                 </FormItem>
                         }
@@ -231,11 +247,16 @@ class Modelform extends Component {
                             ?
                                 null
                             :
-                                <FormItem  label="会员积分">
+                                <FormItem  
+                                label="会员积分"
+                                labelCol={{ span: 5 }}
+                                wrapperCol={{ span: 8 }}
+                                className='listform'
+                                >
                                     {getFieldDecorator('point', {
                                         initialValue: Number(point)
                                     })(
-                                        <Input style={inputwidth} disabled className='teinput'/>
+                                        <Input className='inputwidth teinput' disabled/>
                                     )}
                                 </FormItem>
                            
@@ -259,7 +280,7 @@ class EditableTablebaby extends React.Component {
         dataIndex: 'year',
         render: (text, record, index) => (
             <div>
-                <Select  style={{ width: 70 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
+                <Select  style={{ width: 64 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
                 {
                     batrhdata.year.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -480,7 +501,7 @@ class EditableTablebaby extends React.Component {
         const columns = this.columns;
     return (
       <div className='clearfix birthday' style={{width:'340px'}}>
-        <div className='fl' style={{width:'250px'}}>
+        <div className='fl babytablesbox'>
             <Table 
                 bordered 
                 dataSource={this.state.dataSource} 
