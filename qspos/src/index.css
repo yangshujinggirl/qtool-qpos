@@ -238,7 +238,10 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .userloginlogo{width: 100%;height: 168px;background: #35BAB0;overflow: hidden;border-radius: 3px 3px 0 0}
 .userloginlogobox{width:210px;height: 83px;margin:0 auto;margin-top: 43px}
 .userloginformbutton{width: 100%;margin-top: 12px}
-.userlogin_form{max-width: 400px;margin:0 auto;margin-top:30px}
+.userlogin_form{max-width: 400px;margin:0 auto;margin-top:30px;}
+.userlogin_form .ant-input-disabled{background: #fff;color: rgba(0,0,0,1);}
+
+
 .jiaos{height: 20px;}
 
 /*infomessage组件*/
@@ -318,6 +321,9 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .slidetitle .p1{margin-top:20px}
 .slidetitle .p2{ font-size:18px;color: #384162}
 .slidetitle .p3{font-size: 18px;color:#74777F;margin-right:30px}
+.Paginationsell{height: 80px;width: 300px;margin-left: 30px;border-right: 1px solid rgb(231, 232, 236);padding-top: 10px;padding-left: 50px;}
+/*.Paginationsells{margin-top:10px;}*/
+
 /*会员管理*/
 .birthday .ant-table-tbody > tr{border: 1px solid #E7E8EC;display: inline-block;border-radius: 3px;width: 220px;height: 42px;padding:0;margin-bottom: 10px;}
 .birthday .ant-table-tbody > tr>td{height: 40px;display: inline-block;padding:0;}
@@ -369,15 +375,50 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 
 
 /*结算*/
+.btnbg{margin-top: 10px;}
 .pay .ant-modal-body{padding:30px 23px 30px 30px;}
 .pay .list{width:117px;height:80px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
-box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
-.pay .listoff{ width:117px;height:80px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;}
-.pay .listdis{ width:117px;height:80px;background:#f7f7f7;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;color: rgba(0, 0, 0, 0.25);border-radius: 5px;}
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+.pay .listoff{ width:117px;height:80px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
+.pay .listdis{ width:117px;height:80px;background:#f7f7f7;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
+.pay .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
+.pay .listnonezero{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+.pay .listnonezeros{width:117px;height:144px;background:#35bab0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+
+
+.pay .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
+.pay .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
+.pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
+.pay .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
+.pay .listnonezero .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
+.pay .listnonezeros .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
+
+
+
+
+
+
+
 .pay .listt{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
+.pay .listt:hover{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
+
 .pay .listtoff{width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;}
-.pay .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
+.pay .listtoff:hover{width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;}
+
+
+
+
+
+
+
+
+.pay .listnonezeros:hover{width:117px;height:144px;background:#35bab0;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
+
 .pay .ant-input{border-left: 0;font-size: 40px;color: #384162}
 .pay .ant-input:hover{border-color: #e2e2e2;}
 .pay .ant-input-group-addon{background: #f7f7f7;font-weight: bolder;font-size: 18px;border-radius: 5px 0 0 5px;}
@@ -395,6 +436,7 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
 .paylw{width:580px;}
 .paylh{height:80px}
 .paylhs{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.paylhs:hover{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 .payharflw{width:280px;height:80px;}
 .payharflwl{width:280px;height:80px;float:left;margin-bottom: 20px;}
 .payharflwr{width:280px;height:80px;float:right;margin-bottom: 20px;}
@@ -404,7 +446,7 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
 .rechargepays .ant-modal-body{padding:0 0 20px 0;}
 
 
-.payends .ant-btn:hover, .ant-btn:focus, .ant-btn:active, .ant-btn.active{background: #35bab0;color:#fff}
+
 
 
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px white inset !important; }
@@ -420,9 +462,12 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 
 .formdis .ant-radio{margin-left: 2px;}
 
-.ant-table-pagination{text-align:center;border-top:1px solid #E7E8EC;padding-top:20px;margin:10px 0;float: none;}
+.ant-table-pagination{padding-top:20px;margin:10px 0;float: right;margin-right: 20px;}
 .ant-select-arrow{right: 0;}
 
+
+
+/*.ant-btn:hover, .ant-btn:focus, .ant-btn:active, .ant-btn.active{background:inherit;}*/
 /*---------------------------------------__________________________________________________________*/
 
 

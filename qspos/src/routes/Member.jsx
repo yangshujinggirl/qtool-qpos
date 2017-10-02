@@ -72,49 +72,41 @@ class Modelform extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 values.mbCardBirths=this.babydatasouces
-                console.log(values.mbCardBirths)
-                for(var i=0;i<values.mbCardBirths.length;i++){
-                    if(values.mbCardBirths[i].year==null || undefined || ''){
-                        message.warning('生日信息不全')
-                        return
-
-                    }
-                    if(values.mbCardBirths[i].month==null || undefined || ''){
-                        message.warning('生日信息不全')
-                        return
-                    }
-                    if(values.mbCardBirths[i].day==null || undefined || ''){
-                        message.warning('生日信息不全')
-                        return
-                    }
-
-                }
-                if(this.props.type==false){
-                    const {mbCardId} = this.props.record; 
-                    values.mbCardId=mbCardId
-                }
-                let valuesdata={mbCardInfo:values}
-                const result=GetServerData('qerp.pos.mb.card.save',valuesdata)
-                result.then((res) => {
-                  return res;
-                }).then((json) => {
-                    console.log(json)
-                    if(json.code=='0'){
-                        if(this.props.type){
-                            message.success('会员新建成功')
-                        }else{
-                            message.success('会员信息修改成功')
-                        }
-                       this.hideModal()
-                       this.props.dispatch({
-                            type:'member/fetch',
-                            payload: {code:'qerp.pos.mb.card.query',values:{keywords:''}}
-                        })
-                    }else{  
-                       message.error(json.message);
-                    }
+                //如果数组中所有元素都满足条件，则通过，否则抛出异常
+                var babydatatattu=values.mbCardBirths.every(function(item,index){
+                  return  (item.year==null && item.month===null && item.day===null) || (item.year!=null && item.month!=null && item.day!=null)
                 })
-            }
+                if(babydatatattu){
+                    if(this.props.type==false){
+                        const {mbCardId} = this.props.record; 
+                        values.mbCardId=mbCardId
+                    }
+                    let valuesdata={mbCardInfo:values}
+                    const result=GetServerData('qerp.pos.mb.card.save',valuesdata)
+                    result.then((res) => {
+                        return res;
+                    }).then((json) => {
+                        console.log(json)
+                        if(json.code=='0'){
+                            if(this.props.type){
+                                message.success('会员新建成功')
+                            }else{
+                                message.success('会员信息修改成功')
+                            }
+                           this.hideModal()
+                           this.props.dispatch({
+                                type:'member/fetch',
+                                payload: {code:'qerp.pos.mb.card.query',values:{keywords:''}}
+                            })
+                        }else{  
+                           message.error(json.message);
+                        }
+                    })
+                }else{
+                    message.warning('生日信息不全')
+                }
+
+            } 
         
         })
     }

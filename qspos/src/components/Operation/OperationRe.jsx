@@ -156,38 +156,36 @@ class Operationls extends React.Component {
 	state={
 		barcode:'',
 		onBlur:true,
-		cardNoMobile:'',
-		name:'',
-		levelStr:'',
-		point:'',
-		amount:'',
+		cardNoMobile:null,  //会员手机号
+		name:'',  //会员姓名
+		levelStr:'',//会员级别
+		point:'',//会员积分
+		amount:'',//会员金额
 		integertotalamount:null,
 		checked:true,
-		isBirthMonth:false,
-        cardNo:'',
-        mbCardId:''
+		isBirthMonth:false,//是否生日
+        cardNo:'',//会员卡号
+        mbCardId:'',//会员卡id
+        ismbCard:false //是否是会员
 	}
     //会员id
-	clearingdata=(integertotalamount)=>{
+	clearingdata=(integertotalamount,ismbCard)=>{
         if(integertotalamount==null){
             this.setState({
-                cardNoMobile:null
+                cardNoMobile:null,
+                ismbCard:ismbCard
             })
-
-
         }else{
             this.setState({
-                cardNoMobile:integertotalamount.cardNo
+                cardNoMobile:integertotalamount.cardNo,
+                ismbCard:ismbCard
             },function(){
                 this.memberinfo()
             })
-
-
         }
 		
 	}
 	updateintegertotalamount=(messages)=>{
-		console.log(messages)
 		this.setState({
 			integertotalamount:Math.round(messages)
 		},function(){
@@ -252,7 +250,7 @@ class Operationls extends React.Component {
                     mbCardId:json.mbCardInfo.mbCardId
                 })
             }else{  
-                console.log(json.message)   
+                message.warning(json.message)   
             }
         })
 	}
@@ -351,8 +349,8 @@ class Operationr extends React.Component {
 	clearingdata=(messages,totalamount)=>{
 		console.log(messages)
 		this.setState({
-			quantity:messages,
-			totalamount:totalamount,
+			quantity:messages, //总数
+			totalamount:totalamount, //总价钱
 		},function(){
             this.props.revisedata({type:7,quantity:this.state.quantity,totalamount:this.state.totalamount})
         })
@@ -397,9 +395,15 @@ class OperationRe extends React.Component {
 		clearingdatas(messages,totalamount)
 
 	}
-	clearingdatasl=(integertotalamount)=>{
+
+    //接收会员信息
+	clearingdatasl=(integertotalamount,ismbCard)=>{
 		const clearingdatas=this.refs.cashier.clearingdata
-		clearingdatas(integertotalamount)
+		clearingdatas(integertotalamount,ismbCard)
+
+
+
+
 	}
 	//积分更新
 	updateintegertotalamount=(messages)=>{

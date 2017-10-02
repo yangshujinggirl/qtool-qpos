@@ -14,7 +14,7 @@ class Pay extends React.Component {
      }
     state = { 
         visible: false,
-        group:true,
+        group:true,//是否组合
         payfirst:{
             name:'会员卡',
             value:''
@@ -27,7 +27,6 @@ class Pay extends React.Component {
             name:'会员卡',
             value:''
         },
-        totolamount:'',//总金额
         backmoney:0,
         listarrs:[
                 {name:'微信',style:'list',disabled:false},
@@ -38,41 +37,35 @@ class Pay extends React.Component {
                 {name:'积分',style:'list',disabled:false}
             ],
         type:'1',
-        nonezero:false, //是否禁用
-        usetype:true, //收银 false，退货,
-        nozero:false,
-        
-        
-        datajifen:0,
+        waringfirst:true,//警告
+        usetype:true, //收银 退货false,
         warning:false,
         text:'',
         membermoney:'' ,//会员卡金额
         pointmoney:'',//积分金额,
-        cutAmount:'0',
-        waringfirst:true,
+        cutAmount:'0', //是否抹零
+        totolamount:0,//第一个输入框
 
-
-
-        //接收数据
+        //收银接收数据
         datadatasoucer:[],  //table
         datadatasoucerlength:0, 
         datamember:null,//会员
         datanumber:0, //数量
         datatotalamount:'0.00', //总额
+        datajifen:0, //积分
 
 
 
-        //显示数据
-
-
-
-        //功能状态数据
-
-
-
-
-
-
+        //退货接收数据
+        redatasouce:[],//退货table选中数据
+        odOrderId:null,//订单id
+        rembCardId:null,//会员卡id
+        quantity:0,//总数量
+        retotalamount:0,//总金额
+        rejifen:0,//本次积分,
+        returnismbCard:false,//是否是会员
+        returndataSource:[],//退货table所有数据,
+        rebarcode:null //退货订单号
     }
 
     //接收函数
@@ -110,36 +103,24 @@ class Pay extends React.Component {
                 datajifen:messagedata.data
             })
         }
+
+
+
+
+        //退货
         if(messagedata.type==6){
-            //退货datasouce 和订单id odOrderId 会员id 还要计算商品数 
             const redatasouce=messagedata.data
-            console.log(redatasouce)
-            const odOrderId=redatasouce[0].odOrderId
-            const mbCardId=messagedata.mbCardId
-            var renumber=0
-            for(var i=0;i<redatasouce.length;i++){
-                renumber=renumber+Number(redatasouce[i].qty)
-                redatasouce[i].refundPrice=redatasouce[i].payPrice
-            }
             this.setState({
-                redatasouce:redatasouce, //datasouce
-                odOrderId:odOrderId, //订单id
-                renumber:renumber, //总数量
-                rembCardId:mbCardId
+                redatasouce:redatasouce, //选中的datasouce
+                // odOrderId:redatasouce[0].odOrderId //订单id
             })
         }
         if(messagedata.type==7){
-            //退货种类数 金额，实际退钱
+            //退货种类数 金额
             this.setState({
-                quantity:messagedata.quantity,
-                totalamount:messagedata.totalamount,
-                intotalamount:messagedata.totalamount
-            })
-        }
-        if(messagedata.type==8){
-            //订单号
-            this.setState({
-                rebarcode:messagedata.data
+                quantity:messagedata.quantity, 
+                retotalamount:messagedata.totalamount,
+                totolamount:messagedata.totalamount
             })
         }
         if(messagedata.type==9){
@@ -147,6 +128,28 @@ class Pay extends React.Component {
             this.setState({
                 rejifen:messagedata.data
             })
+        }
+        if(messagedata.type==10){
+            console.log(messagedata)
+            //table中所有数据包括未选中
+            //会员卡id
+            //是否是会员
+            if(messagedata.ismbCard){
+                this.setState({
+                    returndataSource:messagedata.data,
+                    rembCardId:messagedata.mbCard.mbCardId,
+                    returnismbCard:messagedata.ismbCard,
+                    rebarcode:messagedata.odOrderNo
+                })
+            }else{
+                this.setState({
+                    returndataSource:messagedata.data,
+                    rembCardId:null,
+                    returnismbCard:messagedata.ismbCard,
+                    rebarcode:messagedata.odOrderNo
+                })
+            }
+            
         }
     }
 
@@ -380,7 +383,7 @@ class Pay extends React.Component {
     handleOk = (e) => {
         this.setState({
           visible: false,
-          nozero:false,
+         
           group:true,
             payfirst:{
                 name:'会员卡',
@@ -405,9 +408,8 @@ class Pay extends React.Component {
                     {name:'积分',style:'list',disabled:false}
                 ],
             type:'1',
-            nonezero:false, //是否禁用
             usetype:true, //收银 false，退货,
-            nozero:false,
+          
             datamember:null,
             datadatasoucer:[],
             datadatasoucerlength:0,
@@ -425,8 +427,8 @@ class Pay extends React.Component {
     handleCancel = (e) => {
         this.setState({
           visible: false,
-          nozero:false,
           waringfirst:true,
+          cutAmount:0
         });
     }
   //js判断是否在数组中
@@ -792,13 +794,14 @@ class Pay extends React.Component {
             let type=list[1]+1
             let values={
                 "odReturn":{
-                    "amount":this.state.totalamount, 
+                    "amount":this.state.totolamount, 
                     "orderNo":this.state.rebarcode, 
-                    "qty":this.state.renumber,
-                    "refundAmount":this.state.intotalamount,
+                    "qty":this.state.quantity,
+                    "refundAmount":this.state.paynext.value,
                     "returnPoint":this.state.rejifen,
                     "skuQty":this.state.quantity,
-                    "type":type
+                    "type":type,
+                     cutAmount:this.state.cutAmount
                 },
                 "odReturnDetails":this.state.redatasouce,
                 "qposMbCard":{"mbCardId":this.state.rembCardId}
@@ -833,11 +836,12 @@ class Pay extends React.Component {
             }).then((json) => {
                 if(json.code=='0'){
                      this.handleOk()
+                     message.success('退货成功')
                      this.props.reinitdata()
                       // this.handprint(json.odReturnId,'odReturn',json.returnNo)
                 }else{
                      this.props.useinitdata()
-                     message.success('退货成功')
+                     
                      //打印
                     message.error(json.message)
                 }
@@ -865,13 +869,10 @@ class Pay extends React.Component {
     }
 
     nozeroclick=()=>{
-        this.setState({
-            nozero:true
-        },function(){
-            const group=this.state.group
-            const totolamount=parseInt(this.state.totolamount).toFixed(2) //整数
-            const sp=this.state.totolamount.toString().split('.')[1]
-            if(group){
+        const group=this.state.group
+        const totolamount=parseInt(this.state.totolamount).toFixed(2) //整数
+        const sp=this.state.totolamount.toString().split('.')[1]
+        if(group){
                 var paysecond=this.state.paysecond
                 paysecond.value=(-this.backmoneymeth(totolamount,this.state.payfirst.value,0)).toFixed(2)
                 this.setState({
@@ -880,7 +881,7 @@ class Pay extends React.Component {
                     backmoney:this.backmoneymeth(totolamount,this.state.payfirst.value,paysecond.value),
                     cutAmount:'1'
                 })
-            }else{
+        }else{
                 //判断第二个输入框是会员还是积分还是其他
                 const paynextvalue=this.state.paynext
                 paynextvalue.value=totolamount
@@ -890,16 +891,16 @@ class Pay extends React.Component {
                 if(paynextvalue.name=='积分'){
                     paynextvalue.value=this.state.pointmoney
                 }
-
-
                 this.setState({
                     totolamount:totolamount,
                     paynext:paynextvalue,
                     backmoney:this.backmoneymeth(totolamount,paynextvalue.value,0),
                     cutAmount:'1'
+                },function(){
+                    console.log(this.state.paynext)
                 })
-            }
-        })
+        }
+        
     }
     payfirstchange=(e)=>{
         const payfirst=this.state.payfirst
@@ -1086,8 +1087,8 @@ class Pay extends React.Component {
                                 {
                                     this.state.listarrs.map((item,index)=>{
                                         return(
-                                            <li className='fl' onClick={this.listclick.bind(this,index)} key={index}>
-                                                <Button className={item.style} disabled={item.disabled}>{item.name}</Button>
+                                            <li className='fl' onClick={this.listclick.bind(this,index)} key={index} className={item.style}>
+                                                <Button  disabled={item.disabled} className='paytypelist'>{item.name}</Button>
                                             </li>
                                         )
                                     })
@@ -1096,9 +1097,9 @@ class Pay extends React.Component {
                             </ul>
                         </div>
                         <div>
-                            <ul>
-                                <li className='fl' onClick={this.connectclick.bind(this)}><Button className={this.state.usetype?(this.state.group?'listtoff':'listt'):'listtdis'}>组合<br/>支付</Button></li>
-                                <li className='fl' onClick={this.nozeroclick.bind(this)}><Button className={this.state.usetype?(this.state.nozero?'listtoff':'listt'):'listtdis'}  disabled={this.state.nonezero}>抹零</Button></li>
+                            <ul className='btnbg'>
+                                <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.usetype?(this.state.group?'listtoff':'listt'):'listtdis'}><Button disabled={!this.state.usetype}>组合<br/>支付</Button></li>
+                                <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.usetype?(this.state.cutAmount=='0'?'listtoff':'listt'):(this.state.cutAmount=='0'?'listnonezero':'listnonezeros')}><Button>抹零</Button></li>
                             </ul>
                         </div>
                     </div>

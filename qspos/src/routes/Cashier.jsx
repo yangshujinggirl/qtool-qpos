@@ -110,10 +110,6 @@ class EditableTable extends React.Component {
             integertotalamount:0//总金额取整
         };
     }
-
-
-
-
     //页面数据初始化
     initdata=()=>{
         this.setState({
@@ -292,9 +288,6 @@ class EditableTable extends React.Component {
                 data:this.state.dataSource
             }
             revisedata(messages)
-           
-
-
         }) 
     }
     discountblur=(index)=>{

@@ -18,6 +18,7 @@ class EditableTable extends React.Component {
         this.columns = [{
             title: '序号',
             dataIndex: 'index',
+             width:'6%',
             render: (text, record, index) => {
                 return (
                     this.state.dataSource.length > 0 
@@ -53,6 +54,7 @@ class EditableTable extends React.Component {
                                     value={this.state.dataSource[index].receiveQty} 
                                     onChange={this.setqtys.bind(this,index)}
                                     onBlur={this.discountblur.bind(this,index)}
+                                    className='tc'
                                 />
                             ) 
                         : null
@@ -81,9 +83,6 @@ class EditableTable extends React.Component {
        var zindexs=(Number(this.state.page)-1)*5+Number(index)
        return zindexs
     }
-
-
-
     setqtys=(index,e)=>{
         console.log(index)
         var zindex=this.zindex(index)
@@ -148,19 +147,17 @@ class EditableTable extends React.Component {
                 }
                 clearingdatas(dataSources.length,numberdata)
             })
-
-
-
-
         }
-
-
-
-       
     }
     rowClassName=(record, index)=>{
         if(index==this.state.index){
-            return 'table_theme'
+            return 'themebgcolor'
+        }else{
+            if (index % 2) {
+                return 'table_white'
+            }else{
+                return 'table_gray'
+            }
         }
     }
   
@@ -469,7 +466,7 @@ class Receivegoods extends React.Component {
                         initdata={this.initdata.bind(this)}
                         />
                     </div>       
-                    <div className='mt30 footer'>        
+                    <div className='mt30 footers'>        
                         <div className='mt20'>
                             <Operation color={true} 
                                 type={true} 

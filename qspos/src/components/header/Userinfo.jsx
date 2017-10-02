@@ -41,7 +41,7 @@ class NormalLoginForm extends React.Component {
             <Form onSubmit={this.handleSubmit} className='userlogin_form'>
                 <FormItem>
                     {getFieldDecorator('username', {})(
-                        <Input prefix={<Icon type="user" className='f13'/>}/>
+                        <Input prefix={<Icon type="user" className='f13'/>} disabled className='usersinput'/>
                     )}
                 </FormItem>
                 <FormItem>
@@ -132,9 +132,6 @@ class Dropdownmenu extends React.Component {
                             visible: false
                         },function(){
                             message.success('交班成功',1,this.logoutsettime())
-                           
-
-
                         })
                     }else{
                         message.error(json.message);

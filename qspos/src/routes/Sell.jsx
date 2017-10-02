@@ -18,9 +18,9 @@ const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const dateFormat = 'YYYY-MM-DD';
 const { MonthPicker, RangePicker } = DatePicker;
-const saletext='123'
+const saletext='门店销售门店内商品所获得得金额（不包含充值／退货）'
 const sale=<Tooltip placement="top" title={saletext}>销售额</Tooltip>
-const netreceiptstext='456'
+const netreceiptstext='门店销售商品，用户充值及退货所造成的实际金额变化'
 const netreceipts=<Tooltip placement="top" title={netreceiptstext}>净收款</Tooltip>   
 
 //切换tag
@@ -386,7 +386,7 @@ class Ordertap extends React.Component {
                     })
                 }
             </Tabs>
-            <Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)}/>
+            <div className='Paginationsell'><Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)} className='Paginationsells'/></div>
 
         </div>
     )

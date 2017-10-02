@@ -88,7 +88,7 @@ class EditableTable extends React.Component {
             }
         }];
         this.state = {
-            dataSource: [],
+            dataSource: [],//所有的table数据
             count: 1,
             index:0,
             quantity:0,//数量
@@ -96,7 +96,7 @@ class EditableTable extends React.Component {
             integertotalamount:0,//总金额取整,
             selectedRows:[],
             ismbCard:false,
-            isdataSource:[],
+            isdataSource:[],//选中的table数据
             mbCard:null,
             selectedRowKeys:[]
 
@@ -105,38 +105,6 @@ class EditableTable extends React.Component {
     }
 
 
-
-    hindselect=(record,selected,selectedRows)=>{
-                console.log(selectedRows)
-             //高亮
-             if(selected){
-                 this.setState({
-                     index:Number(record.key),
-                     selectedRows:selectedRows,
-                    isdataSource:selectedRows
-                 },function(){
-                     if(this.state.ismbCard){
-                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                    }else{
-                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                    }
-                     this.uptotaldata()
-                 })
-             }else{
-                 this.setState({
-                     selectedRows:selectedRows,
-                    isdataSource:selectedRows
-                 },function(){
-                    if(this.state.ismbCard){
-                            this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                    }else{
-                            this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                    }
-                     this.uptotaldata()
-
-                 })
-             }
-    }
     onSelectChange=(selectedRowKeys)=>{
         this.setState({ selectedRowKeys },function(){
             const focuser=this.props.focuser
@@ -174,15 +142,18 @@ class EditableTable extends React.Component {
 	    	quantity=quantity+Number(selectedRows[i].qty)
 	    	totalamount=totalamount+parseFloat(selectedRows[i].payPrice)
 	    }
-
         totalamount=totalamount.toFixed(2)
+        integertotalamount=Math.round(totalamount) //四舍五入取整
+        //更新积分和树龄总额到展示区
+        this.props.clearingdata(quantity,totalamount)
+        if(this.state.ismbCard){
+            this.props.updateintegertotalamount(integertotalamount)
+        }
         this.setState({
             totalamount:totalamount
         })
-	    this.props.clearingdata(quantity,totalamount)
-	    //积分:取整数部分
-	    integertotalamount=Math.round(totalamount) //四舍五入取整
-	    this.props.updateintegertotalamount(totalamount)
+
+
     }
 
 
@@ -212,7 +183,6 @@ class EditableTable extends React.Component {
             }
          }else{
             message.warning('退货数量为0，不能退货')
-
          }
     }
 
@@ -477,48 +447,71 @@ class EditableTable extends React.Component {
         r2=Number(arg2.toString().replace(".",""))
         return (r1/r2)*Math.pow(10,t2-t1);
     }
+
+
+
+
+
+    //根据订单号请求订单信息及会员id
     barcodesetdatasoce=(messages)=>{
         console.log(messages)
         let datasouces=this.state.dataSource
-        console.log(datasouces)
-         const result=GetServerData('qerp.web.qpos.od.return.query',messages)
-                    result.then((res) => {
-                        return res;
-                    }).then((json) => {
-                        console.log(json)
-                        if(json.code=='0'){
-                        	const odOrderDetails=json.odOrderDetails
-                        	for(var i=0;i<odOrderDetails.length;i++){
-                        		odOrderDetails[i].key=i
-                        		odOrderDetails[i].inventory=odOrderDetails[i].qty	
-                        	}
-                            if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
-                                this.setState({
-                                    dataSource:odOrderDetails,
-                                    mbCard:json.mbCard,
-                                    ismbCard:false
-                                },function(){
-                                    this.props.clearingdatal(this.state.mbCard)
-                                
-                                })
-                            }else{
-                                this.setState({
-                                    dataSource:odOrderDetails,
-                                    mbCard:json.mbCard,
-                                    ismbCard:true
-                                },function(){
-                                this.props.clearingdatal(this.state.mbCard)
-                                
-                                })
-                            }
+        const result=GetServerData('qerp.web.qpos.od.return.query',messages)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                console.log(json)
+                if(json.code=='0'){
+                	const odOrderDetails=json.odOrderDetails
+                	for(var i=0;i<odOrderDetails.length;i++){
+                		odOrderDetails[i].key=i
+                        odOrderDetails[i].inventory=odOrderDetails[i].qty
+                		odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
 
-                        	
-                        }else{  
-                            console.log(json.message)   
-                        }
-                    })
+                	}
+                    if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
+                        this.setState({
+                            dataSource:odOrderDetails,
+                            mbCard:null,
+                            ismbCard:false
+                        },function(){
+                            //传递会员卡信息到展示数据
+                            this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
+                            //传递会员卡信息到pay
+                            this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
+                        })
+                    }else{
+                        this.setState({
+                            dataSource:odOrderDetails,
+                            mbCard:json.mbCard,
+                            ismbCard:true
+                        },function(){
+                            this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
+                            this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
+                        })
+                    }	
+                }else{  
+                    message.warning(json.message)
+                }
+            })
+    }
 
-              }
+    //select
+    hindselect=(record,selected,selectedRows)=>{
+        if(selected){
+            this.setState({
+                index:Number(record.key), //高亮index
+                selectedRows:selectedRows,//选择的table数据
+                isdataSource:selectedRows//选择的table数据
+            },function(){
+                     this.props.revisedata({type:6,data:this.state.isdataSource})
+                     this.uptotaldata()
+            })
+        }
+    }
+
+
+
     render() {
         const { loading, selectedRowKeys } = this.state;
         const rowSelection = {
@@ -576,8 +569,6 @@ class Returngoods extends React.Component {
         //空格
         if(e.keyCode=='32'){
             const visible=this.refs.pay.state.visible
-            // const focustap=this.refs.opera.focustap
-            // focustap()
             const jiesuan=this.refs.table.jiesuan
             jiesuan()
         }
@@ -611,13 +602,15 @@ class Returngoods extends React.Component {
 
         }
     }
+
+    //更新数据到操作区
     clearingdata=(messages,totalamount)=>{
         const clearingdatas=this.refs.opera.clearingdatas
         clearingdatas(messages,totalamount)
     }
-    clearingdatal=(integertotalamount)=>{
+    clearingdatal=(integertotalamount,ismbCard)=>{
         const clearingdatasl=this.refs.opera.clearingdatasl
-        clearingdatasl(integertotalamount)
+        clearingdatasl(integertotalamount,ismbCard)
     }
     rowonDelete=()=>{
         const rowonDelete=this.refs.table.onDelete
