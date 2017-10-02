@@ -1088,7 +1088,7 @@ class Pay extends React.Component {
                                     this.state.listarrs.map((item,index)=>{
                                         return(
                                             <li className='fl' onClick={this.listclick.bind(this,index)} key={index} className={item.style}>
-                                                <Button  disabled={item.disabled} className='paytypelist'>{item.name}</Button>
+                                                <Button  disabled={item.disabled}>{item.name}</Button>
                                             </li>
                                         )
                                     })
@@ -1099,7 +1099,7 @@ class Pay extends React.Component {
                         <div>
                             <ul className='btnbg'>
                                 <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.usetype?(this.state.group?'listtoff':'listt'):'listtdis'}><Button disabled={!this.state.usetype}>组合<br/>支付</Button></li>
-                                <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.usetype?(this.state.cutAmount=='0'?'listtoff':'listt'):(this.state.cutAmount=='0'?'listnonezero':'listnonezeros')}><Button>抹零</Button></li>
+                                <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.usetype?(this.state.cutAmount=='0'?'listt':'listtoff'):(this.state.cutAmount=='0'?'listnonezero':'listnonezeros')}><Button>抹零</Button></li>
                             </ul>
                         </div>
                     </div>

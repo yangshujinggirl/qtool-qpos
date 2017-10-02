@@ -377,10 +377,18 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 /*结算*/
 .btnbg{margin-top: 10px;}
 .pay .ant-modal-body{padding:30px 23px 30px 30px;}
+
+/*正常list*/
 .pay .list{width:117px;height:80px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 .pay .listoff{ width:117px;height:80px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
 .pay .listdis{ width:117px;height:80px;background:#f7f7f7;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
+.pay .listtoff{width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;float: left;}
+.pay .listt{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+
+
+/* 组合支付 抹零点击和不点击*/
 .pay .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
 .pay .listnonezero{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
@@ -394,6 +402,8 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 .pay .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
 .pay .listnonezero .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
 .pay .listnonezeros .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
+.pay .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
+.pay .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
 
 
 
@@ -401,13 +411,10 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 
 
 
-.pay .listt{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
-box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
-.pay .listt:hover{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
-box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;}
 
-.pay .listtoff{width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;}
-.pay .listtoff:hover{width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;}
+
+
+
 
 
 

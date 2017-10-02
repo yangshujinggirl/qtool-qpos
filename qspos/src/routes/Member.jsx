@@ -72,6 +72,7 @@ class Modelform extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 values.mbCardBirths=this.babydatasouces
+                console.log(this.babydatasouces)
                 //如果数组中所有元素都满足条件，则通过，否则抛出异常
                 var babydatatattu=values.mbCardBirths.every(function(item,index){
                   return  (item.year==null && item.month===null && item.day===null) || (item.year!=null && item.month!=null && item.day!=null)
@@ -112,6 +113,7 @@ class Modelform extends Component {
     }
     
     receivebabydata=(dataSource)=>{
+        console.log(dataSource)
         this.babydatasouces=dataSource
     }
     memberinit=()=>{
@@ -321,16 +323,20 @@ class EditableTablebaby extends React.Component {
             year: '',
             month: '',
             day: '',
-            type:'2'
+            type:'1'
         }],
         count: 2,
-        type:2,
+        type:1,
         checked:true,    
     };
   }
  
     
     handleAdd = () => {
+        if(this.state.dataSource.length>5 || this.state.dataSource.length==5){
+            message.warning('宝宝生日最多可以添加5条')
+            return
+        }
         const { count, dataSource } = this.state;
         const newData = {
             key: count,
@@ -347,9 +353,10 @@ class EditableTablebaby extends React.Component {
         });
     }
     SwitchChange=(checked)=>{
+        console.log(checked)
         const dispatch=this.props.dispatch
         if(checked){
-            let ds=this.state.dataSource
+            var ds=this.state.dataSource
             for(var i=0;i<ds.length;i++){
                 ds[i].type=1
             }
@@ -361,7 +368,7 @@ class EditableTablebaby extends React.Component {
                 this.props.receivebabydata(this.state.dataSource)
             })
         }else{
-            let ds=this.state.dataSource
+            var ds=this.state.dataSource
             for(var i=0;i<ds.length;i++){
                 ds[i].type=2
             }
@@ -453,7 +460,8 @@ class EditableTablebaby extends React.Component {
                                             year:null,
                                             month:null,
                                             day:null,
-                                            key:-1
+                                            key:-1,
+                                            type:1,
                                         }
                                             ],
                                     checked:true
@@ -476,7 +484,7 @@ class EditableTablebaby extends React.Component {
                             month:null,
                             day:null,
                             key:-1,
-                            type:'2'
+                            type:1
                         }
                             ],
                     checked:true
@@ -607,7 +615,7 @@ class Searchcomponent extends React.Component{
     render(){
         return (
             <div className='clearfix mb10'>
-                <div className='fl'><Modelforms record={{level:'1'}} texts='新增会员' text='新增会员' dispatch={this.props.dispatch} type={true}/></div>
+                <div className='fl'><Modelforms record={{level:'3'}} texts='新增会员' text='新增会员' dispatch={this.props.dispatch} type={true}/></div>
                 <div className='fr'>
                     <Searchinput 
                         text='请输入会员姓名、手机、会员卡号、级别' 
