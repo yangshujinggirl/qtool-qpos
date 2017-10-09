@@ -51,7 +51,7 @@ class EditableTable extends React.Component {
                             (
                                 <Input 
                                     style={inputwidth} 
-                                    value={this.state.dataSource[index].receiveQty} 
+                                    value={this.state.dataSource[(Number(this.state.page)-1)*5+Number(index)].receiveQty} 
                                     onChange={this.setqtys.bind(this,index)}
                                     onBlur={this.discountblur.bind(this,index)}
                                     className='tc'
@@ -75,8 +75,6 @@ class EditableTable extends React.Component {
             page:1
         };
     }
-
-
     //在datasouce中index计算法则
     // 实际index=(所在页数1开始-1）*5+在当前页的index
     zindex=(index)=>{
@@ -85,10 +83,14 @@ class EditableTable extends React.Component {
     }
     setqtys=(index,e)=>{
         var str=e.target.value.replace(/\s+/g,"");  
+        console.log(str)
         console.log(index)
         var zindex=this.zindex(index)
+        console.log(zindex)
         const dataSources=this.state.dataSource
+        console.log(dataSources)
         dataSources[zindex].receiveQty=str
+        console.log(dataSources)
         this.setState({
             dataSource:dataSources
         })
@@ -135,8 +137,11 @@ class EditableTable extends React.Component {
 
         }else{
             //没扫描过配货单
+            console.log(index)
             var zindex=this.zindex(index)
+            console.log(zindex)
             const dataSources=this.state.dataSource
+            dataSources[zindex].receiveQty=e.target.value
             this.setState({
                 dataSource:dataSources
             },function(){
@@ -364,7 +369,6 @@ class EditableTable extends React.Component {
 
     pagechange=(page)=>{
         console.log(page)
-        console.log(this.state.dataSource)
         this.setState({
             page:page.current
         })
@@ -395,7 +399,7 @@ class EditableTable extends React.Component {
                     dataSource={dataSource} 
                     columns={columns} 
                     rowClassName={this.rowClassName.bind(this)}  
-                    pagination={{'pageSize':5,'total':this.state.total}}
+                    pagination={{'total':this.state.total,defaultPageSize:5}}
                     onRowClick={this.rowclick.bind(this)}
                     onChange={this.pagechange.bind(this)}
                 />
