@@ -467,7 +467,6 @@ class EditableTable extends React.Component {
                 		odOrderDetails[i].key=i
                         odOrderDetails[i].inventory=odOrderDetails[i].qty
                 		odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
-
                 	}
                     if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
                         this.setState({
@@ -496,9 +495,11 @@ class EditableTable extends React.Component {
             })
     }
 
+
+
+
     //select
     hindselect=(record,selected,selectedRows)=>{
-        if(selected){
             this.setState({
                 index:Number(record.key), //高亮index
                 selectedRows:selectedRows,//选择的table数据
@@ -507,17 +508,16 @@ class EditableTable extends React.Component {
                      this.props.revisedata({type:6,data:this.state.isdataSource})
                      this.uptotaldata()
             })
-        }
+        
     }
-
-
 
     render() {
         const { loading, selectedRowKeys } = this.state;
         const rowSelection = {
               selectedRowKeys,
               onChange: this.onSelectChange,
-              onSelect:this.hindselect
+              onSelect:this.hindselect,
+              
         };
 
 

@@ -751,6 +751,9 @@ class Pay extends React.Component {
                      this.handleOk()
                      message.success('退货成功')
                      this.props.reinitdata()
+                     //页面跳转
+                     this.context.router.push('/cashier')
+                        
                      //打印
                     //this.handprint(json.odReturnId,'odReturn',json.returnNo)
                 }else{
@@ -1151,6 +1154,10 @@ class Pay extends React.Component {
   componentDidMount(){
     this.onfocus()
   }
+
+}
+Pay.contextTypes= {
+    router: React.PropTypes.object
 }
 
 
