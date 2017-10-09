@@ -286,7 +286,6 @@ class App extends React.Component {
         submitPrint:"1",
         rechargePrint:"1"
     }
-
     //获取设置
     getSetData = () =>{
        const result=GetServerData('qerp.pos.sy.config.info')

@@ -28,6 +28,7 @@ class EchartsPie extends React.Component {
                         }
                     )
             }
+            
             const option = {
                 title: {
                     subtext: '订单数'+a,
@@ -84,25 +85,7 @@ class EchartsPie extends React.Component {
             )
     }
 
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 export default EchartsPie;

@@ -821,7 +821,7 @@ class Pay extends React.Component {
                     this.props.initdata()
                     message.success('收银成功')
                     // 打印
-                     // this.handprint(json.odOrderId,'odOrder',json.orderNo)
+                      this.handprint(json.odOrderId,'odOrder',json.orderNo)
                 }else{
                     message.error(json.message)
                 }
@@ -838,10 +838,9 @@ class Pay extends React.Component {
                      this.handleOk()
                      message.success('退货成功')
                      this.props.reinitdata()
-                      // this.handprint(json.odReturnId,'odReturn',json.returnNo)
+                         this.handprint(json.odReturnId,'odReturn',json.returnNo)
                 }else{
                      this.props.useinitdata()
-                     
                      //打印
                     message.error(json.message)
                 }
@@ -1047,6 +1046,9 @@ class Pay extends React.Component {
     }
     //打印
     handprint = (id,type,orderNo) => {
+        console.log(id)
+        console.log(type)
+        console.log(orderNo)
         GetLodop(id,type,orderNo)
     }
     hindpay=()=>{

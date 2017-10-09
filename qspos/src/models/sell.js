@@ -36,7 +36,7 @@ export default {
   	    setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/sell') {
-                     dispatch({ type: 'fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:null,type:null,startTime:null,endTime:null,limit:5,currentPage:0} }})
+                     dispatch({ type: 'fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:null,type:null,startTime:null,endTime:null,limit:15,currentPage:0} }})
                     
                 }
             });

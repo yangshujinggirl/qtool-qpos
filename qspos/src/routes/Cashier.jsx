@@ -1122,10 +1122,6 @@ class Cashier extends React.Component {
             rowchange()
 
         }
-
-
-
-
     }
     clearingdata=(messages,totalamount)=>{
         console.log(messages)

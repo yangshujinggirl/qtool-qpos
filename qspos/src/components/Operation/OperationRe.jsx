@@ -33,7 +33,7 @@ class Modales extends React.Component {
                     reamount:''
 				},function(){
 					this.props.searchmemberinfo()
-                    //this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
+                        this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
                     message.success('充值成功')
 				});
             }else{  
@@ -52,7 +52,7 @@ class Modales extends React.Component {
                     console.log(json)
                     if(json.code=='0'){
                         //打印
-                            //this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
+                            this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
                             message.success('充值成功')
                         }else{   
                             message.warning(json.message)

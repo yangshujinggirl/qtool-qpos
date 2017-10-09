@@ -46,18 +46,28 @@ class Searchcompon extends React.Component {
         page:0
     }
     timechange=(date, dateString)=>{
+        console.log(dateString)
+
+        if(dateString[0]==''){
+            dateString[0]=null
+        }
+        if(dateString[1]==''){
+            dateString[1]=null
+        }
+
+
         this.setState({
             startTime:dateString[0],
             endTime:dateString[1]
         },function(){
-            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime} }})
+            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:15,currentPage:this.state.page} }})
         })
     }
     handleChange=(value)=>{
         this.setState({
             selectvalue:value
         },function(){
-            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime} }})
+            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:15,currentPage:this.state.page} }})
         })
     }
     revisemessage=(messages)=>{
@@ -66,16 +76,15 @@ class Searchcompon extends React.Component {
         })
     }
     hindsearch=()=>{
-        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime} }})
+        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:15,currentPage:this.state.page} }})
     }
 
 
     pagechange=()=>{
-        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:5,currentPage:this.state.page} }})
+        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:15,currentPage:this.state.page} }})
     }
     setpage=(page)=>{
         console.log(page)
-        console.log('12')
         this.setState({
             page:page
         },function(){
@@ -89,7 +98,7 @@ class Searchcompon extends React.Component {
             <div className='clearfix searchqery'>
                 <div className='fl clearfix'>
                     <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'30px'}}>订单时间</p>
-                    <RangePicker format={dateFormat} onChange={this.timechange.bind(this)}/>
+                    <RangePicker format={dateFormat} onChange={this.timechange.bind(this)} className='selltime'/>
                 </div>
                 <div className='fr clearfix'>
                     <div className='searchselect clearfix fl'>
@@ -413,20 +422,18 @@ class Perdontime extends React.Component {
          let dy=d.getFullYear() //年
          let dm=d.getMonth()+1//月
          let dd=d.getDate()//日
-         let dds=d.getDate()+1//日
-         let b=dy+'-'+dm+'-'+dds
          let a=dy+'-'+dm+'-'+dd
         return(
             <div className='fr mr30 mt20 clearfix'>
-                <div className='mr10 fl h40'>选择时间</div>
+                <div className='mr10 fl h40 '>选择时间</div>
                     <RangePicker 
-                        defaultValue={[moment(a, dateFormat), moment(b, dateFormat)]}
+                        defaultValue={[moment(a, dateFormat), moment(a, dateFormat)]}
                         format={dateFormat} 
-                        style={{width:'200px',height:'40px'}} 
-                        className='fl'
+                        className='fl selltime'
                         onChange={this.onChange.bind(this)}
                         format="YYYY-MM-DD"
                         showTime
+                        allowClear={false}
                     />
 
                     
@@ -493,13 +500,34 @@ class EditableTable extends React.Component {
 
 
     render() {
+        
         const { dataSource } = this.state;
         const columns = this.columns;
-        const userSales=this.props.userSales
+        var userSalese=this.props.userSales
+        var totalUserSale=this.props.totalUserSale
+        console.log(this)
+        console.log(totalUserSale)
+        // totalUserSale=(totalUserSale==undefined || null || {} || [] || '') ? inittotalUserSale :this.props.totalUserSale
+        console.log(totalUserSale)
+        userSalese.push({
+             nickname:'合计',
+             amount:totalUserSale.amount,
+             icAmount:totalUserSale.icAmount,
+             orderQty:totalUserSale.orderQty,
+             wechatAmount:totalUserSale.wechatAmount,
+             alipayAmount:totalUserSale.alipayAmount,
+             unionpayAmount:totalUserSale.unionpayAmount,
+             cashAmount:totalUserSale.cashAmount,
+             cardChargeAmount:totalUserSale.cardChargeAmount,
+             cardConsumeAmount:totalUserSale.cardConsumeAmount,
+             pointAmount:totalUserSale.pointAmount,
+             refundAmount:totalUserSale.refundAmount,
+             key:-1
+        })
 
-        return (
+    return (
         <div>
-            <Table bordered dataSource={this.props.touserSales} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+            <Table bordered dataSource={userSalese} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
         </div>
         )
     }
@@ -533,9 +561,21 @@ class Sellorder extends React.Component {
 //店员销售count
 class Sellclerk extends React.Component {
     state={
-        totlo:[],
         userSales:[],
-        touserSales:[]
+        totalUserSale:{
+            nickname:'合计',
+             amount:null,
+             icAmount:null,
+             orderQty:null,
+             wechatAmount:null,
+             alipayAmount:null,
+             unionpayAmount:null,
+             cashAmount:null,
+             cardChargeAmount:null,
+             cardConsumeAmount:null,
+             pointAmount:null,
+             refundAmount:null,
+        }
     }
     initdataspuce=(values)=>{
          const result=GetServerData('qerp.web.qpos.st.user.sale.query',values)
@@ -546,26 +586,10 @@ class Sellclerk extends React.Component {
                     if(json.code=='0'){
                             const userSales=json.userSales
                             const totalUserSale=json.totalUserSale
-                            var touserSales=userSales
-                            let totlo={}
-                            totlo.nickname='合计'
-                            totlo.amount=totalUserSale.amount
-                            totlo.icAmount=totalUserSale.icAmount
-                            totlo.orderQty=totalUserSale.orderQty
-                            totlo.wechatAmount=totalUserSale.wechatAmount
-                            totlo.alipayAmount=totalUserSale.alipayAmount
-                            totlo.unionpayAmount=totalUserSale.unionpayAmount
-                            totlo.cashAmount=totalUserSale.cashAmount
-                            totlo.cardChargeAmount=totalUserSale.cardChargeAmount
-                            totlo.cardConsumeAmount=totalUserSale.cardConsumeAmount
-                            totlo.pointAmount=totalUserSale.pointAmount
-                            totlo.refundAmount=totalUserSale.refundAmount
-                            totlo.key=-1
-                            touserSales.push(totlo)
+                            console.log(totalUserSale)
                         this.setState({
                             userSales:json.userSales,
-                            totalUserSale:json.totalUserSale,
-                            touserSales:touserSales
+                            totalUserSale:totalUserSale,
                         })
                     }else{  
                         message.error(json.message) 
@@ -585,7 +609,7 @@ class Sellclerk extends React.Component {
                         <div className='fl'><EchartsPie userSales={this.state.userSales}/></div>
                     </div>
                     <p style={tit}>详细数据</p>
-                    <EditableTable touserSales={this.state.touserSales}/>
+                    <EditableTable userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/>
                 </div>
             </div>
         )
@@ -596,12 +620,10 @@ class Sellclerk extends React.Component {
          let dy=d.getFullYear() //年
          var dm=("0" + (d.getMonth() + 1)).slice(-2);
          var dd=("0"+d.getDate()).slice(-2);
-         var dds=("0"+d.getDate()+1).slice(-2);
-         let b=dy+'-'+dm+'-'+dds
          let a=dy+'-'+dm+'-'+dd
         let values={
             dateStart:a,
-            dateEnd:b
+            dateEnd:a
         }
         this.initdataspuce(values)
     }

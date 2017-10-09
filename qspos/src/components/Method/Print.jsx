@@ -130,28 +130,28 @@ function PrintOneURL(url,orderno){
 		}
 		LODOP=getLodop();
 		LODOP.PRINT_INIT('printJob'+new Date());
-		LODOP.ADD_PRINT_URL('1cm','1cm','90%','90%',url);
-//		LODOP.SET_PRINT_STYLEA(0,'HOrient',3);
-//		LODOP.SET_PRINT_STYLEA(0,'VOrient',3);
+		LODOP.ADD_PRINT_URL('0cm','0cm','100%','100%',url);
+		//LODOP.SET_PRINT_PAGESIZE(intOrient,'1cm','90%','90%',url);
+		LODOP.SET_PRINT_STYLEA(0,'HOrient',0	);
+		//LODOP.SET_PRINT_STYLEA(0,'VOrient',3);
 //		LODOP.SET_SHOW_MODE("MESSAGE_GETING_URL",""); //该语句隐藏进度条或修改提示信息
 //		LODOP.SET_SHOW_MODE("MESSAGE_PARSING_URL","");//该语句隐藏进度条或修改提示信息
-		var	pageData = orderno+"　<span tdata='pageNO'>第##页</span>/<span tdata='pageCount'>共##页</span>"
-		LODOP.ADD_PRINT_HTM('0.5cm',450,300,100,pageData);
-		LODOP.SET_PRINT_STYLEA(0,"ItemType",1);
-		LODOP.SET_PRINT_STYLEA(0,"Horient",1);	
+		//var	pageData = orderno+"　<span tdata='pageNO'>第##页</span>/<span tdata='pageCount'>共##页</span>"
+		//LODOP.ADD_PRINT_HTM('0.5cm',450,300,100,pageData);
+		//LODOP.SET_PRINT_PAGESIZE(3,550,)
+		// LODOP.ADD_PRINT_IMAGE(28,49,171,153,url);
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",13);
+		// LODOP.SET_PRINT_STYLEA(0,"Horient",1);	
+		LODOP.SET_PRINT_MODE('PRINT_PAGE_PERCENT','55%')
 		LODOP.PRINT();
 	}
 
 
 export function GetLodop(id,type,orderno) {
-	var Url=window.location.href
-	if (id == null || id == '') {
-		message.error('请选择打印单据')
-		return;
-	}
-	Url=Url.substr(0,Url.length-7)
+	 var Url=window.location.host
 	const jsessionid = getJsessionId();
-	Url=Url+'/erpWebRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
+	 Url='http://'+Url+'/erpQposRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
 	PrintOneURL(Url,orderno)
+	console.log(Url)
 }
 
