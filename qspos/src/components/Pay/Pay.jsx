@@ -757,11 +757,52 @@ class Pay extends React.Component {
     }
     //单独输入框失去焦点
     hindonBlur=()=>{
+        const totolamount=this.state.totolamount
         const moneyvalue=this.state.paynext
-        var  moneyvaluedata=parseFloat(this.state.paynext.value)
-        var totolamount=parseFloat(this.state.totolamount)
-        moneyvalue.value=moneyvaluedata.toFixed(2)
-        const backmoneymeths=this.backmoneymeth(this.state.totolamount,moneyvalue.value,0)
+         var backmoneymeths=this.state.backmoney
+        //判断输入的值是否大于总额
+        if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
+            moneyvalue.value=totolamount
+            backmoneymeths='0.00'
+            if(moneyvalue.name=='会员卡'){
+                if(parseFloat(moneyvalue.value)>parseFloat(this.state.membermoney)){
+                    moneyvalue.value=this.state.membermoney
+                    backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                }
+            }
+        }else{
+            //输入值小于总额
+            moneyvalue.value=moneyvalue.value
+            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+            if(moneyvalue.name=='会员卡'){
+                if(parseFloat(moneyvalue.value)>parseFloat(this.state.membermoney)){
+                    moneyvalue.value=this.state.membermoney
+                    backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                }
+            }
+
+        }
+        if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
+            moneyvalue.value=totolamount
+            backmoneymeths='0.00'
+            if(moneyvalue.name=='积分'){
+                if(parseFloat(moneyvalue.value)>parseFloat(this.state.pointmoney)){
+                    moneyvalue.value=this.state.pointmoney
+                    backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                }
+            }
+        }else{
+            //输入值小于总额
+            moneyvalue.value=moneyvalue.value
+            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+            if(moneyvalue.name=='积分'){
+                if(parseFloat(moneyvalue.value)>parseFloat(this.state.pointmoney)){
+                    moneyvalue.value=this.state.pointmoney
+                    backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                }
+            }
+
+        }
         this.setState({
             backmoney:backmoneymeths,
             paynext:moneyvalue
@@ -769,27 +810,48 @@ class Pay extends React.Component {
     }
 
     nozeroclick=()=>{
+        const list=this.lists
         const group=this.state.group
         const totolamount=parseInt(this.state.totolamount).toFixed(2) //整数
-        const sp=this.state.totolamount.toString().split('.')[1]
-        if(group){
-                var paysecond=this.state.paysecond
-                paysecond.value=(-this.backmoneymeth(totolamount,this.state.payfirst.value,0)).toFixed(2)
+        var backmoney=this.state.backmoney
+
+        //判断出现的是一个框还是两个框
+        if(list[0]>0 || list[0]==0){
+                const payfirst=this.state.payfirst
+                const paysecond=this.state.paysecond
+                if(paysecond.name=='会员' || '积分'){
+                    paysecond.value=paysecond.value
+                    payfirst.value=(-this.backmoneymeth(totolamount,paysecond.value,0)).toFixed(2)
+                    backmoney='0.00'
+                }else{
+                    paysecond.value=(-this.backmoneymeth(totolamount,this.state.payfirst.value,0)).toFixed(2)
+                    backmoney='0.00'
+                }
                 this.setState({
+                    payfirst:payfirst,
                     totolamount:totolamount,
                     paysecond:paysecond,
-                    backmoney:this.backmoneymeth(totolamount,this.state.payfirst.value,paysecond.value),
+                    backmoney:backmoney,
                     cutAmount:'1'
                 })
+
         }else{
                 //判断第二个输入框是会员还是积分还是其他
                 const paynextvalue=this.state.paynext
                 paynextvalue.value=totolamount
                 if(paynextvalue.name=='会员卡'){
-                    paynextvalue.value=this.state.membermoney
+                    if(parseFloat(this.state.membermoney)>totolamount){
+                        paynextvalue.value=totolamount
+                    }else{
+                        paynextvalue.value=this.state.membermoney
+                    }
                 }
                 if(paynextvalue.name=='积分'){
-                    paynextvalue.value=this.state.pointmoney
+                    if(parseFloat(this.state.pointmoney)>totolamount){
+                        paynextvalue.value=totolamount
+                    }else{
+                        paynextvalue.value=this.state.pointmoney
+                    }
                 }
                 this.setState({
                     totolamount:totolamount,
@@ -816,9 +878,6 @@ class Pay extends React.Component {
             paysecond:paysecond
         })
     }
-
-
-
     payfirstonBlur=()=>{
         const payfirst=this.state.payfirst
         const paysecond=this.state.paysecond
@@ -989,77 +1048,6 @@ class Pay extends React.Component {
             paysecond:paysecond,
             backmoney:backmoney
          })
-
-
-
-
-
-
-
-
-
-        // const payfirst=this.state.payfirst
-        //  const paysecond=this.state.paysecond
-        //  const totolamount=this.state.totolamount
-        // if(parseFloat(paysecond.value)>parseFloat(totolamount)){
-        //     //总额
-        //     paysecond.value=totolamount
-        //     payfirst.value='0.00'
-        //     if(paysecond.name=='会员卡'){
-        //         if(parseFloat(paysecond.value)>parseFloat(totolamount)){
-        //             //总额
-        //             paysecond.value=totolamount
-        //             payfirst.value='0.00'
-        //         }else{
-        //             //会员卡总额
-        //             paysecond.value=this.state.membermoney
-        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-        //             console.log(paysecond)
-        //         }
-        //     }
-        //     if(paysecond.name=='积分'){
-        //         if(parseFloat(paysecond.value)>parseFloat(totolamount)){
-        //             //总额
-        //             paysecond.value=totolamount
-        //             payfirst.value='0.00'
-        //         }else{
-        //             //会员卡总额
-        //             paysecond.value=this.state.membermoney
-        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-        //             console.log(paysecond)
-        //         }
-        //     }
-        // }else{
-        //     //实际金额
-        //     payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-        //     if(paysecond.name=='会员卡'){
-        //         if(parseFloat(paysecond.value)>parseFloat(this.state.membermoney)){
-        //             paysecond.value=this.state.membermoney
-        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-        //             console.log(paysecond)
-        //         }else{
-        //             //会员卡总额
-        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-        //         }
-        //     }
-        //     if(paysecond.name=='积分'){
-        //         if(parseFloat(paysecond.value)>parseFloat(totolamount)){
-        //             //实际金额
-        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-
-        //         }else{
-        //             //积分总额
-        //             paysecond.value=this.state.pointmoney
-        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-        //             console.log(paysecond)
-        //         }
-        //     }
-
-        // }
-        //  this.setState({
-        //     payfirst:payfirst,
-        //     paysecond:paysecond
-        //  })
     }
 
     //打印
