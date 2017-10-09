@@ -231,7 +231,7 @@ class Operationls extends React.Component {
          	this.props.setonblue(this.state.onBlur)
          })
 	}
-
+    
 	//根据订单号给的id请求会员信息
 	memberinfo=()=>{
 		let values={cardNoMobile:this.state.cardNoMobile}

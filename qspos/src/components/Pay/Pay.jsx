@@ -833,12 +833,16 @@ class Pay extends React.Component {
         if(list[0]>0 || list[0]==0){
                 const payfirst=this.state.payfirst
                 const paysecond=this.state.paysecond
-                if(paysecond.name=='会员卡' || '积分'){
+                console.log(paysecond.name)
+                if(paysecond.name=='会员卡' || paysecond.name=='积分'){
+                    console.log(1)
                     paysecond.value=paysecond.value
                     payfirst.value=(-this.backmoneymeth(totolamount,paysecond.value,0)).toFixed(2)
                     backmoney='0.00'
                 }else{
-                    paysecond.value=(-this.backmoneymeth(totolamount,this.state.payfirst.value,0)).toFixed(2)
+                    console.log(2)
+                    payfirst.value=payfirst.value
+                    paysecond.value=(-this.backmoneymeth(totolamount,payfirst.value,0)).toFixed(2)
                     backmoney='0.00'
                 }
                 this.setState({
@@ -848,6 +852,11 @@ class Pay extends React.Component {
                     backmoney:backmoney,
                     cutAmount:'1'
                 })
+
+
+
+
+
 
         }else{
                 //判断第二个输入框是会员还是积分还是其他
@@ -881,6 +890,10 @@ class Pay extends React.Component {
                     console.log(this.state.paynext)
                 })
         }
+
+
+
+
         
     }
     payfirstchange=(e)=>{
