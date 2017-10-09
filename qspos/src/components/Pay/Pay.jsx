@@ -117,6 +117,18 @@ class Pay extends React.Component {
                 totolamount:messagedata.totalamount
             })
         }
+
+        if(messagedata.type==11){
+            // 会员余额和积分余额
+            console.log(messagedata)
+            this.setState({
+                membermoney:messagedata.amount,
+                pointmoney:messagedata.point
+            },function(){
+                console.log(this)
+            })
+        }
+
         if(messagedata.type==9){
             // 积分
             this.setState({
@@ -811,15 +823,17 @@ class Pay extends React.Component {
 
     nozeroclick=()=>{
         const list=this.lists
+        console.log(list)
         const group=this.state.group
         const totolamount=parseInt(this.state.totolamount).toFixed(2) //整数
+        console.log(totolamount)
         var backmoney=this.state.backmoney
-
+        console.log(this)
         //判断出现的是一个框还是两个框
         if(list[0]>0 || list[0]==0){
                 const payfirst=this.state.payfirst
                 const paysecond=this.state.paysecond
-                if(paysecond.name=='会员' || '积分'){
+                if(paysecond.name=='会员卡' || '积分'){
                     paysecond.value=paysecond.value
                     payfirst.value=(-this.backmoneymeth(totolamount,paysecond.value,0)).toFixed(2)
                     backmoney='0.00'
@@ -839,11 +853,16 @@ class Pay extends React.Component {
                 //判断第二个输入框是会员还是积分还是其他
                 const paynextvalue=this.state.paynext
                 paynextvalue.value=totolamount
+                console.log(paynextvalue.value)
+                console.log(this.state.membermoney)
+                console.log(totolamount)
                 if(paynextvalue.name=='会员卡'){
                     if(parseFloat(this.state.membermoney)>totolamount){
                         paynextvalue.value=totolamount
+                        console.log(1)
                     }else{
                         paynextvalue.value=this.state.membermoney
+                        console.log(2)
                     }
                 }
                 if(paynextvalue.name=='积分'){

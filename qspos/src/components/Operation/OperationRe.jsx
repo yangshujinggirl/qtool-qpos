@@ -232,9 +232,6 @@ class Operationls extends React.Component {
          })
 	}
 
-
-
-	
 	//根据订单号给的id请求会员信息
 	memberinfo=()=>{
 		let values={cardNoMobile:this.state.cardNoMobile}
@@ -252,6 +249,10 @@ class Operationls extends React.Component {
                 	isBirthMonth:json.mbCardInfo.isBirthMonth,
                     cardNo:json.mbCardInfo.cardNo,
                     mbCardId:json.mbCardInfo.mbCardId
+                },function(){
+                    this.props.revisedata({type:11,point:this.state.point,amount:this.state.amount})
+
+
                 })
             }else{  
                 message.warning(json.message)   
