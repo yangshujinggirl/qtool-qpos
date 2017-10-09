@@ -101,10 +101,6 @@ class Pay extends React.Component {
                 datajifen:messagedata.data
             })
         }
-
-
-
-
         //退货
         if(messagedata.type==6){
             const redatasouce=messagedata.data
@@ -150,19 +146,6 @@ class Pay extends React.Component {
             
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -913,135 +896,252 @@ class Pay extends React.Component {
             paysecond:paysecond
         })
     }
+
+
+
     payfirstonBlur=()=>{
-         const payfirst=this.state.payfirst
-         const paysecond=this.state.paysecond
-         const totolamount=this.state.totolamount
-         console.log(payfirst)
+        const payfirst=this.state.payfirst
+        const paysecond=this.state.paysecond
+        const totolamount=this.state.totolamount
+         var backmoney=this.state.backmoney
         if(parseFloat(payfirst.value)>parseFloat(totolamount)){
-            //总额
             payfirst.value=totolamount
             paysecond.value='0.00'
             if(payfirst.name=='会员卡'){
-                if(parseFloat(payfirst.value)>parseFloat(totolamount)){
-                    //总额
+                //会员卡余额大于总额
+                if(parseFloat(this.state.membermoney)>parseFloat(totolamount)){
                     payfirst.value=totolamount
                     paysecond.value='0.00'
+                    backmoney='0.00'
                 }else{
-                    //会员卡总额
                     payfirst.value=this.state.membermoney
                     paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
-                    console.log(payfirst)
-                }
-            }
-            if(payfirst.name=='积分'){
-                if(parseFloat(payfirst.value)>parseFloat(totolamount)){
-                    //总额
-                    payfirst.value=totolamount
-                    paysecond.value='0.00'
-                }else{
-                    //会员卡总额
-                    payfirst.value=this.state.membermoney
-                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
-                    console.log(payfirst)
-                }
-            }
-        }else{
-            //实际金额
-                paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
-            if(payfirst.name=='会员卡'){
-                if(parseFloat(payfirst.value)>parseFloat(this.state.membermoney)){
-                    payfirst.value=this.state.membermoney
-                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
-                    console.log(payfirst)
-                }else{
-                    //会员卡总额
-                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
-                }
-            }
-            if(payfirst.name=='积分'){
-                if(parseFloat(payfirst.value)>parseFloat(totolamount)){
-                    //实际金额
-                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    backmoney='0.00'
 
+                }
+            }
+            if(payfirst.name=='积分'){
+                if(parseFloat(this.state.pointmoney)>parseFloat(totolamount)){
+                    //总额
+                    payfirst.value=totolamount
+                    paysecond.value='0.00'
+                    backmoney='0.00'
                 }else{
                     //积分总额
                     payfirst.value=this.state.pointmoney
                     paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
-                    console.log(payfirst)
+                    backmoney='0.00'
+                }
+            }
+
+        }else{
+            payfirst.value=payfirst.value
+            paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+            backmoney='0.00'
+            if(payfirst.name=='会员卡'){
+                //输入金额大于会员卡余额
+                if(parseFloat(payfirst.value)>parseFloat(this.state.membermoney)){
+                    payfirst.value=this.state.membermoney
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    backmoney='0.00'
+                }else{
+                    payfirst.value=payfirst.value
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    backmoney='0.00'
+                }
+            }
+            if(paysecond.name=='会员卡'){
+                if(parseFloat(paysecond.value)>parseFloat(this.state.membermoney)){
+                    paysecond.value=this.state.membermoney
+                   //找零显示
+                   backmoney=this.backmoneymeth(this.state.totolamount,payfirst.value,paysecond.value)
+                }
+            }
+            if(payfirst.name=='积分'){
+                //输入金额大于会员卡余额
+                if(parseFloat(payfirst.value)>parseFloat(this.state.pointmoney)){
+                    payfirst.value=this.state.pointmoney
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    backmoney='0.00'
+                }else{
+                    payfirst.value=payfirst.value
+                    paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
+                    backmoney='0.00'
+                }
+            }
+            if(paysecond.name=='积分'){
+                if(parseFloat(paysecond.value)>parseFloat(this.state.pointmoney)){
+                    paysecond.value=this.state.pointmoney
+                   //找零显示
+                   backmoney=this.backmoneymeth(this.state.totolamount,payfirst.value,paysecond.value)
                 }
             }
 
         }
+
          this.setState({
             payfirst:payfirst,
-            paysecond:paysecond
+            paysecond:paysecond,
+            backmoney:backmoney
          })
     }
     paysecondonBlur=()=>{
         const payfirst=this.state.payfirst
-         const paysecond=this.state.paysecond
-         const totolamount=this.state.totolamount
+        const paysecond=this.state.paysecond
+        const totolamount=this.state.totolamount
+        var backmoney=this.state.backmoney
         if(parseFloat(paysecond.value)>parseFloat(totolamount)){
-            //总额
             paysecond.value=totolamount
             payfirst.value='0.00'
+            backmoney='0.00'
             if(paysecond.name=='会员卡'){
-                if(parseFloat(paysecond.value)>parseFloat(totolamount)){
-                    //总额
+                //会员卡余额大于总额
+                if(parseFloat(this.state.membermoney)>parseFloat(totolamount)){
                     paysecond.value=totolamount
                     payfirst.value='0.00'
                 }else{
-                    //会员卡总额
                     paysecond.value=this.state.membermoney
                     payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-                    console.log(paysecond)
+                    backmoney='0.00'
                 }
             }
             if(paysecond.name=='积分'){
-                if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+                if(parseFloat(this.state.pointmoney)>parseFloat(totolamount)){
                     //总额
                     paysecond.value=totolamount
                     payfirst.value='0.00'
-                }else{
-                    //会员卡总额
-                    paysecond.value=this.state.membermoney
-                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-                    console.log(paysecond)
-                }
-            }
-        }else{
-            //实际金额
-                payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-            if(paysecond.name=='会员卡'){
-                if(parseFloat(paysecond.value)>parseFloat(this.state.membermoney)){
-                    paysecond.value=this.state.membermoney
-                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-                    console.log(paysecond)
-                }else{
-                    //会员卡总额
-                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-                }
-            }
-            if(paysecond.name=='积分'){
-                if(parseFloat(paysecond.value)>parseFloat(totolamount)){
-                    //实际金额
-                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-
+                    backmoney='0.00'
                 }else{
                     //积分总额
                     paysecond.value=this.state.pointmoney
                     payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
-                    console.log(paysecond)
+                    backmoney='0.00'
+                }   
+            }
+
+        }else{
+            paysecond.value=paysecond.value
+            payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+            if(paysecond.name=='会员卡'){
+                //输入金额大于会员卡余额
+                if(parseFloat(paysecond.value)>parseFloat(this.state.membermoney)){
+                    paysecond.value=this.state.membermoney
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    backmoney='0.00'
+                }else{
+                    paysecond.value=paysecond.value
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    backmoney='0.00'
+                }
+            }
+            if(payfirst.name=='会员卡'){
+                if(parseFloat(payfirst.value)>parseFloat(this.state.membermoney)){
+                    payfirst.value=this.state.membermoney
+                    paysecond.value=paysecond.value
+                   //找零显示
+                   backmoney=this.backmoneymeth(this.state.totolamount,paysecond.value,payfirst.value)
+                }
+            }
+            if(paysecond.name=='积分'){
+                //输入金额大于会员卡余额
+                if(parseFloat(paysecond.value)>parseFloat(this.state.pointmoney)){
+                    paysecond.value=this.state.pointmoney
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    backmoney='0.00'
+                }else{
+                    paysecond.value=paysecond.value
+                    payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+                    backmoney='0.00'
+                }
+            }
+            if(payfirst.name=='积分'){
+                if(parseFloat(payfirst.value)>parseFloat(this.state.pointmoney)){
+                    payfirst.value=this.state.pointmoney
+                   //找零显示
+                   backmoney=this.backmoneymeth(this.state.totolamount,paysecond.value,payfirst.value)
                 }
             }
 
         }
+
          this.setState({
             payfirst:payfirst,
-            paysecond:paysecond
+            paysecond:paysecond,
+            backmoney:backmoney
          })
+
+
+
+
+
+
+
+
+
+        // const payfirst=this.state.payfirst
+        //  const paysecond=this.state.paysecond
+        //  const totolamount=this.state.totolamount
+        // if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+        //     //总额
+        //     paysecond.value=totolamount
+        //     payfirst.value='0.00'
+        //     if(paysecond.name=='会员卡'){
+        //         if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+        //             //总额
+        //             paysecond.value=totolamount
+        //             payfirst.value='0.00'
+        //         }else{
+        //             //会员卡总额
+        //             paysecond.value=this.state.membermoney
+        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+        //             console.log(paysecond)
+        //         }
+        //     }
+        //     if(paysecond.name=='积分'){
+        //         if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+        //             //总额
+        //             paysecond.value=totolamount
+        //             payfirst.value='0.00'
+        //         }else{
+        //             //会员卡总额
+        //             paysecond.value=this.state.membermoney
+        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+        //             console.log(paysecond)
+        //         }
+        //     }
+        // }else{
+        //     //实际金额
+        //     payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+        //     if(paysecond.name=='会员卡'){
+        //         if(parseFloat(paysecond.value)>parseFloat(this.state.membermoney)){
+        //             paysecond.value=this.state.membermoney
+        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+        //             console.log(paysecond)
+        //         }else{
+        //             //会员卡总额
+        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+        //         }
+        //     }
+        //     if(paysecond.name=='积分'){
+        //         if(parseFloat(paysecond.value)>parseFloat(totolamount)){
+        //             //实际金额
+        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+
+        //         }else{
+        //             //积分总额
+        //             paysecond.value=this.state.pointmoney
+        //             payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
+        //             console.log(paysecond)
+        //         }
+        //     }
+
+        // }
+        //  this.setState({
+        //     payfirst:payfirst,
+        //     paysecond:paysecond
+        //  })
     }
+
     //打印
     handprint = (id,type,orderNo) => {
         console.log(id)
