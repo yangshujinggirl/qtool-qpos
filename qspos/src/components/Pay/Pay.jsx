@@ -54,8 +54,6 @@ class Pay extends React.Component {
         datatotalamount:'0.00', //总额
         datajifen:0, //积分
 
-
-
         //退货接收数据
         redatasouce:[],//退货table选中数据
         odOrderId:null,//订单id
@@ -821,7 +819,7 @@ class Pay extends React.Component {
                     this.props.initdata()
                     message.success('收银成功')
                     // 打印
-                      this.handprint(json.odOrderId,'odOrder',json.orderNo)
+                      //this.handprint(json.odOrderId,'odOrder',json.orderNo)
                 }else{
                     message.error(json.message)
                 }
@@ -838,10 +836,10 @@ class Pay extends React.Component {
                      this.handleOk()
                      message.success('退货成功')
                      this.props.reinitdata()
-                         this.handprint(json.odReturnId,'odReturn',json.returnNo)
+                     //打印
+                    //this.handprint(json.odReturnId,'odReturn',json.returnNo)
                 }else{
                      this.props.useinitdata()
-                     //打印
                     message.error(json.message)
                 }
         })

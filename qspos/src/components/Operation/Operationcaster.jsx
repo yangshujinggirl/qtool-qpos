@@ -278,7 +278,7 @@ class Modales extends React.Component {
     							this.props.searchmemberinfo()
                                 message.success('充值成功')
                                 //打印
-                                this.handprint(json.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeNo)
+                                //this.handprint(json.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeNo)
     						});
                         }else{   
                             message.warning(json.message)
