@@ -8,7 +8,7 @@ import moment from 'moment';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,Pagination} from 'antd';
 import {GetServerData} from '../services/services';
 // css
-const slideinfo={width:'300px',height:'80px',marginLeft:'30px',borderBottom: '1px solid #E7E8EC',overflow:'hidden'}
+const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #E7E8EC',overflow:'hidden'}
 const slideinfos={fontSize: '12px',color: ' #74777F',marginTop:'10px'}
 const infocount={display: 'flex',justifyContent:'space-between'}
 const tit={fontSize: '14px',color: '#384162',margin:'10px'}
@@ -19,7 +19,7 @@ const Option = Select.Option;
 const dateFormat = 'YYYY-MM-DD';
 const { MonthPicker, RangePicker } = DatePicker;
 const saletext='门店销售门店内商品所获得得金额（不包含充值／退货）'
-const sale=<Tooltip placement="top" title={saletext}>销售额</Tooltip>
+const sale=<Tooltip placement="top" title={saletext}>销售额&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>
 const netreceiptstext='门店销售商品，用户充值及退货所造成的实际金额变化'
 const netreceipts=<Tooltip placement="top" title={netreceiptstext}>净收款</Tooltip>   
 
@@ -60,14 +60,14 @@ class Searchcompon extends React.Component {
             startTime:dateString[0],
             endTime:dateString[1]
         },function(){
-            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:15,currentPage:this.state.page} }})
+            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:6,currentPage:this.state.page} }})
         })
     }
     handleChange=(value)=>{
         this.setState({
             selectvalue:value
         },function(){
-            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:15,currentPage:this.state.page} }})
+            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:6,currentPage:this.state.page} }})
         })
     }
     revisemessage=(messages)=>{
@@ -76,17 +76,17 @@ class Searchcompon extends React.Component {
         })
     }
     hindsearch=()=>{
-        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:15,currentPage:this.state.page} }})
+        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:6,currentPage:this.state.page} }})
     }
 
 
     pagechange=()=>{
-        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:15,currentPage:this.state.page} }})
+        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:6,currentPage:this.state.page} }})
     }
     setpage=(page)=>{
         console.log(page)
         this.setState({
-            page:page
+            page:page-1
         },function(){
             this.pagechange()
         })
@@ -382,8 +382,8 @@ class Ordertap extends React.Component {
     const qposStSaleOrders=this.props.qposStSaleOrders
     console.log(this.props.total)
     return (
-        <div>
-            <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'400px'}}>
+        <div className="content-sell-info">
+            <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'450px'}}>
                 {
                     qposStSaleOrders.map((item,index)=>{
                         return (
@@ -395,7 +395,7 @@ class Ordertap extends React.Component {
                     })
                 }
             </Tabs>
-            <div className='Paginationsell'><Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)} className='Paginationsells'/></div>
+            <div className='Paginationsell'><Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)} className='Paginationsells' defaultPageSize={6}/></div>
 
         </div>
     )
