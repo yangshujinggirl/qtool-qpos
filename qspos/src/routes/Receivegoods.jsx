@@ -84,10 +84,11 @@ class EditableTable extends React.Component {
        return zindexs
     }
     setqtys=(index,e)=>{
+        var str=e.target.value.replace(/\s+/g,"");  
         console.log(index)
         var zindex=this.zindex(index)
         const dataSources=this.state.dataSource
-        dataSources[zindex].receiveQty=e.target.value
+        dataSources[zindex].receiveQty=str
         this.setState({
             dataSource:dataSources
         })
