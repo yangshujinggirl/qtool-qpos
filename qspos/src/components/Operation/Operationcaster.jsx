@@ -18,7 +18,7 @@ class Operationls extends React.Component {
 		integertotalamount:null,
 		checked:false,
 		cardNo:'',
-		mbCardId:'',
+		mbCardId:null,
         isBirthMonth:false
 
 	}
@@ -54,9 +54,7 @@ class Operationls extends React.Component {
 		if(e.keyCode==9){
 			this.focustapmember()
 		}
-        // if(e.keyCode==32){
-        //     e.preventDefault()
-        // }
+        
 
 
 
@@ -110,7 +108,7 @@ class Operationls extends React.Component {
                                 this.props.Backmemberinfo(this.state.amount,this.state.point)
                                 this.props.revisedata({type:2,data:this.state.mbCardId})
                                 this.props.revisedata({type:5,data:this.state.integertotalamount})
-
+                                this.focustap()
                             })
                         }else{  
                             message.warning(json.message)   
@@ -136,7 +134,9 @@ class Operationls extends React.Component {
         var str=e.target.value.replace(/\s+/g,""); 
 		this.setState({
 			cardNoMobile:str
-		})
+		},function(){
+            this.clearmamberinfo()
+        })
 	}
 
     initdatar=()=>{
@@ -151,10 +151,23 @@ class Operationls extends React.Component {
             integertotalamount:null,
             checked:false,
             cardNo:'',
-            mbCardId:'',
+            mbCardId:null,
             isBirthMonth:false
         })
     }
+    clearmamberinfo=()=>{
+        this.setState({
+            name:'',
+            levelStr:'',
+            point:'',//积分
+            amount:'',//余额
+            cardNo:'',
+            mbCardId:null,
+            isBirthMonth:false
+
+        })
+    }
+
 
 	render(){
 		return(
@@ -259,9 +272,15 @@ class Modales extends React.Component {
   	type:1
    }
   showModal = () => {
-    this.setState({
-      visible: true,
-    });
+    //判断有没有填写会员信息
+    if(this.props.mbCardId==null || undefined || ''){
+            message.warning('请输入正确的会员卡号')
+    }else{
+        this.setState({
+            visible: true,
+        });
+    }
+    
   }
   handleOk = (e) => {
   	let values={mbCardId:this.props.mbCardId,amount:this.state.reamount,type:this.state.type}

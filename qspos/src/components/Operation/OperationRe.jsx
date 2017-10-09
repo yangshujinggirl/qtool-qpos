@@ -16,9 +16,13 @@ class Modales extends React.Component {
       	type:1
    }
   showModal = () => {
-    this.setState({
-        visible: true,
-    });
+     if(this.props.mbCardId==null || undefined || ''){
+            message.warning('请输入正确的会员卡号')
+    }else{
+        this.setState({
+            visible: true,
+        });
+    }
   }
   handleOk = (e) => {
   	let values={mbCardId:this.props.mbCardId,amount:this.state.reamount,type:this.state.type}
@@ -165,7 +169,7 @@ class Operationls extends React.Component {
 		checked:true,
 		isBirthMonth:false,//是否生日
         cardNo:'',//会员卡号
-        mbCardId:'',//会员卡id
+        mbCardId:null,//会员卡id
         ismbCard:false //是否是会员
 	}
     //会员id
@@ -287,7 +291,7 @@ class Operationls extends React.Component {
             checked:true,
             isBirthMonth:false,
             cardNo:'',
-            mbCardId:''
+            mbCardId:null
         })
     }
 
