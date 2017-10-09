@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,message} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,message,Checkbox} from 'antd';
 import Operation from '../components/Operation/Operation.jsx';
 import Header from '../components/header/Header';
 import Pay from '../components/Pay/Pay';
@@ -14,7 +14,19 @@ const inputwidth={width:'80%',height:'30px',border:'1px solid #E7E8EC',backgroun
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
-        this.columns = [{
+        this.columns = [
+        {
+            title: '选择',
+            width:'10%',
+            dataIndex: 'check',
+            render:(text, record, index)=>{
+                return (
+                    <Checkbox onChange={this.checkonChange.bind(this,record,index)} checked={this.state.dataSource[index].check}></Checkbox>
+
+                ) 
+            }
+
+        },{
             title: '商品条码',
             width:'10%',
             dataIndex: 'code'
@@ -104,17 +116,37 @@ class EditableTable extends React.Component {
       
     }
 
-
-    onSelectChange=(selectedRowKeys)=>{
-        this.setState({ selectedRowKeys },function(){
-            const focuser=this.props.focuser
-            focuser()
-        });
-    }   
-    clearselect=()=>{
+    checkonChange=(record,index,e)=>{
+        const changedataSource=this.state.dataSource
+        changedataSource[index].check=e.target.checked
         this.setState({
-            selectedRowKeys:[]
+            dataSource:changedataSource
+        },function(){
+            var isdataSource=[]
+            for(var i=0;i<this.state.dataSource.length;i++){
+                if(this.state.dataSource[i].check){
+                    isdataSource.push(this.state.dataSource[i])
+                } 
+            }
+            this.setState({
+                isdataSource:isdataSource
+            },function(){
+                this.props.revisedata({type:6,data:isdataSource})
+                this.uptotaldata()
+            })
+
+        })     
+    }  
+    clearselect=()=>{
+        const datasoucess=this.state.dataSource
+        for(var i=0;i<datasoucess.length;i++){
+            datasoucess[i].check=false
+        }
+        this.setState({
+            dataSource:datasoucess
         })
+
+
     }
     // 初始化
     reinitdata=()=>{
@@ -134,7 +166,7 @@ class EditableTable extends React.Component {
     }
     //数据更新到操作区函数
     uptotaldata=()=>{
-    	const selectedRows=this.state.selectedRows
+    	const selectedRows=this.state.isdataSource
     	var quantity=0
 		var totalamount=0
 		var integertotalamount=0
@@ -153,18 +185,16 @@ class EditableTable extends React.Component {
             totalamount:totalamount
         })
 
-
     }
 
 
     //空格结算
     jiesuan=()=>{
          const isdataSource=this.state.isdataSource
+         console.log(isdataSource)
          if(isdataSource.length>0){
-            const selectedRows=this.state.selectedRows
-            if(selectedRows.length==0){
-                message.warning('退货数量为0，不能退货')
-            }else{
+           
+           
                 if(this.state.ismbCard){
                     //是会员
                     const showModal=this.props.showModal
@@ -180,7 +210,7 @@ class EditableTable extends React.Component {
                      }
                      showModal(7,data)
                 }
-            }
+            
          }else{
             message.warning('退货数量为0，不能退货')
          }
@@ -467,6 +497,7 @@ class EditableTable extends React.Component {
                 		odOrderDetails[i].key=i
                         odOrderDetails[i].inventory=odOrderDetails[i].qty
                 		odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
+                        odOrderDetails[i].check=false
                 	}
                     if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
                         this.setState({
@@ -495,33 +526,7 @@ class EditableTable extends React.Component {
             })
     }
 
-
-
-
-    //select
-    hindselect=(record,selected,selectedRows)=>{
-            this.setState({
-                index:Number(record.key), //高亮index
-                selectedRows:selectedRows,//选择的table数据
-                isdataSource:selectedRows//选择的table数据
-            },function(){
-                     this.props.revisedata({type:6,data:this.state.isdataSource})
-                     this.uptotaldata()
-            })
-        
-    }
-
     render() {
-        const { loading, selectedRowKeys } = this.state;
-        const rowSelection = {
-              selectedRowKeys,
-              onChange: this.onSelectChange,
-              onSelect:this.hindselect,
-              
-        };
-
-
-
         const { dataSource } = this.state;
         const columns = this.columns;
         return (
@@ -533,7 +538,7 @@ class EditableTable extends React.Component {
                 scroll={{ y: 240 }}
                 onRowClick={this.rowclick.bind(this)}
                 rowClassName={this.rowClassName.bind(this)}
-                rowSelection={rowSelection}
+                // rowSelection={rowSelection}
                 scroll={{ y: 300 }}
                 className='returngoodtable'
             />
