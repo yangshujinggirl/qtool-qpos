@@ -45,7 +45,9 @@ class Pay extends React.Component {
         pointmoney:'',//积分金额,
         cutAmount:'0', //是否抹零
         totolamount:0,//第一个输入框
-
+        paperSize:'80',  //打印
+        submitPrint:'1',
+        rechargePrint:'1',
         //收银接收数据
         datadatasoucer:[],  //table
         datadatasoucerlength:0, 
@@ -742,8 +744,27 @@ class Pay extends React.Component {
                     this.handleOk()
                     this.props.initdata()
                     message.success('收银成功')
-                    // 打印
-                      //this.handprint(json.odOrderId,'odOrder',json.orderNo)
+                    //判断是否打印
+                    const result=GetServerData('qerp.pos.sy.config.info')
+                       result.then((res) => {
+                          return res;
+                        }).then((json) => {
+                              console.log(json);
+                              if(json.code == "0"){
+                                 if(json.config.submitPrint=='1'){
+                                    //判断是打印大的还是小的
+                                    if(json.config.paperSize=='80'){
+                                        this.handprint(json.odOrderId,'odOrder',json.orderNo,true)
+                                    }else{
+                                        this.handprint(json.odOrderId,'odOrder',json.orderNo,false)
+                                    }
+                                    
+                                 }
+                              }else{
+                                message.warning('打印失败')
+                              }
+                        })
+
                 }else{
                     message.error(json.message)
                 }
@@ -762,18 +783,32 @@ class Pay extends React.Component {
                      this.props.reinitdata()
                      //页面跳转
                      this.context.router.push('/cashier')
-                        
-                     //打印
-                    //this.handprint(json.odReturnId,'odReturn',json.returnNo)
+                     //判断打印
+                     const result=GetServerData('qerp.pos.sy.config.info')
+                       result.then((res) => {
+                          return res;
+                        }).then((json) => {
+                              console.log(json);
+                              if(json.code == "0"){
+                                 if(json.config.submitPrint=='1'){
+                                    //判断是打印大的还是小的
+                                    if(json.config.paperSize=='80'){
+                                        this.handprint(json.odReturnId,'odReturn',json.returnNo,true)
+                                    }else{
+                                        this.handprint(json.odReturnId,'odReturn',json.returnNo,false)
+                                    }
+                                    
+                                 }
+                              }else{
+                                message.warning('打印失败')
+                              }
+                        })
                 }else{
                      this.props.useinitdata()
                     message.error(json.message)
                 }
         })
     }
-
-
-
 
     onfocus=()=>{
         const ValueorderNoses=ReactDOM.findDOMNode(this.refs.paymoneys)
@@ -1101,15 +1136,30 @@ class Pay extends React.Component {
     }
 
     //打印
-    handprint = (id,type,orderNo) => {
-        console.log(id)
-        console.log(type)
-        console.log(orderNo)
-        GetLodop(id,type,orderNo)
+    handprint = (id,type,orderNo,size) => {
+        GetLodop(id,type,orderNo,size)
     }
     hindpay=()=>{
         this.hindpayclick()
     }
+
+    //接口请求，判断我是否要打印
+    // getprintSetData = () =>{
+    //    const result=GetServerData('qerp.pos.sy.config.info')
+    //    result.then((res) => {
+    //       return res;
+    //     }).then((json) => {
+    //           console.log(json);
+    //           if(json.code == "0"){
+    //              let setData = json.config;
+    //              this.setState({
+    //                 paperSize:setData.paperSize,
+    //                 submitPrint:setData.submitPrint,
+    //                 rechargePrint:setData.rechargePrint,
+    //               })
+    //           }
+    //     })
+    // }
     render() {
         return (
         <div>
