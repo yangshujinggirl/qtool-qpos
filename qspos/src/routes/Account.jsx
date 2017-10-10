@@ -19,7 +19,7 @@ const footleft={width:'224px',fontSize: '16px',height:'60px',lineHeight:'60px',c
 const footlefts={width:'175px',fontSize: '16px',height:'60px',lineHeight:'60px',cursor: 'pointer'}
 const footright={width:'224px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
 const footrights={width:'175px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
-const footcen={width: '1px',height: '15px',background:'#E7E8EC',margin:'0 auto',marginTop: '20px',cursor: 'pointer'}
+const footcen={width: '1px',height: '15px',background:'#d8d8d8',margin:'0 auto',marginTop: '20px',cursor: 'pointer'}
 const footcens={width:'100px',fontSize: '16px',height:'60px',lineHeight:'60px',margin:'0 auto',textAlign:'center',cursor: 'pointer'}
 
 const TabPane = Tabs.TabPane;
@@ -192,7 +192,10 @@ class Modelform extends Component {
                                 <Input placeholder="请输入11位手机号" className='inputwidth' />
                             )}
                         </FormItem>
-                        <FormItem  label="会员权限" className='listto checkboxlabel'>
+                        <FormItem  label="会员权限" 
+                             labelCol={{ span: 5 }}
+                            wrapperCol={{ span: 8 }} 
+                            className='listto checkboxlabel'>
                             {getFieldDecorator('role', {
                                 initialValue: Number(role)
                             })(
@@ -202,7 +205,10 @@ class Modelform extends Component {
                                 </RadioGroup>
                             )}
                         </FormItem>
-                        <FormItem label="帐号状态" className='checkboxlabel checkboxlabelstatus'>
+                        <FormItem label="帐号状态" 
+                            labelCol={{ span: 5 }}
+                            wrapperCol={{ span: 8 }}
+                          className='checkboxlabel checkboxlabelstatus'>
                             {getFieldDecorator('status', {
                                 initialValue: Number(status)
                             })(
@@ -446,7 +452,11 @@ class Tags extends React.Component {
         return (
                 <div className='posion h100'>
                     <Tabs onChange={this.callback.bind(this)} type="card" tabBarStyle={{height:'54px'}} tabBarExtraContent={ this.state.tabBarExtraContent?<Modelforms record={{role:'3',status:'1'}} text='新增账号'texts='新增账号' width='450' dispatch={this.props.dispatch} type={true} showInfomodel={this.showInfomodel.bind(this)}/>:null}>
-  		    	       <TabPane tab="账号管理" key="1"><EditableTable users={this.props.users} dispatch={this.props.dispatch}/></TabPane>
+  		    	       <TabPane tab="账号管理" key="1">
+                         <div className="count-table-style">
+                             <EditableTable users={this.props.users} dispatch={this.props.dispatch}/>
+                         </div>
+                       </TabPane>
   		    	       <TabPane tab="基础设置" key="2"><Infrastructureform/></TabPane>
    			        </Tabs>
                     <Infomodel ref='Infomodel'/>

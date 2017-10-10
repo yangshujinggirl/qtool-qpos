@@ -181,7 +181,7 @@ class Operationls extends React.Component {
 	    			<div className='fl cashierbox'>
 	    				<div className='clearfix cashierbox_t'>
                             <div className='fl'><span className='c74'>会员姓名</span><span className='c38 ml10'>{this.state.name}</span></div>
-                            <div className='fr'><span className='themecolor'>{this.state.levelStr}</span><span>{this.state.isBirthMonth=='true'?<span className='birthline'><span className='line'></span>生日</span>:null}</span></div>
+                            <div className='fr'><span className='themecolor level-margin-style'>{this.state.levelStr}</span><span>{this.state.isBirthMonth=='true'?<span className='birthline'><span className='line'></span>生日</span>:null}</span></div>
                         </div>
 	    				<div className='clearfix posion cashierbox_b'>
 	    					<div className='fl tc mt10 memberinfobox1 memberinfoboxlist' >

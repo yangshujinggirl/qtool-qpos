@@ -10,6 +10,14 @@ const echartcount={
     boxShadow: '0 0 20px 0 rgba(0,0,0,0.10)'
 }
 
+const echartcountMin ={
+     width:'220px',
+    height:'283px',
+    background:'#fff',
+    border: '1px solid #E7E8EC',
+    boxShadow: '0 0 20px 0 rgba(0,0,0,0.10)'
+}
+let widthFlag = true;
 
 class EchartsPie extends React.Component {
     render(){
@@ -77,12 +85,22 @@ class EchartsPie extends React.Component {
         return(
              <ReactEcharts
             option={option}
-            style={echartcount}
+            style={widthFlag?echartcount:echartcountMin}
             className={'react_for_echarts'}
         />
 
 
             )
+    }
+    componentWillMount(){
+      console.log(document.body.clientWidth);
+         if( document.body.clientWidth > 800 ) {
+                /* 这里是要执行的代码 */
+              widthFlag = true;
+            }else{
+               widthFlag = false;
+            }
+            console.log(widthFlag);
     }
 
 }

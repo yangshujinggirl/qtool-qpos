@@ -8,7 +8,7 @@ import moment from 'moment';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,Pagination} from 'antd';
 import {GetServerData} from '../services/services';
 // css
-const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #E7E8EC',overflow:'hidden'}
+const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #d8d8d8',overflow:'hidden'}
 const slideinfos={fontSize: '12px',color: ' #74777F',marginTop:'10px'}
 const infocount={display: 'flex',justifyContent:'space-between'}
 const tit={fontSize: '14px',color: '#384162',margin:'10px'}
@@ -22,7 +22,9 @@ const saletext='门店销售门店内商品所获得得金额（不包含充值�
 const sale=<Tooltip placement="top" title={saletext}>销售额&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>
 const netreceiptstext='门店销售商品，用户充值及退货所造成的实际金额变化'
 const netreceipts=<Tooltip placement="top" title={netreceiptstext}>净收款</Tooltip>   
-
+const tabStyle = {width:'330px',height:'450px'}
+const tabStyleTwo = {width:'330px',height:'330px'}
+let widthFlag = true;
 //切换tag
 class Tags extends React.Component {
     render() {
@@ -97,20 +99,20 @@ class Searchcompon extends React.Component {
         return(
             <div className='clearfix searchqery'>
                 <div className='fl clearfix'>
-                    <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'30px'}}>订单时间</p>
+                    <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'5px'}}>订单时间</p>
                     <RangePicker format={dateFormat} onChange={this.timechange.bind(this)} className='selltime'/>
                 </div>
                 <div className='fr clearfix'>
                     <div className='searchselect clearfix fl'>
-                        <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>订单分类</label>
-                        <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'20px' }} onChange={this.handleChange.bind(this)}>
+                        <label style={{fontSize: '14px',color: '#74777F',marginRight:'5px'}}>订单分类</label>
+                        <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'5px' }} onChange={this.handleChange.bind(this)}>
                             <Option value="0">全部分类</Option>
                             <Option value="1">销售订单</Option>
                             <Option value="2">充值订单</Option>
                             <Option value="3">退货订单</Option>
                         </Select>
                     </div>
-                    <div className='fl' style={{marginRight:'30px'}}>
+                    <div className='fl' style={{marginRight:'5px'}}>
                         <Searchinput text='请输入商品条码、名称、订单号' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/>
                     </div>
                 </div>
@@ -122,7 +124,7 @@ class Searchcompon extends React.Component {
 //tap tit
 function Slidetitle({item}) {
     return (
-        <div style={slideinfo} className='slidetitle'>
+        <div className='slidetitle slideinfo-height-style'>
             <p className='clearfix p1'><div className='fl p2'>{item.outNo}</div><div className='fr p3'>{item.createTime}</div></p>
             <p className='clearfix' style={slideinfos}><div className='fl'><span>客户：{item.levelStr}</span><span style={{marginLeft:'60px'}}>{item.isdiscount=='0'?null:'折'}</span></div><div className='fr' style={{marginRight:'30px'}}>收银：{item.amount}元</div></p>
         </div>
@@ -398,7 +400,8 @@ class Ordertap extends React.Component {
     console.log(this.props.total)
     return (
         <div className="content-sell-info">
-            <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'450px'}} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.clickkey)}>
+           <div>
+                <Tabs tabPosition={this.state.tabPosition} TabStyle={widthFlag?tabStyle:tabStyleTwo} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.clickkey)}>
                 {
                     qposStSaleOrders.map((item,index)=>{
                         return (
@@ -409,12 +412,24 @@ class Ordertap extends React.Component {
                             </TabPane>)
                     })
                 }
-            </Tabs>
+              </Tabs>
+           </div>
             <div className='Paginationsell'><Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)} className='Paginationsells' defaultPageSize={6}/></div>
 
         </div>
     )
   }
+  componentDidMount(){
+      let widthFlag = false;
+      console.log(document.body.clientWidth);
+         if( document.body.clientWidth > 800 ) {
+                /* 这里是要执行的代码 */
+              widthFlag = true;
+            }else{
+               widthFlag = false;
+            }
+            console.log(widthFlag);
+    }
 }
 
 

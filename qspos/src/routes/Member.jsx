@@ -22,7 +22,7 @@ const footleft={width:'224px',fontSize: '16px',height:'60px',lineHeight:'60px',c
 const footlefts={width:'175px',fontSize: '16px',height:'60px',lineHeight:'60px',cursor: 'pointer'}
 const footright={width:'224px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
 const footrights={width:'175px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
-const footcen={width: '1px',height: '15px',background:'#E7E8EC',margin:'0 auto',marginTop: '20px'}
+const footcen={width: '1px',height: '15px',background:'#d8d8d8',margin:'0 auto',marginTop: '20px'}
 const footcens={width:'100px',fontSize: '16px',height:'60px',lineHeight:'60px',margin:'0 auto',textAlign:'center'}
 const textplace={fontSize: '16px',color: '#74777F',display:'inlineBlock',lineHeight:'40px'}
 
@@ -34,7 +34,7 @@ const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const batrhdata=Gettime()
 //pop弹窗
-class Modelform extends Component {
+class Modelform extends Component { 
     constructor(props) {
         super(props);
         this.state = {
@@ -132,6 +132,7 @@ class Modelform extends Component {
                     {this.props.text}
                 </div>
                 <Modal
+                    className="member-width-style"
                     title={this.props.texts}
                     visible={this.state.visible}
                     onOk={this.hideModal}

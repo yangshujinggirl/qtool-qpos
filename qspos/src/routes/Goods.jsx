@@ -75,7 +75,7 @@ class EditableTable extends React.Component {
     	this.columns = [{
       		title: '序号',
       		dataIndex: 'index',
-             width:'6%',
+             width:'8%',
             render: (text, record, index) => {
                 return (
                     <div>{index+1}</div>
@@ -93,7 +93,8 @@ class EditableTable extends React.Component {
             dataIndex: 'displayName'
         },{
             title: '数量',
-            dataIndex: 'inventory'
+            dataIndex: 'inventory',
+            width:'8%',
         },{
       		title: '零售价',
       		dataIndex: 'toCPrice',
@@ -118,7 +119,7 @@ class EditableTable extends React.Component {
     	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
-      		<div className='bgf'>
+      		<div className='bgf bgf-goods-style'>
         		<Table bordered dataSource={this.props.pdSpus} columns={columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={{'showQuickJumper':true,'total':Number(this.props.total)}}

@@ -224,7 +224,7 @@ class Dropdownmenu extends React.Component {
                                     <div className='fr f20'>收营员：{userSales.nickname}</div>
                                 </div>
                                 <div>
-                                    <ul className='clearfix posion'>
+                                    <ul className='clearfix posion ul-3-style'>
                                         <li className='fl tc f20 fff usershift_top_list'><span className='f14'>销售额</span><br/>￥{userSales.amount}</li>
                                         <li className='fr tc f20 fff usershift_top_list'><span className='f14'>净收款</span><br/>￥{userSales.icAmount}</li>
                                         <li className='w tc f20 fff usershift_top_list'><span className='f14'>销售订单</span><br/>{userSales.orderQty}笔</li>
