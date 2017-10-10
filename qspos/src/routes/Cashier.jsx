@@ -723,7 +723,6 @@ class EditableTable extends React.Component {
 
 
     //js判断元素是否在数组中
-    
     isInArray=(arr,value)=>{
         for(var i = 0; i < arr.length; i++){
         if(value == arr[i].barcode){
@@ -951,9 +950,9 @@ class Btncashier extends React.Component {
 	render() {
 	 	return(
 	 		<div className='clearfix' style={{padding:'0 30px'}}>
-	 			<div className='btn fr ml20' onClick={this.rowonDelete.bind(this)}><Buttonico text='移除商品F3' fw={true}/></div>
-	 			<div className='btn fr ml20' onClick={this.takein.bind(this)}><Buttonico text='取单F2' fw={true}/></div>
-	 			<div className='btn fr' onClick={this.takeout.bind(this)}><Buttonico text='挂单F1' fw={true}/></div>
+	 			<div className='btn fr ml20' onClick={this.rowonDelete.bind(this)}><Buttonico text='移除商品F4' fw={true}/></div>
+	 			<div className='btn fr ml20' onClick={this.takein.bind(this)}><Buttonico text='取单F3' fw={true}/></div>
+	 			<div className='btn fr' onClick={this.takeout.bind(this)}><Buttonico text='挂单F2' fw={true}/></div>
 	 		</div>
 	 	)
 	 }
@@ -1093,14 +1092,14 @@ class Cashier extends React.Component {
             focustap()
         }
 
-        if(e.keyCode==81){
+        if(e.keyCode==113){
             this.takeout()
         }
-        if(e.keyCode==87){
+        if(e.keyCode==114){
             this.takein()
 
         }
-        if(e.keyCode==69){
+        if(e.keyCode==115){
             this.rowonDelete()
 
         }
@@ -1160,6 +1159,11 @@ class Cashier extends React.Component {
         const initdatar=this.refs.opera.initdatar
         initdatar()
     }
+    handleokents=(e)=>{
+        if(e.keyCode==114){
+             e.preventDefault()
+        }
+    }
     render() {
         return(
             <div>
@@ -1196,11 +1200,13 @@ class Cashier extends React.Component {
     }
     componentDidMount(){
         window.addEventListener('click', this.inputclick,true);
-        window.addEventListener('keyup', this.handleokent,true);    
+        window.addEventListener('keydown', this.handleokents,true);  
+        window.addEventListener('keyup', this.handleokent,true); 
     }
     componentWillUnmount(){
         window.removeEventListener('click', this.inputclick,true);
-        window.removeEventListener('keyup', this.handleokent,true);
+        window.removeEventListener('keydown', this.handleokents,true);
+        window.addEventListener('keyup', this.handleokent,true);
     }
 }
 

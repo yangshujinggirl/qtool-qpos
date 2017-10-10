@@ -62,7 +62,7 @@ class Searchcomponent extends React.Component {
 	      		</div>
       			<div className='fr'>
           			<div className='searchselect clearfix'>
-	                    <div className='fl btn ml20'><Link to='/cashier'><Buttonico text='暂不损益'/></Link></div>
+	                    <div className='fl btn ml20'><Link to='/inventory'><Buttonico text='暂不损益'/></Link></div>
 	      				<div className='fl btn ml20' onClick={this.Hindok.bind(this)}><Buttonico text='确定损益'/></div>
 	                </div>
      			</div>

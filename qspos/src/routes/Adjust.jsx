@@ -139,7 +139,7 @@ class Searchcomponent extends React.Component {
       			<div className='fr clearfix'>
           			<div className='fl'><Searchinput text='请输入商品条码、商品名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this,0)}/></div>
           			<div className='searchselect clearfix fl'>
-	                    <div className='fl btn ml20'><Link to='/cashier'><Buttonico text='取消损益'/></Link></div>
+	                    <div className='fl btn ml20'><Link to='/goods'><Buttonico text='取消损益'/></Link></div>
 	      				<div className='fl btn ml20' onClick={this.Hindok.bind(this)}><Buttonico text='确定损益'/></div>
 	                </div>
      			</div>

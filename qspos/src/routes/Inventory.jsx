@@ -108,7 +108,7 @@ class Searchcomponent extends React.Component {
 	      		</div>
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
           			<div className='searchselect clearfix'>
-	                    <div className='fl btn ml20'><Link to='/cashier'><Buttonico text='取消盘点'/></Link></div>
+	                    <div className='fl btn ml20'><Link to='/goods'><Buttonico text='取消盘点'/></Link></div>
 	      				<div className='fl btn ml20'><Link to='/inventorydiff'><Buttonico text='生成盘点差异'/></Link></div>
 	                </div>
      			</div>

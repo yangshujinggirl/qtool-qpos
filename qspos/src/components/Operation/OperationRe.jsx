@@ -55,8 +55,26 @@ class Modales extends React.Component {
                 }).then((json) => {
                     console.log(json)
                     if(json.code=='0'){
-                        //打印
-                            //this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
+                        //打印判断
+                        const result=GetServerData('qerp.pos.sy.config.info')
+                                    result.then((res) => {
+                                    return res;
+                                }).then((json) => {
+                                    console.log(json);
+                                    if(json.code == "0"){
+                                         if(json.config.rechargePrint=='1'){
+                                            //判断是打印大的还是小的
+                                            if(json.config.paperSize=='80'){
+                                                this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo,true)
+                                            }else{
+                                                this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo,false)
+                                            }
+                                            
+                                         }
+                                    }else{
+                                        message.warning('打印失败')
+                                    }
+                        })
                             message.success('充值成功')
                         }else{   
                             message.warning(json.message)
@@ -65,8 +83,8 @@ class Modales extends React.Component {
     }
 
     //打印
-    handprint = (id,type,orderNo) => {
-        GetLodop(id,type,orderNo)
+    handprint = (id,type,orderNo,size) => {
+        GetLodop(id,type,orderNo,size)
     }
 
   handleCancel = (e) => {
