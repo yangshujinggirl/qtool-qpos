@@ -141,6 +141,11 @@ class Operation extends React.Component {
 		initdatal()
 		initdatar()
 	}
+	hindpayclick=()=>{
+        console.log(2)
+        const showpops=this.props.showpops
+        showpops()
+    }
 	render() {
 		return(
 			<div className='count clearfix'>
@@ -153,7 +158,7 @@ class Operation extends React.Component {
       						revisedata={this.props.revisedata}
       					/>
       				</div>
-      				<div className='operationr fr'>
+      				<div className='operationr fr' onClick={this.hindpayclick.bind(this)}>
       					<Operationr 
       						color={this.props.color} 
       						type={this.props.type} 

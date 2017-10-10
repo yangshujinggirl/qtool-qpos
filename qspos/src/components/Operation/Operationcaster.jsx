@@ -426,8 +426,6 @@ class Operation extends React.Component {
     hindpayclick=()=>{
         const showpops=this.props.showpops
         showpops()
-
-
     }
 	render() {
 		return(

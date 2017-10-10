@@ -660,6 +660,11 @@ class Returngoods extends React.Component {
         const focustap=this.refs.opera.focustap
         focustap()
     }
+    showpops=()=>{
+        console.log(1)
+        const jiesuan=this.refs.table.jiesuan
+        jiesuan()
+    }
     render() {
         return(
             <div>
@@ -687,6 +692,7 @@ class Returngoods extends React.Component {
                             ref='opera' 
                             setonblue={this.setonblue.bind(this)}
                             revisedata={this.revisedata.bind(this)}
+                            showpops={this.showpops.bind(this)}
                         />
                         </div>
                 </div>
