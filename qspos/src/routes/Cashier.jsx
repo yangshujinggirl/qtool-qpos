@@ -16,7 +16,7 @@ class EditableTable extends React.Component {
         this.columns = [{
             title: '序号',
             dataIndex: 'index',
-            width:'5%',
+            width:'8%',
             render: (text, record, index) => {
                 return (
                     this.state.dataSource.length > 0
@@ -34,7 +34,7 @@ class EditableTable extends React.Component {
 
         }, {
             title: '商品名称',
-            width:'20%',
+            width:'15%',
             dataIndex: 'name'
         },{
             title: '规格',
@@ -1164,7 +1164,7 @@ class Cashier extends React.Component {
         return(
             <div>
                 <Header type={true} color={true}/>
-                <div className='counter'>
+                <div className='counter cashier-counter-style'>
                     <EditableTable ref='table' clearingdata={this.clearingdata.bind(this)} 
                         clearingdatal={this.clearingdatal.bind(this)} 
                         dispatch={this.props.dispatch}
