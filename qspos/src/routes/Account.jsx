@@ -6,6 +6,7 @@ import Infomodel from '../components/Infomodel/Infomodel';
 import Buttonico from '../components/Button/Button';
 import {GetServerData} from '../services/services';
 
+
 //css
 const btn={position:'absolute',right:'0','top':'0'}
 const addaccountspan={marginRight:'10px',fontSize:'14px',color: '#74777F'}
@@ -284,7 +285,8 @@ class App extends React.Component {
         value: 1,
         paperSize:"88",
         submitPrint:"1",
-        rechargePrint:"1"
+        rechargePrint:"1",
+        xitong:true
     }
     //获取设置
     getSetData = () =>{
@@ -343,22 +345,39 @@ class App extends React.Component {
     handleSelectChange = (value) => {
         console.log(value);
     }
+   
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
         <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'50px',padding:'30px'}} className='formdis accformdis'>
-            <FormItem
-                label="打印控件"
-                className='download fires fireses'
-            >
-                {getFieldDecorator('printDevice', {
-                })(
+            {
+                this.state.xitong
+                ?
+                <FormItem
+                    label="打印控件"
+                    className='download fires fireses'
+                    >
+                    {getFieldDecorator('printDevice', {
+                    })(
+                        <p className='downk'>
+                           <a href='/static/install_lodop64.exe' target='_self'>下载打印控件</a>
+                        </p> 
+                    )}
+                </FormItem>
+                :
+                <FormItem
+                    label="打印控件"
+                    className='download fires fireses'
+                    >
+                    {getFieldDecorator('printDevice', {
+                    })(
+                        <p className='downk'>
+                           <a href='/static/install_lodop32.exe' target='_self'>下载打印控件</a>
+                        </p> 
+                    )}
+                </FormItem>
 
-                    <p className='downk'>
-                        <a href='/static/install_lodop32.exe' target='_self'>下载打印控件</a>
-                    </p> 
-                )}
-            </FormItem>
+            }
             <FormItem
                 label="纸张大小"
                 className='paper fires fireses'
@@ -414,6 +433,19 @@ class App extends React.Component {
 
     componentDidMount(){
         this.getSetData()
+        //js判断本机是32位还是64为
+        var agent = navigator.userAgent.toLowerCase();
+        if (agent.indexOf("win64") >= 0 || agent.indexOf("wow64") >= 0) {
+            this.setState({
+                xitong:true  //64
+            })
+        }
+        else {
+            this.setState({
+                xitong:false  //32
+            })
+        }
+
     }
 
 }
