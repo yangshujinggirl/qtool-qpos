@@ -128,6 +128,8 @@ class EditableTable extends React.Component {
                     isdataSource.push(this.state.dataSource[i])
                 } 
             }
+            //光标移动
+            this.props.focuser()
             this.setState({
                 isdataSource:isdataSource
             },function(){
