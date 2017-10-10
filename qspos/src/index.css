@@ -604,6 +604,9 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
   width: 600px!important;
   top: 30px;
 }
+.fix-800-fr{
+  width:270px!important;
+}
 
 /*组件*/
 
