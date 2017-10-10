@@ -373,17 +373,32 @@ class Slidecountcz extends React.Component {
 //count tap切换
 class Ordertap extends React.Component {
     state = {
-        tabPosition: 'left'
+        tabPosition: 'left',
+        clickkey:0
     }
     pagechange=(page)=>{
-        this.props.revisemessages(page)
+        this.setState({
+            clickkey:0
+        },function(){
+            this.props.revisemessages(page)
+        })
+        
+    }
+    onTabClick=(key)=>{
+        this.setState({
+            clickkey:key
+        })
+
+
+
+
     }
   render() {
     const qposStSaleOrders=this.props.qposStSaleOrders
     console.log(this.props.total)
     return (
         <div className="content-sell-info">
-            <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'450px'}}>
+            <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'450px'}} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.clickkey)}>
                 {
                     qposStSaleOrders.map((item,index)=>{
                         return (

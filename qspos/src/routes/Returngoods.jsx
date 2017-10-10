@@ -660,8 +660,6 @@ class Returngoods extends React.Component {
         const focustap=this.refs.opera.focustap
         focustap()
     }
-
-
     render() {
         return(
             <div>
