@@ -1124,7 +1124,7 @@ class Pay extends React.Component {
                  		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>
                         <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)} onKeyUp={this.hindpay.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
                	 	</div>
-                    <div className='fr' style={{width:'274px'}}>
+                    <div className='fr' style={{width:'270px'}}>
                         <div>
                             <ul className='clearfix'>
                                 {

@@ -600,7 +600,10 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .ant-select-selection-selected-value{line-height: 40px;}
 .ant-modal-title{font-size: 26px;color: #384162;}
 
-
+.ant-modal{
+  width: 600px!important;
+  top: 30px;
+}
 
 /*组件*/
 
@@ -805,13 +808,13 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 
 /*结算*/
 .pay .ant-modal-body{padding:30px;}
-.pay .list{width:117px;height:90px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;}
-.pay .listoff{ width:117px;height:90px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;}
-.pay .listdis{ width:117px;height:90px;background:#f7f7f7;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;color: rgba(0, 0, 0, 0.25)}
+.pay .list{width:110px;height:90px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;}
+.pay .listoff{ width:110px;height:90px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;}
+.pay .listdis{ width:110px;height:90px;background:#f7f7f7;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;color: rgba(0, 0, 0, 0.25)}
 
-.pay .listt{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-top: 25px;margin-right: 10px;margin-left: 10px;}
-.pay .listtoff{width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-top: 25px;margin-right: 10px;margin-left: 10px;}
-.pay .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;font-size:26px;margin-top: 25px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
+.pay .listt{width:110px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;}
+.pay .listtoff{width:110px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-top: 25px;margin-right: 10px;margin-left: 10px;}
+.pay .listtdis{width:110px;height:144px;background:#f7f7f7;color:#fff;font-size:26px;margin-top: 25px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
 .pay .ant-input{border-left: 0;font-size: 40px;color: #384162}
 .pay .ant-input:hover{border-color: #e2e2e2;}
 .pay .ant-input-group-addon{background: #f7f7f7;}
@@ -828,5 +831,15 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 /*首页样式修改*/
 .ant-switch-checked:after{
   margin-left: -26px;
+}
+/*模态框样式修改*/
+.paylw{
+  width: 270px;
+}
+.paylhs{
+   width: 270px;
+}
+.paylhs:hover{
+  width: 270px;
 }
 }
