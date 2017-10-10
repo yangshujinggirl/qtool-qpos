@@ -220,7 +220,7 @@ class Dropdownmenu extends React.Component {
                         <div className='themebgcolor usershift_top'>
                             <div className='w usershift_count'>
                                 <div className='clearfix fff usershift_top_title'>
-                                    <div className='fl f14'>本次登录时间：{userSales.lastExchangeLoginTime} -- {userSales.endTime}</div>
+                                    <div className='fl f14'>本次登录时间：{userSales.lastExchangeLoginTimeStr} -- {userSales.endTime}</div>
                                     <div className='fr f20'>收营员：{userSales.nickname}</div>
                                 </div>
                                 <div>
