@@ -519,9 +519,6 @@ class Pay extends React.Component {
                             waringfirst:false
                         })
                    }
-
-
-                    
                 } 
             }
         }
