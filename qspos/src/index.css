@@ -314,6 +314,11 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 
 
 /*销售订单*/
+
+.ant-tabs-vertical.ant-tabs-left > .ant-tabs-content{height: 450px;overflow-y:scroll;}
+.content-sell-info{height: 450px;}
+
+
 .searchselect .ant-select-selection--single{height: 40px;}
 .searchselect .ant-select-selection__rendered{height: 40px;line-height: 40px;font-size: 14px;color: #384162;}
 .sellinfolist li{padding:20px 30px 10px 20px;border-bottom: 1px solid #E7E8EC;}
