@@ -10,21 +10,29 @@ const echartcount={
     boxShadow: '0 0 20px 0 rgba(0,0,0,0.10)'
 }
 
+
 class Echartsaxis extends React.Component {
     render(){
         const userSalesd=this.props.userSales
         console.log(userSalesd)
         var datarow=[]
         var dataclum=[]
+        //销售额
+        let sellMoney ='';
         for(var i=0;i<userSalesd.length;i++){
             datarow.push(userSalesd[i].nickname)
             dataclum.push(userSalesd[i].amount)
+            sellMoney = userSalesd[i].amount
         }
         console.log(datarow)
         console.log(dataclum)
 
         const option={
             color: ['#3398DB'],
+            title: {
+                    subtext: '销售额：'+sellMoney,
+                    left: '5%'
+            },
             tooltip : {
                 trigger: 'axis',
                 axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -53,7 +61,7 @@ class Echartsaxis extends React.Component {
     ],
     series : [
         {
-            name:'直接访问',
+            name:'销售额',
             type:'bar',
             barWidth: '60%',
             data:dataclum

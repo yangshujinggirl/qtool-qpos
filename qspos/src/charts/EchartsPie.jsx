@@ -10,8 +10,6 @@ const echartcount={
     boxShadow: '0 0 20px 0 rgba(0,0,0,0.10)'
 }
 
-const a='1000'
-
 
 class EchartsPie extends React.Component {
     render(){
@@ -19,6 +17,7 @@ class EchartsPie extends React.Component {
             console.log(userSalesd)
             var datarow=[]
             var dataclum=[]
+            let orderCount = '';
             for(var i=0;i<userSalesd.length;i++){
                 datarow.push(userSalesd[i].nickname)
                 dataclum.push(
@@ -27,11 +26,12 @@ class EchartsPie extends React.Component {
 
                         }
                     )
+               orderCount = userSalesd[i].orderQty
             }
             
             const option = {
                 title: {
-                    subtext: '订单数'+a,
+                    subtext: '订单数：'+orderCount,
                     left: '5%'
                 },
                 tooltip: {
