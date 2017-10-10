@@ -282,8 +282,8 @@ class Slidecountback extends React.Component {
                         </li>
                         :
                         <li style={{borderBottom:'0'}}>
-                            <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>扣除积分</span>：{this.state.mbCard.point}</div></p>
-                            <p><div><span>结算收银</span>：2345.00「<span>会员卡支付</span>：321.00、<span>微信支付</span>：2000.00、<span>支付宝</span>：199.00」</div></p>
+                            <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>扣除积分</span>：{this.state.odReturn.returnPoint}</div></p>
+                            <p><div><span>结算退款</span>：{this.state.odReturn.refundAmount}「<span>{this.state.odReturn.typeStr}</span>」</div></p>
                         </li>
 
 
@@ -363,7 +363,7 @@ class Slidecountcz extends React.Component {
                             mbCard:json.mbCard
                        })
                     }else{  
-                        
+                        message.waring(json.message)
                     }
                 })
 
@@ -385,17 +385,17 @@ class Ordertap extends React.Component {
         
     }
     onTabClick=(key)=>{
+        console.log(key)
+
+
+
+
         this.setState({
             clickkey:key
         })
-
-
-
-
     }
   render() {
     const qposStSaleOrders=this.props.qposStSaleOrders
-    console.log(this.props.total)
     return (
         <div className="content-sell-info">
             <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'450px'}} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.clickkey)}>
@@ -515,7 +515,6 @@ class EditableTable extends React.Component {
 
 
     render() {
-        
         const { dataSource } = this.state;
         const columns = this.columns;
         var userSalese=this.props.userSales

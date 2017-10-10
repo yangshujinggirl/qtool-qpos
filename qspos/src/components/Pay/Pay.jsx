@@ -1143,23 +1143,6 @@ class Pay extends React.Component {
         this.hindpayclick()
     }
 
-    //接口请求，判断我是否要打印
-    // getprintSetData = () =>{
-    //    const result=GetServerData('qerp.pos.sy.config.info')
-    //    result.then((res) => {
-    //       return res;
-    //     }).then((json) => {
-    //           console.log(json);
-    //           if(json.code == "0"){
-    //              let setData = json.config;
-    //              this.setState({
-    //                 paperSize:setData.paperSize,
-    //                 submitPrint:setData.submitPrint,
-    //                 rechargePrint:setData.rechargePrint,
-    //               })
-    //           }
-    //     })
-    // }
     render() {
         return (
         <div>
