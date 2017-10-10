@@ -1174,8 +1174,7 @@ class Cashier extends React.Component {
                     <EditableTable ref='table' clearingdata={this.clearingdata.bind(this)} 
                         clearingdatal={this.clearingdatal.bind(this)} 
                         dispatch={this.props.dispatch}
-                        revisedata={this.revisedata.bind(this)} 
-                       
+                        revisedata={this.revisedata.bind(this)}
                     />
                 </div>
                 <div className='mt30 footer'>

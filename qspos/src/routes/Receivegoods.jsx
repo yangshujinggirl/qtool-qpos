@@ -460,6 +460,12 @@ class Receivegoods extends React.Component {
         const initdata=this.refs.shuse.initdata
         initdata()
     }
+
+    showpops=()=>{
+        console.log(1)
+        const receiveQty=this.refs.table.receiveQty
+        receiveQty()
+    }
     render(){
         return(
                 <div>
@@ -481,6 +487,7 @@ class Receivegoods extends React.Component {
                                 ref='shuse'
                                 receivenumber={this.receivenumber.bind(this)}
                                 revisedata={this.revisedata.bind(this)}
+                                showpops={this.showpops.bind(this)}
                                 />
                         </div> 
                     </div>

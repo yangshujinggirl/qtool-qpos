@@ -300,6 +300,10 @@ class Pay extends React.Component {
                 this.listclick(0)
             });
         }
+
+
+
+
         if(type==6){
             //先判断谁是被禁用的
             const backmoney=this.backmoneymeth(data.totolamount,data.totolamount,0)
@@ -529,23 +533,31 @@ class Pay extends React.Component {
             console.log(this.lists)
             listarrs[this.lists[1]].style='listoff'
             const payinput=this.state.paynext
+            const paysecond=this.state.paysecond
             payinput.name=listarrs[this.lists[1]].name
             payinput.value=this.state.totolamount
-            if(payinput.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
-                payinput.value=this.state.membermoney
+
+
+            if(this.state.usetype){
+                if(payinput.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
+                    payinput.value=this.state.membermoney
+                }
+                if(payinput.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
+                    payinput.value=this.state.pointmoney
+                }
+                paysecond.name=listarrs[this.lists[1]].name
+                paysecond.value=this.state.paynext.value
+                if(paysecond.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
+                    paysecond.value=this.state.membermoney
+                }
+                if(paysecond.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
+                    paysecond.value=this.state.pointmoney
+                }
             }
-            if(payinput.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
-                payinput.value=this.state.pointmoney
-            }
-            const paysecond=this.state.paysecond
-            paysecond.name=listarrs[this.lists[1]].name
-            paysecond.value=this.state.paynext.value
-            if(paysecond.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
-                paysecond.value=this.state.membermoney
-            }
-            if(paysecond.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
-                paysecond.value=this.state.pointmoney
-            }
+            
+
+
+
             //计算找零
             const backmoney=this.backmoneymeth(this.state.totolamount,this.state.paynext.value,0)
             if(this.state.waringfirst){
@@ -772,9 +784,10 @@ class Pay extends React.Component {
     }
     //单独输入框失去焦点
     hindonBlur=()=>{
-        const totolamount=this.state.totolamount
-        const moneyvalue=this.state.paynext
-         var backmoneymeths=this.state.backmoney
+        if(this.state.usetype){
+            const totolamount=this.state.totolamount
+            const moneyvalue=this.state.paynext
+            var backmoneymeths=this.state.backmoney
         //判断输入的值是否大于总额
         if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
             moneyvalue.value=totolamount
@@ -816,12 +829,22 @@ class Pay extends React.Component {
                     backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
                 }
             }
-
         }
         this.setState({
             backmoney:backmoneymeths,
             paynext:moneyvalue
         })
+        }else{
+            //退货
+            const totolamount=this.state.totolamount
+            const moneyvalue=this.state.paynext
+            var backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+            this.setState({
+                backmoney:backmoneymeths,
+                paynext:moneyvalue
+            })
+        }
+        
     }
 
     nozeroclick=()=>{
@@ -855,11 +878,6 @@ class Pay extends React.Component {
                     backmoney:backmoney,
                     cutAmount:'1'
                 })
-
-
-
-
-
 
         }else{
                 //判断第二个输入框是会员还是积分还是其他
