@@ -576,8 +576,16 @@ class Returngoods extends React.Component {
         //空格
         if(e.keyCode=='32'){
             const visible=this.refs.pay.state.visible
-            const jiesuan=this.refs.table.jiesuan
-            jiesuan()
+            if(visible){
+                //结算
+                const hindpayclick=this.refs.pay.hindpayclick
+                hindpayclick()
+
+
+            }else{
+               //出弹窗 
+               this.showpops()
+            }
         }
         // tap
         if(e.keyCode==9 && this.state.onBlur==false){
@@ -661,7 +669,6 @@ class Returngoods extends React.Component {
         focustap()
     }
     showpops=()=>{
-        console.log(1)
         const jiesuan=this.refs.table.jiesuan
         jiesuan()
     }

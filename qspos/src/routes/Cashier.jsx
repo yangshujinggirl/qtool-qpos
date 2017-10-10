@@ -1004,8 +1004,6 @@ class Cashier extends React.Component {
         return (r1/r2)*Math.pow(10,t2-t1);
     }
 
-
-
     //出结算弹窗
     showpops=()=>{
          var totalamount=this.totalamount
@@ -1068,10 +1066,6 @@ class Cashier extends React.Component {
 
                         }
                     }
-
-
-        
-
     }
 
 
