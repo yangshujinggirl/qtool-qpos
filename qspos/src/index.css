@@ -545,10 +545,10 @@ input::-webkit-contacts-auto-fill-button {
 .bgf{background:#fff;border:1px solid #e9e9e9;height: 100%;background: #fff,}
 .headers{height: 60px;position: absolute;z-index: 5;top:0;width: 100%;background:#35BAB0;margin-bottom:20px}
 .headersno{height: 47px;position: absolute;z-index: 5;top:0;width: 100%;background:#FB6349;margin-bottom:20px}
-.footer{height: 200px;position: absolute;z-index: 1000;bottom: 0;width: 100%;}
-.footers{height: 150px;position: absolute;z-index: 1000;bottom: 0;width: 100%;}
+.footer{height: 200px;position: absolute;z-index: 1000;bottom: 10px;width: 100%;}
+.footers{height: 150px;position: absolute;z-index: 1000;width: 100%;}
 
-.counter{width:100%;overflow:auto;top:67px;position:absolute;z-index:10;bottom:210px;padding:0 30px;}
+.counter{width:100%;overflow:auto;top:67px;position:absolute;z-index:10;bottom:232px;padding:0 30px;}
 .counters{width:100%;overflow:hidden;top:67px;position:absolute;z-index:10;bottom:30px;padding:0 30px;}
 
 
@@ -619,8 +619,8 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .operationl input::-ms-input-placeholder{font-size: 14px;color: #74777F;text-align: center;font-weight: 550;}
 .operationl input::-webkit-input-placeholder{font-size: 14px;color: #74777F;text-align: center;font-weight: 550;}
 .tablebox{min-height: 250px;background: #fff;}
-.rechargebtn{width:35px;height:16px;border:1px solid #35BAB0;text-align:center;line-height:14px;font-size:10px;float:left;margin-left:5px;cursor: pointer;border-radius: 3px;}
-.cashierbox{width:190px;height:70px;border:1px solid #E7E8EC;border-radius:3px;margin-left:10px;padding:5px 8px;}
+.rechargebtn{width:35px;height:16px;border:1px solid #35BAB0;text-align:center;line-height:14px;font-size:10px;float:left;margin-left:2px;cursor: pointer;border-radius: 3px;margin-top: -1px;}
+.cashierbox{width:190px;height:70px;border:1px solid #E7E8EC;border-radius:3px;margin-left:10px;}
 .footleft{width:174px;font-size: 14px;height:60px;line-height:60px;cursor: pointer;}
 .footright{width:174px;font-size: 14px;color:#35BAB0;height:60px;line-height:60px;cursor: pointer}
 .footcen{width: 2px;height: 15px;background:#E7E8EC;margin:0 auto;margin-top: 20px}
@@ -630,8 +630,8 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .w310{width: 310px}
 .w310l{height:40px;line-height:40px}
 .w310ll{width:237px;height:40px}
-.cashierbox_t{font-size: 12px;}
-.cashierbox_b{font-size: 12px;}
+.cashierbox_t{font-size: 12px;padding:0px;}
+.cashierbox_b{font-size: 12px;padding: 0px;}
 
 /*btn*/
 .widthmethfw{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
@@ -776,15 +776,15 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .formdis .ant-input-disabled{background: #fff;color:rgba(0, 0, 0, 0.65);border:0;}
 /*收银*/
 .cashier{width: 190px;height: 40px;margin-left: 15px;}
-.cashier .ant-switch{width: 190px;height: 40px;line-height: 40px;background: #fff;border: 1px solid #E7E8EC;}
-.cashier .ant-switch span{color: #35bab0;}
-.cashier .ant-switch:after{top:11px;background:#35bab0;}
+.cashier .ant-switch{width: 190px;height: 40px;line-height: 40px;background: #fff;border: 1px solid #d9d9d9;}
+.cashier .ant-switch span{color: #35bab0;margin-left: 116px;}
+.cashier .ant-switch:after{background:#35bab0;}
 .rechargelist{display: flex;width:310px;margin:0 auto;justify-content: space-between;margin-top:20px;margin-bottom: 20px;}
 /*退货*/
 .returngood{width: 190px;height: 40px;margin-left: 15px;}
 .returngood .ant-switch{width: 190px;height: 40px;line-height: 40px;background: #fff;border: 1px solid #FB6349;}
 .returngood .ant-switch span{color: #FB6349;}
-.returngood .ant-switch:after{top:11px;background:#FB6349;}
+.returngood .ant-switch:after{background:#FB6349;}
 
 
 /*账号*/
@@ -820,4 +820,8 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px white inset !important; }
 
+/*首页样式修改*/
+.ant-switch-checked:after{
+  margin-left: -26px;
+}
 }
