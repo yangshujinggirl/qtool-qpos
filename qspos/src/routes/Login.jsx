@@ -65,7 +65,7 @@ class NormalLoginForm extends React.Component {
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('password', {})(
-                        <Input prefix={<Icon type="lock"  className='f13'/>}  placeholder="输入密码" />
+                        <Input prefix={<Icon type="lock"  className='f13'/>}  placeholder="输入密码" type='password' />
                     )}
                 </FormItem>
                 <FormItem>
