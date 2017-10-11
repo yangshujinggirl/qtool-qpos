@@ -272,7 +272,7 @@ class EditableTable extends React.Component {
                 this.props.clearingdata(quantity,totalamount)
                 this.props.clearingdatal(integertotalamount)
             })
-            message.warning('库存不够')
+            message.warning('商品库存不足')
         }
     }
     discountonchange=(index,e)=>{
@@ -854,7 +854,7 @@ class EditableTable extends React.Component {
                             this.props.clearingdata(quantity,totalamount)
                             this.props.clearingdatal(integertotalamount)
                         })
-                        message.error('库存不够')
+                        message.error('商品库存不足')
 
 
                     } 
@@ -904,7 +904,7 @@ class EditableTable extends React.Component {
 
                                 })
                             }else{
-                                message.error('库存不够')
+                                message.error('商品库存不足')
                             }
                         }else{  
                             message.warning(json.message) 

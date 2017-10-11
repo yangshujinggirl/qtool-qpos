@@ -619,7 +619,7 @@ class Searchcomponent extends React.Component{
                 <div className='fl'><Modelforms record={{level:'3'}} texts='新增会员' text='新增会员' dispatch={this.props.dispatch} type={true}/></div>
                 <div className='fr'>
                     <Searchinput 
-                        text='请输入会员姓名、手机、会员卡号、级别' 
+                        text='请输入会员姓名、手机、会员卡号' 
                         revisemessage={this.revisemessage.bind(this)} 
                         hindsearch={this.hindsearch.bind(this)}
                     />
