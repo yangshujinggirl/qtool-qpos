@@ -593,7 +593,7 @@ class EditableTable extends React.Component {
     render() {
         const columns = this.columns;
         return (
-            <div className='bgf'>
+            <div className='bgf member-style'>
                <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}/>
             </div>
         )
