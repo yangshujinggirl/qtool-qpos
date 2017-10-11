@@ -746,8 +746,10 @@ class Pay extends React.Component {
                     this.handleOk()
                     this.props.initdata()
                     message.success('收银成功')
-                    //判断是否打印
-                    const result=GetServerData('qerp.pos.sy.config.info')
+                    console.log(navigator.platform)
+                    if(navigator.platform == "Windows"){
+                         //判断是否打印
+                        const result=GetServerData('qerp.pos.sy.config.info')
                        result.then((res) => {
                           return res;
                         }).then((json) => {
@@ -759,14 +761,13 @@ class Pay extends React.Component {
                                         this.handprint(odOrderIds,'odOrder',orderNos,true)
                                     }else{
                                         this.handprint(odOrderIds,'odOrder',orderNos,false)
-                                    }
-                                    
+                                    } 
                                  }
                               }else{
                                 message.warning('打印失败')
                               }
                         })
-
+                    }
                 }else{
                     message.error(json.message)
                 }
