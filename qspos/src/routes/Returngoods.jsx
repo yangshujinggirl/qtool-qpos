@@ -498,7 +498,7 @@ class EditableTable extends React.Component {
                 	for(var i=0;i<odOrderDetails.length;i++){
                 		odOrderDetails[i].key=i
                         odOrderDetails[i].inventory=odOrderDetails[i].qty
-                		odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
+                		// odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
                         odOrderDetails[i].check=false
                 	}
                     if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){

@@ -757,7 +757,7 @@ class Pay extends React.Component {
                     this.props.initdata()
                     message.success('收银成功',1)
                     console.log(navigator.platform)
-                    if(navigator.platform == "Windows"){
+                    if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
                          //判断是否打印
                         const result=GetServerData('qerp.pos.sy.config.info')
                        result.then((res) => {
@@ -801,6 +801,7 @@ class Pay extends React.Component {
                      this.props.reinitdata()
                      //页面跳转
                      this.context.router.push('/cashier')
+                      if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
                      //判断打印
                      const result=GetServerData('qerp.pos.sy.config.info')
                        result.then((res) => {
@@ -821,6 +822,7 @@ class Pay extends React.Component {
                                 message.warning('打印失败')
                               }
                         })
+                    }
                 }else{
                      this.props.useinitdata()
                     message.error(json.message)
