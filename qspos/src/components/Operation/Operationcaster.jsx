@@ -296,6 +296,8 @@ class Modales extends React.Component {
     						},function(){
     							this.props.searchmemberinfo()
                                 message.success('充值成功')
+                                const mbCardMoneyChargeIds=json.mbCardMoneyChargeId
+                                const chargeNos=json.chargeNo
                                 //判断打印
                                 const result=GetServerData('qerp.pos.sy.config.info')
                                     result.then((res) => {
@@ -306,9 +308,9 @@ class Modales extends React.Component {
                                          if(json.config.rechargePrint=='1'){
                                             //判断是打印大的还是小的
                                             if(json.config.paperSize=='80'){
-                                                this.handprint(json.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeNo,true)
+                                                this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
                                             }else{
-                                                this.handprint(json.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeNo,true)
+                                                this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
                                             }
                                             
                                          }

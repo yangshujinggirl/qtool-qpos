@@ -93,6 +93,7 @@ class Searchcompon extends React.Component {
     }
 
 
+
     render(){
         return(
             <div className='clearfix searchqery'>
@@ -135,8 +136,52 @@ class Slidecountsell extends React.Component {
         orderDetails:[], //详情
         odOrder:{}, //订单信息
         orOrderPay:[],//支付信息，
-        mbCard:{}
+        mbCard:{},
+        outId:null
     }
+    receivemessage=(id)=>{
+        console.log(id)
+        this.setState({
+            outId:id
+        },function(){
+            //数据请求
+            this.setdata()
+
+
+        })
+    }
+
+    //数据请求
+    setdata=()=>{
+         const outId=this.state.outId
+        const type=1
+        let values={
+            outId:outId,
+            type:type
+        }
+        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
+                result.then((res) => {
+                    return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       this.setState({
+                        orderDetails:json.orderDetails, //详情
+                        odOrder:json.odOrder, //订单信息
+                        orOrderPay:json.orOrderPay,//支付信息，
+                        mbCard:json.mbCard
+                       })
+                    }else{  
+                       message.waring(json.message) 
+                    }
+                })
+    }
+
+
+
+
+
+
     render(){
         return(
                 <div>
@@ -213,18 +258,37 @@ class Slidecountsell extends React.Component {
                                 </li>
                                 )
 
-
-
-                            
-
                         }
                     </ul>
                 </div>
             )
     }
-    componentDidMount(){
-        const outId=this.props.outId
-        const type=this.props.type
+    
+}
+//tap count 退货
+class Slidecountback extends React.Component {
+    state={
+        mbCard:null,
+        odReturn:{},
+        returnOrderDetails:[],
+        outId:null
+    }
+
+    receivemessage=(id)=>{
+        console.log(id)
+        this.setState({
+            outId:id
+        },function(){
+            //数据请求
+            this.setdata()
+
+
+        })
+    }
+
+    setdata=()=>{
+        const outId=this.state.outId
+        const type=3
         let values={
             outId:outId,
             type:type
@@ -235,26 +299,19 @@ class Slidecountsell extends React.Component {
                 }).then((json) => {
                     console.log(json)
                     if(json.code=='0'){
-                       this.setState({
-                        orderDetails:json.orderDetails, //详情
-                        odOrder:json.odOrder, //订单信息
-                        orOrderPay:json.orOrderPay,//支付信息，
-                        mbCard:json.mbCard
+                        this.setState({
+                            mbCard:json.mbCard,
+                            odReturn:json.odReturn,
+                            returnOrderDetails:json.returnOrderDetails
                        })
                     }else{  
-                        
+                        message.waring(json.message)
                     }
                 })
+    }
 
-    }
-}
-//tap count 退货
-class Slidecountback extends React.Component {
-    state={
-        mbCard:null,
-        odReturn:{},
-        returnOrderDetails:[]
-    }
+
+
     render(){
         return(
             <div>
@@ -278,7 +335,7 @@ class Slidecountback extends React.Component {
                         this.state.mbCard==null || undefined || '' 
                         ?
                         <li style={{borderBottom:'0'}}>
-                            <p><div><span>结算收银</span>：2345.00「<span>会员卡支付</span>：321.00、<span>微信支付</span>：2000.00、<span>支付宝</span>：199.00」</div></p>
+                            <p><div><span>结算退款</span>：{this.state.odReturn.refundAmount}「<span>{this.state.odReturn.typeStr}</span>」</div></p>
                         </li>
                         :
                         <li style={{borderBottom:'0'}}>
@@ -295,36 +352,46 @@ class Slidecountback extends React.Component {
             </div>
         )
     }
-    componentDidMount(){
-        const outId=this.props.outId
-        const type=this.props.type
-        let values={
-            outId:outId,
-            type:type
-        }
-        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    console.log(json)
-                    if(json.code=='0'){
-                        this.setState({
-                            mbCard:json.mbCard,
-                            odReturn:json.odReturn,
-                            returnOrderDetails:json.returnOrderDetails
-                       })
-                    }else{  
-                        
-                    }
-                })
-
-    }
+    
 }
 //tap count 充值
 class Slidecountcz extends React.Component {
     state={
         cardMoneyChargeInfo:{},
         mbCard:{}
+    }
+    receivemessage=(id)=>{
+        console.log(id)
+        this.setState({
+            outId:id
+        },function(){
+            //数据请求
+            this.setdata()
+
+
+        })
+    }
+    setdata=()=>{
+         const outId=this.state.outId
+        const type=2
+        let values={
+            outId:outId,
+            type:type
+        }
+        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       this.setState({
+                            cardMoneyChargeInfo:json.cardMoneyChargeInfo,
+                            mbCard:json.mbCard
+                       })
+                    }else{  
+                        message.waring(json.message)
+                    }
+                })
     }
     render(){
         return(
@@ -345,36 +412,18 @@ class Slidecountcz extends React.Component {
                 </div>
             )
     }
-    componentDidMount(){
-        const outId=this.props.outId
-        const type=this.props.type
-        let values={
-            outId:outId ,
-            type:type
-        }
-        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
-                result.then((res) => {
-                  return res;
-                }).then((json) => {
-                    console.log(json)
-                    if(json.code=='0'){
-                       this.setState({
-                            cardMoneyChargeInfo:json.cardMoneyChargeInfo,
-                            mbCard:json.mbCard
-                       })
-                    }else{  
-                        message.waring(json.message)
-                    }
-                })
-
-    }
+    
 
 }
 //count tap切换
 class Ordertap extends React.Component {
     state = {
         tabPosition: 'left',
-        clickkey:0
+        clickkey:0,
+        clickid:null,
+        clicktype:1,
+        keys:0,
+        qposStSaleOrders:[]
     }
     pagechange=(page)=>{
         this.setState({
@@ -385,36 +434,80 @@ class Ordertap extends React.Component {
         
     }
     onTabClick=(key)=>{
-        console.log(key)
-
-
-
-
+        const keyindex=key.substring(0,1)
+        const keyid=key.substring(2,key.length)
+        const clicktype=key.substring(1,2)
         this.setState({
-            clickkey:key
+            clickkey:Number(keyindex),
+            clickid:keyid,
+            clicktype:clicktype,
+            keys:key
+        },function(){
+            //把id传给对应的type
+            if(this.state.clicktype=='1'){
+                console.log(this)
+                const Slidecountback=this.refs.Slidecountsell.receivemessage
+                Slidecountback(this.state.clickid)
+            }
+            if(this.state.clicktype=='2'){
+                console.log(this)
+                const Slidecountback=this.refs.Slidecountcz.receivemessage
+                Slidecountback(this.state.clickid)
+
+            }
+            if(this.state.clicktype=='3'){
+                console.log(this)
+                const Slidecountback=this.refs.Slidecountback.receivemessage
+                Slidecountback(this.state.clickid)
+            }
+
         })
     }
+
+
+    
+
+
   render() {
-    const qposStSaleOrders=this.props.qposStSaleOrders
+    const qposStSaleOrders=this.state.qposStSaleOrders
     return (
         <div className="content-sell-info">
-            <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'450px'}} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.clickkey)}>
+            <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'450px'}} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.keys)}>
                 {
                     qposStSaleOrders.map((item,index)=>{
                         return (
-                            <TabPane tab={<Slidetitle item={item}/>} key={index}>
+                            <TabPane tab={<Slidetitle item={item}/>} key={index+item.type+item.outId}>
                                 {
-                                    item.type=='1'?<Slidecountsell outId={item.outId} type={item.type}/>:(item.type=='2'?<Slidecountcz outId={item.outId} type={item.type}/>:<Slidecountback outId={item.outId} type={item.type}/>)
+                                    item.type=='1'?<Slidecountsell outId={item.outId} type={item.type} ref='Slidecountsell'/>:(item.type=='2'?<Slidecountcz outId={item.outId} type={item.type} ref='Slidecountcz'/>:<Slidecountback outId={item.outId} type={item.type} ref='Slidecountback'/>)
                                 }
                             </TabPane>)
                     })
                 }
             </Tabs>
             <div className='Paginationsell'><Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)} className='Paginationsells' defaultPageSize={6}/></div>
-
         </div>
     )
   }
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps)
+    console.log(this)
+    if(nextProps.qposStSaleOrders.length>0){
+        this.setState({
+            qposStSaleOrders:nextProps.qposStSaleOrders,
+            keys:0+nextProps.qposStSaleOrders[0].type+nextProps.qposStSaleOrders[0].outId
+            },function(){
+            this.onTabClick(this.state.keys)
+        })
+    }
+
+
+    
+
+
+  }
+
+
+  
 }
 
 
@@ -519,10 +612,6 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         var userSalese=this.props.userSales
         var totalUserSale=this.props.totalUserSale
-        console.log(this)
-        console.log(totalUserSale)
-        // totalUserSale=(totalUserSale==undefined || null || {} || [] || '') ? inittotalUserSale :this.props.totalUserSale
-        console.log(totalUserSale)
         userSalese.push({
              nickname:'合计',
              amount:totalUserSale.amount,
@@ -559,13 +648,10 @@ class Sellorder extends React.Component {
         return (
             <div>
                <Searchcompon dispatch={this.props.dispatch} ref='search'/>
-               <Ordertap qposStSaleOrders={this.props.qposStSaleOrders} total={this.props.total} revisemessages={this.revisemessages.bind(this)}/>
+               <Ordertap qposStSaleOrders={this.props.qposStSaleOrders} total={this.props.total} revisemessages={this.revisemessages.bind(this)} ref='Ordertap'/>
             </div>
         )
     }
-
-
-
 
 }
 

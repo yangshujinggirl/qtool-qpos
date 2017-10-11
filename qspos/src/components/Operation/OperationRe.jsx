@@ -36,9 +36,34 @@ class Modales extends React.Component {
 					visible: false,
                     reamount:''
 				},function(){
+                    const mbCardMoneyChargeIds=json.mbCardMoneyChargeId
+                    const chargeNos=json.chargeNo
 					this.props.searchmemberinfo()
-                        this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo)
                     message.success('充值成功')
+                    //判断打印
+                                const result=GetServerData('qerp.pos.sy.config.info')
+                                    result.then((res) => {
+                                    return res;
+                                }).then((json) => {
+                                    console.log(json);
+                                    if(json.code == "0"){
+                                         if(json.config.rechargePrint=='1'){
+                                            //判断是打印大的还是小的
+                                            if(json.config.paperSize=='80'){
+                                                this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                            }else{
+                                                this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                            }
+                                            
+                                         }
+                                    }else{
+                                        message.warning('打印失败')
+                                        }
+                        })
+
+
+
+
 				});
             }else{  
                 console.log(json.message)   
@@ -55,27 +80,7 @@ class Modales extends React.Component {
                 }).then((json) => {
                     console.log(json)
                     if(json.code=='0'){
-                        //打印判断
-                        const result=GetServerData('qerp.pos.sy.config.info')
-                                    result.then((res) => {
-                                    return res;
-                                }).then((json) => {
-                                    console.log(json);
-                                    if(json.code == "0"){
-                                         if(json.config.rechargePrint=='1'){
-                                            //判断是打印大的还是小的
-                                            if(json.config.paperSize=='80'){
-                                                this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo,true)
-                                            }else{
-                                                this.handprint(json.chargeInfo.mbCardMoneyChargeId,'mbCardMoneyCharge',json.chargeInfo.chargeNo,false)
-                                            }
-                                            
-                                         }
-                                    }else{
-                                        message.warning('打印失败')
-                                    }
-                        })
-                            message.success('充值成功')
+                        
                         }else{   
                             message.warning(json.message)
                         }

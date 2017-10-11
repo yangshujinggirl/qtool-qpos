@@ -150,14 +150,14 @@ function PrintOneURL(url,orderno){
 export function GetLodop(id,type,orderno,size) {
 	 var Url=window.location.host
 	const jsessionid = getJsessionId();
-	 Url='http://'+Url+'/erpQposRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
-	 if(size){
+	  if(size){
 	 	Url='http://'+Url+'/erpQposRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id+'&size=B'
+	 }else{
+	 	Url='http://'+Url+'/erpQposRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
 	 }
 
-
-
+	 console.log(Url)
 	PrintOneURL(Url,orderno)
-	console.log(Url)
+	
 }
 
