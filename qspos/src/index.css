@@ -533,6 +533,14 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
   .member-style{
     height: 92%;
   }
+  #root{
+    height: 100%;
+    width: 100%;
+  }
+  .loginindex{
+    height: 100%;
+    width: 100%;
+  }
 /*.ant-btn:hover, .ant-btn:focus, .ant-btn:active, .ant-btn.active{background:inherit;}*/
 /*---------------------------------------__________________________________________________________*/
 
