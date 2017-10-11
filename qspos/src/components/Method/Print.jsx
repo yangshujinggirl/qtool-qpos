@@ -130,7 +130,7 @@ function PrintOneURL(url,orderno){
 		}
 		LODOP=getLodop();
 		LODOP.PRINT_INIT('printJob'+new Date());
-		LODOP.ADD_PRINT_URL('0cm','0cm','100%','100%',url);
+		LODOP.ADD_PRINT_URL('0%','0%','100%','100%',url);
 		//LODOP.SET_PRINT_PAGESIZE(intOrient,'1cm','90%','90%',url);
 		// LODOP.SET_PRINT_STYLEA(0,'HOrient',0);
 		// LODOP.SET_PRINT_STYLEA(0,'VOrient',0);
@@ -142,10 +142,10 @@ function PrintOneURL(url,orderno){
 		// LODOP.ADD_PRINT_IMAGE(28,49,171,153,url);
 		//LODOP.SET_PRINT_STYLEA(0,"FontSize",13);
 		// LODOP.SET_PRINT_STYLEA(0,"Horient",1);	
-		LODOP.SET_PRINT_MODE('PRINT_PAGE_PERCENT','55%')
+		LODOP.SET_PRINT_MODE('PRINT_PAGE_PERCENT','Auto-Width')
 		LODOP.ADD_PRINT_HTM(0,0)
-		//LODOP.PRINT();
-		LODOP.PREVIEW();
+		LODOP.PRINT();
+		//LODOP.PREVIEW();
 	}
 
 
