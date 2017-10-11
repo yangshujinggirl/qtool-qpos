@@ -43,11 +43,9 @@ class Searchcomponent extends React.Component {
         let values={pdCheckId:this.props.pdCheckId}
         let Strdatanume=JSON.stringify(values)
         Strdatanume=encodeURI(Strdatanume)
-        let url='/erpWebRest/webrestExport.htm?data='+Strdatanume+'&code=qerp.qpos.pd.check.export'
-        console.log(url)
+        let url='/erpQposRest/qposrestExport.htm?data='+Strdatanume+'&code=qerp.qpos.pd.check.export'
         window.open(url)
     }
-
     settablesouce=(messages)=>{
         console.log(messages)
         this.setState({

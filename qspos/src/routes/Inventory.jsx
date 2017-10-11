@@ -184,7 +184,7 @@ class EditableTable extends React.Component {
     	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
-      		<div className='bgf'>
+      		<div className='bgf bgf-goods-style'>
         		<Table bordered dataSource={this.state.dataSource} columns={columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}

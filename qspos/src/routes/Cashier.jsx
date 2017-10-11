@@ -940,8 +940,8 @@ class Btncashier extends React.Component {
     takeout=()=>{
         const takeout=this.props.takeout
         takeout()
-        const ginitdatar=this.props.ginitdatar
-        ginitdatar()
+        // const ginitdatar=this.props.ginitdatar
+        // ginitdatar()
     }
     takein=()=>{
         const takein=this.props.takein
@@ -1133,8 +1133,12 @@ class Cashier extends React.Component {
         rowonDelete()
     }
     takeout=()=>{
-        const takeout=this.refs.table.takeout
-        takeout()
+        //清除table数据
+        const takeoutS=this.refs.table.takeout
+        takeoutS()
+        //清除会员信息及对外传输
+        const initdatar=this.refs.opera.initdatar
+        initdatar()
     }
     takein=()=>{
         const takein=this.refs.table.takein

@@ -62,7 +62,7 @@ class Searchcomponent extends React.Component {
 	                        
 	                    </Select>
 	                </div>
-          			<div className='fl'><Searchinput text='请输入会员姓名、手机、会员卡号、级别' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/></div>
+          			<div className='fl'><Searchinput text='请输入商品条码、名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/></div>
      			</div>
     		</div>
         )

@@ -235,7 +235,7 @@ class Slidecountback extends React.Component {
                                     <li key={index}>
                                         <p><div><span>商品名称</span>：{item.name}</div> </p>
                                         <p><div><span>商品条码</span>： {item.code}</div><div><span>规格</span>：{item.displayName}</div></p>
-                                        <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>实退价</span>：{item.refundAmount}</div></p>
+                                        <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>实退价</span>：{item.refundPrice}</div></p>
                                     </li>
                                 )
                         })

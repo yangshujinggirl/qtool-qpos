@@ -53,6 +53,27 @@ class Modelform extends Component {
     showModal = () => {
         this.setState({
             visible: true
+        },function(){
+            //设置form中的值，新增账号的时候设置为空，修改的时候获取id，请求数据，设置其值
+            const type=this.props.type
+            if(type){
+                this.props.form.setFieldsValue({
+                    nickname:null,
+                    username:null,
+                    role:3,
+                    status:1
+                });
+            }else{
+                const record=this.props.record
+                console.log(record)
+                this.props.form.setFieldsValue({
+                    nickname: record.nickname,
+                    username:record.username,
+                    role:Number(record.role),
+                    status:Number(record.status)
+                });
+
+            }
         });
     }
     hideModal = () => {
@@ -94,11 +115,8 @@ class Modelform extends Component {
                                         type:'account/fetch',
                                         payload: {code:'qerp.pos.ur.user.query'}
                                     })
-
-                                    
+  
                                 }
-
-
                                 
                              })
                     }else{  
@@ -175,10 +193,9 @@ class Modelform extends Component {
                             wrapperCol={{ span: 8 }}
                             >
                             {getFieldDecorator('nickname', {
-                                initialValue: nickname,
                                 rules: [{ required: true, message: '请输入账号名称' }],
                             })(
-                                <Input placeholder="请输入1-5位会员姓名" className='inputwidth' />
+                                <Input placeholder="请输入1-5位会员姓名" className='inputwidth'/>
                             )}
                         </FormItem>
                         <FormItem 
@@ -187,7 +204,6 @@ class Modelform extends Component {
                             wrapperCol={{ span: 8 }}
                             >
                             {getFieldDecorator('username', {
-                                initialValue: username,
                                 rules: [{ required: true, message: '请输入11位手机号' }],
                             })(
                                 <Input placeholder="请输入11位手机号" className='inputwidth' />
@@ -198,7 +214,6 @@ class Modelform extends Component {
                             wrapperCol={{ span: 8 }} 
                             className='listto checkboxlabel'>
                             {getFieldDecorator('role', {
-                                initialValue: Number(role)
                             })(
                                 <RadioGroup onChange={this.MemberonChange.bind(this)}>
                                     <Radio value={2}>店长</Radio>
@@ -211,7 +226,6 @@ class Modelform extends Component {
                             wrapperCol={{ span: 8 }}
                           className='checkboxlabel checkboxlabelstatus'>
                             {getFieldDecorator('status', {
-                                initialValue: Number(status)
                             })(
                                 <RadioGroup onChange={this.AccountonChange.bind(this)}>
                                     <Radio value={1}>启用</Radio>
@@ -359,7 +373,7 @@ class App extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'50px',padding:'30px'}} className='formdis accformdis'>
+        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'30px',padding:'30px'}} className='formdis accformdis'>
             {
                 this.state.xitong
                 ?

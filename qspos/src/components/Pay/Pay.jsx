@@ -841,48 +841,73 @@ class Pay extends React.Component {
             const totolamount=this.state.totolamount
             const moneyvalue=this.state.paynext
             var backmoneymeths=this.state.backmoney
-        //判断输入的值是否大于总额
-        if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
-            moneyvalue.value=totolamount
-            backmoneymeths='0.00'
-            if(moneyvalue.name=='会员卡'){
-                if(parseFloat(moneyvalue.value)>parseFloat(this.state.membermoney)){
-                    moneyvalue.value=this.state.membermoney
+
+            //判断是否是会员或者积分
+            if(moneyvalue.name=='会员卡' || moneyvalue.name=='积分'){
+                 //判断输入的值是否大于总额
+                if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
+                    moneyvalue.value=totolamount
+                    backmoneymeths='0.00'
+                    if(moneyvalue.name=='会员卡'){
+                        if(parseFloat(moneyvalue.value)>parseFloat(this.state.membermoney)){
+                            moneyvalue.value=this.state.membermoney
+                            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                        }
+                    }
+                }else{
+                    //输入值小于总额
+                    moneyvalue.value=moneyvalue.value
                     backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                    if(moneyvalue.name=='会员卡'){
+                        if(parseFloat(moneyvalue.value)>parseFloat(this.state.membermoney)){
+                            moneyvalue.value=this.state.membermoney
+                            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                        }
+                    }
+
                 }
-            }
-        }else{
-            //输入值小于总额
-            moneyvalue.value=moneyvalue.value
-            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-            if(moneyvalue.name=='会员卡'){
-                if(parseFloat(moneyvalue.value)>parseFloat(this.state.membermoney)){
-                    moneyvalue.value=this.state.membermoney
+                if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
+                    moneyvalue.value=totolamount
+                    backmoneymeths='0.00'
+                    if(moneyvalue.name=='积分'){
+                        if(parseFloat(moneyvalue.value)>parseFloat(this.state.pointmoney)){
+                            moneyvalue.value=this.state.pointmoney
+                            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                        }
+                    }
+                }else{
+                    //输入值小于总额
+                    moneyvalue.value=moneyvalue.value
                     backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                    if(moneyvalue.name=='积分'){
+                        if(parseFloat(moneyvalue.value)>parseFloat(this.state.pointmoney)){
+                            moneyvalue.value=this.state.pointmoney
+                            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+                        }
+                    }
                 }
+
+            }else{
+                backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
+
             }
 
-        }
-        if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
-            moneyvalue.value=totolamount
-            backmoneymeths='0.00'
-            if(moneyvalue.name=='积分'){
-                if(parseFloat(moneyvalue.value)>parseFloat(this.state.pointmoney)){
-                    moneyvalue.value=this.state.pointmoney
-                    backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-                }
-            }
-        }else{
-            //输入值小于总额
-            moneyvalue.value=moneyvalue.value
-            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-            if(moneyvalue.name=='积分'){
-                if(parseFloat(moneyvalue.value)>parseFloat(this.state.pointmoney)){
-                    moneyvalue.value=this.state.pointmoney
-                    backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-                }
-            }
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
         this.setState({
             backmoney:backmoneymeths,
             paynext:moneyvalue
@@ -1018,7 +1043,6 @@ class Pay extends React.Component {
                     backmoney='0.00'
                 }
             }
-
         }else{
             payfirst.value=payfirst.value
             paysecond.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,payfirst.value,0))).toFixed(2)
