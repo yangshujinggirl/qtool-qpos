@@ -6,6 +6,10 @@ import {GetLodop} from '../Method/Print.jsx'
 
 //充值弹窗
 class Modales extends React.Component {
+    constructor(props) {
+        super(props);
+        this.firstclick=true
+     }
     state = { 
       	visible: false,
       	typeclick1:true,
@@ -25,6 +29,14 @@ class Modales extends React.Component {
     }
   }
   handleOk = (e) => {
+    if(this.firstclick){
+            //可以执行
+            this.firstclick=false
+
+    }else{
+            //不可以执行
+            return
+    }
   	let values={mbCardId:this.props.mbCardId,amount:this.state.reamount,type:this.state.type}
     const result=GetServerData('qerp.pos.mb.card.charge',values)
         result.then((res) => {
@@ -36,6 +48,7 @@ class Modales extends React.Component {
 					visible: false,
                     reamount:''
 				},function(){
+                    this.firstclick=true
                     const mbCardMoneyChargeIds=json.mbCardMoneyChargeId
                     const chargeNos=json.chargeNo
 					this.props.searchmemberinfo()
@@ -65,6 +78,7 @@ class Modales extends React.Component {
 				});
             }else{  
                 console.log(json.message)   
+                this.firstclick=true
             }
         })
     }

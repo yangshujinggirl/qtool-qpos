@@ -75,6 +75,7 @@ class EditableTable extends React.Component {
             total:0,
             page:1
         };
+        this.firstclick=true
     }
     //在datasouce中index计算法则
     // 实际index=(所在页数1开始-1）*5+在当前页的index
@@ -342,6 +343,14 @@ class EditableTable extends React.Component {
     
     //收货
     receiveQty=()=>{
+        if(this.firstclick){
+            //可以执行
+            this.firstclick=false
+
+        }else{
+            //不可以执行
+            return
+        }
         const datasouces=this.state.dataSource
         if(datasouces.length>0 && Number(this.state.spu)>0 && Number(this.state.number)>0){
             var pdOrderReceives=this.state.dataSource
@@ -358,9 +367,11 @@ class EditableTable extends React.Component {
                         console.log(json)
                         if(json.code==0){
                             message.success('收货成功')
+                            this.firstclick=true
                             this.initdata()
                         }else{
                             message.error(json.message)
+                            this.firstclick=true
                         }
                     })
         }else{

@@ -11,6 +11,7 @@ class Pay extends React.Component {
      constructor(props) {
         super(props);
         this.lists=[]
+        this.firstclick=true
      }
     state = { 
         visible: false,
@@ -634,6 +635,14 @@ class Pay extends React.Component {
     }
     //结算
     hindpayclick=()=>{
+        if(this.firstclick){
+            //可以执行
+            this.firstclick=false
+
+        }else{
+            //不可以执行
+            return
+        }
         //判断是收银结算还是退货结算
         const usetype=this.state.usetype
         if(usetype){
@@ -741,6 +750,7 @@ class Pay extends React.Component {
             }).then((json) => {
                 console.log(json)
                 if(json.code=='0'){
+                    this.firstclick=true
                     const odOrderIds=json.odOrderId
                     const orderNos=json.orderNo
                     this.handleOk()
@@ -765,11 +775,13 @@ class Pay extends React.Component {
                                  }
                               }else{
                                 message.warning('打印失败')
+
                               }
                         })
                     }
                 }else{
                     message.error(json.message)
+                    this.firstclick=true
                 }
         })
     }
@@ -781,6 +793,7 @@ class Pay extends React.Component {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
+                    this.firstclick=true
                     const odReturnIds=json.odReturnId
                     const returnNos=json.returnNo
                      this.handleOk()
@@ -811,6 +824,7 @@ class Pay extends React.Component {
                 }else{
                      this.props.useinitdata()
                     message.error(json.message)
+                    this.firstclick=true
                 }
         })
     }
