@@ -11,10 +11,10 @@ const echartcount={
 }
 
 const echartcountMin ={
-     width:'220px',
+     width:'280px',
     height:'283px',
     background:'#fff',
-    border: '1px solid #E7E8EC',
+    border: '1px solid #d8d8d8',
     boxShadow: '0 0 20px 0 rgba(0,0,0,0.10)'
 }
 let widthFlag = true;
@@ -48,8 +48,8 @@ class EchartsPie extends React.Component {
                 },
                 legend: {
                     orient: 'vertical',
-                    x: '50%',
-                    y:'30%',
+                    x: '75%',
+                    y:'25%',
                     data:datarow
                 },
                 series: [
@@ -77,7 +77,7 @@ class EchartsPie extends React.Component {
                             }
                         },
                         data:dataclum,
-                        center:['20%','60%']
+                        center:['40%','60%']
                     },
 
                 ]
