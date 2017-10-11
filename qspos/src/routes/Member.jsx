@@ -90,9 +90,9 @@ class Modelform extends Component {
                         console.log(json)
                         if(json.code=='0'){
                             if(this.props.type){
-                                message.success('会员新建成功')
+                                message.success('会员新建成功',1)
                             }else{
-                                message.success('会员信息修改成功')
+                                message.success('会员信息修改成功',1)
                             }
                            this.hideModal()
                            this.props.dispatch({

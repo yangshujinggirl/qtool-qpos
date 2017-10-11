@@ -52,7 +52,7 @@ class Modales extends React.Component {
                     const mbCardMoneyChargeIds=json.mbCardMoneyChargeId
                     const chargeNos=json.chargeNo
 					this.props.searchmemberinfo()
-                    message.success('充值成功')
+                    message.success('充值成功',1)
                     //判断打印
                     if(navigator.platform == "Windows"){
                         const result=GetServerData('qerp.pos.sy.config.info')

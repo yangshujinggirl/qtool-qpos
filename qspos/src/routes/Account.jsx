@@ -82,7 +82,7 @@ class Modelform extends Component {
                                  visible: false,
                              },function(){
                                 if(this.props.type==false){
-                                    message.success('修改成功')
+                                    message.success('修改成功',1)
                                     this.props.dispatch({
                                         type:'account/fetch',
                                         payload: {code:'qerp.pos.ur.user.query'}
@@ -325,7 +325,7 @@ class App extends React.Component {
                 }).then((json) => {
                     console.log(json)
                     if(json.code=='0'){
-                      message.success('设置成功')
+                      message.success('设置成功',1)
                     }else{  
                        message.waring(json.message)
                     }
