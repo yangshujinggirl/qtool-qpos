@@ -485,7 +485,7 @@ class Tags extends React.Component {
 
     render() {
         return (
-                <div className='posion h100'>
+                <div className='posion h100 account-tab-style'>
                     <Tabs onChange={this.callback.bind(this)} type="card" tabBarStyle={{height:'54px'}} tabBarExtraContent={ this.state.tabBarExtraContent?<Modelforms record={{role:'3',status:'1'}} text='新增账号'texts='新增账号' width='450' dispatch={this.props.dispatch} type={true} showInfomodel={this.showInfomodel.bind(this)}/>:null}>
   		    	       <TabPane tab="账号管理" key="1">
                          <div className="count-table-style">
