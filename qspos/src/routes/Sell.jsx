@@ -10,6 +10,7 @@ import {GetServerData} from '../services/services';
 // css
 const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #d8d8d8',overflow:'hidden'}
 const slideinfos={fontSize: '12px',color: ' #74777F',marginTop:'10px'}
+const slideinfosTwo={fontSize: '12px',color: ' #74777F',marginTop:'5px'}
 const infocount={display: 'flex',justifyContent:'space-between'}
 const tit={fontSize: '14px',color: '#384162',margin:'10px'}
 
@@ -126,7 +127,7 @@ function Slidetitle({item}) {
     return (
         <div className='slidetitle slideinfo-height-style'>
             <p className='clearfix p1'><div className='fl p2'>{item.outNo}</div><div className='fr p3'>{item.createTime}</div></p>
-            <p className='clearfix' style={slideinfos}><div className='fl'><span>客户：{item.levelStr}</span><span style={{marginLeft:'60px'}}>{item.isdiscount=='0'?null:'折'}</span></div><div className='fr' style={{marginRight:'30px'}}>收银：{item.amount}元</div></p>
+            <p className='clearfix' style={widthFlag?slideinfos:slideinfosTwo}><div className='fl'><span>客户：{item.levelStr}</span><span style={{marginLeft:'60px'}}>{item.isdiscount=='0'?null:'折'}</span></div><div className='fr' style={{marginRight:'30px'}}>收银：{item.amount}元</div></p>
         </div>
   );
 }
@@ -419,8 +420,7 @@ class Ordertap extends React.Component {
         </div>
     )
   }
-  componentDidMount(){
-      let widthFlag = false;
+  componentWillMount(){
       console.log(document.body.clientWidth);
          if( document.body.clientWidth > 800 ) {
                 /* 这里是要执行的代码 */
@@ -630,7 +630,7 @@ class Sellclerk extends React.Component {
         return(
             <div>
                 <div style={{height:'80px',borderBottom: '1px solid #E7E8EC'}} className='persontime'><Perdontime dispatch={this.props.dispatch} initdataspuce={this.initdataspuce.bind(this)}/></div>
-                <div style={{padding:'0 30px'}}>
+                <div className="chart-container-style" style={{padding:'0 30px'}}>
                     <p style={tit}>销售数据</p>
                     <div className='clearfix'style={{width:'100%'}}>
                         <div className='fl'><Echartsaxis userSales={this.state.userSales}/></div>

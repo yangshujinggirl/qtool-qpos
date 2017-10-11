@@ -10,10 +10,10 @@ const echartcount={
     boxShadow: '0 0 20px 0 rgba(0,0,0,0.10)'
 }
 const echartcountMin = {
-     width:'220px',
+     width:'280px',
     height:'283px',
     background:'#fff',
-    border: '1px solid #E7E8EC',
+    border: '1px solid #d8d8d8',
     boxShadow: '0 0 20px 0 rgba(0,0,0,0.10)'
 }
 
