@@ -1011,6 +1011,7 @@ class Cashier extends React.Component {
            if(totalamount==0 || totalamount<0){
                 message.warning('商品数量为0，不能结算')
            }else{
+            console.log(134)
                     //判断是否是会员
                     if((integral==null && memberinfo==null) || (integral==0 && memberinfo==0)){
                         //不是会员 或是会员但是会员和积分都是0
@@ -1023,7 +1024,7 @@ class Cashier extends React.Component {
                         totalamount=parseFloat(totalamount)
         
                         //是会员,有会员值且大于等于结算金额, type:1
-                        if(memberinfo>0 && memberinfo>totalamount){
+                        if(memberinfo>0 && memberinfo>=totalamount){
                             const showModal=this.refs.pay.showModal
                             let data={
                                 totalamount:totalamount.toFixed(2),
@@ -1033,7 +1034,7 @@ class Cashier extends React.Component {
                              showModal(1,data)
                             }
 
-                        }
+                        
                         //是会员,有会员值小于结算金额, type:2
                         if(memberinfo>0 && memberinfo<totalamount){
                             let data={
@@ -1066,6 +1067,7 @@ class Cashier extends React.Component {
                         }
                     }
     }
+}
 
 
     handleokent=(e)=>{

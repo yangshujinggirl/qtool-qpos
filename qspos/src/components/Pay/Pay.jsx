@@ -741,6 +741,8 @@ class Pay extends React.Component {
             }).then((json) => {
                 console.log(json)
                 if(json.code=='0'){
+                    const odOrderIds=json.odOrderId
+                    const orderNos=json.orderNo
                     this.handleOk()
                     this.props.initdata()
                     message.success('收银成功')
@@ -754,9 +756,9 @@ class Pay extends React.Component {
                                  if(json.config.submitPrint=='1'){
                                     //判断是打印大的还是小的
                                     if(json.config.paperSize=='80'){
-                                        this.handprint(json.odOrderId,'odOrder',json.orderNo,true)
+                                        this.handprint(odOrderIds,'odOrder',orderNos,true)
                                     }else{
-                                        this.handprint(json.odOrderId,'odOrder',json.orderNo,false)
+                                        this.handprint(odOrderIds,'odOrder',orderNos,false)
                                     }
                                     
                                  }
@@ -778,6 +780,8 @@ class Pay extends React.Component {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
+                    const odReturnIds=json.odReturnId
+                    const returnNos=json.returnNo
                      this.handleOk()
                      message.success('退货成功')
                      this.props.reinitdata()
@@ -793,9 +797,9 @@ class Pay extends React.Component {
                                  if(json.config.submitPrint=='1'){
                                     //判断是打印大的还是小的
                                     if(json.config.paperSize=='80'){
-                                        this.handprint(json.odReturnId,'odReturn',json.returnNo,true)
+                                        this.handprint(odReturnIds,'odReturn',returnNos,true)
                                     }else{
-                                        this.handprint(json.odReturnId,'odReturn',json.returnNo,false)
+                                        this.handprint(odReturnIds,'odReturn',returnNos,false)
                                     }
                                     
                                  }
