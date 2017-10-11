@@ -41,8 +41,9 @@ class Modales extends React.Component {
 					this.props.searchmemberinfo()
                     message.success('充值成功')
                     //判断打印
-                                const result=GetServerData('qerp.pos.sy.config.info')
-                                    result.then((res) => {
+                    if(navigator.platform == "Windows"){
+                        const result=GetServerData('qerp.pos.sy.config.info')
+                                result.then((res) => {
                                     return res;
                                 }).then((json) => {
                                     console.log(json);
@@ -59,11 +60,8 @@ class Modales extends React.Component {
                                     }else{
                                         message.warning('打印失败')
                                         }
-                        })
-
-
-
-
+                        }) 
+                    }
 				});
             }else{  
                 console.log(json.message)   

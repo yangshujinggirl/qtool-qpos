@@ -272,7 +272,7 @@ class Slidecountcz extends React.Component {
                         <p><span>会员卡号</span>：{this.props.mbCard2.cardNo}</p>
                         <p><span>会员手机</span>：{this.props.mbCard2.mobile}</p>
                         <p><span>会员级别</span>：{this.props.mbCard2.levelStr}</p>
-                        <p><span>充值余额</span>：{this.props.cardMoneyChargeInfo.amount}元「<span>{this.props.cardMoneyChargeInfo.typeStr}</span>」</p>
+                        <p><span>充值金额</span>：{this.props.cardMoneyChargeInfo.amount}元「<span>{this.props.cardMoneyChargeInfo.typeStr}</span>」</p>
                         <p><span>充值前的余额</span>：{this.props.cardMoneyChargeInfo.beforeAmount}元</p>
                         <p><span>充值后的余额</span>：{this.props.cardMoneyChargeInfo.afterAmount}元</p>
                     </div>
@@ -569,35 +569,31 @@ class EditableTable extends React.Component {
         }
     }
 
+    isInArray=(arr,value)=>{
+        for(var i = 0; i < arr.length; i++){
+        if(value == arr[i].nickname){
+            return true;
+        }
+    }
+    return false;
+    }
+
 
 
     render() {
         const { dataSource } = this.state;
         const columns = this.columns;
-        var userSalese=this.props.userSales
-        var totalUserSale=this.props.totalUserSale
-        userSalese.push({
-             nickname:'合计',
-             amount:totalUserSale.amount,
-             icAmount:totalUserSale.icAmount,
-             orderQty:totalUserSale.orderQty,
-             wechatAmount:totalUserSale.wechatAmount,
-             alipayAmount:totalUserSale.alipayAmount,
-             unionpayAmount:totalUserSale.unionpayAmount,
-             cashAmount:totalUserSale.cashAmount,
-             cardChargeAmount:totalUserSale.cardChargeAmount,
-             cardConsumeAmount:totalUserSale.cardConsumeAmount,
-             pointAmount:totalUserSale.pointAmount,
-             refundAmount:totalUserSale.refundAmount,
-             key:-1
-        })
-
+        const userSalese=this.props.userSales
+        const totalUserSale=this.props.totalUserSale
     return (
         <div>
-            <Table bordered dataSource={userSalese} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+            <Table bordered dataSource={this.props.setsouce} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
         </div>
         )
     }
+
+
+
 }
 
 
@@ -623,7 +619,7 @@ class Sellclerk extends React.Component {
     state={
         userSales:[],
         totalUserSale:{
-        nickname:'合计',
+        nickname:'',
         amount:null,
              icAmount:null,
              orderQty:null,
@@ -635,7 +631,9 @@ class Sellclerk extends React.Component {
              cardConsumeAmount:null,
              pointAmount:null,
              refundAmount:null,
-        }
+             key:-2
+        },
+        setsouce:[]
     }
     initdataspuce=(values)=>{
          const result=GetServerData('qerp.web.qpos.st.user.sale.query',values)
@@ -646,10 +644,17 @@ class Sellclerk extends React.Component {
                     if(json.code=='0'){
                             const userSales=json.userSales
                             const totalUserSale=json.totalUserSale
+                            totalUserSale.nickname='合计'
                             console.log(totalUserSale)
+                            const setsouce=[]
+                            for(var i=0;i<userSales.length;i++){
+                                setsouce.push(userSales[i])
+                            }
+                            setsouce.push(totalUserSale)
                         this.setState({
                             userSales:json.userSales,
                             totalUserSale:totalUserSale,
+                            setsouce:setsouce
                         })
                     }else{  
                         message.error(json.message) 
@@ -669,7 +674,7 @@ class Sellclerk extends React.Component {
                         <div className='fl'><EchartsPie userSales={this.state.userSales}/></div>
                     </div>
                     <p style={tit}>详细数据</p>
-                    <EditableTable userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/>
+                    <EditableTable userSales={this.state.userSales} totalUserSale={this.state.totalUserSale} setsouce={this.state.setsouce}/>
                 </div>
             </div>
         )

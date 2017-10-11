@@ -30,7 +30,7 @@ class Echartsaxis extends React.Component {
         for(var i=0;i<userSalesd.length;i++){
             datarow.push(userSalesd[i].nickname)
             dataclum.push(userSalesd[i].amount)
-            sellMoney = userSalesd[i].amount
+            // sellMoney = userSalesd[i].amount
         }
         console.log(datarow)
         console.log(dataclum)

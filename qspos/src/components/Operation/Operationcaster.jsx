@@ -299,25 +299,29 @@ class Modales extends React.Component {
                                 const mbCardMoneyChargeIds=json.mbCardMoneyChargeId
                                 const chargeNos=json.chargeNo
                                 //判断打印
-                                const result=GetServerData('qerp.pos.sy.config.info')
+                                if(navigator.platform == "Windows"){
+                                    const result=GetServerData('qerp.pos.sy.config.info')
                                     result.then((res) => {
                                     return res;
-                                }).then((json) => {
+                                    }).then((json) => {
                                     console.log(json);
-                                    if(json.code == "0"){
-                                         if(json.config.rechargePrint=='1'){
-                                            //判断是打印大的还是小的
-                                            if(json.config.paperSize=='80'){
-                                                this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
-                                            }else{
-                                                this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                        if(json.code == "0"){
+                                             if(json.config.rechargePrint=='1'){
+                                                //判断是打印大的还是小的
+                                                if(json.config.paperSize=='80'){
+                                                    this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                                }else{
+                                                    this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                                }
+                                                
+                                             }
+                                        }else{
+                                            message.warning('打印失败')
                                             }
-                                            
-                                         }
-                                    }else{
-                                        message.warning('打印失败')
-                                        }
-                        })
+                                    })
+
+                            }
+                                
     						});
                         }else{   
                             message.warning(json.message)
