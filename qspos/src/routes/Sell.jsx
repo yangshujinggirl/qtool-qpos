@@ -221,6 +221,7 @@ class Slidecountsell extends React.Component {
 //tap count 退货
 class Slidecountback extends React.Component {
     render(){
+        console.log(this)
         return(
             <div>
                 <ul className='sellinfolist'>
@@ -234,7 +235,7 @@ class Slidecountback extends React.Component {
                                     <li key={index}>
                                         <p><div><span>商品名称</span>：{item.name}</div> </p>
                                         <p><div><span>商品条码</span>： {item.code}</div><div><span>规格</span>：{item.displayName}</div></p>
-                                        <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>折扣</span>：{item.discount}</div></p>
+                                        <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>实退价</span>：{item.refundPrice}</div></p>
                                     </li>
                                 )
                         })
@@ -359,7 +360,7 @@ class Ordertap extends React.Component {
                         orderDetails:json.orderDetails, //详情
                         odOrder:json.odOrder, //订单信息
                         orOrderPay:json.orOrderPay,//支付信息，
-                        mbCard3:json.mbCard
+                        mbCard1:json.mbCard
                        })
                     }else{  
                         message.waring(json.message) 
@@ -389,13 +390,6 @@ class Ordertap extends React.Component {
                     }
                 })
     }
-
-
-
-
-
-
-
 
     onTabClick=(key)=>{
         console.log(this)

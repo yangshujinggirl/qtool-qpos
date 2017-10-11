@@ -53,8 +53,8 @@ class Modales extends React.Component {
                     const chargeNos=json.chargeNo
 					this.props.searchmemberinfo()
                     message.success('充值成功')
+                     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
                     //判断打印
-                    if(navigator.platform == "Windows"){
                         const result=GetServerData('qerp.pos.sy.config.info')
                                 result.then((res) => {
                                     return res;
@@ -72,8 +72,9 @@ class Modales extends React.Component {
                                          }
                                     }else{
                                         message.warning('打印失败')
-                                        }
-                        }) 
+                                    }
+                            })
+                         
                     }
 				});
             }else{  
