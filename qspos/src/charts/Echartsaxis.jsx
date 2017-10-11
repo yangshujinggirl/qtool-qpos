@@ -22,6 +22,8 @@ let widthFlag = true;
 class Echartsaxis extends React.Component {
     render(){
         const userSalesd=this.props.userSales
+        const totalUserSale=this.props.totalUserSale
+        console.log(totalUserSale)
         console.log(userSalesd)
         var datarow=[]
         var dataclum=[]
@@ -38,7 +40,7 @@ class Echartsaxis extends React.Component {
         const option={
             color: ['#3398DB'],
             title: {
-                    subtext: '销售额：'+sellMoney,
+                    subtext: '销售额：'+totalUserSale.amount,
                     left: '5%'
             },
             tooltip : {

@@ -22,6 +22,7 @@ let widthFlag = true;
 class EchartsPie extends React.Component {
     render(){
             const userSalesd=this.props.userSales
+            const totalUserSale=this.props.totalUserSale
             console.log(userSalesd)
             var datarow=[]
             var dataclum=[]
@@ -30,7 +31,7 @@ class EchartsPie extends React.Component {
                 datarow.push(userSalesd[i].nickname)
                 dataclum.push(
                         {
-                            value:userSalesd[i].amount,name:userSalesd[i].nickname
+                            value:userSalesd[i].orderQty,name:userSalesd[i].nickname
 
                         }
                     )
@@ -39,7 +40,7 @@ class EchartsPie extends React.Component {
             
             const option = {
                 title: {
-                    subtext: '订单数：'+orderCount,
+                    subtext: '订单数：'+totalUserSale.orderQty,
                     left: '5%'
                 },
                 tooltip: {

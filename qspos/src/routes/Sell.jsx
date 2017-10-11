@@ -454,12 +454,17 @@ class Ordertap extends React.Component {
   componentWillReceiveProps(nextProps){
     console.log(nextProps)
     console.log(this)
+    console.log(nextProps.qposStSaleOrders.length)
     if(nextProps.qposStSaleOrders.length>0){
         this.setState({
             qposStSaleOrders:nextProps.qposStSaleOrders,
             keys:0+nextProps.qposStSaleOrders[0].type+nextProps.qposStSaleOrders[0].outId
             },function(){
             this.onTabClick(this.state.keys)
+        })
+    }else{
+        this.setState({
+           qposStSaleOrders:[] 
         })
     }
 
@@ -671,9 +676,9 @@ class Sellclerk extends React.Component {
                 <div className="chart-container-style" style={{padding:'0 30px'}}>
                     <p style={tit}>销售数据</p>
                     <div className='clearfix'style={{width:'100%'}}>
-                        <div className='fl'><Echartsaxis userSales={this.state.userSales}/></div>
+                        <div className='fl'><Echartsaxis userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/></div>
                         <div className='fl' style={{width:'2px',height:'200px',background:'#E7E8EC',margin:'40px 25px'}}></div>
-                        <div className='fl'><EchartsPie userSales={this.state.userSales}/></div>
+                        <div className='fl'><EchartsPie userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/></div>
                     </div>
                     <p style={tit}>详细数据</p>
                     <EditableTable userSales={this.state.userSales} totalUserSale={this.state.totalUserSale} setsouce={this.state.setsouce}/>
