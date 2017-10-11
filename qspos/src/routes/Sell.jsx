@@ -5,10 +5,10 @@ import Searchinput from '../components/Searchinput/Searchinput';
 import EchartsPie from '../charts/EchartsPie';
 import Echartsaxis from '../charts/Echartsaxis';
 import moment from 'moment';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,Pagination} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,Pagination,message} from 'antd';
 import {GetServerData} from '../services/services';
 // css
-const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #E7E8EC',overflow:'hidden'}
+const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #d8d8d8',overflow:'hidden'}
 const slideinfos={fontSize: '12px',color: ' #74777F',marginTop:'10px'}
 const infocount={display: 'flex',justifyContent:'space-between'}
 const tit={fontSize: '14px',color: '#384162',margin:'10px'}
@@ -22,7 +22,9 @@ const saletext='门店销售门店内商品所获得得金额（不包含充值�
 const sale=<Tooltip placement="top" title={saletext}>销售额&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>
 const netreceiptstext='门店销售商品，用户充值及退货所造成的实际金额变化'
 const netreceipts=<Tooltip placement="top" title={netreceiptstext}>净收款</Tooltip>   
-
+const tabStyle = {width:'330px',height:'450px'}
+const tabStyleTwo = {width:'330px',height:'330px'}
+let widthFlag = true;
 //切换tag
 class Tags extends React.Component {
     render() {
@@ -98,20 +100,20 @@ class Searchcompon extends React.Component {
         return(
             <div className='clearfix searchqery'>
                 <div className='fl clearfix'>
-                    <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'30px'}}>订单时间</p>
+                    <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'5px'}}>订单时间</p>
                     <RangePicker format={dateFormat} onChange={this.timechange.bind(this)} className='selltime'/>
                 </div>
                 <div className='fr clearfix'>
                     <div className='searchselect clearfix fl'>
-                        <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>订单分类</label>
-                        <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'20px' }} onChange={this.handleChange.bind(this)}>
+                        <label style={{fontSize: '14px',color: '#74777F',marginRight:'5px'}}>订单分类</label>
+                        <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'5px' }} onChange={this.handleChange.bind(this)}>
                             <Option value="0">全部分类</Option>
                             <Option value="1">销售订单</Option>
                             <Option value="2">充值订单</Option>
                             <Option value="3">退货订单</Option>
                         </Select>
                     </div>
-                    <div className='fl' style={{marginRight:'30px'}}>
+                    <div className='fl' style={{marginRight:'5px'}}>
                         <Searchinput text='请输入商品条码、名称、订单号' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/>
                     </div>
                 </div>
@@ -123,7 +125,7 @@ class Searchcompon extends React.Component {
 //tap tit
 function Slidetitle({item}) {
     return (
-        <div style={slideinfo} className='slidetitle'>
+        <div className='slidetitle slideinfo-height-style'>
             <p className='clearfix p1'><div className='fl p2'>{item.outNo}</div><div className='fr p3'>{item.createTime}</div></p>
             <p className='clearfix' style={slideinfos}><div className='fl'><span>客户：{item.levelStr}</span><span style={{marginLeft:'60px'}}>{item.isdiscount=='0'?null:'折'}</span></div><div className='fr' style={{marginRight:'30px'}}>收银：{item.amount}元</div></p>
         </div>
@@ -132,68 +134,18 @@ function Slidetitle({item}) {
 
 //tap count 销售
 class Slidecountsell extends React.Component {
-    state={
-        orderDetails:[], //详情
-        odOrder:{}, //订单信息
-        orOrderPay:[],//支付信息，
-        mbCard:{},
-        outId:null
-    }
-    receivemessage=(id)=>{
-        console.log(id)
-        this.setState({
-            outId:id
-        },function(){
-            //数据请求
-            this.setdata()
-
-
-        })
-    }
-
-    //数据请求
-    setdata=()=>{
-         const outId=this.state.outId
-        const type=1
-        let values={
-            outId:outId,
-            type:type
-        }
-        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    console.log(json)
-                    if(json.code=='0'){
-                       this.setState({
-                        orderDetails:json.orderDetails, //详情
-                        odOrder:json.odOrder, //订单信息
-                        orOrderPay:json.orOrderPay,//支付信息，
-                        mbCard:json.mbCard
-                       })
-                    }else{  
-                       message.waring(json.message) 
-                    }
-                })
-    }
-
-
-
-
-
-
     render(){
         return(
                 <div>
                     <ul className='sellinfolist'>
                         <li>
-                            <p><div><span>销售订单</span>：{this.state.odOrder.orderNo}</div></p>
-                            <p><div><span>销售时间</span>：{this.state.odOrder.saleTime}</div><div><span>销售员</span>：{this.state.odOrder.nickname}</div></p>
+                            <p><div><span>销售订单</span>：{this.props.odOrder.orderNo}</div></p>
+                            <p><div><span>销售时间</span>：{this.props.odOrder.saleTime}</div><div><span>销售员</span>：{this.props.odOrder.nickname}</div></p>
                         </li>
                         <li>
                             {
 
-                                this.state.orderDetails.map((item,index)=>{
+                                this.props.orderDetails.map((item,index)=>{
                                     return(
                                         <div key={index}>
                                             <p><div><span>商品名称</span>：{item.name} </div></p>
@@ -207,54 +159,54 @@ class Slidecountsell extends React.Component {
                         </li>
                         {
 
-                            this.state.mbCard==null || undefined || '' 
+                            this.props.mbCard1==null || undefined || '' 
                             ?
                                 (
-                                    this.state.orOrderPay.length>0
+                                    this.props.orOrderPay.length>0
                                 ?
                                     (
-                                        this.state.orOrderPay.length>1
+                                        this.props.orOrderPay.length>1
                                         ?
                                         <li style={{borderBottom:'0'}}>
-                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                            <p><div><span>结算收银</span>：{this.state.odOrder.payAmount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
+                                            <p><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></p>
                                         </li>
                                         :
                                         <li style={{borderBottom:'0'}}>
-                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                            <p><div><span>结算收银</span>：{this.state.odOrder.payAmount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
+                                            <p><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></p>
                                         </li>
                                     )
                                 :
                                     <li style={{borderBottom:'0'}}>
-                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                            <p><div><span>结算收银</span>：{this.state.odOrder.payAmount}</div></p>
+                                            <p><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.props.odOrder.payAmount}</div></p>
                                     </li>
                                 )
                             :
                             (
-                                this.state.orOrderPay.length>0
+                                this.props.orOrderPay.length>0
                             ?
                                 (
-                                    this.state.orOrderPay.length>1
+                                    this.props.orOrderPay.length>1
                                     ?
                                         <li style={{borderBottom:'0'}}>
-                                            <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
-                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                            <p><div><span>结算收银</span>：{this.state.odOrder.payAmount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}<span>{this.state.orOrderPay[1].typeStr}</span>{this.state.orOrderPay[1].amount}」</div></p>
+                                            <p><div><span>会员姓名</span>：{this.props.mbCard1.name} </div><div><span>会员电话</span>：{this.props.mbCard1.mobile} </div><div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div></p>
+                                            <p><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></p>
                                         </li>
                                     :
                                         <li style={{borderBottom:'0'}}>
-                                            <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
-                                            <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                            <p><div><span>结算收银</span>：{this.state.odOrder.payAmount}「<span>{this.state.orOrderPay[0].typeStr}</span>：{this.state.orOrderPay[0].amount}」</div></p>
+                                            <p><div><span>会员姓名</span>：{this.props.mbCard1.name} </div><div><span>会员电话</span>：{this.props.mbCard1.mobile} </div><div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div></p>
+                                            <p><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></p>
+                                            <p><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></p>
                                         </li>
                                 )
                             :
                                 <li style={{borderBottom:'0'}}>
-                                        <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>本次积分</span>：{this.state.odOrder.orderPoint}</div></p>
-                                        <p><div><span>折扣优惠</span>：{this.state.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.state.odOrder.cutAmount}</div></p>
-                                        <p><div><span>结算收银</span>：{this.state.odOrder.payAmount}</div></p>
+                                        <p><div><span>会员姓名</span>：{this.props.mbCard1.name} </div><div><span>会员电话</span>：{this.props.mbCard1.mobile} </div><div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div></p>
+                                        <p><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></p>
+                                        <p><div><span>结算收银</span>：{this.props.odOrder.payAmount}</div></p>
                                 </li>
                                 )
 
@@ -267,61 +219,16 @@ class Slidecountsell extends React.Component {
 }
 //tap count 退货
 class Slidecountback extends React.Component {
-    state={
-        mbCard:null,
-        odReturn:{},
-        returnOrderDetails:[],
-        outId:null
-    }
-
-    receivemessage=(id)=>{
-        console.log(id)
-        this.setState({
-            outId:id
-        },function(){
-            //数据请求
-            this.setdata()
-
-
-        })
-    }
-
-    setdata=()=>{
-        const outId=this.state.outId
-        const type=3
-        let values={
-            outId:outId,
-            type:type
-        }
-        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    console.log(json)
-                    if(json.code=='0'){
-                        this.setState({
-                            mbCard:json.mbCard,
-                            odReturn:json.odReturn,
-                            returnOrderDetails:json.returnOrderDetails
-                       })
-                    }else{  
-                        message.waring(json.message)
-                    }
-                })
-    }
-
-
-
     render(){
         return(
             <div>
                 <ul className='sellinfolist'>
                     <li>
-                        <p><div><span>退货订单</span>：{this.state.odReturn.returnNo} </div><div> <span>销售订单</span>：{this.state.odReturn.orderNo}</div></p>
-                        <p><div><span>退货时间</span>：{this.state.odReturn.createTime}</div><div> <span>退货员</span>：{this.state.odReturn.nickname}</div></p>
+                        <p><div><span>退货订单</span>：{this.props.odReturn.returnNo} </div><div> <span>销售订单</span>：{this.props.odReturn.orderNo}</div></p>
+                        <p><div><span>退货时间</span>：{this.props.odReturn.createTime}</div><div> <span>退货员</span>：{this.props.odReturn.nickname}</div></p>
                     </li>
                     {
-                        this.state.returnOrderDetails.map((item,index)=>{
+                        this.props.returnOrderDetails.map((item,index)=>{
                             return (
                                     <li key={index}>
                                         <p><div><span>商品名称</span>：{item.name}</div> </p>
@@ -332,19 +239,16 @@ class Slidecountback extends React.Component {
                         })
                     }
                     {
-                        this.state.mbCard==null || undefined || '' 
+                        this.props.mbCard3==null || undefined || '' 
                         ?
                         <li style={{borderBottom:'0'}}>
-                            <p><div><span>结算退款</span>：{this.state.odReturn.refundAmount}「<span>{this.state.odReturn.typeStr}</span>」</div></p>
+                            <p><div><span>结算退款</span>：{this.props.odReturn.refundAmount}「<span>{this.props.odReturn.typeStr}</span>」</div></p>
                         </li>
                         :
                         <li style={{borderBottom:'0'}}>
-                            <p><div><span>会员姓名</span>：{this.state.mbCard.name} </div><div><span>会员电话</span>：{this.state.mbCard.mobile} </div><div><span>扣除积分</span>：{this.state.odReturn.returnPoint}</div></p>
-                            <p><div><span>结算退款</span>：{this.state.odReturn.refundAmount}「<span>{this.state.odReturn.typeStr}</span>」</div></p>
+                            <p><div><span>会员姓名</span>：{this.props.mbCard3.name} </div><div><span>会员电话</span>：{this.props.mbCard3.mobile} </div><div><span>扣除积分</span>：{this.props.odReturn.returnPoint}</div></p>
+                            <p><div><span>结算退款</span>：{this.props.odReturn.refundAmount}「<span>{this.props.odReturn.typeStr}</span>」</div></p>
                         </li>
-
-
-
 
                     }
                     
@@ -356,58 +260,21 @@ class Slidecountback extends React.Component {
 }
 //tap count 充值
 class Slidecountcz extends React.Component {
-    state={
-        cardMoneyChargeInfo:{},
-        mbCard:{}
-    }
-    receivemessage=(id)=>{
-        console.log(id)
-        this.setState({
-            outId:id
-        },function(){
-            //数据请求
-            this.setdata()
-
-
-        })
-    }
-    setdata=()=>{
-         const outId=this.state.outId
-        const type=2
-        let values={
-            outId:outId,
-            type:type
-        }
-        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
-                result.then((res) => {
-                  return res;
-                }).then((json) => {
-                    console.log(json)
-                    if(json.code=='0'){
-                       this.setState({
-                            cardMoneyChargeInfo:json.cardMoneyChargeInfo,
-                            mbCard:json.mbCard
-                       })
-                    }else{  
-                        message.waring(json.message)
-                    }
-                })
-    }
     render(){
         return(
                 <div>
                     <div className='slidecountcztop'>
-                        <p><div><span>充值订单</span>：{this.state.cardMoneyChargeInfo.chargeNo}</div></p>
-                        <p><div><span>充值时间</span>：{this.state.cardMoneyChargeInfo.createTime}</div> <div><span>销售员</span>：{this.state.cardMoneyChargeInfo.nickname}</div></p>
+                        <p><div><span>充值订单</span>：{this.props.cardMoneyChargeInfo.chargeNo}</div></p>
+                        <p><div><span>充值时间</span>：{this.props.cardMoneyChargeInfo.createTime}</div> <div><span>销售员</span>：{this.props.cardMoneyChargeInfo.nickname}</div></p>
                     </div>
                     <div className='slidecountczbo'>
-                        <p><span>会员姓名</span>：{this.state.mbCard.name}</p>
-                        <p><span>会员卡号</span>：{this.state.mbCard.cardNo}</p>
-                        <p><span>会员手机</span>：{this.state.mbCard.mobile}</p>
-                        <p><span>会员级别</span>：{this.state.mbCard.levelStr}</p>
-                        <p><span>充值余额</span>：{this.state.cardMoneyChargeInfo.amount}元「<span>{this.state.cardMoneyChargeInfo.typeStr}</span>」</p>
-                        <p><span>充值前的余额</span>：{this.state.cardMoneyChargeInfo.beforeAmount}元</p>
-                        <p><span>充值后的余额</span>：{this.state.cardMoneyChargeInfo.afterAmount}元</p>
+                        <p><span>会员姓名</span>：{this.props.mbCard2.name}</p>
+                        <p><span>会员卡号</span>：{this.props.mbCard2.cardNo}</p>
+                        <p><span>会员手机</span>：{this.props.mbCard2.mobile}</p>
+                        <p><span>会员级别</span>：{this.props.mbCard2.levelStr}</p>
+                        <p><span>充值余额</span>：{this.props.cardMoneyChargeInfo.amount}元「<span>{this.props.cardMoneyChargeInfo.typeStr}</span>」</p>
+                        <p><span>充值前的余额</span>：{this.props.cardMoneyChargeInfo.beforeAmount}元</p>
+                        <p><span>充值后的余额</span>：{this.props.cardMoneyChargeInfo.afterAmount}元</p>
                     </div>
                 </div>
             )
@@ -423,7 +290,20 @@ class Ordertap extends React.Component {
         clickid:null,
         clicktype:1,
         keys:0,
-        qposStSaleOrders:[]
+        qposStSaleOrders:[],
+        outId:null,
+        //销售
+        orderDetails:[], //详情
+        odOrder:{}, //订单信息
+        orOrderPay:{},//支付信息，
+        mbCard1:{},
+        //退货
+        mbCard3:{},
+        odReturn:{},
+        returnOrderDetails:[],
+        //充值
+        cardMoneyChargeInfo:{},
+        mbCard2:{}
     }
     pagechange=(page)=>{
         this.setState({
@@ -433,7 +313,92 @@ class Ordertap extends React.Component {
         })
         
     }
+
+
+    //退货数据请求
+    setdatact=(keyid)=>{
+        const outId=this.state.outId
+        const type=3
+        let values={
+            outId:keyid,
+            type:type
+        }
+        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
+                result.then((res) => {
+                    return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                        this.setState({
+                            mbCard3:json.mbCard,
+                            odReturn:json.odReturn,
+                            returnOrderDetails:json.returnOrderDetails
+                       })
+                    }else{  
+                         message.waring(json.message)
+                    }
+                })
+    }
+
+    //销售数据请求
+    setdataxs=(keyid)=>{
+         console.log(keyid)
+        const type=1
+        let values={
+            outId:keyid,
+            type:type
+        }
+        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
+                result.then((res) => {
+                    return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       this.setState({
+                        orderDetails:json.orderDetails, //详情
+                        odOrder:json.odOrder, //订单信息
+                        orOrderPay:json.orOrderPay,//支付信息，
+                        mbCard3:json.mbCard
+                       })
+                    }else{  
+                        message.waring(json.message) 
+                    }
+                })
+    }
+    //充值数据请求
+    setdatacz=(keyid)=>{
+         const outId=this.state.outId
+        const type=2
+        let values={
+            outId:keyid,
+            type:type
+        }
+        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',values)
+                result.then((res) => {
+                  return res;
+                }).then((json) => {
+                    console.log(json)
+                    if(json.code=='0'){
+                       this.setState({
+                            cardMoneyChargeInfo:json.cardMoneyChargeInfo,
+                            mbCard2:json.mbCard
+                       })
+                    }else{  
+                         message.waring(json.message)
+                    }
+                })
+    }
+
+
+
+
+
+
+
+
     onTabClick=(key)=>{
+        console.log(this)
+        console.log(key)
         const keyindex=key.substring(0,1)
         const keyid=key.substring(2,key.length)
         const clicktype=key.substring(1,2)
@@ -443,47 +408,42 @@ class Ordertap extends React.Component {
             clicktype:clicktype,
             keys:key
         },function(){
-            //把id传给对应的type
+            //根据id和type进行数据请求，并绑定
+            console.log(this.state.clicktype)
             if(this.state.clicktype=='1'){
-                console.log(this)
-                const Slidecountback=this.refs.Slidecountsell.receivemessage
-                Slidecountback(this.state.clickid)
+               this.setdataxs(this.state.clickid)
             }
             if(this.state.clicktype=='2'){
-                console.log(this)
-                const Slidecountback=this.refs.Slidecountcz.receivemessage
-                Slidecountback(this.state.clickid)
+               this.setdatacz(this.state.clickid) 
 
             }
             if(this.state.clicktype=='3'){
-                console.log(this)
-                const Slidecountback=this.refs.Slidecountback.receivemessage
-                Slidecountback(this.state.clickid)
+               this.setdatact(this.state.clickid)
+                
             }
 
         })
     }
-
-
-    
-
-
   render() {
     const qposStSaleOrders=this.state.qposStSaleOrders
+    console.log(qposStSaleOrders)
     return (
         <div className="content-sell-info">
-            <Tabs tabPosition={this.state.tabPosition} tabBarStyle={{width:'330px',height:'450px'}} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.keys)}>
+
+           <div>
+                <Tabs tabPosition={this.state.tabPosition} TabStyle={widthFlag?tabStyle:tabStyleTwo} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.keys)}>
                 {
                     qposStSaleOrders.map((item,index)=>{
                         return (
                             <TabPane tab={<Slidetitle item={item}/>} key={index+item.type+item.outId}>
                                 {
-                                    item.type=='1'?<Slidecountsell outId={item.outId} type={item.type} ref='Slidecountsell'/>:(item.type=='2'?<Slidecountcz outId={item.outId} type={item.type} ref='Slidecountcz'/>:<Slidecountback outId={item.outId} type={item.type} ref='Slidecountback'/>)
+                                    item.type=='1'?<Slidecountsell orderDetails={this.state.orderDetails} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>:(item.type=='2'?<Slidecountcz cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} mbCard2={this.state.mbCard2}/>:<Slidecountback odReturn={this.state.odReturn} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>)
                                 }
                             </TabPane>)
                     })
                 }
-            </Tabs>
+              </Tabs>
+           </div>
             <div className='Paginationsell'><Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)} className='Paginationsells' defaultPageSize={6}/></div>
         </div>
     )
@@ -500,17 +460,21 @@ class Ordertap extends React.Component {
         })
     }
 
-
-    
-
-
   }
 
+  componentDidMount(){
+      let widthFlag = false;
+      console.log(document.body.clientWidth);
+         if( document.body.clientWidth > 800 ) {
+                /* 这里是要执行的代码 */
+              widthFlag = true;
+            }else{
+               widthFlag = false;
+            }
+            console.log(widthFlag);
+    }
 
-  
 }
-
-
 //店员销售-时间
 class Perdontime extends React.Component {
     state={
@@ -643,7 +607,6 @@ class Sellorder extends React.Component {
         const setpage=this.refs.search.setpage
         setpage(page)
     }
-
     render(){
         return (
             <div>
@@ -655,16 +618,13 @@ class Sellorder extends React.Component {
 
 }
 
-
-
-
 //店员销售count
 class Sellclerk extends React.Component {
     state={
         userSales:[],
         totalUserSale:{
-            nickname:'合计',
-             amount:null,
+        nickname:'合计',
+        amount:null,
              icAmount:null,
              orderQty:null,
              wechatAmount:null,

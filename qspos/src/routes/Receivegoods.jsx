@@ -18,7 +18,7 @@ class EditableTable extends React.Component {
         this.columns = [{
             title: '序号',
             dataIndex: 'index',
-             width:'6%',
+             width:'8%',
             render: (text, record, index) => {
                 return (
                     this.state.dataSource.length > 0 
@@ -44,6 +44,7 @@ class EditableTable extends React.Component {
         },{
             title: '本次数量',
             dataIndex: 'receiveQty',
+            width:'12%',
             render: (text, record, index) => {
                 return (
                     this.state.dataSource.length > 0 
