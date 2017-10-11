@@ -22,7 +22,7 @@ const { MonthPicker, RangePicker } = DatePicker;
 const saletext='门店销售门店内商品所获得得金额（不包含充值／退货）'
 const sale=<Tooltip placement="top" title={saletext}>销售额&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>
 const netreceiptstext='门店销售商品，用户充值及退货所造成的实际金额变化'
-const netreceipts=<Tooltip placement="top" title={netreceiptstext}>净收款</Tooltip>   
+const netreceipts=<Tooltip placement="top" title={netreceiptstext}>净收款&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>   
 const tabStyle = {width:'330px',height:'450px'}
 const tabStyleTwo = {width:'330px',height:'330px'}
 let widthFlag = true;
@@ -661,7 +661,7 @@ class Sellclerk extends React.Component {
     render(){
         return(
             <div>
-                <div style={{height:'80px',borderBottom: '1px solid #E7E8EC'}} className='persontime'><Perdontime dispatch={this.props.dispatch} initdataspuce={this.initdataspuce.bind(this)}/></div>
+                <div className='persontime time-banner-style'><Perdontime dispatch={this.props.dispatch} initdataspuce={this.initdataspuce.bind(this)}/></div>
                 <div className="chart-container-style" style={{padding:'0 30px'}}>
                     <p style={tit}>销售数据</p>
                     <div className='clearfix'style={{width:'100%'}}>

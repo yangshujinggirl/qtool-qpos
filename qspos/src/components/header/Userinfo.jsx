@@ -209,7 +209,7 @@ class Dropdownmenu extends React.Component {
                     footer={null}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    className='dropdownmodal'
+                    className='dropdownmodal dropdownmodal-changePerson'
                     footer={[
                         <div className='fl tc usermodelfootbtn' key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
                         <div className='fr tc themecolor usermodelfootbtn' key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
@@ -253,7 +253,7 @@ class Dropdownmenu extends React.Component {
                     footer={null}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    className='dropdownmodal'
+                    className='dropdownmodal dropdownmodal-changePwd'
                     footer={null}
                 >
                     <div>

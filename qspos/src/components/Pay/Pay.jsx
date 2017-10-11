@@ -1156,7 +1156,7 @@ class Pay extends React.Component {
               onOk={this.handleOk}
               onCancel={this.handleCancel}
               width={924}
-              closable={false}
+              closable={true}
               footer={null}
               className='pay'
             >
