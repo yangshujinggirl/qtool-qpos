@@ -755,7 +755,7 @@ class Pay extends React.Component {
                     const orderNos=json.orderNo
                     this.handleOk()
                     this.props.initdata()
-                    message.success('收银成功')
+                    message.success('收银成功',1)
                     console.log(navigator.platform)
                     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
                          //判断是否打印
@@ -797,7 +797,7 @@ class Pay extends React.Component {
                     const odReturnIds=json.odReturnId
                     const returnNos=json.returnNo
                      this.handleOk()
-                     message.success('退货成功')
+                     message.success('退货成功',1)
                      this.props.reinitdata()
                      //页面跳转
                      this.context.router.push('/cashier')

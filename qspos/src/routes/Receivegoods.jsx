@@ -366,7 +366,7 @@ class EditableTable extends React.Component {
                     }).then((json) => {
                         console.log(json)
                         if(json.code==0){
-                            message.success('收货成功')
+                            message.success('收货成功',1)
                             this.firstclick=true
                             this.initdata()
                         }else{

@@ -308,7 +308,7 @@ class Modales extends React.Component {
     						},function(){
                                 this.firstclick=true
     							this.props.searchmemberinfo()
-                                message.success('充值成功')
+                                message.success('充值成功',1)
                                 const mbCardMoneyChargeIds=json.mbCardMoneyChargeId
                                 const chargeNos=json.chargeNo
                                  if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
