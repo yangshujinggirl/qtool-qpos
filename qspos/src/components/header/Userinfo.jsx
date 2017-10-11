@@ -99,7 +99,7 @@ class Dropdownmenu extends React.Component {
             }) 
         }
         if(key==2){
-            window.open('../../static/损益.xlsx')
+            window.open('../../static/help.pdf')
        
         }
         if(key==3){
