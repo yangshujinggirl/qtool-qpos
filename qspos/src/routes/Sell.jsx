@@ -19,7 +19,7 @@ const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 const dateFormat = 'YYYY-MM-DD';
 const { MonthPicker, RangePicker } = DatePicker;
-const saletext='门店销售门店内商品所获得得金额（不包含充值／退货）'
+const saletext='门店销售门店内商品所获得的金额（不包含充值／退货）'
 const sale=<Tooltip placement="top" title={saletext}>销售额&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>
 const netreceiptstext='门店销售商品，用户充值及退货所造成的实际金额变化'
 const netreceipts=<Tooltip placement="top" title={netreceiptstext}>净收款&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>   
@@ -235,7 +235,7 @@ class Slidecountback extends React.Component {
                                     <li key={index}>
                                         <p><div><span>商品名称</span>：{item.name}</div> </p>
                                         <p><div><span>商品条码</span>： {item.code}</div><div><span>规格</span>：{item.displayName}</div></p>
-                                        <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>实退价</span>：{item.refundPrice}</div></p>
+                                        <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>实退价</span>：{item.refundAmount}</div></p>
                                     </li>
                                 )
                         })
@@ -391,6 +391,13 @@ class Ordertap extends React.Component {
                 })
     }
 
+
+
+
+
+
+
+
     onTabClick=(key)=>{
         console.log(this)
         console.log(key)
@@ -532,7 +539,7 @@ class EditableTable extends React.Component {
             title: '支付宝',
             dataIndex: 'alipayAmount'
         },{
-            title: '刷卡',
+            title: '银联',
             dataIndex: 'unionpayAmount'
         },{
             title: '现金',
