@@ -384,7 +384,7 @@ class App extends React.Component {
                     {getFieldDecorator('printDevice', {
                     })(
                         <p className='downk'>
-                           <a href='/static/install_lodop64.exe' target='_self'>下载打印控件</a>
+                           <a href='/static/CLodop_Setup_for_Win32NT.exe' target='_self'>下载打印控件</a>
                         </p> 
                     )}
                 </FormItem>
@@ -396,7 +396,7 @@ class App extends React.Component {
                     {getFieldDecorator('printDevice', {
                     })(
                         <p className='downk'>
-                           <a href='/static/install_lodop32.exe' target='_self'>下载打印控件</a>
+                           <a href='/static/CLodop_Setup_for_Win32NT.exe' target='_self'>下载打印控件</a>
                         </p> 
                     )}
                 </FormItem>

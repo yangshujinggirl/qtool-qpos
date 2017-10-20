@@ -84,44 +84,44 @@ class EditableTable extends React.Component {
        return zindexs
     }
     setqtys=(index,e)=>{
-        var str=e.target.value.replace(/\s+/g,"");  
-        console.log(str)
-        console.log(index)
+        var str=e.target.value.replace(/\s+/g,"");
+        console.log(str)  
         var zindex=this.zindex(index)
         console.log(zindex)
         const dataSources=this.state.dataSource
-        console.log(dataSources)
         dataSources[zindex].receiveQty=str
-        console.log(dataSources)
         this.setState({
             dataSource:dataSources
-        })
+        })      
     }
 
     //数量失去焦点
     discountblur=(index,e)=>{
-        //判断ispdOrder是true还是false false 没扫描过配货单
+        var r = /^\+?[1-9][0-9]*$/;
+        var zindex=this.zindex(index)
+        const dataSources=this.state.dataSource
+        if(r.test(Number(dataSources[zindex].receiveQty))){
+             //判断ispdOrder是true还是false false 没扫描过配货单
         console.log(this.state.ispdOrder)
         if(this.state.ispdOrder){
             //扫描过配货单
-                  var zindex=this.zindex(index)
-        const dataSources=this.state.dataSource
-        if((e.target.value<dataSources[zindex].unReceiveQty) || (e.target.value==dataSources[zindex].unReceiveQty)){
-            this.setState({
-                dataSource:dataSources
-            },function(){
-                const clearingdatas=this.props.clearingdatas
-                const dataSources=this.state.dataSource
-                var numberdata=0;
-                for(var i=0;i<dataSources.length;i++){
-                    numberdata=numberdata+Number(dataSources[i].receiveQty)
-                }
-                clearingdatas(dataSources.length,numberdata)
-            })
-        }
-        if(e.target.value>dataSources[zindex].unReceiveQty){
-            dataSources[zindex].receiveQty=dataSources[zindex].unReceiveQty
+            var zindex=this.zindex(index)
+            const dataSources=this.state.dataSource
+            if(Number(dataSources[zindex].receiveQty)<=Number(dataSources[zindex].unReceiveQty)){
                 this.setState({
+                    dataSource:dataSources
+                },function(){
+                    const clearingdatas=this.props.clearingdatas
+                    const dataSources=this.state.dataSource
+                    var numberdata=0;
+                    for(var i=0;i<dataSources.length;i++){
+                        numberdata=numberdata+Number(dataSources[i].receiveQty)
+                    }
+                    clearingdatas(dataSources.length,numberdata)
+                })
+            }else{
+                 dataSources[zindex].receiveQty=dataSources[zindex].unReceiveQty
+                 this.setState({
                     dataSource:dataSources
                 },function(){
                     const clearingdatas=this.props.clearingdatas
@@ -133,10 +133,7 @@ class EditableTable extends React.Component {
                     clearingdatas(dataSources.length,numberdata)
                     message.warning('超出应收数量，默认为总数');
                 })
-        }
-
-
-
+            }
         }else{
             //没扫描过配货单
             console.log(index)
@@ -156,6 +153,12 @@ class EditableTable extends React.Component {
                 clearingdatas(dataSources.length,numberdata)
             })
         }
+        }else{
+             message.warning('数量只能为大于等于0的整数')
+        }
+
+
+       
     }
     rowClassName=(record, index)=>{
         if(index==this.state.index){
@@ -230,7 +233,7 @@ class EditableTable extends React.Component {
                     ispdOrder:true,
                     index:0,
                     pdOrderId:json.pdOrderId,
-                    // total:json.pdOrderId
+                   
                 },function(){
                     //光标跳转到条形码输入框
                     this.props.onfocuse()
@@ -246,6 +249,7 @@ class EditableTable extends React.Component {
                message.error(json.message)
             }
         })
+
     }
     //条码请求数据生成datasouce
     barcoderevisedata=(messages)=>{

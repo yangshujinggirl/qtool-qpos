@@ -54,6 +54,7 @@ if (needCLodop()) {
 
 //====获取LODOP对象的主过程：====
  function getLodop(oOBJECT,oEMBED){
+ 	console.log(123)
     var strHtmInstall="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='/static/install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
     var strHtmUpdate="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='/static/install_lodop32.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
     var strHtm64_Install="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='/static/install_lodop64.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
@@ -66,22 +67,28 @@ if (needCLodop()) {
     try{
         var isIE = (navigator.userAgent.indexOf('MSIE')>=0) || (navigator.userAgent.indexOf('Trident')>=0);
         if (needCLodop()) {
+        	console.log('ww')
             try{ LODOP=getCLodop();} catch(err) {}
 	    if (!LODOP && document.readyState!=='complete') {alert('C-Lodop没准备好，请稍后再试！'); return;};
             if (!LODOP) {
 		 if (isIE) document.write(strCLodopInstall); else
-		 document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
+		 // document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
+		 alert('打印控件未安装，请先下载打印机控件')
+		 console.log('ww1')
                  return;
             } else {
 
 	         if (CLODOP.CVERSION<'2.1.3.0') {
+	         	console.log('ww2')
 			if (isIE) document.write(strCLodopUpdate); else
 			 document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
+			 alert('CLodop云打印服务需升级!')
 		 }
 		 if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
 		 if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
 	    }
         } else {
+        	console.log('www')
             var is64IE  = isIE && (navigator.userAgent.indexOf('x64')>=0);
             //=====如果页面有Lodop就直接使用，没有则新建:==========
             if (oOBJECT!=undefined || oEMBED!=undefined) {
@@ -98,6 +105,9 @@ if (needCLodop()) {
              } else LODOP=CreatedOKLodop7766;
             //=====Lodop插件未安装时提示下载地址:==========
             if ((LODOP==null)||(typeof(LODOP.VERSION)=='undefined')) {
+            	console.log('w')
+
+
                  if (navigator.userAgent.indexOf('Chrome')>=0)
                      document.documentElement.innerHTML=strHtmChrome+document.documentElement.innerHTML;
                  if (navigator.userAgent.indexOf('Firefox')>=0)
@@ -125,6 +135,8 @@ if (needCLodop()) {
 }
 
 function PrintOneURL(url,orderno){
+		console.log(url)
+		console.log(orderno)
 		if(orderno == undefined){
 			orderno = "";
 		}
