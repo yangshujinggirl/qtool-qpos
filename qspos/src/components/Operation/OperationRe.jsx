@@ -78,7 +78,8 @@ class Modales extends React.Component {
                     }
 				});
             }else{  
-                console.log(json.message)   
+                // console.log(json.message)   
+                message.warning(json.message)
                 this.firstclick=true
             }
         })

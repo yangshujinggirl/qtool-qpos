@@ -590,11 +590,19 @@ class EditableTable extends React.Component {
             return 'table_white'
         }
     }
+    hindchange=(page)=>{
+        console.log(page)
+        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:'10',currentPage:page.current-1}} });
+
+    }
     render() {
         const columns = this.columns;
         return (
             <div className='bgf member-style'>
-               <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}/>
+               <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
+               pagination={{'total':Number(this.props.total)}}
+               onChange={this.hindchange.bind(this)}
+               />
             </div>
         )
     }
@@ -611,7 +619,7 @@ class Searchcomponent extends React.Component{
         })
     }
     hindsearch=()=>{
-        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue}} });
+        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:'10',currentPage:0}} });
     }
     render(){
         return (
@@ -632,13 +640,13 @@ class Searchcomponent extends React.Component{
 }
 
 //主页面
-function Member({mbCards,dispatch,loding}) {
+function Member({mbCards,dispatch,loding,total}) {
     return (
         <div>
             <Header type={false} color={true}/>
             <div className='counters'>
                 <Searchcomponent dispatch={dispatch}/>
-                <EditableTable mbCards={mbCards} dispatch={dispatch} loding={loding}/>
+                <EditableTable mbCards={mbCards} dispatch={dispatch} loding={loding} total={total}/>
             </div>
         </div>
     )
@@ -646,8 +654,8 @@ function Member({mbCards,dispatch,loding}) {
 
 function mapStateToProps(state) {
     console.log(state)
-    const {mbCards,loding} = state.member;
-    return {mbCards,loding};
+    const {mbCards,loding,total} = state.member;
+    return {mbCards,loding,total};
 }
 
 export default connect(mapStateToProps)(Member);

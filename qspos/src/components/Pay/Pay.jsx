@@ -652,15 +652,19 @@ class Pay extends React.Component {
             //支付类型
             const list=this.lists
             var orderPay=[]
+            console.log(list)
             if(list==[] || list==[-1] || list=='' || list==null || list==undefined){
                 //不能结算
-                message.warning('支付数据有错误，不能支付');
+                console.log(1)
+                message.warning('支付数据有错误，不能支付1');
             }else{
                 console.log(list[0])
                 if(list[0]<0){
                     if(parseFloat(this.state.paynext.value)< parseFloat(this.state.totolamount)){
+                        console.log(parseFloat(this.state.paynext.value))
+                        console.log(parseFloat(this.state.totolamount))
                         //不能支付
-                        message.warning('支付数据有错误，不能支付');
+                        message.warning('支付数据有错误，不能支付2');
                     }else{
                         //可以支付
                         let type=list[1]+1
@@ -690,10 +694,16 @@ class Pay extends React.Component {
                     }
                 }
                 if(list[0]>0 || list[0]==0){
-                    const totol=parseFloat(this.state.payfirst.value)+parseFloat(this.state.paysecond.value)
+                    console.log(list[0])
+                    const totol=parseFloat(this.state.totolamount)
+                    console.log(parseFloat(this.state.payfirst.value))
+                    console.log(parseFloat(this.state.paysecond.value))
+                    console.log(totol)
                     if(totol< parseFloat(this.state.totolamount)){
+                        console.log(totol)
+                        console.log(parseFloat(this.state.totolamount))
                         //不能支付
-                        message.warning('支付数据有错误，不能支付');
+                        message.warning('支付数据有错误，不能支付3');
                     }else{
                         //可以支付
                         let type0=list[0]+1
