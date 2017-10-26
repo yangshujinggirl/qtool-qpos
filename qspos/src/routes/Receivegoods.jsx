@@ -347,6 +347,7 @@ class EditableTable extends React.Component {
     
     //收货
     receiveQty=()=>{
+        console.log(this.firstclick)
         if(this.firstclick){
             //可以执行
             this.firstclick=false
@@ -380,6 +381,7 @@ class EditableTable extends React.Component {
                     })
         }else{
             message.warning('收货数量为0，不能结算')
+            this.firstclick=true
         }
     }
 
@@ -452,6 +454,7 @@ class Receivegoods extends React.Component {
         }
         //空格
         if(e.keyCode=='32'){  
+            console.log('12345678')
             //判断datasouce有没有数据
             const receiveQty=this.refs.table.receiveQty
             receiveQty()
