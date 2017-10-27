@@ -85,6 +85,7 @@ class Pay extends React.Component {
                 })
         }
         if(messagedata.type==2){
+            console.log(messagedata.data)
             //会员卡
             this.setState({
                 datamember:messagedata.data
@@ -99,6 +100,7 @@ class Pay extends React.Component {
             })
         }
          if(messagedata.type==5){
+            console.log(messagedata.data)
             //积分
             this.setState({
                 datajifen:messagedata.data

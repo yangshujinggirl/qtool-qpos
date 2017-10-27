@@ -169,6 +169,11 @@ class Operationls extends React.Component {
             mbCardId:null,
             isBirthMonth:false
 
+        },function(){
+          //会员对外传输清空
+            this.props.revisedata({type:2,data:this.state.mbCardId})
+            this.props.revisedata({type:5,data:this.state.integertotalamount})
+            this.props.initthisinfo()
         })
     }
 
@@ -481,6 +486,7 @@ class Operation extends React.Component {
                                 setonblue={this.props.setonblue} 
                                 Backmemberinfo={this.props.Backmemberinfo}
                                 revisedata={this.props.revisedata}
+                                initthisinfo={this.props.initthisinfo}
                             />			
       				</div>
       				<div className='operationr fr' onClick={this.hindpayclick.bind(this)}>

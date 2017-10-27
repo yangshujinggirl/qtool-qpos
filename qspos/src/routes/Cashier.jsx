@@ -1068,6 +1068,13 @@ class Cashier extends React.Component {
                     }
     }
 }
+    
+
+    //初始化判断出什么情况
+    initthisinfo=()=>{
+        this.memberinfo=null,
+        this.integral=null
+    }
 
 
     handleokent=(e)=>{
@@ -1196,6 +1203,7 @@ class Cashier extends React.Component {
                             Backmemberinfo={this.Backmemberinfo.bind(this)}
                             revisedata={this.revisedata.bind(this)}
                             showpops={this.showpops.bind(this)}
+                            initthisinfo={this.initthisinfo.bind(this)}
                         />
                     </div>
                 </div>
