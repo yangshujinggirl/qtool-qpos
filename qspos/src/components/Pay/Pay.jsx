@@ -637,6 +637,7 @@ class Pay extends React.Component {
     }
     //结算
     hindpayclick=()=>{
+        console.log(this.firstclick)
         if(this.firstclick){
             //可以执行
             this.firstclick=false
@@ -658,7 +659,8 @@ class Pay extends React.Component {
             if(list==[] || list==[-1] || list=='' || list==null || list==undefined){
                 //不能结算
                 console.log(1)
-                message.warning('支付数据有错误，不能支付1');
+                message.warning('支付数据有错误，不能支付');
+                this.firstclick=true
             }else{
                 console.log(list[0])
                 if(list[0]<0){
@@ -666,7 +668,8 @@ class Pay extends React.Component {
                         console.log(parseFloat(this.state.paynext.value))
                         console.log(parseFloat(this.state.totolamount))
                         //不能支付
-                        message.warning('支付数据有错误，不能支付2');
+                        message.warning('支付数据有错误，不能支付');
+                        this.firstclick=true
                     }else{
                         //可以支付
                         let type=list[1]+1

@@ -921,7 +921,7 @@ class EditableTable extends React.Component {
                 dataSource={dataSource} 
                 columns={columns} 
                 pagination={false} 
-                scroll={{ y: 300 }}
+                scroll={{ y: 490 }}
                 onRowClick={this.rowclick.bind(this)}
                 rowClassName={this.rowClassName.bind(this)}
             />
