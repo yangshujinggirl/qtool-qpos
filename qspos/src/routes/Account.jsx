@@ -235,6 +235,11 @@ const  Modelforms=Form.create()(Modelform);
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            windowHeight:''
+        };
+
         this.columns = [{
             title: '姓名',
             dataIndex: 'nickname'
@@ -274,14 +279,36 @@ class EditableTable extends React.Component {
             return 'table_white'
         }
     }
+
+    windowResize = () =>{
+       this.setState({
+        windowHeight:document.body.offsetHeight-300
+       });
+    }
+
     render() {
         const columns = this.columns;
         return (
             <div>
-                <Table bordered dataSource={this.props.users} columns={columns} rowClassName={this.rowClassName.bind(this)} pagination={false}/>
+                <Table bordered 
+                       dataSource={this.props.users} 
+                       columns={columns} 
+                       rowClassName={this.rowClassName.bind(this)} 
+                       pagination={false}
+                       scroll={{y:this.state.windowHeight}}/>
                 <Infomodel ref='Infomodel'/>
             </div>
         )
+    }
+
+    componentDidMount(){
+        this.setState({
+           windowHeight:document.body.offsetHeight-300
+         });
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
     }
 }
  //基础设置组件
@@ -470,7 +497,7 @@ class Tags extends React.Component {
     }
     render() {
         return (
-                <div className='posion h100 account-tab-style'>
+                <div className='posion account-tab-style'>
                     <Tabs onChange={this.callback.bind(this)} type="card" tabBarStyle={{height:'54px'}} tabBarExtraContent={ this.state.tabBarExtraContent?<Modelforms record={{role:'3',status:'1'}} text='新增账号'texts='新增账号' width='450' dispatch={this.props.dispatch} type={true} showInfomodel={this.showInfomodel.bind(this)}/>:null}>
                        <TabPane tab="账号管理" key="1">
                          <div className="count-table-style">

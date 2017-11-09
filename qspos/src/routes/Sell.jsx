@@ -354,7 +354,7 @@ class Ordertap extends React.Component {
                 result.then((res) => {
                     return res;
                 }).then((json) => {
-                    console.log(json)
+                    console.log(json);
                     if(json.code=='0'){
                        this.setState({
                         orderDetails:json.orderDetails, //详情
@@ -363,7 +363,7 @@ class Ordertap extends React.Component {
                         mbCard1:json.mbCard
                        })
                     }else{  
-                        message.waring(json.message) 
+                        message.warning(json.message);
                     }
                 })
     }
@@ -386,7 +386,7 @@ class Ordertap extends React.Component {
                             mbCard2:json.mbCard
                        })
                     }else{  
-                         message.waring(json.message)
+                         message.warning(json.message)
                     }
                 })
     }
@@ -439,7 +439,15 @@ class Ordertap extends React.Component {
                         return (
                             <TabPane tab={<Slidetitle item={item}/>} key={index+item.type+item.outId}>
                                 {
-                                    item.type=='1'?<Slidecountsell orderDetails={this.state.orderDetails} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>:(item.type=='2'?<Slidecountcz cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} mbCard2={this.state.mbCard2}/>:<Slidecountback odReturn={this.state.odReturn} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>)
+                                    item.type=='1'?
+                                    <Slidecountsell orderDetails={this.state.orderDetails} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>
+                                    :
+                                    (
+                                        item.type=='2'?
+                                        <Slidecountcz cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} mbCard2={this.state.mbCard2}/>
+                                        :
+                                        <Slidecountback odReturn={this.state.odReturn} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>
+                                    )
                                 }
                             </TabPane>)
                     })
@@ -669,7 +677,7 @@ class Sellclerk extends React.Component {
                             setsouce:setsouce
                         })
                     }else{  
-                        message.error(json.message) 
+                        message.error(json.message); 
                     }
                 })
 

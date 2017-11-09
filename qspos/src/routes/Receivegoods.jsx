@@ -73,7 +73,8 @@ class EditableTable extends React.Component {
             spu:0,
             number:0,
             total:0,
-            page:1
+            page:1,
+            windowHeight:''
         };
         this.firstclick=true
     }
@@ -407,6 +408,13 @@ class EditableTable extends React.Component {
             this.props.initdata()
         })
     }
+
+    windowResize = () =>{
+       this.setState({
+        windowHeight:document.body.offsetHeight-495
+       });
+    }
+
     render() {
         const { dataSource } = this.state;
         const columns = this.columns;
@@ -420,9 +428,20 @@ class EditableTable extends React.Component {
                     pagination={false}
                     onRowClick={this.rowclick.bind(this)}
                     onChange={this.pagechange.bind(this)}
+                    scroll={{ y: this.state.windowHeight }}
                 />
           </div>
         );
+    }
+
+    componentDidMount(){
+        this.setState({
+           windowHeight:document.body.offsetHeight-495
+         });
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
     }
 }
 
@@ -489,13 +508,14 @@ class Receivegoods extends React.Component {
         return(
                 <div>
                     <Header type={false} color={true}/>
+                    
                     <div className='counter'>
                         <EditableTable ref='table' 
                         onfocuse={this.onfocuse.bind(this)}
                         clearingdatas={this.clearingdatas.bind(this)}
                         initdata={this.initdata.bind(this)}
-                        />
-                    </div>       
+                        />    
+                    </div>  
                     <div className='mt30 footers'>        
                         <div className='mt20'>
                             <Operation color={true} 

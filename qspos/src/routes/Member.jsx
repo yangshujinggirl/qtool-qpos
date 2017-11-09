@@ -542,26 +542,38 @@ class EditableTablebaby extends React.Component {
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            currentPage:1,
+            pageSize:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),
+            windowHeight:''
+        };
         this.columns = [{
             title: '会员姓名',
-            dataIndex: 'name'
+            dataIndex: 'name',
+            width:'10%'
         }, {
             title: '会员电话',
+            width:'15%',
             dataIndex: 'mobile'
         }, {
             title: '会员卡号',
+            width:'15%',
             dataIndex: 'cardNo'
         },{
             title: '会员级别',
+            width:'15%',
             dataIndex: 'levelStr'
         },{
             title: '账户余额',
+            width:'15%',
             dataIndex: 'amount'
         },{
             title: '会员积分',
+            width:'15%',
             dataIndex: 'point'
         },{
             title: '操作',
+            width:'15%',
             dataIndex: 'operation',
             render: (text, record, index) => {
                 return (
@@ -595,16 +607,56 @@ class EditableTable extends React.Component {
         this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:'10',currentPage:page.current-1}} });
 
     }
+
+    pageChange=(page,pageSize)=>{
+        this.setState({
+            currentPage:page
+        },function(){
+            const current=Number(page)-1;
+            this.props.pagefresh(current,this.state.pageSize)
+        });
+    }
+    
+    //pageSize 变化的回调
+    onShowSizeChange=(current, pageSize)=>{
+        this.setState({
+            pageSize:pageSize,
+            currentPage:1
+        },function(){
+             localStorage.setItem("pageSize", pageSize); 
+            this.props.pagefresh(0,pageSize)
+        })
+        
+    }
+
+    windowResize = () =>{
+       this.setState({
+        windowHeight:document.body.offsetHeight-300
+       });
+    }
+
     render() {
         const columns = this.columns;
         return (
-            <div className='bgf member-style'>
+            <div className='member-style'>
                <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
-               pagination={{'total':Number(this.props.total)}}
-               onChange={this.hindchange.bind(this)}
+               pagination={{'total':Number(this.props.total),current:this.state.currentPage,
+                            pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
+                            onChange:this.pageChange,pageSizeOptions:['10','11','12','13','16','20']}}
+               scroll={{y:this.state.windowHeight}}
                />
             </div>
         )
+    }
+
+    componentDidMount(){
+        this.setState({
+           windowHeight:document.body.offsetHeight-300
+         });
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
     }
 }
 
@@ -619,8 +671,21 @@ class Searchcomponent extends React.Component{
         })
     }
     hindsearch=()=>{
-        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:'10',currentPage:0}} });
+        this.props.dispatch({ 
+            type: 'member/fetch', 
+            payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:'10',currentPage:0}} 
+        });
     }
+
+    pagefresh=(currentPage,pagesize)=>{
+        console.log(currentPage)
+        console.log(pagesize)
+        this.props.dispatch({
+                type:'member/fetch',
+                payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:pagesize,currentPage:currentPage} }
+        })
+    }
+
     render(){
         return (
             <div className='clearfix mb10'>
@@ -640,16 +705,30 @@ class Searchcomponent extends React.Component{
 }
 
 //主页面
-function Member({mbCards,dispatch,loding,total}) {
-    return (
+class Member extends React.Component{
+
+    pagefresh=(currentPage,pagesize)=>{
+        const pagefreshs=this.refs.search.pagefresh
+        pagefreshs(currentPage,pagesize)
+    }
+
+   render(){
+      return (
         <div>
             <Header type={false} color={true}/>
-            <div className='counters'>
-                <Searchcomponent dispatch={dispatch}/>
-                <EditableTable mbCards={mbCards} dispatch={dispatch} loding={loding} total={total}/>
+            <div className='search-component'>
+                <Searchcomponent dispatch={this.props.dispatch} ref="search"/>
+            </div>
+            <div className='counters goods-counters'>
+                <EditableTable mbCards={this.props.mbCards} 
+                                dispatch={this.props.dispatch} 
+                                loding={this.props.loding} 
+                                total={this.props.total} 
+                                pagefresh={this.pagefresh.bind(this)}/>
             </div>
         </div>
-    )
+     )
+   }
 }
 
 function mapStateToProps(state) {
