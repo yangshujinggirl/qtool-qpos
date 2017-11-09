@@ -180,7 +180,7 @@ class Operationls extends React.Component {
 	render(){
 		return(
 			<div>
-				<div className='operationl clearfix mt30'>
+				<div className='clearfix mt30'>
 	      			<Input placeholder='扫码或输入条码' className='fl ml30 useinput' ref='barcode' onKeyUp={this.HindonKeyUp.bind(this)} value={this.state.barcode} onChange={this.barcodechange.bind(this)} onKeyDown={this.onKeydown.bind(this)}/>
 	      			<Input placeholder='会员号/手机号' className='fl ml20 useinput' ref='member' onKeyUp={this.memberHindonKeyUp.bind(this)} onKeyDown={this.onKeydown.bind(this)} value={this.state.cardNoMobile} onChange={this.cardNoMobilechange.bind(this)}/>
 	    		</div>

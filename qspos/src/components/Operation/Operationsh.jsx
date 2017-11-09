@@ -67,7 +67,7 @@ class Operationl extends React.Component {
 	}
 	render() {
 		return(
-			<div className='operationl clearfix mt30'>
+			<div className='clearfix mt30'>
       			<Input placeholder='扫码或输入配货单号'  className='fl ml30 useinput' ref='barcode' onKeyUp={this.HindonKeyUp.bind(this)} onChange={this.hindchange.bind(this)} value={this.state.pbarcode}/>
       			<Input placeholder='扫码或输入条形码'  className='fl ml20 useinput' onKeyUp={this.HindonKeyUps.bind(this)} onChange={this.hindchanges.bind(this)} value={this.state.barcode} ref='barcodes'/>
     		</div>

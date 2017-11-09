@@ -2,24 +2,23 @@ import {GetServerData} from '../services/services';
 import {message} from 'antd';
 import { routerRedux } from 'dva/router';
 import {Messagesuccess} from '../components/Method/Method';
-
 export default {
     namespace: 'account',
     state: {
-  	    users:[]
+        users:[]
     },
     reducers: {
-  	    accountlist(state, { payload: users}) {
+        accountlist(state, { payload: users}) {
             return {...state,users}
         },
     },
     effects: {
-  	    *fetch({ payload: {code,values} }, { call, put }) {
+        *fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
                 let {users}=result
                 for(var i=0;i<users.length;i++){
-                	users[i].key=i
+                    users[i].key=i
                 }
                 yield put({   
                     type: 'accountlist',

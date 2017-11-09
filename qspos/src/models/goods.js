@@ -58,7 +58,7 @@ export default {
   	    setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/goods') {
-                     dispatch({ type: 'fetch', payload: {code:'qerp.pos.pd.spu.query',values:{keywords:'',pdCategoryId:null,limit:100000,currentPage:0} }})
+                     dispatch({ type: 'fetch', payload: {code:'qerp.pos.pd.spu.query',values:{keywords:'',pdCategoryId:null,limit:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),currentPage:0} }})
                      dispatch({ type: 'pdCategorieslist', payload: {code:'qerp.pos.pd.category.list',values:{}}})
                 }
             });

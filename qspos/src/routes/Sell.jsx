@@ -594,7 +594,12 @@ class EditableTable extends React.Component {
         const totalUserSale=this.props.totalUserSale
     return (
         <div>
-            <Table bordered dataSource={this.props.setsouce} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+            <Table bordered 
+            dataSource={this.props.setsouce} 
+            columns={columns} 
+            rowClassName={this.rowClassName.bind(this)}
+            pagination={false}
+            />
         </div>
         )
     }

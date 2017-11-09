@@ -147,8 +147,6 @@ class EditableTable extends React.Component {
         this.setState({
             dataSource:datasoucess
         })
-
-
     }
     // 初始化
     reinitdata=()=>{
@@ -537,11 +535,9 @@ class EditableTable extends React.Component {
                 dataSource={dataSource} 
                 columns={columns} 
                 pagination={false} 
-                scroll={{ y: 240 }}
+                scroll={{ y: 490 }}
                 onRowClick={this.rowclick.bind(this)}
                 rowClassName={this.rowClassName.bind(this)}
-                // rowSelection={rowSelection}
-                scroll={{ y: 300 }}
                 className='returngoodtable'
             />
         </div>

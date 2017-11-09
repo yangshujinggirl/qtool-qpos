@@ -19,7 +19,7 @@ class Searchcomponent extends React.Component {
         },function(){
             this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:100000,currentPage:0} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
             })
         })  
     }
@@ -32,14 +32,16 @@ class Searchcomponent extends React.Component {
     hindsearch=()=>{
         this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:100000,currentPage:0} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
         })
     }
 
-    pagefresh=(currentPage)=>{
+    pagefresh=(currentPage,pagesize)=>{
+        console.log(currentPage)
+        console.log(pagesize)
         this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:100000,currentPage:currentPage} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:pagesize,currentPage:currentPage} }
         })
     }
     render(){
@@ -103,7 +105,9 @@ class EditableTable extends React.Component {
 
 	    this.state = {
 	      	dataSource: [],
-	      	count: 2
+	      	count: 2,
+            pageSize:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),
+            lh:'480'
 	    };
   	}
   	
@@ -114,15 +118,39 @@ class EditableTable extends React.Component {
       		return 'table_white'
     	}
   	}
-    
+    pageChange=(page)=>{
+        console.log(page)
+        const current=Number(page.current)-1
+        this.props.pagefresh(current,this.state.pageSize)
+    }
+    onShowSizeChange=(current, pageSize)=>{
+        this.setState({
+            pageSize:pageSize,
+            current:current
+        },function(){
+            this.props.pagefresh(current-1,pageSize)
+            //把当前的localStorage存储到本地
+            localStorage.setItem("pageSize", pageSize); 
+
+        })
+        
+    }
+
+
   	render() {
+        console.log(this)
+        console.log(localStorage)
     	const { dataSource } = this.state;
     	const columns = this.columns;
+        console.log(this.props.pdSpus)
     	return (
       		<div className='bgf bgf-goods-style'>
         		<Table bordered dataSource={this.props.pdSpus} columns={columns} 
                 rowClassName={this.rowClassName.bind(this)}
-                pagination={{'showQuickJumper':true,'total':Number(this.props.total)}}
+                pagination={Number(this.props.total)>Number(this.state.pageSize)?{'total':Number(this.props.total),pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,pageSizeOptions:['10','11','12','13','16','20']}:false}
+                onChange={this.pageChange.bind(this)} 
+                className='goods'
+                scroll={{y:this.state.lh}}
                 />
       		</div>
     	);
@@ -131,11 +159,10 @@ class EditableTable extends React.Component {
 
 
 class Goods extends React.Component {
-    pagefresh=(currentPage)=>{
+    pagefresh=(currentPage,pagesize)=>{
         const pagefreshs=this.refs.search.pagefresh
-        pagefreshs(currentPage)
+        pagefreshs(currentPage,pagesize)
     }
-
 
     render() {
         return (
@@ -148,6 +175,16 @@ class Goods extends React.Component {
             </div>
         );
     }
+    componentDidMount(){
+        // window.addEventListener('click', this.inputclick,true);
+        // window.addEventListener('keydown', this.handleokents,true);  
+        // window.addEventListener('keyup', this.handleokent,true); 
+    }
+    componentWillUnmount(){
+        // window.removeEventListener('click', this.inputclick,true);
+        // window.removeEventListener('keydown', this.handleokents,true);
+        // window.addEventListener('keyup', this.handleokent,true);
+    }
 
 
 }
@@ -155,7 +192,7 @@ class Goods extends React.Component {
 
 
 
-function mapStateToProps(state) {
+function mapStateToProps(state){
      console.log(state)
     const {pdSpus,pdCategories,total} = state.goods;
     return {pdSpus,pdCategories,total};

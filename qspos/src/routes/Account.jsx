@@ -5,8 +5,6 @@ import Header from '../components/header/Header';
 import Infomodel from '../components/Infomodel/Infomodel';
 import Buttonico from '../components/Button/Button';
 import {GetServerData} from '../services/services';
-
-
 //css
 const btn={position:'absolute',right:'0','top':'0'}
 const addaccountspan={marginRight:'10px',fontSize:'14px',color: '#74777F'}
@@ -22,13 +20,10 @@ const footright={width:'224px',fontSize: '16px',color:'#35BAB0',height:'60px',li
 const footrights={width:'175px',fontSize: '16px',color:'#35BAB0',height:'60px',lineHeight:'60px',cursor: 'pointer'}
 const footcen={width: '1px',height: '15px',background:'#d8d8d8',margin:'0 auto',marginTop: '20px',cursor: 'pointer'}
 const footcens={width:'100px',fontSize: '16px',height:'60px',lineHeight:'60px',margin:'0 auto',textAlign:'center',cursor: 'pointer'}
-
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
-
-
 class Modelform extends Component {
     constructor(props) {
         super(props);
@@ -72,7 +67,6 @@ class Modelform extends Component {
                     role:Number(record.role),
                     status:Number(record.status)
                 });
-
             }
         });
     }
@@ -123,8 +117,6 @@ class Modelform extends Component {
                        message.error(json.message)
                     }
                 })
-
-
                 
             }
         });
@@ -159,7 +151,6 @@ class Modelform extends Component {
                 })
         }
     }
-
     render() {
         const type=this.props.type
         const { getFieldDecorator } = this.props.form;
@@ -239,11 +230,7 @@ class Modelform extends Component {
         );
     }
 }
-
 const  Modelforms=Form.create()(Modelform);
-
-
-
 //table组件：账号设置
 class EditableTable extends React.Component {
     constructor(props) {
@@ -276,7 +263,6 @@ class EditableTable extends React.Component {
             },
         }];
     }
-
     showInfomodel=(text,account,password)=>{
         const showInfomodel=this.refs.Infomodel.showModal
         showInfomodel(text,account,password)
@@ -292,13 +278,12 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         return (
             <div>
-                <Table bordered dataSource={this.props.users} columns={columns} rowClassName={this.rowClassName.bind(this)}/>
+                <Table bordered dataSource={this.props.users} columns={columns} rowClassName={this.rowClassName.bind(this)} pagination={false}/>
                 <Infomodel ref='Infomodel'/>
             </div>
         )
     }
 }
-
  //基础设置组件
 class App extends React.Component {
     state={
@@ -325,7 +310,6 @@ class App extends React.Component {
               }
         })
     }
-
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -350,7 +334,6 @@ class App extends React.Component {
     callback=()=>{
         console.log(1)
     }
-
     onChange = (e) => {
         console.log('radio checked', e.target.value);
         this.setState({
@@ -366,9 +349,6 @@ class App extends React.Component {
         console.log(value);
     }
     
-
-
-
    
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -400,7 +380,6 @@ class App extends React.Component {
                         </p> 
                     )}
                 </FormItem>
-
             }
             <FormItem
                 label="纸张大小"
@@ -423,7 +402,6 @@ class App extends React.Component {
                 {getFieldDecorator('submitPrint', {
                     initialValue:this.state.submitPrint,
                 })(
-
                     <RadioGroup>
                         <Radio value={'1'}>是</Radio>
                         <Radio value={'0'}>否</Radio>
@@ -441,7 +419,6 @@ class App extends React.Component {
                 <RadioGroup>
                     <Radio value={'1'}>是</Radio>
                     <Radio value={'0'}>否</Radio>
-
                 </RadioGroup>
                
             )}
@@ -453,7 +430,6 @@ class App extends React.Component {
          
      );
     }
-
     componentDidMount(){
         this.getSetData()
         //js判断本机是32位还是64为
@@ -468,19 +444,15 @@ class App extends React.Component {
                 xitong:false  //32
             })
         }
-
     }
-
 }
-
 const Infrastructureform = Form.create()(App);
-
 // tag组件
 class Tags extends React.Component {
     state={
         tabBarExtraContent:true
     }
-	callback=(key)=>{
+    callback=(key)=>{
         if(key=='1'){
             this.setState({
                 tabBarExtraContent:true
@@ -491,32 +463,28 @@ class Tags extends React.Component {
                 tabBarExtraContent:false
             })
         }
-	}
+    }
     showInfomodel=(text,account,password)=>{
         const showInfomodel=this.refs.Infomodel.showModal
         showInfomodel(text,account,password)
     }
-
     render() {
         return (
                 <div className='posion h100 account-tab-style'>
                     <Tabs onChange={this.callback.bind(this)} type="card" tabBarStyle={{height:'54px'}} tabBarExtraContent={ this.state.tabBarExtraContent?<Modelforms record={{role:'3',status:'1'}} text='新增账号'texts='新增账号' width='450' dispatch={this.props.dispatch} type={true} showInfomodel={this.showInfomodel.bind(this)}/>:null}>
-  		    	       <TabPane tab="账号管理" key="1">
+                       <TabPane tab="账号管理" key="1">
                          <div className="count-table-style">
                              <EditableTable users={this.props.users} dispatch={this.props.dispatch}/>
                          </div>
                        </TabPane>
-  		    	       <TabPane tab="基础设置" key="2"><Infrastructureform/></TabPane>
-   			        </Tabs>
+                       <TabPane tab="基础设置" key="2"><Infrastructureform/></TabPane>
+                    </Tabs>
                     <Infomodel ref='Infomodel'/>
                 </div>
             
         )
     }
 }
-
-
-
 //主页面
 function Account({users,dispatch}) {
     return (
@@ -526,13 +494,11 @@ function Account({users,dispatch}) {
         </div>
     )
 }
-
 function mapStateToProps(state) {
-	const {users} = state.account;
+    const {users} = state.account;
     console.log(users)
     return {users};
 }
-
 export default connect(mapStateToProps)(Account);
 
 

@@ -417,7 +417,7 @@ class EditableTable extends React.Component {
                     dataSource={dataSource} 
                     columns={columns} 
                     rowClassName={this.rowClassName.bind(this)}  
-                    pagination={{'total':this.state.total,defaultPageSize:5}}
+                    pagination={false}
                     onRowClick={this.rowclick.bind(this)}
                     onChange={this.pagechange.bind(this)}
                 />
