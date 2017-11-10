@@ -145,9 +145,15 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-       this.setState({
-        windowHeight:document.body.offsetHeight-300
-       });
+       if(document.body.offsetWidth>800){
+            this.setState({
+               windowHeight:document.body.offsetHeight-495,
+             });
+        }else{
+           this.setState({
+             windowHeight:document.body.offsetHeight-270,
+         });
+        }
     }
 
 
@@ -176,9 +182,15 @@ class EditableTable extends React.Component {
   	}
 
     componentDidMount(){
-        this.setState({
-           windowHeight:document.body.offsetHeight-300
+        if(document.body.offsetWidth>800){
+            this.setState({
+               windowHeight:document.body.offsetHeight-495,
+             });
+        }else{
+           this.setState({
+             windowHeight:document.body.offsetHeight-270,
          });
+        }
         window.addEventListener('resize', this.windowResize);    
     }
     componentWillUnmount(){   

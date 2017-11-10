@@ -641,6 +641,14 @@ input::-webkit-contacts-auto-fill-button {
 }
 
 
+.search-component{
+	top: 83px;
+}
+.counters.goods-counters{
+	top: 133px;
+}
+
+
 
 /*位置*/
 .ml10{margin-left: 5px}
@@ -1037,8 +1045,6 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
   width: 110px;
 }
 .bgf-goods-style{
-  height: 460px;
-  overflow:auto;
   border-radius: 0px;
 }
 /*会员信息模态框*/
@@ -1105,15 +1111,24 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
   width:300px!important;
   height:300px;
  }
- .content-sell-info{height: 300px;position: relative;}
- .ant-tabs-vertical.ant-tabs-left > .ant-tabs-content{height: 370px;overflow-y:scroll;}
+ .content-sell-info{
+ 	height: calc(100vh - 300px);
+ 	position: relative;
+ }
+ .ant-tabs-vertical.ant-tabs-left > .ant-tabs-content{height: calc(100vh - 300px);overflow-y:scroll;}
+ .ant-tabs-vertical.ant-tabs-left > .ant-tabs-bar{
+ 	height: calc(100vh - 300px);
+ }
  .Paginationsell{
-  position: absolute;
-  height: 75px;
+  height: 55px;
   width: 300px;
-  margin-left: 30px;
-  bottom: -85px;
-  padding-left: 50px;
+  padding-left: 10px;
+ }
+ .Paginationsell select{
+ 	float: left;
+ }
+ .Paginationsell ul{
+ 	float: left;
  }
  .sellinfolist li:nth-child(1) p:last-child{
   margin-bottom:10px;
