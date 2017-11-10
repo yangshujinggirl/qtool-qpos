@@ -14,12 +14,13 @@ class Searchcomponent extends React.Component {
         selectvalue:null
     }
     handleChange=(value)=>{
+        let limitSize = localStorage.getItem('pageSize');
         this.setState({
             selectvalue:value
         },function(){
             this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:limitSize,currentPage:0} }
             })
         })  
     }
@@ -30,9 +31,10 @@ class Searchcomponent extends React.Component {
             })
     }
     hindsearch=()=>{
+        let limitSize = localStorage.getItem('pageSize');
         this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:limitSize,currentPage:0} }
         })
     }
 
