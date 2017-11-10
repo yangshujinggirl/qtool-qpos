@@ -642,7 +642,7 @@ class EditableTable extends React.Component {
                <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
                pagination={{'total':Number(this.props.total),current:this.state.currentPage,
                             pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
-                            onChange:this.pageChange,pageSizeOptions:['10','11','12','13','16','20']}}
+                            onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}}
                scroll={{y:this.state.windowHeight}}
                />
             </div>

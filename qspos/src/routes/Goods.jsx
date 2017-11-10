@@ -163,7 +163,8 @@ class EditableTable extends React.Component {
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={
                              // Number(this.props.total)>Number(this.state.pageSize)?
-                             {'total':Number(this.props.total),current:this.state.currentPage,pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,onChange:this.pageChange,pageSizeOptions:['10','11','12','13','16','20']}
+                             {'total':Number(this.props.total),current:this.state.currentPage,pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
+                               onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}
                              // :false
                          }
                 // onChange={this.pageChange.bind(this)} 

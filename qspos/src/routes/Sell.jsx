@@ -320,6 +320,7 @@ class Ordertap extends React.Component {
         //页脚相关
         currentPage:1,
         pageSize:localStorage.getItem("sellPageSize")==null?10:Number(localStorage.getItem("sellPageSize")),
+        valueNum:localStorage.getItem("sellPageSize")==null?'10':String(localStorage.getItem("sellPageSize"))
     }
 
     //退货数据请求
@@ -469,6 +470,23 @@ class Ordertap extends React.Component {
         e.preventDefault();
     }
 
+    clickBtn=() =>{
+        this.setState({
+            pageSize:5
+        })
+    }
+
+    pageSelect = (value) =>{
+        this.setState({
+            pageSize:Number(value),
+            currentPage:1,
+            valueNum:value
+        },function(){
+             localStorage.setItem("sellPageSize", Number(value)); 
+            this.props.pagefresh(0,Number(value))
+        })
+    }
+
   render() {
     const qposStSaleOrders=this.state.qposStSaleOrders
     console.log(qposStSaleOrders)
@@ -511,9 +529,19 @@ class Ordertap extends React.Component {
                             showSizeChanger={true}
                             onShowSizeChange = {this.onShowSizeChange.bind(this)}
                             onChange={this.pageChange.bind(this)} 
-                            pageSizeOptions={['10','11','12','13','16','20']}
-                            className='Paginationsells' 
+                            pageSizeOptions={['6','10','12','15','17','20']}
+                            simple 
                             />
+                <Select defaultValue="lucy" style={{ width: 100 }} value={this.state.valueNum} onChange={this.pageSelect.bind(this)}>
+                  <Option value="10">10条/页</Option>
+                  <Option value="12">12条/页</Option>
+                  <Option value="15">15条/页</Option>
+                  <Option value="17">17条/页</Option>
+                  <Option value="20">20条/页</Option>
+                  <Option value="50">50条/页</Option>
+                  <Option value="100">100条/页</Option>
+                  <Option value="200">200条/页</Option>
+                </Select>
             </div>
         </div>
     )
