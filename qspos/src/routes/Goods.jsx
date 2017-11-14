@@ -147,7 +147,7 @@ class EditableTable extends React.Component {
     windowResize = () =>{
        if(document.body.offsetWidth>800){
             this.setState({
-               windowHeight:document.body.offsetHeight-495,
+               windowHeight:document.body.offsetHeight-300,
              });
         }else{
            this.setState({
@@ -158,11 +158,8 @@ class EditableTable extends React.Component {
 
 
   	render() {
-        console.log(this)
-        console.log(localStorage)
     	const { dataSource } = this.state;
-    	const columns = this.columns;
-        console.log(this.props.pdSpus)
+        const columns = this.columns;
     	return (
       		<div className='bgf-goods-style good-contrl-table'>
         		<Table bordered dataSource={this.props.pdSpus} columns={columns} 
@@ -184,7 +181,7 @@ class EditableTable extends React.Component {
     componentDidMount(){
         if(document.body.offsetWidth>800){
             this.setState({
-               windowHeight:document.body.offsetHeight-495,
+               windowHeight:document.body.offsetHeight-300,
              });
         }else{
            this.setState({
