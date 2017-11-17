@@ -22,7 +22,7 @@ class EditableTable extends React.Component {
                     this.state.dataSource.length > 0
                     ?
                       (
-                        <div>{index+1}</div>
+                        <div>{Number(index)+1}</div>
                       ) 
                     : null
                 )
@@ -754,7 +754,7 @@ class EditableTable extends React.Component {
                             json.pdSpu.qty=1
                             //库存判断
                             if(json.pdSpu.qty<json.pdSpu.inventory || json.pdSpu.qty==json.pdSpu.inventory){
-                                json.pdSpu.key=this.state.count
+                                json.pdSpu.key=json.pdSpu.barcode
                                 json.pdSpu.discount=10
                                 json.pdSpu.payPrice=this.payPrice(json.pdSpu.toCPrice,json.pdSpu.qty,json.pdSpu.discount)
                                 datasouces.unshift(json.pdSpu)
@@ -871,7 +871,7 @@ class EditableTable extends React.Component {
                             json.pdSpu.qty=1
                             //库存判断
                             if(json.pdSpu.qty<json.pdSpu.inventory || json.pdSpu.qty==json.pdSpu.inventory){
-                                json.pdSpu.key=0
+                                json.pdSpu.key=json.pdSpu.barcode
                                 json.pdSpu.discount=10
                                 json.pdSpu.payPrice=this.payPrice(json.pdSpu.toCPrice,json.pdSpu.qty,json.pdSpu.discount)
                                 datasouces.unshift(json.pdSpu)

@@ -97,7 +97,7 @@ class EditableTable extends React.Component {
 
     //数量失去焦点
     discountblur=(index,e)=>{
-        var r = /^\+?[1-9][0-9]*$/;
+        var r = /^\+?[0-9][0-9]*$/;
         var zindex=this.zindex(index)
         const dataSources=this.state.dataSource
         if(r.test(Number(dataSources[zindex].receiveQty))){
