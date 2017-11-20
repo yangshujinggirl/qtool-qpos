@@ -94,11 +94,14 @@ class Modelform extends Component {
                             }else{
                                 message.success('会员信息修改成功',1)
                             }
-                           this.hideModal()
+                           this.hideModal();
+                           let limitSize = localStorage.getItem('pageSize');
+                           //重置页码为第一页
+                           this.props.initPageCurrent(1);
                            this.props.dispatch({
                                 type:'member/fetch',
-                                payload: {code:'qerp.pos.mb.card.query',values:{keywords:''}}
-                            })
+                                payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
+                            });
                         }else{  
                            message.error(json.message);
                         }
@@ -586,6 +589,7 @@ class EditableTable extends React.Component {
                             dispatch={this.props.dispatch} 
                             type={false}  
                             mbCardId={record.mbCardId}
+                            initPageCurrent={this.initPageCurrent.bind(this)}
                             amount={record.amount}
                             point={record.point}
                             texts='修改会员信息'
@@ -603,8 +607,9 @@ class EditableTable extends React.Component {
         }
     }
     hindchange=(page)=>{
-        console.log(page)
-        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:'10',currentPage:page.current-1}} });
+        console.log(page);
+        let limitSize = localStorage.getItem('pageSize');
+        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:page.current-1}} });
 
     }
 
@@ -629,6 +634,13 @@ class EditableTable extends React.Component {
         
     }
 
+    //初始化页码
+    initPageCurrent = (currentPage) =>{
+        this.setState({
+            currentPage:currentPage
+        });
+    }
+
     windowResize = () =>{
        this.setState({
         windowHeight:document.body.offsetHeight-300
@@ -639,11 +651,12 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         return (
             <div className='member-style'>
-               <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
-               pagination={{'total':Number(this.props.total),current:this.state.currentPage,
-                            pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
-                            onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}}
-               scroll={{y:this.state.windowHeight}}
+               <Table bordered dataSource={this.props.mbCards} columns={columns} 
+                        rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
+                        pagination={{'total':Number(this.props.total),current:this.state.currentPage,
+                        pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
+                        onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}}
+                        scroll={{y:this.state.windowHeight}}
                />
             </div>
         )
@@ -671,9 +684,11 @@ class Searchcomponent extends React.Component{
         })
     }
     hindsearch=()=>{
+        this.props.initPageCurrent(1);
+        let limitSize = localStorage.getItem('pageSize');
         this.props.dispatch({ 
             type: 'member/fetch', 
-            payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:'10',currentPage:0}} 
+            payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:limitSize,currentPage:0}} 
         });
     }
 
@@ -712,19 +727,29 @@ class Member extends React.Component{
         pagefreshs(currentPage,pagesize)
     }
 
+    //初始化页码方法
+    initPageCurrent = (current) =>{
+        this.refs.memberTable.initPageCurrent(current);
+    }
+
    render(){
       return (
         <div>
             <Header type={false} color={true}/>
             <div className='search-component'>
-                <Searchcomponent dispatch={this.props.dispatch} ref="search"/>
+                <Searchcomponent dispatch={this.props.dispatch}
+                                 pagefresh={this.pagefresh.bind(this)}
+                                 initPageCurrent={this.initPageCurrent.bind(this)}
+                                 ref="search"/>
             </div>
             <div className='counters goods-counters'>
                 <EditableTable mbCards={this.props.mbCards} 
                                 dispatch={this.props.dispatch} 
                                 loding={this.props.loding} 
                                 total={this.props.total} 
-                                pagefresh={this.pagefresh.bind(this)}/>
+                                pagefresh={this.pagefresh.bind(this)}
+                                current={this.props.current}
+                                ref='memberTable'/>
             </div>
         </div>
      )
