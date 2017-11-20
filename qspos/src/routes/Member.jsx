@@ -141,7 +141,7 @@ class Modelform extends Component {
                     cancelText="取消"
                     width={this.props.width+'px'}
                     closable={false}
-                    width={450}
+                    width={500}
                     footer={[
                         <div className='fl tc' style={type?footleft:footlefts} key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
                         <div className='fr tc' style={type?footright:footrights} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
@@ -152,7 +152,7 @@ class Modelform extends Component {
                         <FormItem 
                             label="会员姓名"
                             labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }}
+                            wrapperCol={{ span: 16 }}
                             >
                             {getFieldDecorator('name', {
                                 initialValue: name,
@@ -164,7 +164,7 @@ class Modelform extends Component {
                         <FormItem 
                             label="会员电话"
                             labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }}
+                            wrapperCol={{ span: 16 }}
                             >
                             {getFieldDecorator('mobile', {
                                 initialValue: mobile,
@@ -176,7 +176,7 @@ class Modelform extends Component {
                         <FormItem 
                             label="会员卡号"
                             labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }}
+                            wrapperCol={{ span: 16 }}
                             >
                             {getFieldDecorator('cardNo', {
                                 initialValue: cardNo,
@@ -188,7 +188,7 @@ class Modelform extends Component {
                         <FormItem 
                             label="宝宝生日"
                             labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }}
+                            wrapperCol={{ span: 16 }}
                             className='listform'
                             >
                             {getFieldDecorator('mbCardBirths', {
@@ -205,7 +205,7 @@ class Modelform extends Component {
                         </FormItem>
                         <FormItem  
                         labelCol={{ span: 5 }}
-                        wrapperCol={{ span: 8 }}
+                        wrapperCol={{ span: 16 }}
                         label="会员级别"
                         className='listform'
                         >
@@ -227,7 +227,7 @@ class Modelform extends Component {
                                 <FormItem  
                                 label="账户金额"
                                 labelCol={{ span: 5 }}
-                                wrapperCol={{ span: 8 }}
+                                wrapperCol={{ span: 16 }}
                                 className='listform'
                                 >
                                     {getFieldDecorator('amount', {
@@ -245,7 +245,7 @@ class Modelform extends Component {
                                 <FormItem  
                                 label="会员积分"
                                 labelCol={{ span: 5 }}
-                                wrapperCol={{ span: 8 }}
+                                wrapperCol={{ span: 16 }}
                                 className='listform'
                                 >
                                     {getFieldDecorator('point', {
@@ -275,7 +275,7 @@ class EditableTablebaby extends React.Component {
         dataIndex: 'year',
         render: (text, record, index) => (
             <div>
-                <Select  style={{ width: 64 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
+                <Select  style={{ width: 72 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
                 {
                     batrhdata.year.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -291,7 +291,7 @@ class EditableTablebaby extends React.Component {
         width: '30%',
         render: (text, record, index) => (
             <div>
-                <Select  style={{ width: 50 }} onChange={this.monthhandleChange.bind(this,index)} value={this.state.dataSource[index].month}>
+                <Select  style={{ width: 60 }} onChange={this.monthhandleChange.bind(this,index)} value={this.state.dataSource[index].month}>
                   {
                     batrhdata.month.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -307,7 +307,7 @@ class EditableTablebaby extends React.Component {
         width: '30%',
         render: (text, record, index) => (
              <div>
-                <Select style={{ width: 50 }} onChange={this.dayhandleChange.bind(this,index)} value={this.state.dataSource[index].day}>
+                <Select style={{ width: 60 }} onChange={this.dayhandleChange.bind(this,index)} value={this.state.dataSource[index].day}>
                   {
                     batrhdata.day.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
