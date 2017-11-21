@@ -14,12 +14,13 @@ class Searchcomponent extends React.Component {
         selectvalue:null
     }
     handleChange=(value)=>{
+        let limitSize = localStorage.getItem('pageSize');
         this.setState({
             selectvalue:value
         },function(){
             this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:limitSize,currentPage:0} }
             })
         })  
     }
@@ -30,9 +31,10 @@ class Searchcomponent extends React.Component {
             })
     }
     hindsearch=()=>{
+        let limitSize = localStorage.getItem('pageSize');
         this.props.dispatch({
                 type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:10,currentPage:0} }
+                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:limitSize,currentPage:0} }
         })
     }
 
@@ -86,19 +88,22 @@ class EditableTable extends React.Component {
             
     	}, {
       		title: '商品条码',
+            width:'15%',
       		dataIndex: 'barcode'
     	}, {
             title: '商品名称',
             dataIndex: 'name'
         }, {
             title: '规格',
+            width:'15%',
             dataIndex: 'displayName'
         },{
             title: '数量',
+            width:'10%',
             dataIndex: 'inventory',
-            width:'8%',
         },{
       		title: '零售价',
+            width:'12%',
       		dataIndex: 'toCPrice',
       		}
     	];
@@ -107,7 +112,8 @@ class EditableTable extends React.Component {
 	      	dataSource: [],
 	      	count: 2,
             pageSize:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),
-            lh:'480'
+            windowHeight:'',
+            currentPage:1
 	    };
   	}
   	
@@ -118,43 +124,75 @@ class EditableTable extends React.Component {
       		return 'table_white'
     	}
   	}
-    pageChange=(page)=>{
-        console.log(page)
-        const current=Number(page.current)-1
-        this.props.pagefresh(current,this.state.pageSize)
+    pageChange=(page,pageSize)=>{
+        this.setState({
+            currentPage:page
+        },function(){
+            const current=Number(page)-1;
+            this.props.pagefresh(current,this.state.pageSize)
+        });
     }
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
             pageSize:pageSize,
-            current:current
+            current:current,
+            currentPage:1
         },function(){
-            this.props.pagefresh(current-1,pageSize)
-            //把当前的localStorage存储到本地
-            localStorage.setItem("pageSize", pageSize); 
-
+             localStorage.setItem("pageSize", pageSize); 
+            this.props.pagefresh(0,pageSize)
         })
         
     }
 
+    windowResize = () =>{
+       if(document.body.offsetWidth>800){
+            this.setState({
+               windowHeight:document.body.offsetHeight-300,
+             });
+        }else{
+           this.setState({
+             windowHeight:document.body.offsetHeight-270,
+         });
+        }
+    }
+
 
   	render() {
-        console.log(this)
-        console.log(localStorage)
     	const { dataSource } = this.state;
-    	const columns = this.columns;
-        console.log(this.props.pdSpus)
+        const columns = this.columns;
     	return (
-      		<div className='bgf bgf-goods-style'>
+      		<div className='bgf-goods-style good-contrl-table'>
         		<Table bordered dataSource={this.props.pdSpus} columns={columns} 
                 rowClassName={this.rowClassName.bind(this)}
-                pagination={Number(this.props.total)>Number(this.state.pageSize)?{'total':Number(this.props.total),pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,pageSizeOptions:['10','11','12','13','16','20']}:false}
-                onChange={this.pageChange.bind(this)} 
+                pagination={
+                             // Number(this.props.total)>Number(this.state.pageSize)?
+                             {'total':Number(this.props.total),current:this.state.currentPage,pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
+                               onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}
+                             // :false
+                         }
+                // onChange={this.pageChange.bind(this)} 
                 className='goods'
-                scroll={{y:this.state.lh}}
+                scroll={{y:this.state.windowHeight}}
                 />
       		</div>
     	);
   	}
+
+    componentDidMount(){
+        if(document.body.offsetWidth>800){
+            this.setState({
+               windowHeight:document.body.offsetHeight-300,
+             });
+        }else{
+           this.setState({
+             windowHeight:document.body.offsetHeight-270,
+         });
+        }
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
+    }
 }
 
 
@@ -168,8 +206,10 @@ class Goods extends React.Component {
         return (
             <div>
                 <Header type={false} color={true}/>
-                <div className='counters'>
+                <div className='search-component'>
                     <Searchcomponent pdCategories={this.props.pdCategories} dispatch={this.props.dispatch} ref='search'/>
+                </div>
+                <div className='counters goods-counters'>
                     <EditableTable pdSpus={this.props.pdSpus} total={this.props.total} dispatch={this.props.dispatch} pagefresh={this.pagefresh.bind(this)}/>
                 </div>
             </div>

@@ -57,20 +57,21 @@ class Searchcompon extends React.Component {
         if(dateString[1]==''){
             dateString[1]=null
         }
-
+         let limitSize = localStorage.getItem('sellPageSize');
 
         this.setState({
             startTime:dateString[0],
             endTime:dateString[1]
         },function(){
-            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:6,currentPage:this.state.page} }})
+            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
         })
     }
     handleChange=(value)=>{
+        let limitSize = localStorage.getItem('sellPageSize');
         this.setState({
             selectvalue:value
         },function(){
-            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:6,currentPage:this.state.page} }})
+            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
         })
     }
     revisemessage=(messages)=>{
@@ -79,12 +80,14 @@ class Searchcompon extends React.Component {
         })
     }
     hindsearch=()=>{
-        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:6,currentPage:this.state.page} }})
+        let limitSize = localStorage.getItem('sellPageSize');
+        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
     }
 
 
     pagechange=()=>{
-        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:6,currentPage:this.state.page} }})
+        let limitSize = localStorage.getItem('sellPageSize');
+        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
     }
     setpage=(page)=>{
         console.log(page)
@@ -92,6 +95,13 @@ class Searchcompon extends React.Component {
             page:page-1
         },function(){
             this.pagechange()
+        })
+    }
+
+    pagefresh = (currentPage,pagesize) =>{
+        this.props.dispatch({
+                type:'sell/fetch',
+                payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inputvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:pagesize,currentPage:currentPage} }
         })
     }
 
@@ -114,7 +124,7 @@ class Searchcompon extends React.Component {
                             <Option value="3">退货订单</Option>
                         </Select>
                     </div>
-                    <div className='fl' style={{marginRight:'5px'}}>
+                    <div className='fl sell-search-input' style={{marginRight:'5px'}}>
                         <Searchinput text='请输入商品条码、名称、订单号' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/>
                     </div>
                 </div>
@@ -305,17 +315,13 @@ class Ordertap extends React.Component {
         returnOrderDetails:[],
         //充值
         cardMoneyChargeInfo:{},
-        mbCard2:{}
+        mbCard2:{},
+        windowHeight:'',
+        //页脚相关
+        currentPage:1,
+        pageSize:localStorage.getItem("sellPageSize")==null?10:Number(localStorage.getItem("sellPageSize")),
+        valueNum:localStorage.getItem("sellPageSize")==null?'10':String(localStorage.getItem("sellPageSize"))
     }
-    pagechange=(page)=>{
-        this.setState({
-            clickkey:0
-        },function(){
-            this.props.revisemessages(page)
-        })
-        
-    }
-
 
     //退货数据请求
     setdatact=(keyid)=>{
@@ -354,7 +360,7 @@ class Ordertap extends React.Component {
                 result.then((res) => {
                     return res;
                 }).then((json) => {
-                    console.log(json)
+                    console.log(json);
                     if(json.code=='0'){
                        this.setState({
                         orderDetails:json.orderDetails, //详情
@@ -363,7 +369,7 @@ class Ordertap extends React.Component {
                         mbCard1:json.mbCard
                        })
                     }else{  
-                        message.waring(json.message) 
+                        message.warning(json.message);
                     }
                 })
     }
@@ -386,17 +392,10 @@ class Ordertap extends React.Component {
                             mbCard2:json.mbCard
                        })
                     }else{  
-                         message.waring(json.message)
+                         message.warning(json.message)
                     }
                 })
     }
-
-
-
-
-
-
-
 
     onTabClick=(key)=>{
         console.log(this)
@@ -426,6 +425,68 @@ class Ordertap extends React.Component {
 
         })
     }
+
+   windowResize = () =>{
+       this.setState({
+        windowHeight:document.body.offsetHeight-300
+       });
+    }
+
+    // pagechange=(page)=>{
+    //     this.setState({
+    //         clickkey:0
+    //     },function(){
+    //         this.props.revisemessages(page)
+    //     })
+        
+    // }
+
+    pageChange=(page,pageSize)=>{
+        this.setState({
+            currentPage:page
+        },function(){
+            const current=Number(page)-1;
+            this.props.pagefresh(current,this.state.pageSize)
+        });
+    }
+
+    onShowSizeChange=(current, pageSize)=>{
+        this.setState({
+            pageSize:pageSize,
+            current:current,
+            currentPage:1
+        },function(){
+             localStorage.setItem("sellPageSize", pageSize); 
+            this.props.pagefresh(0,pageSize)
+        })
+        
+    }
+
+    onPrevClick  = (e) =>{
+        e.preventDefault();
+    }
+
+    onNextClick = (e) =>{
+        e.preventDefault();
+    }
+
+    clickBtn=() =>{
+        this.setState({
+            pageSize:5
+        })
+    }
+
+    pageSelect = (value) =>{
+        this.setState({
+            pageSize:Number(value),
+            currentPage:1,
+            valueNum:value
+        },function(){
+             localStorage.setItem("sellPageSize", Number(value)); 
+            this.props.pagefresh(0,Number(value))
+        })
+    }
+
   render() {
     const qposStSaleOrders=this.state.qposStSaleOrders
     console.log(qposStSaleOrders)
@@ -433,23 +494,68 @@ class Ordertap extends React.Component {
         <div className="content-sell-info">
 
            <div>
-                <Tabs tabPosition={this.state.tabPosition} TabStyle={widthFlag?tabStyle:tabStyleTwo} onTabClick={this.onTabClick.bind(this)} activeKey={String(this.state.keys)}>
+                <Tabs animated={false} 
+                tabPosition={this.state.tabPosition} 
+                    TabStyle={widthFlag?tabStyle:tabStyleTwo} 
+                    onTabClick={this.onTabClick.bind(this)} 
+                    activeKey={String(this.state.keys)}
+                    onNextClick = {this.onNextClick.bind(this)}
+                    onPrevClick = {this.onPrevClick.bind(this)}>
                 {
                     qposStSaleOrders.map((item,index)=>{
                         return (
                             <TabPane tab={<Slidetitle item={item}/>} key={index+item.type+item.outId}>
                                 {
-                                    item.type=='1'?<Slidecountsell orderDetails={this.state.orderDetails} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>:(item.type=='2'?<Slidecountcz cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} mbCard2={this.state.mbCard2}/>:<Slidecountback odReturn={this.state.odReturn} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>)
+                                    item.type=='1'?
+                                    <Slidecountsell orderDetails={this.state.orderDetails} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>
+                                    :
+                                    (
+                                        item.type=='2'?
+                                        <Slidecountcz cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} mbCard2={this.state.mbCard2}/>
+                                        :
+                                        <Slidecountback odReturn={this.state.odReturn} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>
+                                    )
                                 }
                             </TabPane>)
                     })
                 }
               </Tabs>
            </div>
-            <div className='Paginationsell'><Pagination total={Number(this.props.total)} simple onChange={this.pagechange.bind(this)} className='Paginationsells' defaultPageSize={6}/></div>
+            <div className='Paginationsell'>
+                <Pagination total={Number(this.props.total)} 
+                            size="small"
+                            current={this.state.currentPage}
+                            pageSize={this.state.pageSize}
+                            showSizeChanger={true}
+                            onShowSizeChange = {this.onShowSizeChange.bind(this)}
+                            onChange={this.pageChange.bind(this)} 
+                            pageSizeOptions={['6','10','12','15','17','20']}
+                            simple 
+                            />
+                <Select defaultValue="lucy" style={{ width: 100 }} value={this.state.valueNum} onChange={this.pageSelect.bind(this)}>
+                  <Option value="10">10条/页</Option>
+                  <Option value="12">12条/页</Option>
+                  <Option value="15">15条/页</Option>
+                  <Option value="17">17条/页</Option>
+                  <Option value="20">20条/页</Option>
+                  <Option value="50">50条/页</Option>
+                  <Option value="100">100条/页</Option>
+                  <Option value="200">200条/页</Option>
+                </Select>
+            </div>
         </div>
     )
   }
+
+  componentDidMount(){
+        this.setState({
+           windowHeight:document.body.offsetHeight-300
+         });
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
+    }
 
   componentWillReceiveProps(nextProps){
     console.log(nextProps)
@@ -615,11 +721,21 @@ class Sellorder extends React.Component {
         const setpage=this.refs.search.setpage
         setpage(page)
     }
+
+    pagefresh=(currentPage,pagesize)=>{
+        const pagefreshs=this.refs.search.pagefresh
+        pagefreshs(currentPage,pagesize)
+    }
+
     render(){
         return (
             <div>
                <Searchcompon dispatch={this.props.dispatch} ref='search'/>
-               <Ordertap qposStSaleOrders={this.props.qposStSaleOrders} total={this.props.total} revisemessages={this.revisemessages.bind(this)} ref='Ordertap'/>
+               <Ordertap qposStSaleOrders={this.props.qposStSaleOrders}
+                         total={this.props.total} 
+                         revisemessages={this.revisemessages.bind(this)} 
+                         pagefresh={this.pagefresh.bind(this)}
+                         ref='Ordertap'/>
             </div>
         )
     }
@@ -669,14 +785,14 @@ class Sellclerk extends React.Component {
                             setsouce:setsouce
                         })
                     }else{  
-                        message.error(json.message) 
+                        message.error(json.message); 
                     }
                 })
 
     }
     render(){
         return(
-            <div>
+            <div className='chartandtable-wrapper'>
                 <div className='persontime time-banner-style'><Perdontime dispatch={this.props.dispatch} initdataspuce={this.initdataspuce.bind(this)}/></div>
                 <div className="chart-container-style" style={{padding:'0 30px'}}>
                     <p style={tit}>销售数据</p>

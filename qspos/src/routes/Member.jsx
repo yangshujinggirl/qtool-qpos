@@ -94,11 +94,14 @@ class Modelform extends Component {
                             }else{
                                 message.success('会员信息修改成功',1)
                             }
-                           this.hideModal()
+                           this.hideModal();
+                           let limitSize = localStorage.getItem('pageSize');
+                           //重置页码为第一页
+                           this.props.initPageCurrent(1);
                            this.props.dispatch({
                                 type:'member/fetch',
-                                payload: {code:'qerp.pos.mb.card.query',values:{keywords:''}}
-                            })
+                                payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
+                            });
                         }else{  
                            message.error(json.message);
                         }
@@ -141,7 +144,7 @@ class Modelform extends Component {
                     cancelText="取消"
                     width={this.props.width+'px'}
                     closable={false}
-                    width={450}
+                    width={500}
                     footer={[
                         <div className='fl tc' style={type?footleft:footlefts} key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
                         <div className='fr tc' style={type?footright:footrights} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
@@ -152,7 +155,7 @@ class Modelform extends Component {
                         <FormItem 
                             label="会员姓名"
                             labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }}
+                            wrapperCol={{ span: 16 }}
                             >
                             {getFieldDecorator('name', {
                                 initialValue: name,
@@ -164,7 +167,7 @@ class Modelform extends Component {
                         <FormItem 
                             label="会员电话"
                             labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }}
+                            wrapperCol={{ span: 16 }}
                             >
                             {getFieldDecorator('mobile', {
                                 initialValue: mobile,
@@ -176,7 +179,7 @@ class Modelform extends Component {
                         <FormItem 
                             label="会员卡号"
                             labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }}
+                            wrapperCol={{ span: 16 }}
                             >
                             {getFieldDecorator('cardNo', {
                                 initialValue: cardNo,
@@ -188,7 +191,7 @@ class Modelform extends Component {
                         <FormItem 
                             label="宝宝生日"
                             labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }}
+                            wrapperCol={{ span: 16 }}
                             className='listform'
                             >
                             {getFieldDecorator('mbCardBirths', {
@@ -205,7 +208,7 @@ class Modelform extends Component {
                         </FormItem>
                         <FormItem  
                         labelCol={{ span: 5 }}
-                        wrapperCol={{ span: 8 }}
+                        wrapperCol={{ span: 16 }}
                         label="会员级别"
                         className='listform'
                         >
@@ -227,7 +230,7 @@ class Modelform extends Component {
                                 <FormItem  
                                 label="账户金额"
                                 labelCol={{ span: 5 }}
-                                wrapperCol={{ span: 8 }}
+                                wrapperCol={{ span: 16 }}
                                 className='listform'
                                 >
                                     {getFieldDecorator('amount', {
@@ -245,7 +248,7 @@ class Modelform extends Component {
                                 <FormItem  
                                 label="会员积分"
                                 labelCol={{ span: 5 }}
-                                wrapperCol={{ span: 8 }}
+                                wrapperCol={{ span: 16 }}
                                 className='listform'
                                 >
                                     {getFieldDecorator('point', {
@@ -275,7 +278,7 @@ class EditableTablebaby extends React.Component {
         dataIndex: 'year',
         render: (text, record, index) => (
             <div>
-                <Select  style={{ width: 64 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
+                <Select  style={{ width: 72 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
                 {
                     batrhdata.year.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -291,7 +294,7 @@ class EditableTablebaby extends React.Component {
         width: '30%',
         render: (text, record, index) => (
             <div>
-                <Select  style={{ width: 50 }} onChange={this.monthhandleChange.bind(this,index)} value={this.state.dataSource[index].month}>
+                <Select  style={{ width: 60 }} onChange={this.monthhandleChange.bind(this,index)} value={this.state.dataSource[index].month}>
                   {
                     batrhdata.month.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -307,7 +310,7 @@ class EditableTablebaby extends React.Component {
         width: '30%',
         render: (text, record, index) => (
              <div>
-                <Select style={{ width: 50 }} onChange={this.dayhandleChange.bind(this,index)} value={this.state.dataSource[index].day}>
+                <Select style={{ width: 60 }} onChange={this.dayhandleChange.bind(this,index)} value={this.state.dataSource[index].day}>
                   {
                     batrhdata.day.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -542,26 +545,38 @@ class EditableTablebaby extends React.Component {
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            currentPage:1,
+            pageSize:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),
+            windowHeight:''
+        };
         this.columns = [{
             title: '会员姓名',
-            dataIndex: 'name'
+            dataIndex: 'name',
+            width:'10%'
         }, {
             title: '会员电话',
+            width:'15%',
             dataIndex: 'mobile'
         }, {
             title: '会员卡号',
+            width:'15%',
             dataIndex: 'cardNo'
         },{
             title: '会员级别',
+            width:'15%',
             dataIndex: 'levelStr'
         },{
             title: '账户余额',
+            width:'15%',
             dataIndex: 'amount'
         },{
             title: '会员积分',
+            width:'15%',
             dataIndex: 'point'
         },{
             title: '操作',
+            width:'15%',
             dataIndex: 'operation',
             render: (text, record, index) => {
                 return (
@@ -574,6 +589,7 @@ class EditableTable extends React.Component {
                             dispatch={this.props.dispatch} 
                             type={false}  
                             mbCardId={record.mbCardId}
+                            initPageCurrent={this.initPageCurrent.bind(this)}
                             amount={record.amount}
                             point={record.point}
                             texts='修改会员信息'
@@ -591,20 +607,69 @@ class EditableTable extends React.Component {
         }
     }
     hindchange=(page)=>{
-        console.log(page)
-        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:'10',currentPage:page.current-1}} });
+        console.log(page);
+        let limitSize = localStorage.getItem('pageSize');
+        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:page.current-1}} });
 
     }
+
+    pageChange=(page,pageSize)=>{
+        this.setState({
+            currentPage:page
+        },function(){
+            const current=Number(page)-1;
+            this.props.pagefresh(current,this.state.pageSize)
+        });
+    }
+    
+    //pageSize 变化的回调
+    onShowSizeChange=(current, pageSize)=>{
+        this.setState({
+            pageSize:pageSize,
+            currentPage:1
+        },function(){
+             localStorage.setItem("pageSize", pageSize); 
+            this.props.pagefresh(0,pageSize)
+        })
+        
+    }
+
+    //初始化页码
+    initPageCurrent = (currentPage) =>{
+        this.setState({
+            currentPage:currentPage
+        });
+    }
+
+    windowResize = () =>{
+       this.setState({
+        windowHeight:document.body.offsetHeight-300
+       });
+    }
+
     render() {
         const columns = this.columns;
         return (
-            <div className='bgf member-style'>
-               <Table bordered dataSource={this.props.mbCards} columns={columns} rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
-               pagination={{'total':Number(this.props.total)}}
-               onChange={this.hindchange.bind(this)}
+            <div className='member-style'>
+               <Table bordered dataSource={this.props.mbCards} columns={columns} 
+                        rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
+                        pagination={{'total':Number(this.props.total),current:this.state.currentPage,
+                        pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
+                        onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}}
+                        scroll={{y:this.state.windowHeight}}
                />
             </div>
         )
+    }
+
+    componentDidMount(){
+        this.setState({
+           windowHeight:document.body.offsetHeight-300
+         });
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
     }
 }
 
@@ -619,8 +684,23 @@ class Searchcomponent extends React.Component{
         })
     }
     hindsearch=()=>{
-        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:'10',currentPage:0}} });
+        this.props.initPageCurrent(1);
+        let limitSize = localStorage.getItem('pageSize');
+        this.props.dispatch({ 
+            type: 'member/fetch', 
+            payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:limitSize,currentPage:0}} 
+        });
     }
+
+    pagefresh=(currentPage,pagesize)=>{
+        console.log(currentPage)
+        console.log(pagesize)
+        this.props.dispatch({
+                type:'member/fetch',
+                payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:pagesize,currentPage:currentPage} }
+        })
+    }
+
     render(){
         return (
             <div className='clearfix mb10'>
@@ -640,16 +720,40 @@ class Searchcomponent extends React.Component{
 }
 
 //主页面
-function Member({mbCards,dispatch,loding,total}) {
-    return (
+class Member extends React.Component{
+
+    pagefresh=(currentPage,pagesize)=>{
+        const pagefreshs=this.refs.search.pagefresh
+        pagefreshs(currentPage,pagesize)
+    }
+
+    //初始化页码方法
+    initPageCurrent = (current) =>{
+        this.refs.memberTable.initPageCurrent(current);
+    }
+
+   render(){
+      return (
         <div>
             <Header type={false} color={true}/>
-            <div className='counters'>
-                <Searchcomponent dispatch={dispatch}/>
-                <EditableTable mbCards={mbCards} dispatch={dispatch} loding={loding} total={total}/>
+            <div className='search-component'>
+                <Searchcomponent dispatch={this.props.dispatch}
+                                 pagefresh={this.pagefresh.bind(this)}
+                                 initPageCurrent={this.initPageCurrent.bind(this)}
+                                 ref="search"/>
+            </div>
+            <div className='counters goods-counters'>
+                <EditableTable mbCards={this.props.mbCards} 
+                                dispatch={this.props.dispatch} 
+                                loding={this.props.loding} 
+                                total={this.props.total} 
+                                pagefresh={this.pagefresh.bind(this)}
+                                current={this.props.current}
+                                ref='memberTable'/>
             </div>
         </div>
-    )
+     )
+   }
 }
 
 function mapStateToProps(state) {

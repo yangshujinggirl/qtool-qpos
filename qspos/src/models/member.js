@@ -47,7 +47,7 @@ export default {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/member') {
-                     dispatch({ type: 'fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:'10',currentPage:0}} });
+                     dispatch({ type: 'fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),currentPage:0}} });
                 }
             });
         },
