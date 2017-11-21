@@ -230,7 +230,7 @@ class EditableTable extends React.Component {
                     data:this.state.dataSource
                 }
                 revisedata(messages)
-                const dataSources=this.state.dataSo
+                const dataSources=this.state.dataSource
                 var quantity=0
                 var totalamount=0
                 var integertotalamount=0
@@ -243,7 +243,7 @@ class EditableTable extends React.Component {
                     this.props.clearingdata(quantity,totalamount)
                     this.props.clearingdatal(integertotalamount)
                 })
-                message.warning('数量智能是大于等于0的整数')
+                message.warning('数量只能是大于等于0的整数')
 
             }
         }else{
