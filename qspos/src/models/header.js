@@ -38,7 +38,6 @@ export default {
         },
         *shift({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
-            console.log(result)
             if(result.code=='0'){
                 const {userSales}=result
                 yield put({   

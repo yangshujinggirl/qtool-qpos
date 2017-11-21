@@ -32,9 +32,19 @@ export function post(url, paramsObj) {
         },
         body: obj2params(paramsObj)
     }).then((res) => {
-        let json = res.json();
-        return json;
+        console.log(res)
+        if(res.status=='200'){
+            let json = res.json();
+            console.log(json)
+            return json;
+        }else{
+            let json={
+                message:'网络错误'
+            }
+            return json;
+        }
     }).then((json) => {
+        console.log(json)
         if(json.code=='E_300'){
              window.location.href= '/';
         }

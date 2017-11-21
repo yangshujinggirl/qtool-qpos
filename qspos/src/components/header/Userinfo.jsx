@@ -93,7 +93,7 @@ class Dropdownmenu extends React.Component {
             },function(){
                 this.props.dispatch({
                     type:'header/shift',
-                    payload: {code:'qerp.web.qpos.st.user.sale.exchangequery'}
+                    payload: {code:'qerp.web.qpos.st.user.sale.exchangequery',values:{}}
                 })
                 this.showModal()
             }) 
