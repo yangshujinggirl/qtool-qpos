@@ -398,11 +398,10 @@ class Ordertap extends React.Component {
     }
 
     onTabClick=(key)=>{
-        console.log(this)
-        console.log(key)
-        const keyindex=key.substring(0,1)
-        const keyid=key.substring(2,key.length)
-        const clicktype=key.substring(1,2)
+        const str=key.split('_')
+        const keyindex=str[0]
+        const keyid=str[2]
+        const clicktype=str[1]
         this.setState({
             clickkey:Number(keyindex),
             clickid:keyid,
@@ -504,7 +503,7 @@ class Ordertap extends React.Component {
                 {
                     qposStSaleOrders.map((item,index)=>{
                         return (
-                            <TabPane tab={<Slidetitle item={item}/>} key={index+item.type+item.outId}>
+                            <TabPane tab={<Slidetitle item={item}/>} key={index+'_'+item.type+'_'+item.outId}>
                                 {
                                     item.type=='1'?
                                     <Slidecountsell orderDetails={this.state.orderDetails} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>
@@ -564,7 +563,7 @@ class Ordertap extends React.Component {
     if(nextProps.qposStSaleOrders.length>0){
         this.setState({
             qposStSaleOrders:nextProps.qposStSaleOrders,
-            keys:0+nextProps.qposStSaleOrders[0].type+nextProps.qposStSaleOrders[0].outId
+            keys:0+'_'+nextProps.qposStSaleOrders[0].type+'_'+nextProps.qposStSaleOrders[0].outId
             },function(){
             this.onTabClick(this.state.keys)
         })

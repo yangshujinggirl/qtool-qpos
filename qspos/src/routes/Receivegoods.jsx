@@ -31,20 +31,24 @@ class EditableTable extends React.Component {
             }
         }, {
             title: '商品条码',
-            dataIndex: 'barcode'
+            dataIndex: 'barcode',
+            width:'10%',
         }, {
             title: '商品名称',
-            dataIndex: 'name'
+            dataIndex: 'name',
+            width:'15%',
         },{
             title: '规格',
-            dataIndex: 'displayName'
+            dataIndex: 'displayName',
+            width:'10%',
         },{
             title: '待收数量',
-            dataIndex: 'unReceiveQty'
+            dataIndex: 'unReceiveQty',
+            width:'10%',
         },{
             title: '本次数量',
             dataIndex: 'receiveQty',
-            width:'12%',
+            width:'10%',
             render: (text, record, index) => {
                 return (
                     this.state.dataSource.length > 0 
@@ -63,7 +67,8 @@ class EditableTable extends React.Component {
             }
         },{
             title: '零售价',
-            dataIndex: 'toCPrice'
+            dataIndex: 'toCPrice',
+            width:'10%',
         }];
         this.state = {
             dataSource:[],

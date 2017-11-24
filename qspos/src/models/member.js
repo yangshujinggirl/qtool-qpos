@@ -39,7 +39,7 @@ export default {
                     payload:loding
                 });
             }else{
-                message.error(data.message);
+                message.error(result.message);
             }   
         }
     },

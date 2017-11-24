@@ -35,6 +35,9 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const result=GetServerData('qerp.pos.ur.user.login',values)
+                console.log(result)
+                
+                
                 result.then((res) => {
                   return res;
                 }).then((json) => {

@@ -113,7 +113,7 @@ class Dropdownmenu extends React.Component {
         if(key==4){
               this.props.dispatch({
                 type:'header/logout',
-                payload: {code:'qerp.pos.ur.user.logout'}
+                payload: {code:'qerp.pos.ur.user.logout',values:{}}
             })
            
         }

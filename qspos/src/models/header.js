@@ -53,7 +53,7 @@ export default {
             if(result.code=='0'){
                 yield put(routerRedux.push('/'));
             }else{
-                message.error(data.message);
+                message.error(result.message);
             }   
         },
     },
