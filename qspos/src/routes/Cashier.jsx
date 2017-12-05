@@ -745,6 +745,7 @@ class EditableTable extends React.Component {
             var i=this.isInArray(datasouces,messages.barCode)
             console.log(i)
             if(i===false){
+                console.log('weipipei')
                     //没匹配到,请求数据，插入第一行，并高亮
                     const result=GetServerData('qerp.pos.pd.spu.find',messages)
                     result.then((res) => {
@@ -793,6 +794,7 @@ class EditableTable extends React.Component {
                         }
                     })
             }else{
+                console.log('pipei')
                     //匹配到了
                     datasouces[i].qty=Number(datasouces[i].qty)+1
                     //库存判断
