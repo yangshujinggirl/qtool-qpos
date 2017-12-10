@@ -158,7 +158,8 @@ class EditableTable extends React.Component {
             totalamount:0,//总金额
             integertotalamount:0,//总金额取整,
             selectedRows:[],
-            ismbCard:false
+            ismbCard:false,
+            windowHeight:''
         },function(){
             this.clearselect()
         })
@@ -526,6 +527,18 @@ class EditableTable extends React.Component {
             })
     }
 
+    windowResize = () =>{
+        if(document.body.offsetWidth>800){
+             this.setState({
+                windowHeight:document.body.offsetHeight-495,
+              });
+         }else{
+            this.setState({
+              windowHeight:document.body.offsetHeight-295,
+          });
+         }
+     }
+
     render() {
         const { dataSource } = this.state;
         const columns = this.columns;
@@ -535,7 +548,7 @@ class EditableTable extends React.Component {
                 dataSource={dataSource} 
                 columns={columns} 
                 pagination={false} 
-                scroll={{ y: 490 }}
+                scroll={{ y: this.state.windowHeight }}
                 onRowClick={this.rowclick.bind(this)}
                 rowClassName={this.rowClassName.bind(this)}
                 className='returngoodtable'
@@ -543,6 +556,21 @@ class EditableTable extends React.Component {
         </div>
     );
   }
+  componentDidMount(){
+    if(document.body.offsetWidth>800){
+         this.setState({
+            windowHeight:document.body.offsetHeight-495,
+          });
+     }else{
+        this.setState({
+          windowHeight:document.body.offsetHeight-295,
+      });
+     }
+     window.addEventListener('resize', this.windowResize);    
+ }
+ componentWillUnmount(){   
+     window.removeEventListener('resize', this.windowResize);
+ }
 }
 
 
