@@ -96,12 +96,12 @@ class Modelform extends Component {
                             }
                            this.hideModal();
                            let limitSize = localStorage.getItem('pageSize');
-                           //重置页码为第一页
-                           this.props.initPageCurrent(1);
                            this.props.dispatch({
                                 type:'member/fetch',
                                 payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
                             });
+                           //重置页码为第一页
+                           this.props.initPageCurrent(1);
                         }else{  
                            message.error(json.message);
                         }
@@ -701,10 +701,23 @@ class Searchcomponent extends React.Component{
         })
     }
 
+    //初始化页码
+    initPageCurrent = (currentPage) =>{
+        this.props.initPageCurrent(currentPage);
+    }
+
     render(){
         return (
             <div className='clearfix mb10'>
-                <div className='fl'><Modelforms record={{level:'3'}} texts='新增会员' text='新增会员' dispatch={this.props.dispatch} type={true}/></div>
+                <div className='fl'>
+                    <Modelforms 
+                        record={{level:'3'}} 
+                        texts='新增会员' 
+                        text='新增会员' 
+                        dispatch={this.props.dispatch} 
+                        initPageCurrent={this.initPageCurrent.bind(this)}
+                        type={true}/>
+                </div>
                 <div className='fr'>
                     <Searchinput 
                         text='请输入会员姓名、手机、会员卡号' 
