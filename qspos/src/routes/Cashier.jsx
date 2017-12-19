@@ -108,7 +108,8 @@ class EditableTable extends React.Component {
             quantity:0,//数量
             totalamount:0,//总金额
             integertotalamount:0,//总金额取整,
-            windowHeight:''
+            windowHeight:'',
+            nofirstent:false
         };
     }
     //页面数据初始化
@@ -738,64 +739,55 @@ class EditableTable extends React.Component {
 
     //计算table中datasouce
     barcodesetdatasoce=(messages)=>{
-        console.log(messages)
-        let datasouces=this.state.dataSource
-        console.log(datasouces)
-        if(datasouces.length>0){
-            var i=this.isInArray(datasouces,messages.barCode)
-            console.log(i)
-            if(i===false){
-                console.log('weipipei')
-                    //没匹配到,请求数据，插入第一行，并高亮
-                    const result=GetServerData('qerp.pos.pd.spu.find',messages)
-                    result.then((res) => {
-                        return res;
-                    }).then((json) => {
-                        console.log(json)
-                        if(json.code=='0'){
-                            json.pdSpu.qty=1
-                            //库存判断
-                            if(json.pdSpu.qty<json.pdSpu.inventory || json.pdSpu.qty==json.pdSpu.inventory){
-                                json.pdSpu.key=json.pdSpu.barcode
-                                json.pdSpu.discount=10
-                                json.pdSpu.payPrice=this.payPrice(json.pdSpu.toCPrice,json.pdSpu.qty,json.pdSpu.discount)
-                                datasouces.unshift(json.pdSpu)
-                                this.setState({
-                                    index:0,
-                                    dataSource:datasouces,
-                                    count:this.state.count+1
-                                },function(){
-                                    const revisedata=this.props.revisedata
-                                    let messages={
-                                        type:1,
-                                        data:this.state.dataSource
-                                    }
-                                    revisedata(messages)
-                                   
-                                    const dataSources=this.state.dataSource
-                                    
-                                    var quantity=0
-                                    var totalamount=0
-                                    var integertotalamount=0
-                                    for(var i=0;i<dataSources.length;i++){
-                                        quantity=quantity+Number(dataSources[i].qty)
-                                        totalamount=totalamount+parseFloat(dataSources[i].payPrice) //计算出来的真实值，number
-                                    }
-                                    integertotalamount=Math.round(totalamount) //四舍五入取整
-                                    totalamount=totalamount.toFixed(2)//取两位小数，字符串
-                                    this.props.clearingdata(quantity,totalamount)
-                                    this.props.clearingdatal(integertotalamount)
-                                })
-                            }else{
-                                message.error('该条码无库存')
-                            }   
-                        }else{  
-                            message.warning(json.message)
-                        }
-                    })
-            }else{
-                console.log('pipei')
-                    //匹配到了
+        const datasouces=this.state.dataSource
+        const result=GetServerData('qerp.pos.pd.spu.find',messages)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            console.log(json)
+            if(json.code=='0'){
+                //判断
+                var i=this.isInArray(datasouces,messages.barCode)
+                if(i===false){
+                    //未匹配
+                    json.pdSpu.qty=1
+                    //库存判断
+                    if(json.pdSpu.qty<json.pdSpu.inventory || json.pdSpu.qty==json.pdSpu.inventory){
+                        json.pdSpu.key=json.pdSpu.barcode
+                        json.pdSpu.discount=10
+                        json.pdSpu.payPrice=this.payPrice(json.pdSpu.toCPrice,json.pdSpu.qty,json.pdSpu.discount)
+                        datasouces.unshift(json.pdSpu)
+                        this.setState({
+                            index:0,
+                            dataSource:datasouces,
+                            count:this.state.count+1
+                        },function(){
+                            const revisedata=this.props.revisedata
+                            let messages={
+                                type:1,
+                                data:this.state.dataSource
+                            }
+                            revisedata(messages)
+                           
+                            const dataSources=this.state.dataSource
+                            
+                            var quantity=0
+                            var totalamount=0
+                            var integertotalamount=0
+                            for(var i=0;i<dataSources.length;i++){
+                                quantity=quantity+Number(dataSources[i].qty)
+                                totalamount=totalamount+parseFloat(dataSources[i].payPrice) //计算出来的真实值，number
+                            }
+                            integertotalamount=Math.round(totalamount) //四舍五入取整
+                            totalamount=totalamount.toFixed(2)//取两位小数，字符串
+                            this.props.clearingdata(quantity,totalamount)
+                            this.props.clearingdatal(integertotalamount)
+                        })
+                    }else{
+                        message.error('该条码无库存')
+                    } 
+                }else{
+                    //匹配到
                     datasouces[i].qty=Number(datasouces[i].qty)+1
                     //库存判断
                     if(datasouces[i].qty<datasouces[i].inventory || datasouces[i].qty==datasouces[i].inventory){
@@ -861,59 +853,13 @@ class EditableTable extends React.Component {
 
 
                     } 
-            }   
-        }else{
-            console.log(33)
-            //表中数据为空，匹配不到，请求数据，在table中添加一条数据，   
-            const result=GetServerData('qerp.pos.pd.spu.find',messages)
-                    result.then((res) => {
-                        return res;
-                    }).then((json) => {
-                        console.log(json)
-                        if(json.code=='0'){
-                            json.pdSpu.qty=1
-                            //库存判断
-                            if(json.pdSpu.qty<json.pdSpu.inventory || json.pdSpu.qty==json.pdSpu.inventory){
-                                json.pdSpu.key=json.pdSpu.barcode
-                                json.pdSpu.discount=10
-                                json.pdSpu.payPrice=this.payPrice(json.pdSpu.toCPrice,json.pdSpu.qty,json.pdSpu.discount)
-                                datasouces.unshift(json.pdSpu)
-                                this.setState({
-                                    index:0,
-                                    dataSource:datasouces
-                                },function(){
-                                    console.log('我数到了')
-                                    const dataSources=this.state.dataSource
-                                    console.log(dataSources)
-               
-                                    var quantity=0
-                                    var totalamount=0
-                                    var integertotalamount=0
-                                    for(var i=0;i<dataSources.length;i++){
-                                        quantity=quantity+Number(dataSources[i].qty)
-                                        totalamount=totalamount+parseFloat(dataSources[i].payPrice) //计算出来的真实值，number
-                                    }
-                                    integertotalamount=Math.round(totalamount) //四舍五入取整
-                                    totalamount=totalamount.toFixed(2)//取两位小数，字符串
-                                    this.props.clearingdata(quantity,totalamount)
-                                    this.props.clearingdatal(integertotalamount)
-                                    const revisedata=this.props.revisedata
-                                    let messages={
-                                        type:1,
-                                        data:this.state.dataSource
-                                    }
-                                    revisedata(messages)
-                                   
 
-                                })
-                            }else{
-                                message.error('商品库存不足')
-                            }
-                        }else{  
-                            message.warning(json.message) 
-                        }
-                    })
-        }
+                }
+            }else{  
+                message.warning(json.message)
+            }
+        }) 
+        
     }
 
     windowResize = () =>{

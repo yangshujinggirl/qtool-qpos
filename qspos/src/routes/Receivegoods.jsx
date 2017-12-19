@@ -291,13 +291,14 @@ class EditableTable extends React.Component {
         }else{
             //没有扫描过配货单，判断barCode是否在datasouce中，如果不在则代收数量为空，本次数量为1
             let datasouces=this.state.dataSource
-            var i=this.isInArray(datasouces,messages.barCode)
-            if(i===false){
-                const result=GetServerData('qerp.pos.pd.spu.find',messages)
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    if(json.code=='0'){
+            const result=GetServerData('qerp.pos.pd.spu.find',messages)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    //判断是否在datatsouce
+                    var i=this.isInArray(datasouces,messages.barCode)
+                    if(i===false){
                         const pdSpus=json.pdSpu
                         pdSpus.receiveQty=1
                         pdSpus.key=pdSpus.barcode
@@ -315,30 +316,32 @@ class EditableTable extends React.Component {
                             }
                             clearingdatas(dataSources.length,numberdata)
                         })
+                    }else{
+                        datasouces[i].receiveQty=Number(datasouces[i].receiveQty)+1
+                        let str = datasouces.splice(i,1); //删除当前
+                        datasouces.unshift(str[0]); //把这个元素添加到开头
+                        this.setState({
+                            dataSource:datasouces,
+                            index:0
+                        },function(){
+                                const clearingdatas=this.props.clearingdatas
+                                const dataSources=this.state.dataSource
+                                var numberdata=0;
+                                for(var i=0;i<dataSources.length;i++){
+                                    numberdata=numberdata+Number(dataSources[i].receiveQty)
+                                }
+                                clearingdatas(dataSources.length,numberdata)
+                        })
 
-                }else{  
-                    message.error(json.message) 
-                }
-            })
+                        
+                    }
+            }else{  
+                message.error(json.message) 
+            }
+        })
 
-            }else{
-                datasouces[i].receiveQty=Number(datasouces[i].receiveQty)+1
-                let str = datasouces.splice(i,1); //删除当前
-                datasouces.unshift(str[0]); //把这个元素添加到开头
-                this.setState({
-                    dataSource:datasouces,
-                    index:0
-                },function(){
-                        const clearingdatas=this.props.clearingdatas
-                        const dataSources=this.state.dataSource
-                        var numberdata=0;
-                        for(var i=0;i<dataSources.length;i++){
-                            numberdata=numberdata+Number(dataSources[i].receiveQty)
-                        }
-                        clearingdatas(dataSources.length,numberdata)
-                })
-            
-        }
+
+
         }
     }
     //获取商品和数量
