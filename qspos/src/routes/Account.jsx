@@ -242,21 +242,28 @@ class EditableTable extends React.Component {
 
         this.columns = [{
             title: '姓名',
+            width:'8%',
             dataIndex: 'nickname'
+            
         }, {
             title: '账号手机',
+            width:'10%',
             dataIndex: 'username'
         }, {
             title: '账号权限',
+            width:'10%',
             dataIndex: 'roleStr'
         },{
             title: '账号状态',
+            width:'10%',
             dataIndex: 'statusStr'
         },{
             title: '更新时间',
+            width:'10%',
             dataIndex: 'updateTime'
         },{
             title: '操作',
+            width:'10%',
             dataIndex: 'operation',
             render: (text, record, index) => {
                 return (
