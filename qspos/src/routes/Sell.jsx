@@ -7,6 +7,7 @@ import Echartsaxis from '../charts/Echartsaxis';
 import moment from 'moment';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,Pagination,message} from 'antd';
 import {GetServerData} from '../services/services';
+import {GetLodop} from '../components/Method/Print';
 // css
 const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #d8d8d8',overflow:'hidden'}
 const slideinfos={fontSize: '12px',color: ' #74777F',marginTop:'10px'}
@@ -145,9 +146,31 @@ function Slidetitle({item}) {
 
 //tap count 销售
 class Slidecountsell extends React.Component {
+
+    rePrint = () =>{
+        //判断是否打印
+        const result=GetServerData('qerp.pos.sy.config.info');
+        result.then((res) => {
+           return res;
+         }).then((json) => {
+                if(json.code == "0"){
+                  if(json.config.submitPrint=='1'){
+                     //判断是打印大的还是小的
+                     if(json.config.paperSize=='80'){
+                        GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,true)
+                     }else{
+                        GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,false)
+                     } 
+                  }
+                }else{
+                    message.warning('打印失败')
+                }
+         })
+    }
+
     render(){
         return(
-                <div>
+                <div className="sellinfolist-wrapper">
                     <ul className='sellinfolist'>
                         <li>
                             <p><div><span>销售订单</span>：{this.props.odOrder.orderNo}</div></p>
@@ -223,6 +246,9 @@ class Slidecountsell extends React.Component {
 
                         }
                     </ul>
+                    <div className="re-print" onClick={this.rePrint.bind(this)}>
+                        <img src={require("../images/icon_rePrint@2x.png")} alt=""/>
+                    </div>
                 </div>
             )
     }
@@ -230,10 +256,32 @@ class Slidecountsell extends React.Component {
 }
 //tap count 退货
 class Slidecountback extends React.Component {
+
+    rePrint = () =>{
+        //判断是否打印
+        const result=GetServerData('qerp.pos.sy.config.info');
+        result.then((res) => {
+           return res;
+         }).then((json) => {
+                if(json.code == "0"){
+                  if(json.config.submitPrint=='1'){
+                     //判断是打印大的还是小的
+                     if(json.config.paperSize=='80'){
+                        GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
+                     }else{
+                        GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
+                     } 
+                  }
+                }else{
+                    message.warning('打印失败')
+                }
+         })
+    }
+
     render(){
         console.log(this)
         return(
-            <div>
+            <div className="sellinfolist-wrapper">
                 <ul className='sellinfolist'>
                     <li>
                         <p><div><span>退货订单</span>：{this.props.odReturn.returnNo} </div><div> <span>销售订单</span>：{this.props.odReturn.orderNo}</div></p>
@@ -265,6 +313,9 @@ class Slidecountback extends React.Component {
                     }
                     
                 </ul>
+                <div className="re-print" onClick={this.rePrint.bind(this)}>
+                    <img src={require("../images/icon_rePrint@2x.png")} alt=""/>
+                </div>
             </div>
         )
     }
@@ -272,9 +323,30 @@ class Slidecountback extends React.Component {
 }
 //tap count 充值
 class Slidecountcz extends React.Component {
+
+    rePrint = () =>{
+        const result=GetServerData('qerp.pos.sy.config.info')
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code == "0"){
+                if(json.config.rechargePrint=='1'){
+                    //判断是打印大的还是小的
+                    if(json.config.paperSize=='80'){
+                        GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,true)
+                    }else{
+                        GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,false)
+                    }
+                }
+            }else{
+                message.warning('打印失败')
+            }
+        })
+    }
+
     render(){
         return(
-                <div>
+                <div className="sellinfolist-wrapper">
                     <div className='slidecountcztop'>
                         <p><div><span>充值订单</span>：{this.props.cardMoneyChargeInfo.chargeNo}</div></p>
                         <p><div><span>充值时间</span>：{this.props.cardMoneyChargeInfo.createTime}</div> <div><span>销售员</span>：{this.props.cardMoneyChargeInfo.nickname}</div></p>
@@ -287,6 +359,9 @@ class Slidecountcz extends React.Component {
                         <p><span>充值金额</span>：{this.props.cardMoneyChargeInfo.amount}元「<span>{this.props.cardMoneyChargeInfo.typeStr}</span>」</p>
                         <p><span>充值前的余额</span>：{this.props.cardMoneyChargeInfo.beforeAmount}元</p>
                         <p><span>充值后的余额</span>：{this.props.cardMoneyChargeInfo.afterAmount}元</p>
+                    </div>
+                    <div className="re-print" onClick={this.rePrint.bind(this)}>
+                        <img src={require("../images/icon_rePrint@2x.png")} alt=""/>
                     </div>
                 </div>
             )
@@ -506,13 +581,13 @@ class Ordertap extends React.Component {
                             <TabPane tab={<Slidetitle item={item}/>} key={index+'_'+item.type+'_'+item.outId}>
                                 {
                                     item.type=='1'?
-                                    <Slidecountsell orderDetails={this.state.orderDetails} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>
+                                    <Slidecountsell orderDetails={this.state.orderDetails} orderId={item.outId} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>
                                     :
                                     (
                                         item.type=='2'?
-                                        <Slidecountcz cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} mbCard2={this.state.mbCard2}/>
+                                        <Slidecountcz cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} orderId={item.outId} mbCard2={this.state.mbCard2}/>
                                         :
-                                        <Slidecountback odReturn={this.state.odReturn} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>
+                                        <Slidecountback odReturn={this.state.odReturn} orderId={item.outId} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>
                                     )
                                 }
                             </TabPane>)
