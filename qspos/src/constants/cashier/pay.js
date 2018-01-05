@@ -501,7 +501,7 @@ class Pay extends React.Component {
         						<div className='payharflwl' ><Input  addonBefore={this.state.amountlist[0].name}  value={this.state.amountlist[0].value}  onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel' onChange={this.payfirstonChange.bind(this)}/></div>
         						<div className='payharflwr'><Input  addonBefore={this.state.amountlist[1].name} value={this.state.amountlist[1].value}  onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel' onChange={this.paysecondonChange.bind(this)}/></div>
         	         		</div>
-        	         		:<div className='inputcenter'><Input  addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel' onChange={hindonChange.bind(this)}/></div>
+        	         		:<div className='inputcenter'><Input  addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel' onChange={this.hindonChange.bind(this)}/></div>
                             
         	         	}
                  		<div><Input  addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>

@@ -187,6 +187,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .cashierbox_t{border-bottom: 1px solid #E7E8EC;height: 38px;line-height: 38px;padding:0 12px;position: relative;}
 .operationl{width:60%;}
 .useinput{width:45%;height:50px;font-size:30px;color:#384162;margin-left: 2%;}
+.useinputss{width:60%;height:50px;font-size:30px;color:#384162;margin-left: 2%;}
 .opera{width:100%;height:225px;background:#fff;border-radius: 5px;border:1px solid #e9e9e9;}
 .operationr{width:40%;margin-top: -1px;}
 .operationr .operationcon{width:100%;height:225px;background:#35BAB0;overflow:hidden;cursor: pointer;border-radius: 0 5px 5px 0;}
