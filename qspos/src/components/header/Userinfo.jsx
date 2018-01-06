@@ -139,12 +139,13 @@ class Dropdownmenu extends React.Component {
                             return res;
                             }).then((json) => {
                                     if(json.code == "0"){
-                                        if(json.config.submitPrint=='1'){
+                                        if(json.config.exchangePrint=='1'){
                                             //判断是打印大的还是小的
                                             if(json.config.paperSize=='80'){
-                                                getShiftInfo(this.props.userSales,this.props.urUser);
+                                                getShiftInfo(this.props.userSales,this.props.urUser,"80",json.config.exchangePrintNum);
                                                 // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
                                             }else{
+                                                getShiftInfo(this.props.userSales,this.props.urUser,"58",json.config.exchangePrintNum);
                                                 // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
                                             } 
                                         }
