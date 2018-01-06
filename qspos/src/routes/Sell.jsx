@@ -158,16 +158,16 @@ class Slidecountsell extends React.Component {
            return res;
          }).then((json) => {
                 if(json.code == "0"){
-                  if(json.config.submitPrint=='1'){
+                //   if(json.config.submitPrint=='1'){
                      //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
                         // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,true)
-                        getSaleOrderInfo(this.props.saleOrderAll,"80");
+                        getSaleOrderInfo(this.props.saleOrderAll,"80",json.config.submitPrintNum);
                      }else{
-                        getSaleOrderInfo(this.props.saleOrderAll,"58");
+                        getSaleOrderInfo(this.props.saleOrderAll,"58",json.config.submitPrintNum);
                         // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,false)
                      } 
-                  }
+                //   }
                 }else{
                     message.warning('打印失败')
                 }
@@ -270,16 +270,16 @@ class Slidecountback extends React.Component {
            return res;
          }).then((json) => {
                 if(json.code == "0"){
-                  if(json.config.submitPrint=='1'){
+                //   if(json.config.submitPrint=='1'){
                      //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
-                        getReturnOrderInfo(this.props.returnOrderAll,"80");
+                        getReturnOrderInfo(this.props.returnOrderAll,"80",json.config.submitPrintNum);
                         // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
                      }else{
-                        getReturnOrderInfo(this.props.returnOrderAll,"58");
+                        getReturnOrderInfo(this.props.returnOrderAll,"58",json.config.submitPrintNum);
                         // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
                      } 
-                  }
+                //   }
                 }else{
                     message.warning('打印失败')
                 }
@@ -338,16 +338,16 @@ class Slidecountcz extends React.Component {
             return res;
         }).then((json) => {
             if(json.code == "0"){
-                if(json.config.rechargePrint=='1'){
+                // if(json.config.rechargePrint=='1'){
                     //判断是打印大的还是小的
                     if(json.config.paperSize=='80'){
-                        getRechargeOrderInfo(this.props.rechargeOrderAll,"80");
+                        getRechargeOrderInfo(this.props.rechargeOrderAll,"80",json.config.rechargePrintNum);
                         // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,true)
                     }else{
-                        getRechargeOrderInfo(this.props.rechargeOrderAll,"58");
+                        getRechargeOrderInfo(this.props.rechargeOrderAll,"58",json.config.rechargePrintNum);
                         // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,false)
                     }
-                }
+                // }
             }else{
                 message.warning('打印失败')
             }

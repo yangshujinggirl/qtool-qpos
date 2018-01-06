@@ -542,16 +542,16 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 }
 
 //充值订单打印
-export function getRechargeOrderInfo(message,size){
+export function getRechargeOrderInfo(message,size,printCount){
 	if(size == "80"){
-		printRechargeOrder(message);
+		printRechargeOrder(message,printCount);
 	}else{
-		printRechargeOrderSmall(message);
+		printRechargeOrderSmall(message,printCount);
 	}
 }
 
-function printRechargeOrder(message){
-	console.log(message);
+function printRechargeOrder(message,printCount){
+	let print_count =Number(printCount);
 	let info = message;
 	var title = {
 		"vipName":"会员姓名",
@@ -654,12 +654,14 @@ function printRechargeOrder(message){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
+	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
 	LODOP.PREVIEW();
 	// LODOP.PRINT();
 }
 
-function printRechargeOrderSmall(message){
+function printRechargeOrderSmall(message,printCount){
+	let print_count =Number(printCount);
 	let info = message;
 	var title = {
 		"vipName":"会员姓名",
@@ -762,22 +764,23 @@ function printRechargeOrderSmall(message){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
+	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
 	LODOP.PREVIEW();
 	// LODOP.PRINT();
 }
 
 //退货订单打印
-export function getReturnOrderInfo(message,size){
+export function getReturnOrderInfo(message,size,printCount){
 	if(size == "80"){
-		printReturnOrder(message);
+		printReturnOrder(message,printCount);
 	}else{
-		printReturnOrderSmall(message);
+		printReturnOrderSmall(message,printCount);
 	}
 }
 
-function printReturnOrder(message){
-	console.log(message);
+function printReturnOrder(message,printCount){
+	let print_count = Number(printCount);
 	let returnInfoAll = message;
 	var moneyInfo = returnInfoAll.returnOrderDetails;
 	// //缺少门店打印名称字段
@@ -901,13 +904,14 @@ function printReturnOrder(message){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
+	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
 	LODOP.PREVIEW();
 	// LODOP.PRINT();
 }
 
-function printReturnOrderSmall(message){
-	console.log(message);
+function printReturnOrderSmall(message,printCount){
+	let print_count =Number(printCount);
 	let returnInfoAll = message;
 	var moneyInfo = returnInfoAll.returnOrderDetails;
 	// //缺少门店打印名称字段
@@ -985,7 +989,6 @@ function printReturnOrderSmall(message){
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
 
 		posi = posi+40+(lineCount-1)*12;
-		console.log(posi);
 	};
 	
 	LODOP.ADD_PRINT_LINE(posi,0,posi+1,"50mm",2,0);
@@ -1031,25 +1034,24 @@ function printReturnOrderSmall(message){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
+	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
 	LODOP.PREVIEW();
 	// LODOP.PRINT();
 }
 
 //打印销售订单
-export function getSaleOrderInfo(message,size){
+export function getSaleOrderInfo(message,size,printCount){
 	if(size == "80"){
-		printSaleOrder(message);
+		printSaleOrder(message,printCount);
 	}else{
-		printSaleOrderSmall(message);
+		printSaleOrderSmall(message,printCount);
 	}
 }
 
-function printSaleOrder(message){
-	console.log(message);
+function printSaleOrder(message,printCount){
+	let print_count = Number(printCount);
 	let saleInfoAll = message;
-	console.log(saleInfoAll);
-	console.log(saleInfoAll.odOrder);
 	var moneyInfo = saleInfoAll.orderDetails;
 	//缺少门店打印名称字段
 	// var shopName = message.odOrder
@@ -1127,7 +1129,6 @@ function printSaleOrder(message){
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
 		posi = posi+40+(lineCount-1)*12;
-		console.log(posi);
 	};
 	
 	LODOP.ADD_PRINT_LINE(posi,0,posi+1,"70mm",2,0);
@@ -1173,15 +1174,15 @@ function printSaleOrder(message){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
+	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
 	LODOP.PREVIEW();
 	// LODOP.PRINT();
 }
 
-function printSaleOrderSmall(message){
+function printSaleOrderSmall(message,printCount){
+	let print_count = Number(printCount);
 	let saleInfoAll = message;
-	console.log(saleInfoAll);
-	console.log(saleInfoAll.odOrder);
 	var moneyInfo = saleInfoAll.orderDetails;
 	//缺少门店打印名称字段
 	// var shopName = message.odOrder
@@ -1305,6 +1306,7 @@ function printSaleOrderSmall(message){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
+	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
 	LODOP.PREVIEW();
 	// LODOP.PRINT();
