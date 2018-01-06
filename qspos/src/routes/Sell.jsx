@@ -8,6 +8,10 @@ import moment from 'moment';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,Pagination,message} from 'antd';
 import {GetServerData} from '../services/services';
 import {GetLodop} from '../components/Method/Print';
+//引入打印
+import {getSaleOrderInfo} from '../components/Method/Print';
+import {getReturnOrderInfo} from '../components/Method/Print';
+import {getRechargeOrderInfo} from '../components/Method/Print';
 // css
 const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #d8d8d8',overflow:'hidden'}
 const slideinfos={fontSize: '12px',color: ' #74777F',marginTop:'10px'}
@@ -157,9 +161,10 @@ class Slidecountsell extends React.Component {
                   if(json.config.submitPrint=='1'){
                      //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
-                        GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,true)
+                        // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,true)
+                        getSaleOrderInfo(this.props.saleOrderAll);
                      }else{
-                        GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,false)
+                        // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,false)
                      } 
                   }
                 }else{
@@ -267,7 +272,8 @@ class Slidecountback extends React.Component {
                   if(json.config.submitPrint=='1'){
                      //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
-                        GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
+                        getReturnOrderInfo(this.props.returnOrderAll);
+                        // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
                      }else{
                         GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
                      } 
@@ -333,7 +339,8 @@ class Slidecountcz extends React.Component {
                 if(json.config.rechargePrint=='1'){
                     //判断是打印大的还是小的
                     if(json.config.paperSize=='80'){
-                        GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,true)
+                        getRechargeOrderInfo(this.props.rechargeOrderAll);
+                        // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,true)
                     }else{
                         GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,false)
                     }
@@ -380,15 +387,18 @@ class Ordertap extends React.Component {
         qposStSaleOrders:[],
         outId:null,
         //销售
+        saleOrderAll:{},
         orderDetails:[], //详情
         odOrder:{}, //订单信息
         orOrderPay:{},//支付信息，
         mbCard1:{},
         //退货
+        returnOrderAll:{},
         mbCard3:{},
         odReturn:{},
         returnOrderDetails:[],
         //充值
+        rechargeOrderAll:{},
         cardMoneyChargeInfo:{},
         mbCard2:{},
         windowHeight:'',
@@ -413,6 +423,7 @@ class Ordertap extends React.Component {
                     console.log(json)
                     if(json.code=='0'){
                         this.setState({
+                            returnOrderAll:json,
                             mbCard3:json.mbCard,
                             odReturn:json.odReturn,
                             returnOrderDetails:json.returnOrderDetails
@@ -435,9 +446,9 @@ class Ordertap extends React.Component {
                 result.then((res) => {
                     return res;
                 }).then((json) => {
-                    console.log(json);
                     if(json.code=='0'){
                        this.setState({
+                        saleOrderAll:json,
                         orderDetails:json.orderDetails, //详情
                         odOrder:json.odOrder, //订单信息
                         orOrderPay:json.orOrderPay,//支付信息，
@@ -463,6 +474,7 @@ class Ordertap extends React.Component {
                     console.log(json)
                     if(json.code=='0'){
                        this.setState({
+                            rechargeOrderAll:json,
                             cardMoneyChargeInfo:json.cardMoneyChargeInfo,
                             mbCard2:json.mbCard
                        })
@@ -581,13 +593,13 @@ class Ordertap extends React.Component {
                             <TabPane tab={<Slidetitle item={item}/>} key={index+'_'+item.type+'_'+item.outId}>
                                 {
                                     item.type=='1'?
-                                    <Slidecountsell orderDetails={this.state.orderDetails} orderId={item.outId} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>
+                                    <Slidecountsell saleOrderAll={this.state.saleOrderAll} orderDetails={this.state.orderDetails} orderId={item.outId} odOrder={this.state.odOrder} orOrderPay={this.state.orOrderPay} mbCard1={this.state.mbCard1}/>
                                     :
                                     (
                                         item.type=='2'?
-                                        <Slidecountcz cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} orderId={item.outId} mbCard2={this.state.mbCard2}/>
+                                        <Slidecountcz rechargeOrderAll={this.state.rechargeOrderAll} cardMoneyChargeInfo={this.state.cardMoneyChargeInfo} orderId={item.outId} mbCard2={this.state.mbCard2}/>
                                         :
-                                        <Slidecountback odReturn={this.state.odReturn} orderId={item.outId} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>
+                                        <Slidecountback returnOrderAll={this.state.returnOrderAll} odReturn={this.state.odReturn} orderId={item.outId} returnOrderDetails={this.state.returnOrderDetails} mbCard3={this.state.mbCard3}/>
                                     )
                                 }
                             </TabPane>)
