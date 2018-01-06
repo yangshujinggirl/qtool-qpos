@@ -162,8 +162,9 @@ class Slidecountsell extends React.Component {
                      //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
                         // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,true)
-                        getSaleOrderInfo(this.props.saleOrderAll);
+                        getSaleOrderInfo(this.props.saleOrderAll,"80");
                      }else{
+                        getSaleOrderInfo(this.props.saleOrderAll,"58");
                         // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,false)
                      } 
                   }
@@ -272,10 +273,11 @@ class Slidecountback extends React.Component {
                   if(json.config.submitPrint=='1'){
                      //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
-                        getReturnOrderInfo(this.props.returnOrderAll);
+                        getReturnOrderInfo(this.props.returnOrderAll,"80");
                         // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
                      }else{
-                        GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
+                        getReturnOrderInfo(this.props.returnOrderAll,"58");
+                        // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
                      } 
                   }
                 }else{
@@ -339,10 +341,11 @@ class Slidecountcz extends React.Component {
                 if(json.config.rechargePrint=='1'){
                     //判断是打印大的还是小的
                     if(json.config.paperSize=='80'){
-                        getRechargeOrderInfo(this.props.rechargeOrderAll);
+                        getRechargeOrderInfo(this.props.rechargeOrderAll,"80");
                         // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,true)
                     }else{
-                        GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,false)
+                        getRechargeOrderInfo(this.props.rechargeOrderAll,"58");
+                        // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,false)
                     }
                 }
             }else{
