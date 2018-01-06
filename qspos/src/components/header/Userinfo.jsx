@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Menu, Dropdown, Icon, Modal, Form, Input, Button,message} from 'antd';
 import {GetServerData} from '../../services/services';
+import {getShiftInfo} from '../../components/Method/Print';
 
 // 修改密码form
 const FormItem = Form.Item;
@@ -132,6 +133,25 @@ class Dropdownmenu extends React.Component {
                             visible: false
                         },function(){
                             message.success('交班成功',1,this.logoutsettime())
+                            //判断是否打印
+                            const result=GetServerData('qerp.pos.sy.config.info');
+                            result.then((res) => {
+                            return res;
+                            }).then((json) => {
+                                    if(json.code == "0"){
+                                        if(json.config.submitPrint=='1'){
+                                            //判断是打印大的还是小的
+                                            if(json.config.paperSize=='80'){
+                                                getShiftInfo(this.props.userSales,this.props.urUser);
+                                                // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
+                                            }else{
+                                                // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
+                                            } 
+                                        }
+                                    }else{
+                                        message.warning('打印失败')
+                                    }
+                            })
                         })
                     }else{
                         message.error(json.message);
