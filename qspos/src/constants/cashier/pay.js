@@ -305,6 +305,8 @@ class Pay extends React.Component {
                 })
                 const ismember=this.props.ismember
                 if(ismember){
+                    const point=NP.divide(this.state.point,100); //积分换算金额
+                    const amount=this.state.amount //会员余额
                     if(newamountlist[0].type=='5'){
                         if(amount<paytotolamount){
                             newamountlist[0].value=amount
@@ -345,9 +347,6 @@ class Pay extends React.Component {
 
     }
 
-
-
-
     //结算
     hindpayclick=()=>{
         if(!this.firstclick){
@@ -384,7 +383,7 @@ class Pay extends React.Component {
                         payAmount:this.props.paytotolamount,
                         qty:this.props.totolnumber,
                         skuQty:this.props.datasouce.length,
-                        cutAmount:'0',
+                        cutAmount:this.state.cutAmount,
                     },
                     orderDetails:this.props.datasouce,
                     orderPay:orderPay
@@ -439,25 +438,280 @@ class Pay extends React.Component {
 
 
     //单独输入框失去焦点
-    hindonBlur=()=>{
+    hindonBlur=(e)=>{
+        const values=e.target.value
+        const paytotolamount=this.props.paytotolamount
+        const amountlist=this.state.amountlist
+        if(parseInt(values)>=parseInt(paytotolamount)){
+            amountlist[0].value=paytotolamount
+            if(amountlist[0].type=='5'){
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员卡余额
+                amountlist[0].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+            }
+            if(amountlist[0].type=='6'){
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员卡余额
+                amountlist[0].value=(parseInt(point)>=parseInt(paytotolamount))?paytotolamount:point
+            }
+        }else{
+            amountlist[0].value=values
+            if(amountlist[0].type=='5'){
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员卡余额
+                amountlist[0].value=(parseInt(amount)>=parseInt(values))?values:amount
+            }
+            if(amountlist[0].type=='6'){
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员卡余额
+                amountlist[0].value=(parseInt(point)>=parseInt(values))?values:point
+            }
+
+        }
+        const backmoney=-NP.minus(this.props.paytotolamount, amountlist[0].value)
+        this.setState({
+            amountlist:amountlist,
+            backmoney:backmoney
+        })
+    }
+    hindonChange=(e)=>{
+        //只能输入最多两位数字
+        const values=e.target.value
+        const amountlist=this.state.amountlist
+        console.log(amountlist)
+        amountlist[0].value=values
+        this.setState({
+            amountlist:amountlist
+        })
+    }
+    payfirstonBlur=(e)=>{
+        const values=e.target.value
+        const paytotolamount=this.props.paytotolamount
+        const amountlist=this.state.amountlist
+        if(parseInt(values)>=parseInt(paytotolamount)){
+            //大于总额
+            amountlist[0].value=paytotolamount
+            amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+
+            if(amountlist[0].type=='5'){
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员卡余额
+                amountlist[0].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                if(amountlist[1].type=='6'){
+                    amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
+                }
+            }else{
+                //当前是积分
+                if(amountlist[0].type=='6'){
+                    const point=NP.divide(this.state.point,100); //积分换算金额
+                    const amount=this.state.amount //会员卡余额
+                    if(amountlist[1].type=='5'){
+                        amountlist[1].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    }else{
+                        amountlist[0].value=(parseInt(point)>=parseInt(paytotolamount))?paytotolamount:point
+                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    }
+                }else{
+                    //当前不是积分也不是会员卡
+                    amountlist[0].value=paytotolamount
+                    amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    if(amountlist[1].type=='5'){
+                        const point=NP.divide(this.state.point,100); //积分换算金额
+                        const amount=this.state.amount //会员卡余额
+                        amountlist[1].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    }
+                    if(amountlist[1].type=='6'){
+                        const point=NP.divide(this.state.point,100); //积分换算金额
+                        const amount=this.state.amount //会员卡余额
+                        amountlist[1].value=(parseInt(point)>=parseInt(paytotolamount))?paytotolamount:point
+                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    }
+                }
+
+            }
+
+        }else{
+            //小于总额
+            amountlist[0].value=values
+            amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+            //当前是会员卡
+            if(amountlist[0].type=='5'){
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员卡余额
+                amountlist[0].value=(parseInt(amount)>=parseInt(values))?values:amount
+                amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                if(amountlist[1].type=='6'){
+                    amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
+                }
+
+            }else{
+                 //当前是积分
+                if(amountlist[0].type=='6'){
+                    const point=NP.divide(this.state.point,100); //积分换算金额
+                    const amount=this.state.amount //会员卡余额
+                    if(amountlist[1].type=='5'){
+                        amountlist[1].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    }else{
+                        amountlist[0].value=(parseInt(point)>=parseInt(values))?values:point
+                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    }
+                }else{
+                    //当前不是会员卡也不是积分
+                    amountlist[0].value=values
+                    amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    if(amountlist[1].type=='5'){
+                        const point=NP.divide(this.state.point,100); //积分换算金额
+                        const amount=this.state.amount //会员卡余额
+                        amountlist[1].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    }
+                    if(amountlist[1].type=='6'){
+                        const point=NP.divide(this.state.point,100); //积分换算金额
+                        const amount=this.state.amount //会员卡余额
+                        amountlist[1].value=(parseInt(point)>=parseInt(paytotolamount))?paytotolamount:point
+                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    }
+                }
+
+            }
+           
+        }
+        const backmoney=-NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)
+        this.setState({
+            amountlist:amountlist,
+            backmoney:backmoney
+        })
 
     }
-    payfirstonBlur=()=>{
-        
-    }
-    paysecondonBlur=()=>{
-         
+    paysecondonBlur=(e)=>{
+        const values=e.target.value
+        const paytotolamount=this.props.paytotolamount
+        const amountlist=this.state.amountlist
+        if(parseInt(values)>=parseInt(paytotolamount)){
+            //大于总额
+            amountlist[1].value=paytotolamount
+            amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+
+            if(amountlist[1].type=='5'){
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员卡余额
+                amountlist[1].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                if(amountlist[0].type=='6'){
+                    amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
+                }
+            }else{
+                //当前是积分
+                if(amountlist[1].type=='6'){
+                    const point=NP.divide(this.state.point,100); //积分换算金额
+                    const amount=this.state.amount //会员卡余额
+                    if(amountlist[0].type=='5'){
+                        amountlist[0].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    }else{
+                        amountlist[1].value=(parseInt(point)>=parseInt(paytotolamount))?paytotolamount:point
+                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    }
+                }else{
+                    //当前不是积分也不是会员卡
+
+                    amountlist[1].value=paytotolamount
+                    amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    if(amountlist[0].type=='5'){
+                        const point=NP.divide(this.state.point,100); //积分换算金额
+                        const amount=this.state.amount //会员卡余额
+                        amountlist[0].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    }
+                    if(amountlist[0].type=='6'){
+                        const point=NP.divide(this.state.point,100); //积分换算金额
+                        const amount=this.state.amount //会员卡余额
+                        amountlist[0].value=(parseInt(point)>=parseInt(paytotolamount))?paytotolamount:point
+                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    }
+                }
+
+            }
+
+        }else{
+            //小于总额
+            amountlist[1].value=values
+            amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+            //当前是会员卡
+            if(amountlist[1].type=='5'){
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员卡余额
+                amountlist[1].value=(parseInt(amount)>=parseInt(values))?values:amount
+                amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                if(amountlist[0].type=='6'){
+                    amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
+                }
+
+            }else{
+                 //当前是积分
+                if(amountlist[1].type=='6'){
+                    const point=NP.divide(this.state.point,100); //积分换算金额
+                    const amount=this.state.amount //会员卡余额
+                    if(amountlist[0].type=='5'){
+                        amountlist[0].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    }else{
+                        amountlist[1].value=(parseInt(point)>=parseInt(values))?values:point
+                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    }
+                }else{
+                    //当前不是会员卡也不是积分
+                    amountlist[1].value=values
+                    amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
+                    if(amountlist[0].type=='5'){
+                        const point=NP.divide(this.state.point,100); //积分换算金额
+                        const amount=this.state.amount //会员卡余额
+                        amountlist[0].value=(parseInt(amount)>=parseInt(paytotolamount))?paytotolamount:amount
+                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    }
+                    if(amountlist[0].type=='6'){
+                        const point=NP.divide(this.state.point,100); //积分换算金额
+                        const amount=this.state.amount //会员卡余额
+                        amountlist[0].value=(parseInt(point)>=parseInt(paytotolamount))?paytotolamount:point
+                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
+                    }
+                }
+
+            }
+           
+        }
+        const backmoney=-NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)
+        this.setState({
+            amountlist:amountlist,
+            backmoney:backmoney
+        })
+
     }
 
     payfirstonChange=(e)=>{
+        const values=e.target.value
+        const amountlist=this.state.amountlist
+        console.log(amountlist)
+        amountlist[0].value=values
+        this.setState({
+            amountlist:amountlist
+        })
         
-            }
+    }
     paysecondonChange=(e)=>{
-
+        const values=e.target.value
+        const amountlist=this.state.amountlist
+        console.log(amountlist)
+        amountlist[1].value=values
+        this.setState({
+            amountlist:amountlist
+        })
     }
-    hindonChange=(e)=>{
-
-    }
+    
 
 
     //打印
