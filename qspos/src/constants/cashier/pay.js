@@ -214,7 +214,15 @@ class Pay extends React.Component {
                 group:!group
             },function(){
                 if(!this.state.group){
-                    this.listclick(0)
+                    const paytypelisy=this.state.paytypelisy //按钮list 
+                    for(var i=0;i<paytypelisy.length;i++){
+                        paytypelisy[i].check=false
+                    }
+                    this.setState({
+                        paytypelisy:paytypelisy
+                    },function(){
+                        this.listclick(0)
+                    })
                 }
             })
         }
@@ -229,6 +237,7 @@ class Pay extends React.Component {
         const lastpayamount=NP.minus(paytotolamount, amountlist[0].value);  //剩余金额
         if(!paytypelisy[index].check){
             if(this.state.group){
+                console.log('zu')
                 if(amountlist.length>1){
                     newamountlist.push(amountlist[1])  
                 }else{
@@ -297,6 +306,7 @@ class Pay extends React.Component {
                     }
                 }
             }else{
+                console.log('fei')
                 //非组合支付
                 newamountlist.push({
                     name:paytypelisy[index].name,
@@ -336,6 +346,8 @@ class Pay extends React.Component {
                     }
                 }
             }
+            console.log(paytypelisy)
+            console.log(newamountlist)
             this.setState({
                 paytypelisy:paytypelisy,
                 amountlist:newamountlist,
