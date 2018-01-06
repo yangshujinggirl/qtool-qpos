@@ -340,6 +340,10 @@ class App extends React.Component {
                     paperSize:setData.paperSize,
                     submitPrint:setData.submitPrint,
                     rechargePrint:setData.rechargePrint,
+                    rechargePrintNum:setData.rechargePrintNum,
+                    submitPrintNum:setData.submitPrintNum,
+                    exchangePrint:setData.exchangePrint,
+                    exchangePrintNum:setData.exchangePrintNum
                   })
               }
         })
@@ -432,6 +436,7 @@ class App extends React.Component {
             <FormItem
                 label="结算后打印"
                 className='fireses'
+                style={{display:"inline-block"}}
             >
                 {getFieldDecorator('submitPrint', {
                     initialValue:this.state.submitPrint,
@@ -444,8 +449,26 @@ class App extends React.Component {
                 )}
             </FormItem>
             <FormItem
+                label="小票份数"
+                style={{display:"inline-block",width:"60%"}}
+                labelCol={{span:3}}
+                wrapperCol={{span:15}}
+            >
+            {getFieldDecorator('submitPrintNum', {
+                    initialValue:this.state.submitPrintNum,
+                })(
+                    <Select style={{ width: 120 }}>
+                        <Option value="1">1</Option>
+                        <Option value="2">2</Option>
+                        <Option value="3">3</Option>
+                        <Option value="4">4</Option>
+                        <Option value="5">5</Option>
+                    </Select>
+            )}
+            </FormItem>
+            <FormItem
                 label="充值后打印"
-                className='fireses'
+                style={{display:"inline-block"}}
             >
             {getFieldDecorator('rechargePrint', { 
                 initialValue: this.state.rechargePrint,
@@ -455,6 +478,55 @@ class App extends React.Component {
                     <Radio value={'0'}>否</Radio>
                 </RadioGroup>
                
+            )}
+            </FormItem>
+            <FormItem
+                label="小票份数"
+                style={{display:"inline-block",width:"60%"}}
+                labelCol={{span:3}}
+                wrapperCol={{span:15}}
+            >
+            {getFieldDecorator('rechargePrintNum', {
+                    initialValue:this.state.rechargePrintNum,
+                })(
+                    <Select style={{ width: 120 }}>
+                        <Option value="1">1</Option>
+                        <Option value="2">2</Option>
+                        <Option value="3">3</Option>
+                        <Option value="4">4</Option>
+                        <Option value="5">5</Option>
+                    </Select>
+            )}
+            </FormItem>
+            <FormItem
+                label="交班后打印"
+                style={{display:"inline-block"}}
+            >
+            {getFieldDecorator('exchangePrint', { 
+                initialValue: this.state.exchangePrint,
+            })(
+                <RadioGroup>
+                    <Radio value={'1'}>是</Radio>
+                    <Radio value={'0'}>否</Radio>
+                </RadioGroup>
+            )}
+            </FormItem>
+            <FormItem
+                label="小票份数"
+                style={{display:"inline-block",width:"60%"}}
+                labelCol={{span:3}}
+                wrapperCol={{span:15}}
+            >
+            {getFieldDecorator('exchangePrintNum', {
+                    initialValue:this.state.exchangePrintNum,
+                })(
+                    <Select style={{ width: 120 }}>
+                        <Option value="1">1</Option>
+                        <Option value="2">2</Option>
+                        <Option value="3">3</Option>
+                        <Option value="4">4</Option>
+                        <Option value="5">5</Option>
+                    </Select>
             )}
             </FormItem>
             <FormItem>
