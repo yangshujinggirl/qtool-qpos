@@ -23,7 +23,7 @@ export default {
           ismember:false,
           payvisible:false,
           meth1:{},
-          paytotolamount:'0',//实际支付金额（抹零后金额）
+          paytotolamount:'0.00',//实际支付金额（抹零后金额）
           themeindex:0,
           barcode:null,
           cardNoMobile:null
@@ -82,6 +82,9 @@ export default {
         },
         themeindex(state, { payload: themeindex}) {
             return {...state,themeindex}
+        },
+        paytotolamount(state, { payload: paytotolamount}) {
+            return {...state,paytotolamount}
         },
        
     },
