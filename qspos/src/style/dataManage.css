@@ -130,3 +130,25 @@
     height: 40px!important;
 }
 
+/* 第二个表格的一二三名标识 */
+.hotSell-wrapper{
+    position: relative;
+}
+.first-flag,.second-flag,.third-flag{
+    position: absolute;
+    width: 4px;
+    height: 40px;
+    left: 0px;
+}
+.first-flag{
+    background: #FB6349;
+    top: 55px;
+}
+.second-flag{
+    background: #F7A303;
+    top: 95px;
+}
+.third-flag{
+    background: #51C193;
+    top: 135px;
+}
