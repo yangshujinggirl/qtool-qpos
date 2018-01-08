@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
@@ -85,25 +85,41 @@ class DailyBillForm extends React.Component {
                         <li>
                             <div>
                                 <p style={{color:"#FB6349"}}><i>¥</i>1599628<span>.00</span></p>
-                                <span className="explain-span">净收款</span>
+                                <span className="explain-span">
+                                    <Tooltip title="净收款描述">
+                                        净收款&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#F7A303"}}><i>¥</i>4890235<span>.00</span></p>
-                                <span className="explain-span">销售额</span>
+                                <span className="explain-span">
+                                    <Tooltip title="销售额描述">
+                                        销售额&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#51C193"}}><i>¥</i>9599321<span>.00</span></p>
-                                <span className="explain-span">充值金额</span>
+                                <span className="explain-span">
+                                    <Tooltip title="充值金额描述">
+                                        充值金额&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#806EC6"}}>100</p>
-                                <span className="explain-span">订单量</span>
+                                <span className="explain-span">
+                                    <Tooltip title="订单量描述">
+                                        订单量&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                     </ul>

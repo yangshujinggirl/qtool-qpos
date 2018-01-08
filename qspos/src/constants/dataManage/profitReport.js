@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
@@ -92,19 +92,31 @@ class ProfitReportForm extends React.Component {
                         <li>
                             <div>
                                 <p style={{color:"#FB6349"}}><i>¥</i>1599628<span>.00</span></p>
-                                <span className="explain-span">销售额</span>
+                                <span className="explain-span">
+                                    <Tooltip title="销售额描述">
+                                        销售额&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#F7A303"}}><i>¥</i>4890235<span>.00</span></p>
-                                <span className="explain-span">销售成本</span>
+                                <span className="explain-span">
+                                    <Tooltip title="销售成本描述">
+                                        销售成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#51C193"}}><i>¥</i>9599321<span>.00</span></p>
-                                <span className="explain-span">销售毛利</span>
+                                <span className="explain-span">
+                                    <Tooltip title="销售毛利描述">
+                                        销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                     </ul>

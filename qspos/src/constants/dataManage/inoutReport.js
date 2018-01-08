@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
@@ -98,31 +98,51 @@ class InOutReportForm extends React.Component {
                         <li>
                             <div>
                                 <p style={{color:"#806EC6"}}><i>¥</i>250062<span>.00</span></p>
-                                <span className="explain-span">期末库存总成本</span>
+                                <span className="explain-span">
+                                    <Tooltip title="期末库存总成本描述">
+                                        期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#F4A314"}}><i>¥</i>690235<span>.00</span></p>
-                                <span className="explain-span">期初库存总成本</span>
+                                <span className="explain-span">
+                                    <Tooltip title="期初库存总成本描述">
+                                        期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#0D89C8"}}><i>¥</i>599321<span>.00</span></p>
-                                <span className="explain-span">收货总成本</span>
+                                <span className="explain-span">
+                                    <Tooltip title="收货总成本描述">
+                                        收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#51C193"}}><i>¥</i>199321<span>.00</span></p>
-                                <span className="explain-span">销售总成本</span>
+                                <span className="explain-span">
+                                    <Tooltip title="销售总成本描述">
+                                        销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <p style={{color:"#F24343"}}><i>¥</i>899321<span>.00</span></p>
-                                <span className="explain-span">损益成本</span>
+                                <span className="explain-span">
+                                <Tooltip title="损益成本描述">
+                                    损益成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                </Tooltip>
+                                </span>
                             </div>
                         </li>
                     </ul>
