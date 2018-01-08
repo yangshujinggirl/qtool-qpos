@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,Switch} from 'antd';
+import { Link } from 'dva/router'
 import Header from '../components/header/Header';
 import Buttonico from '../components/Button/Button';
 import Searchinput from '../components/Searchinput/Searchinput';
@@ -553,30 +554,30 @@ class EditableTable extends React.Component {
         this.columns = [{
             title: '会员姓名',
             dataIndex: 'name',
-            width:'10%'
+            width:'9%'
         }, {
             title: '会员电话',
-            width:'15%',
+            width:'13%',
             dataIndex: 'mobile'
         }, {
             title: '会员卡号',
-            width:'15%',
+            width:'13%',
             dataIndex: 'cardNo'
         },{
             title: '会员级别',
-            width:'15%',
+            width:'13%',
             dataIndex: 'levelStr'
         },{
             title: '账户余额',
-            width:'15%',
+            width:'13%',
             dataIndex: 'amount'
         },{
             title: '会员积分',
-            width:'15%',
+            width:'13%',
             dataIndex: 'point'
         },{
             title: '操作',
-            width:'15%',
+            width:'13%',
             dataIndex: 'operation',
             render: (text, record, index) => {
                 return (
@@ -597,7 +598,17 @@ class EditableTable extends React.Component {
                     ) : null
                 )
             },
-        }];
+        },{
+            title: '会员信息明细',
+            width:'13%',
+            dataIndex: 'mbmerinfo',
+            render: (text, record, index) => {
+                return (
+                  <Link to={{pathname:'/member/info',query:{id:record.mbCardId}}}>查看</Link>
+                )
+            }
+        }
+    ];
     }
     rowClassName=(record, index)=>{
         if (index % 2) {
