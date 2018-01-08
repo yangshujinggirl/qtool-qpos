@@ -11,6 +11,7 @@ import Returngoods from "./routes/Returngoods";
 import Inventory from "./routes/Inventory";
 import Adjust from "./routes/Adjust";
 import Inventorydiff from "./routes/Inventorydiff";
+import Memberinfo from "./routes/Memberinfo";
 
 function RouterConfig({ history }) {
   return (
@@ -26,6 +27,7 @@ function RouterConfig({ history }) {
       <Route path="/inventory" component={Inventory} />
       <Route path="/adjust" component={Adjust} />
       <Route path="/inventorydiff" component={Inventorydiff} />
+      <Route path="/member/info" component={Memberinfo} />
     </Router>
   );
 }
