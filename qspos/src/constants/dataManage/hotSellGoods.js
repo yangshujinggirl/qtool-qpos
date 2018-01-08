@@ -82,6 +82,7 @@ class HotSellGoodsForm extends React.Component {
                     <CommonTable 
                         columns={this.columns} 
                         dataSource={this.state.dataSource}
+                        pagination={true}
                         total={20}
                         current={1}
                         pageSize={10}

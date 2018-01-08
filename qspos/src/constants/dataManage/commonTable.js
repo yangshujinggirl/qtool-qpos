@@ -31,16 +31,20 @@ class CommonTable extends React.Component {
                 columns={this.props.columns} 
                 dataSource={this.props.dataSource} 
                 rowClassName={this.rowClassName.bind(this)}
-                pagination={{
-                    total:Number(this.props.total),
-                    current:this.props.currentPage,
-                    defaultPageSize:10,
-                    pageSize:this.props.pageSize,
-                    showSizeChanger:true,
-                    onShowSizeChange:this.onShowSizeChange,
-                    onChange:this.pageChange,
-                    pageSizeOptions:['10','12','15','17','20','50','100','200']
-                }}
+                pagination={
+                    this.props.pagination?
+                    {
+                        total:Number(this.props.total),
+                        current:this.props.currentPage,
+                        defaultPageSize:10,
+                        pageSize:this.props.pageSize,
+                        showSizeChanger:true,
+                        onShowSizeChange:this.onShowSizeChange,
+                        onChange:this.pageChange,
+                        pageSizeOptions:['10','12','15','17','20','50','100','200']
+                    }:
+                    false
+                }
             />
         );
     }
