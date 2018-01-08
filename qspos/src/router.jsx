@@ -11,9 +11,12 @@ import Returngoods from "./routes/Returngoods";
 import Inventory from "./routes/Inventory";
 import Adjust from "./routes/Adjust";
 import Inventorydiff from "./routes/Inventorydiff";
+
 //新增数据管理
 import DataManage from "./routes/DataManage";
+
 import Memberinfo from "./routes/Memberinfo";
+
 
 function RouterConfig({ history }) {
   return (
