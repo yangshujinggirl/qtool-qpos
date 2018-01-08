@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,message} from 'antd';
 import NP from 'number-precision'
@@ -36,15 +35,11 @@ class EditableTable extends React.Component {
 			dataIndex: 'qty',
 			render: (text, record, index) => {
 				return (
-					
-						
-							<Input style={inputwidth} 
-								onKeyDown={this.onKeydown.bind(this)} 
-								value={text} 
-								onBlur={this.qtyblur.bind(this,index)}
-								onChange={this.qtyonchange.bind(this,index)}/>
-						
-					
+					<Input style={inputwidth} 
+						onKeyDown={this.onKeydown.bind(this)} 
+						value={text} 
+						onBlur={this.qtyblur.bind(this,index)}
+						onChange={this.qtyonchange.bind(this,index)}/>
 				)
 			}
 		},{
@@ -53,16 +48,12 @@ class EditableTable extends React.Component {
 			dataIndex: 'discount',
 			render: (text, record, index) => {
 				return (
-					
-						
-							<Input style={inputwidth} 
-								onKeyDown={this.onKeydown.bind(this)} 
-								value={text}
-								onChange={this.discountonchange.bind(this,index)}
-								onBlur={this.discountblur.bind(this,index)}
-							/>
-						
-					
+					<Input style={inputwidth} 
+						onKeyDown={this.onKeydown.bind(this)} 
+						value={text}
+						onChange={this.discountonchange.bind(this,index)}
+						onBlur={this.discountblur.bind(this,index)}
+					/>
 				)
 			}
 		},{
@@ -71,15 +62,12 @@ class EditableTable extends React.Component {
 			dataIndex: 'payPrice',
 			render: (text, record, index) => {
 				return (
-
-							<Input style={inputwidth} 
-								onKeyDown={this.onKeydown.bind(this)} 
-								value={text}
-								onChange={this.payPriceonchange.bind(this,index)}
-								onBlur={this.payPriceblur.bind(this,index)}
-							/>
-						
-					
+					<Input style={inputwidth} 
+						onKeyDown={this.onKeydown.bind(this)} 
+						value={text}
+						onChange={this.payPriceonchange.bind(this,index)}
+						onBlur={this.payPriceblur.bind(this,index)}
+					/>
 				)
 			}
 		}];
@@ -150,10 +138,6 @@ class EditableTable extends React.Component {
 		})
 
 	}
-
-
-
-
 	discountonchange=(index,e)=>{
 		const values=e.target.value
 		const datasouce=this.props.datasouce.splice(0)
@@ -172,9 +156,18 @@ class EditableTable extends React.Component {
 		if(str){
 			if(role=='2'||role=='1'){
 				if(parseFloat(values)<8){
-					console.log('12')
 					datasouce[index].discount=8
-					datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+					// datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+					const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
+					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
+					if(zeropayPrice-editpayPrice>0){
+						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
+					}else{
+						datasouce[index].payPrice=editpayPrice.toFixed(2)
+					}
+					
+					
+					
 					this.props.dispatch({
 						type:'cashier/datasouce',
 						payload:datasouce
@@ -182,7 +175,13 @@ class EditableTable extends React.Component {
 					message.error('折扣超出权限，已自动修复')
 				}else{
 					datasouce[index].discount=values
-					datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+					const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
+					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
+					if(zeropayPrice-editpayPrice>0){
+						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
+					}else{
+						datasouce[index].payPrice=editpayPrice.toFixed(2)
+					}
 					this.props.dispatch({
 						type:'cashier/datasouce',
 						payload:datasouce
@@ -190,10 +189,15 @@ class EditableTable extends React.Component {
 				}
 			}else{
 				if(role=='3'){
-					console.log('34')
 					if(parseFloat(values)<9){
 						datasouce[index].discount=9
-						datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+						const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
+					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
+					if(zeropayPrice-editpayPrice>0){
+						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
+					}else{
+						datasouce[index].payPrice=editpayPrice.toFixed(2)
+					} 
 						this.props.dispatch({
 							type:'cashier/datasouce',
 							payload:datasouce
@@ -201,7 +205,13 @@ class EditableTable extends React.Component {
 						message.error('折扣超出权限，已自动修复')
 					}else{
 						datasouce[index].discount=values
-						datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+						const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
+					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
+					if(zeropayPrice-editpayPrice>0){
+						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
+					}else{
+						datasouce[index].payPrice=editpayPrice.toFixed(2)
+					} 
 						this.props.dispatch({
 							type:'cashier/datasouce',
 							payload:datasouce
@@ -212,7 +222,13 @@ class EditableTable extends React.Component {
 
 		}else{
 			datasouce[index].discount=10
-			datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+			const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
+					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
+					if(zeropayPrice-editpayPrice>0){
+						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
+					}else{
+						datasouce[index].payPrice=editpayPrice.toFixed(2)
+					}
 			this.props.dispatch({
 				type:'cashier/datasouce',
 				payload:datasouce
@@ -244,21 +260,39 @@ class EditableTable extends React.Component {
 			if(role=='2'|| role=='1'){
 				if(datasouce[index].discount<8){
 					datasouce[index].discount=8
-					datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+					const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
+					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
+					if(zeropayPrice-editpayPrice>0){
+						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
+					}else{
+						datasouce[index].payPrice=editpayPrice.toFixed(2)
+					}
 					message.error('折扣超出权限，已自动修复')
 				}
 			}else{
 				if(role=='3'){
 					if(datasouce[index].discount<9){
 						datasouce[index].discount=9
-						datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+						const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
+					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
+					if(zeropayPrice-editpayPrice>0){
+						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
+					}else{
+						datasouce[index].payPrice=editpayPrice.toFixed(2)
+					}
 						message.error('折扣超出权限，已自动修复')
 					}
 				}
 			}
 		}else{
 			message.error('只能输入最多两位小数的折扣价')
-			datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
+			const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
+					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
+					if(zeropayPrice-editpayPrice>0){
+						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
+					}else{
+						datasouce[index].payPrice=editpayPrice.toFixed(2)
+					}
 		}
 		this.props.dispatch({
 			type:'cashier/datasouce',
@@ -278,6 +312,18 @@ class EditableTable extends React.Component {
 		}
 	}
 
+
+	//payPrice处理程序
+	payPriceedit=(initvalue)=>{
+		var payPrice=parseFloat(initvalue.toFixed(2))//取小数后两位
+		if(initvalue-payPrice>0){
+            payPrice=(payPrice+0.01).toFixed(2)
+        }else{
+            payPrice=payPrice.toFixed(2)
+        }
+        return payPrice 
+	}
+
 	//行点击
 	rowclick=(record,index,event)=>{
 		const themeindex=index
@@ -286,48 +332,11 @@ class EditableTable extends React.Component {
 			payload:themeindex
 		})
 	}
-
-
-
-
-
-
-
-
-
-
-
-	
-
-	
-
-	
-
-	
-
-
-
-
-
 	onKeydown=(e)=>{
 		if(e.keyCode==9){
 			e.preventDefault()
 		} 
 	}
-	
-	
-
-	
-	
-	
-
-
-	
-	
-
-
-	
-
 	windowResize = () =>{
 		if(document.body.offsetWidth>800){
 			this.setState({
@@ -344,19 +353,18 @@ class EditableTable extends React.Component {
 		const { dataSource } = this.state;
 		const columns = this.columns;
 		return (
-		<div className='bgf'>
-			<Table bordered 
-				dataSource={this.props.datasouce} 
-				columns={columns} 
-				pagination={false} 
-				scroll={{ y: this.state.windowHeight }}
-				onRowClick={this.rowclick.bind(this)}
-				rowClassName={this.rowClassName.bind(this)}
-			/>
-		</div>
-	);
+			<div className='bgf'>
+				<Table bordered 
+					dataSource={this.props.datasouce} 
+					columns={columns} 
+					pagination={false} 
+					scroll={{ y: this.state.windowHeight }}
+					onRowClick={this.rowclick.bind(this)}
+					rowClassName={this.rowClassName.bind(this)}
+				/>
+			</div>
+		);
 	}
-
 	componentDidMount(){
 		if(document.body.offsetWidth>800){
 			this.setState({
@@ -364,26 +372,22 @@ class EditableTable extends React.Component {
 			});
 		}else{
 			this.setState({
-			windowHeight:document.body.offsetHeight-295,
-		});
+				windowHeight:document.body.offsetHeight-295,
+			});
 		}
 		window.addEventListener('resize', this.windowResize);    
 	}
 	componentWillUnmount(){   
 		window.removeEventListener('resize', this.windowResize);
 	}
+}
 
+function mapStateToProps(state) {
+	const {datasouce,themeindex} = state.cashier;
+	return {datasouce,themeindex};
+}
 
-	
-
-	}
-
-	function mapStateToProps(state) {
-		const {datasouce,themeindex} = state.cashier;
-		return {datasouce,themeindex};
-	}
-
-	export default connect(mapStateToProps)(EditableTable);
+export default connect(mapStateToProps)(EditableTable);
 
 
 	

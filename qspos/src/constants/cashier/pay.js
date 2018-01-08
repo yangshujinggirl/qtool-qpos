@@ -200,11 +200,11 @@ class Pay extends React.Component {
         //js判断是否在数组中
         isInArray=(arr,value)=>{
             for(var i = 0; i < arr.length; i++){
-            if(value == arr[i].type){
-                return i;
+                if(value == arr[i].type){
+                    return i;
+                }
             }
-        }
-        return '-1';
+            return '-1';
         }
 
         //组合支付
@@ -237,7 +237,6 @@ class Pay extends React.Component {
         const lastpayamount=NP.minus(paytotolamount, amountlist[0].value);  //剩余金额
         if(!paytypelisy[index].check){
             if(this.state.group){
-                console.log('zu')
                 if(amountlist.length>1){
                     newamountlist.push(amountlist[1])  
                 }else{
@@ -306,7 +305,6 @@ class Pay extends React.Component {
                     }
                 }
             }else{
-                console.log('fei')
                 //非组合支付
                 newamountlist.push({
                     name:paytypelisy[index].name,
@@ -346,8 +344,6 @@ class Pay extends React.Component {
                     }
                 }
             }
-            console.log(paytypelisy)
-            console.log(newamountlist)
             this.setState({
                 paytypelisy:paytypelisy,
                 amountlist:newamountlist,
@@ -370,14 +366,19 @@ class Pay extends React.Component {
         var totols=0;
         var orderPay=0;
         if(group){
-            totols=NP.plus(amountlist[0].value,amountlist[1].value); 
-            orderPay=[{
-                amount:amountlist[0].value,
-                type:amountlist[0].type,
-            },{
-                amount:amountlist[1].value,
-                type:amountlist[1].type,
-           }]
+            if(amountlist.length>1){
+                totols=NP.plus(amountlist[0].value,amountlist[1].value); 
+                orderPay=[{
+                    amount:amountlist[0].value,
+                    type:amountlist[0].type,
+                },{
+                    amount:amountlist[1].value,
+                    type:amountlist[1].type,
+               }]
+            }else{
+                message.error('金额有误，不能支付')
+                return
+            }
         }else{
             totols=amountlist[0].value
             orderPay=[{
@@ -490,7 +491,6 @@ class Pay extends React.Component {
         //只能输入最多两位数字
         const values=e.target.value
         const amountlist=this.state.amountlist
-        console.log(amountlist)
         amountlist[0].value=values
         this.setState({
             amountlist:amountlist
@@ -701,13 +701,11 @@ class Pay extends React.Component {
             amountlist:amountlist,
             backmoney:backmoney
         })
-
     }
 
     payfirstonChange=(e)=>{
         const values=e.target.value
         const amountlist=this.state.amountlist
-        console.log(amountlist)
         amountlist[0].value=values
         this.setState({
             amountlist:amountlist
@@ -717,14 +715,11 @@ class Pay extends React.Component {
     paysecondonChange=(e)=>{
         const values=e.target.value
         const amountlist=this.state.amountlist
-        console.log(amountlist)
         amountlist[1].value=values
         this.setState({
             amountlist:amountlist
         })
     }
-    
-
 
     //打印
     handprint = (id,type,orderNo,size) => {
@@ -743,7 +738,6 @@ class Pay extends React.Component {
         }else{
              backmoney=NP.minus(paytotolamount, amountlist[0].value)
         }
-
         this.props.dispatch({
             type:'cashier/paytotolamount',
             payload:paytotolamount
@@ -754,69 +748,58 @@ class Pay extends React.Component {
             amountlist:amountlist
         })   
     }
-    
-   
-
-    
-
-    
-   
-
     render() {
-       
         return (
-        <div>
-            <Modal
-              title=""
-              visible={this.state.visible}
-              onOk={this.handleOk}
-              onCancel={this.handleCancel}
-              width={924}
-              closable={true}
-              footer={null}
-              className='pay'
-            >
-                <div className='clearfix'>
-                	<div className='fl paylw'>
-                 		<Input  addonBefore='总额' value={this.props.paytotolamount}  disabled className='paylh tr payinputsmodel'/>
-        	         	{
-        	         		this.state.amountlist.length>1
-        	         		?<div className='clearfix inputcenter'>
-        						<div className='payharflwl' ><Input  addonBefore={this.state.amountlist[0].name}  value={this.state.amountlist[0].value}  onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel' onChange={this.payfirstonChange.bind(this)}/></div>
-        						<div className='payharflwr'><Input  addonBefore={this.state.amountlist[1].name} value={this.state.amountlist[1].value}  onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel' onChange={this.paysecondonChange.bind(this)}/></div>
-        	         		</div>
-        	         		:<div className='inputcenter'><Input  addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel' onChange={this.hindonChange.bind(this)}/></div>
-                            
-        	         	}
-                 		<div><Input  addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
-                 		<p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
-                        <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
-               	 	</div>
-
-
-                    <div className='fr fix-800-fr' style={{width:'274px'}}>
-                        <div>
-                            <ul className='clearfix'>
-                                {
-                                    this.state.paytypelisy.map((item,index)=>{
-                                        return(
-                                            <li className='fl' onClick={this.listclick.bind(this,index)} key={index} className={item.disabled?'listdis':(item.check?'listoff':'list')}>
-                                                <Button  disabled={item.disabled}>{item.name}</Button>
-                                            </li>
-                                        )
-                                    })
-
-                                }
-                            </ul>
+            <div>
+                <Modal
+                    title=""
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    width={924}
+                    closable={true}
+                    footer={null}
+                    className='pay'
+                >
+                    <div className='clearfix'>
+                        <div className='fl paylw'>
+                            <Input  addonBefore='总额' value={this.props.paytotolamount}  disabled className='paylh tr payinputsmodel'/>
+                            {
+                                this.state.amountlist.length>1
+                                ?<div className='clearfix inputcenter'>
+                                    <div className='payharflwl' ><Input  addonBefore={this.state.amountlist[0].name}  value={this.state.amountlist[0].value}  onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel' onChange={this.payfirstonChange.bind(this)}/></div>
+                                    <div className='payharflwr'><Input  addonBefore={this.state.amountlist[1].name} value={this.state.amountlist[1].value}  onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel' onChange={this.paysecondonChange.bind(this)}/></div>
+                                </div>
+                                :<div className='inputcenter'><Input  addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel' onChange={this.hindonChange.bind(this)}/></div>
+                                
+                            }
+                            <div><Input  addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
+                            <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
+                            <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
                         </div>
-                        <div>
-                            <ul className='btnbg'>
-                                <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.group?'listtoff':'listt'}><Button>组合<br/>支付</Button></li>
-                                <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.cutAmount=='0'?'listt':'listtoff'}><Button>抹零</Button></li>
-                            </ul>
+                        <div className='fr fix-800-fr' style={{width:'274px'}}>
+                            <div>
+                                <ul className='clearfix'>
+                                    {
+                                        this.state.paytypelisy.map((item,index)=>{
+                                            return(
+                                                <li className='fl' onClick={this.listclick.bind(this,index)} key={index} className={item.disabled?'listdis':(item.check?'listoff':'list')}>
+                                                    <Button  disabled={item.disabled}>{item.name}</Button>
+                                                </li>
+                                            )
+                                        })
+
+                                    }
+                                </ul>
+                            </div>
+                            <div>
+                                <ul className='btnbg'>
+                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.group?'listtoff':'listt'}><Button>组合<br/>支付</Button></li>
+                                    <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.cutAmount=='0'?'listt':'listtoff'}><Button>抹零</Button></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-              	</div>
+              	    </div>
             </Modal>
         </div>
     );
@@ -830,12 +813,6 @@ class Pay extends React.Component {
         type:'cashier/meth1',
         payload:meth1
     })
-
-
-
-
-   
-
   }
 
 }
@@ -848,8 +825,7 @@ Pay.contextTypes= {
 
 function mapStateToProps(state) {
     const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce}=state.cashier
-
-   return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce};
+    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce};
 }
 export default connect(mapStateToProps)(Pay);
 

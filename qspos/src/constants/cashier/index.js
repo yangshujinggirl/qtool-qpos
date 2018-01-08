@@ -6,35 +6,16 @@ import Header from '../../components/header/Header';
 import Btncashier from './btns';
 import EditableTable from './table';
 import Pay from './pay';
-import {LocalizedModal,Buttonico} from '../../components/Button/Button';
 import {GetServerData} from '../../services/services';
 import NP from 'number-precision'
 
-const inputwidth={width:'80%',height:'30px',border:'1px solid #E7E8EC',background: '#FFF',textAlign:'center'}
-
-
-
 class Cashierindex extends React.Component {
-    constructor(props) {
-        super(props);
-        this.memberinfo=null,
-        this.integral=null,
-        this.totalamount=0
-    }
-
-
-    state={
-        onBlur:false
-    }
-   
     inputclick=()=>{
         var x = document.activeElement.tagName;
         if(x=='BODY'){
             this.props.meths.focustap()
         }
     }
-   
-
     handleokent=(e)=>{
         if(e.keyCode=='32'){
             this.props.meths.focustap()   
@@ -55,22 +36,18 @@ class Cashierindex extends React.Component {
         if(e.keyCode==9 && this.props.onBlur==false){
             this.props.meths.focustap()
         }
-
         if(e.keyCode==113){
             this.takeout()
         }
         if(e.keyCode==114){
             this.takein()
-
         }
         if(e.keyCode==115){
             this.rowonDelete()
-
         }
         //上箭头
         if(e.keyCode==38){
             const themeindex=Number(this.props.themeindex)=='0'?Number(this.props.datasouce.length)-1:Number(this.props.themeindex)-1
-            console.log(themeindex)
             this.props.dispatch({
                 type:'cashier/themeindex',
                 payload:themeindex
@@ -79,15 +56,12 @@ class Cashierindex extends React.Component {
         //下箭头
         if(e.keyCode==40){  
             const themeindex=Number(this.props.themeindex)==Number(this.props.datasouce.length)-1?0:Number(this.props.themeindex)+1
-            console.log(themeindex)
             this.props.dispatch({
                 type:'cashier/themeindex',
                 payload:themeindex
             })
-
         }
     }
-    
     
     rowonDelete=()=>{
         const themeindex=this.props.themeindex
@@ -97,17 +71,12 @@ class Cashierindex extends React.Component {
             type:'cashier/datasouce',
             payload:datasouce
         })
-
-
-
     }
     takeout=()=>{
         //挂单
         const datasouce=this.props.datasouce
         sessionStorage.setItem('olddatasouce',JSON.stringify(datasouce));
         this.initdata()
-        
-       
     }
     takein=()=>{
         //取单
@@ -119,8 +88,6 @@ class Cashierindex extends React.Component {
             })
         }
     }
-
-
     takezhe=(value)=>{
         //对得到的数据进行判断
         var dis=value
@@ -144,7 +111,6 @@ class Cashierindex extends React.Component {
             type:'cashier/datasouce',
             payload:datasouce
         })
-
     }
     //初始化清空数据
     initdata=()=>{
@@ -191,22 +157,13 @@ class Cashierindex extends React.Component {
             type:'cashier/cardNoMobile',
             payload:cardNoMobile
         })
-
-
         this.props.meths.focustap()
-
     }
-
-
-    
-    
     handleokents=(e)=>{
         if(e.keyCode==114){
              e.preventDefault()
         }
     }
-
-    
     render() {
         return(
             <div>
@@ -228,15 +185,14 @@ class Cashierindex extends React.Component {
                             type={false} 
                             index={true} 
                             userplace='1' 
-                            ref='opera' 
-                         
                         />
                     </div>
                 </div>
-                <div><Pay ref='pay' initdata={this.initdata.bind(this)}/></div>
-                
+                <div>
+                    <Pay ref='pay' initdata={this.initdata.bind(this)}/>
+                </div>
              </div> 
-            )
+        )
     }
     componentDidMount(){
         window.addEventListener('click', this.inputclick,true);
@@ -251,11 +207,8 @@ class Cashierindex extends React.Component {
 }
 
 
-    function mapStateToProps(state) {
-        console.log(state)
-        const {datasouce,meths,onBlur,payvisible,totolnumber,totolamount,meth1,themeindex}=state.cashier
-
-  	 return {datasouce,meths,onBlur,payvisible,totolnumber,totolamount,meth1,themeindex};
-    }
-
+function mapStateToProps(state) {
+    const {datasouce,meths,onBlur,payvisible,totolnumber,totolamount,meth1,themeindex}=state.cashier
+    return {datasouce,meths,onBlur,payvisible,totolnumber,totolamount,meth1,themeindex};
+}
 export default connect(mapStateToProps)(Cashierindex);

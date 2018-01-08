@@ -2,7 +2,7 @@ import { connect } from 'dva';
 
 class Operationr extends React.Component {
 	hindclick=()=>{
-		console.log(1)
+		this.props.meth1.initModel()
 	}
 	render() {
 		const color=this.props.color
@@ -27,8 +27,8 @@ class Operationr extends React.Component {
 
 
 function mapStateToProps(state) {
-	const {totolnumber,totolamount} = state.cashier;
-	return {totolnumber,totolamount};
+	const {totolnumber,totolamount,meth1} = state.cashier;
+	return {totolnumber,totolamount,meth1};
 }
 
 export default connect(mapStateToProps)(Operationr);

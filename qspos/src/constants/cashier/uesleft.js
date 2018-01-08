@@ -107,7 +107,6 @@ class Operationls extends React.Component {
 	}
 	//跳转到退货
 	hindchange=(e)=>{
-		console.log(e)
 		if(e==true){
 			this.setState({
 				checked:true
@@ -136,65 +135,6 @@ class Operationls extends React.Component {
 			payload:{code:'qerp.pos.mb.card.find',values:values}
 		})
 	}
-
-
-
-
-
-
-
-
-
-	clearingdata=(integertotalamount)=>{
-		this.setState({
-			integertotalamount:integertotalamount
-		},function(){
-            this.props.revisedata({type:5,data:this.state.integertotalamount})
-        })
-	}
-
-
-    initdatar=()=>{
-        this.setState({
-            barcode:'',
-            onBlur:true,
-            cardNoMobile:'',
-            name:'',
-            levelStr:'',
-            point:'',//积分
-            amount:'',//余额
-            integertotalamount:null,
-            checked:false,
-            cardNo:'',
-            mbCardId:null,
-            isBirthMonth:false
-        },function(){
-            this.props.Backmemberinfo(this.state.amount,this.state.point)
-            this.props.revisedata({type:2,data:this.state.mbCardId})
-            this.props.revisedata({type:5,data:this.state.integertotalamount})
-        })
-    }
-    clearmamberinfo=()=>{
-        this.setState({
-            name:'',
-            levelStr:'',
-            point:'',//积分
-            amount:'',//余额
-            cardNo:'',
-            mbCardId:null,
-            isBirthMonth:false
-
-        },function(){
-          //会员对外传输清空
-            this.props.revisedata({type:2,data:this.state.mbCardId})
-            this.props.revisedata({type:5,data:this.state.integertotalamount})
-            this.props.initthisinfo()
-        })
-    }
-
-	
-
-
 	render(){
 		return(
 			<div>
