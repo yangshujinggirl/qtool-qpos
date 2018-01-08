@@ -14,9 +14,8 @@ import Inventorydiff from "./routes/Inventorydiff";
 
 //新增数据管理
 import DataManage from "./routes/DataManage";
-
+import ReceiptDetail from "./routes/ReceiptDetail"
 import Memberinfo from "./routes/Memberinfo";
-
 
 function RouterConfig({ history }) {
   return (
@@ -34,6 +33,7 @@ function RouterConfig({ history }) {
       <Route path="/inventorydiff" component={Inventorydiff} />
       <Route path="/dataManage" component={DataManage}/>
       <Route path="/member/info" component={Memberinfo} />
+      <Route path="/dataManage/receiptDetail" component={ReceiptDetail}/>
     </Router>
   );
 }
