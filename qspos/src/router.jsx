@@ -11,6 +11,8 @@ import Returngoods from "./routes/Returngoods";
 import Inventory from "./routes/Inventory";
 import Adjust from "./routes/Adjust";
 import Inventorydiff from "./routes/Inventorydiff";
+//新增数据管理
+import DataManage from "./routes/DataManage";
 
 function RouterConfig({ history }) {
   return (
@@ -26,6 +28,7 @@ function RouterConfig({ history }) {
       <Route path="/inventory" component={Inventory} />
       <Route path="/adjust" component={Adjust} />
       <Route path="/inventorydiff" component={Inventorydiff} />
+      <Route path="/dataManage" component={DataManage}/>
     </Router>
   );
 }
