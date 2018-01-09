@@ -104,15 +104,36 @@ class DailyBillForm extends React.Component {
             this.setState({
                 type:values.type
             },function(){
-                let values = {
+                let data = {
                     currentPage:0,
                     limit:10,
                     startDate:this.state.startDate,
                     endDate:this.state.endDate,
                     type:this.state.type
                 }
-                this.getServerData(values);
+                this.getServerData(data);
             })
+        })
+    }
+
+    //导出数据
+    exportList = () =>{
+        let data = {
+            currentPage:0,
+            limit:10,
+            startDate:this.state.startDate,
+            endDate:this.state.endDate,
+            type:this.state.type
+        }
+        const result=GetServerData('qerp.qpos.rp.day.account.export',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+
+            }else{  
+                message.error(json.message); 
+            }
         })
     }
 
@@ -192,7 +213,7 @@ class DailyBillForm extends React.Component {
                         <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
                     </FormItem>
                     <div className="export-div">
-                        <Button className="export-btn">导出数据</Button>
+                        <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
                     </div>
                 </Form>
                 <CommonTable 

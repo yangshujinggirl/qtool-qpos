@@ -89,10 +89,10 @@
 .search-form .ant-form-item-control-wrapper .ant-select{
     display: inline-block;
 }
-.ant-select-selection-selected-value{
+.data-manage .ant-select-selection-selected-value{
     line-height: 30px;
 }
-.ant-input,.ant-select{
+.data-manage .ant-input,.ant-select{
     font-size: 14px;
     color: #384162;
 }
@@ -115,15 +115,15 @@
     border-color:#35BAB0;
 }
 /* table */
-.ant-table-bordered .ant-table-header > table, 
-.ant-table-bordered .ant-table-body > table, 
-.ant-table-bordered .ant-table-fixed-left table, 
-.ant-table-bordered .ant-table-fixed-right table{
+.data-manage .ant-table-bordered .ant-table-header > table, 
+.data-manage .ant-table-bordered .ant-table-body > table, 
+.data-manage .ant-table-bordered .ant-table-fixed-left table, 
+.data-manage .ant-table-bordered .ant-table-fixed-right table{
     border:1px solid #e9e9e9;
 }
 
 /* 定部的tabbar */
-.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+.data-manage .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
     width: 100px;
     height: 40px;
     line-height: 40px;
@@ -132,14 +132,14 @@
     border-radius: 0px;
     border-bottom: none;
 }
-.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-child(2){
+.data-manage .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-child(2){
     border-top-left-radius: 5px;
 }
-.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:last-child{
+.data-manage .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:last-child{
     border-right: 1px solid #E7E8EC;
     border-top-right-radius: 5px;
 }
-.ant-tabs-bar{
+.data-manage .ant-tabs-bar{
     height: 40px!important;
 }
 

@@ -6,7 +6,7 @@ import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 const FormItem = Form.Item;
 const Option = Select.Option;
-const { RangePicker } = DatePicker;
+const { RangePicker,MonthPicker } = DatePicker;
 
 //利润报表
 class ProfitReportForm extends React.Component {
@@ -14,71 +14,217 @@ class ProfitReportForm extends React.Component {
         super(props);
         this.state={
             dataSource:[],
+            rpProfit:{
+                amount:"",
+                saleCostAmount:"",
+                profitAmount:""
+            },
+            total:0,
+            currentPage:0,
+            limit:10,
+            rpDate:'',
+            name:'',
             windowHeight:''
         };
         this.columns = [{
-            title: '序号',
-            dataIndex: 'name',
-        },{
             title: '商品条码',
-            dataIndex: 'age',
+            dataIndex: 'barcode',
         },{
             title: '商品名称',
-            dataIndex: 'account',
+            dataIndex: 'name',
         },{
             title: '商品分类',
-            dataIndex: 'weixin',
+            dataIndex: 'pdCategory1',
         },{
             title: '规格',
-            dataIndex: 'alipay',
+            dataIndex: 'displayName',
         },{
             title: '销售单均价',
-            dataIndex: 'cash',
+            dataIndex: 'saleSinglePrice',
         },{
             title: '销售数量',
-            dataIndex: 'yinlian',
+            dataIndex: 'qty',
         },{
             title: '销售额',
-            dataIndex: 'card',
+            dataIndex: 'amount',
         },{
             title: '商品成本',
-            dataIndex: 'counr12',
+            dataIndex: 'pdCostAmount',
         },{
             title: '销售成本',
-            dataIndex: 'counr0',
+            dataIndex: 'sumCostAmount',
         },{
             title: '销售毛利额',
-            dataIndex: 'counr6',
+            dataIndex: 'saleProfitAmount',
         },{
             title: '销售毛利率',
-            dataIndex: 'counr5',
+            dataIndex: 'saleProfitRate',
         },{
             title: '损益数量',
-            dataIndex: 'counr4',
+            dataIndex: 'adjustQty',
         },{
             title: '损益成本',
-            dataIndex: 'counr2',
+            dataIndex: 'adjustCostAmount',
         },{
             title: '商品毛利额',
-            dataIndex: 'counr1',
+            dataIndex: 'pdProfit',
         }];
     }
 
     dateChange = (date, dateString) =>{
         console.log(date, dateString);
+        this.setState({
+            rpDate:dateString
+        });
     }
 
     //表格的方法
     pageChange=(page,pageSize)=>{
         this.setState({
-            currentPage:page
+            currentPage:page-1
         });
     }
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
-            pageSize:pageSize,
-            current:current,
-            currentPage:1
+            limit:pageSize,
+            currentPage:current-1
+        })
+    }
+
+    //获取数据
+    getServerData = (values) =>{
+        let dataList = [
+            {
+                barcode:"34523201",
+                name:"商品1",
+                displayName:"小规格",
+                pdCategory1:"零食类",
+                saleSinglePrice:"23",
+                qty:"30",
+                amount:"34523.00",
+                pdCostAmount:"16",
+                sumCostAmount:"18",
+                saleProfitAmount:"3",
+                saleProfitRate:"6",
+                adjustQty:"10",
+                adjustCostAmount:"3",
+                pdProfit:"23"
+            },
+            {
+                barcode:"34523201",
+                name:"商品1",
+                displayName:"小规格",
+                pdCategory1:"零食类",
+                saleSinglePrice:"23",
+                qty:"30",
+                amount:"34523.00",
+                pdCostAmount:"16",
+                sumCostAmount:"18",
+                saleProfitAmount:"3",
+                saleProfitRate:"6",
+                adjustQty:"10",
+                adjustCostAmount:"3",
+                pdProfit:"23"
+            },
+            {
+                barcode:"34523201",
+                name:"商品1",
+                displayName:"小规格",
+                pdCategory1:"零食类",
+                saleSinglePrice:"23",
+                qty:"30",
+                amount:"34523.00",
+                pdCostAmount:"16",
+                sumCostAmount:"18",
+                saleProfitAmount:"3",
+                saleProfitRate:"6",
+                adjustQty:"10",
+                adjustCostAmount:"3",
+                pdProfit:"23"
+            },
+            {
+                barcode:"34523201",
+                name:"商品1",
+                displayName:"小规格",
+                pdCategory1:"零食类",
+                saleSinglePrice:"23",
+                qty:"30",
+                amount:"34523.00",
+                pdCostAmount:"16",
+                sumCostAmount:"18",
+                saleProfitAmount:"3",
+                saleProfitRate:"6",
+                adjustQty:"10",
+                adjustCostAmount:"3",
+                pdProfit:"23"
+            }
+        ];
+        let  rpProfit={
+            amount:"2432.00",
+            saleCostAmount:"543.00",
+            profitAmount:"223.00"
+        };
+        this.setState({
+            rpProfit:rpProfit
+        })
+        for(let i=0;i<dataList.length;i++){
+            dataList[i].key = i+1;
+        }
+        this.setState({
+            dataSource:dataList,
+            total:Number('3'),
+            currentPage:Number('0'),
+            limit:Number("10")
+        })
+
+        // const result=GetServerData('qerp.pos.rp.profit.page',values)
+        // result.then((res) => {
+        //     return res;
+        // }).then((json) => {
+        //     if(json.code=='0'){
+        //         console.log('利润报表数据请求成功');
+        //     }else{  
+        //         message.error(json.message); 
+        //     }
+        // })
+    }
+
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        const self = this;
+        this.props.form.validateFields((err, values) => {
+            console.log(values);
+            this.setState({
+                name:values.name
+            },function(){
+                let data = {
+                    currentPage:0,
+                    limit:10,
+                    rpDate:this.state.rpDate,
+                    name:this.state.name
+                }
+                self.getServerData(data);
+            })
+        })
+    }
+
+    //导出数据
+    exportList = () =>{
+        let data = {
+            currentPage:0,
+            limit:10,
+            rpDate:this.state.rpDate,
+            name:this.state.name
+        }
+        const result=GetServerData('qerp.qpos.rp.profit.export',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+
+            }else{  
+                message.error(json.message); 
+            }
         })
     }
 
@@ -91,7 +237,7 @@ class ProfitReportForm extends React.Component {
                     <ul>
                         <li>
                             <div>
-                                <p style={{color:"#FB6349"}}><i>¥</i>1599628<span>.00</span></p>
+                                <p style={{color:"#FB6349"}}><i>¥</i>{this.state.rpProfit.amount.split('.')[0]}<span>.{this.state.rpProfit.amount.split('.')[1]}</span></p>
                                 <span className="explain-span">
                                     <Tooltip title="销售额描述">
                                         销售额&nbsp;<Icon type="exclamation-circle-o"/>
@@ -101,7 +247,7 @@ class ProfitReportForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#F7A303"}}><i>¥</i>4890235<span>.00</span></p>
+                                <p style={{color:"#F7A303"}}><i>¥</i>{this.state.rpProfit.saleCostAmount.split('.')[0]}<span>.{this.state.rpProfit.saleCostAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
                                     <Tooltip title="销售成本描述">
                                         销售成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -111,7 +257,7 @@ class ProfitReportForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#51C193"}}><i>¥</i>9599321<span>.00</span></p>
+                                <p style={{color:"#51C193"}}><i>¥</i>{this.state.rpProfit.profitAmount.split('.')[0]}<span>.{this.state.rpProfit.profitAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
                                     <Tooltip title="销售毛利描述">
                                         销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
@@ -128,27 +274,22 @@ class ProfitReportForm extends React.Component {
                      labelCol={{ span: 5 }}
                      wrapperCol={{span: 10}}>
                     {getFieldDecorator('time')(
-                        <RangePicker onChange={this.dateChange.bind(this)} />
+                        <MonthPicker onChange={this.dateChange.bind(this)}/>
                     )}
                     </FormItem>
                     <FormItem
-                    label="订单分类"
+                    label="商品名称"
                     labelCol={{ span: 5 }}
                     wrapperCol={{span: 10}}>
-                    {getFieldDecorator('type')(
-                        <Select>
-                            <Option value="jack">Jack</Option>
-                            <Option value="lucy">Lucy</Option>
-                            <Option value="disabled">Disabled</Option>
-                            <Option value="Yiminghe">yiminghe</Option>
-                        </Select>
+                    {getFieldDecorator('name')(
+                        <Input/>
                     )}
                     </FormItem>
                     <FormItem>
-                        <Button type="primary" icon="search">搜索</Button>
+                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
                     </FormItem>
                     <div className="export-div">
-                        <Button className="export-btn">导出数据</Button>
+                        <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
                     </div>
                 </Form>
                 <CommonTable 
@@ -163,6 +304,10 @@ class ProfitReportForm extends React.Component {
                     />
             </div>
         );
+    }
+
+    componentDidMount(){
+        this.getServerData();
     }
 }
 

@@ -6,7 +6,7 @@ import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 const FormItem = Form.Item;
 const Option = Select.Option;
-const { RangePicker } = DatePicker;
+const { RangePicker,MonthPicker } = DatePicker;
 
 //进销存报表
 class InOutReportForm extends React.Component {
@@ -14,77 +14,232 @@ class InOutReportForm extends React.Component {
         super(props);
         this.state={
             dataSource:[],
+            inventory:{
+                finalInvSumAmount:"",//#String 期末库存总成本
+                invSumAmount:"",//#String 期初库存总成本
+                recSumAmount:"",//#String 收货总成本
+                saleSumCostAmount:"",//#String 销售总成本
+                adjustSumCostAmount:"",//#String 损益总成本
+            },
+            total:0,
+            currentPage:0,
+            limit:10,
+            rpDate:'',
+            name:'',
             windowHeight:''
         };
         this.columns = [{
-            title: '序号',
-            dataIndex: 'name',
-        },{
             title: '商品条码',
-            dataIndex: 'age',
+            dataIndex: 'barcode',
         },{
             title: '商品名称',
-            dataIndex: 'account',
+            dataIndex: 'name',
         },{
             title: '商品分类',
-            dataIndex: 'weixin',
+            dataIndex: 'pdCategory1',
         },{
             title: '规格',
-            dataIndex: 'alipay',
+            dataIndex: 'displayName',
         },{
             title: '期初库存数量',
-            dataIndex: 'cash',
+            dataIndex: 'qty',
         },{
             title: '期初库存成本',
-            dataIndex: 'yinlian',
+            dataIndex: 'invAmount',
         },{
             title: '收货数量',
-            dataIndex: 'card',
+            dataIndex: 'recQty',
         },{
             title: '收货成本',
-            dataIndex: 'counr12',
+            dataIndex: 'recAmount',
         },{
             title: '销售数量',
-            dataIndex: 'counr0',
+            dataIndex: 'posQty',
         },{
             title: '销售成本',
-            dataIndex: 'counr6',
+            dataIndex: 'sumCostAmount',
         },{
             title: '损益数量',
-            dataIndex: 'counr5',
+            dataIndex: 'adjustQty',
         },{
             title: '损益成本',
-            dataIndex: 'counr4',
+            dataIndex: 'adjustCostAmount',
         },{
             title: '盘点损益数',
-            dataIndex: 'counr2',
+            dataIndex: 'checkQty',
         },{
             title: '盘点损益成本',
-            dataIndex: 'counr17',
+            dataIndex: 'checkAmount',
         },{
             title: '期末库存数量',
-            dataIndex: 'counr18',
+            dataIndex: 'finalQty',
         },{
             title: '期末库存成本',
-            dataIndex: 'counr19',
+            dataIndex: 'finalInvAmount',
         }];
     }
 
     dateChange = (date, dateString) =>{
-        console.log(date, dateString);
+        this.setState({
+            rpDate:dateString
+        });
     }
 
     //表格的方法
     pageChange=(page,pageSize)=>{
         this.setState({
-            currentPage:page
+            currentPage:page-1
         });
     }
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
-            pageSize:pageSize,
-            current:current,
-            currentPage:1
+            limit:pageSize,
+            currentPage:current-1
+        })
+    }
+
+    //获取数据
+    getServerData = (values) =>{
+        let dataList = [
+            {
+                barcode:"42104", //#String 商品条码
+                name:"我是商品1",//#String 商品名称
+                displayName:"500ml",//#String 商品规格
+                pdCategory1:"食品类",//#String 商品分类
+                qty:"20",//#String 期初库存数量
+                invAmount:"10",//#String 期初库存成本
+                recQty:"50",//#String 收货数量
+                recAmount:"20",//#String 收货成本
+                posQty:"30",//#String 销售数量
+                sumCostAmount:"30",//#String销售成本
+                adjustQty:"2",//#String损益数量
+                adjustCostAmount:"20",//#String损益成本
+                checkQty:"10",//#String 盘点损益数
+                checkAmount:"20",//#String 盘点损益成本
+                finalQty:"30",//#String 期末库存数量
+                finalInvAmount:"20",//#String 期末库存成本
+            },
+            {
+                barcode:"42104", //#String 商品条码
+                name:"我是商品1",//#String 商品名称
+                displayName:"500ml",//#String 商品规格
+                pdCategory1:"食品类",//#String 商品分类
+                qty:"20",//#String 期初库存数量
+                invAmount:"10",//#String 期初库存成本
+                recQty:"50",//#String 收货数量
+                recAmount:"20",//#String 收货成本
+                posQty:"30",//#String 销售数量
+                sumCostAmount:"30",//#String销售成本
+                adjustQty:"2",//#String损益数量
+                adjustCostAmount:"20",//#String损益成本
+                checkQty:"10",//#String 盘点损益数
+                checkAmount:"20",//#String 盘点损益成本
+                finalQty:"30",//#String 期末库存数量
+                finalInvAmount:"20",//#String 期末库存成本
+            },
+            {
+                barcode:"42104", //#String 商品条码
+                name:"我是商品1",//#String 商品名称
+                displayName:"500ml",//#String 商品规格
+                pdCategory1:"食品类",//#String 商品分类
+                qty:"20",//#String 期初库存数量
+                invAmount:"10",//#String 期初库存成本
+                recQty:"50",//#String 收货数量
+                recAmount:"20",//#String 收货成本
+                posQty:"30",//#String 销售数量
+                sumCostAmount:"30",//#String销售成本
+                adjustQty:"2",//#String损益数量
+                adjustCostAmount:"20",//#String损益成本
+                checkQty:"10",//#String 盘点损益数
+                checkAmount:"20",//#String 盘点损益成本
+                finalQty:"30",//#String 期末库存数量
+                finalInvAmount:"20",//#String 期末库存成本
+            },
+            {
+                barcode:"42104", //#String 商品条码
+                name:"我是商品1",//#String 商品名称
+                displayName:"500ml",//#String 商品规格
+                pdCategory1:"食品类",//#String 商品分类
+                qty:"20",//#String 期初库存数量
+                invAmount:"10",//#String 期初库存成本
+                recQty:"50",//#String 收货数量
+                recAmount:"20",//#String 收货成本
+                posQty:"30",//#String 销售数量
+                sumCostAmount:"30",//#String销售成本
+                adjustQty:"2",//#String损益数量
+                adjustCostAmount:"20",//#String损益成本
+                checkQty:"10",//#String 盘点损益数
+                checkAmount:"20",//#String 盘点损益成本
+                finalQty:"30",//#String 期末库存数量
+                finalInvAmount:"20",//#String 期末库存成本
+            }
+        ];
+        let  inventory={
+            finalInvSumAmount:"54348.00",//#String 期末库存总成本
+            invSumAmount:"54242.00",//#String 期初库存总成本
+            recSumAmount:"59342.00",//#String 收货总成本
+            saleSumCostAmount:"4342.00",//#String 销售总成本
+            adjustSumCostAmount:"5432.00",//#String 损益总成本
+        };
+        for(let i=0;i<dataList.length;i++){
+            dataList[i].key = i+1;
+        };
+        this.setState({
+            inventory:inventory,
+            dataSource:dataList,
+            total:Number('3'),
+            currentPage:Number('0'),
+            limit:Number("10")
+        });
+
+        // const result=GetServerData('qerp.pos.rp.inventory.page',values)
+        // result.then((res) => {
+        //     return res;
+        // }).then((json) => {
+        //     if(json.code=='0'){
+        //         console.log('进销存报表数据请求成功');
+        //     }else{  
+        //         message.error(json.message); 
+        //     }
+        // })
+    }
+
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        const self = this;
+        this.props.form.validateFields((err, values) => {
+            console.log(values);
+            this.setState({
+                name:values.name
+            },function(){
+                let data = {
+                    currentPage:0,
+                    limit:10,
+                    rpDate:this.state.rpDate,
+                    name:this.state.name
+                }
+                self.getServerData(data);
+            })
+        })
+    }
+
+    //导出数据
+    exportList = () =>{
+        let data = {
+            currentPage:0,
+            limit:10,
+            rpDate:this.state.rpDate,
+            name:this.state.name
+        }
+        const result=GetServerData('qerp.qpos.rp.inventory.export',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+
+            }else{  
+                message.error(json.message); 
+            }
         })
     }
 
@@ -97,7 +252,7 @@ class InOutReportForm extends React.Component {
                     <ul>
                         <li>
                             <div>
-                                <p style={{color:"#806EC6"}}><i>¥</i>250062<span>.00</span></p>
+                                <p style={{color:"#806EC6"}}><i>¥</i>{this.state.inventory.finalInvSumAmount.split('.')[0]}<span>.{this.state.inventory.finalInvSumAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
                                     <Tooltip title="期末库存总成本描述">
                                         期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -107,7 +262,7 @@ class InOutReportForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#F4A314"}}><i>¥</i>690235<span>.00</span></p>
+                                <p style={{color:"#F4A314"}}><i>¥</i>{this.state.inventory.invSumAmount.split('.')[0]}<span>.{this.state.inventory.invSumAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
                                     <Tooltip title="期初库存总成本描述">
                                         期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -117,7 +272,7 @@ class InOutReportForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#0D89C8"}}><i>¥</i>599321<span>.00</span></p>
+                                <p style={{color:"#0D89C8"}}><i>¥</i>{this.state.inventory.recSumAmount.split('.')[0]}<span>.{this.state.inventory.recSumAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
                                     <Tooltip title="收货总成本描述">
                                         收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -127,7 +282,7 @@ class InOutReportForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#51C193"}}><i>¥</i>199321<span>.00</span></p>
+                                <p style={{color:"#51C193"}}><i>¥</i>{this.state.inventory.saleSumCostAmount.split('.')[0]}<span>.{this.state.inventory.saleSumCostAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
                                     <Tooltip title="销售总成本描述">
                                         销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -137,7 +292,7 @@ class InOutReportForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#F24343"}}><i>¥</i>899321<span>.00</span></p>
+                                <p style={{color:"#F24343"}}><i>¥</i>{this.state.inventory.adjustSumCostAmount.split('.')[0]}<span>.{this.state.inventory.adjustSumCostAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
                                 <Tooltip title="损益成本描述">
                                     损益成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -154,27 +309,22 @@ class InOutReportForm extends React.Component {
                      labelCol={{ span: 5 }}
                      wrapperCol={{span: 10}}>
                     {getFieldDecorator('time')(
-                        <RangePicker onChange={this.dateChange.bind(this)} />
+                        <MonthPicker onChange={this.dateChange.bind(this)}/>
                     )}
                     </FormItem>
                     <FormItem
-                    label="订单分类"
+                    label="商品名称"
                     labelCol={{ span: 5 }}
                     wrapperCol={{span: 10}}>
-                    {getFieldDecorator('type')(
-                        <Select>
-                            <Option value="jack">Jack</Option>
-                            <Option value="lucy">Lucy</Option>
-                            <Option value="disabled">Disabled</Option>
-                            <Option value="Yiminghe">yiminghe</Option>
-                        </Select>
+                    {getFieldDecorator('name')(
+                        <Input/>
                     )}
                     </FormItem>
                     <FormItem>
-                        <Button type="primary" icon="search">搜索</Button>
+                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
                     </FormItem>
                     <div className="export-div">
-                        <Button className="export-btn">导出数据</Button>
+                        <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
                     </div>
                 </Form>
                 <CommonTable 
@@ -189,6 +339,10 @@ class InOutReportForm extends React.Component {
                     />
             </div>
         );
+    }
+
+    componentDidMount(){
+        this.getServerData();
     }
 }
 
