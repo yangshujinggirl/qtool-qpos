@@ -17,7 +17,7 @@ class CommonTable extends React.Component {
   	}
 
     onShowSizeChange=(current,size)=>{
-        this.props.pageSizeChange(current,size)
+        this.props.onShowSizeChange(current,size)
     }
 
     pageChange=(page,pageSize)=>{
@@ -34,7 +34,7 @@ class CommonTable extends React.Component {
                 pagination={
                     this.props.pagination?
                     {
-                        total:Number(this.props.total),
+                        total:this.props.total,
                         current:this.props.currentPage,
                         defaultPageSize:10,
                         pageSize:this.props.pageSize,
