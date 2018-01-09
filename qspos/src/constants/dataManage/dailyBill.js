@@ -307,6 +307,7 @@ class DailyBillForm extends React.Component {
 
     //获取当前时间
      getNowFormatDate = () =>{
+        const self = this;
         var date = new Date();
         var seperator1 = "-";
         var month = date.getMonth() + 1;
@@ -328,7 +329,7 @@ class DailyBillForm extends React.Component {
                 startDate:this.state.startDate,
                 endDate:this.state.endDate
             }
-            this.getServerData(values);
+            self.getServerData(values);
         })
     }
 

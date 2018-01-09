@@ -23,31 +23,39 @@ import InoutReport from '../constants/dataManage/inoutReport';
 const TabPane = Tabs.TabPane;
 
 class DataManage extends React.Component {
-    state={};
+    state={
+        key:"1"
+    };
+
+    tabChange = (index)=>{
+        this.setState({
+            key:index
+        })
+    }
 
     render() {
         return (
             <div>
                 <Header type={false} color={true}/>
                 <div className='counters data-manage'>
-                    <Tabs type="card" tabBarStyle={{height:'54px'}}>
+                    <Tabs type="card" tabBarStyle={{height:'54px'}} onTabClick={this.tabChange.bind(this)}>
                         <TabPane tab="每日对账单" key="1">
-                            <DailyBill/>
+                           {this.state.key == 1 && <DailyBill/>} 
                         </TabPane>
                         <TabPane tab="热销商品" key="2">
-                            <HotSellGoods/>
+                            {this.state.key == 2 && <HotSellGoods/>} 
                         </TabPane>
                         <TabPane tab="店员销售" key="3">
-                            <ClerkSale/>
+                            {this.state.key == 3 && <ClerkSale/>} 
                         </TabPane>
                         <TabPane tab="收货报表" key="4">
-                            <ReceiptReport/>
+                            {this.state.key == 4 && <ReceiptReport/>} 
                         </TabPane>
                         <TabPane tab="利润报表" key="5">
-                            <ProfitReport/>
+                            {this.state.key == 5 && <ProfitReport/>} 
                         </TabPane>
                         <TabPane tab="进销存报表" key="6">
-                            <InoutReport/>
+                            {this.state.key == 6 && <InoutReport/>} 
                         </TabPane>
                     </Tabs>
                 </div>

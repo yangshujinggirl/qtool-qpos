@@ -28,8 +28,7 @@ app.model(require("./models/cashier"));
 app.model(require("./models/member"));
 app.model(require("./models/table"));
 app.model(require("./models/account"));
-
-
+app.model(require("./models/dataManage"));
 // 4. Router
 app.router(require('./router'));
 
