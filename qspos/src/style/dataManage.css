@@ -152,6 +152,7 @@
     width: 4px;
     height: 40px;
     left: 0px;
+    z-index: 99;
 }
 .first-flag{
     background: #FB6349;
@@ -159,11 +160,11 @@
 }
 .second-flag{
     background: #F7A303;
-    top: 95px;
+    top: 96px;
 }
 .third-flag{
     background: #51C193;
-    top: 135px;
+    top: 137px;
 }
 
 .charts-wrapper{
