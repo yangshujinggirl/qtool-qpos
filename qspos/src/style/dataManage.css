@@ -201,5 +201,8 @@
 }
 .info-content span{
     display: inline-block;
+    margin-right: 50px;
+}
+.ph-info .search-form .ant-form-item-label{
     width: 150px;
 }

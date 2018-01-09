@@ -158,6 +158,19 @@ class HotSellGoodsForm extends React.Component {
         })
     }
 
+    handleSubmit = (e) =>{
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            let data = {
+                currentPage:0,
+                limit:10,
+                startDate:this.state.startDate,
+                endDate:this.state.endDate
+            }
+            this.getServerData(data);
+        })
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -174,7 +187,7 @@ class HotSellGoodsForm extends React.Component {
                             onChange={this.dateChange.bind(this)} />
                     </FormItem>
                     <FormItem>
-                        <Button type="primary" icon="search">搜索</Button>
+                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
                     </FormItem>
                 </Form>
                 <div className="hotSell-wrapper">
