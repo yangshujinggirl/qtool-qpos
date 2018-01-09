@@ -209,3 +209,13 @@
 .charts-table-wrapper{
     padding: 0px 30px 0px 30px;
 }
+
+/* 修改tab高度 */
+.data-manage .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{
+    height: calc(100% - 40px);
+}
+.data-manage .ant-tabs.ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane, 
+.ant-tabs.ant-tabs-editable-card .ant-tabs-content > .ant-tabs-tabpane{
+    overflow-y: auto;
+    overflow-x: hidden;
+}

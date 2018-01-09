@@ -328,6 +328,7 @@ class InOutReportForm extends React.Component {
                     </div>
                 </Form>
                 <CommonTable 
+                    scroll={1800}
                     columns={this.columns} 
                     dataSource={this.state.dataSource}
                     pagination={true}
