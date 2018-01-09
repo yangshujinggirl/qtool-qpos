@@ -239,7 +239,7 @@ class ProfitReportForm extends React.Component {
                             <div>
                                 <p style={{color:"#FB6349"}}><i>¥</i>{this.state.rpProfit.amount.split('.')[0]}<span>.{this.state.rpProfit.amount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="销售额描述">
+                                    <Tooltip title="时间段内商品销售结算金额总和">
                                         销售额&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -249,7 +249,7 @@ class ProfitReportForm extends React.Component {
                             <div>
                                 <p style={{color:"#F7A303"}}><i>¥</i>{this.state.rpProfit.saleCostAmount.split('.')[0]}<span>.{this.state.rpProfit.saleCostAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="销售成本描述">
+                                    <Tooltip title="商品成本*销售数量">
                                         销售成本&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -259,7 +259,7 @@ class ProfitReportForm extends React.Component {
                             <div>
                                 <p style={{color:"#51C193"}}><i>¥</i>{this.state.rpProfit.profitAmount.split('.')[0]}<span>.{this.state.rpProfit.profitAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="销售毛利描述">
+                                    <Tooltip title="销售额-销售成本">
                                         销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>

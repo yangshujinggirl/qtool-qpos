@@ -206,3 +206,6 @@
 .ph-info .search-form .ant-form-item-label{
     width: 150px;
 }
+.charts-table-wrapper{
+    padding: 0px 30px 0px 30px;
+}

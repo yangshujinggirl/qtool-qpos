@@ -254,7 +254,7 @@ class InOutReportForm extends React.Component {
                             <div>
                                 <p style={{color:"#806EC6"}}><i>¥</i>{this.state.inventory.finalInvSumAmount.split('.')[0]}<span>.{this.state.inventory.finalInvSumAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="期末库存总成本描述">
+                                    <Tooltip title="期初库存总成本+进货总成本-销售总成本-损益总成本">
                                         期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -264,7 +264,7 @@ class InOutReportForm extends React.Component {
                             <div>
                                 <p style={{color:"#F4A314"}}><i>¥</i>{this.state.inventory.invSumAmount.split('.')[0]}<span>.{this.state.inventory.invSumAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="期初库存总成本描述">
+                                    <Tooltip title="期初库存总数量*期初商品移动总成本">
                                         期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -274,7 +274,7 @@ class InOutReportForm extends React.Component {
                             <div>
                                 <p style={{color:"#0D89C8"}}><i>¥</i>{this.state.inventory.recSumAmount.split('.')[0]}<span>.{this.state.inventory.recSumAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="收货总成本描述">
+                                    <Tooltip title="收货总数量*收货商品移动总成本">
                                         收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -284,7 +284,7 @@ class InOutReportForm extends React.Component {
                             <div>
                                 <p style={{color:"#51C193"}}><i>¥</i>{this.state.inventory.saleSumCostAmount.split('.')[0]}<span>.{this.state.inventory.saleSumCostAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="销售总成本描述">
+                                    <Tooltip title="销售总数量*销售商品移动总成本">
                                         销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -294,7 +294,7 @@ class InOutReportForm extends React.Component {
                             <div>
                                 <p style={{color:"#F24343"}}><i>¥</i>{this.state.inventory.adjustSumCostAmount.split('.')[0]}<span>.{this.state.inventory.adjustSumCostAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                <Tooltip title="损益成本描述">
+                                <Tooltip title="损益总数量*损益商品移动总成本">
                                     损益成本&nbsp;<Icon type="exclamation-circle-o"/>
                                 </Tooltip>
                                 </span>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
@@ -35,31 +35,48 @@ class ClerkSaleForm extends React.Component {
                 refundAmount:null,
                 key:-2
             },
-            setsouce:[]
+            setsouce:[],
+            dateStart:'',
+            dateEnd:''
         };
+        this.amount = <Tooltip placement="top" title='销售订单金额-退款订单金额'>
+                        销售额&nbsp;<Icon type="exclamation-circle-o" />
+                      </Tooltip>;
+        this.icAmount = <Tooltip placement="top" title='微信+支付宝+现金+银联'>
+                            净收款&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+        this.wechatAmount = <Tooltip placement="top" title='微信消费+微信充值-微信退款'>
+                            微信&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+        this.alipayAmount = <Tooltip placement="top" title='支付宝消费+支付宝充值-支付宝退款'>
+                            支付宝&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+        this.cashAmount = <Tooltip placement="top" title='现金消费+现金充值-现金退款'>
+                            现金&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+        this.unionpayAmount = <Tooltip placement="top" title='银联消费+银联充值-银联退款'>
+                            银联&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+        this.refundAmount = <Tooltip placement="top" title='所有订单总退款'>
+                            退款&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
         this.columns = [{
             title: '姓名',
             dataIndex: 'nickname'
         }, {
-            title: "sale",
+            title:this.amount,
             dataIndex: 'amount'
         }, {
-            title: "netreceipts",
+            title:this.icAmount,
             dataIndex: 'icAmount'
         },{
             title: '订单数',
             dataIndex: 'orderQty'
         },{
-            title: '微信',
+            title: this.wechatAmount,
             dataIndex: 'wechatAmount'
         },{
-            title: '支付宝',
+            title: this.alipayAmount,
             dataIndex: 'alipayAmount'
         },{
-            title: '银联',
+            title: this.unionpayAmount,
             dataIndex: 'unionpayAmount'
         },{
-            title: '现金',
+            title: this.cashAmount,
             dataIndex: 'cashAmount'
         },{
             title: '会员充值',
@@ -71,7 +88,7 @@ class ClerkSaleForm extends React.Component {
             title: '积分抵扣',
             dataIndex: 'pointAmount'
         },{
-            title: '退款',
+            title: this.refundAmount,
             dataIndex: 'refundAmount'
         }];
     }
@@ -85,34 +102,44 @@ class ClerkSaleForm extends React.Component {
     }
 
 
-    dateChange = (date, dateString) =>{
-        console.log(date, dateString);
+    searchTable = () =>{
+        let values={
+            dateStart:this.state.dateStart,
+            dateEnd:this.state.dateEnd
+        };
+        this.initdataspuce(values);
     }
 
     initdataspuce=(values)=>{
         const result=GetServerData('qerp.web.qpos.st.user.sale.query',values)
-            result.then((res) => {
-                    return res;
-            }).then((json) => {
-                if(json.code=='0'){
-                    const userSales=json.userSales
-                    const totalUserSale=json.totalUserSale
-                    totalUserSale.nickname='合计'
-                    const setsouce=[]
-                    for(var i=0;i<userSales.length;i++){
-                        setsouce.push(userSales[i])
-                    }
-                    setsouce.push(totalUserSale)
-                    this.setState({
-                        userSales:json.userSales,
-                        totalUserSale:totalUserSale,
-                        setsouce:setsouce
-                    })
-                }else{  
-                    message.error(json.message); 
+        result.then((res) => {
+                return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                const userSales=json.userSales;
+                const totalUserSale=json.totalUserSale;
+                totalUserSale.nickname='合计';
+                const setsouce=[];
+                for(var i=0;i<userSales.length;i++){
+                    setsouce.push(userSales[i]);
                 }
-            })
+                setsouce.push(totalUserSale);
+                this.setState({
+                    userSales:json.userSales,
+                    totalUserSale:totalUserSale,
+                    setsouce:setsouce
+                })
+            }else{  
+                message.error(json.message); 
+            }
+        })
+    }
 
+   dataChange = (dates,dateStrings) =>{
+        this.setState({
+            dateStart:dateStrings[0],
+            dateEnd:dateStrings[1]
+        })
    }
 
     render() {
@@ -135,29 +162,25 @@ class ClerkSaleForm extends React.Component {
                             defaultValue={[moment(a,dateFormat),moment(a, dateFormat)]}
                             format="YYYY-MM-DD"
                             allowClear={false}
-                            onChange={this.dateChange.bind(this)} />
+                            onChange={this.dataChange.bind(this)} />
                     </FormItem>
                     <FormItem>
-                        <Button type="primary" icon="search">搜索</Button>
+                        <Button type="primary" icon="search" onClick={this.searchTable.bind(this)}>搜索</Button>
                     </FormItem>
                 </Form>
-                <div className="charts-wrapper">
-                    <p>销售数据</p>
-                    <div className='fl'>
-                        <Echartsaxis userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/>
+                <div className="charts-table-wrapper">
+                    <div className="charts-wrapper">
+                        <p style={{paddingBottom:"20px",fontSize:"14px",color:" #384162"}}>销售数据</p>
+                        <div className='fl'>
+                            <Echartsaxis userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/>
+                        </div>
+                        <div className='fl' style={{width:'2px',height:'200px',background:'#E7E8EC',margin:'40px 25px'}}></div>
+                        <div className='fl'><EchartsPie userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/></div>
                     </div>
-                    <div className='fl' style={{width:'2px',height:'200px',background:'#E7E8EC',margin:'40px 25px'}}></div>
-                    <div className='fl'><EchartsPie userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/></div>
-                </div>
-                <div className="table-wrapper">
-                <p>详细数据</p>
-                <CommonTable columns={this.columns} dataSource={this.state.setsouce}  pagination={false}/>
-                    {/* <Table bordered 
-                        dataSource={this.state.setsouce} 
-                        columns={this.columns} 
-                        rowClassName={this.rowClassName.bind(this)}
-                        pagination={false}
-                        /> */}
+                    <div className="table-wrapper">
+                        <p style={{padding:"20px 0px",fontSize:"14px",color:" #384162"}}>详细数据</p>
+                        <CommonTable columns={this.columns} dataSource={this.state.setsouce}  pagination={false}/>
+                    </div>
                 </div>
             </div>
         );

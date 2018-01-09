@@ -148,7 +148,7 @@ class DailyBillForm extends React.Component {
                             <div>
                                 <p style={{color:"#FB6349"}}><i>¥</i>{this.state.rpDayAccount.cleanAmount.split('.')[0]}<span>.{this.state.rpDayAccount.cleanAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="净收款描述">
+                                    <Tooltip title="微信+支付宝+现金+银联">
                                         净收款&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -158,7 +158,7 @@ class DailyBillForm extends React.Component {
                             <div>
                                 <p style={{color:"#F7A303"}}><i>¥</i>{this.state.rpDayAccount.amount.split('.')[0]}<span>.{this.state.rpDayAccount.amount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="销售额描述">
+                                    <Tooltip title="销售订单金额-退款订单金额">
                                         销售额&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -168,7 +168,7 @@ class DailyBillForm extends React.Component {
                             <div>
                                 <p style={{color:"#51C193"}}><i>¥</i>{this.state.rpDayAccount.rechargeAmount.split('.')[0]}<span>.{this.state.rpDayAccount.rechargeAmount.split('.')[1]}</span></p>
                                 <span className="explain-span">
-                                    <Tooltip title="充值金额描述">
+                                    <Tooltip title="充值订单的总金额">
                                         充值金额&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
@@ -178,7 +178,7 @@ class DailyBillForm extends React.Component {
                             <div>
                                 <p style={{color:"#806EC6"}}>{this.state.rpDayAccount.orderSum}</p>
                                 <span className="explain-span">
-                                    <Tooltip title="订单量描述">
+                                    <Tooltip title="销售订单的总数量">
                                         订单量&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
