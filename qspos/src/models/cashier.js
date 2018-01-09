@@ -30,6 +30,27 @@ export default {
 
     },
     reducers: {
+        initstate(state, { payload: {}}) {
+			const datasouce=[]
+            const totolnumber='0'
+            const totolamount='0'
+            const thispoint=null
+            const onbule=false
+            const name=null
+            const levelStr=null
+            const point=null
+            const amount=null
+            const cardNo=null
+            const mbCardId=null
+            const isBirthMonth=null
+            const ismember=false
+            const payvisible=false
+            const paytotolamount='0.00'
+            const themeindex=0
+            const barcode=null
+            const cardNoMobile=null
+			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile}
+		},
   	    datasouce(state, { payload: datasouce}) {
             var totolnumber=0
             var totolamount=0
@@ -174,6 +195,14 @@ export default {
 
 
     },
-    subscriptions: {},
+    subscriptions: {
+        setup({ dispatch, history }) {
+            return history.listen(({ pathname, query }) => {
+                if (pathname === '/cashier') {
+                      dispatch({ type: 'initstate', payload:[]})
+                }
+            });
+        },
+    },
 };
 

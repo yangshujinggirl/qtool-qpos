@@ -172,7 +172,8 @@ class Dropdownmenu extends React.Component {
     }
 
     logout=()=>{
-        this.context.router.push('/')
+        location.reload();
+        // this.context.router.push('/')
     }
 
     handleCancel = (e) => {
