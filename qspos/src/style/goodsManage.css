@@ -1,0 +1,13 @@
+.goods-manage .exportBtn{
+    margin-left: 5px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 3px;
+}
+.searchinputbtn{
+    margin-left: 5px;
+    border-radius:3px;
+}
+.searchinput{
+    border-radius:3px;
+}

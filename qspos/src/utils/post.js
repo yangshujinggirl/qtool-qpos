@@ -32,13 +32,11 @@ export function post(url, paramsObj) {
         },
         body: obj2params(paramsObj)
     }).then((res) => {
-        console.log(res)
         if (res.status !== 200) {            
             return {message:'错误代码：'+res.status};                   
          }
          return res.json();
     }).then((json) => {
-        console.log(json)
         if(json.code=='E_300'){
              window.location.href= '/';
         }
