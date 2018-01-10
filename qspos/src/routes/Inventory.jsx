@@ -39,21 +39,21 @@ class MyUpload extends React.Component {
     //根据id请求数据
     setdatas=(messages)=>{
         const result=GetServerData('qerp.pos.pd.check.info',messages)
-                    result.then((res) => {
-                      return res;
-                    }).then((json) => {
-                        console.log(json)
-                        if(json.code=='0'){
-                            this.props.dispatch({
-                                type:'inventory/pdCheckId',
-                                payload: {pdCheckDetails:json.pdCheckDetails,pdCheckId:messages.pdCheckId}
-                            })
-                            const Setdate=this.props.Setdate
-                            Setdate(json.pdCheckDetails,json.total,messages.pdCheckId)
-                        }else{  
-                            message.warning(json.message);
-                        }
-                    })
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            console.log(json)
+            if(json.code=='0'){
+                this.props.dispatch({
+                    type:'inventory/pdCheckId',
+                    payload: {pdCheckDetails:json.pdCheckDetails,pdCheckId:messages.pdCheckId}
+                })
+                const Setdate=this.props.Setdate
+                Setdate(json.pdCheckDetails,json.total,messages.pdCheckId)
+            }else{  
+                message.warning(json.message);
+            }
+        })
     }
 
     render() {
@@ -105,6 +105,7 @@ class Searchcomponent extends React.Component {
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载盘点模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'/></div>
+                    <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonico text='查看盘点损益日志'/></Link></div>
 	      		</div>
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
           			<div className='searchselect clearfix'>

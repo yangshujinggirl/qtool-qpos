@@ -5,13 +5,12 @@ import { Link } from 'dva/router';
 import CommonTable from '../../constants/dataManage/commonTable';
 import {GetServerData} from '../../services/services';
 import moment from 'moment';
-import RemarkText from './remarkModal';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
 
-class AdjustLogIndexForm extends React.Component {
+class InventorydiffLogIndexForm extends React.Component {
     constructor(props) {
         super(props);
         this.state={
@@ -21,8 +20,6 @@ class AdjustLogIndexForm extends React.Component {
             limit:10,
             adjustTimeStart:"",
             adjustTimeEnd:"",
-            visible:false,
-            remarkText:''
         };
         this.columns = [{
             title: '商品条码',
@@ -38,7 +35,7 @@ class AdjustLogIndexForm extends React.Component {
             dataIndex: 'averageRecPrice',
         },{
             title: '损益数量',
-            dataIndex: 'diffQty',
+            dataIndex: 'qty',
         },{
             title: '损益金额',
             dataIndex: 'adjustAmount',
@@ -48,22 +45,7 @@ class AdjustLogIndexForm extends React.Component {
         },{
             title: '操作时间',
             dataIndex: 'operateTime',
-        },{
-            title: '损益备注',
-            dataIndex: 'remark',
-            render: (text, record, index) => {
-                return (
-                    <span style={{color:"35BAB0"}} onClick={this.showRemark.bind(this,record)}>查看</span>
-                )
-            }
         }];
-    }
-
-    showRemark = (record) =>{
-        this.setState({
-            remarkText:record.remark,
-            visible:true
-        })
     }
 
     dateChange = (date, dateString) =>{
@@ -100,7 +82,7 @@ class AdjustLogIndexForm extends React.Component {
                     adjustTimeStart:this.state.adjustTimeStart,
                     adjustTimeEnd:this.state.adjustTimeEnd,
                     name:this.state.name,
-                    type:1
+                    type:2
                 }
                 self.getServerData(data);
             })
@@ -115,7 +97,7 @@ class AdjustLogIndexForm extends React.Component {
             adjustTimeStart:this.state.adjustTimeStart,
             adjustTimeEnd:this.state.adjustTimeEnd,
             name:this.state.name,
-            type:1
+            type:2
         }
         const result=GetServerData('qerp.pos.pd.adjust.export',data);
         result.then((res) => {
@@ -167,8 +149,6 @@ class AdjustLogIndexForm extends React.Component {
                     </div>
                 </Form>
                 <div className="table-wrapper">
-                    <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
-                                remarkText={this.state.remarkText}/>
                     <CommonTable 
                         columns={this.columns} 
                         dataSource={this.state.dataSource}
@@ -230,7 +210,7 @@ class AdjustLogIndexForm extends React.Component {
                 limit:10,
                 adjustTimeStart:this.state.adjustTimeStart,
                 adjustTimeEnd:this.state.adjustTimeEnd,
-                type:1
+                type:2
             }
             self.getServerData(values);
         })
@@ -243,9 +223,10 @@ class AdjustLogIndexForm extends React.Component {
 }
 
 function mapStateToProps(state){
-   return {};
+    const {pdCheckId} = state.inventory;
+  	return {pdCheckId};
 }
 
-const AdjustLogIndex = Form.create()(AdjustLogIndexForm);
+const InventorydiffLogIndex = Form.create()(InventorydiffLogIndexForm);
 
-export default connect(mapStateToProps)(AdjustLogIndex);
+export default connect(mapStateToProps)(InventorydiffLogIndex);

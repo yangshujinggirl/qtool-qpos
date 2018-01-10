@@ -18,16 +18,15 @@ class Searchcomponent extends React.Component {
     }
     Hindok=()=>{
         const pdCheckDetails=this.state.settablesouce
-        console.log(pdCheckDetails)
         for(var i=0;i<pdCheckDetails.length;i++){
             pdCheckDetails[i].adjustQty=pdCheckDetails[i].difQty
         }
-    	const values={adjusts:pdCheckDetails}
-        const result=GetServerData('qerp.pos.pd.adjust.save',values)
+        // const values={adjusts:pdCheckDetails}
+        const values={pdCheckId:this.props.pdCheckId};
+        const result=GetServerData('qerp.pos.pd.check.adjust',values)
             result.then((res) => {
                 return res;
             }).then((json) => {
-                console.log(json)
                 if(json.code=='0'){
                     message.success('损益成功',3,this.callback());
                 }else{  
@@ -184,10 +183,6 @@ class Inventorydiff extends React.Component {
 
 
 }
-
-
-
-
 
 function mapStateToProps(state) {
     console.log(state)
