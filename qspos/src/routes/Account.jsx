@@ -200,7 +200,7 @@ class Modelform extends Component {
                                 <Input placeholder="请输入11位手机号" className='inputwidth' />
                             )}
                         </FormItem>
-                        <FormItem  label="会员权限" 
+                        <FormItem  label="账号权限" 
                              labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }} 
                             className='listto checkboxlabel'>
