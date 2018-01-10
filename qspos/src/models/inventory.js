@@ -12,7 +12,10 @@ export default {
     reducers: {
   	    pdCheckId(state, { payload: {pdCheckDetails,pdCheckId}}) {
            return {...state,pdCheckDetails,pdCheckId}
-        }
+        },
+        initpdCheckId(state, { payload: {pdCheckDetails,pdCheckId}}) {
+            return {...state,pdCheckDetails,pdCheckId}
+        },
     },
     effects: {
     },

@@ -9,7 +9,7 @@ class InventorydiffLog extends React.Component{
    render(){
         return (
             <div>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} linkRoute="inventory"/>
                 <div className='counters'>
                     <div className="adjust-log">
                         <InventorydiffLogIndex/>

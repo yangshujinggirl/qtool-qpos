@@ -9,7 +9,7 @@ class AdjustLog extends React.Component{
    render(){
         return (
             <div>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} linkRoute="adjust"/>
                 <div className='counters'>
                     <div className="adjust-log">
                         <AdjustLogIndex/>

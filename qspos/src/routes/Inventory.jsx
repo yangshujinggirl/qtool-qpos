@@ -83,14 +83,12 @@ class Searchcomponent extends React.Component {
         })
     }
     Setdate=(message,total,id)=>{
-        console.log(message)
         for(var i=0;i<message.length;i++){
             message[i].key=i+1
         }
         this.props.setdayasouce(message,total,id)
     }
     Setdates=(messages)=>{
-        console.log(this)
         const Setdates=this.refs.up.setdatas
         Setdates(messages)
     }
@@ -173,10 +171,8 @@ class EditableTable extends React.Component {
         })
     }
     pagechange=(page)=>{
-        console.log(page)
         var pages=Number(page.current)-1
         let values={pdCheckId:this.state.pdCheckId,limit:10,currentPage:pages}
-        console.log(this)
         const setdatas=this.props.setdatas
         setdatas(values)
   
@@ -215,7 +211,7 @@ class Inventory extends React.Component{
     render() {
         return (
             <div>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
                     <Searchcomponent setdayasouce={this.setdayasouce.bind(this)} ref='search' dispatch={this.props.dispatch}/>
                     <EditableTable ref='inventory' seracedatasouce={this.seracedatasouce.bind(this)} setdatas={this.setdatas.bind(this)}/>

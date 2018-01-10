@@ -87,7 +87,7 @@ class Searchcomponent extends React.Component {
     }
    
     callback=()=>{
-    	this.context.router.push('/cashier')
+    	this.context.router.push('/goods');
     }
     
     revisemessage=(messages)=>{
@@ -320,7 +320,7 @@ class Adjust extends React.Component {
     render(){
         return(
             <div>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
                     <Searchcomponent dispatch={this.props.dispatch} setdayasouce={this.setdayasouce.bind(this)} ref='search'/>
                     <EditableTable dispatch={this.props.dispatch} ref='adjust' seracedatasouce={this.seracedatasouce.bind(this)}/>

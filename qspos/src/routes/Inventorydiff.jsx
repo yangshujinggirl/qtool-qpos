@@ -14,29 +14,37 @@ class Searchcomponent extends React.Component {
         this.state = {
             settablesouce: [],
         };
-
     }
+
     Hindok=()=>{
-        const pdCheckDetails=this.state.settablesouce
+        const pdCheckDetails=this.state.settablesouce;
         for(var i=0;i<pdCheckDetails.length;i++){
             pdCheckDetails[i].adjustQty=pdCheckDetails[i].difQty
         }
-        // const values={adjusts:pdCheckDetails}
-        const values={pdCheckId:this.props.pdCheckId};
-        const result=GetServerData('qerp.pos.pd.check.adjust',values)
+        if(this.props.pdCheckId){
+            // const values={adjusts:pdCheckDetails}
+            const values={pdCheckId:this.props.pdCheckId};
+            const result=GetServerData('qerp.pos.pd.check.adjust',values)
             result.then((res) => {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
+                    this.props.dispatch({
+                        type:'inventory/initpdCheckId',
+                        payload: {pdCheckDetails:[],pdCheckId:null}
+                    })
                     message.success('损益成功',3,this.callback());
                 }else{  
                     message.error(json.message);
                 }
             })
+        }else{
+            message.error("暂无盘点损益信息");
+        }
     }
     
     callback=()=>{
-        this.context.router.push('/cashier')
+        this.context.router.push('/inventory');
     }
     download=()=>{
         let values={pdCheckId:this.props.pdCheckId}
@@ -46,7 +54,6 @@ class Searchcomponent extends React.Component {
         window.open(url)
     }
     settablesouce=(messages)=>{
-        console.log(messages)
         this.setState({
             settablesouce:messages
         })
@@ -112,26 +119,24 @@ class EditableTable extends React.Component {
     //根据id请求数据
     setdatas=(messages)=>{
         const result=GetServerData('qerp.pos.pd.check.info',messages)
-                    result.then((res) => {
-                      return res;
-                    }).then((json) => {
-                        console.log(json)
-                        const messagedata=json.pdCheckDetails
-                        for(var i=0;i<messagedata.length;i++){
-                            messagedata[i].index=i+1
-                        }
-                        if(json.code=='0'){
-                           this.setState({
-                                dataSource:messagedata,
-                                total:json.total
-                           },function(){
-                            this.props.dataSources(this.state.dataSource)
-                           })
-                            
-                        }else{  
-                            message.warning(json.message);
-                        }
-                    })
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                const messagedata=json.pdCheckDetails;
+                for(var i=0;i<messagedata.length;i++){
+                    messagedata[i].index=i+1
+                }
+                this.setState({
+                    dataSource:messagedata,
+                    total:json.total
+                },function(){
+                    this.props.dataSources(this.state.dataSource)
+                })
+            }else{  
+                message.warning(json.message);
+            }
+        })
     }
 
   	
@@ -150,14 +155,14 @@ class EditableTable extends React.Component {
     	);
   	}
     componentDidMount(){
-        this.setState({
-            pdCheckId:this.props.pdCheckId
-        },function(){
-            let values={pdCheckId:this.state.pdCheckId,limit:100000,currentPage:0}
-            this.setdatas(values)
-        })
-        
-
+        if(this.props.pdCheckId){
+            this.setState({
+                pdCheckId:this.props.pdCheckId
+            },function(){
+                let values={pdCheckId:this.state.pdCheckId,limit:100000,currentPage:0}
+                this.setdatas(values)
+            })
+        }
     }
 }
 
@@ -171,7 +176,7 @@ class Inventorydiff extends React.Component {
     render() {
         return (
             <div>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} linkRoute="inventory"/>
                 <div className='counters'>
                     <Searchcomponent  pdCheckId={this.props.pdCheckId} ref='user'/>
                     <EditableTable  pdCheckId={this.props.pdCheckId} dataSources={this.dataSources.bind(this)}/>
@@ -185,7 +190,6 @@ class Inventorydiff extends React.Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     const {pdCheckId} = state.inventory;
   	return {pdCheckId};
 }
