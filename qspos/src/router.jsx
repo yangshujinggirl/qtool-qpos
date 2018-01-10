@@ -16,6 +16,7 @@ import Inventorydiff from "./routes/Inventorydiff";
 import DataManage from "./routes/DataManage";
 import ReceiptDetail from "./routes/ReceiptDetail"
 import Memberinfo from "./routes/Memberinfo";
+import AdjustLog from "./routes/AdjustLog";
 
 function RouterConfig({ history }) {
   return (
@@ -34,6 +35,7 @@ function RouterConfig({ history }) {
       <Route path="/dataManage" component={DataManage}/>
       <Route path="/member/info" component={Memberinfo} />
       <Route path="/dataManage/receiptDetail" component={ReceiptDetail}/>
+      <Route path="/adjustLog" component={AdjustLog}/>
     </Router>
   );
 }
