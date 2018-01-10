@@ -1,10 +1,13 @@
 import React from 'react';
 import { connect } from 'dva';
 import Header from '../components/header/Header';
-import Searchinput from '../components/Searchinput/Searchinput';
+// import Searchinput from '../components/Searchinput/Searchinput';
+import SearchinputTwo from '../components/Searchinput/searchTwo';
 import {Buttonico} from '../components/Button/Button';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
-import { Link } from 'dva/router'
+import { Link } from 'dva/router';
+import {GetServerData} from '../services/services';
+import '../style/goodsManage.css';
 
 
 const Option = Select.Option;
@@ -17,18 +20,19 @@ class Searchcomponent extends React.Component {
         let limitSize = localStorage.getItem('pageSize');
         this.setState({
             selectvalue:value
-        },function(){
-            this.props.dispatch({
-                type:'goods/fetch',
-                payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:limitSize,currentPage:0} }
-            })
-        })  
+        })
+        // ,function(){
+        //     this.props.dispatch({
+        //         type:'goods/fetch',
+        //         payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:limitSize,currentPage:0} }
+        //     })
+        // }
+        // )  
     }
     revisemessage=(messages)=>{
-            console.log(messages)
-            this.setState({
-                inputvalue:messages
-            })
+        this.setState({
+            inputvalue:messages
+        })
     }
     hindsearch=()=>{
         let limitSize = localStorage.getItem('pageSize');
@@ -38,14 +42,31 @@ class Searchcomponent extends React.Component {
         })
     }
 
+    //导出数据
+    exportData = () =>{
+        let data = {
+            keywords:this.state.inputvalue,
+            pdCategoryId:this.state.selectvalue
+        };
+        const result=GetServerData('qerp.pos.pd.spu.export',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+        
+            }else{  
+                message.error(json.message);
+            }
+        })
+    }
+
     pagefresh=(currentPage,pagesize)=>{
-        console.log(currentPage)
-        console.log(pagesize)
         this.props.dispatch({
                 type:'goods/fetch',
                 payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:pagesize,currentPage:currentPage} }
         })
     }
+
     render(){
         return(
             <div className='clearfix mb10'>
@@ -56,7 +77,7 @@ class Searchcomponent extends React.Component {
       			<div className='fr clearfix'>
 	      			<div className='searchselect clearfix fl'>
 	                    <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>商品分类</label>
-	                    <Select  style={{ width: 100,height:40,marginRight:'20px' }} onChange={this.handleChange.bind(this)} defaultValue={null}>
+	                    <Select  style={{ width: 100,height:40,marginRight:'5px' }} onChange={this.handleChange.bind(this)} defaultValue={null}>
                             <Option value={null} key='-1'>全部</Option>
                             {
                                 this.props.pdCategories.map((item,index)=>{
@@ -66,7 +87,10 @@ class Searchcomponent extends React.Component {
 	                        
 	                    </Select>
 	                </div>
-          			<div className='fl'><Searchinput text='请输入商品条码、名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/></div>
+                      <div className='fl'><SearchinputTwo text='请输入商品条码、名称' 
+                                                        revisemessage={this.revisemessage.bind(this)} 
+                                                        hindsearch={this.hindsearch.bind(this)}
+                                                        exportData={this.exportData.bind(this)}/></div>
      			</div>
     		</div>
         )
@@ -105,8 +129,11 @@ class EditableTable extends React.Component {
       		title: '零售价',
             width:'12%',
       		dataIndex: 'toCPrice',
-      		}
-    	];
+      	},{
+            title: '成本价',
+            width:'12%',
+            dataIndex: 'averageRecPrice',
+        }];
 
 	    this.state = {
 	      	dataSource: [],
@@ -204,7 +231,7 @@ class Goods extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="goods-manage">
                 <Header type={false} color={true}/>
                 <div className='search-component'>
                     <Searchcomponent pdCategories={this.props.pdCategories} dispatch={this.props.dispatch} ref='search'/>
@@ -229,11 +256,7 @@ class Goods extends React.Component {
 
 }
 
-
-
-
 function mapStateToProps(state){
-     console.log(state)
     const {pdSpus,pdCategories,total} = state.goods;
     return {pdSpus,pdCategories,total};
 }

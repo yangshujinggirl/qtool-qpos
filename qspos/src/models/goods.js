@@ -23,7 +23,6 @@ export default {
     effects: {
   	    *fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
-            console.log(result)
             if(result.code=='0'){
                 let {pdSpus,total}=result
                 for(var i=0;i<pdSpus.length;i++){
@@ -39,7 +38,6 @@ export default {
         },
         *pdCategorieslist({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
-            console.log(result)
             if(result.code=='0'){
                 let {pdCategories}=result
                 for(var i=0;i<pdCategories.length;i++){

@@ -1,0 +1,36 @@
+.adjust-log{
+    width: 100%;
+    height: 100%;
+}
+.adjust-index{
+    width: 100%;
+    height: 100%;
+}
+.adjust-index .search-form{
+   padding-top:0px; 
+}
+.adjust-index .ant-form-item{
+    margin-bottom: 10px;
+}
+.adjust-index .ant-input{
+    height: 40px;
+    line-height: 40px;
+}
+.adjust-index  .ant-select-lg .ant-select-selection--single{
+    height: 40px;
+}
+.adjust-index .search-form .ant-form-item-control-wrapper .ant-select{
+    display: block;
+}
+.adjust-index .ant-btn-lg{
+    height: 40px;
+}
+.adjust-index .export-btn{
+    height: 40px;
+}
+.adjust-index  .table-wrapper{
+    height: calc(100% - 52px);
+    background: white;
+    border: 1px solid #e9e9e9;
+    border-radius: 5px;
+}
