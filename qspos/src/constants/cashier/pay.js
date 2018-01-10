@@ -824,8 +824,8 @@ Pay.contextTypes= {
 }
 
 function mapStateToProps(state) {
-    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce}=state.cashier
-    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce};
+    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint}=state.cashier
+    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint};
 }
 export default connect(mapStateToProps)(Pay);
 
