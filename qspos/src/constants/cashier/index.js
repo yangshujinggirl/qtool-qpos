@@ -195,6 +195,10 @@ class Cashierindex extends React.Component {
         )
     }
     componentDidMount(){
+        this.props.dispatch({
+            type:'dataManage/initKey',
+            payload: "1"
+        })
         window.addEventListener('click', this.inputclick,true);
         window.addEventListener('keydown', this.handleokents,true);  
         window.addEventListener('keyup', this.handleokent,true); 

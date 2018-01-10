@@ -232,6 +232,11 @@ class ReceiptDetailsForm extends React.Component {
 
     componentDidMount(){
         this.getServerData();
+        //添加
+        this.props.dispatch({
+            type:'dataManage/initKey',
+            payload: "4"
+        })
     }
 }
 

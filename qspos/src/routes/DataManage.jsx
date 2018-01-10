@@ -31,6 +31,10 @@ class DataManage extends React.Component {
         this.setState({
             key:index
         })
+        this.props.dispatch({
+            type:'dataManage/initKey',
+            payload: "1"
+        })
     }
 
     render() {
@@ -38,7 +42,9 @@ class DataManage extends React.Component {
             <div>
                 <Header type={false} color={true}/>
                 <div className='counters data-manage'>
-                    <Tabs type="card" tabBarStyle={{height:'54px'}} onTabClick={this.tabChange.bind(this)}>
+                    <Tabs type="card" tabBarStyle={{height:'54px'}} 
+                            defaultActiveKey={this.props.initKey=="4"?"4":"1"}
+                            onTabClick={this.tabChange.bind(this)}>
                         <TabPane tab="每日对账单" key="1">
                            {this.state.key == 1 && <DailyBill/>} 
                         </TabPane>
@@ -62,10 +68,23 @@ class DataManage extends React.Component {
             </div>
         );
     }
+
+    componentDidMount(){
+        if(this.props.initKey == "4"){
+            this.setState({
+                key:"4"
+            })
+        }else{
+            this.setState({
+                key:"1"
+            })
+        }
+    }
 }
 
 function mapStateToProps(state){
-   return {};
+    const {initKey} = state.dataManage;
+    return {initKey};
 }
 
 export default connect(mapStateToProps)(DataManage);
