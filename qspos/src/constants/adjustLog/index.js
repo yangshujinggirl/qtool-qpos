@@ -140,32 +140,35 @@ class AdjustLogIndexForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="adjust-index">
-                {/*搜索部分 */}
-                <Form className="search-form">
-                    <FormItem
-                     label="损益时间"
-                     labelCol={{ span: 5 }}
-                     wrapperCol={{span: 10}}>
-                        <RangePicker 
-                            value={[moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]}
-                            format={dateFormat}
-                            onChange={this.dateChange.bind(this)} />
-                    </FormItem>
-                    <FormItem
-                    label="商品名称"
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{span: 10}}>
-                    {getFieldDecorator('name')(
-                        <Input />
-                    )}
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" icon="search" onClick={this.handleSearch.bind(this)}>搜索</Button>
-                    </FormItem>
-                    <div className="export-div">
-                        <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
-                    </div>
-                </Form>
+                <div className="form-wrapper">
+                    {/*搜索部分 */}
+                    <Form className="search-form">
+                        <FormItem
+                        label="损益时间"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                            <RangePicker 
+                                value={[moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]}
+                                format={dateFormat}
+                                onChange={this.dateChange.bind(this)} />
+                        </FormItem>
+                        <FormItem
+                        label="商品名称"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                        {getFieldDecorator('name')(
+                            <Input />
+                        )}
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" icon="search" onClick={this.handleSearch.bind(this)}>搜索</Button>
+                            {/* <div className="export-div">  className="export-btn"*/}
+                                <Button type="primary" onClick={this.exportList.bind(this)}>导出数据</Button>
+                            {/* </div> */}
+                        </FormItem>
+                        
+                    </Form>
+                </div>
                 <div className="table-wrapper">
                     <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
                                 remarkText={this.state.remarkText}/>
