@@ -29,6 +29,7 @@ class Cashierindex extends React.Component {
                     this.props.meth1.initModel()
                 }else{
                     message.error('数量为0，不能结算')
+                    return
                 }
             }
         }
