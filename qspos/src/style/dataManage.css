@@ -80,7 +80,6 @@
     height: 40px;
     line-height: 40px;
     vertical-align: middle;
-    width: 200px;
 }
 .search-form .ant-form-item-control{
     line-height: 40px;
@@ -92,11 +91,18 @@
 .data-manage .ant-select-selection-selected-value{
     line-height: 30px;
 }
-.data-manage .ant-input,.ant-select{
+.search-form .ant-input,.search-form .ant-select{
+    font-size: 14px;
+    color: #384162;
+    width: 200px;
+}
+.data-manage .ant-input,.data-manage .ant-select{
     font-size: 14px;
     color: #384162;
 }
-
+.search-form.time-select .ant-calendar-picker-input{
+    width: 320px;
+}
 .search-form .ant-btn{
     margin-left: 8px;
     font-size: 14px;
@@ -181,14 +187,12 @@
     background: #FFFFFF;
 }
 /* 收货详情 */
-.ph-info{
-    padding: 0px 30px;
-}
 .info-title{
     width: 100%;
     height: 60px;
     line-height: 60px;
     font-size: 16px;
+    padding: 0px 30px;
     color: #384162;
     border-bottom: 1px solid #E7E8EC;
 }
@@ -196,6 +200,7 @@
     width: 100%;
     height: 60px;
     line-height: 60px;
+    padding: 0px 30px;
     font-size: 14px;
     color: #384162;
 }
@@ -214,7 +219,7 @@
 .data-manage .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{
     height: calc(100% - 40px);
 }
-.daily-bill,.hot-sell,.receipt-report{
+.daily-bill,.hot-sell,.receipt-report,.ph-info{
     width: 100%;
     height: 100%;
 }
@@ -239,4 +244,15 @@
 }
 .footer-pagefixed ul{
     margin-top: 15px;
+}
+.receipt-details{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.receipt-details .ant-table-bordered .ant-table-thead > tr > th{
+    border-top: 1px solid #e9e9e9;
+}
+.receipt-details .ant-select-selection-selected-value{
+ line-height: normal;
 }
