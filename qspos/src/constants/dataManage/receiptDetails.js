@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
+import {GetServerData} from '../../services/services';
 import CommonTable from './commonTable';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -53,12 +54,11 @@ class ReceiptDetailsForm extends React.Component {
             dataIndex: 'consignee',
         },{
             title: '最后操作时间',
-            dataIndex: 'operateTime',
+            dataIndex: 'updateTime',
         }];
     }
 
     dateChange = (date, dateString) =>{
-        console.log(date, dateString);
         this.setState({
             operateST:dateString[0],
             operateET:dateString[1]
@@ -81,92 +81,36 @@ class ReceiptDetailsForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        let dataList = [
-            {
-                "pdBarcode": "1010",//商品条码
-                "pdSpuName": "非预+批+到",//商品名称"
-                "pdSkuType": "规格属性1/规格属性1",
-                "qty": "100",  // 商品数量
-                "receiveQty": "20", //已收数量
-                "differenceQty": "20", //差异数量
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00",
-                "price":'2343'
-            },
-            {
-                "pdBarcode": "1010",//商品条码
-                "pdSpuName": "非预+批+到",//商品名称"
-                "pdSkuType": "规格属性1/规格属性1",
-                "qty": "100",  // 商品数量
-                "receiveQty": "20", //已收数量
-                "differenceQty": "20", //差异数量
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00",
-                "price":'2343'
-            },
-            {
-                "pdBarcode": "1010",//商品条码
-                "pdSpuName": "非预+批+到",//商品名称"
-                "pdSkuType": "规格属性1/规格属性1",
-                "qty": "100",  // 商品数量
-                "receiveQty": "20", //已收数量
-                "differenceQty": "20", //差异数量
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00",
-                "price":'2343'
-            },
-            {
-                "pdBarcode": "1010",//商品条码
-                "pdSpuName": "非预+批+到",//商品名称"
-                "pdSkuType": "规格属性1/规格属性1",
-                "qty": "100",  // 商品数量
-                "receiveQty": "20", //已收数量
-                "differenceQty": "20", //差异数量
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00",
-                "price":'2343'
+        const result=GetServerData('qerp.pos.order.receiveRepDetail.query',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let dataList = json.details;
+                for(let i=0;i<dataList.length;i++){
+                    dataList[i].key = i+1;
+                }
+                this.setState({
+                    dataSource:dataList,
+                    total:Number(json.total),
+                    currentPage:Number(json.currentPage),
+                    limit:Number(json.limit)
+                });
+            }else{  
+                message.error(json.message); 
             }
-        ];
-
-        for(let i=0;i<dataList.length;i++){
-            dataList[i].key = i+1;
-        }
-
-        let  posOrder={
-            "orderNo": "PH17072900003",
-            "qtySum": "100",
-            "receiveQty": "20",
-            "statusStr": "收货中",
-        };
-        this.setState({
-            dataSource:dataList,
-            posOrder:posOrder,
-            total:Number('3'),
-            currentPage:Number('0'),
-            limit:Number("10")
         })
-
-        // const result=GetServerData('qerp.pos.order.receiveRep',values)
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         console.log('收货报表数据请求成功');
-        //     }else{  
-        //         message.error(json.message); 
-        //     }
-        // })
     }
 
     handleSubmit = (e) =>{
         const self = this;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log(values);
             this.setState({
                 keywords:values.keywords
             },function(){
                 let values = {
+                    pdOrderId:this.props.headerInfo.id,
                     currentPage:0,
                     limit:10,
                     startDate:this.state.startDate,
@@ -187,10 +131,10 @@ class ReceiptDetailsForm extends React.Component {
                         配货单信息
                     </div>
                     <div className="info-content">
-                        <label>配货单号：</label><span>{this.state.posOrder.orderNo}</span>
-                        <label>商品总数：</label><span>{this.state.posOrder.qtySum}</span>
-                        <label>已收商品数量：</label><span>{this.state.posOrder.receiveQty}</span>
-                        <label>订单状态：</label><span>{this.state.posOrder.statusStr}</span>
+                        <label>配货单号：</label><span>{this.props.headerInfo.orderNo}</span>
+                        <label>商品总数：</label><span>{this.props.headerInfo.qtySum}</span>
+                        <label>已收商品数量：</label><span>{this.props.headerInfo.receiveQty}</span>
+                        <label>订单状态：</label><span>{this.props.headerInfo.statusStr}</span>
                     </div>
                     <div className="info-title">
                         商品收货明细
@@ -245,7 +189,22 @@ class ReceiptDetailsForm extends React.Component {
     }
 
     componentDidMount(){
-        this.getServerData();
+        // console.log(this.props.location.state);
+        // this.getServerData();
+        let detailInfo = this.props.detailInfo;
+        let dataList =[]; 
+        dataList = detailInfo.details;
+        if(dataList.length){
+            for(let i=0;i<dataList.length;i++){
+                dataList[i].key = i+1;
+            }
+        }
+        this.setState({
+            dataSource:dataList,
+            total:Number(detailInfo.total),
+            currentPage:Number(detailInfo.currentPage),
+            limit:Number(detailInfo.limit)
+        })
         //添加
         this.props.dispatch({
             type:'dataManage/initKey',
@@ -255,7 +214,8 @@ class ReceiptDetailsForm extends React.Component {
 }
 
 function mapStateToProps(state){
-   return {};
+    const {detailInfo,headerInfo} = state.dataManage;
+    return {detailInfo,headerInfo};
 }
 
 const ReceiptDetails = Form.create()(ReceiptDetailsForm);

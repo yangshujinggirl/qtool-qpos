@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination } from 'antd';
 import { Link } from 'dva/router';
+import {GetServerData} from '../../services/services';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import moment from 'moment';
@@ -37,7 +38,7 @@ class ReceiptReportForm extends React.Component {
             dataIndex: 'orderNo',
             render: (text, record, index) => {
                 return (
-                    <Link to={{pathname:'/dataManage/receiptDetail',query:{id:record.orderId}}}>{text}</Link>
+                    <Link to={{pathname:'/dataManage/receiptDetail',query:{id:record.pdOrderId,orderNo:record.orderNo,qtySum:record.qtySum,receiveQty:record.receiveQty,statusStr:record.statusStr}}}>{text}</Link>
                 )
             }
         },{
@@ -60,65 +61,25 @@ class ReceiptReportForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        let dataList = [
-            {
-                "orderId":'89',
-                "orderNo": "PH17072900003",
-                "qtySum": "100",//商品总数
-                "receiveQty": "20", //已收数量
-                "statusStr": "收货中",
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00"
-            },
-            {
-                "orderId":'90',
-                "orderNo": "PH17072900003",
-                "qtySum": "100",//商品总数
-                "receiveQty": "20", //已收数量
-                "statusStr": "收货中",
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00"
-            },
-            {
-                "orderId":'92',
-                "orderNo": "PH17072900003",
-                "qtySum": "100",//商品总数
-                "receiveQty": "20", //已收数量
-                "statusStr": "收货中",
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00"
-            },
-            {
-                "orderId":'94',
-                "orderNo": "PH17072900003",
-                "qtySum": "100",//商品总数
-                "receiveQty": "20", //已收数量
-                "statusStr": "收货中",
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00"
+        const result=GetServerData('qerp.pos.order.receiveRep',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let dataList = json.pdOrderVos;
+                for(let i=0;i<dataList.length;i++){
+                    dataList[i].key = i+1;
+                }
+                this.setState({
+                    dataSource:dataList,
+                    total:Number(json.total),
+                    currentPage:Number(json.currentPage),
+                    limit:Number(json.limit)
+                })
+            }else{  
+                message.error(json.message); 
             }
-        ];
-
-        for(let i=0;i<dataList.length;i++){
-            dataList[i].key = i+1;
-        }
-        this.setState({
-            dataSource:dataList,
-            total:Number('3'),
-            currentPage:Number('0'),
-            limit:Number("10")
         })
-
-        // const result=GetServerData('qerp.pos.order.receiveRep',values)
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         console.log('收货报表数据请求成功');
-        //     }else{  
-        //         message.error(json.message); 
-        //     }
-        // })
     }
    
 
@@ -147,7 +108,6 @@ class ReceiptReportForm extends React.Component {
         const self = this;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log(values);
             this.setState({
                 status:values.status,
                 orderNo:values.orderNo
@@ -166,6 +126,7 @@ class ReceiptReportForm extends React.Component {
     }
 
     getNowFormatDate = () =>{
+        const self = this;
         let date = new Date();
         let seperator1 = "-";
         let month = date.getMonth() + 1;
@@ -199,7 +160,7 @@ class ReceiptReportForm extends React.Component {
                 operateST:this.state.operateST,
                 operateET:this.state.operateET
             }
-            this.getServerData(values);
+            self.getServerData(values);
         })
     }
 
