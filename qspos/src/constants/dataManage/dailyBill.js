@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination } from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
@@ -141,6 +141,7 @@ class DailyBillForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="daily-bill">
+                <div className="scroll-wrapper">
                 {/* 数据展示部分 */}
                 <div className="top-data">
                     <ul>
@@ -219,13 +220,25 @@ class DailyBillForm extends React.Component {
                 <CommonTable 
                     columns={this.columns} 
                     dataSource={this.state.dataSource}
-                    pagination={true}
+                    pagination={false}
                     total={this.state.total}
                     current={this.state.currentPage+1}
                     pageSize={this.state.limit}
                     onShowSizeChange={this.onShowSizeChange}
                     pageChange={this.pageChange}
                     />
+                </div>
+                <div className="footer-pagefixed">
+                    <Pagination 
+                        total={this.state.total} 
+                        current={this.state.currentPage+1}
+                        pageSize={this.state.limit}
+                        showSizeChanger 
+                        onShowSizeChange={this.onShowSizeChange} 
+                        onChange={this.pageChange} 
+                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                        />
+                </div>
             </div>
         );
     }

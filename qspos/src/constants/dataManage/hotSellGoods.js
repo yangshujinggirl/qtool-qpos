@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
@@ -174,57 +174,67 @@ class HotSellGoodsForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div>
-                {/*搜索部分 */}
-                <Form className="search-form">
-                    <FormItem
-                     label="订单时间"
-                     labelCol={{ span: 5 }}
-                     wrapperCol={{span: 10}}>
-                        <RangePicker 
-                            value={[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]}
-                            format={dateFormat}
-                            onChange={this.dateChange.bind(this)} />
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                    </FormItem>
-                </Form>
-                <div className="hotSell-wrapper">
-                    {
-                        this.state.dataSource.length?
-                        (
-                            this.state.dataSource.length == 1? 
-                            <div className="first-flag"></div>:
+            <div className="hot-sell">
+                <div className="scroll-wrapper">
+                    {/*搜索部分 */}
+                    <Form className="search-form">
+                        <FormItem
+                        label="订单时间"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                            <RangePicker 
+                                value={[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]}
+                                format={dateFormat}
+                                onChange={this.dateChange.bind(this)} />
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                        </FormItem>
+                    </Form>
+                    <div className="hotSell-wrapper">
+                        {
+                            this.state.dataSource.length?
                             (
-                                this.state.dataSource.length == 2?
-                                <div>
-                                    <div className="first-flag"></div>
-                                    <div className="second-flag"></div>
-                                </div>
-                                :(
+                                this.state.dataSource.length == 1? 
+                                <div className="first-flag"></div>:
+                                (
+                                    this.state.dataSource.length == 2?
                                     <div>
                                         <div className="first-flag"></div>
                                         <div className="second-flag"></div>
-                                        <div className="third-flag"></div>
                                     </div>
+                                    :(
+                                        <div>
+                                            <div className="first-flag"></div>
+                                            <div className="second-flag"></div>
+                                            <div className="third-flag"></div>
+                                        </div>
+                                    )
                                 )
                             )
-                        )
-                        :null
-                    }
-                    {/* <div className="first-flag"></div>
-                    <div className="second-flag"></div>
-                    <div className="third-flag"></div> */}
-                    <CommonTable 
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource}
-                        pagination={true}
-                        total={20}
-                        current={1}
-                        pageSize={10}
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
+                            :null
+                        }
+                        <CommonTable 
+                            columns={this.columns} 
+                            dataSource={this.state.dataSource}
+                            pagination={false}
+                            total={20}
+                            current={1}
+                            pageSize={10}
+                            onShowSizeChange={this.onShowSizeChange}
+                            pageChange={this.pageChange}
+                            />
+                    </div>
+                </div>
+                <div className="footer-pagefixed">
+                    <Pagination 
+                        total={this.state.total} 
+                        current={this.state.currentPage+1}
+                        pageSize={this.state.limit}
+                        showSizeChanger 
+                        onShowSizeChange={this.onShowSizeChange} 
+                        onChange={this.pageChange} 
+                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
                 </div>
             </div>

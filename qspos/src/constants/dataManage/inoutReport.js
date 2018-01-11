@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
@@ -247,97 +247,110 @@ class InOutReportForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="daily-bill">
-                {/* 数据展示部分 */}
-                <div className="top-data inout-data">
-                    <ul>
-                        <li>
-                            <div>
-                                <p style={{color:"#806EC6"}}><i>¥</i>{this.state.inventory.finalInvSumAmount.split('.')[0]}<span>.{this.state.inventory.finalInvSumAmount.split('.')[1]}</span></p>
-                                <span className="explain-span">
-                                    <Tooltip title="期初库存总成本+进货总成本-销售总成本-损益总成本">
-                                        期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                <div className="scroll-wrapper">
+                    {/* 数据展示部分 */}
+                    <div className="top-data inout-data">
+                        <ul>
+                            <li>
+                                <div>
+                                    <p style={{color:"#806EC6"}}><i>¥</i>{this.state.inventory.finalInvSumAmount.split('.')[0]}<span>.{this.state.inventory.finalInvSumAmount.split('.')[1]}</span></p>
+                                    <span className="explain-span">
+                                        <Tooltip title="期初库存总成本+进货总成本-销售总成本-损益总成本">
+                                            期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                        </Tooltip>
+                                    </span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <p style={{color:"#F4A314"}}><i>¥</i>{this.state.inventory.invSumAmount.split('.')[0]}<span>.{this.state.inventory.invSumAmount.split('.')[1]}</span></p>
+                                    <span className="explain-span">
+                                        <Tooltip title="期初库存总数量*期初商品移动总成本">
+                                            期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                        </Tooltip>
+                                    </span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <p style={{color:"#0D89C8"}}><i>¥</i>{this.state.inventory.recSumAmount.split('.')[0]}<span>.{this.state.inventory.recSumAmount.split('.')[1]}</span></p>
+                                    <span className="explain-span">
+                                        <Tooltip title="收货总数量*收货商品移动总成本">
+                                            收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                        </Tooltip>
+                                    </span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <p style={{color:"#51C193"}}><i>¥</i>{this.state.inventory.saleSumCostAmount.split('.')[0]}<span>.{this.state.inventory.saleSumCostAmount.split('.')[1]}</span></p>
+                                    <span className="explain-span">
+                                        <Tooltip title="销售总数量*销售商品移动总成本">
+                                            销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                        </Tooltip>
+                                    </span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <p style={{color:"#F24343"}}><i>¥</i>{this.state.inventory.adjustSumCostAmount.split('.')[0]}<span>.{this.state.inventory.adjustSumCostAmount.split('.')[1]}</span></p>
+                                    <span className="explain-span">
+                                    <Tooltip title="损益总数量*损益商品移动总成本">
+                                        损益成本&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <p style={{color:"#F4A314"}}><i>¥</i>{this.state.inventory.invSumAmount.split('.')[0]}<span>.{this.state.inventory.invSumAmount.split('.')[1]}</span></p>
-                                <span className="explain-span">
-                                    <Tooltip title="期初库存总数量*期初商品移动总成本">
-                                        期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                    </Tooltip>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <p style={{color:"#0D89C8"}}><i>¥</i>{this.state.inventory.recSumAmount.split('.')[0]}<span>.{this.state.inventory.recSumAmount.split('.')[1]}</span></p>
-                                <span className="explain-span">
-                                    <Tooltip title="收货总数量*收货商品移动总成本">
-                                        收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                    </Tooltip>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <p style={{color:"#51C193"}}><i>¥</i>{this.state.inventory.saleSumCostAmount.split('.')[0]}<span>.{this.state.inventory.saleSumCostAmount.split('.')[1]}</span></p>
-                                <span className="explain-span">
-                                    <Tooltip title="销售总数量*销售商品移动总成本">
-                                        销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                    </Tooltip>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <p style={{color:"#F24343"}}><i>¥</i>{this.state.inventory.adjustSumCostAmount.split('.')[0]}<span>.{this.state.inventory.adjustSumCostAmount.split('.')[1]}</span></p>
-                                <span className="explain-span">
-                                <Tooltip title="损益总数量*损益商品移动总成本">
-                                    损益成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                </Tooltip>
-                                </span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-                {/*搜索部分 */}
-                <Form className="search-form">
-                    <FormItem
-                     label="订单时间"
-                     labelCol={{ span: 5 }}
-                     wrapperCol={{span: 10}}>
-                    {getFieldDecorator('time')(
-                        <MonthPicker onChange={this.dateChange.bind(this)}/>
-                    )}
-                    </FormItem>
-                    <FormItem
-                    label="商品名称"
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{span: 10}}>
-                    {getFieldDecorator('name')(
-                        <Input/>
-                    )}
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                    </FormItem>
-                    <div className="export-div">
-                        <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                </Form>
-                <CommonTable 
-                    scroll={1800}
-                    columns={this.columns} 
-                    dataSource={this.state.dataSource}
-                    pagination={true}
-                    total={20}
-                    current={1}
-                    pageSize={10}
-                    onShowSizeChange={this.onShowSizeChange}
-                    pageChange={this.pageChange}
-                    />
+                    {/*搜索部分 */}
+                    <Form className="search-form">
+                        <FormItem
+                        label="订单时间"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                        {getFieldDecorator('time')(
+                            <MonthPicker onChange={this.dateChange.bind(this)}/>
+                        )}
+                        </FormItem>
+                        <FormItem
+                        label="商品名称"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                        {getFieldDecorator('name')(
+                            <Input/>
+                        )}
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                        </FormItem>
+                        <div className="export-div">
+                            <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+                        </div>
+                    </Form>
+                    <CommonTable 
+                        scroll={1800}
+                        columns={this.columns} 
+                        dataSource={this.state.dataSource}
+                        pagination={false}
+                        total={20}
+                        current={1}
+                        pageSize={10}
+                        onShowSizeChange={this.onShowSizeChange}
+                        pageChange={this.pageChange}
+                        />
+                </div>
+                <div className="footer-pagefixed">
+                    <Pagination 
+                        total={this.state.total} 
+                        current={this.state.currentPage+1}
+                        pageSize={this.state.limit}
+                        showSizeChanger 
+                        onShowSizeChange={this.onShowSizeChange} 
+                        onChange={this.pageChange} 
+                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                        />
+                </div>
             </div>
         );
     }

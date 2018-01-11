@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination } from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
@@ -166,51 +166,64 @@ class ReceiptReportForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div>
-                {/*搜索部分 */}
-                <Form className="search-form">
-                    <FormItem
-                     label="最近操作时间"
-                     labelCol={{ span: 5 }}
-                     wrapperCol={{span: 10}}>
-                    {getFieldDecorator('time')(
-                        <RangePicker onChange={this.dateChange.bind(this)} />
-                    )}
-                    </FormItem>
-                    <FormItem
-                    label="订单状态"
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{span: 10}}>
-                    {getFieldDecorator('status')(
-                        <Select>
-                            <Option value="10">收货中</Option>
-                            <Option value="20">待收货</Option>
-                            <Option value="30">已收货</Option>
-                        </Select>
-                    )}
-                    </FormItem>
-                    <FormItem
-                     label="配货单号"
-                     labelCol={{ span: 5 }}
-                     wrapperCol={{span: 10}}>
-                    {getFieldDecorator('orderNo')(
-                       <Input/>
-                    )}
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                    </FormItem>
-                </Form>
-                <CommonTable 
-                    columns={this.columns} 
-                    dataSource={this.state.dataSource}
-                    pagination={true}
-                    total={20}
-                    current={1}
-                    pageSize={10}
-                    onShowSizeChange={this.onShowSizeChange}
-                    pageChange={this.pageChange}
-                    />
+            <div className="receipt-report">
+                <div className="scroll-wrapper">
+                    {/*搜索部分 */}
+                    <Form className="search-form">
+                        <FormItem
+                        label="最近操作时间"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                        {getFieldDecorator('time')(
+                            <RangePicker onChange={this.dateChange.bind(this)} />
+                        )}
+                        </FormItem>
+                        <FormItem
+                        label="订单状态"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                        {getFieldDecorator('status')(
+                            <Select>
+                                <Option value="10">收货中</Option>
+                                <Option value="20">待收货</Option>
+                                <Option value="30">已收货</Option>
+                            </Select>
+                        )}
+                        </FormItem>
+                        <FormItem
+                        label="配货单号"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                        {getFieldDecorator('orderNo')(
+                        <Input/>
+                        )}
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                        </FormItem>
+                    </Form>
+                    <CommonTable 
+                        columns={this.columns} 
+                        dataSource={this.state.dataSource}
+                        pagination={false}
+                        total={20}
+                        current={1}
+                        pageSize={10}
+                        onShowSizeChange={this.onShowSizeChange}
+                        pageChange={this.pageChange}
+                        />
+                </div>
+                <div className="footer-pagefixed">
+                    <Pagination 
+                        total={this.state.total} 
+                        current={this.state.currentPage+1}
+                        pageSize={this.state.limit}
+                        showSizeChanger 
+                        onShowSizeChange={this.onShowSizeChange} 
+                        onChange={this.pageChange} 
+                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                        />
+                </div>
             </div>
         );
     }
