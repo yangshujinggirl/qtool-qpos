@@ -8,7 +8,8 @@ export default {
     state: {
         initKey:1,
         detailInfo:{},
-        headerInfo:{}
+        headerInfo:{},
+        detailId:null
     },
     reducers: {
         initKey(state, { payload: initKey}) {
@@ -19,7 +20,10 @@ export default {
         },
         syncHeaderInfo(state, { payload: headerInfo}) {
             return {...state,headerInfo}
-        }
+        },
+        getDetailId(state, { payload: detailId}) {
+            return {...state,detailId}
+        },
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put }) {
@@ -30,14 +34,14 @@ export default {
         }
     },
     subscriptions: {
-        setup({ dispatch, history }) {
-            return history.listen(({ pathname, query }) => {
-                if (pathname === '/dataManage/receiptDetail') {
-                    dispatch({ type: 'fetch', payload: {code:'qerp.pos.order.receiveRepDetail.query',values:{pdOrderId:query.id} }})
-                    // yield put({type:'syncHeaderInfo',payload:query});
-                    dispatch({ type: 'syncHeaderInfo',payload:query});
-                }
-            });
-        },
+        // setup({ dispatch, history }) {
+        //     return history.listen(({ pathname, query }) => {
+        //         if (pathname === '/dataManage/receiptDetail') {
+        //             dispatch({ type: 'fetch', payload: {code:'qerp.pos.order.receiveRepDetail.query',values:{pdOrderId:query.id} }})
+        //             // yield put({type:'syncHeaderInfo',payload:query});
+        //             dispatch({ type: 'syncHeaderInfo',payload:query});
+        //         }
+        //     });
+        // },
     },
 };

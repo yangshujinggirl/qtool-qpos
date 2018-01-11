@@ -38,7 +38,8 @@ class ReceiptReportForm extends React.Component {
             dataIndex: 'orderNo',
             render: (text, record, index) => {
                 return (
-                    <Link to={{pathname:'/dataManage/receiptDetail',query:{id:record.pdOrderId,orderNo:record.orderNo,qtySum:record.qtySum,receiveQty:record.receiveQty,statusStr:record.statusStr}}}>{text}</Link>
+                    <div onClick={this.toRoute.bind(this,record)} style={{color:"#35BAB0",cursor:"pointer"}}>{text}</div>
+                    // <Link to={{pathname:'/dataManage/receiptDetail',query:{id:record.pdOrderId,orderNo:record.orderNo,qtySum:record.qtySum,receiveQty:record.receiveQty,statusStr:record.statusStr}}}>{text}</Link>
                 )
             }
         },{
@@ -57,6 +58,18 @@ class ReceiptReportForm extends React.Component {
             title: '最后操作时间',
             dataIndex: 'operateTime',
         }];
+    }
+
+    toRoute = (record) =>{
+        this.props.dispatch({
+            type:'dataManage/getDetailId',
+            payload: record.pdOrderId
+        })
+        this.props.dispatch({
+            type:'dataManage/syncHeaderInfo',
+            payload: record
+        })
+        this.context.router.push('/dataManage/receiptDetail');
     }
 
     //获取数据
@@ -239,7 +252,10 @@ class ReceiptReportForm extends React.Component {
 function mapStateToProps(state){
    return {};
 }
-
+ReceiptReportForm.contextTypes= {
+    router: React.PropTypes.object
+}
 const ReceiptReport = Form.create()(ReceiptReportForm);
 
 export default connect(mapStateToProps)(ReceiptReport);
+

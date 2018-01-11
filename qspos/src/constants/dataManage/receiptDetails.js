@@ -5,13 +5,14 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
 import CommonTable from './commonTable';
+import {deepcCloneObj} from '../../utils/commonFc';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD hh:mm:ss';
 class ReceiptDetailsForm extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor(props,context) {
+        super(props,context);
         this.state={
             dataSource:[],
             total:0,
@@ -110,7 +111,7 @@ class ReceiptDetailsForm extends React.Component {
                 keywords:values.keywords
             },function(){
                 let values = {
-                    pdOrderId:this.props.headerInfo.id,
+                    pdOrderId:this.props.detailId,
                     currentPage:0,
                     limit:10,
                     startDate:this.state.startDate,
@@ -189,22 +190,12 @@ class ReceiptDetailsForm extends React.Component {
     }
 
     componentDidMount(){
-        // console.log(this.props.location.state);
-        // this.getServerData();
-        let detailInfo = this.props.detailInfo;
-        let dataList =[]; 
-        dataList = detailInfo.details;
-        if(dataList.length){
-            for(let i=0;i<dataList.length;i++){
-                dataList[i].key = i+1;
+        if(this.props.detailId){
+            let values = {
+                pdOrderId:this.props.detailId
             }
+            this.getServerData(values);
         }
-        this.setState({
-            dataSource:dataList,
-            total:Number(detailInfo.total),
-            currentPage:Number(detailInfo.currentPage),
-            limit:Number(detailInfo.limit)
-        })
         //添加
         this.props.dispatch({
             type:'dataManage/initKey',
@@ -214,8 +205,8 @@ class ReceiptDetailsForm extends React.Component {
 }
 
 function mapStateToProps(state){
-    const {detailInfo,headerInfo} = state.dataManage;
-    return {detailInfo,headerInfo};
+    const {detailInfo,headerInfo,detailId} = state.dataManage;
+    return {detailInfo,headerInfo,detailId};
 }
 
 const ReceiptDetails = Form.create()(ReceiptDetailsForm);
