@@ -133,7 +133,8 @@ class HotSellGoodsForm extends React.Component {
 
     //获取当前时间
     getNowFormatDate = () =>{
-        var date = new Date();
+        var curDate = new Date();
+        var date = new Date(curDate.getTime() - 24*60*60*1000); //前一天;
         var seperator1 = "-";
         var month = date.getMonth() + 1;
         var strDate = date.getDate();
@@ -179,7 +180,7 @@ class HotSellGoodsForm extends React.Component {
                     {/*搜索部分 */}
                     <Form className="search-form">
                         <FormItem
-                        label="订单时间"
+                        label="选择时间"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                             <RangePicker 

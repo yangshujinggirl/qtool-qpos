@@ -22,6 +22,7 @@ class DailyBillForm extends React.Component {
             startDate:"",
             endDate:"",
             windowHeight:'',
+            lastMonthDate:'',
             rpDayAccount:{
                 cleanAmount:'',
                 amount:'',
@@ -65,7 +66,6 @@ class DailyBillForm extends React.Component {
     }
 
     dateChange = (date, dateString) =>{
-        console.log(date, dateString);
         this.setState({
             startDate:dateString[0],
             endDate:dateString[1]
@@ -137,6 +137,10 @@ class DailyBillForm extends React.Component {
         })
     }
 
+    // setDisabledDate = (current) =>{
+    //     return  current+30*24*60*60*1000 && current+30*24*60*60*1000 < moment().endOf('day');
+    // }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -194,7 +198,9 @@ class DailyBillForm extends React.Component {
                      labelCol={{ span: 5 }}
                      wrapperCol={{span: 10}}>
                         <RangePicker 
-                            value={[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]}
+                            // disabledDate={this.setDisabledDate.bind(this)}
+                            // ranges={{ range: moment["2017-09-01","2017-10-01"] }}     
+                            value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
                             format={dateFormat}
                             onChange={this.dateChange.bind(this)} />
                     </FormItem>
@@ -324,17 +330,26 @@ class DailyBillForm extends React.Component {
         var date = new Date();
         var seperator1 = "-";
         var month = date.getMonth() + 1;
+        var beforeMonth = date.getMonth();
         var strDate = date.getDate();
         if (month >= 1 && month <= 9) {
             month = "0" + month;
+        }
+        if (beforeMonth >= 1 && beforeMonth <= 9) {
+            beforeMonth = "0" + beforeMonth;
+        }
+        if(beforeMonth == 0){
+            beforeMonth = "12"
         }
         if (strDate >= 0 && strDate <= 9) {
             strDate = "0" + strDate;
         }
         var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+        var lastMonthDate = date.getFullYear() + seperator1 + beforeMonth + seperator1 + strDate;
         this.setState({
             startDate:currentdate,
-            endDate:currentdate
+            endDate:currentdate,
+            lastMonthDate:lastMonthDate
         },function(){
             let values = {
                 currentPage:0,

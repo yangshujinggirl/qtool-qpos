@@ -4,9 +4,11 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
+import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY-MM-DD';
 
 //收货报表
 class ReceiptReportForm extends React.Component {
@@ -121,7 +123,6 @@ class ReceiptReportForm extends React.Component {
    
 
     dateChange = (date, dateString) =>{
-        console.log(date, dateString);
         this.setState({
             operateST:dateString[0],
             operateET:dateString[1]
@@ -143,6 +144,7 @@ class ReceiptReportForm extends React.Component {
     }
 
     handleSubmit = (e) =>{
+        const self = this;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             console.log(values);
@@ -158,8 +160,46 @@ class ReceiptReportForm extends React.Component {
                     status:this.state.status,
                     orderNo:this.state.orderNo
                 };
-                this.getServerData(data);
+                self.getServerData(data);
             })
+        })
+    }
+
+    getNowFormatDate = () =>{
+        let date = new Date();
+        let seperator1 = "-";
+        let month = date.getMonth() + 1;
+        let strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+
+        let date2 = new Date(date);
+        date2.setDate(date.getDate() - 30);
+        let month1 = date2.getMonth() + 1;
+        let strDate1 = date2.getDate();
+        if (month1 >= 1 && month1 <= 9) {
+            month1 = "0" + month;
+        }
+        if (strDate1 >= 0 && strDate1 <= 9) {
+            strDate1 = "0" + strDate1;
+        }
+        var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
+        this.setState({
+            operateST:currentdate1,
+            operateET:currentdate
+        },function(){
+            let values = {
+                currentPage:0,
+                limit:10,
+                operateST:this.state.operateST,
+                operateET:this.state.operateET
+            }
+            this.getServerData(values);
         })
     }
 
@@ -174,9 +214,10 @@ class ReceiptReportForm extends React.Component {
                         label="最近操作时间"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
-                        {getFieldDecorator('time')(
-                            <RangePicker onChange={this.dateChange.bind(this)} />
-                        )}
+                            <RangePicker 
+                                value={this.state.operateST?[moment(this.state.operateST, dateFormat), moment(this.state.operateET, dateFormat)]:null}
+                                format={dateFormat}
+                                onChange={this.dateChange.bind(this)} />
                         </FormItem>
                         <FormItem
                         label="订单状态"
@@ -229,7 +270,8 @@ class ReceiptReportForm extends React.Component {
     }
 
     componentDidMount(){
-        this.getServerData();
+        this.getNowFormatDate();
+        // this.getServerData();
     }
 }
 

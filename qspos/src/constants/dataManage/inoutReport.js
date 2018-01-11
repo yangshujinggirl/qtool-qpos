@@ -4,9 +4,11 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
+import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker,MonthPicker } = DatePicker;
+const dateFormat = 'YYYY-MM';
 
 //进销存报表
 class InOutReportForm extends React.Component {
@@ -243,6 +245,33 @@ class InOutReportForm extends React.Component {
         })
     }
 
+    //获取当前时间
+    getNowFormatDate = () =>{
+        const self = this;
+        var date = new Date(); //前一天;
+        var seperator1 = "-";
+        var month = date.getMonth();
+        let year = date.getFullYear();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if(month == 0){
+            month = "12";
+            year = year-1;
+        }
+        var currentdate = year + seperator1 + month;
+        this.setState({
+            rpDate:currentdate
+        },function(){
+            let values = {
+                currentPage:0,
+                limit:10,
+                rpDate:this.state.rpDate
+            }
+            self.getServerData(values);
+        })
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -309,9 +338,10 @@ class InOutReportForm extends React.Component {
                         label="订单时间"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
-                        {getFieldDecorator('time')(
-                            <MonthPicker onChange={this.dateChange.bind(this)}/>
-                        )}
+                            <MonthPicker 
+                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
+                            format={dateFormat}
+                            onChange={this.dateChange.bind(this)}/>
                         </FormItem>
                         <FormItem
                         label="商品名称"
@@ -356,7 +386,8 @@ class InOutReportForm extends React.Component {
     }
 
     componentDidMount(){
-        this.getServerData();
+        this.getNowFormatDate();
+        // this.getServerData();
     }
 }
 
