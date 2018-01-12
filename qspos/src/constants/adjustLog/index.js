@@ -22,7 +22,8 @@ class AdjustLogIndexForm extends React.Component {
             adjustTimeStart:"",
             adjustTimeEnd:"",
             visible:false,
-            remarkText:''
+            remarkText:'',
+            windowHeight:''
         };
         this.columns = [{
             title: '商品条码',
@@ -53,7 +54,7 @@ class AdjustLogIndexForm extends React.Component {
             dataIndex: 'remark',
             render: (text, record, index) => {
                 return (
-                    <span style={{color:"35BAB0"}} onClick={this.showRemark.bind(this,record)}>查看</span>
+                    <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.showRemark.bind(this,record)}>查看</span>
                 )
             }
         }];
@@ -67,7 +68,6 @@ class AdjustLogIndexForm extends React.Component {
     }
 
     dateChange = (date, dateString) =>{
-        console.log(date, dateString);
         this.setState({
             adjustTimeStart:dateString[0],
             adjustTimeEnd:dateString[1]
@@ -76,14 +76,36 @@ class AdjustLogIndexForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                adjustTimeStart:this.state.adjustTimeStart,
+                adjustTimeEnd:this.state.adjustTimeEnd,
+                name:this.state.name,
+                type:1
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                adjustTimeStart:this.state.adjustTimeStart,
+                adjustTimeEnd:this.state.adjustTimeEnd,
+                name:this.state.name,
+                type:1
+            }
+            self.getServerData(data);
         })
     }
 
@@ -136,6 +158,14 @@ class AdjustLogIndexForm extends React.Component {
         })
     }
 
+    rowClassName=(record, index)=>{
+    	if (index % 2) {
+      		return 'table_gray'
+    	}else{
+      		return 'table_white'
+    	}
+  	}
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -148,7 +178,10 @@ class AdjustLogIndexForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                             <RangePicker 
-                                value={[moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]}
+                                value={this.state.adjustTimeStart?
+                                        [moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]
+                                        :null
+                                    }
                                 format={dateFormat}
                                 onChange={this.dateChange.bind(this)} />
                         </FormItem>
@@ -172,15 +205,33 @@ class AdjustLogIndexForm extends React.Component {
                 <div className="table-wrapper">
                     <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
                                 remarkText={this.state.remarkText}/>
-                    <CommonTable 
+                    <Table 
+                        bordered 
                         columns={this.columns} 
-                        dataSource={this.state.dataSource}
-                        pagination={true}
-                        total={this.state.total}
-                        current={this.state.currentPage+1}
-                        pageSize={this.state.limit}
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
+                        dataSource={this.state.dataSource} 
+                        rowClassName={this.rowClassName.bind(this)}
+                        scroll={{y:this.state.windowHeight}}
+                        pagination={
+                            {
+                                total:this.state.total,
+                                current:this.state.currentPage+1,
+                                defaultPageSize:10,
+                                pageSize:this.state.limit,
+                                showSizeChanger:true,
+                                onShowSizeChange:this.onShowSizeChange,
+                                onChange:this.pageChange,
+                                pageSizeOptions:['10','12','15','17','20','50','100','200']
+                            }
+                        }
+                        // columns={this.columns} 
+                        // dataSource={this.state.dataSource}
+                        // pagination={true}
+                        // total={this.state.total}
+                        // current={this.state.currentPage+1}
+                        // pageSize={this.state.limit}
+                        // onShowSizeChange={this.onShowSizeChange}
+                        // pageChange={this.pageChange}
+                        // yscroll={this.state.windowHeight}
                         />
                 </div>
             </div>
@@ -236,12 +287,38 @@ class AdjustLogIndexForm extends React.Component {
                 type:1
             }
             self.getServerData(values);
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+            window.addEventListener('resize', this.windowResize.bind(this));    
         })
+    }
+
+    windowResize = () =>{
+        if(document.body.offsetWidth>800){
+             this.setState({
+                windowHeight:document.body.offsetHeight-300,
+              })
+        }else{
+            this.setState({
+              windowHeight:document.body.offsetHeight-270,
+          });
+        }
     }
 
     componentDidMount(){
         //获取当前时间
         this.getNowFormatDate();
+    }
+
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize.bind(this));
     }
 }
 

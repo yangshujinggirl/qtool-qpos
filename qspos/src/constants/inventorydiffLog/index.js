@@ -20,6 +20,7 @@ class InventorydiffLogIndexForm extends React.Component {
             limit:10,
             adjustTimeStart:"",
             adjustTimeEnd:"",
+            windowHeight:''
         };
         this.columns = [{
             title: '商品条码',
@@ -118,10 +119,18 @@ class InventorydiffLogIndexForm extends React.Component {
         })
     }
 
+    rowClassName=(record, index)=>{
+    	if (index % 2) {
+      		return 'table_gray'
+    	}else{
+      		return 'table_white'
+    	}
+  	}
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="adjust-index">
+            <div className="adjust-index inventory-log">
                 <div className="form-wrapper">
                     {/*搜索部分 */}
                     <Form className="search-form">
@@ -152,15 +161,24 @@ class InventorydiffLogIndexForm extends React.Component {
                     </Form>
                 </div>
                 <div className="table-wrapper">
-                    <CommonTable 
+                    <Table 
+                        bordered 
                         columns={this.columns} 
-                        dataSource={this.state.dataSource}
-                        pagination={true}
-                        total={this.state.total}
-                        current={this.state.currentPage+1}
-                        pageSize={this.state.limit}
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
+                        dataSource={this.state.dataSource} 
+                        rowClassName={this.rowClassName.bind(this)}
+                        scroll={{y:this.state.windowHeight}}
+                        pagination={
+                            {
+                                total:this.state.total,
+                                current:this.state.currentPage+1,
+                                defaultPageSize:10,
+                                pageSize:this.state.limit,
+                                showSizeChanger:true,
+                                onShowSizeChange:this.onShowSizeChange,
+                                onChange:this.pageChange,
+                                pageSizeOptions:['10','12','15','17','20','50','100','200']
+                            }
+                        }
                         />
                 </div>
             </div>
@@ -216,12 +234,38 @@ class InventorydiffLogIndexForm extends React.Component {
                 type:2
             }
             self.getServerData(values);
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+            window.addEventListener('resize', this.windowResize.bind(this));    
         })
+    }
+
+    windowResize = () =>{
+        if(document.body.offsetWidth>800){
+             this.setState({
+                windowHeight:document.body.offsetHeight-300,
+              })
+        }else{
+            this.setState({
+              windowHeight:document.body.offsetHeight-270,
+          });
+        }
     }
 
     componentDidMount(){
         //获取当前时间
         this.getNowFormatDate();
+    }
+
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize.bind(this));
     }
 }
 
