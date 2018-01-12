@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import moment from 'moment';
+import {GetServerData} from '../../services/services';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -75,64 +76,32 @@ class HotSellGoodsForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        let dataList = [
-            {
-                barcode:"3456789",
-                name:"我是商品1",
-                displayName:"200ml",
-                posQty:"5",
-                posAmount:"345.90",
-                invQty:"30"
-            },
-            {
-                barcode:"3456789",
-                name:"我是商品2",
-                displayName:"200ml",
-                posQty:"5",
-                posAmount:"345.90",
-                invQty:"30"
-            },
-            {
-                barcode:"3456789",
-                name:"我是商品3",
-                displayName:"200ml",
-                posQty:"5",
-                posAmount:"345.90",
-                invQty:"30"
-            },
-            {
-                barcode:"3456789",
-                name:"我是商品4",
-                displayName:"200ml",
-                posQty:"5",
-                posAmount:"345.90",
-                invQty:"30"
+        const result=GetServerData('qerp.pos.rp.pd.sell.list',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let dataList = json.analysis;
+                if(dataList.length){
+                    for(let i=0;i<dataList.length;i++){
+                        dataList[i].key = i+1;
+                    }
+                    this.setState({
+                        dataSource:dataList,
+                        total:Number(json.total),
+                        currentPage:Number(json.currentPage),
+                        limit:Number(json.limit)
+                    });
+                }
+            }else{  
+                message.error(json.message); 
             }
-        ];
-        for(let i=0;i<dataList.length;i++){
-            dataList[i].key = i+1;
-        }
-        this.setState({
-            dataSource:dataList,
-            total:Number('3'),
-            currentPage:Number('0'),
-            limit:Number("10")
-        });
-
-        // const result=GetServerData('qerp.pos.rp.pd.sell.list',values)
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         console.log('热销商品数据请求成功');
-        //     }else{  
-        //         message.error(json.message); 
-        //     }
-        // })
+        })
     }
 
     //获取当前时间
     getNowFormatDate = () =>{
+        const self =this;
         var curDate = new Date();
         var date = new Date(curDate.getTime() - 24*60*60*1000); //前一天;
         var seperator1 = "-";
@@ -155,7 +124,7 @@ class HotSellGoodsForm extends React.Component {
                 startDate:this.state.startDate,
                 endDate:this.state.endDate
             }
-            this.getServerData(values);
+            self.getServerData(values);
         })
     }
 

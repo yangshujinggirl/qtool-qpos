@@ -151,7 +151,11 @@ class DailyBillForm extends React.Component {
                     <ul>
                         <li>
                             <div>
-                                <p style={{color:"#FB6349"}}><i>¥</i>{this.state.rpDayAccount.cleanAmount.split('.')[0]}<span>.{this.state.rpDayAccount.cleanAmount.split('.')[1]}</span></p>
+                                <p style={{color:"#FB6349"}}>
+                                    <i>¥</i>
+                                    {this.state.rpDayAccount.cleanAmount?this.state.rpDayAccount.cleanAmount.split('.')[0]:"0"}
+                                    <span>.{this.state.rpDayAccount.cleanAmount?this.state.rpDayAccount.cleanAmount.split('.')[1]:"00"}</span>
+                                </p>
                                 <span className="explain-span">
                                     <Tooltip title="微信+支付宝+现金+银联">
                                         净收款&nbsp;<Icon type="exclamation-circle-o"/>
@@ -161,7 +165,11 @@ class DailyBillForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#F7A303"}}><i>¥</i>{this.state.rpDayAccount.amount.split('.')[0]}<span>.{this.state.rpDayAccount.amount.split('.')[1]}</span></p>
+                                <p style={{color:"#F7A303"}}>
+                                    <i>¥</i>
+                                    {this.state.rpDayAccount.amount?this.state.rpDayAccount.amount.split('.')[0]:"0"}
+                                    <span>.{this.state.rpDayAccount.amount?this.state.rpDayAccount.amount.split('.')[1]:"00"}</span>
+                                </p>
                                 <span className="explain-span">
                                     <Tooltip title="销售订单金额-退款订单金额">
                                         销售额&nbsp;<Icon type="exclamation-circle-o"/>
@@ -171,7 +179,14 @@ class DailyBillForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#51C193"}}><i>¥</i>{this.state.rpDayAccount.rechargeAmount.split('.')[0]}<span>.{this.state.rpDayAccount.rechargeAmount.split('.')[1]}</span></p>
+                                <p style={{color:"#51C193"}}>
+                                    <i>¥</i>
+                                    {this.state.rpDayAccount.rechargeAmount?this.state.rpDayAccount.rechargeAmount.split('.')[0]:"0"}
+                                    <span>
+                                    .
+                                    {this.state.rpDayAccount.rechargeAmount?this.state.rpDayAccount.rechargeAmount.split('.')[1]:"00"}
+                                    </span>
+                                </p>
                                 <span className="explain-span">
                                     <Tooltip title="充值订单的总金额">
                                         充值金额&nbsp;<Icon type="exclamation-circle-o"/>
@@ -181,7 +196,9 @@ class DailyBillForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#806EC6"}}>{this.state.rpDayAccount.orderSum}</p>
+                                <p style={{color:"#806EC6"}}>
+                                {this.state.rpDayAccount.orderSum?this.state.rpDayAccount.orderSum:"0"}
+                                </p>
                                 <span className="explain-span">
                                     <Tooltip title="销售订单的总数量">
                                         订单量&nbsp;<Icon type="exclamation-circle-o"/>
@@ -251,77 +268,29 @@ class DailyBillForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        let dataList = [
-            {
-                orderNo:"md3456789",
-                amount:"45678.90",
-                wechatAmount:"45678.90",
-                alipayAmount:"456798.90",
-                cashAmount:"4578.90",
-                unionpayAmount:"4568.90",
-                cardConsumeAmount:"5678.90",
-                pointAmount:"678.90",
-            },
-            {
-                orderNo:"md3456789",
-                amount:"45678.90",
-                wechatAmount:"45678.90",
-                alipayAmount:"456798.90",
-                cashAmount:"4578.90",
-                unionpayAmount:"4568.90",
-                cardConsumeAmount:"5678.90",
-                pointAmount:"678.90",
-            },
-            {
-                orderNo:"md3456789",
-                amount:"45678.90",
-                wechatAmount:"45678.90",
-                alipayAmount:"456798.90",
-                cashAmount:"4578.90",
-                unionpayAmount:"4568.90",
-                cardConsumeAmount:"5678.90",
-                pointAmount:"678.90",
-            },
-            {
-                orderNo:"md3456789",
-                amount:"45678.90",
-                wechatAmount:"45678.90",
-                alipayAmount:"456798.90",
-                cashAmount:"4578.90",
-                unionpayAmount:"4568.90",
-                cardConsumeAmount:"5678.90",
-                pointAmount:"678.90",
+        const result=GetServerData('qerp.pos.rp.day.account.page',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let rpDayAccount = json.rpDayAccount;
+                let dataList = json.rpDayAccounts;
+                if(dataList.length){
+                    for(let i=0;i<dataList.length;i++){
+                        dataList[i].key = i+1;
+                    }
+                }
+                this.setState({
+                    rpDayAccount:rpDayAccount,
+                    dataSource:dataList,
+                    total:Number(json.total),
+                    currentPage:Number(json.currentPage),
+                    limit:Number(json.limit)
+                })
+            }else{  
+                message.error(json.message); 
             }
-        ];
-        let  rpDayAccount={
-            cleanAmount:"543.90",
-            amount:"543.90",
-            orderSum:"10",
-            rechargeAmount:"100.00"
-        };
-        this.setState({
-            rpDayAccount:rpDayAccount
         })
-        for(let i=0;i<dataList.length;i++){
-            dataList[i].key = i+1;
-        }
-        this.setState({
-            dataSource:dataList,
-            total:Number('3'),
-            currentPage:Number('0'),
-            limit:Number("10")
-        })
-
-        // const result=GetServerData('qerp.pos.rp.day.account.page',values)
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         console.log('每日对账单数据请求成功');
-        //     }else{  
-        //         message.error(json.message); 
-        //     }
-        // })
     }
 
     //获取当前时间
@@ -375,9 +344,6 @@ class DailyBillForm extends React.Component {
         // }
         // window.addEventListener('resize', this.windowResize.bind(this));    
     }
-    // componentWillUnmount(){   
-    //     window.removeEventListener('resize', this.windowResize.bind(this));
-    // }
 }
 
 function mapStateToProps(state){
