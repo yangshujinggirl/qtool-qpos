@@ -317,6 +317,9 @@
      .daily-billTime .ant-input{
         width: 200px;
      }
+     .footer-pagefixed .ant-select{
+         width: auto;
+     }
 
      /* 基础样式的一些设置 */
     .basic-setting .page-count{
