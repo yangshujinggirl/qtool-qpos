@@ -64,4 +64,10 @@
     .adjust-v15-style .searchinputbtn{
         width: 70px;
     }
+    .adjust-log .search-form .ant-form-item-label{
+        width: 75px;
+    }
+    .adjust-log .ant-calendar-range-picker-separator{
+        line-height: 25px;
+    }
 }

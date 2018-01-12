@@ -256,3 +256,40 @@
 .receipt-details .ant-select-selection-selected-value{
  line-height: normal;
 }
+
+/*小屏样式 */
+@media screen and (max-width: 950px){
+    .daily-bill .export-div{
+        margin-right: 0px;
+    }
+    .search-form .ant-form-item-label{
+        width: 75px;
+    }
+    .data-manage .ant-calendar-range-picker-separator,.receipt-report .ant-calendar-range-picker-separator,.daily-bill .ant-calendar-range-picker-separator{
+        line-height: 18px;
+    }
+    .daily-bill .ant-table-bordered .ant-table-thead > tr > th{
+        border-top: 1px solid #d8d8d8;
+    }
+    .receipt-report .operate-time .ant-form-item-label{
+        width: 95px;
+    }
+    .receipt-report .ant-form-item{
+        margin-bottom:10px;
+    }
+     /* .data-manage .receipt-report .ant-input,.data-manage .receipt-report .ant-select{
+        width: 120px;
+    } */
+     .data-manage .receipt-report .operate-time .ant-input{
+        width: 200px;
+     }
+     .top-data{
+        padding: 40px 40px;
+     }
+     .top-data ul li div p{
+        font-size: 25px;
+     }
+     .top-data ul li div span.explain-span{
+        font-size: 13px;
+     }
+}

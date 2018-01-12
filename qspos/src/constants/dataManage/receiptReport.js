@@ -185,6 +185,7 @@ class ReceiptReportForm extends React.Component {
                     {/*搜索部分 */}
                     <Form className="search-form">
                         <FormItem
+                        className="operate-time"
                         label="最近操作时间"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
@@ -206,6 +207,7 @@ class ReceiptReportForm extends React.Component {
                         )}
                         </FormItem>
                         <FormItem
+                         className="operate-time"
                         label="配货单号"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
