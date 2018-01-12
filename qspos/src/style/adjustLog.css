@@ -43,3 +43,25 @@
 .adjust-index  .search-form{
     float: right;
 }
+
+/* adjust页面样式 */
+@media screen and (max-width: 950px){
+    .adjust-v15-style .widthmeth{
+        width: 90px;
+    }
+    .adjust-v15-style .btn{
+        width: 90px;
+    }
+    .adjust-v15-style .ml20{
+        margin-left: 5px;
+    }
+    .adjust-v15-style .cancel-btn-style{
+        width: 70px;
+    }
+    .adjust-v15-style .cancel-btn-style .widthmeth{
+        width: 70px;
+    }
+    .adjust-v15-style .searchinputbtn{
+        width: 70px;
+    }
+}

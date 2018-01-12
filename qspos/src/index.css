@@ -874,19 +874,21 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .headermenuiconcount{width:62px;height:22px}
 .headermenuuselogo{width:144px;height:60px}
 .headermenuuselogobox{width:144px;height:42px;margin-top: 8px;}
-.menu_list0,.menu_list1,.menu_list2,.menu_list3,.menu_list4{width:50px;height: 100%;float: left;text-align: center;height: 60px;color: #384162;margin-right: 12px;-webkit-transform:scale(0.9);}
+.menu_list0,.menu_list1,.menu_list2,.menu_list3,.menu_list4,.menu_list5{width:50px;height: 100%;float: left;text-align: center;height: 60px;color: #384162;margin-right: 12px;-webkit-transform:scale(0.9);}
 .menu_list0 .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_member.png) no-repeat center center;background-size:cover;}
 .menu_list1 .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_delivery.png) no-repeat center center;background-size:cover;}
 .menu_list2 .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_goods.png) no-repeat center center;background-size:cover;}
 .menu_list3 .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_sell.png) no-repeat center center;background-size:cover;}
-.menu_list4 .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_setting.png) no-repeat center center;background-size:cover;}
+.menu_list4 .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_dataManage.png) no-repeat center center;background-size:cover;}
+.menu_list5 .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_setting.png) no-repeat center center;background-size:cover;}
 .menu_list0:hover,.menu_list1:hover,.menu_list2:hover,.menu_list3:hover,.menu_list4:hover{background: #38B3AA;-webkit-transform:scale(0.9);margin-right: 12px;}
 .menu_list0:hover .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_member_hover.png) no-repeat center center;background-size:cover;}
 .menu_list1:hover .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_delivery_hover.png) no-repeat center center;background-size:cover;}
 .menu_list2:hover .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_goods_hover.png) no-repeat center center;background-size:cover;}
 .menu_list3:hover .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_sell_hover.png) no-repeat center center;background-size:cover;}
-.menu_list4:hover .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_setting_hover.png) no-repeat center center;background-size:cover;}
-.menu_list0:hover .menu_list_p,.menu_list1:hover .menu_list_p,.menu_list2:hover .menu_list_p,.menu_list3:hover .menu_list_p,.menu_list4:hover .menu_list_p{font-size:10px;color:#fff}
+.menu_list4:hover .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_dataManage_hover.png) no-repeat center center;background-size:cover;}
+.menu_list5:hover .menu_list{width:34px;height:34px;margin:0 auto;margin-top:5px;background: url(images/icon_setting_hover.png) no-repeat center center;background-size:cover;}
+.menu_list0:hover .menu_list_p,.menu_list1:hover .menu_list_p,.menu_list2:hover .menu_list_p,.menu_list3:hover .menu_list_p,.menu_list4:hover .menu_list_p,.menu_list5:hover .menu_list_p{font-size:10px;color:#fff}
 .menu_list_p{font-size:10px;color:#384162;-webkit-transform:scale(1);display:block;font-family:"Microsoft YaHei";margin-top:2px;}
 .menuitem{font-size:14px;color:#74777F}
 .menuitem:hover{color:#35BAB0;}
