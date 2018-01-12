@@ -260,7 +260,7 @@ class ProfitReportForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="daily-bill">
+            <div className="daily-bill border-top-style">
                 <div className="scroll-wrapper">
                     {/* 数据展示部分 */}
                     <div className="top-data">

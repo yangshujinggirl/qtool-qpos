@@ -257,10 +257,26 @@
  line-height: normal;
 }
 
+
+/* 基础设置的一些样式 */
+.basic-setting .ant-form-item-control-wrapper{
+    width: auto;
+}
+.basic-setting .ant-form-item-control{
+    width: auto;
+}
+.basic-setting .ant-form-item-label{
+    width: 100px;
+    margin-left: 0px;
+}
+.basic-setting .page-count{
+    margin-right: 60%;
+}
+
 /*小屏样式 */
 @media screen and (max-width: 950px){
     .daily-bill .export-div{
-        margin-right: 0px;
+        margin-right: 10px;
     }
     .search-form .ant-form-item-label{
         width: 75px;
@@ -268,7 +284,7 @@
     .data-manage .ant-calendar-range-picker-separator,.receipt-report .ant-calendar-range-picker-separator,.daily-bill .ant-calendar-range-picker-separator{
         line-height: 18px;
     }
-    .daily-bill .ant-table-bordered .ant-table-thead > tr > th{
+    .border-top-style .ant-table-bordered .ant-table-thead > tr > th{
         border-top: 1px solid #d8d8d8;
     }
     .receipt-report .operate-time .ant-form-item-label{
@@ -292,4 +308,19 @@
      .top-data ul li div span.explain-span{
         font-size: 13px;
      }
+     .daily-bill .ant-select{
+         width: 150px;
+     }
+     .border-top-style .ant-input,.border-top-style .ant-select{
+        width: 150px;
+     }
+     .daily-billTime .ant-input{
+        width: 200px;
+     }
+
+     /* 基础样式的一些设置 */
+    .basic-setting .page-count{
+        margin-right: 30%;
+    }
 }
+

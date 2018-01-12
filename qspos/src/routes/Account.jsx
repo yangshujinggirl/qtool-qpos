@@ -391,7 +391,7 @@ class App extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'30px',padding:'30px'}} className='formdis accformdis'>
+        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'30px',padding:'30px'}} className='formdis accformdis basic-setting'>
             {
                 this.state.xitong
                 ?
@@ -449,8 +449,9 @@ class App extends React.Component {
                 )}
             </FormItem>
             <FormItem
+                className="page-count"
                 label="小票份数"
-                style={{display:"inline-block",width:"60%"}}
+                style={{display:"inline-block"}}
                 labelCol={{span:3}}
                 wrapperCol={{span:15}}
             >
@@ -481,8 +482,9 @@ class App extends React.Component {
             )}
             </FormItem>
             <FormItem
+                className="page-count"
                 label="小票份数"
-                style={{display:"inline-block",width:"60%"}}
+                style={{display:"inline-block"}}
                 labelCol={{span:3}}
                 wrapperCol={{span:15}}
             >
@@ -512,8 +514,9 @@ class App extends React.Component {
             )}
             </FormItem>
             <FormItem
+                className="page-count"
                 label="小票份数"
-                style={{display:"inline-block",width:"60%"}}
+                style={{display:"inline-block"}}
                 labelCol={{span:3}}
                 wrapperCol={{span:15}}
             >

@@ -31,14 +31,6 @@ class DailyBillForm extends React.Component {
             }
         };
         this.columns = [{
-            title: '序号',
-            dataIndex: 'sortIndex',
-            render: (text, record, index) => {
-                return (
-                    <span>{index+1}</span>
-                )
-            }
-        },{
             title: '订单编号',
             dataIndex: 'orderNo',
         },{
@@ -211,6 +203,7 @@ class DailyBillForm extends React.Component {
                 {/*搜索部分 */}
                 <Form className="search-form">
                     <FormItem
+                    className="daily-billTime"
                      label="订单时间"
                      labelCol={{ span: 5 }}
                      wrapperCol={{span: 10}}>

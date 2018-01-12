@@ -26,14 +26,6 @@ class ReceiptReportForm extends React.Component {
             orderNo:''
         };
         this.columns = [{
-            title: '序号',
-            dataIndex: 'sortIndex',
-            render: (text, record, index) => {
-                return (
-                    <span>{index+1}</span>
-                )
-            }
-        },{
             title: '配货单号',
             dataIndex: 'orderNo',
             render: (text, record, index) => {
