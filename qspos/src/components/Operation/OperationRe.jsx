@@ -2,7 +2,8 @@ import React from 'react';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Switch,Modal} from 'antd';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
-import {GetLodop} from '../Method/Print.jsx'
+import {GetLodop} from '../Method/Print.jsx';
+import {getRechargeOrderInfo} from '../../components/Method/Print';
 
 //充值弹窗
 class Modales extends React.Component {
@@ -49,8 +50,9 @@ class Modales extends React.Component {
                     reamount:''
 				},function(){
                     this.firstclick=true
-                    const mbCardMoneyChargeIds=json.mbCardMoneyChargeId
-                    const chargeNos=json.chargeNo
+                    const mbCardMoneyChargeIds=json.mbCardMoneyChargeId;
+                    const chargeNos=json.chargeNo;
+                    const orderAll=json;
 					this.props.searchmemberinfo()
                     message.success('充值成功',1)
                      if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
@@ -64,12 +66,13 @@ class Modales extends React.Component {
                                          if(json.config.rechargePrint=='1'){
                                             //判断是打印大的还是小的
                                             if(json.config.paperSize=='80'){
-                                                this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                                getRechargeOrderInfo(orderAll,"80",json.config.submitPrintNum);
+                                                //this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
                                             }else{
-                                                this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                                getRechargeOrderInfo(orderAll,"58",json.config.submitPrintNum);
+                                                //this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
                                             }
-                                            
-                                         }
+                                        }
                                     }else{
                                         message.warning('打印失败')
                                     }

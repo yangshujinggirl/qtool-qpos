@@ -577,7 +577,8 @@ class EditableTable extends React.Component {
 
 class Returngoods extends React.Component {
     state={
-        onBlur:false
+        onBlur:false,
+        checkPrint:false
     }
     cashrevisetabledatasouce=(messages)=>{
         const barcodesetdatasoce=this.refs.table.barcodesetdatasoce
@@ -614,18 +615,16 @@ class Returngoods extends React.Component {
                  }).then((json) => {
                     if(json.code == "0"){
                         if(json.config.submitPrint=='1'){
-                            this.props.dispatch({
-                                type:'returngoods/changeCheckPrint',
-                                payload:true
+                            this.setState({
+                                checkPrint:true
                             })
                         }else{
-                            this.props.dispatch({
-                                type:'returngoods/changeCheckPrint',
-                                payload:false
+                            this.setState({
+                                checkPrint:false
                             })
                         }
                     }
-                });
+                })
                 //出弹窗 
                 this.showpops()
             }
@@ -715,6 +714,13 @@ class Returngoods extends React.Component {
         const jiesuan=this.refs.table.jiesuan
         jiesuan()
     }
+
+    //改变选择是否打印状态
+    changeCheckPrint = (printFlag) =>{
+        this.setState({
+            checkPrint:printFlag
+        })
+    }
     render() {
         return(
             <div>
@@ -730,7 +736,8 @@ class Returngoods extends React.Component {
                         focuser={this.focuser.bind(this)}
                         />
                     </div>
-                <div><Pay ref='pay' reinitdata={this.reinitdata.bind(this)} useinitdata={this.useinitdata.bind(this)}/></div>
+                <div><Pay ref='pay' reinitdata={this.reinitdata.bind(this)} useinitdata={this.useinitdata.bind(this)} 
+                                    checkPrint={this.state.checkPrint} changeCheckPrint={this.changeCheckPrint.bind(this)}/></div>
                 <div className='mt30 footers'>
                     <div className='mt20'>
                         <OperationRe 
@@ -761,9 +768,9 @@ class Returngoods extends React.Component {
 }
 
 
-function mapStateToProps(state) {
-    return {};
-}
+    function mapStateToProps(state) {
+     return {};
+    }
 
 export default connect(mapStateToProps)(Returngoods);
 

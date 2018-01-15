@@ -418,7 +418,7 @@ class Pay extends React.Component {
             }).then((json) => {
                 if(json.code=='0'){
                     this.firstclick=true;
-                    const orderReturnAll = json;
+                    const orderAll = json;
                     const odOrderIds=json.odOrderId
                     const orderNos=json.orderNo
                     this.handleOk()
@@ -433,10 +433,10 @@ class Pay extends React.Component {
                                 if(json.code == "0"){
                                     //判断是打印大的还是小的
                                     if(json.config.paperSize=='80'){
-                                        getSaleOrderInfo(orderReturnAll,"80",json.config.submitPrintNum);
+                                        getSaleOrderInfo(orderAll,"80",json.config.submitPrintNum);
                                         // this.handprint(odOrderIds,'odOrder',orderNos,true)
                                     }else{
-                                        getSaleOrderInfo(orderReturnAll,"58",json.config.submitPrintNum);
+                                        getSaleOrderInfo(orderAll,"58",json.config.submitPrintNum);
                                         // this.handprint(odOrderIds,'odOrder',orderNos,false)
                                     } 
                                 }else{

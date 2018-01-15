@@ -3,8 +3,9 @@ import { Modal, Button ,Input,message,Checkbox} from 'antd';
 import { connect } from 'dva';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
-import {GetLodop} from '../Method/Print.jsx'
-
+import {GetLodop} from '../Method/Print.jsx';
+import {getSaleOrderInfo} from '../../components/Method/Print';
+import {getReturnOrderInfo} from '../../components/Method/Print';
 
 
 class Pay extends React.Component {
@@ -766,33 +767,34 @@ class Pay extends React.Component {
                 console.log(json)
                 if(json.code=='0'){
                     this.firstclick=true
-                    const odOrderIds=json.odOrderId
-                    const orderNos=json.orderNo
+                    const odOrderIds=json.odOrderId;
+                    const orderNos=json.orderNo;
+                    const orderAll = json;
                     this.handleOk()
                     this.props.initdata()
                     message.success('收银成功',1)
                     console.log(navigator.platform)
                     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-                         //判断是否打印
-                        const result=GetServerData('qerp.pos.sy.config.info')
-                       result.then((res) => {
-                          return res;
-                        }).then((json) => {
-                              console.log(json);
-                              if(json.code == "0"){
-                                 if(json.config.submitPrint=='1'){
+                        if(this.props.checkPrint){
+                            //判断打印小票的大小
+                            const result=GetServerData('qerp.pos.sy.config.info')
+                            result.then((res) => {
+                                return res;
+                            }).then((json) => {
+                                if(json.code == "0"){
                                     //判断是打印大的还是小的
                                     if(json.config.paperSize=='80'){
-                                        this.handprint(odOrderIds,'odOrder',orderNos,true)
+                                        getSaleOrderInfo(orderAll,"80",json.config.submitPrintNum);
+                                        // this.handprint(odOrderIds,'odOrder',orderNos,true)
                                     }else{
-                                        this.handprint(odOrderIds,'odOrder',orderNos,false)
+                                        getSaleOrderInfo(orderAll,"58",json.config.submitPrintNum);
+                                        // this.handprint(odOrderIds,'odOrder',orderNos,false)
                                     } 
-                                 }
-                              }else{
-                                message.warning('打印失败')
-
-                              }
-                        })
+                                }else{
+                                    message.warning('打印失败')
+                                }
+                            })
+                        }
                     }
                 }else{
                     message.error(json.message)
@@ -811,32 +813,32 @@ class Pay extends React.Component {
                     this.firstclick=true
                     const odReturnIds=json.odReturnId
                     const returnNos=json.returnNo
-                     this.handleOk()
-                     message.success('退货成功',1)
-                     this.props.reinitdata()
+                    const orderAll = json;
+                    this.handleOk()
+                    message.success('退货成功',1)
+                    this.props.reinitdata()
                      //页面跳转
-                     this.context.router.push('/cashier')
-                      if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-                     //判断打印
-                     const result=GetServerData('qerp.pos.sy.config.info')
-                       result.then((res) => {
-                          return res;
-                        }).then((json) => {
-                              console.log(json);
-                              if(json.code == "0"){
-                                 if(json.config.submitPrint=='1'){
+                    this.context.router.push('/cashier')
+                    if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
+                        if(this.props.checkPrint){
+                            const result=GetServerData('qerp.pos.sy.config.info')
+                            result.then((res) => {
+                                return res;
+                            }).then((json) => {
+                                if(json.code == "0"){
                                     //判断是打印大的还是小的
                                     if(json.config.paperSize=='80'){
-                                        this.handprint(odReturnIds,'odReturn',returnNos,true)
+                                        getReturnOrderInfo(orderAll,"80",json.config.submitPrintNum);
+                                        // this.handprint(odOrderIds,'odOrder',orderNos,true)
                                     }else{
-                                        this.handprint(odReturnIds,'odReturn',returnNos,false)
-                                    }
-                                    
-                                 }
-                              }else{
-                                message.warning('打印失败')
-                              }
-                        })
+                                        getReturnOrderInfo(orderAll,"58",json.config.submitPrintNum);
+                                        // this.handprint(odOrderIds,'odOrder',orderNos,false)
+                                    } 
+                                }else{
+                                    message.warning('打印失败')
+                                }
+                            })
+                        }
                     }
                 }else{
                      this.props.useinitdata()
@@ -1205,10 +1207,8 @@ class Pay extends React.Component {
 
     //是否勾选打印小票
     choosePrint = (e) =>{
-        this.props.dispatch({
-            type:'returngoods/changeCheckPrint',
-            payload:e.target.checked
-        })
+        //调用父组件的方法
+        this.props.changeCheckPrint(e.target.checked);
     }
 
     render() {
@@ -1277,8 +1277,4 @@ Pay.contextTypes= {
     router: React.PropTypes.object
 }
 
-function mapStateToProps(state) {
-    const {checkPrint}=state.returngoods
-    return {checkPrint};
-}
-export default connect(mapStateToProps)(Pay);
+export default Pay;
