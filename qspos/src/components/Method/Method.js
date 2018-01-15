@@ -11,7 +11,7 @@ export function isInArray(arr,value) {
             return i;
         }
     }
-    return false;
+    return '-1';
  }
 
 
