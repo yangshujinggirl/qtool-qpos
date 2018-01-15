@@ -125,7 +125,7 @@
 .data-manage .ant-table-bordered .ant-table-body > table, 
 .data-manage .ant-table-bordered .ant-table-fixed-left table, 
 .data-manage .ant-table-bordered .ant-table-fixed-right table{
-    border:1px solid #e9e9e9;
+    border-top:1px solid #e9e9e9;
 }
 
 /* 定部的tabbar */
@@ -251,7 +251,7 @@
     position: relative;
 }
 .receipt-details .ant-table-bordered .ant-table-thead > tr > th{
-    border-top: 1px solid #e9e9e9;
+    border-top: 1px solid #d8d8d8;
 }
 .receipt-details .ant-select-selection-selected-value{
  line-height: normal;
@@ -287,6 +287,13 @@
 
 /*小屏样式 */
 @media screen and (max-width: 950px){
+    /* table */
+    .data-manage .ant-table-bordered .ant-table-header > table, 
+    .data-manage .ant-table-bordered .ant-table-body > table, 
+    .data-manage .ant-table-bordered .ant-table-fixed-left table, 
+    .data-manage .ant-table-bordered .ant-table-fixed-right table{
+        border-top:1px solid #d8d8d8;
+    }
     .daily-bill .export-div{
         margin-right: 10px;
     }
@@ -296,9 +303,12 @@
     .data-manage .ant-calendar-range-picker-separator,.receipt-report .ant-calendar-range-picker-separator,.daily-bill .ant-calendar-range-picker-separator{
         line-height: 18px;
     }
-    .border-top-style .ant-table-bordered .ant-table-thead > tr > th{
-        border-top: 1px solid #d8d8d8;
+    .data-manage .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+        border-bottom: 1px solid #d8d8d8;
     }
+    /* .border-top-style .ant-table-bordered .ant-table-thead > tr > th{
+        border-top: 1px solid #d8d8d8;
+    } */
     .receipt-report .operate-time .ant-form-item-label{
         width: 95px;
     }
