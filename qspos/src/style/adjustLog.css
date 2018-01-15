@@ -34,3 +34,40 @@
     border: 1px solid #e9e9e9;
     border-radius: 5px;
 }
+.adjust-index .export-div{
+    margin-right: 0px;
+}
+.adjust-index .form-wrapper{
+    overflow: hidden;
+}
+.adjust-index  .search-form{
+    float: right;
+}
+
+/* adjust页面样式 */
+@media screen and (max-width: 950px){
+    .adjust-v15-style .widthmeth{
+        width: 90px;
+    }
+    .adjust-v15-style .btn{
+        width: 90px;
+    }
+    .adjust-v15-style .ml20{
+        margin-left: 5px;
+    }
+    .adjust-v15-style .cancel-btn-style{
+        width: 70px;
+    }
+    .adjust-v15-style .cancel-btn-style .widthmeth{
+        width: 70px;
+    }
+    .adjust-v15-style .searchinputbtn{
+        width: 70px;
+    }
+    .adjust-log .search-form .ant-form-item-label{
+        width: 75px;
+    }
+    .adjust-log .ant-calendar-range-picker-separator{
+        line-height: 25px;
+    }
+}

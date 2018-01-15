@@ -9,7 +9,7 @@ class ReceiptDetail extends React.Component{
    render(){
         return (
             <div>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} linkRoute="dataManage"/>
                 <div className='counters'>
                     <div className="receipt-details">
                         <ReceiptDetails/>

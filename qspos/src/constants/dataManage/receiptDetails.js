@@ -1,16 +1,18 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
+import {GetServerData} from '../../services/services';
 import CommonTable from './commonTable';
+import {deepcCloneObj} from '../../utils/commonFc';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
-
+const dateFormat = 'YYYY-MM-DD hh:mm:ss';
 class ReceiptDetailsForm extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor(props,context) {
+        super(props,context);
         this.state={
             dataSource:[],
             total:0,
@@ -53,12 +55,11 @@ class ReceiptDetailsForm extends React.Component {
             dataIndex: 'consignee',
         },{
             title: '最后操作时间',
-            dataIndex: 'operateTime',
+            dataIndex: 'updateTime',
         }];
     }
 
     dateChange = (date, dateString) =>{
-        console.log(date, dateString);
         this.setState({
             operateST:dateString[0],
             operateET:dateString[1]
@@ -81,92 +82,36 @@ class ReceiptDetailsForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        let dataList = [
-            {
-                "pdBarcode": "1010",//商品条码
-                "pdSpuName": "非预+批+到",//商品名称"
-                "pdSkuType": "规格属性1/规格属性1",
-                "qty": "100",  // 商品数量
-                "receiveQty": "20", //已收数量
-                "differenceQty": "20", //差异数量
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00",
-                "price":'2343'
-            },
-            {
-                "pdBarcode": "1010",//商品条码
-                "pdSpuName": "非预+批+到",//商品名称"
-                "pdSkuType": "规格属性1/规格属性1",
-                "qty": "100",  // 商品数量
-                "receiveQty": "20", //已收数量
-                "differenceQty": "20", //差异数量
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00",
-                "price":'2343'
-            },
-            {
-                "pdBarcode": "1010",//商品条码
-                "pdSpuName": "非预+批+到",//商品名称"
-                "pdSkuType": "规格属性1/规格属性1",
-                "qty": "100",  // 商品数量
-                "receiveQty": "20", //已收数量
-                "differenceQty": "20", //差异数量
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00",
-                "price":'2343'
-            },
-            {
-                "pdBarcode": "1010",//商品条码
-                "pdSpuName": "非预+批+到",//商品名称"
-                "pdSkuType": "规格属性1/规格属性1",
-                "qty": "100",  // 商品数量
-                "receiveQty": "20", //已收数量
-                "differenceQty": "20", //差异数量
-                "consignee": "收货人",
-                "operateTime": "2017-12-27 12:00:00",
-                "price":'2343'
+        const result=GetServerData('qerp.pos.order.receiveRepDetail.query',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let dataList = json.details;
+                for(let i=0;i<dataList.length;i++){
+                    dataList[i].key = i+1;
+                }
+                this.setState({
+                    dataSource:dataList,
+                    total:Number(json.total),
+                    currentPage:Number(json.currentPage),
+                    limit:Number(json.limit)
+                });
+            }else{  
+                message.error(json.message); 
             }
-        ];
-
-        for(let i=0;i<dataList.length;i++){
-            dataList[i].key = i+1;
-        }
-
-        let  posOrder={
-            "orderNo": "PH17072900003",
-            "qtySum": "100",
-            "receiveQty": "20",
-            "statusStr": "收货中",
-        };
-        this.setState({
-            dataSource:dataList,
-            posOrder:posOrder,
-            total:Number('3'),
-            currentPage:Number('0'),
-            limit:Number("10")
         })
-
-        // const result=GetServerData('qerp.pos.order.receiveRep',values)
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         console.log('收货报表数据请求成功');
-        //     }else{  
-        //         message.error(json.message); 
-        //     }
-        // })
     }
 
     handleSubmit = (e) =>{
         const self = this;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log(values);
             this.setState({
                 keywords:values.keywords
             },function(){
                 let values = {
+                    pdOrderId:this.props.detailId,
                     currentPage:0,
                     limit:10,
                     startDate:this.state.startDate,
@@ -182,61 +127,86 @@ class ReceiptDetailsForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="ph-info">
-                <div className="info-title">
-                    配货单信息
+                <div className="scroll-wrapper">
+                    <div className="info-title">
+                        配货单信息
+                    </div>
+                    <div className="info-content">
+                        <label>配货单号：</label><span>{this.props.headerInfo.orderNo}</span>
+                        <label>商品总数：</label><span>{this.props.headerInfo.qtySum}</span>
+                        <label>已收商品数量：</label><span>{this.props.headerInfo.receiveQty}</span>
+                        <label>订单状态：</label><span>{this.props.headerInfo.statusStr}</span>
+                    </div>
+                    <div className="info-title">
+                        商品收货明细
+                    </div>
+                    {/*搜索部分 */}
+                    <Form className="search-form time-select">
+                        <FormItem
+                            label="商品名称／条形码"
+                            labelCol={{ span: 5 }}
+                            wrapperCol={{span: 10}}>
+                        {getFieldDecorator('keywords')(
+                            <Input/>
+                        )}
+                        </FormItem>
+                        <FormItem
+                            label="操作时间"
+                            labelCol={{ span: 5 }}
+                            wrapperCol={{span: 10}}>
+                        {getFieldDecorator('time')(
+                            <RangePicker onChange={this.dateChange.bind(this)} 
+                            format={dateFormat}/>
+                        )}
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                        </FormItem>
+                    </Form>
+                    <CommonTable 
+                        columns={this.columns} 
+                        dataSource={this.state.dataSource}
+                        pagination={false}
+                        total={20}
+                        current={1}
+                        pageSize={10}
+                        onShowSizeChange={this.onShowSizeChange}
+                        pageChange={this.pageChange}
+                        />
                 </div>
-                <div className="info-content">
-                    <label>配货单号：</label><span>{this.state.posOrder.orderNo}</span>
-                    <label>商品总数：</label><span>{this.state.posOrder.qtySum}</span>
-                    <label>已收商品数量：</label><span>{this.state.posOrder.receiveQty}</span>
-                    <label>订单状态：</label><span>{this.state.posOrder.statusStr}</span>
+                <div className="footer-pagefixed">
+                    <Pagination 
+                        total={this.state.total} 
+                        current={this.state.currentPage+1}
+                        pageSize={this.state.limit}
+                        showSizeChanger 
+                        onShowSizeChange={this.onShowSizeChange} 
+                        onChange={this.pageChange} 
+                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                        />
                 </div>
-                <div className="info-title">
-                    商品收货明细
-                </div>
-                {/*搜索部分 */}
-                <Form className="search-form">
-                    <FormItem
-                        label="商品名称／条形码"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                    {getFieldDecorator('keywords')(
-                        <Input/>
-                    )}
-                    </FormItem>
-                    <FormItem
-                        label="订单时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                    {getFieldDecorator('time')(
-                        <RangePicker onChange={this.dateChange.bind(this)} />
-                    )}
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                    </FormItem>
-                </Form>
-                <CommonTable 
-                    columns={this.columns} 
-                    dataSource={this.state.dataSource}
-                    pagination={true}
-                    total={20}
-                    current={1}
-                    pageSize={10}
-                    onShowSizeChange={this.onShowSizeChange}
-                    pageChange={this.pageChange}
-                    />
             </div>
         );
     }
 
     componentDidMount(){
-        this.getServerData();
+        if(this.props.detailId){
+            let values = {
+                pdOrderId:this.props.detailId
+            }
+            this.getServerData(values);
+        }
+        //添加
+        this.props.dispatch({
+            type:'dataManage/initKey',
+            payload: "4"
+        })
     }
 }
 
 function mapStateToProps(state){
-   return {};
+    const {detailInfo,headerInfo,detailId} = state.dataManage;
+    return {detailInfo,headerInfo,detailId};
 }
 
 const ReceiptDetails = Form.create()(ReceiptDetailsForm);

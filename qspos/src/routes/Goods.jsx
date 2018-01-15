@@ -233,7 +233,7 @@ class Goods extends React.Component {
         return (
             <div className="goods-manage">
                 <Header type={false} color={true}/>
-                <div className='search-component'>
+                <div className='search-component goods-v15-style'>
                     <Searchcomponent pdCategories={this.props.pdCategories} dispatch={this.props.dispatch} ref='search'/>
                 </div>
                 <div className='counters goods-counters'>

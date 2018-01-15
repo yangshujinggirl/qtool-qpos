@@ -7,6 +7,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select
 import {GetServerData} from '../services/services';
 import { Link } from 'dva/router';
 import AdjustTextModal from '../components/modal/confirmModal';
+import "../style/adjustLog.css";
 
 //导入--在Searchcomponent组件中
 class MyUpload extends React.Component {
@@ -87,7 +88,7 @@ class Searchcomponent extends React.Component {
     }
    
     callback=()=>{
-    	this.context.router.push('/cashier')
+    	this.context.router.push('/goods');
     }
     
     revisemessage=(messages)=>{
@@ -170,7 +171,7 @@ class Searchcomponent extends React.Component {
 
     render(){
         return(
-            <div className='clearfix mb10'>
+            <div className='clearfix mb10 adjust-v15-style'>
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载损益模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)}/></div>
@@ -179,8 +180,8 @@ class Searchcomponent extends React.Component {
       			<div className='fr clearfix'>
           			<div className='fl'><Searchinput text='请输入商品条码、商品名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this,0)}/></div>
           			<div className='searchselect clearfix fl'>
-	                    <div className='fl btn ml20'><Link to='/goods'><Buttonico text='取消损益'/></Link></div>
-	      				<div className='fl btn ml20' onClick={this.showModal.bind(this)}><Buttonico text='确定损益'/></div>
+	                    <div className='fl btn ml20 cancel-btn-style'><Link to='/goods'><Buttonico text='取消损益'/></Link></div>
+	      				<div className='fl btn ml20 cancel-btn-style' onClick={this.showModal.bind(this)}><Buttonico text='确定损益'/></div>
                         <AdjustTextModal
                             ref={this.saveFormRef}
                             visible={this.state.visible}
@@ -320,7 +321,7 @@ class Adjust extends React.Component {
     render(){
         return(
             <div>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
                     <Searchcomponent dispatch={this.props.dispatch} setdayasouce={this.setdayasouce.bind(this)} ref='search'/>
                     <EditableTable dispatch={this.props.dispatch} ref='adjust' seracedatasouce={this.seracedatasouce.bind(this)}/>

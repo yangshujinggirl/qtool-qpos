@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import moment from 'moment';
+import {GetServerData} from '../../services/services';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -23,14 +24,6 @@ class HotSellGoodsForm extends React.Component {
             endDate:"",
         };
         this.columns = [{
-            title: '排序',
-            dataIndex: 'sortIndex',
-            render: (text, record, index) => {
-                return (
-                    <span>{index+1}</span>
-                )
-            }
-        },{
             title: '商品条码',
             dataIndex: 'barcode',
         },{
@@ -75,65 +68,34 @@ class HotSellGoodsForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        let dataList = [
-            {
-                barcode:"3456789",
-                name:"我是商品1",
-                displayName:"200ml",
-                posQty:"5",
-                posAmount:"345.90",
-                invQty:"30"
-            },
-            {
-                barcode:"3456789",
-                name:"我是商品2",
-                displayName:"200ml",
-                posQty:"5",
-                posAmount:"345.90",
-                invQty:"30"
-            },
-            {
-                barcode:"3456789",
-                name:"我是商品3",
-                displayName:"200ml",
-                posQty:"5",
-                posAmount:"345.90",
-                invQty:"30"
-            },
-            {
-                barcode:"3456789",
-                name:"我是商品4",
-                displayName:"200ml",
-                posQty:"5",
-                posAmount:"345.90",
-                invQty:"30"
+        const result=GetServerData('qerp.pos.rp.pd.sell.list',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let dataList = json.analysis;
+                if(dataList.length){
+                    for(let i=0;i<dataList.length;i++){
+                        dataList[i].key = i+1;
+                    }
+                    this.setState({
+                        dataSource:dataList,
+                        total:Number(json.total),
+                        currentPage:Number(json.currentPage),
+                        limit:Number(json.limit)
+                    });
+                }
+            }else{  
+                message.error(json.message); 
             }
-        ];
-        for(let i=0;i<dataList.length;i++){
-            dataList[i].key = i+1;
-        }
-        this.setState({
-            dataSource:dataList,
-            total:Number('3'),
-            currentPage:Number('0'),
-            limit:Number("10")
-        });
-
-        // const result=GetServerData('qerp.pos.rp.pd.sell.list',values)
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         console.log('热销商品数据请求成功');
-        //     }else{  
-        //         message.error(json.message); 
-        //     }
-        // })
+        })
     }
 
     //获取当前时间
     getNowFormatDate = () =>{
-        var date = new Date();
+        const self =this;
+        var curDate = new Date();
+        var date = new Date(curDate.getTime() - 24*60*60*1000); //前一天;
         var seperator1 = "-";
         var month = date.getMonth() + 1;
         var strDate = date.getDate();
@@ -154,7 +116,7 @@ class HotSellGoodsForm extends React.Component {
                 startDate:this.state.startDate,
                 endDate:this.state.endDate
             }
-            this.getServerData(values);
+            self.getServerData(values);
         })
     }
 
@@ -174,57 +136,67 @@ class HotSellGoodsForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div>
-                {/*搜索部分 */}
-                <Form className="search-form">
-                    <FormItem
-                     label="订单时间"
-                     labelCol={{ span: 5 }}
-                     wrapperCol={{span: 10}}>
-                        <RangePicker 
-                            value={[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]}
-                            format={dateFormat}
-                            onChange={this.dateChange.bind(this)} />
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                    </FormItem>
-                </Form>
-                <div className="hotSell-wrapper">
-                    {
-                        this.state.dataSource.length?
-                        (
-                            this.state.dataSource.length == 1? 
-                            <div className="first-flag"></div>:
+            <div className="hot-sell">
+                <div className="scroll-wrapper">
+                    {/*搜索部分 */}
+                    <Form className="search-form">
+                        <FormItem
+                        label="选择时间"
+                        labelCol={{ span: 5 }}
+                        wrapperCol={{span: 10}}>
+                            <RangePicker 
+                                value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
+                                format={dateFormat}
+                                onChange={this.dateChange.bind(this)} />
+                        </FormItem>
+                        <FormItem>
+                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                        </FormItem>
+                    </Form>
+                    <div className="hotSell-wrapper">
+                        {
+                            this.state.dataSource.length?
                             (
-                                this.state.dataSource.length == 2?
-                                <div>
-                                    <div className="first-flag"></div>
-                                    <div className="second-flag"></div>
-                                </div>
-                                :(
+                                this.state.dataSource.length == 1? 
+                                <div className="first-flag"></div>:
+                                (
+                                    this.state.dataSource.length == 2?
                                     <div>
                                         <div className="first-flag"></div>
                                         <div className="second-flag"></div>
-                                        <div className="third-flag"></div>
                                     </div>
+                                    :(
+                                        <div>
+                                            <div className="first-flag"></div>
+                                            <div className="second-flag"></div>
+                                            <div className="third-flag"></div>
+                                        </div>
+                                    )
                                 )
                             )
-                        )
-                        :null
-                    }
-                    {/* <div className="first-flag"></div>
-                    <div className="second-flag"></div>
-                    <div className="third-flag"></div> */}
-                    <CommonTable 
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource}
-                        pagination={true}
-                        total={20}
-                        current={1}
-                        pageSize={10}
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
+                            :null
+                        }
+                        <CommonTable 
+                            columns={this.columns} 
+                            dataSource={this.state.dataSource}
+                            pagination={false}
+                            total={20}
+                            current={1}
+                            pageSize={10}
+                            onShowSizeChange={this.onShowSizeChange}
+                            pageChange={this.pageChange}
+                            />
+                    </div>
+                </div>
+                <div className="footer-pagefixed">
+                    <Pagination 
+                        total={this.state.total} 
+                        current={this.state.currentPage+1}
+                        pageSize={this.state.limit}
+                        showSizeChanger 
+                        onShowSizeChange={this.onShowSizeChange} 
+                        onChange={this.pageChange} 
+                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
                 </div>
             </div>

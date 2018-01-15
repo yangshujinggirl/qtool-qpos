@@ -39,21 +39,21 @@ class MyUpload extends React.Component {
     //根据id请求数据
     setdatas=(messages)=>{
         const result=GetServerData('qerp.pos.pd.check.info',messages)
-                    result.then((res) => {
-                      return res;
-                    }).then((json) => {
-                        console.log(json)
-                        if(json.code=='0'){
-                            this.props.dispatch({
-                                type:'inventory/pdCheckId',
-                                payload: {pdCheckDetails:json.pdCheckDetails,pdCheckId:messages.pdCheckId}
-                            })
-                            const Setdate=this.props.Setdate
-                            Setdate(json.pdCheckDetails,json.total,messages.pdCheckId)
-                        }else{  
-                            message.warning(json.message);
-                        }
-                    })
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            console.log(json)
+            if(json.code=='0'){
+                this.props.dispatch({
+                    type:'inventory/pdCheckId',
+                    payload: {pdCheckDetails:json.pdCheckDetails,pdCheckId:messages.pdCheckId}
+                })
+                const Setdate=this.props.Setdate
+                Setdate(json.pdCheckDetails,json.total,messages.pdCheckId)
+            }else{  
+                message.warning(json.message);
+            }
+        })
     }
 
     render() {
@@ -83,14 +83,12 @@ class Searchcomponent extends React.Component {
         })
     }
     Setdate=(message,total,id)=>{
-        console.log(message)
         for(var i=0;i<message.length;i++){
             message[i].key=i+1
         }
         this.props.setdayasouce(message,total,id)
     }
     Setdates=(messages)=>{
-        console.log(this)
         const Setdates=this.refs.up.setdatas
         Setdates(messages)
     }
@@ -105,6 +103,7 @@ class Searchcomponent extends React.Component {
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载盘点模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'/></div>
+                    <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonico text='查看盘点损益日志'/></Link></div>
 	      		</div>
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
           			<div className='searchselect clearfix'>
@@ -172,10 +171,8 @@ class EditableTable extends React.Component {
         })
     }
     pagechange=(page)=>{
-        console.log(page)
         var pages=Number(page.current)-1
         let values={pdCheckId:this.state.pdCheckId,limit:10,currentPage:pages}
-        console.log(this)
         const setdatas=this.props.setdatas
         setdatas(values)
   
@@ -214,7 +211,7 @@ class Inventory extends React.Component{
     render() {
         return (
             <div>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
                     <Searchcomponent setdayasouce={this.setdayasouce.bind(this)} ref='search' dispatch={this.props.dispatch}/>
                     <EditableTable ref='inventory' seracedatasouce={this.seracedatasouce.bind(this)} setdatas={this.setdatas.bind(this)}/>

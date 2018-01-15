@@ -2,17 +2,17 @@ import React,{Component} from 'react';
 import { connect } from 'dva';
 import Header from '../components/header/Header';
 import { Link } from 'dva/router'
-import AdjustLogIndex from '../constants/adjustLog/index';
+import InventorydiffLogIndex from '../constants/inventorydiffLog/index';
 import '../style/adjustLog.css';
 
-class AdjustLog extends React.Component{
+class InventorydiffLog extends React.Component{
    render(){
         return (
             <div>
-                <Header type={false} color={true} linkRoute="adjust"/>
+                <Header type={false} color={true} linkRoute="inventory"/>
                 <div className='counters'>
                     <div className="adjust-log">
-                        <AdjustLogIndex/>
+                        <InventorydiffLogIndex/>
                     </div>
                 </div>
             </div>
@@ -24,4 +24,4 @@ function mapStateToProps(state) {
     return {};
 }
 
-export default connect(mapStateToProps)(AdjustLog);
+export default connect(mapStateToProps)(InventorydiffLog);
