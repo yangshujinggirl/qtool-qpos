@@ -573,6 +573,8 @@ function printRechargeOrder(message,printCount){
 	var rechargeTime = info.cardMoneyChargeInfo.createTime;
 	var payAmount = info.cardMoneyChargeInfo.amount;
 
+	var printName = info.printName;
+
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
@@ -580,7 +582,7 @@ function printRechargeOrder(message,printCount){
 	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src="+imgSrc+"/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,"朝阳soho门店");
+	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -683,6 +685,8 @@ function printRechargeOrderSmall(message,printCount){
 	var rechargeTime = info.cardMoneyChargeInfo.createTime;
 	var payAmount = info.cardMoneyChargeInfo.amount;
 
+	var printName = info.printName;
+
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
@@ -690,7 +694,7 @@ function printRechargeOrderSmall(message,printCount){
 	LODOP.ADD_PRINT_IMAGE(0,"15mm",97,26,"<img border='0' src="+imgSrc+"/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-	LODOP.ADD_PRINT_TEXT(40,0,"50mm",27,"朝阳soho门店");
+	LODOP.ADD_PRINT_TEXT(40,0,"50mm",27,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -783,8 +787,8 @@ function printReturnOrder(message,printCount){
 	let print_count = Number(printCount);
 	let returnInfoAll = message;
 	var moneyInfo = returnInfoAll.returnOrderDetails;
-	// //缺少门店打印名称字段
-	// var shopName = message.odOrder
+	//门店打印名称字段
+	var printName = returnInfoAll.printName;
 	var orderNo = returnInfoAll.odReturn.returnNo;
 	var saleTime = returnInfoAll.odReturn.createTime;
 	var totalPay = returnInfoAll.odReturn.amount;
@@ -797,7 +801,7 @@ function printReturnOrder(message,printCount){
 	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src="+imgSrc+"/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,"朝阳soho门店");
+	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -914,8 +918,8 @@ function printReturnOrderSmall(message,printCount){
 	let print_count =Number(printCount);
 	let returnInfoAll = message;
 	var moneyInfo = returnInfoAll.returnOrderDetails;
-	// //缺少门店打印名称字段
-	// var shopName = message.odOrder
+	//门店打印名称字段
+	var printName = returnInfoAll.printName;
 	var orderNo = returnInfoAll.odReturn.returnNo;
 	var saleTime = returnInfoAll.odReturn.createTime;
 	var totalPay = returnInfoAll.odReturn.amount;
@@ -928,7 +932,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.ADD_PRINT_IMAGE(0,"15mm",97,26,"<img border='0' src="+imgSrc+"/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-	LODOP.ADD_PRINT_TEXT(40,0,"50mm",27,"朝阳soho门店");
+	LODOP.ADD_PRINT_TEXT(40,0,"50mm",27,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -1053,7 +1057,8 @@ function printSaleOrder(message,printCount){
 	let print_count = Number(printCount);
 	let saleInfoAll = message;
 	var moneyInfo = saleInfoAll.orderDetails;
-	//缺少门店打印名称字段
+	//门店打印名称字段
+	var printName = saleInfoAll.printName;
 	// var shopName = message.odOrder
 	var orderNo = saleInfoAll.odOrder.orderNo;
 	var saleTime = saleInfoAll.odOrder.saleTime;
@@ -1067,7 +1072,7 @@ function printSaleOrder(message,printCount){
 	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src="+imgSrc+"/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,"朝阳soho门店");
+	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -1184,8 +1189,9 @@ function printSaleOrderSmall(message,printCount){
 	let print_count = Number(printCount);
 	let saleInfoAll = message;
 	var moneyInfo = saleInfoAll.orderDetails;
-	//缺少门店打印名称字段
-	// var shopName = message.odOrder
+	//门店打印名称字段
+	var printName = saleInfoAll.printName;
+
 	var orderNo = saleInfoAll.odOrder.orderNo;
 	var saleTime = saleInfoAll.odOrder.saleTime;
 	var totalPay = saleInfoAll.odOrder.amount;
@@ -1198,7 +1204,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.ADD_PRINT_IMAGE(0,"15mm",97,26,"<img border='0' src="+imgSrc+"/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-	LODOP.ADD_PRINT_TEXT(40,0,"50mm",27,"朝阳soho门店");
+	LODOP.ADD_PRINT_TEXT(40,0,"50mm",27,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
