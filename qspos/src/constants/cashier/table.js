@@ -109,29 +109,29 @@ class EditableTable extends React.Component {
 			//判断库存
 			if(Number(values)>Number(datasouce[index].inventory)){
 				datasouce[index].qty=datasouce[index].inventory
-				const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-				const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-				if(zeropayPrice-editpayPrice>0){
-					datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-				}else{
-					datasouce[index].payPrice=editpayPrice.toFixed(2)
-				}
 				message.warning('商品库存不足')
 			}else{
 				datasouce[index].qty=values
-				const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-				const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-				if(zeropayPrice-editpayPrice>0){
-					datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-				}else{
-					datasouce[index].payPrice=editpayPrice.toFixed(2)
-				}
 			}
 		}else{
 			datasouce[index].qty=1
 			message.warning('数量只能输入大于0的数字')
 		}
-
+		var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
+		//判断是否有小数点，及小数点时候有两位，当不满足时候补零
+		var xsd=zeropayPrice.toString().split(".");
+		if(xsd.length==1){
+			zeropayPrice=zeropayPrice.toString()+".00";
+		}
+		if(xsd.length>1 && xsd[1].length<2){
+			zeropayPrice=zeropayPrice.toString()+"0";
+		}
+		const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+		if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+			datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
+		}else{
+			datasouce[index].payPrice=editpayPrice
+		}
 		this.props.dispatch({
 			type:'cashier/datasouce',
 			payload:datasouce
@@ -140,164 +140,125 @@ class EditableTable extends React.Component {
 	}
 	discountonchange=(index,e)=>{
 		const values=e.target.value
-		const datasouce=this.props.datasouce.splice(0)
-		datasouce[index].discount=values
-		this.props.dispatch({
-			type:'cashier/changedatasouce',
-			payload:datasouce
-		})
-	}
-	discountblur=(index,e)=>{
-		const values=e.target.value
-		const datasouce=this.props.datasouce.splice(0)
-		const re=/^([1-9][0-9]*)+(.[0-9]{1,1})?$/
+		const re=/^([0-9]*)+((\.)|.[0-9]{1,1})?$/
 		const str=re.test(values)
-		let role=sessionStorage.getItem('role');
 		if(str){
-			if(role=='2'||role=='1'){
-				if(parseFloat(values)<8){
-					datasouce[index].discount=8
-					// datasouce[index].payPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); 
-					const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-					if(zeropayPrice-editpayPrice>0){
-						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-					}else{
-						datasouce[index].payPrice=editpayPrice.toFixed(2)
-					}
-					
-					
-					
-					this.props.dispatch({
-						type:'cashier/datasouce',
-						payload:datasouce
-					})
-					message.error('折扣超出权限，已自动修复')
-				}else{
-					datasouce[index].discount=values
-					const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-					if(zeropayPrice-editpayPrice>0){
-						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-					}else{
-						datasouce[index].payPrice=editpayPrice.toFixed(2)
-					}
-					this.props.dispatch({
-						type:'cashier/datasouce',
-						payload:datasouce
-					})
-				}
-			}else{
-				if(role=='3'){
-					if(parseFloat(values)<9){
-						datasouce[index].discount=9
-						const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-					if(zeropayPrice-editpayPrice>0){
-						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-					}else{
-						datasouce[index].payPrice=editpayPrice.toFixed(2)
-					} 
-						this.props.dispatch({
-							type:'cashier/datasouce',
-							payload:datasouce
-						})
-						message.error('折扣超出权限，已自动修复')
-					}else{
-						datasouce[index].discount=values
-						const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-					if(zeropayPrice-editpayPrice>0){
-						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-					}else{
-						datasouce[index].payPrice=editpayPrice.toFixed(2)
-					} 
-						this.props.dispatch({
-							type:'cashier/datasouce',
-							payload:datasouce
-						})
-					}
-				}
-			}	
-
-		}else{
-			datasouce[index].discount=10
-			const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-					if(zeropayPrice-editpayPrice>0){
-						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-					}else{
-						datasouce[index].payPrice=editpayPrice.toFixed(2)
-					}
+			const datasouce=this.props.datasouce.splice(0)
+			datasouce[index].discount=values
 			this.props.dispatch({
-				type:'cashier/datasouce',
+				type:'cashier/changedatasouce',
 				payload:datasouce
 			})
-			message.error('只能输入最多一位小数的折扣数')
 		}
 	}
-
-
-	payPriceonchange=(index,e)=>{
-		const values=e.target.value
+	discountblur=(index,e)=>{
+		var values=parseFloat(e.target.value)
 		const datasouce=this.props.datasouce.splice(0)
-		datasouce[index].payPrice=values
-		this.props.dispatch({
-			type:'cashier/changedatasouce',
-			payload:datasouce
-		})
-	}
-	payPriceblur=(index,e)=>{
-		const values=e.target.value
-		const datasouce=this.props.datasouce.splice(0)
-		const re=/^([1-9][0-9]*)+(.[0-9]{1,2})?$/
-		const str=re.test(values)
 		let role=sessionStorage.getItem('role');
-		if(str){
-			datasouce[index].payPrice=values
-			datasouce[index].discount=NP.times(NP.divide(datasouce[index].payPrice,datasouce[index].toCPrice,datasouce[index].qty),10)
-			datasouce[index].discount=NP.round(datasouce[index].discount,1)
-			if(role=='2'|| role=='1'){
-				if(datasouce[index].discount<8){
-					datasouce[index].discount=8
-					const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-					if(zeropayPrice-editpayPrice>0){
-						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-					}else{
-						datasouce[index].payPrice=editpayPrice.toFixed(2)
-					}
-					message.error('折扣超出权限，已自动修复')
-				}
-			}else{
-				if(role=='3'){
-					if(datasouce[index].discount<9){
-						datasouce[index].discount=9
-						const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-					if(zeropayPrice-editpayPrice>0){
-						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-					}else{
-						datasouce[index].payPrice=editpayPrice.toFixed(2)
-					}
-						message.error('折扣超出权限，已自动修复')
-					}
-				}
-			}
+		datasouce[index].discount=values
+		if((role=='2'||role=='1') && values<8){
+			datasouce[index].discount=8 	
+		}
+		if((role=='3') && values<9){
+			datasouce[index].discount=9 	
+		}
+		
+		var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
+		//判断是否有小数点，及小数点时候有两位，当不满足时候补零
+		var xsd=zeropayPrice.toString().split(".");
+		if(xsd.length==1){
+			zeropayPrice=zeropayPrice.toString()+".00";
+		}
+		if(xsd.length>1 && xsd[1].length<2){
+			zeropayPrice=zeropayPrice.toString()+"0";
+		}
+		const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+		if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+			datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
 		}else{
-			message.error('只能输入最多两位小数的折扣价')
-			const zeropayPrice=NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10); //计算值
-					const editpayPrice=parseFloat(zeropayPrice.toFixed(2))//取小数后两位
-					if(zeropayPrice-editpayPrice>0){
-						datasouce[index].payPrice=(editpayPrice+0.01).toFixed(2)
-					}else{
-						datasouce[index].payPrice=editpayPrice.toFixed(2)
-					}
+			datasouce[index].payPrice=editpayPrice
 		}
 		this.props.dispatch({
 			type:'cashier/datasouce',
 			payload:datasouce
 		})
+	}
+
+
+	payPriceonchange=(index,e)=>{
+		const values=e.target.value
+		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+		const str=re.test(values)
+		if(str){
+			const datasouce=this.props.datasouce.splice(0)
+			datasouce[index].payPrice=values
+			this.props.dispatch({
+				type:'cashier/changedatasouce',
+				payload:datasouce
+			})
+		}	
+	}
+	payPriceblur=(index,e)=>{
+		var values=parseFloat(e.target.value)
+		const datasouce=this.props.datasouce.splice(0)
+		let role=sessionStorage.getItem('role');
+		var xsdfir=values.toString().split(".");
+		if(xsdfir.length==1){
+			values=values.toString()+".00";
+		}
+		if(xsdfir.length>1 && xsdfir[1].length<2){
+			values=values.toString()+"0";
+		}
+		datasouce[index].payPrice=values
+		datasouce[index].discount=NP.times(NP.divide(datasouce[index].payPrice,datasouce[index].toCPrice,datasouce[index].qty),10)
+
+		if((role=='2'||role=='1') && datasouce[index].discount<8){
+			datasouce[index].discount=8 
+			var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
+			//判断是否有小数点，及小数点时候有两位，当不满足时候补零
+			var xsd=zeropayPrice.toString().split(".");
+			if(xsd.length==1){
+				zeropayPrice=zeropayPrice.toString()+".00";
+			}
+			if(xsd.length>1 && xsd[1].length<2){
+				zeropayPrice=zeropayPrice.toString()+"0";
+			}
+			const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+			if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+				datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
+			}else{
+				datasouce[index].payPrice=editpayPrice
+			}
+		}
+		if((role=='3') && datasouce[index].discount<9){
+			datasouce[index].discount=9 	
+			var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
+                        //判断是否有小数点，及小数点时候有两位，当不满足时候补零
+                        var xsd=zeropayPrice.toString().split(".");
+                        if(xsd.length==1){
+                            zeropayPrice=zeropayPrice.toString()+".00";
+                        }
+                        if(xsd.length>1 && xsd[1].length<2){
+                            zeropayPrice=zeropayPrice.toString()+"0";
+                        }
+			const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+			if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+				datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
+			}else{
+				datasouce[index].payPrice=editpayPrice
+			}
+		}
+
+		//判断折扣是否有小数点
+		if(String(datasouce[index].discount).indexOf(".")>-1){
+			datasouce[index].discount=NP.round(datasouce[index].discount,1)
+		}
+		
+		this.props.dispatch({
+			type:'cashier/datasouce',
+			payload:datasouce
+		})
+		
 	}
 
 	rowClassName=(record, index)=>{
@@ -313,16 +274,7 @@ class EditableTable extends React.Component {
 	}
 
 
-	//payPrice处理程序
-	payPriceedit=(initvalue)=>{
-		var payPrice=parseFloat(initvalue.toFixed(2))//取小数后两位
-		if(initvalue-payPrice>0){
-            payPrice=(payPrice+0.01).toFixed(2)
-        }else{
-            payPrice=payPrice.toFixed(2)
-        }
-        return payPrice 
-	}
+	
 
 	//行点击
 	rowclick=(record,index,event)=>{

@@ -1,8 +1,16 @@
 import { connect } from 'dva';
+import { message} from 'antd';
 
 class Operationr extends React.Component {
 	hindclick=()=>{
-		this.props.meth1.initModel()
+        if(Number(this.props.totolnumber)>0 && parseFloat(this.props.totolamount)>0){
+            this.props.meth1.initModel()
+        }else{
+            message.error('数量为0，不能结算')
+            return
+           
+        }
+		
 	}
 	render() {
 		const color=this.props.color

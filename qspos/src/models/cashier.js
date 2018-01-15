@@ -63,6 +63,15 @@ export default {
                 thispoint=Math.round(totolamount)
                 datasouce[i].price=datasouce[i].toCPrice
             }
+
+            var toxsd=totolamount.toString().split(".");
+            if(toxsd.length==1){
+                totolamount=totolamount.toString()+".00";
+            }
+            if(toxsd.length>1 && toxsd[1].length<2){
+                totolamount=totolamount.toString()+"0";
+            }
+
             const paytotolamount=totolamount
 
            return {...state,datasouce,totolnumber,totolamount,thispoint,paytotolamount}
@@ -122,17 +131,28 @@ export default {
                 const initdatasouce = yield select(state => state.cashier.datasouce);
                 const datasouce=initdatasouce.slice(0)
                 const i=isInArray(datasouce,values.barCode)
-               
-
-                
-                const payPrice=NP.times('3', '0.003','10','10'); 
-                if(i===false){
+                if(i==='-1'){
                     //不存在，判断库存
                     if(Number(result.pdSpu.inventory)>0){
                         const objects=result.pdSpu
                         objects.qty='1'
                         objects.discount='10'
-                        objects.payPrice=NP.divide(NP.times(objects.toCPrice, objects.qty,objects.discount),10); 
+                        var zeropayPrice=String(NP.divide(NP.times(objects.toCPrice, objects.qty,objects.discount),10)); //计算值
+                        //判断是否有小数点，及小数点时候有两位，当不满足时候补零
+                        var xsd=zeropayPrice.toString().split(".");
+                        if(xsd.length==1){
+                            zeropayPrice=zeropayPrice.toString()+".00";
+                        }
+                        if(xsd.length>1 && xsd[1].length<2){
+                            zeropayPrice=zeropayPrice.toString()+"0";
+                        }
+                        
+                        const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+                        if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+                            objects.payPrice=String(parseFloat(editpayPrice)+0.01)
+                        }else{
+                            objects.payPrice=editpayPrice
+                        }
                         datasouce.unshift(objects)
                     }else{
                         message.error('商品库存不足')
@@ -145,7 +165,21 @@ export default {
                         return
                     }else{
                         datasouce[i].qty=String(Number(datasouce[i].qty)+1)
-                        datasouce[i].payPrice=NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10);  
+                        var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
+                        //判断是否有小数点，及小数点时候有两位，当不满足时候补零
+                        var xsd=zeropayPrice.toString().split(".");
+                        if(xsd.length==1){
+                            zeropayPrice=zeropayPrice.toString()+".00";
+                        }
+                        if(xsd.length>1 && xsd[1].length<2){
+                            zeropayPrice=zeropayPrice.toString()+"0";
+                        }
+                        const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+                        if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+                            datasouce[i].payPrice=String(parseFloat(editpayPrice)+0.01)
+                        }else{
+                            datasouce[i].payPrice=editpayPrice
+                        }
                         const str=datasouce.splice(i,1); //删除当前
                         console.log(str)
                         datasouce.unshift(str[0]); //把这个元素添加到开头

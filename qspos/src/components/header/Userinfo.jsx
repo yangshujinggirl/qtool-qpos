@@ -168,7 +168,8 @@ class Dropdownmenu extends React.Component {
     }
 
     logoutsettime=()=>{
-       setTimeout(this.logout,2000)
+        this.logout()
+    //    setTimeout(this.logout,2000)
     }
 
     logout=()=>{
