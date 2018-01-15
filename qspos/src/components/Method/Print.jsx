@@ -587,7 +587,7 @@ function printRechargeOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_LINE(70,0,71,"70mm",2,0);
+	LODOP.ADD_PRINT_LINE(69,0,70,"70mm",2,0);
 
 	LODOP.ADD_PRINT_TEXT(80,"0mm","20mm",20,"充值单号");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -605,11 +605,11 @@ function printRechargeOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-	LODOP.ADD_PRINT_LINE(120,0,121,"70mm",2,0);
+	LODOP.ADD_PRINT_LINE(119,0,120,"70mm",2,0);
 
 	var posi = 130;
 	for(var key in text){
-		 LODOP.ADD_PRINT_TEXT(posi,"0mm","20mm",20,title[key]);
+		LODOP.ADD_PRINT_TEXT(posi,"0mm","20mm",20,title[key]);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
@@ -622,31 +622,30 @@ function printRechargeOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 		posi = posi+20;
-		console.log(posi);
 	}; 
 
-	LODOP.ADD_PRINT_LINE(posi,0,posi+1,"70mm",2,0);
+	LODOP.ADD_PRINT_LINE(posi+5,0,posi+6,"70mm",2,0);
 
-	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","20mm",20,"实付金额");
+	LODOP.ADD_PRINT_TEXT(posi+15,"0mm","20mm",20,"实付金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
-	LODOP.ADD_PRINT_TEXT(posi+10,"20mm","50mm",20,payAmount);
+	LODOP.ADD_PRINT_TEXT(posi+15,"20mm","50mm",20,payAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 	
-	LODOP.ADD_PRINT_BARCODE(posi+30,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+	LODOP.ADD_PRINT_BARCODE(posi+35,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
-	LODOP.ADD_PRINT_TEXT(posi+130,0,"70mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_TEXT(posi+120,0,"70mm",20,"扫描关注Qtools官方微信公众号");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_TEXT(posi+150,0,"70mm",20,"官方投诉电话：400-7766-999");
+	LODOP.ADD_PRINT_TEXT(posi+140,0,"70mm",20,"官方投诉电话：400-7766-999");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
