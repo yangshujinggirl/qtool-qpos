@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button ,Input,message} from 'antd';
+import { Modal, Button ,Input,message,Checkbox} from 'antd';
 import { connect } from 'dva';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
@@ -1203,6 +1203,14 @@ class Pay extends React.Component {
         this.hindpayclick()
     }
 
+    //是否勾选打印小票
+    choosePrint = (e) =>{
+        this.props.dispatch({
+            type:'returngoods/changeCheckPrint',
+            payload:e.target.checked
+        })
+    }
+
     render() {
         return (
         <div>
@@ -1231,6 +1239,7 @@ class Pay extends React.Component {
                  		<div><Input  addonBefore='找零'  value={this.state.backmoney} onChange={this.backmoney.bind(this)} disabled className='paylh tr payinputsmodel'/></div>
                  		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>
                         <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)} onKeyUp={this.hindpay.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
+                        <div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>
                	 	</div>
                     <div className='fr fix-800-fr' style={{width:'274px'}}>
                         <div>
@@ -1268,5 +1277,8 @@ Pay.contextTypes= {
     router: React.PropTypes.object
 }
 
-
-export default Pay
+function mapStateToProps(state) {
+    const {checkPrint}=state.returngoods
+    return {checkPrint};
+}
+export default connect(mapStateToProps)(Pay);

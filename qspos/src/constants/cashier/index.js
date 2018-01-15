@@ -10,6 +10,7 @@ import {GetServerData} from '../../services/services';
 import NP from 'number-precision'
 
 class Cashierindex extends React.Component {
+    state = {checkPrint:false};
     inputclick=()=>{
         var x = document.activeElement.tagName;
         if(x=='BODY'){
@@ -26,6 +27,25 @@ class Cashierindex extends React.Component {
             }else{
                 //出弹窗
                 if(Number(this.props.totolnumber)>0 && parseFloat(this.props.totolamount)>0){
+                    //判断系统默认选择是否打印
+                    const result=GetServerData('qerp.pos.sy.config.info')
+                    result.then((res) => {
+                       return res;
+                     }).then((json) => {
+                        if(json.code == "0"){
+                            if(json.config.submitPrint=='1'){
+                                this.props.dispatch({
+                                    type:'cashier/changeCheckPrint',
+                                    payload:true
+                                })
+                            }else{
+                                this.props.dispatch({
+                                    type:'cashier/changeCheckPrint',
+                                    payload:false
+                                })
+                            }
+                        }
+                    })
                     this.props.meth1.initModel()
                 }else{
                     message.error('数量为0，不能结算')
@@ -128,6 +148,7 @@ class Cashierindex extends React.Component {
         const onbule=false
         const barcode=null
         const cardNoMobile=null
+        const checkPrint = false
 
         this.props.dispatch({
             type:'cashier/datasouce',
@@ -156,6 +177,10 @@ class Cashierindex extends React.Component {
         this.props.dispatch({
             type:'cashier/cardNoMobile',
             payload:cardNoMobile
+        })
+        this.props.dispatch({
+            type:'cashier/changeCheckPrint',
+            payload:checkPrint
         })
         this.props.meths.focustap()
     }
@@ -212,7 +237,7 @@ class Cashierindex extends React.Component {
 
 
 function mapStateToProps(state) {
-    const {datasouce,meths,onBlur,payvisible,totolnumber,totolamount,meth1,themeindex}=state.cashier
-    return {datasouce,meths,onBlur,payvisible,totolnumber,totolamount,meth1,themeindex};
+    const {datasouce,meths,onBlur,payvisible,totolnumber,totolamount,meth1,themeindex,checkPrint}=state.cashier
+    return {datasouce,meths,onBlur,payvisible,totolnumber,totolamount,meth1,themeindex,checkPrint};
 }
 export default connect(mapStateToProps)(Cashierindex);

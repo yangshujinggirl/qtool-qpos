@@ -607,8 +607,27 @@ class Returngoods extends React.Component {
 
 
             }else{
-               //出弹窗 
-               this.showpops()
+                //判断系统默认选择是否打印
+                const result=GetServerData('qerp.pos.sy.config.info')
+                result.then((res) => {
+                   return res;
+                 }).then((json) => {
+                    if(json.code == "0"){
+                        if(json.config.submitPrint=='1'){
+                            this.props.dispatch({
+                                type:'returngoods/changeCheckPrint',
+                                payload:true
+                            })
+                        }else{
+                            this.props.dispatch({
+                                type:'returngoods/changeCheckPrint',
+                                payload:false
+                            })
+                        }
+                    }
+                });
+                //出弹窗 
+                this.showpops()
             }
         }
         // tap
@@ -742,9 +761,9 @@ class Returngoods extends React.Component {
 }
 
 
-    function mapStateToProps(state) {
-     return {};
-    }
+function mapStateToProps(state) {
+    return {};
+}
 
 export default connect(mapStateToProps)(Returngoods);
 

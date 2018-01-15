@@ -26,7 +26,8 @@ export default {
           paytotolamount:'0.00',//实际支付金额（抹零后金额）
           themeindex:0,
           barcode:null,
-          cardNoMobile:null
+          cardNoMobile:null,
+          checkPrint:false
 
     },
     reducers: {
@@ -106,6 +107,9 @@ export default {
         },
         paytotolamount(state, { payload: paytotolamount}) {
             return {...state,paytotolamount}
+        },
+        changeCheckPrint(state, { payload: checkPrint}) {
+            return {...state,checkPrint}
         },
        
     },

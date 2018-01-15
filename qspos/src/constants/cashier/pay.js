@@ -1,9 +1,11 @@
-import { Modal, Button ,Input,message} from 'antd';
+import { Modal, Button ,Input,message,Checkbox } from 'antd';
 import { connect } from 'dva';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
 import {GetLodop} from '../../components/Method/Print'
 import NP from 'number-precision'
+//引入打印
+import {getSaleOrderInfo} from '../../components/Method/Print';
 
 
 class Pay extends React.Component {
@@ -415,30 +417,33 @@ class Pay extends React.Component {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
-                    this.firstclick=true
+                    this.firstclick=true;
+                    const orderReturnAll = json;
                     const odOrderIds=json.odOrderId
                     const orderNos=json.orderNo
                     this.handleOk()
                     message.success('收银成功',1)
                     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-                         //判断是否打印
-                        const result=GetServerData('qerp.pos.sy.config.info')
-                       result.then((res) => {
-                          return res;
-                        }).then((json) => {
-                              if(json.code == "0"){
-                                 if(json.config.submitPrint=='1'){
+                        if(this.props.checkPrint){
+                            //判断打印纸大小
+                            const result=GetServerData('qerp.pos.sy.config.info')
+                            result.then((res) => {
+                                return res;
+                            }).then((json) => {
+                                if(json.code == "0"){
                                     //判断是打印大的还是小的
                                     if(json.config.paperSize=='80'){
-                                        this.handprint(odOrderIds,'odOrder',orderNos,true)
+                                        getSaleOrderInfo(orderReturnAll,"80",json.config.submitPrintNum);
+                                        // this.handprint(odOrderIds,'odOrder',orderNos,true)
                                     }else{
-                                        this.handprint(odOrderIds,'odOrder',orderNos,false)
+                                        getSaleOrderInfo(orderReturnAll,"58",json.config.submitPrintNum);
+                                        // this.handprint(odOrderIds,'odOrder',orderNos,false)
                                     } 
-                                 }
-                              }else{
-                                message.warning('打印失败')
-                              }
-                        })
+                                }else{
+                                    message.warning('打印失败')
+                                }
+                            })
+                        }
                     }else{
                         message.warning('请在win系统下操作打印') 
                     }
@@ -748,6 +753,14 @@ class Pay extends React.Component {
             amountlist:amountlist
         })   
     }
+
+    //是否勾选打印小票
+    choosePrint = (e) =>{
+        this.props.dispatch({
+            type:'cashier/changeCheckPrint',
+            payload:e.target.checked
+        })
+    }
     render() {
         return (
             <div>
@@ -776,6 +789,7 @@ class Pay extends React.Component {
                             <div><Input  addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
                             <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
                             <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
+                            <div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>
                         </div>
                         <div className='fr fix-800-fr' style={{width:'274px'}}>
                             <div>
@@ -824,8 +838,8 @@ Pay.contextTypes= {
 }
 
 function mapStateToProps(state) {
-    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce}=state.cashier
-    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce};
+    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,checkPrint}=state.cashier
+    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,checkPrint};
 }
 export default connect(mapStateToProps)(Pay);
 
