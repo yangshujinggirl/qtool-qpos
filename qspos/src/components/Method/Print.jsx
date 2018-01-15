@@ -690,45 +690,45 @@ function printRechargeOrderSmall(message,printCount){
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
 
-	LODOP.ADD_PRINT_IMAGE(0,"15mm",97,26,"<img border='0' src="+imgSrc+"/>");
+	LODOP.ADD_PRINT_IMAGE(0,"14mm",97,26,"<img border='0' src="+imgSrc+"/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-	LODOP.ADD_PRINT_TEXT(40,0,"50mm",27,printName);
+	LODOP.ADD_PRINT_TEXT(40,0,"50mm",20,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_LINE(70,0,71,"50mm",2,0);
+	LODOP.ADD_PRINT_LINE(58,0,59,"50mm",2,0);
 
-	LODOP.ADD_PRINT_TEXT(80,"0mm","15mm",20,"充值单号");
+	LODOP.ADD_PRINT_TEXT(70,"0mm","15mm",20,"充值单号");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(80,"15mm","50mm",20,rechargeNo);
+	LODOP.ADD_PRINT_TEXT(70,"15mm","50mm",20,rechargeNo);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(100,"0mm","15mm",20,"充值日期");
+	LODOP.ADD_PRINT_TEXT(90,"0mm","15mm",20,"充值日期");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(100,"15mm","50mm",20,rechargeTime);
+	LODOP.ADD_PRINT_TEXT(90,"15mm","50mm",20,rechargeTime);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_LINE(120,0,121,"50mm",2,0);
+	LODOP.ADD_PRINT_LINE(107,0,108,"50mm",2,0);
 
-	var posi = 130;
+	var posi = 120;
 	for(var key in text){
 		LODOP.ADD_PRINT_TEXT(posi,"0mm","15mm",20,title[key]);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 		LODOP.ADD_PRINT_TEXT(posi,"15mm","50mm",20,text[key]);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
@@ -736,35 +736,35 @@ function printRechargeOrderSmall(message,printCount){
 		console.log(posi);
 	}; 
 
-	LODOP.ADD_PRINT_LINE(posi,0,posi+1,"50mm",2,0);
+	LODOP.ADD_PRINT_LINE(posi-3,0,posi-2,"50mm",2,0);
 
 	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","15mm",20,"实付金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 	LODOP.ADD_PRINT_TEXT(posi+10,"15mm","50mm",20,payAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 	
 	LODOP.ADD_PRINT_BARCODE(posi+30,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
-	LODOP.ADD_PRINT_TEXT(posi+130,0,"50mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_TEXT(posi+115,0,"50mm",20,"扫描关注Qtools官方微信公众号");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_TEXT(posi+150,0,"50mm",20,"官方投诉电话：400-7766-999");
+	LODOP.ADD_PRINT_TEXT(posi+130,0,"50mm",20,"官方投诉电话：400-7766-999");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_TEXT(posi+170,0,"50mm",20,"Qtools | 有温度的进口母婴品牌");
+	LODOP.ADD_PRINT_TEXT(posi+150,0,"50mm",20,"Qtools | 有温度的进口母婴品牌");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
 	LODOP.SET_PRINT_COPIES(print_count);
