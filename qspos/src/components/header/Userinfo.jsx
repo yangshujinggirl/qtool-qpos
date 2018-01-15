@@ -136,7 +136,7 @@ class Dropdownmenu extends React.Component {
                             //判断是否打印
                             const result=GetServerData('qerp.pos.sy.config.info');
                             result.then((res) => {
-                            return res;
+                                return res;
                             }).then((json) => {
                                     if(json.code == "0"){
                                         if(json.config.exchangePrint=='1'){
@@ -168,13 +168,13 @@ class Dropdownmenu extends React.Component {
     }
 
     logoutsettime=()=>{
-        this.logout()
-    //    setTimeout(this.logout,2000)
+        // this.logout()
+       setTimeout(this.logout,2000)
     }
 
     logout=()=>{
-        location.reload();
-        // this.context.router.push('/')
+        // location.reload();
+        this.context.router.push('/')
     }
 
     handleCancel = (e) => {

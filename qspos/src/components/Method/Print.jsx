@@ -375,7 +375,7 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 		"money":"￥90875.00",
 		"sale":"￥1067899.00"
 	};
-	var infoWidth = 35*3.78;
+	var infoWidth = 34*3.78;
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
@@ -404,7 +404,6 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0.7);
 		//8pt=11px
 		textWidth = text[key].length*11;
-
 		posi = posi+20+(Math.ceil(textWidth/infoWidth)-1)*11;
 	}; 
 
