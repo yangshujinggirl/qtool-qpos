@@ -45,7 +45,6 @@ class Memberinfoindex extends React.Component{
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     const {cardInfolist} = state.memberinfo;
     return {cardInfolist};
 }
