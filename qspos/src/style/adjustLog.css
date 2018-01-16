@@ -43,6 +43,9 @@
 .adjust-index  .search-form{
     float: right;
 }
+.remark-modal .ant-modal-body{
+    padding-bottom: 20px;
+}
 
 /* adjust页面样式 */
 @media screen and (max-width: 950px){

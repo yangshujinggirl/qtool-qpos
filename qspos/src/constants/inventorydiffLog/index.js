@@ -25,27 +25,35 @@ class InventorydiffLogIndexForm extends React.Component {
         this.columns = [{
             title: '商品条码',
             dataIndex: 'barcode',
+            width:'10%',
         },{
             title: '商品名称',
             dataIndex: 'name',
+            width:'12%',
         },{
             title: '规格',
             dataIndex: 'displayName',
+            width:'12%',
         },{
             title: '成本价',
             dataIndex: 'averageRecPrice',
+            width:'10%',
         },{
             title: '损益数量',
             dataIndex: 'qty',
+            width:'8%',
         },{
             title: '损益金额',
             dataIndex: 'adjustAmount',
+            width:'8%',
         },{
             title: '操作人',
             dataIndex: 'operater',
+            width:'8%',
         },{
             title: '操作时间',
             dataIndex: 'operateTime',
+            width:'12%',
         }];
     }
 

@@ -77,18 +77,6 @@ class DailyBillForm extends React.Component {
         })
     }
 
-    // windowResize = () =>{
-    //     if(document.body.offsetWidth>800){
-    //          this.setState({
-    //             windowHeight:document.body.offsetHeight-300,
-    //           })
-    //     }else{
-    //         this.setState({
-    //           windowHeight:document.body.offsetHeight-270,
-    //       });
-    //     }
-    // }
-
     handleSubmit = (e) =>{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -326,16 +314,6 @@ class DailyBillForm extends React.Component {
     componentDidMount(){
         //获取当前时间
         this.getNowFormatDate();
-        // if(document.body.offsetWidth>800){
-        //     this.setState({
-        //        windowHeight:document.body.offsetHeight-300,
-        //      });
-        // }else{
-        //     this.setState({
-        //         windowHeight:document.body.offsetHeight-270,
-        //     });
-        // }
-        // window.addEventListener('resize', this.windowResize.bind(this));    
     }
 }
 

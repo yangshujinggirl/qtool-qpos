@@ -23,35 +23,44 @@ class AdjustLogIndexForm extends React.Component {
             adjustTimeEnd:"",
             visible:false,
             remarkText:'',
-            windowHeight:''
+            windowHeight:0
         };
         this.columns = [{
             title: '商品条码',
             dataIndex: 'barcode',
+            width:'12%',
         },{
             title: '商品名称',
             dataIndex: 'name',
+            width:'12%',
         },{
             title: '规格',
             dataIndex: 'displayName',
+            width:'12%',
         },{
             title: '成本价',
             dataIndex: 'averageRecPrice',
+            width:'8%',
         },{
             title: '损益数量',
             dataIndex: 'diffQty',
+            width:'8%',
         },{
             title: '损益金额',
             dataIndex: 'adjustAmount',
+            width:'8%',
         },{
             title: '操作人',
             dataIndex: 'operater',
+            width:'8%',
         },{
             title: '操作时间',
             dataIndex: 'operateTime',
+            width:'12%',
         },{
             title: '损益备注',
             dataIndex: 'remark',
+            width:'6%',
             render: (text, record, index) => {
                 return (
                     <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.showRemark.bind(this,record)}>查看</span>
@@ -223,15 +232,6 @@ class AdjustLogIndexForm extends React.Component {
                                 pageSizeOptions:['10','12','15','17','20','50','100','200']
                             }
                         }
-                        // columns={this.columns} 
-                        // dataSource={this.state.dataSource}
-                        // pagination={true}
-                        // total={this.state.total}
-                        // current={this.state.currentPage+1}
-                        // pageSize={this.state.limit}
-                        // onShowSizeChange={this.onShowSizeChange}
-                        // pageChange={this.pageChange}
-                        // yscroll={this.state.windowHeight}
                         />
                 </div>
             </div>
@@ -296,7 +296,7 @@ class AdjustLogIndexForm extends React.Component {
                     windowHeight:document.body.offsetHeight-270,
                 });
             }
-            window.addEventListener('resize', this.windowResize.bind(this));    
+            window.addEventListener('resize',this.windowResize.bind(this));    
         })
     }
 

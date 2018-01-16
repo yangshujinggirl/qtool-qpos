@@ -10,6 +10,7 @@ class RemarkText extends React.Component{
     render(){
         return (
             <Modal
+                className="remark-modal"
                 title="损益备注"
                 visible={this.props.visible}
                 onCancel={this.hideModal}
