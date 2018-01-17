@@ -82,14 +82,32 @@ class ProfitReportForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                rpDate:this.state.rpDate,
+                name:this.state.name
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                rpDate:this.state.rpDate,
+                name:this.state.name
+            };
+            self.getServerData(data);
         })
     }
 
@@ -179,16 +197,16 @@ class ProfitReportForm extends React.Component {
             limit:Number("10")
         })
 
-        // const result=GetServerData('qerp.pos.rp.profit.page',values)
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         console.log('利润报表数据请求成功');
-        //     }else{  
-        //         message.error(json.message); 
-        //     }
-        // })
+        const result=GetServerData('qerp.pos.rp.profit.page',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                console.log('利润报表数据请求成功');
+            }else{  
+                message.error(json.message); 
+            }
+        })
     }
 
     handleSubmit = (e) =>{
@@ -201,7 +219,7 @@ class ProfitReportForm extends React.Component {
             },function(){
                 let data = {
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     rpDate:this.state.rpDate,
                     name:this.state.name
                 }
@@ -213,8 +231,6 @@ class ProfitReportForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            currentPage:0,
-            limit:10,
             rpDate:this.state.rpDate,
             name:this.state.name
         }

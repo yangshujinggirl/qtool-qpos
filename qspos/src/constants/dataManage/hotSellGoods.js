@@ -55,14 +55,32 @@ class HotSellGoodsForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                startDate:this.state.startDate,
+                endDate:this.state.endDate
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                startDate:this.state.startDate,
+                endDate:this.state.endDate
+            };
+            self.getServerData(data);
         })
     }
 
@@ -125,7 +143,7 @@ class HotSellGoodsForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             let data = {
                 currentPage:0,
-                limit:10,
+                limit:this.state.limit,
                 startDate:this.state.startDate,
                 endDate:this.state.endDate
             }

@@ -191,9 +191,9 @@ class ReceiptReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                         {getFieldDecorator('status')(
-                            <Select>
-                                <Option value="10">收货中</Option>
-                                <Option value="20">待收货</Option>
+                            <Select allowClear>
+                                <Option value="10">待收货</Option>
+                                <Option value="20">收货中</Option>
                                 <Option value="30">已收货</Option>
                             </Select>
                         )}

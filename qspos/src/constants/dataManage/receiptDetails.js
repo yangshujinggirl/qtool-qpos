@@ -82,7 +82,7 @@ class ReceiptDetailsForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        const result=GetServerData('qerp.pos.order.receiveRepDetail.query',values)
+        const result=GetServerData('qerp.qpos.order.receiveRepDetail',values)
         result.then((res) => {
             return res;
         }).then((json) => {
