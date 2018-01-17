@@ -38,7 +38,7 @@ class Tags extends React.Component {
             <div className='h100'>
                 <Tabs type="card">
 		    	     <TabPane tab="销售订单" key="1"><Sellorder qposStSaleOrders={this.props.qposStSaleOrders} dispatch={this.props.dispatch} total={this.props.total}/></TabPane>
-		    	     <TabPane tab="店员销售" key="2"><Sellclerk dispatch={this.props.dispatch}/></TabPane>
+		    	     {/* <TabPane tab="店员销售" key="2"><Sellclerk dispatch={this.props.dispatch}/></TabPane> */}
  			    </Tabs>
             </div>
         )
@@ -54,8 +54,6 @@ class Searchcompon extends React.Component {
         page:0
     }
     timechange=(date, dateString)=>{
-        console.log(dateString)
-
         if(dateString[0]==''){
             dateString[0]=null
         }
@@ -95,7 +93,6 @@ class Searchcompon extends React.Component {
         this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
     }
     setpage=(page)=>{
-        console.log(page)
         this.setState({
             page:page-1
         },function(){
@@ -287,7 +284,6 @@ class Slidecountback extends React.Component {
     }
 
     render(){
-        console.log(this)
         return(
             <div className="sellinfolist-wrapper">
                 <ul className='sellinfolist'>
@@ -423,7 +419,6 @@ class Ordertap extends React.Component {
                 result.then((res) => {
                     return res;
                 }).then((json) => {
-                    console.log(json)
                     if(json.code=='0'){
                         this.setState({
                             returnOrderAll:json,
@@ -439,7 +434,6 @@ class Ordertap extends React.Component {
 
     //销售数据请求
     setdataxs=(keyid)=>{
-         console.log(keyid)
         const type=1
         let values={
             outId:keyid,
@@ -474,7 +468,6 @@ class Ordertap extends React.Component {
                 result.then((res) => {
                   return res;
                 }).then((json) => {
-                    console.log(json)
                     if(json.code=='0'){
                        this.setState({
                             rechargeOrderAll:json,
@@ -499,7 +492,6 @@ class Ordertap extends React.Component {
             keys:key
         },function(){
             //根据id和type进行数据请求，并绑定
-            console.log(this.state.clicktype)
             if(this.state.clicktype=='1'){
                this.setdataxs(this.state.clickid)
             }
@@ -578,7 +570,6 @@ class Ordertap extends React.Component {
 
   render() {
     const qposStSaleOrders=this.state.qposStSaleOrders
-    console.log(qposStSaleOrders)
     return (
         <div className="content-sell-info">
 
@@ -647,9 +638,6 @@ class Ordertap extends React.Component {
     }
 
   componentWillReceiveProps(nextProps){
-    console.log(nextProps)
-    console.log(this)
-    console.log(nextProps.qposStSaleOrders.length)
     if(nextProps.qposStSaleOrders.length>0){
         this.setState({
             qposStSaleOrders:nextProps.qposStSaleOrders,
@@ -665,15 +653,13 @@ class Ordertap extends React.Component {
 
   }
 
-  componentWillMount(){
-      console.log(document.body.clientWidth);
-         if( document.body.clientWidth > 800 ) {
-                /* 这里是要执行的代码 */
-              widthFlag = true;
-            }else{
-               widthFlag = false;
-            }
-            console.log(widthFlag);
+    componentWillMount(){
+        if( document.body.clientWidth > 800 ) {
+            /* 这里是要执行的代码 */
+            widthFlag = true;
+        }else{
+            widthFlag = false;
+        }
     }
 
 }
@@ -857,12 +843,10 @@ class Sellclerk extends React.Component {
                 result.then((res) => {
                   return res;
                 }).then((json) => {
-                    console.log(json)
                     if(json.code=='0'){
                             const userSales=json.userSales
                             const totalUserSale=json.totalUserSale
                             totalUserSale.nickname='合计'
-                            console.log(totalUserSale)
                             const setsouce=[]
                             for(var i=0;i<userSales.length;i++){
                                 setsouce.push(userSales[i])
@@ -922,10 +906,7 @@ function Sell({qposStSaleOrders,dispatch,total}) {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     const {qposStSaleOrders,total} = state.sell;
-    console.log(qposStSaleOrders)
-    console.log(total)
     return {qposStSaleOrders,total};
 }
 
