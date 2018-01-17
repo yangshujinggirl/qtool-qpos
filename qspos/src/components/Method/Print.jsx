@@ -1,10 +1,13 @@
+import React from 'react';
 import { message} from 'antd';
-
 import {getJsessionId} from '../../utils/post'
 
 var LODOP;
 var CreatedOKLodop7766=null;
-var imgSrc = require('../../static/print_logo.png');
+let hostAddress  = window.location.host;
+var imgSrc ="http://"+hostAddress+'/static/print_logo.png';
+
+// var imgSrc = require('../../static/print_logo.png');
 
 //====判断是否需要安装CLodop云打印服务器:====
 function needCLodop(){
@@ -342,7 +345,7 @@ function printShiftInfo(userSales,urUser,printCount){
 
 	LODOP.ADD_PRINT_LINE(posi2+47,0,posi2+48,"70mm",2,0);
 
-	LODOP.ADD_PRINT_IMAGE(posi2+60,"20mm",152,38,"<img border='0' src="+imgSrc+"/>");
+	LODOP.ADD_PRINT_IMAGE(posi2+60,"20mm",152,38,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);//按原图比例(不变形)缩放模式
 
 	LODOP.ADD_PRINT_TEXT(posi2+105,"0mm","70mm",20,"Qtools | 有温度的进口母婴品牌");
@@ -577,8 +580,7 @@ function printRechargeOrder(message,printCount){
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
-
-	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src="+imgSrc+"/>");
+	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
 	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
@@ -689,7 +691,7 @@ function printRechargeOrderSmall(message,printCount){
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
 
-	LODOP.ADD_PRINT_IMAGE(0,"14mm",97,26,"<img border='0' src="+imgSrc+"/>");
+	LODOP.ADD_PRINT_IMAGE(0,"14mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
 	LODOP.ADD_PRINT_TEXT(40,0,"50mm",20,printName);
@@ -796,7 +798,7 @@ function printReturnOrder(message,printCount){
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
 
-	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src="+imgSrc+"/>");
+	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
 	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
@@ -927,7 +929,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
 
-	LODOP.ADD_PRINT_IMAGE(0,"14mm",97,26,"<img border='0' src="+imgSrc+"/>");
+	LODOP.ADD_PRINT_IMAGE(0,"14mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
 	LODOP.ADD_PRINT_TEXT(40,0,"50mm",20,printName);
@@ -1066,8 +1068,8 @@ function printSaleOrder(message,printCount){
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
-
-	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src="+imgSrc+"/>");
+	
+	LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
 	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
@@ -1199,7 +1201,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
 
-	LODOP.ADD_PRINT_IMAGE(0,"15mm",97,26,"<img border='0' src="+imgSrc+"/>");
+	LODOP.ADD_PRINT_IMAGE(0,"15mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
 	LODOP.ADD_PRINT_TEXT(40,0,"50mm",20,printName);

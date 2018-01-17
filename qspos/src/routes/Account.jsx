@@ -467,6 +467,7 @@ class App extends React.Component {
                     </Select>
             )}
             </FormItem>
+            <div style={{width:"100%",height:"1px",visibility:"hidden"}}></div>
             <FormItem
                 label="充值后打印"
                 style={{display:"inline-block"}}
@@ -500,6 +501,7 @@ class App extends React.Component {
                     </Select>
             )}
             </FormItem>
+            <div style={{width:"100%",height:"1px",visibility:"hidden"}}></div>
             <FormItem
                 label="交班后打印"
                 style={{display:"inline-block"}}
@@ -532,6 +534,7 @@ class App extends React.Component {
                     </Select>
             )}
             </FormItem>
+            <div style={{width:"100%",height:"1px",visibility:"hidden"}}></div>
             <FormItem>
                 <div onClick={this.handleSubmit.bind(this)} className='submitform'>确定</div>
             </FormItem>

@@ -281,9 +281,9 @@
     width: 100px;
     margin-left: 0px;
 }
-.basic-setting .page-count{
+/* .basic-setting .page-count{
     margin-right: 60%;
-}
+} */
 
 /*小屏样式 */
 @media screen and (max-width: 950px){
@@ -344,8 +344,8 @@
      }
 
      /* 基础样式的一些设置 */
-    .basic-setting .page-count{
+    /* .basic-setting .page-count{
         margin-right: 30%;
-    }
+    } */
 }
 
