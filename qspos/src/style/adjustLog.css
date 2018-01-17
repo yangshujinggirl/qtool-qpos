@@ -46,6 +46,13 @@
 .remark-modal .ant-modal-body{
     padding-bottom: 20px;
 }
+/* 损益模态框 */
+.adjust-text-modal .ant-modal-footer{
+    line-height: 60px;
+}
+.adjust-text-modal .ant-modal-footer button + button{
+    margin-right: 20px;
+}
 
 /* adjust页面样式 */
 @media screen and (max-width: 950px){

@@ -1,5 +1,6 @@
 import { Button, Modal, Form, Input, Radio } from 'antd';
 const FormItem = Form.Item;
+const { TextArea } = Input;
 
 const AdjustTextForm = Form.create()(
   (props) => {
@@ -12,12 +13,13 @@ const AdjustTextForm = Form.create()(
         okText="确定"
         onCancel={onCancel}
         onOk={onCreate}
+        className="adjust-text-modal"
       >
         <Form layout="vertical">
           <FormItem label="损益备注">
             {getFieldDecorator('remark',{
                  rules: [{ required: true, message: '请输入损益原因' }]
-            })(<Input type="textarea" placeholder="请输入损益原因或其他备注信息、必填、100字以下"/>)}
+            })(<TextArea rows={4} placeholder="请输入损益原因或其他备注信息、必填、100字以下"/>)}
           </FormItem>
         </Form>
       </Modal>

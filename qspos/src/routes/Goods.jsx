@@ -101,23 +101,13 @@ class EditableTable extends React.Component {
   	constructor(props) {
     	super(props);
     	this.columns = [{
-      		title: '序号',
-      		dataIndex: 'index',
-             width:'8%',
-            render: (text, record, index) => {
-                return (
-                    <div>{index+1}</div>
-                 )
-                }
-            
-    	}, {
       		title: '商品条码',
             width:'15%',
       		dataIndex: 'barcode'
-    	}, {
+    	},{
             title: '商品名称',
             dataIndex: 'name'
-        }, {
+        },{
             title: '规格',
             width:'15%',
             dataIndex: 'displayName'
@@ -134,6 +124,27 @@ class EditableTable extends React.Component {
             width:'12%',
             dataIndex: 'averageRecPrice',
         }];
+
+        this.columnsClerk = [{
+                title: '商品条码',
+                width:'15%',
+                dataIndex: 'barcode'
+            },{
+                title: '商品名称',
+                dataIndex: 'name'
+            },{
+                title: '规格',
+                width:'15%',
+                dataIndex: 'displayName'
+            },{
+                title: '数量',
+                width:'10%',
+                dataIndex: 'inventory',
+            },{
+                title: '零售价',
+                width:'12%',
+                dataIndex: 'toCPrice',
+            }];
 
 	    this.state = {
 	      	dataSource: [],
@@ -187,9 +198,10 @@ class EditableTable extends React.Component {
   	render() {
     	const { dataSource } = this.state;
         const columns = this.columns;
+        let role=sessionStorage.getItem('role');
     	return (
       		<div className='bgf-goods-style good-contrl-table'>
-        		<Table bordered dataSource={this.props.pdSpus} columns={columns} 
+        		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?columnsClerk:columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={
                              // Number(this.props.total)>Number(this.state.pageSize)?
