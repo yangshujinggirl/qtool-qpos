@@ -122,9 +122,19 @@ class ClerkSaleForm extends React.Component {
                 //总销售数据
                 const totalUserSale=json.accountTotal;
                 totalUserSale.key = 0;
+                totalUserSale.saleAmount = totalUserSale.saleAmountTotal;
+                totalUserSale.cleanAmount = totalUserSale.cleanAmountTotal;
+                totalUserSale.orderSum = totalUserSale.orderSumTotal;
+                totalUserSale.wechatAmount = totalUserSale.wechatAmountTotal;
+                totalUserSale.alipayAmount = totalUserSale.alipayAmountTotal;
+                totalUserSale.unionpayAmount = totalUserSale.unionpayAmountTotal;
+                totalUserSale.cashAmount = totalUserSale.cashAmountTotal;
+                totalUserSale.cardConsumeAmount = totalUserSale.cardConsumeAmountTotal;
+                totalUserSale.pointAmount = totalUserSale.pointAmountTotal;
+                totalUserSale.returnAmount = totalUserSale.returnAmountTotal;
                 const setsouce=[];
                 for(var i=0;i<userSales.length;i++){
-                    userSales.key = i+1;
+                    userSales[i].key = i+1;
                     setsouce.push(userSales[i]);
                 }
                 setsouce.push(totalUserSale);
