@@ -4,7 +4,7 @@ import {getJsessionId} from '../../utils/post'
 
 var LODOP;
 var CreatedOKLodop7766=null;
-var imgSrc = require('../../images/print_logo.png');
+var imgSrc = require('../../static/print_logo.png');
 
 //====判断是否需要安装CLodop云打印服务器:====
 function needCLodop(){
