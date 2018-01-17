@@ -66,27 +66,46 @@ class DailyBillForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                startDate:this.state.startDate,
+                endDate:this.state.endDate,
+                type:this.state.type
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                startDate:this.state.startDate,
+                endDate:this.state.endDate,
+                type:this.state.type
+            };
+            self.getServerData(data);
         })
     }
 
     handleSubmit = (e) =>{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            console.log(values);
             this.setState({
                 type:values.type
             },function(){
                 let data = {
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     startDate:this.state.startDate,
                     endDate:this.state.endDate,
                     type:this.state.type
@@ -99,13 +118,11 @@ class DailyBillForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            currentPage:0,
-            limit:10,
             startDate:this.state.startDate,
             endDate:this.state.endDate,
             type:this.state.type
         }
-        const result=GetServerData('qerp.qpos.rp.day.account.export',data);
+        const result=GetServerData('qerp.web.rp.day.account.export',data);
         result.then((res) => {
             return res;
         }).then((json) => {
@@ -147,8 +164,8 @@ class DailyBillForm extends React.Component {
                             <div>
                                 <p style={{color:"#F7A303"}}>
                                     <i>¥</i>
-                                    {this.state.rpDayAccount.amount&&this.state.rpDayAccount.amount!="0"?this.state.rpDayAccount.amount.split('.')[0]:"0"}
-                                    <span>.{this.state.rpDayAccount.amount&&this.state.rpDayAccount.amount!="0"?this.state.rpDayAccount.amount.split('.')[1]:"00"}</span>
+                                    {this.state.rpDayAccount.saleAmount&&this.state.rpDayAccount.saleAmount!="0"?this.state.rpDayAccount.saleAmount.split('.')[0]:"0"}
+                                    <span>.{this.state.rpDayAccount.saleAmount&&this.state.rpDayAccount.saleAmount!="0"?this.state.rpDayAccount.saleAmount.split('.')[1]:"00"}</span>
                                 </p>
                                 <span className="explain-span">
                                     <Tooltip title="销售订单金额-退款订单金额">
@@ -207,7 +224,7 @@ class DailyBillForm extends React.Component {
                     labelCol={{ span: 5 }}
                     wrapperCol={{span: 10}}>
                     {getFieldDecorator('type')(
-                        <Select>
+                        <Select allowClear>
                             <Option value="1">销售订单</Option>
                             <Option value="2">充值订单</Option>
                             <Option value="3">退货订单</Option>
