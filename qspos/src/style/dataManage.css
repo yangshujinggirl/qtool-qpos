@@ -305,6 +305,10 @@
     margin-bottom: 2px;
 }
 
+.salePage-style .ant-calendar-range-picker-separator{
+    line-height: 28px;
+}
+
 /*小屏样式 */
 @media screen and (max-width: 950px){
     /* table */
@@ -379,6 +383,11 @@
      }
      .adjust-index .ant-calendar-range-picker-input{
          line-height: 28px;
+     }
+
+     .salePage-style .ant-input{
+         width: 188px;
+         font-size: 12px;
      }
 
      /* 基础样式的一些设置 */

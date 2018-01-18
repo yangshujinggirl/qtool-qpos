@@ -60,22 +60,22 @@ class Searchcompon extends React.Component {
         if(dateString[1]==''){
             dateString[1]=null
         }
-         let limitSize = localStorage.getItem('sellPageSize');
 
         this.setState({
             startTime:dateString[0],
             endTime:dateString[1]
-        },function(){
-            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
-        })
+        });
+        // function(){
+        //     this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
+        // }
     }
     handleChange=(value)=>{
-        let limitSize = localStorage.getItem('sellPageSize');
         this.setState({
             selectvalue:value
-        },function(){
-            this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
-        })
+        });
+        // ,function(){
+        //     this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
+        // }
     }
     revisemessage=(messages)=>{
         this.setState({
@@ -83,13 +83,13 @@ class Searchcompon extends React.Component {
         })
     }
     hindsearch=()=>{
-        let limitSize = localStorage.getItem('sellPageSize');
+        let limitSize = this.props.pageSizeShow;
         this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
     }
 
 
     pagechange=()=>{
-        let limitSize = localStorage.getItem('sellPageSize');
+        let limitSize = this.props.pageSizeShow;
         this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
     }
     setpage=(page)=>{
@@ -103,7 +103,7 @@ class Searchcompon extends React.Component {
     pagefresh = (currentPage,pagesize) =>{
         this.props.dispatch({
                 type:'sell/fetch',
-                payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inputvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:pagesize,currentPage:currentPage} }
+                payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:pagesize,currentPage:currentPage} }
         })
     }
 
@@ -112,14 +112,14 @@ class Searchcompon extends React.Component {
     render(){
         return(
             <div className='clearfix searchqery'>
-                <div className='fl clearfix'>
-                    <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'5px'}}>订单时间</p>
-                    <RangePicker format={dateFormat} onChange={this.timechange.bind(this)} className='selltime'/>
-                </div>
                 <div className='fr clearfix'>
+                    <div className='fl clearfix' style={{marginRight:"10px"}}>
+                        <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'5px'}}>订单时间</p>
+                            <RangePicker format={dateFormat} onChange={this.timechange.bind(this)} className='selltime'/>
+                    </div>
                     <div className='searchselect clearfix fl'>
                         <label style={{fontSize: '14px',color: '#74777F',marginRight:'5px'}}>订单分类</label>
-                        <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'5px' }} onChange={this.handleChange.bind(this)}>
+                        <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'10px' }} onChange={this.handleChange.bind(this)}>
                             <Option value="0">全部分类</Option>
                             <Option value="1">销售订单</Option>
                             <Option value="2">充值订单</Option>
@@ -790,20 +790,26 @@ class EditableTable extends React.Component {
 
 //销售订单count
 class Sellorder extends React.Component {
+    state = {
+        pagesize:10
+    }
     revisemessages=(page)=>{
         const setpage=this.refs.search.setpage
         setpage(page)
     }
 
     pagefresh=(currentPage,pagesize)=>{
-        const pagefreshs=this.refs.search.pagefresh
-        pagefreshs(currentPage,pagesize)
+        const pagefreshs=this.refs.search.pagefresh;
+        this.setState({
+            pageSize:pagesize
+        });
+        pagefreshs(currentPage,pagesize);
     }
 
     render(){
         return (
             <div className="salePage-style">
-               <Searchcompon dispatch={this.props.dispatch} ref='search'/>
+               <Searchcompon dispatch={this.props.dispatch} pageSizeShow={this.state.pagesize} ref='search'/>
                <Ordertap qposStSaleOrders={this.props.qposStSaleOrders}
                          total={this.props.total} 
                          revisemessages={this.revisemessages.bind(this)} 
