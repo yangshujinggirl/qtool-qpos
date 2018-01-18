@@ -14,10 +14,10 @@ const Option = Select.Option;
 class Searchcomponent extends React.Component {
     state={
         inputvalue:'',
-        selectvalue:null
+        selectvalue:null,
+        limitSize:null
     }
     handleChange=(value)=>{
-        let limitSize = localStorage.getItem('pageSize');
         this.setState({
             selectvalue:value
         })
@@ -35,7 +35,7 @@ class Searchcomponent extends React.Component {
         })
     }
     hindsearch=()=>{
-        let limitSize = localStorage.getItem('pageSize');
+        let limitSize = this.state.limitSize;
         this.props.dispatch({
                 type:'goods/fetch',
                 payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:limitSize,currentPage:0} }
@@ -61,6 +61,9 @@ class Searchcomponent extends React.Component {
     }
 
     pagefresh=(currentPage,pagesize)=>{
+        this.setState({
+            limitSize:pagesize
+        });
         this.props.dispatch({
                 type:'goods/fetch',
                 payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:pagesize,currentPage:currentPage} }
@@ -155,7 +158,7 @@ class EditableTable extends React.Component {
 	    this.state = {
 	      	dataSource: [],
 	      	count: 2,
-            pageSize:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),
+            pageSize:10,
             windowHeight:'',
             currentPage:1
 	    };
@@ -182,7 +185,6 @@ class EditableTable extends React.Component {
             current:current,
             currentPage:1
         },function(){
-             localStorage.setItem("pageSize", pageSize); 
             this.props.pagefresh(0,pageSize)
         })
         
@@ -210,12 +212,9 @@ class EditableTable extends React.Component {
         		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?this.columnsClerk:this.columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={
-                             // Number(this.props.total)>Number(this.state.pageSize)?
                              {'total':Number(this.props.total),current:this.state.currentPage,pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
                                onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}
-                             // :false
                          }
-                // onChange={this.pageChange.bind(this)} 
                 className='goods'
                 scroll={{y:this.state.windowHeight}}
                 />

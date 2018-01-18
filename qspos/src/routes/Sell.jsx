@@ -403,8 +403,8 @@ class Ordertap extends React.Component {
         windowHeight:'',
         //页脚相关
         currentPage:1,
-        pageSize:localStorage.getItem("sellPageSize")==null?10:Number(localStorage.getItem("sellPageSize")),
-        valueNum:localStorage.getItem("sellPageSize")==null?'10':String(localStorage.getItem("sellPageSize"))
+        pageSize:10,
+        valueNum:'10'
     }
 
     //退货数据请求
@@ -537,7 +537,6 @@ class Ordertap extends React.Component {
             current:current,
             currentPage:1
         },function(){
-             localStorage.setItem("sellPageSize", pageSize); 
             this.props.pagefresh(0,pageSize)
         })
         
@@ -563,7 +562,6 @@ class Ordertap extends React.Component {
             currentPage:1,
             valueNum:value
         },function(){
-             localStorage.setItem("sellPageSize", Number(value)); 
             this.props.pagefresh(0,Number(value))
         })
     }
