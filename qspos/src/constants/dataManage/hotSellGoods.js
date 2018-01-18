@@ -34,10 +34,10 @@ class HotSellGoodsForm extends React.Component {
             dataIndex: 'displayName',
         },{
             title: '销售数量',
-            dataIndex: 'posQty',
+            dataIndex: 'qty',
         },{
             title: '销售金额',
-            dataIndex: 'posAmount',
+            dataIndex: 'amount',
         },{
             title: '商品剩余库存',
             dataIndex: 'invQty',
@@ -61,7 +61,7 @@ class HotSellGoodsForm extends React.Component {
         },function(){
             let data = {
                 currentPage:this.state.currentPage,
-                limit:this.state.limit,
+                limit:10,
                 startDate:this.state.startDate,
                 endDate:this.state.endDate
             }
@@ -198,8 +198,8 @@ class HotSellGoodsForm extends React.Component {
                             columns={this.columns} 
                             dataSource={this.state.dataSource}
                             pagination={false}
-                            total={20}
-                            current={1}
+                            total={this.state.total}
+                            current={this.state.currentPage}
                             pageSize={10}
                             onShowSizeChange={this.onShowSizeChange}
                             pageChange={this.pageChange}
@@ -211,10 +211,10 @@ class HotSellGoodsForm extends React.Component {
                         total={this.state.total} 
                         current={this.state.currentPage+1}
                         pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
+                        // showSizeChanger 
+                        // onShowSizeChange={this.onShowSizeChange} 
                         onChange={this.pageChange} 
-                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                        // pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
                 </div>
             </div>
