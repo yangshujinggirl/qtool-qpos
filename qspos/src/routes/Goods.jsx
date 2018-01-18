@@ -68,12 +68,18 @@ class Searchcomponent extends React.Component {
     }
 
     render(){
+        const role = sessionStorage.getItem('role');
         return(
             <div className='clearfix mb10'>
-	      		<div className='fl clearfix'>
-	      			<div className='fl btn'><Link to='/adjust'><Buttonico text='商品损益'/></Link></div>
-	      			<div className='fl btn ml20'><Link to='/inventory'><Buttonico text='店铺盘点'/></Link></div>
-	      		</div>
+                {
+                    role != 3
+                    ?
+                    <div className='fl clearfix'>
+                        <div className='fl btn'><Link to='/adjust'><Buttonico text='商品损益'/></Link></div>
+                        <div className='fl btn ml20'><Link to='/inventory'><Buttonico text='店铺盘点'/></Link></div>
+                    </div>
+                    :null
+                }
       			<div className='fr clearfix'>
 	      			<div className='searchselect clearfix fl'>
 	                    <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>商品分类</label>
@@ -201,7 +207,7 @@ class EditableTable extends React.Component {
         let role=sessionStorage.getItem('role');
     	return (
       		<div className='bgf-goods-style good-contrl-table'>
-        		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?columnsClerk:columns} 
+        		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?this.columnsClerk:this.columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={
                              // Number(this.props.total)>Number(this.state.pageSize)?
