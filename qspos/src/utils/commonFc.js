@@ -22,3 +22,16 @@ export function deepcCloneObj(obj){
   }
   return newobj;
 };
+
+
+export function dataedit(a){
+    var xsd=a.toString().split(".");
+    if(xsd.length==1){
+        a=a.toString()+".00";
+    }
+    if(xsd.length>1 && xsd[1].length<2){
+        a=a.toString()+"0";
+    }
+    const value =a.substring(0,a.indexOf(".")+3);  //截取小数后两位值
+    return value
+}
