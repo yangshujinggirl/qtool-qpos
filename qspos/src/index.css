@@ -451,7 +451,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .inputwidth{width:310px;height:40px}
 .downk a{font-size: 16px;color: #35bab0;text-decoration:underline}
 .fires .ant-form-item-label{margin-left: 16px;}
-.fireses .ant-form-item-label{margin-right: 4px;}
+/* .fireses .ant-form-item-label{margin-right: 4px;} */
 .submitform{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;font-size: 14px;text-align:center;line-height:40px;cursor: pointer;margin-left:95px;margin-top: 14px;}
 
 
@@ -660,7 +660,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
     bottom: 30px;
     right: 0px;
     width: 100px;
-    height: 43px;
+    height: 50px;
     cursor: pointer;
     background: transparent;
   }

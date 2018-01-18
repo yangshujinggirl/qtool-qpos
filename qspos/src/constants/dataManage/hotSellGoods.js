@@ -207,7 +207,7 @@ class HotSellGoodsForm extends React.Component {
                             />
                     </div>
                 </div>
-                <div className="footer-pagefixed">
+                {/* <div className="footer-pagefixed">
                     <Pagination 
                         total={this.state.total} 
                         current={this.state.currentPage+1}
@@ -217,7 +217,7 @@ class HotSellGoodsForm extends React.Component {
                         onChange={this.pageChange} 
                         // pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
-                </div>
+                </div> */}
             </div>
         );
     }
