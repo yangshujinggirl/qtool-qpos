@@ -8,16 +8,12 @@ import Searchinput from '../../../components/Searchinput/Searchinput';
 import {Messagesuccess} from '../../../components/Method/Method';
 import {GetServerData} from '../../../services/services';
 import {Gettime} from '../../../services/data';
-
 import EditableTable from './table';
 import Cardlist from './card';
 
 
 class Memberinfoindex extends React.Component{
-    
-
    render(){
-       console.log(this)
       return (
         <div>
             <Header type={false} color={true}/>

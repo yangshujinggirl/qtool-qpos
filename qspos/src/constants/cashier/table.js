@@ -2,6 +2,7 @@ import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,message} from 'antd';
 import NP from 'number-precision'
 import {GetServerData} from '../../services/services';
+import {dataedit} from '../../utils/commonFc';
 
 const inputwidth={width:'80%',height:'30px',border:'1px solid #E7E8EC',background: '#FFF',textAlign:'center'}
 	
@@ -118,15 +119,7 @@ class EditableTable extends React.Component {
 			message.warning('数量只能输入大于0的数字')
 		}
 		var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
-		//判断是否有小数点，及小数点时候有两位，当不满足时候补零
-		var xsd=zeropayPrice.toString().split(".");
-		if(xsd.length==1){
-			zeropayPrice=zeropayPrice.toString()+".00";
-		}
-		if(xsd.length>1 && xsd[1].length<2){
-			zeropayPrice=zeropayPrice.toString()+"0";
-		}
-		const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+		const editpayPrice =dataedit(zeropayPrice)
 		if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
 			datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
 		}else{
@@ -164,15 +157,7 @@ class EditableTable extends React.Component {
 		}
 		
 		var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
-		//判断是否有小数点，及小数点时候有两位，当不满足时候补零
-		var xsd=zeropayPrice.toString().split(".");
-		if(xsd.length==1){
-			zeropayPrice=zeropayPrice.toString()+".00";
-		}
-		if(xsd.length>1 && xsd[1].length<2){
-			zeropayPrice=zeropayPrice.toString()+"0";
-		}
-		const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+		const editpayPrice =dataedit(zeropayPrice)
 		if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
 			datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
 		}else{
@@ -202,13 +187,9 @@ class EditableTable extends React.Component {
 		var values=parseFloat(e.target.value)
 		const datasouce=this.props.datasouce.splice(0)
 		let role=sessionStorage.getItem('role');
-		var xsdfir=values.toString().split(".");
-		if(xsdfir.length==1){
-			values=values.toString()+".00";
-		}
-		if(xsdfir.length>1 && xsdfir[1].length<2){
-			values=values.toString()+"0";
-		}
+
+		
+		values =dataedit(String(values))
 		datasouce[index].payPrice=values
 		datasouce[index].discount=NP.times(NP.divide(datasouce[index].payPrice,datasouce[index].toCPrice,datasouce[index].qty),10)
 
@@ -216,14 +197,7 @@ class EditableTable extends React.Component {
 			datasouce[index].discount=8 
 			var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
 			//判断是否有小数点，及小数点时候有两位，当不满足时候补零
-			var xsd=zeropayPrice.toString().split(".");
-			if(xsd.length==1){
-				zeropayPrice=zeropayPrice.toString()+".00";
-			}
-			if(xsd.length>1 && xsd[1].length<2){
-				zeropayPrice=zeropayPrice.toString()+"0";
-			}
-			const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+			const editpayPrice =dataedit(zeropayPrice)
 			if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
 				datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
 			}else{
@@ -233,15 +207,7 @@ class EditableTable extends React.Component {
 		if((role=='3') && datasouce[index].discount<9){
 			datasouce[index].discount=9 	
 			var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
-                        //判断是否有小数点，及小数点时候有两位，当不满足时候补零
-                        var xsd=zeropayPrice.toString().split(".");
-                        if(xsd.length==1){
-                            zeropayPrice=zeropayPrice.toString()+".00";
-                        }
-                        if(xsd.length>1 && xsd[1].length<2){
-                            zeropayPrice=zeropayPrice.toString()+"0";
-                        }
-			const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+			const editpayPrice =dataedit(zeropayPrice)       
 			if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
 				datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
 			}else{
