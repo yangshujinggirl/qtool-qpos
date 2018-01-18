@@ -30,6 +30,11 @@ class NormalLoginForm extends React.Component {
 
     }
   }
+    hindkeyup=(e)=>{
+        if(e.keyCode=='13'){
+            this.handleSubmit(e)
+        }
+    }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -68,12 +73,12 @@ class NormalLoginForm extends React.Component {
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('password', {})(
-                        <Input prefix={<Icon type="lock"  className='f13'/>}  placeholder="输入密码" type='password' />
+                        <Input prefix={<Icon type="lock"  className='f13'/>}  placeholder="输入密码" type='password' onKeyUp={this.hindkeyup.bind(this)}/>
                     )}
                 </FormItem>
                 <FormItem>
                     <div className={this.state.login?'login_form_forgot':'login_form_forgots'}>手机号或密码错误，请重新输入</div>
-                    <Button type="primary" className='loginformbuttons' onClick={this.handleSubmit.bind(this)}>
+                    <Button type="primary" className='loginformbuttons' onClick={this.handleSubmit.bind(this)} >
                         立即登录
                     </Button>
                 </FormItem>

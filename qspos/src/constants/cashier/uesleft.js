@@ -145,7 +145,7 @@ class Operationls extends React.Component {
 	    		<div className='clearfix mt20'>
 	    			<div className='cashier fl'><Switch checkedChildren="用户退货" unCheckedChildren="对外售卖" onChange={this.hindchange.bind(this)} checked={this.state.checked}/></div>
 	    			<div className='fl cashierbox'>
-	    				<div className='clearfix cashierbox_t'>
+	    				<div className='clearfix cashierbox_t posion'>
                             <div className='fl'><span className='c74'>会员姓名</span><span className='c38 ml10'>{this.props.name}</span></div>
                             <div className='fr'><span className='themecolor level-margin-style'>{this.props.levelStr}</span><span>{this.props.isBirthMonth=='true'?<span className='birthline'><span className='line'></span>生日</span>:null}</span></div>
                         </div>
