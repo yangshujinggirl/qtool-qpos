@@ -421,10 +421,11 @@ class Pay extends React.Component {
                     const orderAll = json;
                     const odOrderIds=json.odOrderId
                     const orderNos=json.orderNo
+                    const checkPrint = this.props.checkPrint;
                     this.handleOk()
                     message.success('收银成功',1)
                     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-                        if(this.props.checkPrint){
+                        if(checkPrint){
                             //判断打印纸大小
                             const result=GetServerData('qerp.pos.sy.config.info')
                             result.then((res) => {
@@ -433,11 +434,29 @@ class Pay extends React.Component {
                                 if(json.code == "0"){
                                     //判断是打印大的还是小的
                                     if(json.config.paperSize=='80'){
-                                        getSaleOrderInfo(orderAll,"80",json.config.submitPrintNum);
-                                        // this.handprint(odOrderIds,'odOrder',orderNos,true)
+                                        let valueData =  {type:"1",outId:odOrderIds};
+                                        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+                                        result.then((res) => {
+                                            return res;
+                                        }).then((data) => {
+                                            if(data.code == "0"){
+                                                getSaleOrderInfo(data,"80",json.config.submitPrintNum);
+                                            }else{
+                                                message.error(data.message);
+                                            }
+                                        });
                                     }else{
-                                        getSaleOrderInfo(orderAll,"58",json.config.submitPrintNum);
-                                        // this.handprint(odOrderIds,'odOrder',orderNos,false)
+                                        let valueData =  {type:"1",outId:odOrderIds};
+                                        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+                                        result.then((res) => {
+                                            return res;
+                                        }).then((data) => {
+                                            if(data.code == "0"){
+                                                getSaleOrderInfo(data,"58",json.config.submitPrintNum);
+                                            }else{
+                                                message.error(data.message);
+                                            }
+                                        });
                                     } 
                                 }else{
                                     message.warning('打印失败')

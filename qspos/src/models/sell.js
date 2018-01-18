@@ -17,10 +17,8 @@ export default {
     effects: {
   	    *fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
-            console.log(result)
             if(result.code=='0'){
                 let {qposStSaleOrders,total}=result
-                console.log(result)
                 for(var i=0;i<qposStSaleOrders.length;i++){
                 	qposStSaleOrders[i].key=i
                 }

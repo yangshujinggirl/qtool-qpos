@@ -23,7 +23,7 @@ class AdjustLogIndexForm extends React.Component {
             adjustTimeEnd:"",
             visible:false,
             remarkText:'',
-            windowHeight:0
+            windowHeight:''
         };
         this.columns = [{
             title: '商品条码',
@@ -287,16 +287,6 @@ class AdjustLogIndexForm extends React.Component {
                 type:1
             }
             self.getServerData(values);
-            if(document.body.offsetWidth>800){
-                this.setState({
-                   windowHeight:document.body.offsetHeight-300,
-                 });
-            }else{
-                this.setState({
-                    windowHeight:document.body.offsetHeight-270,
-                });
-            }
-            window.addEventListener('resize',this.windowResize.bind(this));    
         })
     }
 
@@ -313,6 +303,16 @@ class AdjustLogIndexForm extends React.Component {
     }
 
     componentDidMount(){
+        if(document.body.offsetWidth>800){
+            this.setState({
+               windowHeight:document.body.offsetHeight-300,
+             });
+        }else{
+            this.setState({
+                windowHeight:document.body.offsetHeight-270,
+            });
+        }
+        window.addEventListener('resize',this.windowResize.bind(this));    
         //获取当前时间
         this.getNowFormatDate();
     }

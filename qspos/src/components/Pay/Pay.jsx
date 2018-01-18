@@ -814,13 +814,14 @@ class Pay extends React.Component {
                     const odReturnIds=json.odReturnId
                     const returnNos=json.returnNo
                     const orderAll = json;
+                    const checkPrint = this.props.checkPrint;
                     this.handleOk()
                     message.success('退货成功',1)
                     this.props.reinitdata()
                      //页面跳转
                     this.context.router.push('/cashier')
                     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-                        if(this.props.checkPrint){
+                        if(checkPrint){
                             const result=GetServerData('qerp.pos.sy.config.info')
                             result.then((res) => {
                                 return res;
@@ -828,11 +829,29 @@ class Pay extends React.Component {
                                 if(json.code == "0"){
                                     //判断是打印大的还是小的
                                     if(json.config.paperSize=='80'){
-                                        getReturnOrderInfo(orderAll,"80",json.config.submitPrintNum);
-                                        // this.handprint(odOrderIds,'odOrder',orderNos,true)
+                                        let valueData =  {type:"3",outId:odReturnIds};
+                                        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+                                        result.then((res) => {
+                                            return res;
+                                        }).then((data) => {
+                                            if(data.code == "0"){
+                                                getReturnOrderInfo(data,"80",json.config.submitPrintNum);
+                                            }else{
+                                                message.error(data.message);
+                                            }
+                                        });
                                     }else{
-                                        getReturnOrderInfo(orderAll,"58",json.config.submitPrintNum);
-                                        // this.handprint(odOrderIds,'odOrder',orderNos,false)
+                                        let valueData =  {type:"3",outId:odReturnIds};
+                                        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+                                        result.then((res) => {
+                                            return res;
+                                        }).then((data) => {
+                                            if(data.code == "0"){
+                                                getReturnOrderInfo(data,"58",json.config.submitPrintNum);
+                                            }else{
+                                                message.error(data.message);
+                                            }
+                                        });
                                     } 
                                 }else{
                                     message.warning('打印失败')

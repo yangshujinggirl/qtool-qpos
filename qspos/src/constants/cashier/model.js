@@ -1,6 +1,7 @@
 import { Modal, Button ,Input,message} from 'antd'
 import { connect } from 'dva';
 import {GetServerData} from '../../services/services';
+import {getRechargeOrderInfo} from '../../components/Method/Print';
 
 class Modales extends React.Component {
     constructor(props) {
@@ -45,27 +46,46 @@ class Modales extends React.Component {
                 this.firstclick=true
                 this.props.searchmemberinfo()
                 message.success('充值成功',1)
-                const mbCardMoneyChargeIds=json.mbCardMoneyChargeId
-                const chargeNos=json.chargeNo
+                const mbCardMoneyChargeIds=json.mbCardMoneyChargeId;
+                const chargeNos=json.chargeNo;
                 if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
                 //判断打印
                     const result=GetServerData('qerp.pos.sy.config.info')
                     result.then((res) => {
-                    return res;
+                        return res;
                     }).then((json) => {
                         if(json.code == "0"){
-                                if(json.config.rechargePrint=='1'){
+                            if(json.config.rechargePrint=='1'){
                                 //判断是打印大的还是小的
                                 if(json.config.paperSize=='80'){
-                                    this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                    let valueData =  {type:"2",outId:mbCardMoneyChargeIds};
+                                    const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+                                    result.then((res) => {
+                                        return res;
+                                    }).then((data) => {
+                                        if(data.code == "0"){
+                                            getRechargeOrderInfo(data,"80",json.config.rechargePrintNum);
+                                        }else{
+                                            message.error(data.message);
+                                        }
+                                    });
                                 }else{
-                                    this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                    let valueData =  {type:"2",outId:mbCardMoneyChargeIds};
+                                    const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+                                    result.then((res) => {
+                                        return res;
+                                    }).then((data) => {
+                                        if(data.code == "0"){
+                                            getRechargeOrderInfo(data,"58",json.config.rechargePrintNum);
+                                        }else{
+                                            message.error(data.message);
+                                        }
+                                    });
                                 }
-                                
-                                }
+                            }
                         }else{
                             message.warning('打印失败')
-                            }
+                        }
                     })
                 
             }

@@ -58,26 +58,40 @@ class Modales extends React.Component {
                      if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
                     //判断打印
                         const result=GetServerData('qerp.pos.sy.config.info')
-                                result.then((res) => {
-                                    return res;
-                                }).then((json) => {
-                                    console.log(json);
-                                    if(json.code == "0"){
-                                         if(json.config.rechargePrint=='1'){
+                            result.then((res) => {
+                                return res;
+                            }).then((json) => {
+                                if(json.code == "0"){
+                                        if(json.config.rechargePrint=='1'){
                                             //判断是打印大的还是小的
                                             if(json.config.paperSize=='80'){
-                                                getRechargeOrderInfo(orderAll,"80",json.config.submitPrintNum);
-                                                //this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                                const result=GetServerData('qerp.web.qpos.st.sale.order.detail');
+                                                result.then((res) => {
+                                                    return res;
+                                                }).then((data) => {
+                                                    if(data.code == "0"){
+                                                        getRechargeOrderInfo(data,"80",json.config.submitPrintNum);
+                                                    }else{
+                                                        message.error(data.message);
+                                                    }
+                                                });
                                             }else{
-                                                getRechargeOrderInfo(orderAll,"58",json.config.submitPrintNum);
-                                                //this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
+                                                const result=GetServerData('qerp.web.qpos.st.sale.order.detail');
+                                                result.then((res) => {
+                                                    return res;
+                                                }).then((data) => {
+                                                    if(data.code == "0"){
+                                                        getRechargeOrderInfo(data,"58",json.config.submitPrintNum);
+                                                    }else{
+                                                        message.error(data.message);
+                                                    }
+                                                });
                                             }
                                         }
-                                    }else{
-                                        message.warning('打印失败')
-                                    }
-                            })
-                         
+                                }else{
+                                    message.warning('打印失败')
+                                }
+                        })
                     }
 				});
             }else{  
@@ -105,9 +119,9 @@ class Modales extends React.Component {
     }
 
     //打印
-    handprint = (id,type,orderNo,size) => {
-        GetLodop(id,type,orderNo,size)
-    }
+    // handprint = (id,type,orderNo,size) => {
+    //     GetLodop(id,type,orderNo,size)
+    // }
 
   handleCancel = (e) => {
     this.setState({

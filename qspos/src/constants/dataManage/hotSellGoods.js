@@ -34,10 +34,10 @@ class HotSellGoodsForm extends React.Component {
             dataIndex: 'displayName',
         },{
             title: '销售数量',
-            dataIndex: 'posQty',
+            dataIndex: 'qty',
         },{
             title: '销售金额',
-            dataIndex: 'posAmount',
+            dataIndex: 'amount',
         },{
             title: '商品剩余库存',
             dataIndex: 'invQty',
@@ -55,14 +55,32 @@ class HotSellGoodsForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:10,
+                startDate:this.state.startDate,
+                endDate:this.state.endDate
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                startDate:this.state.startDate,
+                endDate:this.state.endDate
+            };
+            self.getServerData(data);
         })
     }
 
@@ -125,7 +143,7 @@ class HotSellGoodsForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             let data = {
                 currentPage:0,
-                limit:10,
+                limit:this.state.limit,
                 startDate:this.state.startDate,
                 endDate:this.state.endDate
             }
@@ -180,8 +198,8 @@ class HotSellGoodsForm extends React.Component {
                             columns={this.columns} 
                             dataSource={this.state.dataSource}
                             pagination={false}
-                            total={20}
-                            current={1}
+                            total={this.state.total}
+                            current={this.state.currentPage}
                             pageSize={10}
                             onShowSizeChange={this.onShowSizeChange}
                             pageChange={this.pageChange}
@@ -193,10 +211,10 @@ class HotSellGoodsForm extends React.Component {
                         total={this.state.total} 
                         current={this.state.currentPage+1}
                         pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
+                        // showSizeChanger 
+                        // onShowSizeChange={this.onShowSizeChange} 
                         onChange={this.pageChange} 
-                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                        // pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
                 </div>
             </div>
