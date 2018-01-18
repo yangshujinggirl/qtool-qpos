@@ -114,11 +114,13 @@
     margin-right: 30px;
 }
 .export-btn{
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(231, 232, 236);
+    font-size: 14px;
     vertical-align: middle;
     height: 32px;
     font-size: 14px;
     color: #35BAB0;
-    border-color:#35BAB0;
 }
 /* table */
 .data-manage .ant-table-bordered .ant-table-header > table, 
@@ -281,9 +283,27 @@
     width: 100px;
     margin-left: 0px;
 }
-/* .basic-setting .page-count{
-    margin-right: 60%;
-} */
+/* table没有数据的时候样式 */
+.add-norecord-img .ant-table-placeholder{
+    display: block;
+    border: none;
+}
+
+.add-norecord-img .ant-table-placeholder span i{
+    display: block;
+    background: url(../images/icon_norecord.png) no-repeat center;
+    height: 100px;
+}
+.add-norecord-img .ant-table-placeholder span i::before{
+    content: "";
+}
+
+/* 基础设置 */
+.check-box-style .ant-checkbox{
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 2px;
+}
 
 /*小屏样式 */
 @media screen and (max-width: 950px){
@@ -341,6 +361,24 @@
      }
      .footer-pagefixed .ant-select{
          width: auto;
+     }
+
+     .top-data{
+         padding: 20px 40px;
+         border-bottom:1px solid #d8d8d8;
+     }
+
+     .top-data ul li div{
+         border: 1px solid #d8d8d8;
+     }
+     .export-btn{
+         border: 1px solid #d8d8d8;
+     }
+     .salePage-style .ant-calendar-range-picker-separator{
+         line-height: 30px;
+     }
+     .adjust-index .ant-calendar-range-picker-input{
+         line-height: 28px;
      }
 
      /* 基础样式的一些设置 */

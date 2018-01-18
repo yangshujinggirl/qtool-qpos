@@ -171,7 +171,7 @@ class HotSellGoodsForm extends React.Component {
                             <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
                         </FormItem>
                     </Form>
-                    <div className="hotSell-wrapper">
+                    <div className="hotSell-wrapper add-norecord-img">
                         {
                             this.state.dataSource.length?
                             (
@@ -203,10 +203,11 @@ class HotSellGoodsForm extends React.Component {
                             pageSize={10}
                             onShowSizeChange={this.onShowSizeChange}
                             pageChange={this.pageChange}
+                            locale={true}
                             />
                     </div>
                 </div>
-                <div className="footer-pagefixed">
+                {/* <div className="footer-pagefixed">
                     <Pagination 
                         total={this.state.total} 
                         current={this.state.currentPage+1}
@@ -216,7 +217,7 @@ class HotSellGoodsForm extends React.Component {
                         onChange={this.pageChange} 
                         // pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
-                </div>
+                </div> */}
             </div>
         );
     }
