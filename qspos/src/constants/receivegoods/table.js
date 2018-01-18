@@ -96,7 +96,7 @@ class EditableTable extends React.Component {
             width:'10%',
         },{
             title: '成本价',
-            dataIndex: 'price',
+            dataIndex: 'averageRecPrice',
             width:'10%',
         }];
         this.state = {

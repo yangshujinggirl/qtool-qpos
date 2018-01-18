@@ -193,7 +193,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .memberinfobox3 .p2{margin-top: 3px}
 
 .birthline{display: inline-block;width: 48px;text-align: right;color: #35bab0;}
-.birthline .line{width: 1px;height: 16px;background: #35bab0;display: inline-block;top:11px;position: absolute;left: 246px;}
+.birthline .line{width: 1px;height: 16px;background: #35bab0;display: inline-block;top:11px;position: absolute;right: 52px;}
 .cashierbox_t{border-bottom: 1px solid #E7E8EC;height: 38px;line-height: 38px;padding:0 12px;position: relative;}
 .operationl{width:60%;}
 .useinput{width:45%;height:50px;font-size:30px;color:#384162;margin-left: 2%;}
@@ -413,7 +413,8 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 
 /* 会员info */
 .goods-countersme{top: 112px;}
-.cardlist{display: flex;flex-wrap: wrap;width: 100%;justify-content: space-between;}
+.cardlist{width: 100%;}
+.cardlist .cardlist_item{margin:10px 30px;float:left;}
 .memberinfo-style .ant-table-content{margin-top:1px;}
 .memberinfo-style .ant-table.ant-table-bordered .ant-table-title{background: #fff;border:0;border-bottom:1px solid #e9e9e9;padding-left: 30px;font-size: 16px;color: #384162}
 .mbindocard .ant-card-head-title{font-size: 16px;color: #384162;font-weight: normal;}

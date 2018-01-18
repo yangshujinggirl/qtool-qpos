@@ -11,7 +11,7 @@ class EditableTable extends React.Component {
         super(props);
         this.state = {
             currentPage:1,
-            pageSize:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),
+            pageSize:10,
             windowHeight:''
         };
         this.columns = [{
@@ -60,42 +60,41 @@ class EditableTable extends React.Component {
             return 'table_white'
         }
     }
-    hindchange=(page)=>{
-        let limitSize = localStorage.getItem('pageSize');
-        this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:page.current-1}} });
-    }
+    
     pageChange=(page,pageSize)=>{
         this.setState({
             currentPage:page
         },function(){
             const current=Number(page)-1;
-            this.props.pagefresh(current,this.state.pageSize)
+            this.props.dispatch({
+               type: 'memberinfo/fetchList', 
+               payload: {code:'qerp.qpos.mb.card.detail.page',values:{mbCardId:this.props.mbCardId,limit:this.state.pageSize,currentPage:current} }
+            })
         });
     }
     
     //pageSize 变化的回调
     onShowSizeChange=(current, pageSize)=>{
+        console.log(12)
         this.setState({
             pageSize:pageSize,
             currentPage:1
         },function(){
-             localStorage.setItem("pageSize", pageSize); 
-            this.props.pagefresh(0,pageSize)
+            this.props.dispatch({
+                type: 'memberinfo/fetchList', 
+                payload: {code:'qerp.qpos.mb.card.detail.page',values:{mbCardId:this.props.mbCardId,limit:pageSize,currentPage:0} }
+             })
+
         })
         
     }
 
-    //初始化页码
-    initPageCurrent = (currentPage) =>{
-        this.setState({
-            currentPage:currentPage
-        });
-    }
+    
 
     windowResize = () =>{
-       this.setState({
-        windowHeight:document.body.offsetHeight-300
-       });
+        this.setState({
+            windowHeight:document.body.offsetHeight-300
+        });
     }
 
     render() {
@@ -119,6 +118,7 @@ class EditableTable extends React.Component {
     }
 
     componentDidMount(){
+        console.log(this)
         this.setState({
            windowHeight:document.body.offsetHeight-300
          });
@@ -131,8 +131,8 @@ class EditableTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {details} = state.memberinfo;
-    return {details};
+    const {details,total,mbCardId} = state.memberinfo;
+    return {details,total,mbCardId};
 }
 
 export default connect(mapStateToProps)(EditableTable);

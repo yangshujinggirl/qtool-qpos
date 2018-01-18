@@ -20,7 +20,7 @@ class Cardlist extends React.Component {
         return (
             <div className='mbindocard'>
                <Card title="会员基本信息" noHovering={true}>
-                    <div className='cardlist'>
+                    <div className='cardlist clearfix'>
                         {
                             this.props.cardlist.map((item,index)=>{
                                 return (<div className='cardlist_item' key={index}><label>{item.lable}：</label><span>{item.text}</span></div>)

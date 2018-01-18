@@ -14,17 +14,10 @@ import Cardlist from './card';
 
 
 class Memberinfoindex extends React.Component{
-    pagefresh=(currentPage,pagesize)=>{
-        const pagefreshs=this.refs.search.pagefresh
-        pagefreshs(currentPage,pagesize)
-    }
-
-    //初始化页码方法
-    initPageCurrent = (current) =>{
-        this.refs.memberTable.initPageCurrent(current);
-    }
+    
 
    render(){
+       console.log(this)
       return (
         <div>
             <Header type={false} color={true}/>
@@ -34,7 +27,6 @@ class Memberinfoindex extends React.Component{
                                 dispatch={this.props.dispatch} 
                                 loding={this.props.loding} 
                                 total={this.props.total} 
-                                pagefresh={this.pagefresh.bind(this)}
                                 current={this.props.current}
                                 ref='memberTable'/>
               
