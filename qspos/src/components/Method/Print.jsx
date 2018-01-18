@@ -857,7 +857,7 @@ function printReturnOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-		LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"50mm","20mm",20,moneyInfo[i].refundPrice);
+		LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"50mm","20mm",20,moneyInfo[i].payPrice);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
@@ -988,7 +988,7 @@ function printReturnOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-		LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"35mm","15mm",20,moneyInfo[i].refundPrice);
+		LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"35mm","15mm",20,moneyInfo[i].payPrice);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
@@ -1151,12 +1151,12 @@ function printSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
 	let position2 = posi+30;
-	if(saleInfoAll.odOrder.amount){
+	if(saleInfoAll.mbCard){
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"本次积分");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-		LODOP.ADD_PRINT_TEXT(position2,"20mm","20mm",20,saleInfoAll.odOrder.amount);
+		LODOP.ADD_PRINT_TEXT(position2,"20mm","20mm",20,saleInfoAll.odOrder.orderPoint);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		position2 = position2+20;
@@ -1284,12 +1284,12 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
 	let position2 = posi+30;
-	if(saleInfoAll.odOrder.amount){
+	if(saleInfoAll.mbCard){
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"本次积分");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-		LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,saleInfoAll.odOrder.amount);
+		LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,saleInfoAll.odOrder.orderPoint);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		position2 = position2+20;
