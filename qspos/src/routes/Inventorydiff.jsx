@@ -28,11 +28,8 @@ class Searchcomponent extends React.Component {
             result.then((res) => {
                 return res;
             }).then((json) => {
-                if(json.code=='0'){
-                    this.props.dispatch({
-                        type:'inventory/initpdCheckId',
-                        payload: {pdCheckDetails:[],pdCheckId:null}
-                    })
+                if(json.code =='0'){
+                    this.props.initpdCheckId();
                     message.success('损益成功',3,this.callback());
                 }else{  
                     message.error(json.message);
@@ -173,12 +170,20 @@ class Inventorydiff extends React.Component {
         const settablesouce=this.refs.user.settablesouce
         settablesouce(messages)
     }
+
+    initpdCheckId = () =>{
+        this.props.dispatch({
+            type:'inventory/initpdCheckId',
+            payload: {pdCheckDetails:[],pdCheckId:null}
+        });
+    }
+
     render() {
         return (
             <div>
                 <Header type={false} color={true} linkRoute="inventory"/>
                 <div className='counters'>
-                    <Searchcomponent  pdCheckId={this.props.pdCheckId} ref='user'/>
+                    <Searchcomponent  pdCheckId={this.props.pdCheckId} initpdCheckId={this.initpdCheckId} ref='user'/>
                     <EditableTable  pdCheckId={this.props.pdCheckId} dataSources={this.dataSources.bind(this)}/>
                 </div>
             </div>
