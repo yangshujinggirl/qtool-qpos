@@ -363,6 +363,24 @@
          width: auto;
      }
 
+     .top-data{
+         padding: 20px 40px;
+         border-bottom:1px solid #d8d8d8;
+     }
+
+     .top-data ul li div{
+         border: 1px solid #d8d8d8;
+     }
+     .export-btn{
+         border: 1px solid #d8d8d8;
+     }
+     .salePage-style .ant-calendar-range-picker-separator{
+         line-height: 30px;
+     }
+     .adjust-index .ant-calendar-range-picker-input{
+         line-height: 28px;
+     }
+
      /* 基础样式的一些设置 */
     /* .basic-setting .page-count{
         margin-right: 30%;

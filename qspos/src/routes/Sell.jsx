@@ -802,7 +802,7 @@ class Sellorder extends React.Component {
 
     render(){
         return (
-            <div>
+            <div className="salePage-style">
                <Searchcompon dispatch={this.props.dispatch} ref='search'/>
                <Ordertap qposStSaleOrders={this.props.qposStSaleOrders}
                          total={this.props.total} 
