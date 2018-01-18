@@ -356,8 +356,8 @@ function printShiftInfo(userSales,urUser,printCount){
 
 	LODOP.SET_PRINT_COPIES(pri_count);
 	// LODOP.PRINT_DESIGN();
-	LODOP.PREVIEW();
-	// LODOP.PRINT();
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
 
 function printShiftInfoSmall(userSales,urUser,printCount){
@@ -539,8 +539,8 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 
 	// LODOP.SET_PRINT_COPIES(pri_count);
 	// LODOP.PRINT_DESIGN();
-	LODOP.PREVIEW();
-	// LODOP.PRINT();
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
 
 //充值订单打印
@@ -658,8 +658,8 @@ function printRechargeOrder(message,printCount){
 
 	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
-	LODOP.PREVIEW();
-	// LODOP.PRINT();
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
 
 function printRechargeOrderSmall(message,printCount){
@@ -770,8 +770,8 @@ function printRechargeOrderSmall(message,printCount){
 
 	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
-	LODOP.PREVIEW();
-	// LODOP.PRINT();
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
 
 //退货订单打印
@@ -910,8 +910,8 @@ function printReturnOrder(message,printCount){
 
 	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
-	LODOP.PREVIEW();
-	// LODOP.PRINT();
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
 
 function printReturnOrderSmall(message,printCount){
@@ -1040,8 +1040,8 @@ function printReturnOrderSmall(message,printCount){
 
 	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
-	LODOP.PREVIEW();
-	// LODOP.PRINT();
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
 
 //打印销售订单
@@ -1181,8 +1181,8 @@ function printSaleOrder(message,printCount){
 
 	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
-	LODOP.PREVIEW();
-	// LODOP.PRINT();
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
 
 function printSaleOrderSmall(message,printCount){
@@ -1314,8 +1314,8 @@ function printSaleOrderSmall(message,printCount){
 
 	LODOP.SET_PRINT_COPIES(print_count);
 	// LODOP.PRINT_DESIGN();
-	LODOP.PREVIEW();
-	// LODOP.PRINT();
+	// LODOP.PREVIEW();
+	LODOP.PRINT();
 }
 
 
