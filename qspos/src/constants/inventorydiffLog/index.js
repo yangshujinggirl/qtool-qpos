@@ -168,7 +168,7 @@ class InventorydiffLogIndexForm extends React.Component {
                         </div> */}
                     </Form>
                 </div>
-                <div className="table-wrapper">
+                <div className="table-wrapper add-norecord-img">
                     <Table 
                         bordered 
                         columns={this.columns} 

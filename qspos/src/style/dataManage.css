@@ -281,9 +281,20 @@
     width: 100px;
     margin-left: 0px;
 }
-/* .basic-setting .page-count{
-    margin-right: 60%;
-} */
+/* table没有数据的时候样式 */
+.add-norecord-img .ant-table-placeholder{
+    display: block;
+    border: none;
+}
+
+.add-norecord-img .ant-table-placeholder span i{
+    display: block;
+    background: url(../images/icon_norecord.png) no-repeat center;
+    height: 100px;
+}
+.add-norecord-img .ant-table-placeholder span i::before{
+    content: "";
+}
 
 /*小屏样式 */
 @media screen and (max-width: 950px){

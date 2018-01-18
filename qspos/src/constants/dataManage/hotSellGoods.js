@@ -171,7 +171,7 @@ class HotSellGoodsForm extends React.Component {
                             <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
                         </FormItem>
                     </Form>
-                    <div className="hotSell-wrapper">
+                    <div className="hotSell-wrapper add-norecord-img">
                         {
                             this.state.dataSource.length?
                             (
@@ -203,6 +203,7 @@ class HotSellGoodsForm extends React.Component {
                             pageSize={10}
                             onShowSizeChange={this.onShowSizeChange}
                             pageChange={this.pageChange}
+                            locale={true}
                             />
                     </div>
                 </div>

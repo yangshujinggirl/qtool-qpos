@@ -211,7 +211,7 @@ class AdjustLogIndexForm extends React.Component {
                         
                     </Form>
                 </div>
-                <div className="table-wrapper">
+                <div className="table-wrapper add-norecord-img">
                     <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
                                 remarkText={this.state.remarkText}/>
                     <Table 
