@@ -64,7 +64,7 @@ class Modales extends React.Component {
                                         return res;
                                     }).then((data) => {
                                         if(data.code == "0"){
-                                            getRechargeOrderInfo(data,"80",json.config.submitPrintNum);
+                                            getRechargeOrderInfo(data,"80",json.config.rechargePrintNum);
                                         }else{
                                             message.error(data.message);
                                         }
@@ -76,24 +76,16 @@ class Modales extends React.Component {
                                         return res;
                                     }).then((data) => {
                                         if(data.code == "0"){
-                                            getRechargeOrderInfo(data,"58",json.config.submitPrintNum);
+                                            getRechargeOrderInfo(data,"58",json.config.rechargePrintNum);
                                         }else{
                                             message.error(data.message);
                                         }
                                     });
                                 }
                             }
-                                // if(json.config.rechargePrint=='1'){
-                                //     //判断是打印大的还是小的
-                                //     if(json.config.paperSize=='80'){
-                                //         this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
-                                //     }else{
-                                //         this.handprint(mbCardMoneyChargeIds,'mbCardMoneyCharge',chargeNos,true)
-                                //     }
-                                // }
                         }else{
                             message.warning('打印失败')
-                            }
+                        }
                     })
                 
             }
