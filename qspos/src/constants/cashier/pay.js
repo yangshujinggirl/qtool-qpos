@@ -43,6 +43,11 @@ class Pay extends React.Component {
     //初始化方法
     initModel=()=>{
         const ismember=this.props.ismember
+        const paytotolamount=this.props.totolamount
+        this.props.dispatch({
+            type:'cashier/paytotolamount',
+            payload:paytotolamount
+        })
         if(ismember){
             const values={mbCardId:this.props.mbCardId}
             const result=GetServerData('qerp.pos.mb.card.info',values)
@@ -351,9 +356,9 @@ class Pay extends React.Component {
             }
 
             // const backmoney='-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
-            newamountlist[0].value=dataedit(newamountlist[0].value)
+            newamountlist[0].value=dataedit(String(newamountlist[0].value))
             if(newamountlist.length>1){
-                newamountlist[1].value=dataedit(newamountlist[1].value)
+                newamountlist[1].value=dataedit(String(newamountlist[1].value))
             }
            
             var backmoneyed=0
@@ -537,7 +542,7 @@ class Pay extends React.Component {
             }
 
         }
-        amountlist[0].value=dataedit(amountlist[0].value)
+        amountlist[0].value=dataedit(String(amountlist[0].value))
         const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value)))
         this.setState({
             amountlist:amountlist,
@@ -656,8 +661,8 @@ class Pay extends React.Component {
            
         }
         const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
-        amountlist[0].value=dataedit(amountlist[0].value)
-        amountlist[1].value=dataedit(amountlist[1].value)
+        amountlist[0].value=dataedit(String(amountlist[0].value))
+        amountlist[1].value=dataedit(String(amountlist[1].value))
 
         this.setState({
             amountlist:amountlist,
@@ -773,8 +778,8 @@ class Pay extends React.Component {
 
 
         const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
-        amountlist[0].value=dataedit(amountlist[0].value)
-        amountlist[1].value=dataedit(amountlist[1].value)
+        amountlist[0].value=dataedit(String(amountlist[0].value))
+        amountlist[1].value=dataedit(String(amountlist[1].value))
         this.setState({
             amountlist:amountlist,
             backmoney:backmoney
@@ -805,26 +810,67 @@ class Pay extends React.Component {
     }
     //抹零
     nozeroclick=()=>{
-        const paytotolamount=parseInt(this.props.paytotolamount)
-        const amountlist=this.state.amountlist.slice(0)
-        for(var i=0;i<amountlist.length;i++){
-            amountlist[i].value=parseInt(amountlist[i].value)
+        const diffamount=NP.minus(this.props.paytotolamount, parseInt(this.props.paytotolamount))
+        if(diffamount>0){
+            const amountlist=this.state.amountlist.slice(0)
+            if(amountlist.length>1){
+                //抹第二个
+                var moer=NP.minus(amountlist[1].value, diffamount)
+                if(moer<0){
+                    amountlist[0].value=NP.plus(amountlist[0].value, moer)
+                    amountlist[1].value='0.00'
+                }else{
+                    amountlist[1].value=moer
+                }
+            }
+            if(amountlist.length==1){
+                amountlist[0].value=NP.minus(amountlist[0].value, diffamount)
+            }
+           
+            const paytotolamount=dataedit(String(parseInt(this.props.paytotolamount)))
+            var backmoneyed=0
+            if(amountlist.length>1){
+                const danu=NP.minus(paytotolamount, amountlist[0].value,amountlist[1].value)
+                if(danu==0){
+                    backmoneyed='0.00'
+                }else{
+                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, amountlist[0].value,amountlist[1].value)))
+                }
+
+                
+               
+            }else{
+                const danu=NP.minus(paytotolamount, amountlist[0].value)
+                if(danu==0){
+                    backmoneyed='0.00'
+                }else{
+                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, amountlist[0].value)))
+                }
+
+            }
+
+            amountlist[0].value=dataedit(String(amountlist[0].value))
+            if(amountlist.length>1){
+                amountlist[1].value=dataedit(String(amountlist[1].value))
+            }
+
+
+            this.props.dispatch({
+                type:'cashier/paytotolamount',
+                payload:paytotolamount
+            })
+            this.setState({
+                cutAmount:'1',
+                backmoney:backmoneyed,
+                amountlist:amountlist
+            }) 
+
         }
-        var backmoney=0;
-        if(this.state.amountlist.length>1){
-             backmoney=NP.minus(paytotolamount, amountlist[0].value,amountlist[1].value)
-        }else{
-             backmoney=NP.minus(paytotolamount, amountlist[0].value)
-        }
-        this.props.dispatch({
-            type:'cashier/paytotolamount',
-            payload:paytotolamount
-        })
-        this.setState({
-            cutAmount:'1',
-            backmoney:backmoney,
-            amountlist:amountlist
-        })   
+
+
+        
+       
+          
     }
 
     //是否勾选打印小票
