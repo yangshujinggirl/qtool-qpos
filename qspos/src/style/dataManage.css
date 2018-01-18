@@ -114,11 +114,13 @@
     margin-right: 30px;
 }
 .export-btn{
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(231, 232, 236);
+    font-size: 14px;
     vertical-align: middle;
     height: 32px;
     font-size: 14px;
     color: #35BAB0;
-    border-color:#35BAB0;
 }
 /* table */
 .data-manage .ant-table-bordered .ant-table-header > table, 
@@ -294,6 +296,13 @@
 }
 .add-norecord-img .ant-table-placeholder span i::before{
     content: "";
+}
+
+/* 基础设置 */
+.check-box-style .ant-checkbox{
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 2px;
 }
 
 /*小屏样式 */
