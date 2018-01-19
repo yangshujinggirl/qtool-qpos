@@ -194,7 +194,7 @@ class DailyBillForm extends React.Component {
                         <li>
                             <div>
                                 <p style={{color:"#806EC6"}}>
-                                {this.state.rpDayAccount.orderSum?this.state.rpDayAccount.orderSum:"0"}
+                                {this.state.rpDayAccount.orderQty?this.state.rpDayAccount.orderQty:"0"}
                                 </p>
                                 <span className="explain-span">
                                     <Tooltip title="销售订单的总数量">
