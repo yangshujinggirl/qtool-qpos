@@ -180,9 +180,10 @@ export function getShiftInfo(message1,message2,size,printCount){
 
 function printShiftInfo(userSales,urUser,printCount){
 	let pri_count = Number(printCount);
+	let userInfoAll = userSales;
 	var title = {
 		"shopName":"店铺名称",
-		"time":"打印时间",
+		"time":"交班时间",
 		"name":"收营员",
 		"orderNum":"订单数",
 		"money":"净收款",
@@ -190,11 +191,11 @@ function printShiftInfo(userSales,urUser,printCount){
 	};
 	var text = {
 		"shopName":"哈哈哈店铺哈哈",
-		"time":"2017/08/09",
-		"name":"李易峰",
-		"orderNum":"1000单",
-		"money":"￥90875.00",
-		"sale":"￥1067899.00"
+		"time":userInfoAll.userSales.endTime,
+		"name":userInfoAll.userSales.nickname,
+		"orderNum":userInfoAll.userSales.orderQty,
+		"money":userInfoAll.userSales.icAmount,
+		"sale":userInfoAll.userSales.amount
 	};
 	var infoWidth = 53*3.78;
 	LODOP=getLodop();
@@ -251,59 +252,106 @@ function printShiftInfo(userSales,urUser,printCount){
 
 	LODOP.ADD_PRINT_LINE(posi+27,0,posi+28,"70mm",2,0);
 
-	var moneyInfo = [{
-		"use":"微信",
-		"sale":"65423.00",
-		"chong":"65423.00",
-		"tui":"65423.00",
-		"count":"65423.00"
-	},
-	{
-		"use":"支付宝",
-		"sale":"65423.00",
-		"chong":"65423.00",
-		"tui":"65423.00",
-		"count":"65423.00"
-	},
-	{
-		"use":"现金",
-		"sale":"65423.00",
-		"chong":"65423.00",
-		"tui":"65423.00",
-		"count":"65423.00"
-	},
-	{
-		"use":"银联",
-		"sale":"65423.00",
-		"chong":"65423.00",
-		"tui":"65423.00",
-		"count":"65423.00"
-	},
-	{
-		"use":"积分抵扣",
-		"sale":"65423.00",
-		"chong":"65423.00",
-		"tui":"6543",
-		"count":"6543"
-	},
-	{
-		"use":"会员卡消费",
-		"sale":"/",
-		"chong":"/",
-		"tui":"/",
-		"count":"/"
-	},
-	{
-		"use":"会员卡退款",
-		"sale":"/",
-		"chong":"/",
-		"tui":"/",
-		"count":"/"
-	}
-	];
+	let moneyInfo = [{use:"微信"},{use:"支付宝"},{use:"现金"},{use:"银联"},{use:"积分抵扣"},{use:"会员卡消费"},{use:"会员卡退款"}];
+
+		moneyInfo[0]["sale"] = userInfoAll.userShift[0].wechatAmount?userInfoAll.userShift[0].wechatAmount:"/";
+
+		moneyInfo[1]["sale"] = userInfoAll.userShift[0].alipayAmount?userInfoAll.userShift[0].alipayAmount:"/";
+	
+		moneyInfo[2]["sale"] = userInfoAll.userShift[0].cashAmount?userInfoAll.userShift[0].cashAmount:"/";
+
+		moneyInfo[3]["sale"] = userInfoAll.userShift[0].unionpayAmount?userInfoAll.userShift[0].unionpayAmount:"/";
+	
+		moneyInfo[4]["sale"] = userInfoAll.userShift[0].pointAmount?userInfoAll.userShift[0].pointAmount:"/";
+	
+		moneyInfo[5]["sale"] = userInfoAll.userShift[0].cardConsumeAmount?userInfoAll.userShift[0].cardConsumeAmount:"/";
+	
+		moneyInfo[6]["sale"] = userInfoAll.userShift[0].cardChargeAmount?userInfoAll.userShift[0].cardChargeAmount:"/";
+
+		moneyInfo[0]["tui"] = userInfoAll.userShift[1].wechatAmount?userInfoAll.userShift[1].wechatAmount:"/";
+
+		moneyInfo[1]["tui"] = userInfoAll.userShift[1].alipayAmount?userInfoAll.userShift[1].alipayAmount:"/";
+
+		moneyInfo[2]["tui"] = userInfoAll.userShift[1].cashAmount?userInfoAll.userShift[1].cashAmount:"/";
+
+		moneyInfo[3]["tui"] = userInfoAll.userShift[1].unionpayAmount?userInfoAll.userShift[1].unionpayAmount:"/";
+
+		moneyInfo[4]["tui"] = userInfoAll.userShift[1].pointAmount?userInfoAll.userShift[1].pointAmount:"/";
+
+		moneyInfo[5]["tui"] = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
+
+		moneyInfo[6]["tui"] = userInfoAll.userShift[1].cardChargeAmount?userInfoAll.userShift[1].cardChargeAmount:"/";
+
+		moneyInfo[0]["chong"] = userInfoAll.userShift[2].wechatAmount?userInfoAll.userShift[2].wechatAmount:"/";
+
+		moneyInfo[1]["chong"] = userInfoAll.userShift[2].alipayAmount?userInfoAll.userShift[2].alipayAmount:"/";
+
+		moneyInfo[2]["chong"] = userInfoAll.userShift[2].cashAmount?userInfoAll.userShift[2].cashAmount:"/";
+
+		moneyInfo[3]["chong"] = userInfoAll.userShift[2].unionpayAmount?userInfoAll.userShift[2].unionpayAmount:"/";
+	
+		moneyInfo[4]["chong"] = userInfoAll.userShift[2].pointAmount?userInfoAll.userShift[2].pointAmount:"/";
+
+		moneyInfo[5]["chong"] = userInfoAll.userShift[2].cardConsumeAmount?userInfoAll.userShift[2].cardConsumeAmount:"/";
+
+		moneyInfo[6]["chong"] = userInfoAll.userShift[2].cardChargeAmount?userInfoAll.userShift[2].cardChargeAmount:"/";
+
+		for(var i=0;i<moneyInfo.length;i++){
+			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)+parseFloat(moneyInfo[i].tui)).toFixed(2);
+		}
+	// var moneyInfo = [{
+	// 	"use":"微信",
+	// 	"sale":"65423.00",
+	// 	"chong":"65423.00",
+	// 	"tui":"65423.00",
+	// 	"count":"65423.00"
+	// },
+	// {
+	// 	"use":"支付宝",
+	// 	"sale":"65423.00",
+	// 	"chong":"65423.00",
+	// 	"tui":"65423.00",
+	// 	"count":"65423.00"
+	// },
+	// {
+	// 	"use":"现金",
+	// 	"sale":"65423.00",
+	// 	"chong":"65423.00",
+	// 	"tui":"65423.00",
+	// 	"count":"65423.00"
+	// },
+	// {
+	// 	"use":"银联",
+	// 	"sale":"65423.00",
+	// 	"chong":"65423.00",
+	// 	"tui":"65423.00",
+	// 	"count":"65423.00"
+	// },
+	// {
+	// 	"use":"积分抵扣",
+	// 	"sale":"65423.00",
+	// 	"chong":"65423.00",
+	// 	"tui":"6543",
+	// 	"count":"6543"
+	// },
+	// {
+	// 	"use":"会员卡消费",
+	// 	"sale":"/",
+	// 	"chong":"/",
+	// 	"tui":"/",
+	// 	"count":"/"
+	// },
+	// {
+	// 	"use":"会员卡退款",
+	// 	"sale":"/",
+	// 	"chong":"/",
+	// 	"tui":"/",
+	// 	"count":"/"
+	// }
+	// ];
 	var posi2 = posi+37;
 	for(var i=0;i<moneyInfo.length;i++){
-			 LODOP.ADD_PRINT_TEXT(posi2,"0mm","17mm",20,moneyInfo[i].use);
+			LODOP.ADD_PRINT_TEXT(posi2,"0mm","17mm",20,moneyInfo[i].use);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
@@ -331,7 +379,7 @@ function printShiftInfo(userSales,urUser,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-	LODOP.ADD_PRINT_TEXT(posi2+10,"17mm","13mm",20,"1");
+	LODOP.ADD_PRINT_TEXT(posi2+10,"17mm","13mm",20,userInfoAll.receiveCount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
@@ -339,7 +387,7 @@ function printShiftInfo(userSales,urUser,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-	LODOP.ADD_PRINT_TEXT(posi2+30,"17mm","13mm",20,"1");
+	LODOP.ADD_PRINT_TEXT(posi2+30,"17mm","13mm",20,userInfoAll.adjustCount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 

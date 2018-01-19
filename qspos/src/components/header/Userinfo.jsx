@@ -127,7 +127,6 @@ class Dropdownmenu extends React.Component {
                 result.then((res) => {
                   return res;
                 }).then((json) => {
-                    console.log(json)
                     if(json.code=='0'){
                         this.setState({
                             visible: false
@@ -142,10 +141,10 @@ class Dropdownmenu extends React.Component {
                                         if(json.config.exchangePrint=='1'){
                                             //判断是打印大的还是小的
                                             if(json.config.paperSize=='80'){
-                                                getShiftInfo(this.props.userSales,this.props.urUser,"80",json.config.exchangePrintNum);
+                                                getShiftInfo(this.props.userAllInfo,this.props.urUser,"80",json.config.exchangePrintNum);
                                                 // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
                                             }else{
-                                                getShiftInfo(this.props.userSales,this.props.urUser,"58",json.config.exchangePrintNum);
+                                                getShiftInfo(this.props.userAllInfo,this.props.urUser,"58",json.config.exchangePrintNum);
                                                 // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
                                             } 
                                         }
@@ -158,8 +157,6 @@ class Dropdownmenu extends React.Component {
                         message.error(json.message);
                     }
                 })
-
-
         }else{
              this.setState({
                 visible: false
@@ -298,18 +295,19 @@ Dropdownmenu.contextTypes= {
     router: React.PropTypes.object
 }
 
-function Userinfo({dispatch,userSales,urUser}) {
+function Userinfo({dispatch,userSales,urUser,allData}) {
     return (
         <div className='clearfix Userinfobox'>
             <div className='fl f14 fff Userinfospshop'>{sessionStorage.getItem("spShop")}</div>
             <div className='fl fff userline'>|</div>
-            <div className='fl userdropdownmenu'><Dropdownmenu dispatch={dispatch} userSales={userSales} urUser={urUser}/></div>
+            <div className='fl userdropdownmenu'><Dropdownmenu dispatch={dispatch} userAllInfo={allData} userSales={userSales} urUser={urUser}/></div>
         </div>
   )
 }
 
 function mapStateToProps(state) {
-    const {userSales,urUser} = state.header;
+    const {userSales,urUser,allData} = state.header;
+    console.log(allData);
     sessionStorage.setItem('nickname',urUser.nickname);
     sessionStorage.setItem('urUserId',urUser.urUserId);
     sessionStorage.setItem('username',urUser.username);
@@ -317,7 +315,7 @@ function mapStateToProps(state) {
     sessionStorage.setItem('spShopId',urUser.shop.spShopId);
     sessionStorage.setItem('role',urUser.role);
     sessionStorage.setItem('status',urUser.status);
-    return {userSales,urUser};
+    return {userSales,urUser,allData};
 }
 
 export default connect(mapStateToProps)(Userinfo);
