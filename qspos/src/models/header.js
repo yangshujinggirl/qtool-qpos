@@ -13,14 +13,15 @@ export default {
                 name:''
             }
         },
-        userSales:{}
+        userSales:{},
+        allData:{}
     },
     reducers: {
         save(state, { payload: urUser}) {
             return {...state,urUser}
         },
-        usershift(state, { payload: userSales}) {
-            return {...state,userSales}
+        usershift(state, { payload: {allData,userSales}}) {
+            return {...state,allData,userSales}
         },
     },
     effects: {
@@ -39,10 +40,11 @@ export default {
         *shift({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
-                const {userSales}=result
+                const allData = result;
+                const {userSales}=result;
                 yield put({   
                     type: 'usershift',
-                    payload:userSales
+                    payload:{allData,userSales}
                 });
             }else{
                  message.error(result.message);

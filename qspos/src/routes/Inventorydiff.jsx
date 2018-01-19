@@ -79,20 +79,21 @@ class EditableTable extends React.Component {
   	constructor(props) {
     	super(props);
     	this.columns = [{
-      		title: '序号',
-      		dataIndex: 'index'
-    	}, {
       		title: '商品条码',
-      		dataIndex: 'barcode'
+              dataIndex: 'barcode',
+              width:"12%"
     	},{
             title: '商品名称',
-            dataIndex: 'name'
+            dataIndex: 'name',
+            width:"12%"
         },{
             title: '商品规格',
-            dataIndex: 'displayName'
+            dataIndex: 'displayName',
+            width:"12%"
         },{
             title: '差异数量',
-            dataIndex: 'difQty'
+            dataIndex: 'difQty',
+            width:"8%"
         } 
     	];
 
@@ -100,7 +101,8 @@ class EditableTable extends React.Component {
 	      	dataSource: [],
 	      	count: 2,
             pdCheckId:null,
-            total:0
+            total:0,
+            windowHeight:""
 	    };
   	}
   
@@ -136,6 +138,18 @@ class EditableTable extends React.Component {
         })
     }
 
+    windowResize = () =>{
+        if(document.body.offsetWidth>800){
+             this.setState({
+                windowHeight:document.body.offsetHeight-300,
+              });
+         }else{
+            this.setState({
+              windowHeight:document.body.offsetHeight-270,
+          });
+         }
+     }
+
   	
   	render() {
     	const { dataSource } = this.state;
@@ -147,6 +161,7 @@ class EditableTable extends React.Component {
                     columns={columns} 
                     rowClassName={this.rowClassName.bind(this)}
                     pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
+                    scroll={{y:this.state.windowHeight}}
                     />
       		</div>
     	);
@@ -160,6 +175,19 @@ class EditableTable extends React.Component {
                 this.setdatas(values)
             })
         }
+        if(document.body.offsetWidth>800){
+            this.setState({
+               windowHeight:document.body.offsetHeight-300,
+             });
+        }else{
+           this.setState({
+             windowHeight:document.body.offsetHeight-270,
+         });
+        }
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
     }
 }
 

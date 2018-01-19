@@ -121,30 +121,32 @@ class EditableTable extends React.Component {
   	constructor(props) {
     	super(props);
     	this.columns = [{
-      		title: '序号',
-      		dataIndex: 'index'
-    	},{
             title: '商品条码',
-            dataIndex: 'barcode'
+            dataIndex: 'barcode',
+            width:"10%"
         },{
             title: '商品名称',
-            dataIndex: 'name'
+            dataIndex: 'name',
+            width:"12%"
         }, {
       		title: '规格',
-      		dataIndex: 'displayName'
+            dataIndex: 'displayName',
+            width:"12%"
     	}, {
             title: '系统数量',
-            dataIndex: 'inventory'
+            dataIndex: 'inventory',
+            width:"8%"
         },{
       		title: '盘点数',
-      		dataIndex: 'checkQty',
-    	}
-    	];
+            dataIndex: 'checkQty',
+            width:"8%"
+    	}];
 	    this.state = {
 	      	dataSource: [],
 	      	count: 2,
             pdCheckId:null,
-            total:0
+            total:0,
+            windowHeight:""
 	    };
   	}
   	rowClassName=(record, index)=>{
@@ -177,6 +179,19 @@ class EditableTable extends React.Component {
         setdatas(values)
   
     }
+
+    windowResize = () =>{
+        if(document.body.offsetWidth>800){
+             this.setState({
+                windowHeight:document.body.offsetHeight-300,
+              });
+         }else{
+            this.setState({
+              windowHeight:document.body.offsetHeight-270,
+          });
+         }
+    }
+
   	render() {
     	const { dataSource } = this.state;
     	const columns = this.columns;
@@ -186,10 +201,27 @@ class EditableTable extends React.Component {
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                 onChange={this.pagechange.bind(this)}
+                scroll={{y:this.state.windowHeight}}
                 />
       		</div>
     	);
-  	}
+    }
+      
+    componentDidMount(){
+        if(document.body.offsetWidth>800){
+            this.setState({
+               windowHeight:document.body.offsetHeight-300,
+             });
+        }else{
+           this.setState({
+             windowHeight:document.body.offsetHeight-270,
+         });
+        }
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
+    }
 }
 
 class Inventory extends React.Component{
