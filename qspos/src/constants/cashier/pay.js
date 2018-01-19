@@ -403,17 +403,18 @@ class Pay extends React.Component {
         const group=this.state.group
         const amountlist=this.state.amountlist
         var totols=0;
-        var orderPay=0;
+        var orderPay=[];
         if(group){
             if(amountlist.length>1){
                 totols=NP.plus(amountlist[0].value,amountlist[1].value); 
-                orderPay=[{
-                    amount:amountlist[0].value,
-                    type:amountlist[0].type,
-                },{
-                    amount:amountlist[1].value,
-                    type:amountlist[1].type,
-               }]
+                for(var i=0;i<amountlist.length;i++){
+                    if(amountlist[i].value!='0.00'){
+                        orderPay.push({
+                            amount:amountlist[i].value,
+                            type:amountlist[i].type,
+                        })
+                    }
+                }
             }else{
                 message.error('金额有误，不能支付')
                 return

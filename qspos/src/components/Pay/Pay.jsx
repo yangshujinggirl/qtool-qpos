@@ -962,68 +962,60 @@ class Pay extends React.Component {
     }
 
     nozeroclick=()=>{
-        const list=this.lists
-        console.log(list)
-        const group=this.state.group
-        const totolamount=parseInt(this.state.totolamount).toFixed(2) //整数
-        console.log(totolamount)
-        var backmoney=this.state.backmoney
-        console.log(this)
-        //判断出现的是一个框还是两个框
-        if(list[0]>0 || list[0]==0){
-                const payfirst=this.state.payfirst
-                const paysecond=this.state.paysecond
-                console.log(paysecond.name)
-                if(paysecond.name=='会员卡' || paysecond.name=='积分'){
-                    console.log(1)
-                    paysecond.value=paysecond.value
-                    payfirst.value=(-this.backmoneymeth(totolamount,paysecond.value,0)).toFixed(2)
-                    backmoney='0.00'
-                }else{
-                    console.log(2)
-                    payfirst.value=payfirst.value
-                    paysecond.value=(-this.backmoneymeth(totolamount,payfirst.value,0)).toFixed(2)
-                    backmoney='0.00'
-                }
-                this.setState({
-                    payfirst:payfirst,
-                    totolamount:totolamount,
-                    paysecond:paysecond,
-                    backmoney:backmoney,
-                    cutAmount:'1'
-                })
+        //是整的就不用抹零，如果抹零，下面输入框之间减去
+       
 
-        }else{
-                //判断第二个输入框是会员还是积分还是其他
-                const paynextvalue=this.state.paynext
-                paynextvalue.value=totolamount
-                console.log(paynextvalue.value)
-                console.log(this.state.membermoney)
-                console.log(totolamount)
-                if(paynextvalue.name=='会员卡'){
-                    if(parseFloat(this.state.membermoney)>totolamount){
-                        paynextvalue.value=totolamount
+
+        const diffs=this.state.totolamount-parseInt(this.state.totolamount).toFixed(2)
+        if(diffs>0){
+            const list=this.lists
+            const group=this.state.group
+            const totolamount=parseInt(this.state.totolamount).toFixed(2) //整数
+            console.log(totolamount)
+            var backmoney=this.state.backmoney
+            console.log(this)
+            //判断出现的是一个框还是两个框
+            if(list[0]>0 || list[0]==0){
+                    const payfirst=this.state.payfirst
+                    const paysecond=this.state.paysecond
+                    console.log(paysecond.name)
+                    if(paysecond.name=='会员卡' || paysecond.name=='积分'){
                         console.log(1)
+                        paysecond.value=paysecond.value
+                        payfirst.value=(-this.backmoneymeth(totolamount,paysecond.value,0)).toFixed(2)
+                        backmoney='0.00'
                     }else{
-                        paynextvalue.value=this.state.membermoney
                         console.log(2)
+                        payfirst.value=payfirst.value
+                        paysecond.value=(-this.backmoneymeth(totolamount,payfirst.value,0)).toFixed(2)
+                        backmoney='0.00'
                     }
-                }
-                if(paynextvalue.name=='积分'){
-                    if(parseFloat(this.state.pointmoney)>totolamount){
-                        paynextvalue.value=totolamount
-                    }else{
-                        paynextvalue.value=this.state.pointmoney
-                    }
-                }
-                this.setState({
-                    totolamount:totolamount,
-                    paynext:paynextvalue,
-                    backmoney:this.backmoneymeth(totolamount,paynextvalue.value,0),
-                    cutAmount:'1'
-                },function(){
-                    console.log(this.state.paynext)
-                })
+                    this.setState({
+                        payfirst:payfirst,
+                        totolamount:totolamount,
+                        paysecond:paysecond,
+                        backmoney:backmoney,
+                        cutAmount:'1'
+                    })
+    
+            }else{
+                   
+                    const paynextvalue=this.state.paynext
+                    paynextvalue.value=totolamount
+                    console.log(this.state.membermoney)
+                    console.log(totolamount)
+                    this.setState({
+                        totolamount:totolamount,
+                        paynext:paynextvalue,
+                        backmoney:this.backmoneymeth(totolamount,paynextvalue.value,0),
+                        cutAmount:'1'
+                    },function(){
+                        console.log(this.state.paynext)
+                    })
+        }
+        
+
+       
         }
 
 
