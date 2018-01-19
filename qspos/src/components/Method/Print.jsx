@@ -224,8 +224,13 @@ function printShiftInfo(userSales,urUser,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",9);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0);
-		textWidth = text[key].length*12;
-		posi = posi+20+(Math.ceil(textWidth/infoWidth)-1)*12;
+
+		if(title[key]!="交班时间"){
+			textWidth = text[key].length*11;
+			posi = posi+20+(Math.ceil(textWidth/infoWidth)-1)*12;
+		}else{
+			posi = posi+20;
+		}
 	}; 
 
 	LODOP.ADD_PRINT_LINE(posi-1,0,posi,"70mm",2,0);
@@ -454,8 +459,12 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0.7);
 		//8pt=11px
-		textWidth = text[key].length*11;
-		posi = posi+20+(Math.ceil(textWidth/infoWidth)-1)*11;
+		if(title[key]!="交班时间"){
+			textWidth = text[key].length*11;
+			posi = posi+20+(Math.ceil(textWidth/infoWidth)-1)*11;
+		}else{
+			posi = posi+20;
+		}
 	}; 
 
 	LODOP.ADD_PRINT_LINE(posi-3,0,posi-2,"50mm",2,0);
