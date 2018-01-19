@@ -307,7 +307,6 @@ function Userinfo({dispatch,userSales,urUser,allData}) {
 
 function mapStateToProps(state) {
     const {userSales,urUser,allData} = state.header;
-    console.log(allData);
     sessionStorage.setItem('nickname',urUser.nickname);
     sessionStorage.setItem('urUserId',urUser.urUserId);
     sessionStorage.setItem('username',urUser.username);
