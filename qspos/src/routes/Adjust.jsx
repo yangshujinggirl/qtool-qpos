@@ -21,9 +21,15 @@ class MyUpload extends React.Component {
             if (file.response) {
               if(file.response.code=='0'){
                   let pdAdjustDetails = file.response.pdAdjustDetails;
+                    let patternTest=/^-?[1-9]\d*$/;
                   for(let i=0;i<pdAdjustDetails.length;i++){
-                    pdAdjustDetails[i].key=i+1;
-                    pdAdjustDetails[i].adjustAmount = pdAdjustDetails[i].adjustQty*pdAdjustDetails[i].averageRecPrice;
+                      if(patternTest.test(pdAdjustDetails[i].adjustQty)){
+                            pdAdjustDetails[i].key=i+1;
+                            pdAdjustDetails[i].adjustAmount = (Number(pdAdjustDetails[i].adjustQty)*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
+                      }else{
+                            pdAdjustDetails[i].key=i+1;
+                            pdAdjustDetails[i].adjustAmount = (0*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
+                      }
                   }
                 //   console.log('列表数据：'+JSON.stringify(pdAdjustDetails));
                     const Setdate=this.props.Setdate
@@ -204,28 +210,25 @@ class EditableTable extends React.Component {
   	constructor(props) {
     	super(props);
     	this.columns = [{
-      		title: '序号',
-      		dataIndex: 'indexs',
-            render: (text, record, index) => {
-                return (
-                    <div>{index+1}</div>
-                 )
-                }
-    	},{
             title: '商品条码',
-            dataIndex: 'barcode'
+            dataIndex: 'barcode',
+            width:"12%"
         },{
             title: '商品名称',
-            dataIndex: 'name'
+            dataIndex: 'name',
+            width:"12%"
         },{
             title: '规格',
-            dataIndex: 'displayName'
+            dataIndex: 'displayName',
+            width:"12%"
         }, {
       		title: '数量',
-      		dataIndex: 'inventory'
+              dataIndex: 'inventory',
+              width:"8%"
     	}, {
       		title: '损益数',
-      		dataIndex: 'adjustQty',
+              dataIndex: 'adjustQty',
+              width:"8%",
       		render: (text, record, index) => {
         	return (
                     <Input style={inputwidth} onChange={this.hindchange.bind(this,index)} 
@@ -236,10 +239,12 @@ class EditableTable extends React.Component {
       		}
     	},{
             title: '成本价',
-            dataIndex: 'averageRecPrice'
+            dataIndex: 'averageRecPrice',
+            width:"8%"
         },{
             title: '损益金额',
-            dataIndex: 'adjustAmount'
+            dataIndex: 'adjustAmount',
+            width:"8%"
         }
     	];
 	    this.state = {
@@ -247,9 +252,10 @@ class EditableTable extends React.Component {
 	      	count: 2,
             inputvalue:'',
             total:0,
-            page:1
+            page:1,
+            windowHeight:''
 	    };
-      }
+    }
     setdatasouce=(messages,total)=>{
         //设置dataSource和total
         this.setState({
@@ -302,6 +308,19 @@ class EditableTable extends React.Component {
             page:page.current
         })
     }
+
+    windowResize = () =>{
+        if(document.body.offsetWidth>800){
+             this.setState({
+                windowHeight:document.body.offsetHeight-300,
+              });
+         }else{
+            this.setState({
+              windowHeight:document.body.offsetHeight-270,
+          });
+         }
+    }
+
   	render() {
     	const columns = this.columns;
         const pdSpus=this.props.pdSpus
@@ -313,10 +332,28 @@ class EditableTable extends React.Component {
                     rowClassName={this.rowClassName.bind(this)} 
                     pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                     onChange={this.pagechange.bind(this)}
+                    scroll={{y:this.state.windowHeight}}
                     />
       		</div>
     	);
-  	}
+    }
+
+    componentDidMount(){
+        if(document.body.offsetWidth>800){
+            this.setState({
+               windowHeight:document.body.offsetHeight-300,
+             });
+        }else{
+           this.setState({
+             windowHeight:document.body.offsetHeight-270,
+         });
+        }
+        window.addEventListener('resize', this.windowResize);    
+    }
+    componentWillUnmount(){   
+        window.removeEventListener('resize', this.windowResize);
+    }
+      
 }
 
 
