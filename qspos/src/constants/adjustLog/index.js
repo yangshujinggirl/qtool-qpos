@@ -148,7 +148,7 @@ class AdjustLogIndexForm extends React.Component {
             name:this.state.name,
             type:1
         }
-        const result=GetExportData('qerp.pos.pd.adjust.export',data);
+        const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
 
     //改变visible
