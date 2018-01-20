@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import CommonTable from '../../constants/dataManage/commonTable';
 import {GetServerData} from '../../services/services';
+import {GetExportData} from '../../services/services';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -22,6 +23,7 @@ class InventorydiffLogIndexForm extends React.Component {
             adjustTimeEnd:"",
             windowHeight:''
         };
+        this._isMounted = false;
         this.columns = [{
             title: '商品条码',
             dataIndex: 'barcode',
@@ -101,23 +103,12 @@ class InventorydiffLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            currentPage:0,
-            limit:10,
             adjustTimeStart:this.state.adjustTimeStart,
             adjustTimeEnd:this.state.adjustTimeEnd,
             name:this.state.name,
             type:2
         }
-        const result=GetServerData('qerp.pos.pd.adjust.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-
-            }else{  
-                message.error(json.message); 
-            }
-        })
+        const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
 
     //改变visible
@@ -168,7 +159,7 @@ class InventorydiffLogIndexForm extends React.Component {
                         </div> */}
                     </Form>
                 </div>
-                <div className="table-wrapper add-norecord-img">
+                <div className="table-wrapper add-norecord-img" ref="tableWrapper">
                     <Table 
                         bordered 
                         columns={this.columns} 
@@ -242,6 +233,28 @@ class InventorydiffLogIndexForm extends React.Component {
                 type:2
             }
             self.getServerData(values);
+        })
+    }
+
+    windowResize = () =>{
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            if(document.body.offsetWidth>800){
+                this.setState({
+                    windowHeight:document.body.offsetHeight-300,
+                })
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+        }
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
+        if(this._isMounted){
             if(document.body.offsetWidth>800){
                 this.setState({
                    windowHeight:document.body.offsetHeight-300,
@@ -252,27 +265,13 @@ class InventorydiffLogIndexForm extends React.Component {
                 });
             }
             window.addEventListener('resize', this.windowResize.bind(this));    
-        })
-    }
-
-    windowResize = () =>{
-        if(document.body.offsetWidth>800){
-             this.setState({
-                windowHeight:document.body.offsetHeight-300,
-              })
-        }else{
-            this.setState({
-              windowHeight:document.body.offsetHeight-270,
-          });
         }
-    }
-
-    componentDidMount(){
         //获取当前时间
         this.getNowFormatDate();
     }
 
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize.bind(this));
     }
 }

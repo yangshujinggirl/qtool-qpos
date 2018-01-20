@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import CommonTable from '../../constants/dataManage/commonTable';
 import {GetServerData} from '../../services/services';
+import {GetExportData} from '../../services/services';
 import moment from 'moment';
 import RemarkText from './remarkModal';
 const FormItem = Form.Item;
@@ -25,6 +26,7 @@ class AdjustLogIndexForm extends React.Component {
             remarkText:'',
             windowHeight:''
         };
+        this._isMounted = false;
         this.columns = [{
             title: '商品条码',
             dataIndex: 'barcode',
@@ -141,23 +143,12 @@ class AdjustLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            currentPage:0,
-            limit:10,
             adjustTimeStart:this.state.adjustTimeStart,
             adjustTimeEnd:this.state.adjustTimeEnd,
             name:this.state.name,
             type:1
         }
-        const result=GetServerData('qerp.pos.pd.adjust.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-
-            }else{  
-                message.error(json.message); 
-            }
-        })
+        const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
 
     //改变visible
@@ -211,7 +202,7 @@ class AdjustLogIndexForm extends React.Component {
                         
                     </Form>
                 </div>
-                <div className="table-wrapper add-norecord-img">
+                <div className="table-wrapper add-norecord-img" ref="tableWrapper">
                     <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
                                 remarkText={this.state.remarkText}/>
                     <Table 
@@ -291,33 +282,41 @@ class AdjustLogIndexForm extends React.Component {
     }
 
     windowResize = () =>{
-        if(document.body.offsetWidth>800){
-             this.setState({
-                windowHeight:document.body.offsetHeight-300,
-              })
+        if(!this.refs.tableWrapper){
+            return
         }else{
-            this.setState({
-              windowHeight:document.body.offsetHeight-270,
-          });
+            if(document.body.offsetWidth>800){
+                this.setState({
+                    windowHeight:document.body.offsetHeight-300,
+                })
+            }else{
+                this.setState({
+                windowHeight:document.body.offsetHeight-270,
+            });
+            }
         }
     }
 
     componentDidMount(){
-        if(document.body.offsetWidth>800){
-            this.setState({
-               windowHeight:document.body.offsetHeight-300,
-             });
-        }else{
-            this.setState({
-                windowHeight:document.body.offsetHeight-270,
-            });
+        this._isMounted = true;
+        if(this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+            window.addEventListener('resize',this.windowResize.bind(this));
         }
-        window.addEventListener('resize',this.windowResize.bind(this));    
         //获取当前时间
         this.getNowFormatDate();
     }
 
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize.bind(this));
     }
 }

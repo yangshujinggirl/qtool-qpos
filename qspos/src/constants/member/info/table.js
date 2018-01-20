@@ -14,6 +14,7 @@ class EditableTable extends React.Component {
             pageSize:10,
             windowHeight:''
         };
+        this._isMounted = false;
         this.columns = [{
             title: '订单号',
             width:'12%',
@@ -75,7 +76,6 @@ class EditableTable extends React.Component {
     
     //pageSize 变化的回调
     onShowSizeChange=(current, pageSize)=>{
-        console.log(12)
         this.setState({
             pageSize:pageSize,
             currentPage:1
@@ -92,21 +92,26 @@ class EditableTable extends React.Component {
     
 
     windowResize = () =>{
-        this.setState({
-            windowHeight:document.body.offsetHeight-300
-        });
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            this.setState({
+                windowHeight:document.body.offsetHeight-565
+            });
+        }
     }
 
     render() {
         const columns = this.columns;
         return (
-            <div className='member-style memberinfo-style'>
+            <div className='member-style memberinfo-style' ref="tableWrapper">
                <Table 
                     bordered 
                     dataSource={this.props.details} 
                     columns={columns} 
                     rowClassName={this.rowClassName.bind(this)} 
                     pagination={{'total':Number(this.props.total),current:this.state.currentPage,
+                    limit:this.props.limit,
                     pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
                     onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}}
                     scroll={{y:this.state.windowHeight}}
@@ -118,20 +123,23 @@ class EditableTable extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this)
-        this.setState({
-           windowHeight:document.body.offsetHeight-300
-         });
-        window.addEventListener('resize', this.windowResize);    
+        this._isMounted = true;
+        if(this._isMounted){
+            this.setState({
+                windowHeight:document.body.offsetHeight-565
+            });
+            window.addEventListener('resize', this.windowResize);
+        }
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 
 }
 
 function mapStateToProps(state) {
-    const {details,total,mbCardId} = state.memberinfo;
+    const {details,total,mbCardId,limit} = state.memberinfo;
     return {details,total,mbCardId};
 }
 

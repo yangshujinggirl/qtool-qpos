@@ -254,7 +254,8 @@ class EditableTable extends React.Component {
             total:0,
             page:1,
             windowHeight:''
-	    };
+        };
+        this._isMounted = false;
     }
     setdatasouce=(messages,total)=>{
         //设置dataSource和total
@@ -310,22 +311,26 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-        if(document.body.offsetWidth>800){
-             this.setState({
-                windowHeight:document.body.offsetHeight-300,
-              });
-         }else{
-            this.setState({
-              windowHeight:document.body.offsetHeight-270,
-          });
-         }
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            if(document.body.offsetWidth>800){
+                this.setState({
+                     windowHeight:document.body.offsetHeight-300,
+                });
+            }else{
+               this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+        } 
     }
 
   	render() {
     	const columns = this.columns;
         const pdSpus=this.props.pdSpus
     	return (
-      		<div className='bgf'>
+      		<div className='bgf' ref="tableWrapper">
         		<Table bordered 
                     dataSource={this.state.dataSource} 
                     columns={columns} 
@@ -339,18 +344,22 @@ class EditableTable extends React.Component {
     }
 
     componentDidMount(){
-        if(document.body.offsetWidth>800){
-            this.setState({
-               windowHeight:document.body.offsetHeight-300,
-             });
-        }else{
-           this.setState({
-             windowHeight:document.body.offsetHeight-270,
-         });
+        this._isMounted = true;
+        if(this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+               this.setState({
+                 windowHeight:document.body.offsetHeight-270,
+                });
+            }
         }
         window.addEventListener('resize', this.windowResize);    
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
       

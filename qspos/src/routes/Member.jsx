@@ -72,8 +72,7 @@ class Modelform extends Component {
     handleOk = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.mbCardBirths=this.babydatasouces
-                console.log(this.babydatasouces)
+                values.mbCardBirths=this.babydatasouces;
                 //如果数组中所有元素都满足条件，则通过，否则抛出异常
                 var babydatatattu=values.mbCardBirths.every(function(item,index){
                   return  (item.year==null && item.month===null && item.day===null) || (item.year!=null && item.month!=null && item.day!=null)
@@ -88,7 +87,6 @@ class Modelform extends Component {
                     result.then((res) => {
                         return res;
                     }).then((json) => {
-                        console.log(json)
                         if(json.code=='0'){
                             if(this.props.type){
                                 message.success('会员新建成功',1)
@@ -110,18 +108,15 @@ class Modelform extends Component {
                 }else{
                     message.warning('生日信息不全')
                 }
-
             } 
         
         })
     }
     
     receivebabydata=(dataSource)=>{
-        console.log(dataSource)
         this.babydatasouces=dataSource
     }
     memberinit=()=>{
-        console.log(this.props.form.getFieldInstance('ref'))
         const memberdatas=this.props.form.getFieldInstance('ref').memberdata
         memberdatas()
     }
@@ -195,8 +190,6 @@ class Modelform extends Component {
                             wrapperCol={{ span: 16 }}
                             className='listform'
                             >
-                            {getFieldDecorator('mbCardBirths', {
-                            })(
                                 <EditableTablebaby 
                                     dispatch={this.props.dispatch} 
                                     mbCardBirths={mbCardBirths} 
@@ -205,7 +198,6 @@ class Modelform extends Component {
                                     type={this.props.type}
                                     {...getFieldProps('ref')}
                                 />
-                            )}
                         </FormItem>
                         <FormItem  
                         labelCol={{ span: 5 }}
@@ -358,7 +350,6 @@ class EditableTablebaby extends React.Component {
         });
     }
     SwitchChange=(checked)=>{
-        console.log(checked)
         const dispatch=this.props.dispatch
         if(checked){
             var ds=this.state.dataSource
@@ -407,7 +398,6 @@ class EditableTablebaby extends React.Component {
         })
     }
     dayhandleChange=(index,value)=>{
-        console.log(value)
         const dispatch=this.props.dispatch
         let ds=this.state.dataSource
         ds[index].day=value
@@ -430,7 +420,6 @@ class EditableTablebaby extends React.Component {
                 result.then((res) => {
                   return res;
                 }).then((json) => {
-                    console.log(json)
                     if(json.code=='0'){
                         let mbCardInfo=json.mbCardInfo.mbCardBirths
                         if(mbCardInfo.length>0){
@@ -551,6 +540,7 @@ class EditableTable extends React.Component {
             pageSize:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),
             windowHeight:''
         };
+        this._isMounted = false;
         this.columns = [{
             title: '会员姓名',
             dataIndex: 'name',
@@ -618,7 +608,6 @@ class EditableTable extends React.Component {
         }
     }
     hindchange=(page)=>{
-        console.log(page);
         let limitSize = localStorage.getItem('pageSize');
         this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:page.current-1}} });
 
@@ -653,15 +642,19 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-       this.setState({
-        windowHeight:document.body.offsetHeight-300
-       });
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+            });
+        }
     }
 
     render() {
         const columns = this.columns;
         return (
-            <div className='member-style'>
+            <div className='member-style' ref="tableWrapper">
                <Table bordered dataSource={this.props.mbCards} columns={columns} 
                         rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
                         pagination={{'total':Number(this.props.total),current:this.state.currentPage,
@@ -674,12 +667,16 @@ class EditableTable extends React.Component {
     }
 
     componentDidMount(){
-        this.setState({
-           windowHeight:document.body.offsetHeight-300
-         });
-        window.addEventListener('resize', this.windowResize);    
+        this._isMounted = true;
+        if(this._isMounted){
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+              });
+             window.addEventListener('resize', this.windowResize);  
+        }
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 }
@@ -704,8 +701,6 @@ class Searchcomponent extends React.Component{
     }
 
     pagefresh=(currentPage,pagesize)=>{
-        console.log(currentPage)
-        console.log(pagesize)
         this.props.dispatch({
                 type:'member/fetch',
                 payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:pagesize,currentPage:currentPage} }
@@ -781,7 +776,6 @@ class Member extends React.Component{
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     const {mbCards,loding,total} = state.member;
     return {mbCards,loding,total};
 }

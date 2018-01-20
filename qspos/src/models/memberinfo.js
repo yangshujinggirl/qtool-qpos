@@ -10,10 +10,10 @@ state: {
 	total:0,
 	currentPage:0,
 	mbCardId:null
-},
-reducers: {
-	infolist(state, { payload: {details}}) {
-		return {...state,details}
+  },
+  reducers: {
+	infolist(state, { payload: {details,limit,total,currentPage}}) {
+		return {...state,details,limit,total,currentPage}
 	},
 	titleInfo(state, { payload: {cardInfolist,mbCardId}}) {
 		return {...state,cardInfolist,mbCardId}
@@ -57,11 +57,8 @@ effects: {
 			]
 
 			const cardInfo2=[]
-			console.log(cardInfo)
 			for(var i=0;i<cardInfo.birthday.length;i++){
 				if(i==0){
-					console.log(123)
-						console.log(67)
 						cardInfo2.push({
 							lable:'宝宝生日',
 							text:cardInfo.birthday[i].date+'['+cardInfo.birthday[i].typeStr+']'
@@ -74,29 +71,26 @@ effects: {
 					})
 				}
 			}
-			console.log(cardInfo2)
 			const cardInfolist=cardInfo1.concat(cardInfo2);
-			console.log(cardInfolist)
 			yield put({type: 'titleInfo',payload:{cardInfolist,mbCardId}});
 		}
 	},
 	*fetchList({ payload: {code,values} }, { call, put }) {
 		const result=yield call(GetServerData,code,values);
 		if(result.code=='0'){
-			const details=result.details
-			const limit=result.limit
-			const total=result.total
+			const details=result.details;
+			const limit=result.limit;
+			const total=result.total;
 			const currentPage=result.currentPage
 			yield put({type: 'infolist',payload:{details,limit,total,currentPage}});
 
 		}
 	}
-},
-subscriptions: {
-	setup({ dispatch, history }) {
-	return history.listen(({ pathname, query }) => {
-		if (pathname == '/member/info') {
-			console.log(query);
+  },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
+          if (pathname == '/member/info') {
 				dispatch({ type: 'fetch', payload: {code:'qerp.qpos.mb.card.detail',values:{mbCardId:query.id} }})
 				dispatch({ type: 'fetchList', payload: {code:'qerp.qpos.mb.card.detail.page',values:{mbCardId:query.id,limit:10,currentPage:0} }})
 		}

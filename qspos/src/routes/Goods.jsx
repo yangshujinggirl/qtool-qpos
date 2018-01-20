@@ -7,6 +7,7 @@ import {Buttonico} from '../components/Button/Button';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
 import { Link } from 'dva/router';
 import {GetServerData} from '../services/services';
+import {GetExportData} from '../services/services';
 import '../style/goodsManage.css';
 
 
@@ -48,16 +49,7 @@ class Searchcomponent extends React.Component {
             keywords:this.state.inputvalue,
             pdCategoryId:this.state.selectvalue
         };
-        const result=GetServerData('qerp.pos.pd.spu.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-        
-            }else{  
-                message.error(json.message);
-            }
-        })
+        const result=GetExportData('qerp.pos.pd.spu.export',data);
     }
 
     pagefresh=(currentPage,pagesize)=>{
@@ -160,6 +152,7 @@ class EditableTable extends React.Component {
 	      	count: 2,
             pageSize:10,
             windowHeight:'',
+            _isMounted:false,
             currentPage:1
 	    };
   	}
@@ -191,14 +184,18 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-       if(document.body.offsetWidth>800){
-            this.setState({
-               windowHeight:document.body.offsetHeight-300,
-             });
+        if(!this.refs.tableWrapper){
+            return
         }else{
-           this.setState({
-             windowHeight:document.body.offsetHeight-270,
-         });
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
         }
     }
 
@@ -208,7 +205,7 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         let role=sessionStorage.getItem('role');
     	return (
-      		<div className='bgf-goods-style good-contrl-table'>
+      		<div className='bgf-goods-style good-contrl-table' ref="tableWrapper">
         		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?this.columnsClerk:this.columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={
@@ -223,18 +220,22 @@ class EditableTable extends React.Component {
   	}
 
     componentDidMount(){
-        if(document.body.offsetWidth>800){
-            this.setState({
-               windowHeight:document.body.offsetHeight-300,
+        this._isMounted = true;
+        if( this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+               this.setState({
+                 windowHeight:document.body.offsetHeight-270,
              });
-        }else{
-           this.setState({
-             windowHeight:document.body.offsetHeight-270,
-         });
-        }
-        window.addEventListener('resize', this.windowResize);    
+            }
+            window.addEventListener('resize', this.windowResize);
+        } 
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 }
