@@ -14,6 +14,7 @@ class EditableTable extends React.Component {
             pageSize:10,
             windowHeight:''
         };
+        this._isMounted = false;
         this.columns = [{
             title: '订单号',
             width:'12%',
@@ -118,13 +119,16 @@ class EditableTable extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this)
-        this.setState({
-           windowHeight:document.body.offsetHeight-300
-         });
-        window.addEventListener('resize', this.windowResize);    
+        this._isMounted = true;
+        if(this._isMounted){
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+            });
+            window.addEventListener('resize', this.windowResize);
+        }
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 

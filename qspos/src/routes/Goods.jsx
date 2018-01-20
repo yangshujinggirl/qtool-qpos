@@ -152,6 +152,7 @@ class EditableTable extends React.Component {
 	      	count: 2,
             pageSize:10,
             windowHeight:'',
+            _isMounted:false,
             currentPage:1
 	    };
   	}
@@ -215,18 +216,22 @@ class EditableTable extends React.Component {
   	}
 
     componentDidMount(){
-        if(document.body.offsetWidth>800){
-            this.setState({
-               windowHeight:document.body.offsetHeight-300,
+        this._isMounted = true;
+        if( this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+               this.setState({
+                 windowHeight:document.body.offsetHeight-270,
              });
-        }else{
-           this.setState({
-             windowHeight:document.body.offsetHeight-270,
-         });
-        }
-        window.addEventListener('resize', this.windowResize);    
+            }
+            window.addEventListener('resize', this.windowResize);
+        } 
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 }

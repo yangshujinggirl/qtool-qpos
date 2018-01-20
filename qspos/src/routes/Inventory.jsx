@@ -140,7 +140,8 @@ class EditableTable extends React.Component {
       		title: '盘点数',
             dataIndex: 'checkQty',
             width:"8%"
-    	}];
+        }];
+        this._isMounted = false;
 	    this.state = {
 	      	dataSource: [],
 	      	count: 2,
@@ -208,18 +209,22 @@ class EditableTable extends React.Component {
     }
       
     componentDidMount(){
-        if(document.body.offsetWidth>800){
-            this.setState({
-               windowHeight:document.body.offsetHeight-300,
+        this._isMounted = true;
+        if(this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+               this.setState({
+                 windowHeight:document.body.offsetHeight-270,
              });
-        }else{
-           this.setState({
-             windowHeight:document.body.offsetHeight-270,
-         });
+            }
+            window.addEventListener('resize', this.windowResize);    
         }
-        window.addEventListener('resize', this.windowResize);    
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 }

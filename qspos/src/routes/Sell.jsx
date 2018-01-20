@@ -377,35 +377,40 @@ class Slidecountcz extends React.Component {
 }
 //count tap切换
 class Ordertap extends React.Component {
-    state = {
-        tabPosition: 'left',
-        clickkey:0,
-        clickid:null,
-        clicktype:1,
-        keys:0,
-        qposStSaleOrders:[],
-        outId:null,
-        //销售
-        saleOrderAll:{},
-        orderDetails:[], //详情
-        odOrder:{}, //订单信息
-        orOrderPay:{},//支付信息，
-        mbCard1:{},
-        //退货
-        returnOrderAll:{},
-        mbCard3:{},
-        odReturn:{},
-        returnOrderDetails:[],
-        //充值
-        rechargeOrderAll:{},
-        cardMoneyChargeInfo:{},
-        mbCard2:{},
-        windowHeight:'',
-        //页脚相关
-        currentPage:1,
-        pageSize:10,
-        valueNum:'10'
+    constructor(props) {
+        super(props);
+        this.state = {
+            tabPosition: 'left',
+            clickkey:0,
+            clickid:null,
+            clicktype:1,
+            keys:0,
+            qposStSaleOrders:[],
+            outId:null,
+            //销售
+            saleOrderAll:{},
+            orderDetails:[], //详情
+            odOrder:{}, //订单信息
+            orOrderPay:{},//支付信息，
+            mbCard1:{},
+            //退货
+            returnOrderAll:{},
+            mbCard3:{},
+            odReturn:{},
+            returnOrderDetails:[],
+            //充值
+            rechargeOrderAll:{},
+            cardMoneyChargeInfo:{},
+            mbCard2:{},
+            windowHeight:'',
+            //页脚相关
+            currentPage:1,
+            pageSize:10,
+            valueNum:'10'
+        };
+        this._isMounted = false;
     }
+    
 
     //退货数据请求
     setdatact=(keyid)=>{
@@ -625,13 +630,17 @@ class Ordertap extends React.Component {
     )
   }
 
-  componentDidMount(){
-        this.setState({
-           windowHeight:document.body.offsetHeight-300
-         });
-        window.addEventListener('resize', this.windowResize);    
+    componentDidMount(){
+        this._isMounted = true;
+        if(this._isMounted){
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+            });
+            window.addEventListener('resize', this.windowResize);   
+        }   
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 

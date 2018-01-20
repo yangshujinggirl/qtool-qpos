@@ -54,7 +54,7 @@ class EditableTable extends React.Component {
             dataIndex: 'toCPrice',
             width:'10%',
         }];
-
+        this._isMounted = false;
         this.columnsrole = [{
             title: '序号',
             dataIndex: 'index',
@@ -192,18 +192,22 @@ class EditableTable extends React.Component {
     }
 
     componentDidMount(){
-        if(document.body.offsetWidth>800){
-            this.setState({
-               windowHeight:document.body.offsetHeight-495,
+        this._isMounted = true;
+        if(this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-495,
+                 });
+            }else{
+               this.setState({
+                 windowHeight:document.body.offsetHeight-295,
              });
-        }else{
-           this.setState({
-             windowHeight:document.body.offsetHeight-295,
-         });
+            }
+            window.addEventListener('resize', this.windowResize); 
         }
-        window.addEventListener('resize', this.windowResize);    
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 }

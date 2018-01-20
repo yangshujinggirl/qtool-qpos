@@ -195,8 +195,6 @@ class Modelform extends Component {
                             wrapperCol={{ span: 16 }}
                             className='listform'
                             >
-                            {getFieldDecorator('mbCardBirths', {
-                            })(
                                 <EditableTablebaby 
                                     dispatch={this.props.dispatch} 
                                     mbCardBirths={mbCardBirths} 
@@ -205,7 +203,6 @@ class Modelform extends Component {
                                     type={this.props.type}
                                     {...getFieldProps('ref')}
                                 />
-                            )}
                         </FormItem>
                         <FormItem  
                         labelCol={{ span: 5 }}
@@ -551,6 +548,7 @@ class EditableTable extends React.Component {
             pageSize:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),
             windowHeight:''
         };
+        this._isMounted = false;
         this.columns = [{
             title: '会员姓名',
             dataIndex: 'name',
@@ -674,12 +672,16 @@ class EditableTable extends React.Component {
     }
 
     componentDidMount(){
-        this.setState({
-           windowHeight:document.body.offsetHeight-300
-         });
-        window.addEventListener('resize', this.windowResize);    
+        this._isMounted = true;
+        if(this._isMounted){
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+              });
+             window.addEventListener('resize', this.windowResize);  
+        }
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 }
@@ -704,8 +706,6 @@ class Searchcomponent extends React.Component{
     }
 
     pagefresh=(currentPage,pagesize)=>{
-        console.log(currentPage)
-        console.log(pagesize)
         this.props.dispatch({
                 type:'member/fetch',
                 payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:pagesize,currentPage:currentPage} }

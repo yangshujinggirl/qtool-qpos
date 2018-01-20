@@ -239,7 +239,8 @@ class EditableTable extends React.Component {
         this.state = {
             windowHeight:''
         };
-
+        
+        this._isMounted = false;
         this.columns = [{
             title: '姓名',
             width:'8%',
@@ -275,6 +276,7 @@ class EditableTable extends React.Component {
             },
         }];
     }
+
     showInfomodel=(text,account,password)=>{
         const showInfomodel=this.refs.Infomodel.showModal
         showInfomodel(text,account,password)
@@ -309,12 +311,16 @@ class EditableTable extends React.Component {
     }
 
     componentDidMount(){
-        this.setState({
-           windowHeight:document.body.offsetHeight-300
-         });
-        window.addEventListener('resize', this.windowResize);    
+        this._isMounted = true;
+        if(this._isMounted){
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+            });
+            window.addEventListener('resize', this.windowResize);  
+        } 
     }
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
 }

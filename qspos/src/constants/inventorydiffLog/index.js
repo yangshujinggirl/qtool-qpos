@@ -23,6 +23,7 @@ class InventorydiffLogIndexForm extends React.Component {
             adjustTimeEnd:"",
             windowHeight:''
         };
+        this._isMounted = false;
         this.columns = [{
             title: '商品条码',
             dataIndex: 'barcode',
@@ -232,16 +233,6 @@ class InventorydiffLogIndexForm extends React.Component {
                 type:2
             }
             self.getServerData(values);
-            if(document.body.offsetWidth>800){
-                this.setState({
-                   windowHeight:document.body.offsetHeight-300,
-                 });
-            }else{
-                this.setState({
-                    windowHeight:document.body.offsetHeight-270,
-                });
-            }
-            window.addEventListener('resize', this.windowResize.bind(this));    
         })
     }
 
@@ -258,11 +249,25 @@ class InventorydiffLogIndexForm extends React.Component {
     }
 
     componentDidMount(){
+        this._isMounted = true;
+        if(this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+            window.addEventListener('resize', this.windowResize.bind(this));    
+        }
         //获取当前时间
         this.getNowFormatDate();
     }
 
     componentWillUnmount(){   
+        this._isMounted = false;
         window.removeEventListener('resize', this.windowResize.bind(this));
     }
 }
