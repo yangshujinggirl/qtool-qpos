@@ -514,7 +514,7 @@ class Pay extends React.Component {
 
     //单独输入框失去焦点
     hindonBlur=(e)=>{
-        const values=e.target.value
+        const values=parseFloat(e.target.value)
         const paytotolamount=this.props.paytotolamount
         const amountlist=this.state.amountlist
         if(parseFloat(values)>=parseFloat(paytotolamount)){
@@ -553,14 +553,18 @@ class Pay extends React.Component {
     hindonChange=(e)=>{
         //只能输入最多两位数字
         const values=e.target.value
-        const amountlist=this.state.amountlist
-        amountlist[0].value=values
-        this.setState({
-            amountlist:amountlist
-        })
+		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+        const str=re.test(values)
+        if(str){
+            const amountlist=this.state.amountlist
+            amountlist[0].value=values
+            this.setState({
+                amountlist:amountlist
+            })
+        }
     }
     payfirstonBlur=(e)=>{
-        const values=e.target.value
+        const values=parseFloat(e.target.value)
         const paytotolamount=this.props.paytotolamount
         const amountlist=this.state.amountlist
         if(parseFloat(values)>=parseFloat(paytotolamount)){
@@ -672,7 +676,7 @@ class Pay extends React.Component {
 
     }
     paysecondonBlur=(e)=>{
-        const values=e.target.value
+        const values=parseFloat(e.target.value)
         const paytotolamount=this.props.paytotolamount
         const amountlist=this.state.amountlist
         if(parseFloat(values)>=parseFloat(paytotolamount)){
@@ -789,20 +793,31 @@ class Pay extends React.Component {
 
     payfirstonChange=(e)=>{
         const values=e.target.value
-        const amountlist=this.state.amountlist
-        amountlist[0].value=values
-        this.setState({
-            amountlist:amountlist
-        })
+		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+        const str=re.test(values)
+        if(str){
+            const amountlist=this.state.amountlist
+            amountlist[0].value=values
+            this.setState({
+                amountlist:amountlist
+            })
+        }
+
+       
         
     }
     paysecondonChange=(e)=>{
         const values=e.target.value
-        const amountlist=this.state.amountlist
-        amountlist[1].value=values
-        this.setState({
-            amountlist:amountlist
-        })
+		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+        const str=re.test(values)
+        if(str){
+            const amountlist=this.state.amountlist
+            amountlist[1].value=values
+            this.setState({
+                amountlist:amountlist
+            })
+       }
+       
     }
 
     //打印
