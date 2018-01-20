@@ -6,6 +6,7 @@ import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
+import {GetExportData} from '../../services/services';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker,MonthPicker } = DatePicker;
@@ -230,19 +231,10 @@ class ProfitReportForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            rpDate:this.state.rpDate,
+            rpDate:this.state.rpDate+"-01",
             name:this.state.name
         }
-        const result=GetServerData('qerp.qpos.rp.profit.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-
-            }else{  
-                message.error(json.message); 
-            }
-        })
+        const result=GetExportData('qerp.pos.rp.profit.export',data);
     }
 
     //获取当前时间

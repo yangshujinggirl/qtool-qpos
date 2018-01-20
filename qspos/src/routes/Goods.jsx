@@ -7,6 +7,7 @@ import {Buttonico} from '../components/Button/Button';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
 import { Link } from 'dva/router';
 import {GetServerData} from '../services/services';
+import {GetExportData} from '../services/services';
 import '../style/goodsManage.css';
 
 
@@ -48,16 +49,7 @@ class Searchcomponent extends React.Component {
             keywords:this.state.inputvalue,
             pdCategoryId:this.state.selectvalue
         };
-        const result=GetServerData('qerp.pos.pd.spu.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-        
-            }else{  
-                message.error(json.message);
-            }
-        })
+        const result=GetExportData('qerp.pos.pd.spu.export',data);
     }
 
     pagefresh=(currentPage,pagesize)=>{

@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import {GetServerData} from '../../services/services';
+import {GetExportData} from '../../services/services';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -122,16 +123,7 @@ class DailyBillForm extends React.Component {
             endDate:this.state.endDate,
             type:this.state.type
         }
-        const result=GetServerData('qerp.web.rp.day.account.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-
-            }else{  
-                message.error(json.message); 
-            }
-        })
+        const result=GetExportData('qerp.qpos.rp.day.account.export',data);
     }
 
     // setDisabledDate = (current) =>{
@@ -213,6 +205,7 @@ class DailyBillForm extends React.Component {
                      labelCol={{ span: 5 }}
                      wrapperCol={{span: 10}}>
                         <RangePicker 
+                            allowClear={false}
                             // disabledDate={this.setDisabledDate.bind(this)}
                             // ranges={{ range: moment["2017-09-01","2017-10-01"] }}     
                             value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}

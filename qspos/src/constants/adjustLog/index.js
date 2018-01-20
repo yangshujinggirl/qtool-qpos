@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import CommonTable from '../../constants/dataManage/commonTable';
 import {GetServerData} from '../../services/services';
+import {GetExportData} from '../../services/services';
 import moment from 'moment';
 import RemarkText from './remarkModal';
 const FormItem = Form.Item;
@@ -141,23 +142,12 @@ class AdjustLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            currentPage:0,
-            limit:10,
             adjustTimeStart:this.state.adjustTimeStart,
             adjustTimeEnd:this.state.adjustTimeEnd,
             name:this.state.name,
             type:1
         }
-        const result=GetServerData('qerp.pos.pd.adjust.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-
-            }else{  
-                message.error(json.message); 
-            }
-        })
+        const result=GetExportData('qerp.pos.pd.adjust.export',data);
     }
 
     //改变visible
