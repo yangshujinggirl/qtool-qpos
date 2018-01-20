@@ -2,24 +2,24 @@ import {GetServerData} from '../services/services';
 import {message} from 'antd';
 
 export default {
-  namespace: 'memberinfo',
-  state: {
+namespace: 'memberinfo',
+state: {
 	cardInfolist:[],
 	details:[],
 	limit:10,
 	total:0,
 	currentPage:0,
 	mbCardId:null
-  },
-  reducers: {
+},
+reducers: {
 	infolist(state, { payload: {details}}) {
 		return {...state,details}
 	},
 	titleInfo(state, { payload: {cardInfolist,mbCardId}}) {
 		return {...state,cardInfolist,mbCardId}
 	}
-  },
-  effects: {
+},
+effects: {
 	*fetch({ payload: {code,values} }, { call, put }) {
 		const result=yield call(GetServerData,code,values);
 		if(result.code=='0'){
@@ -70,7 +70,7 @@ export default {
 				}else{
 					cardInfo2.push({
 						lable:'宝宝生日'+(i+1),
-						text:cardInfo.birthday[i].date+cardInfo.birthday[i].typeStr
+						text:cardInfo.birthday[i].date+'['+cardInfo.birthday[i].typeStr+']'
 					})
 				}
 			}
@@ -91,18 +91,18 @@ export default {
 
 		}
 	}
-  },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-          if (pathname == '/member/info') {
-			  console.log(query);
+},
+subscriptions: {
+	setup({ dispatch, history }) {
+	return history.listen(({ pathname, query }) => {
+		if (pathname == '/member/info') {
+			console.log(query);
 				dispatch({ type: 'fetch', payload: {code:'qerp.qpos.mb.card.detail',values:{mbCardId:query.id} }})
 				dispatch({ type: 'fetchList', payload: {code:'qerp.qpos.mb.card.detail.page',values:{mbCardId:query.id,limit:10,currentPage:0} }})
-          }
-      });
-  	},
-  },
+		}
+	});
+	},
+},
 
 
 };
