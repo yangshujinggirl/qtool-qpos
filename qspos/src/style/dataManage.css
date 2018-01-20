@@ -311,6 +311,13 @@
     line-height: 28px;
 }
 
+/* 会员详细信息页面样式 */
+.memberinfo-wrapper{
+    width: 100%;
+    height: 100%;
+    background: white;
+}
+
 /*小屏样式 */
 @media screen and (max-width: 950px){
     /* table */

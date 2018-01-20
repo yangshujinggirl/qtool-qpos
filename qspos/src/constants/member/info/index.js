@@ -16,16 +16,17 @@ class Memberinfoindex extends React.Component{
    render(){
       return (
         <div>
-            <Header type={false} color={true}/>
+            <Header type={false} color={true} linkRoute="member"/>
             <div className='counters goods-countersme'>
-                <div className='mbindocardbox'><Cardlist cardlist={this.props.cardInfolist}/></div>
-                <EditableTable mbCards={this.props.mbCards} 
-                                dispatch={this.props.dispatch} 
-                                loding={this.props.loding} 
-                                total={this.props.total} 
-                                current={this.props.current}
-                                ref='memberTable'/>
-              
+                <div className="memberinfo-wrapper">
+                    <div className='mbindocardbox'><Cardlist cardlist={this.props.cardInfolist}/></div>
+                        <EditableTable mbCards={this.props.mbCards} 
+                                        dispatch={this.props.dispatch} 
+                                        loding={this.props.loding} 
+                                        total={this.props.total} 
+                                        current={this.props.current}
+                                        ref='memberTable'/>
+                </div> 
             </div>
         </div>
      )

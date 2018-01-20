@@ -72,8 +72,7 @@ class Modelform extends Component {
     handleOk = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.mbCardBirths=this.babydatasouces
-                console.log(this.babydatasouces)
+                values.mbCardBirths=this.babydatasouces;
                 //如果数组中所有元素都满足条件，则通过，否则抛出异常
                 var babydatatattu=values.mbCardBirths.every(function(item,index){
                   return  (item.year==null && item.month===null && item.day===null) || (item.year!=null && item.month!=null && item.day!=null)
@@ -88,7 +87,6 @@ class Modelform extends Component {
                     result.then((res) => {
                         return res;
                     }).then((json) => {
-                        console.log(json)
                         if(json.code=='0'){
                             if(this.props.type){
                                 message.success('会员新建成功',1)
@@ -110,18 +108,15 @@ class Modelform extends Component {
                 }else{
                     message.warning('生日信息不全')
                 }
-
             } 
         
         })
     }
     
     receivebabydata=(dataSource)=>{
-        console.log(dataSource)
         this.babydatasouces=dataSource
     }
     memberinit=()=>{
-        console.log(this.props.form.getFieldInstance('ref'))
         const memberdatas=this.props.form.getFieldInstance('ref').memberdata
         memberdatas()
     }
@@ -355,7 +350,6 @@ class EditableTablebaby extends React.Component {
         });
     }
     SwitchChange=(checked)=>{
-        console.log(checked)
         const dispatch=this.props.dispatch
         if(checked){
             var ds=this.state.dataSource
@@ -404,7 +398,6 @@ class EditableTablebaby extends React.Component {
         })
     }
     dayhandleChange=(index,value)=>{
-        console.log(value)
         const dispatch=this.props.dispatch
         let ds=this.state.dataSource
         ds[index].day=value
@@ -427,7 +420,6 @@ class EditableTablebaby extends React.Component {
                 result.then((res) => {
                   return res;
                 }).then((json) => {
-                    console.log(json)
                     if(json.code=='0'){
                         let mbCardInfo=json.mbCardInfo.mbCardBirths
                         if(mbCardInfo.length>0){
@@ -616,7 +608,6 @@ class EditableTable extends React.Component {
         }
     }
     hindchange=(page)=>{
-        console.log(page);
         let limitSize = localStorage.getItem('pageSize');
         this.props.dispatch({ type: 'member/fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:page.current-1}} });
 
@@ -785,7 +776,6 @@ class Member extends React.Component{
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     const {mbCards,loding,total} = state.member;
     return {mbCards,loding,total};
 }
