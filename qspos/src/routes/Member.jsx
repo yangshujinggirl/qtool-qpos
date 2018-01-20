@@ -651,15 +651,19 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-       this.setState({
-        windowHeight:document.body.offsetHeight-300
-       });
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+            });
+        }
     }
 
     render() {
         const columns = this.columns;
         return (
-            <div className='member-style'>
+            <div className='member-style' ref="tableWrapper">
                <Table bordered dataSource={this.props.mbCards} columns={columns} 
                         rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
                         pagination={{'total':Number(this.props.total),current:this.state.currentPage,

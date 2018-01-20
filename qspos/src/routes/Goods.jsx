@@ -184,14 +184,18 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-       if(document.body.offsetWidth>800){
-            this.setState({
-               windowHeight:document.body.offsetHeight-300,
-             });
+        if(!this.refs.tableWrapper){
+            return
         }else{
-           this.setState({
-             windowHeight:document.body.offsetHeight-270,
-         });
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
         }
     }
 
@@ -201,7 +205,7 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         let role=sessionStorage.getItem('role');
     	return (
-      		<div className='bgf-goods-style good-contrl-table'>
+      		<div className='bgf-goods-style good-contrl-table' ref="tableWrapper">
         		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?this.columnsClerk:this.columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={

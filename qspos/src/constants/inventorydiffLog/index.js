@@ -159,7 +159,7 @@ class InventorydiffLogIndexForm extends React.Component {
                         </div> */}
                     </Form>
                 </div>
-                <div className="table-wrapper add-norecord-img">
+                <div className="table-wrapper add-norecord-img" ref="tableWrapper">
                     <Table 
                         bordered 
                         columns={this.columns} 
@@ -237,14 +237,18 @@ class InventorydiffLogIndexForm extends React.Component {
     }
 
     windowResize = () =>{
-        if(document.body.offsetWidth>800){
-             this.setState({
-                windowHeight:document.body.offsetHeight-300,
-              })
+        if(!this.refs.tableWrapper){
+            return
         }else{
-            this.setState({
-              windowHeight:document.body.offsetHeight-270,
-          });
+            if(document.body.offsetWidth>800){
+                this.setState({
+                    windowHeight:document.body.offsetHeight-300,
+                })
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
         }
     }
 

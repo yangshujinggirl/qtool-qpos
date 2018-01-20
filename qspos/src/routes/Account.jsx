@@ -290,15 +290,19 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-       this.setState({
-        windowHeight:document.body.offsetHeight-300
-       });
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+            });
+        }
     }
 
     render() {
         const columns = this.columns;
         return (
-            <div>
+            <div ref="tableWrapper">
                 <Table bordered 
                        dataSource={this.props.users} 
                        columns={columns} 

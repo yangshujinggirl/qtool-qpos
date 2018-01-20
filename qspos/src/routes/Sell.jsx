@@ -512,10 +512,14 @@ class Ordertap extends React.Component {
         })
     }
 
-   windowResize = () =>{
-       this.setState({
-        windowHeight:document.body.offsetHeight-300
-       });
+    windowResize = () =>{
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            this.setState({
+                windowHeight:document.body.offsetHeight-300
+            });
+        }
     }
 
     // pagechange=(page)=>{
@@ -574,7 +578,7 @@ class Ordertap extends React.Component {
   render() {
     const qposStSaleOrders=this.state.qposStSaleOrders
     return (
-        <div className="content-sell-info">
+        <div className="content-sell-info" ref="tableWrapper">
 
            <div>
                 <Tabs animated={false} 

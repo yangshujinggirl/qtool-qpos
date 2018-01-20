@@ -311,22 +311,26 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-        if(document.body.offsetWidth>800){
-             this.setState({
-                windowHeight:document.body.offsetHeight-300,
-              });
-         }else{
-            this.setState({
-              windowHeight:document.body.offsetHeight-270,
-          });
-         }
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            if(document.body.offsetWidth>800){
+                this.setState({
+                     windowHeight:document.body.offsetHeight-300,
+                });
+            }else{
+               this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+        } 
     }
 
   	render() {
     	const columns = this.columns;
         const pdSpus=this.props.pdSpus
     	return (
-      		<div className='bgf'>
+      		<div className='bgf' ref="tableWrapper">
         		<Table bordered 
                     dataSource={this.state.dataSource} 
                     columns={columns} 

@@ -182,22 +182,26 @@ class EditableTable extends React.Component {
     }
 
     windowResize = () =>{
-        if(document.body.offsetWidth>800){
-             this.setState({
-                windowHeight:document.body.offsetHeight-300,
-              });
-         }else{
-            this.setState({
-              windowHeight:document.body.offsetHeight-270,
-          });
-         }
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+        }
     }
 
   	render() {
     	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
-      		<div className='bgf bgf-goods-style'>
+      		<div className='bgf bgf-goods-style' ref="tableWrapper">
         		<Table bordered dataSource={this.state.dataSource} columns={columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
