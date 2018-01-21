@@ -90,7 +90,7 @@ class ProfitReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                rpDate:this.state.rpDate+"-01",
+                rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
                 name:this.state.name
             }
             self.getServerData(data);
@@ -105,7 +105,7 @@ class ProfitReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                rpDate:this.state.rpDate+"-01",
+                rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
                 name:this.state.name
             };
             self.getServerData(data);
@@ -220,7 +220,7 @@ class ProfitReportForm extends React.Component {
                 let data = {
                     currentPage:0,
                     limit:this.state.limit,
-                    rpDate:this.state.rpDate+"-01",
+                    rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
                     name:this.state.name
                 }
                 self.getServerData(data);
@@ -231,7 +231,7 @@ class ProfitReportForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            rpDate:this.state.rpDate+"-01",
+            rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
             name:this.state.name
         }
         const result=GetExportData('qerp.pos.rp.profit.export',data);
@@ -258,7 +258,7 @@ class ProfitReportForm extends React.Component {
             let values = {
                 currentPage:0,
                 limit:10,
-                rpDate:this.state.rpDate+"-01"
+                rpDate:this.state.rpDate?(this.state.rpDate+"-01"):""
             }
             self.getServerData(values);
         })
