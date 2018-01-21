@@ -53,13 +53,14 @@ export default {
 			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile}
 		},
   	    datasouce(state, { payload: datasouce}) {
+              console.log(datasouce)
             var totolnumber=0
             var totolamount=0
             var thispoint=0
             for(var i=0;i<datasouce.length;i++){
                 datasouce[i].key=String((Number(i)+1))
-                totolnumber=Number(totolnumber)+Number(datasouce[i].qty)
-                totolamount=Number(totolamount)+Number(datasouce[i].payPrice)
+                totolnumber=NP.plus(totolnumber,datasouce[i].qty)
+                totolamount=NP.plus(totolamount,datasouce[i].payPrice)
                 thispoint=Math.round(totolamount)
                 datasouce[i].price=datasouce[i].toCPrice
             }

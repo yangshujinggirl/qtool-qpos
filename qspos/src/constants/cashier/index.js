@@ -8,6 +8,7 @@ import EditableTable from './table';
 import Pay from './pay';
 import {GetServerData} from '../../services/services';
 import NP from 'number-precision'
+import {dataedit} from '../../utils/commonFc';
 
 class Cashierindex extends React.Component {
     state = {checkPrint:false};
@@ -126,7 +127,14 @@ class Cashierindex extends React.Component {
        const datasouce=this.props.datasouce.splice(0)
        for(var i=0;i<datasouce.length;i++){
             datasouce[i].discount=dis
-            datasouce[i].payPrice=NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10);
+            var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
+            const editpayPrice =dataedit(zeropayPrice)
+            if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+                datasouce[i].payPrice=String(parseFloat(editpayPrice)+0.01)
+            }else{
+                datasouce[i].payPrice=editpayPrice
+            }
+            // datasouce[i].payPrice=NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10);
        }
        this.props.dispatch({
             type:'cashier/datasouce',
