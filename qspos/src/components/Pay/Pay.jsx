@@ -603,11 +603,16 @@ class Pay extends React.Component {
         })
     }
     paymoney=(e)=>{
-        const payinput=this.state.paynext
-        payinput.value=e.target.value
-        this.setState({
-            paynext:payinput
-        })
+        const values=e.target.value
+		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+        const str=re.test(values)
+        if(str){
+            const payinput=this.state.paynext
+            payinput.value=values
+            this.setState({
+                paynext:payinput
+            })
+        }
     }
 
     backmoney=(e)=>{
@@ -872,92 +877,18 @@ class Pay extends React.Component {
         console.log(ValueorderNoses)
     }
     //单独输入框失去焦点
-    hindonBlur=()=>{
-        if(this.state.usetype){
-            const totolamount=this.state.totolamount
-            const moneyvalue=this.state.paynext
-            var backmoneymeths=this.state.backmoney
-
-            //判断是否是会员或者积分
-            if(moneyvalue.name=='会员卡' || moneyvalue.name=='积分'){
-                 //判断输入的值是否大于总额
-                if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
-                    moneyvalue.value=totolamount
-                    backmoneymeths='0.00'
-                    if(moneyvalue.name=='会员卡'){
-                        if(parseFloat(moneyvalue.value)>parseFloat(this.state.membermoney)){
-                            moneyvalue.value=this.state.membermoney
-                            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-                        }
-                    }
-                }else{
-                    //输入值小于总额
-                    moneyvalue.value=moneyvalue.value
-                    backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-                    if(moneyvalue.name=='会员卡'){
-                        if(parseFloat(moneyvalue.value)>parseFloat(this.state.membermoney)){
-                            moneyvalue.value=this.state.membermoney
-                            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-                        }
-                    }
-
-                }
-                if(parseFloat(moneyvalue.value)>parseFloat(totolamount)){
-                    moneyvalue.value=totolamount
-                    backmoneymeths='0.00'
-                    if(moneyvalue.name=='积分'){
-                        if(parseFloat(moneyvalue.value)>parseFloat(this.state.pointmoney)){
-                            moneyvalue.value=this.state.pointmoney
-                            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-                        }
-                    }
-                }else{
-                    //输入值小于总额
-                    moneyvalue.value=moneyvalue.value
-                    backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-                    if(moneyvalue.name=='积分'){
-                        if(parseFloat(moneyvalue.value)>parseFloat(this.state.pointmoney)){
-                            moneyvalue.value=this.state.pointmoney
-                            backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-                        }
-                    }
-                }
-
-            }else{
-                backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
-
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-        this.setState({
-            backmoney:backmoneymeths,
-            paynext:moneyvalue
-        })
-        }else{
+    hindonBlur=(e)=>{
             //退货
-            const totolamount=this.state.totolamount
+            const values=parseFloat(e.target.value)
             const moneyvalue=this.state.paynext
+            moneyvalue.value=values
+            const totolamount=this.state.totolamount
             var backmoneymeths=this.backmoneymeth(totolamount,moneyvalue.value,0)
             this.setState({
                 backmoney:backmoneymeths,
                 paynext:moneyvalue
             })
-        }
+        
         
     }
 
