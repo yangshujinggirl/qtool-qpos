@@ -41,6 +41,7 @@ class EditableTable extends React.Component {
             render: (text, record, index) => {
                 return (
                     <Input 
+                    autoComplete="off"
                         style={inputwidth} 
                         value={text} 
                         onChange={this.qtyChange.bind(this,index)}
@@ -82,6 +83,7 @@ class EditableTable extends React.Component {
             render: (text, record, index) => {
                 return (
                     <Input 
+                    autoComplete="off"
                         style={inputwidth} 
                         value={text} 
                         onChange={this.qtyChange.bind(this,index)}

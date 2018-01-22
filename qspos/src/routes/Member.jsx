@@ -157,7 +157,7 @@ class Modelform extends Component {
                                 initialValue: name,
                                 rules: [{ required: true, message: '请输入1-5位会员姓名' }],
                             })(
-                                <Input placeholder="请输入1-5位会员姓名" className='inputwidth'/>
+                                <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off"/>
                             )}
                         </FormItem>
                         <FormItem 
@@ -169,7 +169,7 @@ class Modelform extends Component {
                                 initialValue: mobile,
                                 rules: [{ required: true, message: '请输入11位手机号' }],
                             })(
-                                <Input placeholder="请输入11位手机号" className='inputwidth' />
+                                <Input placeholder="请输入11位手机号" className='inputwidth' autoComplete="off" />
                             )}
                         </FormItem>
                         <FormItem 
@@ -181,7 +181,7 @@ class Modelform extends Component {
                                 initialValue: cardNo,
                                 rules: [{ required: true, message: '请输入6位会员卡号' }],
                             })(
-                                <Input placeholder="请输入6位会员卡号" className='inputwidth' />
+                                <Input placeholder="请输入6位会员卡号" className='inputwidth'  autoComplete="off"/>
                             )}
                         </FormItem>
                         <FormItem 
@@ -229,7 +229,7 @@ class Modelform extends Component {
                                     {getFieldDecorator('amount', {
                                         initialValue: Number(amount)
                                     })(
-                                        <Input className='inputwidth teinput' disabled/>
+                                        <Input className='inputwidth teinput' disabled  autoComplete="off"/>
                                     )}
                                 </FormItem>
                         }
@@ -247,7 +247,7 @@ class Modelform extends Component {
                                     {getFieldDecorator('point', {
                                         initialValue: Number(point)
                                     })(
-                                        <Input className='inputwidth teinput' disabled/>
+                                        <Input className='inputwidth teinput' disabled  autoComplete="off"/>
                                     )}
                                 </FormItem>
                            

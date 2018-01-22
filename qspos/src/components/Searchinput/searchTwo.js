@@ -26,7 +26,7 @@ class SearchinputTwo extends React.Component {
     render(){
         return(
            <div className='clearfix'>
-        		<Input placeholder={this.props.text} className='fl f14 searchinput' onChange={this.hindchange.bind(this)} value={this.state.values} />
+        		<Input autoComplete="off" placeholder={this.props.text} className='fl f14 searchinput' onChange={this.hindchange.bind(this)} value={this.state.values} />
         		<Button type="primary" className='fl tc f14 fff point searchinputbtn' onClick={this.hindsearch.bind(this)}>搜索</Button>
 				<Button type="primary" className="exportBtn f14" onClick={this.exportData.bind(this)}>导出数据</Button>
     		</div>

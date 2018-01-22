@@ -911,17 +911,17 @@ class Pay extends React.Component {
                 >
                     <div className='clearfix'>
                         <div className='fl paylw'>
-                            <Input  addonBefore='总额' value={this.props.paytotolamount}  disabled className='paylh tr payinputsmodel'/>
+                            <Input  autoComplete="off" addonBefore='总额' value={this.props.paytotolamount}  disabled className='paylh tr payinputsmodel'/>
                             {
                                 this.state.amountlist.length>1
                                 ?<div className='clearfix inputcenter'>
-                                    <div className='payharflwl' ><Input  addonBefore={this.state.amountlist[0].name}  value={this.state.amountlist[0].value}  onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel' onChange={this.payfirstonChange.bind(this)}/></div>
-                                    <div className='payharflwr'><Input  addonBefore={this.state.amountlist[1].name} value={this.state.amountlist[1].value}  onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel' onChange={this.paysecondonChange.bind(this)}/></div>
+                                    <div className='payharflwl' ><Input  autoComplete="off" addonBefore={this.state.amountlist[0].name}  value={this.state.amountlist[0].value}  onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel' onChange={this.payfirstonChange.bind(this)}/></div>
+                                    <div className='payharflwr'><Input  autoComplete="off" addonBefore={this.state.amountlist[1].name} value={this.state.amountlist[1].value}  onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel' onChange={this.paysecondonChange.bind(this)}/></div>
                                 </div>
-                                :<div className='inputcenter'><Input  addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel' onChange={this.hindonChange.bind(this)}/></div>
+                                :<div className='inputcenter'><Input  autoComplete="off" addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel' onChange={this.hindonChange.bind(this)}/></div>
                                 
                             }
-                            <div><Input  addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
+                            <div><Input  autoComplete="off" addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
                             <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
                             <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
                             <div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>

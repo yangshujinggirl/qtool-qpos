@@ -97,15 +97,36 @@ class ReceiptReportForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
-            currentPage:page
+            currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                operateST:this.state.operateST,
+                operateET:this.state.operateET,
+                status:this.state.status!="-1"?this.state.status:"",
+                orderNo:this.state.orderNo
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
-            pageSize:pageSize,
-            current:current,
-            currentPage:1
+            limit:pageSize,
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                operateST:this.state.operateST,
+                operateET:this.state.operateET,
+                status:this.state.status!="-1"?this.state.status:"",
+                orderNo:this.state.orderNo
+            };
+            self.getServerData(data);
         })
     }
 
@@ -122,7 +143,7 @@ class ReceiptReportForm extends React.Component {
                     limit:10,
                     operateST:this.state.operateST,
                     operateET:this.state.operateET,
-                    status:this.state.status,
+                    status:this.state.status!="-1"?this.state.status:"",
                     orderNo:this.state.orderNo
                 };
                 self.getServerData(data);
@@ -190,8 +211,11 @@ class ReceiptReportForm extends React.Component {
                         label="订单状态"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
-                        {getFieldDecorator('status')(
-                            <Select allowClear>
+                        {getFieldDecorator('status', {
+                            initialValue:"-1"
+                         })(
+                            <Select>
+                                <Option value="-1">全部</Option>
                                 <Option value="10">待收货</Option>
                                 <Option value="20">收货中</Option>
                                 <Option value="30">已收货</Option>
@@ -204,7 +228,7 @@ class ReceiptReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                         {getFieldDecorator('orderNo')(
-                        <Input/>
+                        <Input autoComplete="off"/>
                         )}
                         </FormItem>
                         <FormItem>

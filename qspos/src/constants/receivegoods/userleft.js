@@ -30,7 +30,7 @@ class Operationl extends React.Component {
 	render() {
 		return(
 			<div className='clearfix mt30'>
-      			<Input placeholder='扫码或输入配货单号/快递单号'  className='fl ml30 useinputss' ref='barcode' onKeyUp={this.HindonKeyUp.bind(this)} onChange={this.hindchange.bind(this)} value={this.props.pbarcode}/>
+      			<Input  autoComplete="off" placeholder='扫码或输入配货单号/快递单号'  className='fl ml30 useinputss' ref='barcode' onKeyUp={this.HindonKeyUp.bind(this)} onChange={this.hindchange.bind(this)} value={this.props.pbarcode}/>
     		</div>
 		)
 	}

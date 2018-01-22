@@ -534,7 +534,7 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 
 	LODOP.ADD_PRINT_LINE(posi2+47,0,posi2+48,"52mm",2,0);
 
-	LODOP.ADD_PRINT_IMAGE(posi2+60,"14mm",97,26,"<img border='0' src="+imgSrc+"/>");
+	LODOP.ADD_PRINT_IMAGE(posi2+60,"14mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);//按原图比例(不变形)缩放模式
 
 	LODOP.ADD_PRINT_TEXT(posi2+90,"0mm","50mm",80,"Qtools | 有温度的进口母婴品牌");

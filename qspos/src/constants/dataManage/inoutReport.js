@@ -319,7 +319,7 @@ class InOutReportForm extends React.Component {
                                     <span>.{this.state.inventory.invSumAmount&&this.state.inventory.invSumAmount!="0"?this.state.inventory.invSumAmount.split('.')[1]:"00"}</span>
                                     </p>
                                     <span className="explain-span">
-                                        <Tooltip title="期初库存总数量*期初商品移动总成本">
+                                        <Tooltip title="期初库存总数量x期初商品移动总成本">
                                             期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                         </Tooltip>
                                     </span>
@@ -332,7 +332,7 @@ class InOutReportForm extends React.Component {
                                     <span>. {this.state.inventory.recSumAmount&&this.state.inventory.recSumAmount!="0"?this.state.inventory.recSumAmount.split('.')[1]:"00"}</span>
                                     </p>
                                     <span className="explain-span">
-                                        <Tooltip title="收货总数量*收货商品移动总成本">
+                                        <Tooltip title="收货总数量x收货商品移动总成本">
                                             收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                         </Tooltip>
                                     </span>
@@ -345,7 +345,7 @@ class InOutReportForm extends React.Component {
                                     <span>.{this.state.inventory.saleSumCostAmount&&this.state.inventory.saleSumCostAmount!="0"?this.state.inventory.saleSumCostAmount.split('.')[1]:"00"}</span>
                                     </p>
                                     <span className="explain-span">
-                                        <Tooltip title="销售总数量*销售商品移动总成本">
+                                        <Tooltip title="销售总数量x销售商品移动总成本">
                                             销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                         </Tooltip>
                                     </span>
@@ -358,7 +358,7 @@ class InOutReportForm extends React.Component {
                                     <span>.{this.state.inventory.adjustSumCostAmount&&this.state.inventory.adjustSumCostAmount!="0"?this.state.inventory.adjustSumCostAmount.split('.')[1]:"00"}</span>
                                     </p>
                                     <span className="explain-span">
-                                    <Tooltip title="损益总数量*损益商品移动总成本">
+                                    <Tooltip title="损益总数量x损益商品移动总成本">
                                         损益成本&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                     </span>
@@ -373,6 +373,7 @@ class InOutReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                             <MonthPicker 
+                            allowClear={false}
                             value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
                             format={dateFormat}
                             onChange={this.dateChange.bind(this)}/>
@@ -382,7 +383,7 @@ class InOutReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                         {getFieldDecorator('name')(
-                            <Input/>
+                            <Input  autoComplete="off"/>
                         )}
                         </FormItem>
                         <FormItem>

@@ -76,7 +76,7 @@ class DailyBillForm extends React.Component {
                 limit:this.state.limit,
                 startDate:this.state.startDate,
                 endDate:this.state.endDate,
-                type:this.state.type
+                type:this.state.type!="-1"?this.state.type:""
             }
             self.getServerData(data);
         });
@@ -92,7 +92,7 @@ class DailyBillForm extends React.Component {
                 limit:this.state.limit,
                 startDate:this.state.startDate,
                 endDate:this.state.endDate,
-                type:this.state.type
+                type:this.state.type!="-1"?this.state.type:""
             };
             self.getServerData(data);
         })
@@ -109,7 +109,7 @@ class DailyBillForm extends React.Component {
                     limit:this.state.limit,
                     startDate:this.state.startDate,
                     endDate:this.state.endDate,
-                    type:this.state.type
+                    type:this.state.type!="-1"?this.state.type:""
                 }
                 this.getServerData(data);
             })
@@ -121,7 +121,7 @@ class DailyBillForm extends React.Component {
         let data = {
             startDate:this.state.startDate,
             endDate:this.state.endDate,
-            type:this.state.type
+            type:this.state.type!="-1"?this.state.type:""
         }
         const result=GetExportData('qerp.qpos.rp.day.account.export',data);
     }
@@ -168,6 +168,18 @@ class DailyBillForm extends React.Component {
                         </li>
                         <li>
                             <div>
+                                <p style={{color:"#806EC6"}}>
+                                {this.state.rpDayAccount.orderQty?this.state.rpDayAccount.orderQty:"0"}
+                                </p>
+                                <span className="explain-span">
+                                    <Tooltip title="订单的总数量">
+                                        订单量&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
                                 <p style={{color:"#51C193"}}>
                                     <i>¥</i>
                                     {this.state.rpDayAccount.rechargeAmount&&this.state.rpDayAccount.rechargeAmount!="0"?this.state.rpDayAccount.rechargeAmount.split('.')[0]:"0"}
@@ -179,18 +191,6 @@ class DailyBillForm extends React.Component {
                                 <span className="explain-span">
                                     <Tooltip title="充值订单的总金额">
                                         充值金额&nbsp;<Icon type="exclamation-circle-o"/>
-                                    </Tooltip>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <p style={{color:"#806EC6"}}>
-                                {this.state.rpDayAccount.orderQty?this.state.rpDayAccount.orderQty:"0"}
-                                </p>
-                                <span className="explain-span">
-                                    <Tooltip title="销售订单的总数量">
-                                        订单量&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
                             </div>
@@ -216,8 +216,11 @@ class DailyBillForm extends React.Component {
                     label="订单分类"
                     labelCol={{ span: 5 }}
                     wrapperCol={{span: 10}}>
-                    {getFieldDecorator('type')(
-                        <Select allowClear>
+                    {getFieldDecorator('type', {
+                        initialValue:"-1"
+                    })(
+                        <Select>
+                            <Option value="-1">全部分类</Option>
                             <Option value="1">销售订单</Option>
                             <Option value="2">充值订单</Option>
                             <Option value="3">退货订单</Option>

@@ -47,12 +47,12 @@ class NormalLoginForm extends React.Component {
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('oldPassword', {})(
-                        <Input prefix={<Icon type="lock" />}  placeholder="输入6-16位原密码" className='f13'/>
+                        <Input prefix={<Icon type="lock" />}  placeholder="输入6-16位原密码" className='f13' autoComplete="off"/>
                     )}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('newPassword', {})(
-                        <Input prefix={<Icon type="lock" />}  placeholder="输入6-16位新密码" className='f13'/>
+                        <Input prefix={<Icon type="lock" />}  placeholder="输入6-16位新密码" className='f13' autoComplete="off"/>
                     )}
                 </FormItem>
                 <FormItem>

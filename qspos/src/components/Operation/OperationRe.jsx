@@ -355,8 +355,8 @@ class Operationls extends React.Component {
 		return(
     		<div>
 				<div className='clearfix mt30'>
-	      			<Input placeholder='订单号' className='fl ml30 useinput' ref='barcode' onKeyUp={this.HindonKeyUp.bind(this)} value={this.state.barcode} onChange={this.barcodechange.bind(this)} onKeyDown={this.onKeydown.bind(this)}/>
-	      			<Input placeholder='会员号/手机号' className='fl ml20 useinput' ref='member'  onKeyDown={this.onKeydown.bind(this)}  disabled/>
+	      			<Input placeholder='订单号'  autoComplete="off" className='fl ml30 useinput' ref='barcode' onKeyUp={this.HindonKeyUp.bind(this)} value={this.state.barcode} onChange={this.barcodechange.bind(this)} onKeyDown={this.onKeydown.bind(this)}/>
+	      			<Input placeholder='会员号/手机号'  autoComplete="off" className='fl ml20 useinput' ref='member'  onKeyDown={this.onKeydown.bind(this)}  disabled/>
 	    		</div>
 	    		<div className='clearfix mt20'>
 	    			<div className='returngood fl'><Switch checkedChildren="用户退货" unCheckedChildren="对外售卖" onChange={this.hindchange.bind(this)} checked={this.state.checked}/></div>

@@ -186,7 +186,7 @@ class Modelform extends Component {
                             {getFieldDecorator('nickname', {
                                 rules: [{ required: true, message: '请输入账号名称' }],
                             })(
-                                <Input placeholder="请输入1-5位会员姓名" className='inputwidth'/>
+                                <Input  autoComplete="off" placeholder="请输入1-5位会员姓名" className='inputwidth'/>
                             )}
                         </FormItem>
                         <FormItem 
@@ -197,7 +197,7 @@ class Modelform extends Component {
                             {getFieldDecorator('username', {
                                 rules: [{ required: true, message: '请输入11位手机号' }],
                             })(
-                                <Input placeholder="请输入11位手机号" className='inputwidth' />
+                                <Input autoComplete="off" placeholder="请输入11位手机号" className='inputwidth' />
                             )}
                         </FormItem>
                         <FormItem  label="账号权限" 

@@ -36,7 +36,7 @@ class EditableTable extends React.Component {
 			dataIndex: 'qty',
 			render: (text, record, index) => {
 				return (
-					<Input style={inputwidth} 
+					<Input  autoComplete="off" style={inputwidth} 
 						onKeyDown={this.onKeydown.bind(this)} 
 						value={text} 
 						onBlur={this.qtyblur.bind(this,index)}
@@ -50,6 +50,7 @@ class EditableTable extends React.Component {
 			render: (text, record, index) => {
 				return (
 					<Input style={inputwidth} 
+					autoComplete="off"
 						onKeyDown={this.onKeydown.bind(this)} 
 						value={text}
 						onChange={this.discountonchange.bind(this,index)}
@@ -64,6 +65,7 @@ class EditableTable extends React.Component {
 			render: (text, record, index) => {
 				return (
 					<Input style={inputwidth} 
+					autoComplete="off"
 						onKeyDown={this.onKeydown.bind(this)} 
 						value={text}
 						onChange={this.payPriceonchange.bind(this,index)}

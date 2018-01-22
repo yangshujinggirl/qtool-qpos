@@ -52,6 +52,7 @@ class EditableTable extends React.Component {
                     ?
                         (
                             <Input style={inputwidth} 
+                            autoComplete="off"
                                 onKeyDown={this.onKeydown.bind(this)} 
                                 value={this.state.dataSource[index].qty} 
                                 onBlur={this.qtyblur.bind(this,index)}
@@ -70,6 +71,7 @@ class EditableTable extends React.Component {
                     ?
                         (
                             <Input style={inputwidth} 
+                            autoComplete="off"
                                 onKeyDown={this.onKeydown.bind(this)} 
                                 value={this.state.dataSource[index].discount}
                                 onChange={this.discountonchange.bind(this,index)}
@@ -89,6 +91,7 @@ class EditableTable extends React.Component {
                     ?
                         (
                             <Input style={inputwidth} 
+                            autoComplete="off"
                                 onKeyDown={this.onKeydown.bind(this)} 
                                 value={this.state.dataSource[index].payPrice}
                                 onChange={this.payPriceonchange.bind(this,index)}
