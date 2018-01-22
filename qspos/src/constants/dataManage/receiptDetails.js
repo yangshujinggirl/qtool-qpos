@@ -127,7 +127,7 @@ class ReceiptDetailsForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="ph-info">
-                <div className="scroll-wrapper">
+                <div className="scroll-wrapper receipetDetailWrapper">
                     <div className="info-title">
                         配货单信息
                     </div>
