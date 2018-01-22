@@ -122,7 +122,7 @@ class EditableTable extends React.Component {
 		var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
 		const editpayPrice =dataedit(zeropayPrice)
 		if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-			datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
+			datasouce[index].payPrice=String(NP.plus(editpayPrice, 0.01)); 
 		}else{
 			datasouce[index].payPrice=editpayPrice
 		}
@@ -159,8 +159,9 @@ class EditableTable extends React.Component {
 		
 		var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
 		const editpayPrice =dataedit(zeropayPrice)
+		console.log(editpayPrice)
 		if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-			datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
+			datasouce[index].payPrice=String(NP.plus(editpayPrice, 0.01));  
 		}else{
 			datasouce[index].payPrice=editpayPrice
 		}
@@ -200,7 +201,7 @@ class EditableTable extends React.Component {
 			//判断是否有小数点，及小数点时候有两位，当不满足时候补零
 			const editpayPrice =dataedit(zeropayPrice)
 			if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-				datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
+				datasouce[index].payPrice=String(NP.plus(editpayPrice, 0.01))
 			}else{
 				datasouce[index].payPrice=editpayPrice
 			}
@@ -210,7 +211,7 @@ class EditableTable extends React.Component {
 			var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
 			const editpayPrice =dataedit(zeropayPrice)       
 			if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-				datasouce[index].payPrice=String(parseFloat(editpayPrice)+0.01)
+				datasouce[index].payPrice=String(NP.plus(editpayPrice, 0.01))
 			}else{
 				datasouce[index].payPrice=editpayPrice
 			}

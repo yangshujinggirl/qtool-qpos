@@ -130,7 +130,8 @@ class Cashierindex extends React.Component {
             var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
             const editpayPrice =dataedit(zeropayPrice)
             if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-                datasouce[i].payPrice=String(parseFloat(editpayPrice)+0.01)
+                datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01)); 
+                 
             }else{
                 datasouce[i].payPrice=editpayPrice
             }
