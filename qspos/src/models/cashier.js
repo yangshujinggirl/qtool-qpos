@@ -150,7 +150,7 @@ export default {
                         
                         const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
                         if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-                            objects.payPrice=String(parseFloat(editpayPrice)+0.01)
+                            objects.payPrice=String(NP.plus(editpayPrice, 0.01))
                         }else{
                             objects.payPrice=editpayPrice
                         }
@@ -177,7 +177,8 @@ export default {
                         }
                         const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
                         if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-                            datasouce[i].payPrice=String(parseFloat(editpayPrice)+0.01)
+                            datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01)); 
+                            
                         }else{
                             datasouce[i].payPrice=editpayPrice
                         }
