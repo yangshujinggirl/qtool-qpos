@@ -329,6 +329,14 @@
 .receipetDetailWrapper{
     padding: 0px 30px;
 }
+.receipt-report .operate-time .ant-form-item-label{
+    width: 125px;
+}
+
+.mbindocard .cardlist_item span{
+    width: 150px;
+    display: inline-block;
+}
 
 /*小屏样式 */
 @media screen and (max-width: 950px){
@@ -355,7 +363,7 @@
         border-top: 1px solid #d8d8d8;
     } */
     .receipt-report .operate-time .ant-form-item-label{
-        width: 95px;
+        width: 105px;
     }
     .receipt-report .ant-form-item{
         margin-bottom:10px;
@@ -411,9 +419,58 @@
          font-size: 12px;
      }
 
-     /* 基础样式的一些设置 */
-    /* .basic-setting .page-count{
-        margin-right: 30%;
-    } */
+     .mbindocardbox{
+        background: #d9d9d9;
+     }
+     .mbindocardbox .ant-card-body label{
+        font-size: 12px;
+     }
+     .mbindocardbox .ant-card-body{
+         font-size: 12px;
+     }
+     .ant-card-bordered {
+        border: 1px solid #d8d8d8;
+     }
+     .ant-card-head{
+        border-bottom: 1px solid #d8d8d8;
+     }
+     .mbindocard .cardlist_item label{
+         width: 60px;
+     }
+     .mbindocard .cardlist_item span{
+         width: 120px;
+     }
+     .cardlist .cardlist_item{
+        margin: 10px 10px;
+     }
+     .mbindocardbox{
+        padding-bottom: 10px;
+     }
+     .mbindocardbox .ant-card-body{
+         padding-top: 10px;
+         padding-bottom: 10px; 
+     }
+     .mbindocard .ant-card-head-title{
+         font-size: 12px;
+     }
+     .memberinfo-style .ant-table-bordered .ant-table-thead > tr > th{
+        border-top: 1px solid #d8d8d8;
+        font-size: 12px;
+        padding: 8px 8px;
+     }
+     .memberinfo-style .ant-table-title{
+         padding: 0px;
+     }
+     .memberinfo-style .ant-table.ant-table-bordered .ant-table-title{
+         font-size: 12px;
+         height: 30px;
+         line-height: 30px;
+         vertical-align: middle;
+     }
+     .mbindocardbox .ant-card-head{
+        height:30px;
+        font-size: 12px;
+        line-height:30px;
+     }
 }
 

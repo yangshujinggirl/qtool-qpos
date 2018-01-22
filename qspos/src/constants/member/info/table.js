@@ -125,9 +125,15 @@ class EditableTable extends React.Component {
     componentDidMount(){
         this._isMounted = true;
         if(this._isMounted){
-            this.setState({
-                windowHeight:document.body.offsetHeight-565
-            });
+            if(document.body.offsetWidth>800){
+                this.setState({
+                    windowHeight:document.body.offsetHeight-565
+                });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-440,
+                });
+            }
             window.addEventListener('resize', this.windowResize);
         }
     }
