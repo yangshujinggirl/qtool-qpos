@@ -15,8 +15,8 @@ const CollectionCreateForm = Form.create()(
 		onOk={onCreate}
 		footer={null}
 		closable={false}
-		width={515}
-		className='popmodel'
+		width={430}
+		className='popmodel discount-modal'
 	>
 		<Form layout="inline">
 		<FormItem label="请输入折扣数">

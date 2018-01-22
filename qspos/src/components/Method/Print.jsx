@@ -304,56 +304,7 @@ function printShiftInfo(userSales,urUser,printCount){
 		for(var i=0;i<moneyInfo.length;i++){
 			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)+parseFloat(moneyInfo[i].tui)).toFixed(2);
 		}
-	// var moneyInfo = [{
-	// 	"use":"微信",
-	// 	"sale":"65423.00",
-	// 	"chong":"65423.00",
-	// 	"tui":"65423.00",
-	// 	"count":"65423.00"
-	// },
-	// {
-	// 	"use":"支付宝",
-	// 	"sale":"65423.00",
-	// 	"chong":"65423.00",
-	// 	"tui":"65423.00",
-	// 	"count":"65423.00"
-	// },
-	// {
-	// 	"use":"现金",
-	// 	"sale":"65423.00",
-	// 	"chong":"65423.00",
-	// 	"tui":"65423.00",
-	// 	"count":"65423.00"
-	// },
-	// {
-	// 	"use":"银联",
-	// 	"sale":"65423.00",
-	// 	"chong":"65423.00",
-	// 	"tui":"65423.00",
-	// 	"count":"65423.00"
-	// },
-	// {
-	// 	"use":"积分抵扣",
-	// 	"sale":"65423.00",
-	// 	"chong":"65423.00",
-	// 	"tui":"6543",
-	// 	"count":"6543"
-	// },
-	// {
-	// 	"use":"会员卡消费",
-	// 	"sale":"/",
-	// 	"chong":"/",
-	// 	"tui":"/",
-	// 	"count":"/"
-	// },
-	// {
-	// 	"use":"会员卡退款",
-	// 	"sale":"/",
-	// 	"chong":"/",
-	// 	"tui":"/",
-	// 	"count":"/"
-	// }
-	// ];
+
 	var posi2 = posi+37;
 	for(var i=0;i<moneyInfo.length;i++){
 			LODOP.ADD_PRINT_TEXT(posi2,"0mm","17mm",20,moneyInfo[i].use);
@@ -415,9 +366,10 @@ function printShiftInfo(userSales,urUser,printCount){
 
 function printShiftInfoSmall(userSales,urUser,printCount){
 	let pri_count = Number(printCount);
+	let userInfoAll = userSales;
 	var title = {
 		"shopName":"店铺名称",
-		"time":"打印时间",
+		"time":"交班时间",
 		"name":"收营员",
 		"orderNum":"订单数",
 		"money":"净收款",
