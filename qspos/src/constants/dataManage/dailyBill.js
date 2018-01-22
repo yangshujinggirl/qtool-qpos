@@ -172,7 +172,7 @@ class DailyBillForm extends React.Component {
                                 {this.state.rpDayAccount.orderQty?this.state.rpDayAccount.orderQty:"0"}
                                 </p>
                                 <span className="explain-span">
-                                    <Tooltip title="销售订单的总数量">
+                                    <Tooltip title="订单的总数量">
                                         订单量&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>

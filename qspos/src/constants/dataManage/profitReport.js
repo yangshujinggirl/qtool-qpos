@@ -292,7 +292,7 @@ class ProfitReportForm extends React.Component {
                                     <span>.{this.state.rpProfit.saleCostAmount&&this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}</span>
                                     </p>
                                     <span className="explain-span">
-                                        <Tooltip title="商品成本*销售数量">
+                                        <Tooltip title="商品成本x销售数量">
                                             销售成本&nbsp;<Icon type="exclamation-circle-o"/>
                                         </Tooltip>
                                     </span>
