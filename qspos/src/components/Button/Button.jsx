@@ -10,3 +10,11 @@ export function Buttonico({text,fw}) {
   );
 }
 
+export function Buttonicos({text,fw}) {
+    return (
+        <div className={fw?'widthmethfws':'widthmeths'}>
+            {text}
+        </div>
+  );
+}
+

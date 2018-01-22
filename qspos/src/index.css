@@ -241,6 +241,13 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .widthmeth{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
   font-size: 14px;text-align:center;line-height:40px;cursor: pointer;}
 
+ 
+  .widthmethfws{width:130px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
+    font-size: 14px;text-align:center;line-height:40px;cursor: pointer;font-weight: bolder;}
+  .widthmeths{width:130px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
+    font-size: 14px;text-align:center;line-height:40px;cursor: pointer;}
+   
+
 /*Searchinput*/
 .searchinput{width:300px;height:40px;color:#B4B4B4;border-radius:3px 0 0 3px}
 .searchinputbtn{width:87px;height:40px;background: #35BAB0;line-height:40px;border-radius:0 3px 3px 0}

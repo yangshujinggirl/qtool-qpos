@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import Header from '../components/header/Header';
 import Searchinput from '../components/Searchinput/Searchinput';
-import {LocalizedModal,Buttonico} from '../components/Button/Button';
+import {LocalizedModal,Buttonico,Buttonicos} from '../components/Button/Button';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload} from 'antd';
 import { Link } from 'dva/router'
 import {GetServerData} from '../services/services';
@@ -103,7 +103,7 @@ class Searchcomponent extends React.Component {
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载盘点模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'/></div>
-                    <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonico text='查看盘点损益日志'/></Link></div>
+                    <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonicos text='查看盘点损益日志'/></Link></div>
 	      		</div>
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
           			<div className='searchselect clearfix'>
