@@ -301,9 +301,10 @@ function printShiftInfo(userSales,urUser,printCount){
 
 		moneyInfo[6]["chong"] = userInfoAll.userShift[2].cardChargeAmount?userInfoAll.userShift[2].cardChargeAmount:"/";
 
-		for(var i=0;i<moneyInfo.length;i++){
-			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)+parseFloat(moneyInfo[i].tui)).toFixed(2);
+		for(var i=0;i<moneyInfo.length-1;i++){
+			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)-parseFloat(moneyInfo[i].tui)).toFixed(2);
 		}
+		moneyInfo[6].count = (parseFloat(moneyInfo[6].sale) +parseFloat(moneyInfo[6].chong)+parseFloat(moneyInfo[6].tui)).toFixed(2);
 
 	var posi2 = posi+37;
 	for(var i=0;i<moneyInfo.length;i++){
@@ -487,9 +488,10 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 
 		moneyInfo[6]["chong"] = userInfoAll.userShift[2].cardChargeAmount?userInfoAll.userShift[2].cardChargeAmount:"/";
 
-		for(var i=0;i<moneyInfo.length;i++){
-			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)+parseFloat(moneyInfo[i].tui)).toFixed(2);
+		for(var i=0;i<moneyInfo.length-1;i++){
+			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)-parseFloat(moneyInfo[i].tui)).toFixed(2);
 		}
+		moneyInfo[6].count = (parseFloat(moneyInfo[6].sale) +parseFloat(moneyInfo[6].chong)+parseFloat(moneyInfo[6].tui)).toFixed(2);
 	var posi2 = posi+35;
 	for(var i=0;i<moneyInfo.length;i++){
 			 LODOP.ADD_PRINT_TEXT(posi2,"0mm","12mm",20,moneyInfo[i].use);
@@ -1207,7 +1209,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
 
-	LODOP.ADD_PRINT_IMAGE(0,"15mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
+	LODOP.ADD_PRINT_IMAGE(0,"14mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
 	LODOP.ADD_PRINT_TEXT(40,0,"50mm",20,printName);

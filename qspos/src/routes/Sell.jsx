@@ -159,9 +159,9 @@ class Slidecountsell extends React.Component {
                      //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
                         // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,true)
-                        getSaleOrderInfo(this.props.saleOrderAll,"80",json.config.submitPrintNum);
+                        getSaleOrderInfo(this.props.saleOrderAll,"80","1");
                      }else{
-                        getSaleOrderInfo(this.props.saleOrderAll,"58",json.config.submitPrintNum);
+                        getSaleOrderInfo(this.props.saleOrderAll,"58","1");
                         // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,false)
                      } 
                 //   }
@@ -270,10 +270,10 @@ class Slidecountback extends React.Component {
                 //   if(json.config.submitPrint=='1'){
                      //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
-                        getReturnOrderInfo(this.props.returnOrderAll,"80",json.config.submitPrintNum);
+                        getReturnOrderInfo(this.props.returnOrderAll,"80","1");
                         // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
                      }else{
-                        getReturnOrderInfo(this.props.returnOrderAll,"58",json.config.submitPrintNum);
+                        getReturnOrderInfo(this.props.returnOrderAll,"58","1");
                         // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
                      } 
                 //   }
@@ -337,10 +337,10 @@ class Slidecountcz extends React.Component {
                 // if(json.config.rechargePrint=='1'){
                     //判断是打印大的还是小的
                     if(json.config.paperSize=='80'){
-                        getRechargeOrderInfo(this.props.rechargeOrderAll,"80",json.config.rechargePrintNum);
+                        getRechargeOrderInfo(this.props.rechargeOrderAll,"80","1");
                         // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,true)
                     }else{
-                        getRechargeOrderInfo(this.props.rechargeOrderAll,"58",json.config.rechargePrintNum);
+                        getRechargeOrderInfo(this.props.rechargeOrderAll,"58","1");
                         // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,false)
                     }
                 // }
