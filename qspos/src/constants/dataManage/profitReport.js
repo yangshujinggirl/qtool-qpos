@@ -330,7 +330,7 @@ class ProfitReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                         {getFieldDecorator('name')(
-                            <Input autoComplete="off"/>
+                            <Input autoComplete="off" placeholder="请输入商品名称"/>
                         )}
                         </FormItem>
                         <FormItem>
