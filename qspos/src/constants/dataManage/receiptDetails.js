@@ -153,7 +153,7 @@ class ReceiptDetailsForm extends React.Component {
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
                         {getFieldDecorator('keywords')(
-                            <Input/>
+                            <Input autoComplete="off"/>
                         )}
                         </FormItem>
                         <FormItem

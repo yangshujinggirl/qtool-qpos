@@ -147,7 +147,7 @@ class InventorydiffLogIndexForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                         {getFieldDecorator('name')(
-                            <Input />
+                            <Input autoComplete="off" />
                         )}
                         </FormItem>
                         <FormItem>

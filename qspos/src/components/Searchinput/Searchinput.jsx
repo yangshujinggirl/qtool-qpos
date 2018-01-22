@@ -19,7 +19,7 @@ class Searchinput extends React.Component {
     render(){
         return(
            <div className='clearfix'>
-        		<Input placeholder={this.props.text} className='fl f14 searchinput' style={{marginRight:'5px'}} onChange={this.hindchange.bind(this)} value={this.state.values} />
+        		<Input  autoComplete="off" placeholder={this.props.text} className='fl f14 searchinput' style={{marginRight:'5px'}} onChange={this.hindchange.bind(this)} value={this.state.values} />
         		<div className='fl tc f14 fff point searchinputbtn' onClick={this.hindsearch.bind(this)}>搜索</div>
     		</div>
         )

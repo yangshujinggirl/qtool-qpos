@@ -228,7 +228,7 @@ class ReceiptReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                         {getFieldDecorator('orderNo')(
-                        <Input/>
+                        <Input autoComplete="off"/>
                         )}
                         </FormItem>
                         <FormItem>

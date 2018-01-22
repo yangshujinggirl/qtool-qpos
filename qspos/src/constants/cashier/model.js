@@ -181,7 +181,7 @@ class Modales extends React.Component {
                     <li onClick={this.typelist.bind(this,3)}><Button className={this.state.typeclick3?'rechargetype':'rechargetypeoff'}>银联</Button></li>
                     <li onClick={this.typelist.bind(this,4)}><Button className={this.state.typeclick4?'rechargetype':'rechargetypeoff'}>现金</Button></li>
                 </ul>
-                <div className='w clearfix w310'><div className='fl w310l'>充值金额</div> <Input className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/></div>
+                <div className='w clearfix w310'><div className='fl w310l'>充值金额</div> <Input  autoComplete="off" className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/></div>
             </Modal>
       </div>
     );

@@ -23,7 +23,7 @@ const CollectionCreateForm = Form.create()(
 			{getFieldDecorator('title', {
 			rules: [{ required: true, message: '请输入最多一位小数的折扣数',pattern:/^([1-9][0-9]*)+(.[0-9]{1,1})?$/ }],
 			})(
-			<Input  style={{width:'200px'}} onKeyUp={hindPress}/>
+			<Input  autoComplete="off" style={{width:'200px'}} onKeyUp={hindPress}/>
 			)}
 		</FormItem>
 		</Form>
