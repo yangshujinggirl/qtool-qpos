@@ -15,4 +15,11 @@
     .goods-v15-style .searchinput{
         width: 160px;
     }
+    /* 销售管理退货管理 */
+    .tuihuo-infolist li:first-child span.one-tuihuo{
+        display: block;
+    }
+    .tuihuo-infolist li.info-tuihuo p:last-child{
+        margin-bottom: 10px;
+    }
 }

@@ -134,7 +134,6 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 }
 .ant-tabs.ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane, .ant-tabs.ant-tabs-editable-card .ant-tabs-content > .ant-tabs-tabpane{
   width: 100%;
-    height: 100%;
 }
 .sellinfolist-wrapper{
   width: 100%;
@@ -990,16 +989,16 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .sellinfolist li{padding:0px 30px 0px 20px;border-bottom: 1px solid #d8d8d8;}
 .sellinfolist li p{font-size: 12px;color: #1A1D00;margin-top: 10px;display: flex;justify-content:space-between}
 .sellinfolist li span{font-size: 12px;color: #74777F;}
-.slidecountcztop{padding:20px 30px 10px 20px;border-bottom: 1px solid #E7E8EC;}
-.slidecountcztop p{font-size: 14px;color: #1A1D00;margin-bottom: 10px;display: flex;justify-content:space-between}
-.slidecountcztop span{font-size: 14px;color: #74777F;}
-.slidecountczbo{padding:20px 30px 10px 20px;}
-.slidecountczbo p{font-size: 14px;color: #1A1D00;margin-bottom: 10px;}
-.slidecountczbo span{font-size: 14px;color: #74777F;}
+.slidecountcztop{padding:10px 20px 0px 10px;border-bottom: 1px solid #d8d8d8;}
+.slidecountcztop p{font-size: 12px;color: #1A1D00;margin-bottom: 10px;display: flex;justify-content:space-between}
+.slidecountcztop span{font-size: 12px;color: #74777F;}
+.slidecountczbo{padding:10px 10px 10px 10px;}
+.slidecountczbo p{font-size: 13px;color: #1A1D00;margin-bottom: 10px;}
+.slidecountczbo span{font-size: 13px;color: #74777F;}
 .searchqery{margin:20px 0;}
 .slidetitle .p1{margin-top:5px}
-.slidetitle .p2{ font-size:18px;color: #384162}
-.slidetitle .p3{font-size: 18px;color:#74777F;margin-right:30px}
+.slidetitle .p2{ font-size:16px;color: #384162}
+.slidetitle .p3{font-size: 16px;color:#74777F;margin-right:30px}
 /*会员管理*/
 .birthday .ant-table-tbody > tr{border: 1px solid #d8d8d8;display: inline-block;border-radius: 3px;padding:0;margin-bottom: 0px;width: auto;height: auto;}
 .birthday .ant-table-tbody > tr>td{height: 41px;display: inline-block;padding:0;}

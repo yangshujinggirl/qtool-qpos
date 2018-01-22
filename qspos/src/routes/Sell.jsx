@@ -286,15 +286,15 @@ class Slidecountback extends React.Component {
     render(){
         return(
             <div className="sellinfolist-wrapper">
-                <ul className='sellinfolist'>
+                <ul className='sellinfolist tuihuo-infolist'>
                     <li>
-                        <p><div><span>退货订单</span>：{this.props.odReturn.returnNo} </div><div> <span>销售订单</span>：{this.props.odReturn.orderNo}</div></p>
-                        <p><div><span>退货时间</span>：{this.props.odReturn.createTime}</div><div> <span>退货员</span>：{this.props.odReturn.nickname}</div></p>
+                        <p><div><span className='one-tuihuo'>退货订单：</span>{this.props.odReturn.returnNo} </div><div><span className='one-tuihuo'>销售订单：</span>{this.props.odReturn.orderNo}</div></p>
+                        <p><div><span>退货时间：</span>{this.props.odReturn.createTime}</div><div> <span>退货员：</span>{this.props.odReturn.nickname}</div></p>
                     </li>
                     {
                         this.props.returnOrderDetails.map((item,index)=>{
                             return (
-                                    <li key={index}>
+                                    <li key={index} className='info-tuihuo'>
                                         <p><div><span>商品名称</span>：{item.name}</div> </p>
                                         <p><div><span>商品条码</span>： {item.code}</div><div><span>规格</span>：{item.displayName}</div></p>
                                         <p><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price} </div><div><span>折后价</span>：{item.refundPrice}</div><div><span>实退价</span>：{item.payPrice}</div></p>
