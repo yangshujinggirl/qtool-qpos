@@ -318,6 +318,14 @@
     background: white;
 }
 
+/* seletc样式修改 */
+.ant-select-arrow{
+    right: 3px;
+}
+.discount-modal .ant-form{
+    text-align: center;
+}
+
 /*小屏样式 */
 @media screen and (max-width: 950px){
     /* table */
