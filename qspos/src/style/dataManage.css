@@ -36,6 +36,7 @@
     font-size: 14px;
     color: #74777F;
     line-height: 14px;
+    cursor: default;
 }
 .top-data ul li div p i{
     font-size: 14px;
@@ -287,6 +288,7 @@
 .add-norecord-img .ant-table-placeholder{
     display: block;
     border: none;
+    padding-top: 50px;
 }
 
 .add-norecord-img .ant-table-placeholder span i{
@@ -319,6 +321,7 @@
 /* seletc样式修改 */
 .ant-select-arrow{
     right: 3px;
+    margin-top:-8px;
 }
 .discount-modal .ant-form{
     text-align: center;

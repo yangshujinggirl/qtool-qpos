@@ -55,7 +55,7 @@ class ReceiptDetailsForm extends React.Component {
             dataIndex: 'consignee',
         },{
             title: '最后操作时间',
-            dataIndex: 'updateTime',
+            dataIndex: 'updateTime'
         }];
     }
 
@@ -90,6 +90,12 @@ class ReceiptDetailsForm extends React.Component {
                 let dataList = json.details;
                 for(let i=0;i<dataList.length;i++){
                     dataList[i].key = i+1;
+                    if(!dataList[i].updateTime){
+                        dataList[i].updateTime="/";
+                    };
+                    if(!dataList[i].consignee){
+                        dataList[i].consignee="/";
+                    };
                 }
                 this.setState({
                     dataSource:dataList,

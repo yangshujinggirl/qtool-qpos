@@ -210,19 +210,31 @@ class InventorydiffLogIndexForm extends React.Component {
     //获取当前时间
      getNowFormatDate = () =>{
         const self = this;
-        var date = new Date();
-        var seperator1 = "-";
-        var month = date.getMonth() + 1;
-        var strDate = date.getDate();
+        let date = new Date();
+        let seperator1 = "-";
+        let month = date.getMonth() + 1;
+        let strDate = date.getDate();
         if (month >= 1 && month <= 9) {
             month = "0" + month;
         }
         if (strDate >= 0 && strDate <= 9) {
             strDate = "0" + strDate;
         }
-        var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+        let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+
+        let date2 = new Date(date);
+        date2.setDate(date.getDate() - 30);
+        let month1 = date2.getMonth() + 1;
+        let strDate1 = date2.getDate();
+        if (month1 >= 1 && month1 <= 9) {
+            month1 = "0" + month;
+        }
+        if (strDate1 >= 0 && strDate1 <= 9) {
+            strDate1 = "0" + strDate1;
+        }
+        var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
         this.setState({
-            adjustTimeStart:currentdate,
+            adjustTimeStart:currentdate1,
             adjustTimeEnd:currentdate
         },function(){
             let values = {

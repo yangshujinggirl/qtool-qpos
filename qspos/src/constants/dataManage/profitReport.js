@@ -320,6 +320,7 @@ class ProfitReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                             <MonthPicker 
+                            allowClear={false}
                             value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
                             format={dateFormat}
                             onChange={this.dateChange.bind(this)}/>
