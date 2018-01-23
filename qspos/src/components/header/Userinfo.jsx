@@ -100,7 +100,7 @@ class Dropdownmenu extends React.Component {
             }) 
         }
         if(key==2){
-            window.open('../../static/Qtools POS使用帮助.pdf')
+            window.open('../../static/help.pdf')
        
         }
         if(key==3){
