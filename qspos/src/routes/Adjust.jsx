@@ -231,7 +231,7 @@ class EditableTable extends React.Component {
               width:"8%",
       		render: (text, record, index) => {
         	return (
-                    <Input style={inputwidth} onChange={this.hindchange.bind(this,index)} 
+                    <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)} 
                             onBlur={this.hindBlur.bind(this)}
                             value={this.state.dataSource[((Number(this.state.page)-1)*10)+index].adjustQty} 
                             autoComplete="off"

@@ -95,7 +95,7 @@ class InOutReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                rpDate:this.state.rpDate,
+                time:this.state.rpDate,
                 name:this.state.name
             }
             self.getServerData(data);
@@ -110,7 +110,7 @@ class InOutReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                rpDate:this.state.rpDate,
+                time:this.state.rpDate,
                 name:this.state.name
             };
             self.getServerData(data);
@@ -163,7 +163,7 @@ class InOutReportForm extends React.Component {
                 let data = {
                     currentPage:0,
                     limit:this.state.limit,
-                    rpDate:this.state.rpDate,
+                    time:this.state.rpDate,
                     name:this.state.name
                 }
                 self.getServerData(data);
@@ -210,7 +210,8 @@ class InOutReportForm extends React.Component {
             let values = {
                 currentPage:0,
                 limit:10,
-                rpDate:this.state.rpDate
+                time:this.state.rpDate,
+                name:this.state.name
             }
             self.getServerData(values);
         })
