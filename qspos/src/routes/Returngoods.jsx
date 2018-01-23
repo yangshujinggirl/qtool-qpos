@@ -424,10 +424,12 @@ class EditableTable extends React.Component {
         var payPriceda=parseFloat(payPricedata.toFixed(2))//取小数后两位
         var payPrice;
         if(payPricedata-payPriceda>0){
-            payPrice=String(NP.plus(payPriceda, 0.01)); 
+            payPrice=NP.plus(payPriceda, 0.01); 
+            console.log(payPrice)
             payPrice=payPrice.toFixed(2)
         }else{
             payPrice=payPriceda
+            console.log(payPrice)
             payPrice=payPrice.toFixed(2)
         }
         return payPrice  
