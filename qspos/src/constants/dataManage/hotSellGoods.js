@@ -102,13 +102,13 @@ class HotSellGoodsForm extends React.Component {
                     for(let i=0;i<dataList.length;i++){
                         dataList[i].key = i+1;
                     }
-                    this.setState({
-                        dataSource:dataList,
-                        total:Number(json.total),
-                        currentPage:Number(json.currentPage),
-                        limit:Number(json.limit)
-                    });
                 }
+                this.setState({
+                    dataSource:dataList,
+                    total:Number(json.total),
+                    currentPage:Number(json.currentPage),
+                    limit:Number(json.limit)
+                });
             }else{  
                 message.error(json.message); 
             }
