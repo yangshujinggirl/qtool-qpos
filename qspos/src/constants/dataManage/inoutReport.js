@@ -60,6 +60,12 @@ class InOutReportForm extends React.Component {
             title: '销售成本',
             dataIndex: 'sumCostAmount',
         },{
+            title: '退货数量',
+            dataIndex: 'returnQty',
+        },{
+            title: '退货成本',
+            dataIndex: 'returnSumAmount',
+        },{
             title: '损益数量',
             dataIndex: 'adjustQty',
         },{
@@ -320,7 +326,7 @@ class InOutReportForm extends React.Component {
                         </div>
                     </Form>
                     <CommonTable 
-                        scroll={1800}
+                        scroll={'130%'}
                         columns={this.columns} 
                         dataSource={this.state.dataSource}
                         pagination={false}
