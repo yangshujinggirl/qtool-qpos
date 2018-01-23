@@ -673,6 +673,12 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
     width: 100%;
     height: 100%;
   }
+  .adjust-inputwidth{
+    width: 90px;
+    height: 30px;
+    border:1px solid #E7E8EC;
+    background: #FFF;
+  }
 
 /* v20180123 */
 @media screen and (min-width: 820px) {
@@ -840,6 +846,13 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 /* 样式v20180123 */
 .ant-tabs.ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane, .ant-tabs.ant-tabs-editable-card .ant-tabs-content > .ant-tabs-tabpane{
   width: 100%;
+}
+.adjust-inputwidth{
+  width: 60px;
+  height: 30px;
+  border:1px solid #E7E8EC;
+  background: #FFF;
+  font-size: 14px;
 }
 /*operation*/
 
