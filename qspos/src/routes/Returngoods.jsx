@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,message,Checkbox} from 'antd';
 import Operation from '../components/Operation/Operation.jsx';
 import Header from '../components/header/Header';
 import Pay from '../components/Pay/Pay';
+import NP from 'number-precision';
 import {LocalizedModal,Buttonico} from '../components/Button/Button';
 import {GetServerData} from '../services/services';
 import OperationRe from '../components/Operation/OperationRe.jsx';

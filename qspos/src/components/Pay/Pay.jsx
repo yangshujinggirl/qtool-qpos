@@ -2,6 +2,7 @@ import React from 'react';
 import { Modal, Button ,Input,message,Checkbox} from 'antd';
 import { connect } from 'dva';
 import ReactDOM from 'react-dom';
+import NP from 'number-precision';
 import {GetServerData} from '../../services/services';
 import {GetLodop} from '../Method/Print.jsx';
 import {getSaleOrderInfo} from '../../components/Method/Print';
