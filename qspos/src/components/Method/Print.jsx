@@ -271,7 +271,7 @@ function printShiftInfo(userSales,urUser,printCount){
 	
 		moneyInfo[5]["sale"] = userInfoAll.userShift[0].cardConsumeAmount?userInfoAll.userShift[0].cardConsumeAmount:"/";
 	
-		moneyInfo[6]["sale"] = userInfoAll.userShift[0].cardChargeAmount?userInfoAll.userShift[0].cardChargeAmount:"/";
+		moneyInfo[6]["sale"] = "/";
 
 		moneyInfo[0]["tui"] = userInfoAll.userShift[1].wechatAmount?userInfoAll.userShift[1].wechatAmount:"/";
 
@@ -283,9 +283,9 @@ function printShiftInfo(userSales,urUser,printCount){
 
 		moneyInfo[4]["tui"] = userInfoAll.userShift[1].pointAmount?userInfoAll.userShift[1].pointAmount:"/";
 
-		moneyInfo[5]["tui"] = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
+		moneyInfo[5]["tui"] = "/";
 
-		moneyInfo[6]["tui"] = userInfoAll.userShift[1].cardChargeAmount?userInfoAll.userShift[1].cardChargeAmount:"/";
+		moneyInfo[6]["tui"] = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
 
 		moneyInfo[0]["chong"] = userInfoAll.userShift[2].wechatAmount?userInfoAll.userShift[2].wechatAmount:"/";
 
@@ -297,14 +297,15 @@ function printShiftInfo(userSales,urUser,printCount){
 	
 		moneyInfo[4]["chong"] = userInfoAll.userShift[2].pointAmount?userInfoAll.userShift[2].pointAmount:"/";
 
-		moneyInfo[5]["chong"] = userInfoAll.userShift[2].cardConsumeAmount?userInfoAll.userShift[2].cardConsumeAmount:"/";
+		moneyInfo[5]["chong"] = "/";
 
-		moneyInfo[6]["chong"] = userInfoAll.userShift[2].cardChargeAmount?userInfoAll.userShift[2].cardChargeAmount:"/";
+		moneyInfo[6]["chong"] = "/";
 
-		for(var i=0;i<moneyInfo.length-1;i++){
+		for(var i=0;i<moneyInfo.length-2;i++){
 			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)-parseFloat(moneyInfo[i].tui)).toFixed(2);
 		}
-		moneyInfo[6].count = (parseFloat(moneyInfo[6].sale) +parseFloat(moneyInfo[6].chong)+parseFloat(moneyInfo[6].tui)).toFixed(2);
+		moneyInfo[5].count = (parseFloat(moneyInfo[5].sale)).toFixed(2);
+		moneyInfo[6].count = (parseFloat(moneyInfo[6].tui)).toFixed(2);
 
 	var posi2 = posi+37;
 	for(var i=0;i<moneyInfo.length;i++){
@@ -458,7 +459,7 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 	
 		moneyInfo[5]["sale"] = userInfoAll.userShift[0].cardConsumeAmount?userInfoAll.userShift[0].cardConsumeAmount:"/";
 	
-		moneyInfo[6]["sale"] = userInfoAll.userShift[0].cardChargeAmount?userInfoAll.userShift[0].cardChargeAmount:"/";
+		moneyInfo[6]["sale"] = "/";
 
 		moneyInfo[0]["tui"] = userInfoAll.userShift[1].wechatAmount?userInfoAll.userShift[1].wechatAmount:"/";
 
@@ -470,9 +471,9 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 
 		moneyInfo[4]["tui"] = userInfoAll.userShift[1].pointAmount?userInfoAll.userShift[1].pointAmount:"/";
 
-		moneyInfo[5]["tui"] = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
+		moneyInfo[5]["tui"] = "/";
 
-		moneyInfo[6]["tui"] = userInfoAll.userShift[1].cardChargeAmount?userInfoAll.userShift[1].cardChargeAmount:"/";
+		moneyInfo[6]["tui"] = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
 
 		moneyInfo[0]["chong"] = userInfoAll.userShift[2].wechatAmount?userInfoAll.userShift[2].wechatAmount:"/";
 
@@ -484,14 +485,15 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 	
 		moneyInfo[4]["chong"] = userInfoAll.userShift[2].pointAmount?userInfoAll.userShift[2].pointAmount:"/";
 
-		moneyInfo[5]["chong"] = userInfoAll.userShift[2].cardConsumeAmount?userInfoAll.userShift[2].cardConsumeAmount:"/";
+		moneyInfo[5]["chong"] = "/";
 
-		moneyInfo[6]["chong"] = userInfoAll.userShift[2].cardChargeAmount?userInfoAll.userShift[2].cardChargeAmount:"/";
+		moneyInfo[6]["chong"] = "/";
 
-		for(var i=0;i<moneyInfo.length-1;i++){
+		for(var i=0;i<moneyInfo.length-2;i++){
 			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)-parseFloat(moneyInfo[i].tui)).toFixed(2);
 		}
-		moneyInfo[6].count = (parseFloat(moneyInfo[6].sale) +parseFloat(moneyInfo[6].chong)+parseFloat(moneyInfo[6].tui)).toFixed(2);
+		moneyInfo[5].count = (parseFloat(moneyInfo[5].sale)).toFixed(2);
+		moneyInfo[6].count = (parseFloat(moneyInfo[6].tui)).toFixed(2);
 	var posi2 = posi+35;
 	for(var i=0;i<moneyInfo.length;i++){
 			 LODOP.ADD_PRINT_TEXT(posi2,"0mm","12mm",20,moneyInfo[i].use);
