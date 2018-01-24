@@ -21,7 +21,7 @@ class InOutReportForm extends React.Component {
             invAmountSum:"",//#String 期初库存总成本
             receiptAmountSum:"",//#String 收货总成本
             saleAmountSum:"",//#String 销售总成本
-            adjustAmountSum:"",//#String 损益总成本
+            adjustPdCheckAmountSum:"",//#String 损益总成本
             total:0,
             currentPage:0,
             limit:10,
@@ -137,7 +137,7 @@ class InOutReportForm extends React.Component {
                 let invAmountSum = json.invAmountSum;
                 let receiptAmountSum = json.receiptAmountSum;
                 let saleAmountSum = json.saleAmountSum;
-                let adjustAmountSum = json.adjustAmountSum;
+                let adjustPdCheckAmountSum = json.adjustPdCheckAmountSum;
                 for(let i=0;i<dataList.length;i++){
                     dataList[i].key = i+1;
                 };
@@ -146,7 +146,7 @@ class InOutReportForm extends React.Component {
                     invAmountSum:invAmountSum,//#String 期初库存总成本
                     receiptAmountSum:receiptAmountSum,//#String 收货总成本
                     saleAmountSum:saleAmountSum,//#String 销售总成本
-                    adjustAmountSum:adjustAmountSum,//#String 损益总成本
+                    adjustPdCheckAmountSum:adjustPdCheckAmountSum,//#String 损益总成本
 
                     dataSource:dataList,
                     total:Number(json.total),
@@ -286,8 +286,8 @@ class InOutReportForm extends React.Component {
                             <li>
                                 <div>
                                     <p style={{color:"#F24343"}}><i>¥</i>
-                                    {this.state.adjustAmountSum&&this.state.adjustAmountSum!="0"?this.state.adjustAmountSum.split('.')[0]:"0"}
-                                    <span>.{this.state.adjustAmountSum&&this.state.adjustAmountSum!="0"?this.state.adjustAmountSum.split('.')[1]:"00"}</span>
+                                    {this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?this.state.adjustPdCheckAmountSum.split('.')[0]:"0"}
+                                    <span>.{this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?this.state.adjustPdCheckAmountSum.split('.')[1]:"00"}</span>
                                     </p>
                                     <span className="explain-span">
                                     <Tooltip title="损益总数量x损益商品移动总成本">
@@ -321,9 +321,9 @@ class InOutReportForm extends React.Component {
                         <FormItem>
                             <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
                         </FormItem>
-                        <div className="export-div">
+                        {/* <div className="export-div">
                             <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
-                        </div>
+                        </div> */}
                     </Form>
                     <CommonTable 
                         scroll={'130%'}
