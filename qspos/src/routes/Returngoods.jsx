@@ -198,6 +198,7 @@ class EditableTable extends React.Component {
          const isdataSource=this.state.isdataSource
          console.log(isdataSource)
          if(isdataSource.length>0){
+
            
            
                 if(this.state.ismbCard){
@@ -697,6 +698,25 @@ class Returngoods extends React.Component {
     	updateintegertotalamount(messages)
     }
     showModals=(type,messages)=>{
+
+        //判断系统默认选择是否打印
+        const result=GetServerData('qerp.pos.sy.config.info')
+        result.then((res) => {
+            return res;
+            }).then((json) => {
+            if(json.code == "0"){
+                if(json.config.submitPrint=='1'){
+                    this.setState({
+                        checkPrint:true
+                    })
+                }else{
+                    this.setState({
+                        checkPrint:false
+                    })
+                }
+            }
+        })
+
         const showModal=this.refs.pay.showModal
         showModal(type,messages)
     }

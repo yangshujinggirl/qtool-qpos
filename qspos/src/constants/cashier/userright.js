@@ -1,9 +1,28 @@
 import { connect } from 'dva';
 import { message} from 'antd';
+import {GetServerData} from '../../services/services';
 
 class Operationr extends React.Component {
 	hindclick=()=>{
         if(Number(this.props.totolnumber)>0 && parseFloat(this.props.totolamount)>0){
+            const result=GetServerData('qerp.pos.sy.config.info')
+            result.then((res) => {
+                return res;
+                }).then((json) => {
+                if(json.code == "0"){
+                    if(json.config.submitPrint=='1'){
+                        this.props.dispatch({
+                            type:'cashier/changeCheckPrint',
+                            payload:true
+                        })
+                    }else{
+                        this.props.dispatch({
+                            type:'cashier/changeCheckPrint',
+                            payload:false
+                        })
+                    }
+                }
+            })
             this.props.meth1.initModel()
         }else{
             message.error('数量为0，不能结算')
