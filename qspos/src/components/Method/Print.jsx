@@ -574,9 +574,9 @@ function printRechargeOrder(message,printCount){
 		"vipAfterMoney":"充值后余额"
 	};
 	var text = {
-		"vipName":info.mbCard.name,
-		"vipCardNo":info.mbCard.cardNo,
-		"vipMobile":info.mbCard.mobile,
+		"vipName":info.mbCard.printName,
+		"vipCardNo":info.mbCard.printCardNo,
+		"vipMobile":info.mbCard.printMobile,
 		"vipBeforeMoney":info.cardMoneyChargeInfo.beforeAmount,
 		"money":info.cardMoneyChargeInfo.amount,
 		"vipAfterMoney":info.cardMoneyChargeInfo.afterAmount
@@ -684,9 +684,9 @@ function printRechargeOrderSmall(message,printCount){
 		"vipAfterMoney":"充值后余额"
 	};
 	var text = {
-		"vipName":info.mbCard.name,
-		"vipCardNo":info.mbCard.cardNo,
-		"vipMobile":info.mbCard.mobile,
+		"vipName":info.mbCard.printName,
+		"vipCardNo":info.mbCard.printCardNo,
+		"vipMobile":info.mbCard.printMobile,
 		"vipBeforeMoney":info.cardMoneyChargeInfo.beforeAmount,
 		"money":info.cardMoneyChargeInfo.amount,
 		"vipAfterMoney":info.cardMoneyChargeInfo.afterAmount
