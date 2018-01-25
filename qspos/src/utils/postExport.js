@@ -45,6 +45,7 @@ export function postExport(url, paramsObj) {
                 var a = document.createElement('a');
                 a.href = url;
                 a.download = filenames;
+                document.body.appendChild(a);
                 a.click();                  
             })
         }
