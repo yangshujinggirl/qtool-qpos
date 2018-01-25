@@ -38,10 +38,14 @@ class DataManage extends React.Component {
     }
 
     render() {
+        const role = sessionStorage.getItem('role');
         return (
             <div>
                 <Header type={false} color={true}/>
                 <div className='counters data-manage'>
+                {
+                    role != 3
+                    ?
                     <Tabs type="card" tabBarStyle={{height:'54px'}} 
                             defaultActiveKey={this.props.initKey=="4"?"4":"1"}
                             onTabClick={this.tabChange.bind(this)}>
@@ -64,6 +68,22 @@ class DataManage extends React.Component {
                             {this.state.key == 6 && <InoutReport/>} 
                         </TabPane>
                     </Tabs>
+                    :
+                    <Tabs type="card" tabBarStyle={{height:'54px'}} 
+                            defaultActiveKey={this.props.initKey=="4"?"4":"1"}
+                            onTabClick={this.tabChange.bind(this)}>
+                        <TabPane tab="每日对账单" key="1">
+                           {this.state.key == 1 && <DailyBill/>} 
+                        </TabPane>
+                        <TabPane tab="热销商品" key="2">
+                            {this.state.key == 2 && <HotSellGoods/>} 
+                        </TabPane>
+                        <TabPane tab="店员销售" key="3">
+                            {this.state.key == 3 && <ClerkSale/>} 
+                        </TabPane>
+                    </Tabs>
+                }
+                
                 </div>
             </div>
         );
