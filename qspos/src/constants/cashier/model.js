@@ -1,7 +1,9 @@
 import { Modal, Button ,Input,message} from 'antd'
 import { connect } from 'dva';
 import {GetServerData} from '../../services/services';
+import {printRechargeOrder} from '../../components/Method/Method'
 import {getRechargeOrderInfo} from '../../components/Method/Print';
+
 
 class Modales extends React.Component {
     constructor(props) {
@@ -15,7 +17,9 @@ class Modales extends React.Component {
         typeclick3:false,
         typeclick4:false,
         reamount:'',
-        type:1
+        type:1,
+        loding:false
+
    }
   showModal = () => {
     //判断有没有填写会员信息
@@ -48,47 +52,8 @@ class Modales extends React.Component {
                 message.success('充值成功',1)
                 const mbCardMoneyChargeIds=json.mbCardMoneyChargeId;
                 const chargeNos=json.chargeNo;
-                if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-                //判断打印
-                    const result=GetServerData('qerp.pos.sy.config.info')
-                    result.then((res) => {
-                        return res;
-                    }).then((json) => {
-                        if(json.code == "0"){
-                            if(json.config.rechargePrint=='1'){
-                                //判断是打印大的还是小的
-                                if(json.config.paperSize=='80'){
-                                    let valueData =  {type:"2",outId:mbCardMoneyChargeIds};
-                                    const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
-                                    result.then((res) => {
-                                        return res;
-                                    }).then((data) => {
-                                        if(data.code == "0"){
-                                            getRechargeOrderInfo(data,"80",json.config.rechargePrintNum);
-                                        }else{
-                                            message.error(data.message);
-                                        }
-                                    });
-                                }else{
-                                    let valueData =  {type:"2",outId:mbCardMoneyChargeIds};
-                                    const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
-                                    result.then((res) => {
-                                        return res;
-                                    }).then((data) => {
-                                        if(data.code == "0"){
-                                            getRechargeOrderInfo(data,"58",json.config.rechargePrintNum);
-                                        }else{
-                                            message.error(data.message);
-                                        }
-                                    });
-                                }
-                            }
-                        }else{
-                            message.warning('打印失败')
-                        }
-                    })
+                printRechargeOrder(mbCardMoneyChargeIds)
                 
-            }
                 
             });
         }else{   
@@ -98,6 +63,55 @@ class Modales extends React.Component {
         }
         })
   }
+
+  //打印充值订单
+//   printRechargeOrder=(orderid)=>{
+//     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
+//         //判断打印
+//             const result=GetServerData('qerp.pos.sy.config.info')
+//             result.then((res) => {
+//                 return res;
+//             }).then((json) => {
+//                 if(json.code == "0"){
+//                     if(json.config.rechargePrint=='1'){
+//                         //判断是打印大的还是小的
+//                         if(json.config.paperSize=='80'){
+//                             let valueData =  {type:"2",outId:orderid};
+//                             const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+//                             result.then((res) => {
+//                                 return res;
+//                             }).then((data) => {
+//                                 if(data.code == "0"){
+//                                     getRechargeOrderInfo(data,"80",json.config.rechargePrintNum);
+//                                 }else{
+//                                     message.error(data.message);
+//                                 }
+//                             });
+//                         }else{
+//                             let valueData =  {type:"2",outId:orderid};
+//                             const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+//                             result.then((res) => {
+//                                 return res;
+//                             }).then((data) => {
+//                                 if(data.code == "0"){
+//                                     getRechargeOrderInfo(data,"58",json.config.rechargePrintNum);
+//                                 }else{
+//                                     message.error(data.message);
+//                                 }
+//                             });
+//                         }
+//                     }
+//                 }else{
+//                     message.warning('打印失败')
+//                 }
+//             })
+        
+//     }else{
+//         message.warning('请在win系统下操作打印') 
+//     }
+//   }
+
+
 
     //打印
     handprint = (id,type,orderNo,size) => {
@@ -153,9 +167,41 @@ class Modales extends React.Component {
   		reamount:e.target.value
   	})
   }
-  render() {
-  	const mbCardId=this.props.mbCardId
-    return (
+  payhindClick=()=>{
+      console.log(1)
+      let values={mbCardId:this.props.mbCardId,amount:this.state.reamount,type:this.state.type}
+      this.setState({
+          loding:true
+      },function(){
+        const result=GetServerData('qerp.pos.mb.card.charge',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                this.setState({
+                    visible: false,
+                    reamount:'',
+                    loding:false
+                },function(){
+                    const payorderid=json.payorderid
+                    const type=json.type
+                    const amount=json.amount
+                    const ordertype='2' //充值订单
+                    // this.context.router.push('/pay')
+                    this.context.router.push({ pathname : '/pay', state : {msg :payorderid,type:type,amount:amount,ordertype:ordertype}});  
+                });
+            }else{
+                this.setState({
+                    loding:false
+                })
+            }
+            })
+      })
+    
+    }
+    render() {
+  	    const mbCardId=this.props.mbCardId
+        return (
         <div>
             <span onClick={this.showModal} className='themecolor'>充值</span>
             <Modal
@@ -181,11 +227,22 @@ class Modales extends React.Component {
                     <li onClick={this.typelist.bind(this,3)}><Button className={this.state.typeclick3?'rechargetype':'rechargetypeoff'}>银联</Button></li>
                     <li onClick={this.typelist.bind(this,4)}><Button className={this.state.typeclick4?'rechargetype':'rechargetypeoff'}>现金</Button></li>
                 </ul>
-                <div className='w clearfix w310'><div className='fl w310l'>充值金额</div> <Input  autoComplete="off" className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/></div>
+                <div className='w clearfix w310'>
+                    <div className='fl w310l'>充值金额</div> 
+                    <div>
+                        <Input  autoComplete="off" className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/>
+                        <Button onClick={this.payhindClick.bind(this)} loading={this.state.loding}>扫码</Button>
+                    </div>
+                </div>
             </Modal>
-      </div>
+        </div>
     );
   }
+}
+
+
+Modales.contextTypes= {
+    router: React.PropTypes.object
 }
 
 function mapStateToProps(state) {

@@ -4,6 +4,7 @@ import styles from './Pay.css';
 import Header from '../components/header/Header';
 import { Input ,Form,Spin,message,Button} from 'antd';
 import {GetServerData} from '../services/services';
+import {printSaleOrder,printRechargeOrder} from '../components/Method/Method'
 
 const FormItem = Form.Item;
 var myVar=0;
@@ -69,13 +70,24 @@ class Payamount extends React.Component{
         this.setState({
             loding:false
         },function(){
-            this.context.router.push('/cashier')
-            this.props.meth1.handleOk()
+            const ordertype=this.props.location.state.ordertype
+            if(ordertype=='1'){
+                //销售订单
+                this.context.router.push('/cashier')
+                this.props.meth1.handleOk()
+                printSaleOrder(this.props.checkPrint,this.props.location.state.msg)
+            }
+            if(ordertype=='2'){
+                //充值订单
+                this.context.router.push('/cashier')
+                this.props.meth1.handleOk()
+                printRechargeOrder(this.props.location.state.msg)
+            }
         })
     }
     //支付失败
     payerron=()=>{
-        //报message,message销售后，点返回按钮我要跳转到弹窗页面,loding结束
+        //报message,message销售后，点返回按钮我要跳转到弹窗页面,loding结束,分为充值和销售两种弹窗
         this.setState({
             loding:false
         },function(){
@@ -148,8 +160,8 @@ Payamount.contextTypes= {
     router: React.PropTypes.object
 }
 function mapStateToProps(state) {
-    const {meth1}=state.cashier
-    return {meth1};
+    const {meth1,checkPrint}=state.cashier
+    return {meth1,checkPrint};
 }
 
 export default connect(mapStateToProps)(Payamount);

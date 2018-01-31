@@ -3,6 +3,8 @@ import { connect } from 'dva';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
 import {GetLodop} from '../../components/Method/Print'
+import {printSaleOrder} from '../../components/Method/Method'
+
 import {dataedit} from '../../utils/commonFc';
 import NP from 'number-precision'
 import Btnpay from './btnpay'
@@ -518,54 +520,63 @@ class Pay extends React.Component {
                     const checkPrint = this.props.checkPrint;
                     this.handleOk()
                     message.success('收银成功',1)
-                    if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-                        if(checkPrint){
-                            //判断打印纸大小
-                            const result=GetServerData('qerp.pos.sy.config.info')
-                            result.then((res) => {
-                                return res;
-                            }).then((json) => {
-                                if(json.code == "0"){
-                                    //判断是打印大的还是小的
-                                    if(json.config.paperSize=='80'){
-                                        let valueData =  {type:"1",outId:odOrderIds};
-                                        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
-                                        result.then((res) => {
-                                            return res;
-                                        }).then((data) => {
-                                            if(data.code == "0"){
-                                                getSaleOrderInfo(data,"80",json.config.submitPrintNum);
-                                            }else{
-                                                message.error(data.message);
-                                            }
-                                        });
-                                    }else{
-                                        let valueData =  {type:"1",outId:odOrderIds};
-                                        const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
-                                        result.then((res) => {
-                                            return res;
-                                        }).then((data) => {
-                                            if(data.code == "0"){
-                                                getSaleOrderInfo(data,"58",json.config.submitPrintNum);
-                                            }else{
-                                                message.error(data.message);
-                                            }
-                                        });
-                                    } 
-                                }else{
-                                    message.warning('打印失败')
-                                }
-                            })
-                        }
-                    }else{
-                        message.warning('请在win系统下操作打印') 
-                    }
+                    printSaleOrder(checkPrint,odOrderIds)
                 }else{
                     message.error(json.message)
                     this.firstclick=true
                 }
         })
     }
+
+    //打印销售订单
+    // printSaleOrder=(checkPrint,orderid)=>{
+    //     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
+    //         if(checkPrint){
+    //             //判断打印纸大小
+    //             const result=GetServerData('qerp.pos.sy.config.info')
+    //             result.then((res) => {
+    //                 return res;
+    //             }).then((json) => {
+    //                 if(json.code == "0"){
+    //                     //判断是打印大的还是小的
+    //                     if(json.config.paperSize=='80'){
+    //                         let valueData =  {type:"1",outId:orderid};
+    //                         const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+    //                         result.then((res) => {
+    //                             return res;
+    //                         }).then((data) => {
+    //                             if(data.code == "0"){
+    //                                 getSaleOrderInfo(data,"80",json.config.submitPrintNum);
+    //                             }else{
+    //                                 message.error(data.message);
+    //                             }
+    //                         });
+    //                     }else{
+    //                         let valueData =  {type:"1",outId:orderid};
+    //                         const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
+    //                         result.then((res) => {
+    //                             return res;
+    //                         }).then((data) => {
+    //                             if(data.code == "0"){
+    //                                 getSaleOrderInfo(data,"58",json.config.submitPrintNum);
+    //                             }else{
+    //                                 message.error(data.message);
+    //                             }
+    //                         });
+    //                     } 
+    //                 }else{
+    //                     message.warning('打印失败')
+    //                 }
+    //             })
+    //         }
+    //     }else{
+    //         message.warning('请在win系统下操作打印') 
+    //     }
+    // }
+
+
+
+
 
 
     //单独输入框失去焦点
@@ -1003,11 +1014,12 @@ class Pay extends React.Component {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
-                    const payorderid=json.payorderid
-                    const type=json.type
-                    const amount=json.amount
+                    const payorderid=json.odOrderId //订单id
+                    const ordertype=1 //销售订单
+                    const type=json.type //支付类型
+                    const amount=json.amount //支付金额
                     // this.context.router.push('/pay')
-                    this.context.router.push({ pathname : '/pay', state : {msg :payorderid,type:type,amount:amount}});  
+                    this.context.router.push({ pathname : '/pay', state : {msg :payorderid,type:type,amount:amount,ordertype:ordertype}});  
                 }
         })
     }   
