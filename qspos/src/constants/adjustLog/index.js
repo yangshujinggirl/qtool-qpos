@@ -12,7 +12,6 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
-import {timeForMats} from '../../utils/commonFc';
 
 class AdjustLogIndexForm extends React.Component {
     constructor(props) {

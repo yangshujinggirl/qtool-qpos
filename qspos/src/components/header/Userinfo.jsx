@@ -254,10 +254,20 @@ class Dropdownmenu extends React.Component {
                                 </div>
                             </div>
                         </div>
+                        <div className='clearfix change-center usershift_counts w'>
+                            <div className="changeWx-left">
+                            <li><span className='f14 c74'>微信转账</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.wechatAmount}</span></li>
+                            <i className="center-i-splice"></i>
+                            <li><span className='f14 c74'>微信扫码</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.scanSumWechatAmount}</span></li>
+                            </div>
+                            <div className="changeAli-right">
+                            <li><span className='f14 c74'>支付宝转账</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.alipayAmount}</span></li>
+                            <i className="center-i-splice"></i>
+                            <li><span className='f14 c74'>支付宝扫码</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.scanSumAlipayAmount}</span></li>
+                            </div>
+                        </div>
                         <ul className='clearfix shift_bottom_list w usershift_counts'>
                             <li><span className='f14 c74'>现金</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.cashAmount}</span></li>
-                            <li><span className='f14 c74'>微信</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.wechatAmount}</span></li>
-                            <li><span className='f14 c74'>支付宝</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.alipayAmount}</span></li>
                             <li><span className='f14 c74'>银联</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.unionpayAmount}</span></li>
                             <li><span className='f14 c74'>会员充值</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.cardChargeAmount}</span></li>
                             <li><span className='f14 c74'>会员消费</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.cardConsumeAmount}</span></li>

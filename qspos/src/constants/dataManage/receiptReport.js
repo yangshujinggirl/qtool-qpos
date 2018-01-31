@@ -7,7 +7,6 @@ import {timeForMats} from '../../utils/commonFc';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import moment from 'moment';
-import {timeForMats} from '../../utils/commonFc';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
