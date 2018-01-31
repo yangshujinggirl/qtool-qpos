@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination } from 'antd';
 import { Link } from 'dva/router';
 import {GetServerData} from '../../services/services';
+import {timeForMats} from '../../utils/commonFc';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import moment from 'moment';
