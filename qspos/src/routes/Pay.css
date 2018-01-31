@@ -1,0 +1,10 @@
+
+.normal {}
+.cons{
+    margin-top: 94px;
+}
+.w200{width: 300px;height: 40px;}
+.w200s{width: 250px;height: 40px;}
+.w200btn{width:50px;height:40px;}
+.payamounts .ant-btn{border-radius:0 5px 5px 0;}
+.payamounts .wr .ant-input{border-radius:5px 0px 0 5px;border-right: 0;}

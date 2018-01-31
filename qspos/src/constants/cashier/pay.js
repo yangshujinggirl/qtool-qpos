@@ -5,6 +5,8 @@ import {GetServerData} from '../../services/services';
 import {GetLodop} from '../../components/Method/Print'
 import {dataedit} from '../../utils/commonFc';
 import NP from 'number-precision'
+import Btnpay from './btnpay'
+
 //引入打印
 import {getSaleOrderInfo} from '../../components/Method/Print';
 
@@ -183,7 +185,7 @@ class Pay extends React.Component {
 
         handleOk = (e) => {
             this.setState({
-            visible: false,
+                visible: false,
             },function(){
                 const payvisible=false
                 this.props.dispatch({
@@ -191,7 +193,6 @@ class Pay extends React.Component {
                     payload:payvisible
                 })
                 this.props.initdata()
-
             });
         }
         handleCancel = (e) => {
@@ -234,87 +235,139 @@ class Pay extends React.Component {
                 }
             })
         }
+
+    //权重处理方法
+     arrarow=(arr)=>{
+        console.log(arr)
+        const newarr=[]
+
+
+        for(var i=0;i<arr.length;i++){
+            if(Number(arr[i].type)==5){
+                arr[i].types=5
+            }
+            if(Number(arr[i].type)==6){
+                arr[i].types=6
+            }
+            if(Number(arr[i].type)<5){
+                arr[i].types=4
+            }
+        }
+        console.log(arr)
+        if(Number(arr[0].types)>Number(arr[1].types)){
+            console.log(1)
+            for(var i=0;i<arr.length;i++){
+                newarr.push(arr[i])
+            }
+            
+        }
+        if(Number(arr[0].types)==Number(arr[1].types)){
+            console.log(2)
+            console.log(arr)
+            newarr.push(arr[1])
+        
+        }
+        if(Number(arr[0].types)<Number(arr[1].types)){
+            console.log(3)
+            newarr.push(arr[1])
+            newarr.push(arr[0])
+        }
+        console.log(newarr)
+        return newarr
+    }   
+
+
     //点击不同支付方式
     listclick=(index)=>{
         const paytypelisy=this.state.paytypelisy //按钮list
         const amountlist=this.state.amountlist //左边栏数组
-        const newamountlist=[] //新的左边栏数组
+        var newamountlist=[] //新的左边栏数组
         var waringfirsts=false
         var texts=null
         const paytotolamount=this.props.paytotolamount//支付总额
         const lastpayamount=NP.minus(paytotolamount, amountlist[0].value);  //剩余金额
         if(!paytypelisy[index].check){
             if(this.state.group){
-                if(amountlist.length>1){
-                    newamountlist.push(amountlist[1])  
-                }else{
-                    newamountlist.push(amountlist[0])    
-                }
-                newamountlist.push({
+                const newarrlist=[]
+
+                newarrlist.push(amountlist[0])   
+                newarrlist.push({
                     name:paytypelisy[index].name,
-                    value:NP.minus(paytotolamount, newamountlist[0].value),
+                    value:NP.minus(paytotolamount, newarrlist[0].value),
                     type:paytypelisy[index].type
                 })
-                //判断是否是会员
-                const ismember=this.props.ismember
-                if(ismember){
-                    const point=NP.divide(this.state.point,100); //积分换算金额
-                    const amount=this.state.amount //会员余额
-                    const i=this.isInArray(newamountlist,'5')
-                    const j=this.isInArray(newamountlist,'6')
-                    if(i=='-1'){
-                        //不存在会员
-                            if(j!='-1'){
-                                //存在积分
-                                if(parseFloat(point)>=parseFloat(paytotolamount)){
-                                    newamountlist[j].value=paytotolamount
-                                }else{
-                                    newamountlist[j].value=point
-                                }
-                                if(j==0){
-                                    newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value); 
-                                }else{
-                                    newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value); 
-                                }  
-                            }
+                console.log(newarrlist)
+                //权重处理方法
+                newamountlist=this.arrarow(newarrlist) //权重处理后的数组
+                console.log(newamountlist)
+                //积分会员卡不同状态value处理
+                const i=this.isInArray(newamountlist,'5')
+                const j=this.isInArray(newamountlist,'6')
+                const point=NP.divide(this.state.point,100); //积分换算金额
+                const amount=this.state.amount //会员余额
+                if(i!='-1'){
+                    //存在会员
+                    if(j=='-1'){
+                        console.log('001')
+                        //不存在积分
+                        if(parseFloat(amount)>=parseFloat(paytotolamount)){
+                            newamountlist[i].value=paytotolamount
+                            console.log(1)
+                        }else{
+                            newamountlist[i].value=amount
+                            console.log(2)
+                        }
+                        if(i==0){
+                            newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value); 
+                        }else{
+                            newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value); 
+                        }
+
                     }else{
-                        //存在会员
-                        if(j=='-1'){
-                            //不存在积分
-                            if(parseFloat(amount)>=parseFloat(paytotolamount)){
-                                newamountlist[i].value=paytotolamount
-                                console.log(1)
-                            }else{
-                                newamountlist[i].value=amount
-                                console.log(2)
-                            }
-                            if(i==0){
-                                newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value); 
-                            }else{
-                                newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value); 
-                            }
+                        console.log('002')
+                        //存在积分
+                        if(parseFloat(amount)>=parseFloat(paytotolamount)){
+                            newamountlist[i].value=paytotolamount
+                            newamountlist[j].value=NP.minus(paytotolamount, newamountlist[i].value); 
 
                         }else{
-                            //存在积分
-                            if(parseFloat(amount)>=parseFloat(paytotolamount)){
-                                newamountlist[i].value=paytotolamount
-                                newamountlist[j].value=NP.minus(paytotolamount, newamountlist[i].value); 
-
+                            newamountlist[i].value=amount
+                            const diffjvalue=NP.minus(paytotolamount, newamountlist[i].value);  //剩余
+                            if(parseFloat(point)>=parseFloat(diffjvalue)){
+                                newamountlist[j].value=diffjvalue
                             }else{
-                                newamountlist[i].value=amount
-                                const diffjvalue=NP.minus(paytotolamount, newamountlist[i].value);  //剩余
-                                if(parseFloat(point)>=parseFloat(diffjvalue)){
-                                    newamountlist[j].value=diffjvalue
-                                }else{
-                                    newamountlist[j].value=point
-                                    waringfirsts=true
-                                    texts='积分不足'
-                                }
+                                newamountlist[j].value=point
+                                waringfirsts=true
+                                texts='积分不足'
                             }
                         }
                     }
+                }else{
+                    console.log('003')
+                    //不存在会员
+                    if( j=='-1'){
+                        console.log('004')
+                        //不存在积分=不存在会员，不存在积分
+                        newamountlist[0].value=paytotolamount
+                    }else{
+                        console.log('005')
+                        //存在积分==不存在会员，存在积分
+                        if(parseFloat(point)>=parseFloat(paytotolamount)){
+                            newamountlist[j].value=paytotolamount
+                        }else{
+                            newamountlist[j].value=point
+                        }
+                        if(j==0){
+                            newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value); 
+                        }else{
+                            newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value); 
+                        }  
+                    }
                 }
+
+               
             }else{
+                console.log('fei')
                 //非组合支付
                 newamountlist.push({
                     name:paytypelisy[index].name,
@@ -342,7 +395,9 @@ class Pay extends React.Component {
                     }
                 }
             }
- 
+            
+            console.log(paytypelisy)
+            console.log(newamountlist)
             //格式化所有，然后找到左边栏数组中的type，更新右边展示
             for(var i=0;i<paytypelisy.length;i++){
                 paytypelisy[i].check=false
@@ -426,6 +481,7 @@ class Pay extends React.Component {
                 type:amountlist[0].type
             }]
         }
+
         if(totols==this.props.paytotolamount && backmoney=='0.00'){
             const amountlist=this.state.amountlist
             let values={
@@ -889,6 +945,79 @@ class Pay extends React.Component {
           
     }
 
+    //扫码按钮点击
+    onhindClicks=()=>{
+        const backmoney=this.state.backmoney
+        const group=this.state.group
+        const amountlist=this.state.amountlist
+        var totols=0;
+        var orderPay=[];
+        if(group){
+            if(amountlist.length>1){
+                totols=NP.plus(amountlist[0].value,amountlist[1].value); 
+                for(var i=0;i<amountlist.length;i++){
+                    if(amountlist[i].value!='0.00'){
+                        orderPay.push({
+                            amount:amountlist[i].value,
+                            type:amountlist[i].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[i].type),
+                        })
+                    }
+                }
+            }else{
+                message.error('金额有误，不能支付')
+                return
+            }
+        }else{
+            totols=amountlist[0].value
+            orderPay=[{
+                amount:amountlist[0].value,
+                type:amountlist[0].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[0].type)
+            }]
+        }
+
+        if(totols==this.props.paytotolamount && backmoney=='0.00'){
+            const amountlist=this.state.amountlist
+            let values={
+                    mbCard:{mbCardId:this.props.ismember?this.props.mbCardId:null},
+                    odOrder:{
+                        amount:this.props.totolamount,
+                        orderPoint:this.props.thispoint,  
+                        payAmount:this.props.paytotolamount,
+                        qty:this.props.totolnumber,
+                        skuQty:this.props.datasouce.length,
+                        cutAmount:this.state.cutAmount,
+                    },
+                    orderDetails:this.props.datasouce,
+                    orderPay:orderPay
+                }
+             this.btnSaoPay(values)   
+        }else{
+            message.error('金额有误，不能支付')
+        }
+    }
+
+    //扫码支付
+    btnSaoPay=(values)=>{
+        const result=GetServerData('qerp.web.qpos.od.order.save',values)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    const payorderid=json.payorderid
+                    const type=json.type
+                    const amount=json.amount
+                    // this.context.router.push('/pay')
+                    this.context.router.push({ pathname : '/pay', state : {msg :payorderid,type:type,amount:amount}});  
+                }
+        })
+    }   
+
+
+
+
+
+
+
     //是否勾选打印小票
     choosePrint = (e) =>{
         this.props.dispatch({
@@ -897,6 +1026,10 @@ class Pay extends React.Component {
         })
     }
     render() {
+        // const openWechat=sessionStorage.getItem("openWechat")
+        // const openAlipay=sessionStorage.getItem("openAlipay")
+        const openWechat='0'
+        const openAlipay='1'
         return (
             <div>
                 <Modal
@@ -915,10 +1048,10 @@ class Pay extends React.Component {
                             {
                                 this.state.amountlist.length>1
                                 ?<div className='clearfix inputcenter'>
-                                    <div className='payharflwl' ><Input  autoComplete="off" addonBefore={this.state.amountlist[0].name}  value={this.state.amountlist[0].value}  onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel' onChange={this.payfirstonChange.bind(this)}/></div>
-                                    <div className='payharflwr'><Input  autoComplete="off" addonBefore={this.state.amountlist[1].name} value={this.state.amountlist[1].value}  onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel' onChange={this.paysecondonChange.bind(this)}/></div>
+                                    <div className='payharflwl' ><Input  autoComplete="off" addonBefore={this.state.amountlist[0].name}  value={this.state.amountlist[0].value}  onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel' onChange={this.payfirstonChange.bind(this)} addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') || (this.state.amountlist[0].type=='2' && openAlipay=='1')?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}/></div>
+                                    <div className='payharflwr'><Input  autoComplete="off" addonBefore={this.state.amountlist[1].name} value={this.state.amountlist[1].value}  onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel' onChange={this.paysecondonChange.bind(this)} addonAfter={(this.state.amountlist[1].type=='1' && openWechat=='1') || (this.state.amountlist[1].type=='2' && openAlipay=='1')?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}/></div>
                                 </div>
-                                :<div className='inputcenter'><Input  autoComplete="off" addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel' onChange={this.hindonChange.bind(this)}/></div>
+                                :<div className='inputcenter'><Input  autoComplete="off" addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  disabled={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} onChange={this.hindonChange.bind(this)} addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}/></div>
                                 
                             }
                             <div><Input  autoComplete="off" addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
@@ -943,7 +1076,7 @@ class Pay extends React.Component {
                             </div>
                             <div>
                                 <ul className='btnbg'>
-                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.group?'listtoff':'listt'}><Button>组合<br/>支付</Button></li>
+                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?'listtdis':(this.state.group?'listtoff':'listt')}><Button disabled={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
                                     <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.cutAmount=='0'?'listt':'listtoff'}><Button>抹零</Button></li>
                                 </ul>
                             </div>
@@ -956,7 +1089,9 @@ class Pay extends React.Component {
   componentDidMount(){
     const meth1={
         initModel:this.initModel,
-        hindpayclick:this.hindpayclick
+        hindpayclick:this.hindpayclick,
+        handleOk:this.handleOk,
+
     }
     this.props.dispatch({
         type:'cashier/meth1',
