@@ -18,27 +18,29 @@ import ReceiptDetail from "./routes/ReceiptDetail"
 import Memberinfo from "./routes/Memberinfo";
 import AdjustLog from "./routes/AdjustLog";
 import InventorydiffLog from "./routes/inventorydiffLog";
+import Payamount from "./routes/Pay";
+
 
 function RouterConfig({ history }) {
   return (
     <Router history={history}>
-      <Route path='/' component={IndexPage} />
-      <Route path='/cashier' component={Cashier} />
-      <Route path="/account" component={Account} />
-      <Route path="/member" component={Member} />
-      <Route path="/receivegoods" component={Receivegoods} />
-      <Route path="/goods" component={Goods} />
-      <Route path="/sell" component={Sell} />
-      <Route path="/returngoods" component={Returngoods} />
-      <Route path="/inventory" component={Inventory} />
-      <Route path="/adjust" component={Adjust} />
-      <Route path="/inventorydiff" component={Inventorydiff} />
-      <Route path="/dataManage" component={DataManage}/>
-      <Route path="/member/info" component={Memberinfo} />
-      <Route path="/dataManage/receiptDetail" component={ReceiptDetail}/>
-      <Route path="/adjustLog" component={AdjustLog}/>
-      <Route path="/inventorydiffLog" component={InventorydiffLog}/>
-      
+      	<Route path='/' component={IndexPage} />
+      	<Route path='/cashier' component={Cashier} />
+      	<Route path="/account" component={Account} />
+      	<Route path="/member" component={Member} />
+      	<Route path="/receivegoods" component={Receivegoods} />
+      	<Route path="/goods" component={Goods} />
+      	<Route path="/sell" component={Sell} />
+      	<Route path="/returngoods" component={Returngoods} />
+      	<Route path="/inventory" component={Inventory} />
+      	<Route path="/adjust" component={Adjust} />
+      	<Route path="/inventorydiff" component={Inventorydiff} />
+      	<Route path="/dataManage" component={DataManage}/>
+      	<Route path="/member/info" component={Memberinfo} />
+      	<Route path="/dataManage/receiptDetail" component={ReceiptDetail}/>
+      	<Route path="/adjustLog" component={AdjustLog}/>
+      	<Route path="/inventorydiffLog" component={InventorydiffLog}/>
+		<Route path="/pay" component={Payamount}/>
     </Router>
   );
 }

@@ -41,13 +41,13 @@ class NormalLoginForm extends React.Component {
             if (!err) {
                 const result=GetServerData('qerp.pos.ur.user.login',values)
                 console.log(result)
-                
-                
                 result.then((res) => {
                   return res;
                 }).then((json) => {
                     if(json.code=='0'){
-                       this.context.router.push('/cashier')
+                        sessionStorage.setItem('openWechat',json.urUser.openWechat);
+                        sessionStorage.setItem('openAlipay',json.urUser.openAlipay);
+                        this.context.router.push('/cashier')
                     }else{      
                         this.setState({
                             login:false,
