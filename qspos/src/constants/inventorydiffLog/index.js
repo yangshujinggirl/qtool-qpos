@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import CommonTable from '../../constants/dataManage/commonTable';
 import {GetServerData} from '../../services/services';
 import {GetExportData} from '../../services/services';
+import {timeForMats} from '../../utils/commonFc';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -210,32 +211,34 @@ class InventorydiffLogIndexForm extends React.Component {
     //获取当前时间
      getNowFormatDate = () =>{
         const self = this;
-        let date = new Date();
-        let seperator1 = "-";
-        let month = date.getMonth() + 1;
-        let strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
-        }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+        // let date = new Date();
+        // let seperator1 = "-";
+        // let month = date.getMonth() + 1;
+        // let strDate = date.getDate();
+        // if (month >= 1 && month <= 9) {
+        //     month = "0" + month;
+        // }
+        // if (strDate >= 0 && strDate <= 9) {
+        //     strDate = "0" + strDate;
+        // }
+        // let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
 
-        let date2 = new Date(date);
-        date2.setDate(date.getDate() - 30);
-        let month1 = date2.getMonth() + 1;
-        let strDate1 = date2.getDate();
-        if (month1 >= 1 && month1 <= 9) {
-            month1 = "0" + month;
-        }
-        if (strDate1 >= 0 && strDate1 <= 9) {
-            strDate1 = "0" + strDate1;
-        }
-        var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
+        // let date2 = new Date(date);
+        // date2.setDate(date.getDate() - 30);
+        // let month1 = date2.getMonth() + 1;
+        // let strDate1 = date2.getDate();
+        // if (month1 >= 1 && month1 <= 9) {
+        //     month1 = "0" + month;
+        // }
+        // if (strDate1 >= 0 && strDate1 <= 9) {
+        //     strDate1 = "0" + strDate1;
+        // }
+        // var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
+        let startRpDate=timeForMats(30).t2;
+        let endRpDate=timeForMats(30).t1;
         this.setState({
-            adjustTimeStart:currentdate1,
-            adjustTimeEnd:currentdate
+            adjustTimeStart:startRpDate,
+            adjustTimeEnd:endRpDate
         },function(){
             let values = {
                 currentPage:0,
