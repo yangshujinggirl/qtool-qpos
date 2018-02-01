@@ -12,7 +12,9 @@
 }
 
 .w200{width: 300px;height: 40px;}
-.w200s{width: 250px;height: 40px;}
+.w200s{width: 413px;height: 40px;}
 .w200btn{width:50px;height:40px;}
 .payamounts .ant-btn{border-radius:0 5px 5px 0;}
 .payamounts .wr .ant-input{border-radius:5px 0px 0 5px;border-right: 0;}
+.payamounts .ant-form-item-label label{font-size:26px;color:#74777f;}
+.payamounts .scanpayamount{height: 40px;line-height: 40px;font-size:40px;color:#384162;}
