@@ -1,8 +1,16 @@
 
-.normal {}
+/* .normal {
+    padding-top:194px
+} */
 .cons{
-    margin-top: 94px;
+    padding: 94px 30px 30px;
+    height: 100vh;
 }
+.cons .box{
+    background: #fff;
+    height: 100%;
+}
+
 .w200{width: 300px;height: 40px;}
 .w200s{width: 250px;height: 40px;}
 .w200btn{width:50px;height:40px;}

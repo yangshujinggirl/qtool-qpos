@@ -150,6 +150,7 @@ class Payamount extends React.Component{
             <div className={styles.normal}>
                 <Header type={false} color={true} title={this.props.location.state.type=='7'?'微信':'支付宝'}/>
                 <div className='cons'>
+                    <div className='box'>
                     <Spin tip="支付中" spinning={this.state.loding}>
                         <Form className='payamounts'>
                             <FormItem
@@ -172,6 +173,7 @@ class Payamount extends React.Component{
                             </FormItem>
                         </Form>
                     </Spin>
+                    </div>
                 </div>
             </div>
         );
