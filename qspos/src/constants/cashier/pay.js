@@ -4,13 +4,15 @@ import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
 import {GetLodop} from '../../components/Method/Print'
 import {printSaleOrder} from '../../components/Method/Method'
-
 import {dataedit} from '../../utils/commonFc';
 import NP from 'number-precision'
 import Btnpay from './btnpay'
+import Scanbtn from '../../components/Button/scanbtn'
 
-//引入打印
+
 import {getSaleOrderInfo} from '../../components/Method/Print';
+//引入打印
+
 
 
 class Pay extends React.Component {
@@ -41,7 +43,8 @@ class Pay extends React.Component {
         waringfirst:false,
         visible: false,
         backmoney:'0.00',
-        cutAmount:'0'
+        cutAmount:'0',
+        loading:false
     }
 
     //初始化方法
@@ -291,7 +294,6 @@ class Pay extends React.Component {
         if(!paytypelisy[index].check){
             if(this.state.group){
                 const newarrlist=[]
-
                 newarrlist.push(amountlist[0])   
                 newarrlist.push({
                     name:paytypelisy[index].name,
@@ -528,57 +530,6 @@ class Pay extends React.Component {
         })
     }
 
-    //打印销售订单
-    // printSaleOrder=(checkPrint,orderid)=>{
-    //     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-    //         if(checkPrint){
-    //             //判断打印纸大小
-    //             const result=GetServerData('qerp.pos.sy.config.info')
-    //             result.then((res) => {
-    //                 return res;
-    //             }).then((json) => {
-    //                 if(json.code == "0"){
-    //                     //判断是打印大的还是小的
-    //                     if(json.config.paperSize=='80'){
-    //                         let valueData =  {type:"1",outId:orderid};
-    //                         const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
-    //                         result.then((res) => {
-    //                             return res;
-    //                         }).then((data) => {
-    //                             if(data.code == "0"){
-    //                                 getSaleOrderInfo(data,"80",json.config.submitPrintNum);
-    //                             }else{
-    //                                 message.error(data.message);
-    //                             }
-    //                         });
-    //                     }else{
-    //                         let valueData =  {type:"1",outId:orderid};
-    //                         const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
-    //                         result.then((res) => {
-    //                             return res;
-    //                         }).then((data) => {
-    //                             if(data.code == "0"){
-    //                                 getSaleOrderInfo(data,"58",json.config.submitPrintNum);
-    //                             }else{
-    //                                 message.error(data.message);
-    //                             }
-    //                         });
-    //                     } 
-    //                 }else{
-    //                     message.warning('打印失败')
-    //                 }
-    //             })
-    //         }
-    //     }else{
-    //         message.warning('请在win系统下操作打印') 
-    //     }
-    // }
-
-
-
-
-
-
     //单独输入框失去焦点
     hindonBlur=(e)=>{
         const values=parseFloat(e.target.value)
@@ -698,9 +649,6 @@ class Pay extends React.Component {
                     const point=NP.divide(this.state.point,100); //积分换算金额
                     const amount=this.state.amount //会员卡余额
                     if(amountlist[1].type=='5'){
-                        // amountlist[1].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                       // amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
-
                        amountlist[0].value=(parseFloat(point)>=parseFloat(values))?values:point
                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[0].value)
                     }else{
@@ -714,33 +662,25 @@ class Pay extends React.Component {
                     if(amountlist[1].type=='5'){
                         const point=NP.divide(this.state.point,100); //积分换算金额
                         const amount=this.state.amount //会员卡余额
-                        // amountlist[1].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                        // amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                         amountlist[0].value=values
                         amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[0].value)
                     }
                     if(amountlist[1].type=='6'){
                         const point=NP.divide(this.state.point,100); //积分换算金额
                         const amount=this.state.amount //会员卡余额
-                        // amountlist[1].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
-                        // amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                         amountlist[0].value=values
                         amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(point)?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
                     }
                 }
-
             }
-           
         }
         const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
         amountlist[0].value=dataedit(String(amountlist[0].value))
         amountlist[1].value=dataedit(String(amountlist[1].value))
-
         this.setState({
             amountlist:amountlist,
             backmoney:backmoney
         })
-
     }
     paysecondonBlur=(e)=>{
         const values=parseFloat(e.target.value)
@@ -750,7 +690,6 @@ class Pay extends React.Component {
             //大于总额
             amountlist[1].value=paytotolamount
             amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-
             if(amountlist[1].type=='5'){
                 const point=NP.divide(this.state.point,100); //积分换算金额
                 const amount=this.state.amount //会员卡余额
@@ -773,7 +712,6 @@ class Pay extends React.Component {
                     }
                 }else{
                     //当前不是积分也不是会员卡
-
                     amountlist[1].value=paytotolamount
                     amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                     if(amountlist[0].type=='5'){
@@ -789,9 +727,7 @@ class Pay extends React.Component {
                         amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
                     }
                 }
-
             }
-
         }else{
             //小于总额
             amountlist[1].value=values
@@ -805,16 +741,12 @@ class Pay extends React.Component {
                 if(amountlist[0].type=='6'){
                     amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
                 }
-
             }else{
                  //当前是积分
                 if(amountlist[1].type=='6'){
                     const point=NP.divide(this.state.point,100); //积分换算金额
                     const amount=this.state.amount //会员卡余额
                     if(amountlist[0].type=='5'){
-                        // amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                        // amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
-
                         amountlist[1].value=(parseFloat(point)>=parseFloat(values))?values:point
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[1].value)
                     }else{
@@ -828,24 +760,17 @@ class Pay extends React.Component {
                     if(amountlist[0].type=='5'){
                         const point=NP.divide(this.state.point,100); //积分换算金额
                         const amount=this.state.amount //会员卡余额
-                        // amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                        // amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-
                         amountlist[1].value=values
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[1].value)
                     }
                     if(amountlist[0].type=='6'){
                         const point=NP.divide(this.state.point,100); //积分换算金额
                         const amount=this.state.amount //会员卡余额
-                        // amountlist[0].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
-                        // amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
                         amountlist[1].value=values
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(point)?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
                     }
                 }
-
-            }
-           
+            } 
         }
 
 
@@ -869,9 +794,6 @@ class Pay extends React.Component {
                 amountlist:amountlist
             })
         }
-
-       
-        
     }
     paysecondonChange=(e)=>{
         const values=e.target.value
@@ -883,13 +805,7 @@ class Pay extends React.Component {
             this.setState({
                 amountlist:amountlist
             })
-       }
-       
-    }
-
-    //打印
-    handprint = (id,type,orderNo,size) => {
-        GetLodop(id,type,orderNo,size)
+        }
     }
     //抹零
     nozeroclick=()=>{
@@ -961,6 +877,7 @@ class Pay extends React.Component {
         const backmoney=this.state.backmoney
         const group=this.state.group
         const amountlist=this.state.amountlist
+        console.log(amountlist)
         var totols=0;
         var orderPay=[];
         if(group){
@@ -970,7 +887,8 @@ class Pay extends React.Component {
                     if(amountlist[i].value!='0.00'){
                         orderPay.push({
                             amount:amountlist[i].value,
-                            type:amountlist[i].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[i].type),
+                            // type:amountlist[i].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[i].type),
+                            type:amountlist[i].type,
                         })
                     }
                 }
@@ -982,7 +900,8 @@ class Pay extends React.Component {
             totols=amountlist[0].value
             orderPay=[{
                 amount:amountlist[0].value,
-                type:amountlist[0].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[0].type)
+                // type:amountlist[0].type=='1'?'7':(amountlist[0].type=='2'?'8':amountlist[0].type)
+                type:amountlist[0].type
             }]
         }
 
@@ -1009,19 +928,38 @@ class Pay extends React.Component {
 
     //扫码支付
     btnSaoPay=(values)=>{
-        const result=GetServerData('qerp.web.qpos.od.order.save',values)
+        this.setState({
+            loading:true
+        },function(){
+            const result=GetServerData('qerp.web.qpos.od.order.save',values)
             result.then((res) => {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
-                    const payorderid=json.odOrderId //订单id
-                    const ordertype=1 //销售订单
-                    const type=json.type //支付类型
-                    const amount=json.amount //支付金额
-                    // this.context.router.push('/pay')
-                    this.context.router.push({ pathname : '/pay', state : {msg :payorderid,type:type,amount:amount,ordertype:ordertype}});  
+                    console.log(json)
+                    const orderNo=json.orderNo  //订单号
+                    const odOrderId=json.odOrderId  //订单id
+                    const consumeType='1' //销售订单
+                    const type=values.orderPay.length>1?values.orderPay[1].type:values.orderPay[0].type//支付类型
+                    const amount=values.orderPay.length>1?values.orderPay[1].amount:values.orderPay[0].amount //支付金额
+                    this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
+                    this.setState({
+                        loading:false
+                    })
+                }else{
+                    this.setState({
+                        loading:false
+                    })
+                    message.error(json.message)
                 }
+                
         })
+    })
+
+
+
+
+        
     }   
 
 
@@ -1040,7 +978,7 @@ class Pay extends React.Component {
     render() {
         // const openWechat=sessionStorage.getItem("openWechat")
         // const openAlipay=sessionStorage.getItem("openAlipay")
-        const openWechat='0'
+        const openWechat='1'
         const openAlipay='1'
         return (
             <div>
@@ -1060,10 +998,47 @@ class Pay extends React.Component {
                             {
                                 this.state.amountlist.length>1
                                 ?<div className='clearfix inputcenter'>
-                                    <div className='payharflwl' ><Input  autoComplete="off" addonBefore={this.state.amountlist[0].name}  value={this.state.amountlist[0].value}  onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel' onChange={this.payfirstonChange.bind(this)} addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') || (this.state.amountlist[0].type=='2' && openAlipay=='1')?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}/></div>
-                                    <div className='payharflwr'><Input  autoComplete="off" addonBefore={this.state.amountlist[1].name} value={this.state.amountlist[1].value}  onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel' onChange={this.paysecondonChange.bind(this)} addonAfter={(this.state.amountlist[1].type=='1' && openWechat=='1') || (this.state.amountlist[1].type=='2' && openAlipay=='1')?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}/></div>
+                                    <div className='payharflwl' >
+                                        <div>
+                                            <Input  
+                                                autoComplete="off" 
+                                                addonBefore={this.state.amountlist[0].name}  
+                                                value={this.state.amountlist[0].value}  
+                                                onBlur={this.payfirstonBlur.bind(this)} 
+                                                className='tr payinputsmodel' 
+                                                onChange={this.payfirstonChange.bind(this)} 
+                                                addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)} loading={this.state.loading}/>:null}
+                                            />
+                                        </div>
+                                      
+                                    </div>
+                                    <div className='payharflwr'>
+                                        <Input  
+                                            autoComplete="off" 
+                                            addonBefore={this.state.amountlist[1].name} 
+                                            value={this.state.amountlist[1].value}  
+                                            onBlur={this.paysecondonBlur.bind(this)} 
+                                            className='tr payinputsmodel' 
+                                            onChange={this.paysecondonChange.bind(this)} 
+                                            addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)} loading={this.state.loading}/>:null}
+                                        />
+                                        
+                                    </div>
                                 </div>
-                                :<div className='inputcenter'><Input  autoComplete="off" addonBefore={this.state.amountlist[0].name} value={this.state.amountlist[0].value}  ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  disabled={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} onChange={this.hindonChange.bind(this)} addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}/></div>
+                                :<div className='inputcenter'>
+                                    <Input  
+                                        autoComplete="off" 
+                                        addonBefore={this.state.amountlist[0].name} 
+                                        value={this.state.amountlist[0].value}  
+                                        ref='paymoneys' 
+                                        onBlur={this.hindonBlur.bind(this)} 
+                                        className={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  
+                                        disabled={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} 
+                                        onChange={this.hindonChange.bind(this)}
+                                        addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)} loading={this.state.loading}/>:null}
+                                    />
+                                   
+                                    </div>
                                 
                             }
                             <div><Input  autoComplete="off" addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>

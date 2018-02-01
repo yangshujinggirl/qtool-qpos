@@ -31,63 +31,73 @@ class Payamount extends React.Component{
     //结算
     payok=()=>{
         const values={
+            orderNo:this.props.location.state.orderNo,
+            orderId:this.props.location.state.orderId,
             code:this.state.code,
-            id:this.props.location.state.msg
+            consumeType:this.props.location.state.consumeType,
+            amount:this.props.location.state.amount,
+            type:this.props.location.state.type
         }
-        const result=GetServerData('qerp.web.qpos.od.order.save',values)
+
+        this.setState({
+            loding:true
+        })
+
+
+        const result=GetServerData('qerp.web.qpos.od.scan.code',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
+                const odOrderId=json.odOrderId
+                const status=json.status
                 //返回我三种状态
-                // 1.支付成功 type=1
-                // 2.支付失败 type=0
-                // 3.支付中  type=2
-                const type=json.type
-                const payid=json.payid
-                if(type=='1'){
+                // 1.支付成功 status=30
+                // 2.支付失败 status=40
+                // 3.支付中  status=20
+                if(status=='30'){
                     this.paysuccess()
                 }
-                if(type=='2'){
+                if(status=='20'){
                     //每隔1s请求新的查询接口，直到返回成功或者失败，停止查询，在返回成功或者失败之前，页面是loding状态，
-                    //当返回的成功，则执行type==1中的方法，
-                    //当返回的是失败，则执行type==3的方法
-                    this.setState({
-                        loding:true
-                    },function(){
-                         myVar=setInterval('this.payStateInfo(payid)',1000)
-                    })
+                    myVar=setInterval(this.payStateInfo,1000)
                 }
-                if(type=='3'){
+                if(status=='40'){
                     this.payerron()
                 }
+            }else{
+                this.setState({
+                    loding:false
+                },function(){
+                    message.error(json.message);
+                })
             }
         })
     }
+
     //支付成功
     paysuccess=()=>{
         //跳转收银界面，初始化数据，loding结束
         this.setState({
             loding:false
         },function(){
-            const ordertype=this.props.location.state.ordertype
-            if(ordertype=='1'){
+            const consumeType=this.props.location.state.consumeType
+            if(consumeType=='1'){
                 //销售订单
                 this.context.router.push('/cashier')
                 this.props.meth1.handleOk()
-                printSaleOrder(this.props.checkPrint,this.props.location.state.msg)
+                printSaleOrder(this.props.checkPrint,this.props.location.state.orderId)
             }
-            if(ordertype=='2'){
+            if(consumeType=='2'){
                 //充值订单
                 this.context.router.push('/cashier')
                 this.props.meth1.handleOk()
-                printRechargeOrder(this.props.location.state.msg)
+                printRechargeOrder(this.props.location.state.orderId)
             }
         })
     }
     //支付失败
     payerron=()=>{
-        //报message,message销售后，点返回按钮我要跳转到弹窗页面,loding结束,分为充值和销售两种弹窗
         this.setState({
             loding:false
         },function(){
@@ -95,26 +105,32 @@ class Payamount extends React.Component{
         })
     }
     //支付状态查询接口
-    payStateInfo=(id)=>{
+    payStateInfo=()=>{
         const values={
-            payid:id
+            orderNo:this.props.location.state.orderNo,
+            orderId:this.props.location.state.orderId,
+            consumeType:this.props.location.state.consumeType,
         }
-        const result=GetServerData('qerp.web.qpos.od.order.save',values)
+        const result=GetServerData('qerp.web.qpos.od.order.status',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                if(json.type=='1'){
+                if(json.status=='30'){
                     clearInterval(myVar)
                     this.paysuccess()
                 }
-                if(json.type=='0'){
+                if(json.status=='40'){
                     clearInterval(myVar)
                     this.payerron()
                 }
             }else{
-                clearInterval(myVar)
-                message.error(json.message);
+                this.setState({
+                    loding:false
+                },function(){
+                    clearInterval(myVar)
+                    message.error(json.message);
+                })
             }
         })
     }
@@ -125,6 +141,7 @@ class Payamount extends React.Component{
         })
     }
     render(){
+        console.log(this)
         return (
             <div className={styles.normal}>
                 <Header type={false} color={true}/>

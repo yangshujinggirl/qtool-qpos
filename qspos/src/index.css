@@ -230,6 +230,9 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .lines1{position: absolute;left: 100px;top:11px;}
 .lines2{position: absolute;left: 200px;top:11px;}
 
+
+
+
 /*btn*/
 .widthmethfw{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
   font-size: 14px;text-align:center;line-height:40px;cursor: pointer;font-weight: bolder;}
@@ -532,6 +535,10 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 .rechargepays .ant-modal-body{padding:0 0 20px 0;}
 
 
+.comp-scanbtn{width:100px;text-align: center;}
+.comp-scanbtn .ant-btn{height: 75px;background:#fff;}
+
+/* ------- */
 
 
 

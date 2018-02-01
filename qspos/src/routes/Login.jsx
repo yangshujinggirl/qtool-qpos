@@ -45,8 +45,8 @@ class NormalLoginForm extends React.Component {
                   return res;
                 }).then((json) => {
                     if(json.code=='0'){
-                        sessionStorage.setItem('openWechat',json.urUser.openWechat);
-                        sessionStorage.setItem('openAlipay',json.urUser.openAlipay);
+                        sessionStorage.setItem('openWechat',json.urUser.shop.openWechat);
+                        sessionStorage.setItem('openAlipay',json.urUser.shop.openAlipay);
                         this.context.router.push('/cashier')
                     }else{      
                         this.setState({
