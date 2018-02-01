@@ -12,7 +12,7 @@ class Btnpay extends React.Component {
 	render(){
 		return(
 			<div style={{cursor:'pointer'}} onClick={this.hindClick.bind(this)}>
-				 <Button>扫码</Button>
+				 <Button className='payscanbtn'>扫码</Button>
     		</div>
 		)
 	}

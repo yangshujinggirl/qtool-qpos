@@ -248,10 +248,10 @@ class Pay extends React.Component {
 
         for(var i=0;i<arr.length;i++){
             if(Number(arr[i].type)==5){
-                arr[i].types=5
+                arr[i].types=6
             }
             if(Number(arr[i].type)==6){
-                arr[i].types=6
+                arr[i].types=5
             }
             if(Number(arr[i].type)<5){
                 arr[i].types=4
@@ -969,6 +969,7 @@ class Pay extends React.Component {
         // const openAlipay=sessionStorage.getItem("openAlipay")
         const openWechat='1'
         const openAlipay='1'
+        console.log(this.state.amountlist)
         return (
             <div>
                 <Modal
@@ -987,7 +988,7 @@ class Pay extends React.Component {
                             {
                                 this.state.amountlist.length>1
                                 ?<div className='clearfix inputcenter'>
-                                    <div className='payharflwl' >
+                                    <div className={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?'payharflwl inputcenterdis':'payharflwl inputcenteropen'}>
                                         <div>
                                             <Input  
                                                 autoComplete="off" 
@@ -997,11 +998,12 @@ class Pay extends React.Component {
                                                 className='tr payinputsmodel' 
                                                 onChange={this.payfirstonChange.bind(this)} 
                                                 addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                                                disabled={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} 
                                             />
                                         </div>
                                       
                                     </div>
-                                    <div className='payharflwr'>
+                                    <div className={(this.state.amountlist[1].type=='1' || this.state.amountlist[1].type=='2' || this.state.amountlist[1].type=='3')?'payharflwr inputcenterdis':'payharflwr inputcenteropen'}>
                                         <Input  
                                             autoComplete="off" 
                                             addonBefore={this.state.amountlist[1].name} 
@@ -1010,19 +1012,20 @@ class Pay extends React.Component {
                                             className='tr payinputsmodel' 
                                             onChange={this.paysecondonChange.bind(this)} 
                                             addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                                            disabled={(this.state.amountlist[1].type=='1' || this.state.amountlist[1].type=='2' || this.state.amountlist[1].type=='3')?true:false} 
                                         />
                                         
                                     </div>
                                 </div>
-                                :<div className='inputcenter'>
+                                :<div className={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?'inputcenter inputcenterdis':'inputcenter inputcenteropen'}>
                                     <Input  
                                         autoComplete="off" 
                                         addonBefore={this.state.amountlist[0].name} 
                                         value={this.state.amountlist[0].value}  
                                         ref='paymoneys' 
                                         onBlur={this.hindonBlur.bind(this)} 
-                                        className={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  
-                                        disabled={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} 
+                                        className={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  
+                                        disabled={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} 
                                         onChange={this.hindonChange.bind(this)}
                                         addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
                                     />
@@ -1032,8 +1035,8 @@ class Pay extends React.Component {
                             }
                             <div><Input  autoComplete="off" addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
                             <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
-                            <div className='payends'><Button className='tc mt25 paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
-                            <div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>
+                            {this.state.amountlist.length==1?<div className='payends'><Button className='paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
+                            {this.state.amountlist.length==1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
                         </div>
                         <div className='fr fix-800-fr' style={{width:'274px'}}>
                             <div>
@@ -1052,11 +1055,14 @@ class Pay extends React.Component {
                             </div>
                             <div>
                                 <ul className='btnbg'>
-                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?'listtdis':(this.state.group?'listtoff':'listt')}><Button disabled={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
-                                    <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.cutAmount=='0'?'listt':'listtoff'}><Button>抹零</Button></li>
+                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?(this.state.amountlist.length>1?'listtdiszu':'listtdis'):(this.state.group?(this.state.amountlist.length>1?'listtoffzu':'listtoff'):(this.state.amountlist.length>1?'listtzu':'listt'))}><Button disabled={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
+                                    <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.amountlist.length>1?(this.state.cutAmount=='0'?'listtzu':'listtoffzu'):(this.state.cutAmount=='0'?'listt':'listtoff')}><Button>抹零</Button></li>
                                 </ul>
                             </div>
                         </div>
+
+                        {this.state.amountlist.length>1?<div className='payends'><Button className={this.state.amountlist.length>1?'paylhszu':'paylhs'} onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
+                        {this.state.amountlist.length>1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
               	    </div>
             </Modal>
         </div>

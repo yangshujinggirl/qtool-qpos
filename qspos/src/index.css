@@ -465,51 +465,66 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 
 
 /*结算*/
-
+.pay .ant-modal-body{padding:30px 23px 30px 30px;}
 /* 六个按钮三种状态 */
 .pay .list{width:117px;height:75px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+.pay .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
 .pay .listoff{ width:117px;height:75px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
+.pay .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
 .pay .listdis{ width:117px;height:75px;background:#f7f7f7;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
+.pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
 
 
-
+/* 组合支付 抹零*/
 .btnbg{margin-top: 10px;}
-.pay .ant-modal-body{padding:30px 23px 30px 30px;}
-
-/*正常list*/
-
-
-
-
-/* 组合支付 抹零点击和不点击*/
 .pay .listtoff{border-radius: 5px;width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;float: left;}
+.pay .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
+.pay .listtoffzu{border-radius: 5px;width:117px;height:75px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;float: left;}
+.pay .listtoffzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
 .pay .listt{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+.pay .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
+.pay .listtzu{width:117px;height:75px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+  .pay .listtzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
 .pay .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
+.pay .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
+.pay .listtdiszu{width:117px;height:75px;background:#f7f7f7;color:#fff;font-size:26px;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
+.pay .listtdiszu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
+
+/* 退货弹窗抹零 */
 .pay .listnonezero{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+.pay .listnonezero .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
 .pay .listnonezeros{width:117px;height:144px;background:#35bab0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-
-/* --- */
-
-
-.pay .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
-.pay .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
-.pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
-
-.pay .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
-.pay .listnonezero .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
 .pay .listnonezeros .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
-.pay .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
-.pay .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;}
 
 
-.pay .ant-input{border-left: 0;font-size: 40px;color: #384162}
-.pay .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border: 1px solid #E7E8EC;border-right: 0;}
+/* 结算弹窗输入框 */
+.paylw{width:580px;}
+.pay .ant-input{border-left: 0;font-size: 40px;color: #384162;border-radius: 0;}
+.pay .ant-input-disabled{background: #e7e8ec;}
+.pay .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border: 1px solid #E7E8EC;border-right: 0;background: #e7e8ec;padding:0 5px}
+.pay .inputcenteropen .ant-input-group-addon{background: #fff;}
+.pay .payscanbtn{width: 98px;height: 73px;border-radius: 0;border:0;margin-right: -5px;font-size:26px;color:#35bab0;}
+.pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
+.payharflw{width:580px;height:80px;}
+.payharflwl{width:580px;height:80px;margin-bottom: 20px;}
+.payharflwr{width:580px;height:80px;margin-bottom: 20px;}
+.payinputsmodel{padding-right: 20px;height: 75px;}
+.payinputsmodels{background:#fff;}
+.payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);}
+.paylh{height:80px}
+.paylhs{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.paylhszu{width:860px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.paylhs:hover{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.paylhszu:hover{width:860px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 
-.pay .inputcenter .ant-input-group-addon{background: #fff;}
+
+
+/* 结算按钮 */
 .pay .iconk{font-size: 14px;}
 .pay .waring{text-align: center;width: 580px;font-size: 12px;color: #D7636B;height: 20px;margin-top: -11px;}
 .pay .waringnone{text-align: center;width: 580px;font-size: 12px;color: #D7636B;opacity: 0;height: 20px;margin-top: -11px;}
@@ -518,19 +533,13 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 .ant-input-group{box-shadow: 0 0 25px 0 rgba(0,0,0,0.10);}
 .ant-input-group-wrapper{margin-bottom: 20px;}
 .payinputshe{height: 75px;}
-.pay .ant-input{border-radius: 0 5px 5px 0}
 
 
-.paylw{width:580px;}
-.paylh{height:80px}
-.paylhs{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
-.paylhs:hover{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
-.payharflw{width:280px;height:80px;}
-.payharflwl{width:280px;height:80px;float:left;margin-bottom: 20px;}
-.payharflwr{width:280px;height:80px;float:right;margin-bottom: 20px;}
-.payinputsmodel{padding-right: 20px;height: 75px;}
-.payinputsmodels{background:#fff;}
-.payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);}
+
+
+
+
+
 
 .rechargepays .ant-modal-body{padding:0 0 20px 0;}
 
@@ -1084,7 +1093,7 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .pay .listtdis{border-radius: 5px;width:110px;height:144px;background:#d8d8d8;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
 .pay .ant-input{border: 1px solid #d8d8d8;border-left: 0;font-size: 40px;color: #384162;}
 .pay .ant-input:hover{border-color: #e2e2e2;}
-.pay .ant-input-group-addon{background: #f7f7f7;border: 1px solid #d8d8d8;border-right: 0;}
+.pay .ant-input-group-addon{background: #e7e8ec;border: 1px solid #d8d8d8;border-right: 0;padding:0;}
 .pay .inputcenter .ant-input-group-addon{background: #fff}
 .pay .iconk{font-size: 14px;}
 .pay .waring{text-align: center;width: 580px;font-size: 12px;color: #D7636B;}
