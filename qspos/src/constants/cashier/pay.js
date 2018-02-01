@@ -44,7 +44,6 @@ class Pay extends React.Component {
         visible: false,
         backmoney:'0.00',
         cutAmount:'0',
-        loading:false
     }
 
     //初始化方法
@@ -928,32 +927,22 @@ class Pay extends React.Component {
 
     //扫码支付
     btnSaoPay=(values)=>{
-        this.setState({
-            loading:true
-        },function(){
-            const result=GetServerData('qerp.web.qpos.od.order.save',values)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
-                if(json.code=='0'){
-                    console.log(json)
-                    const orderNo=json.orderNo  //订单号
-                    const odOrderId=json.odOrderId  //订单id
-                    const consumeType='1' //销售订单
-                    const type=values.orderPay.length>1?values.orderPay[1].type:values.orderPay[0].type//支付类型
-                    const amount=values.orderPay.length>1?values.orderPay[1].amount:values.orderPay[0].amount //支付金额
-                    this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
-                    this.setState({
-                        loading:false
-                    })
-                }else{
-                    this.setState({
-                        loading:false
-                    })
-                    message.error(json.message)
-                }
-                
-        })
+        const result=GetServerData('qerp.web.qpos.od.order.save',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                console.log(json)
+                const orderNo=json.orderNo  //订单号
+                const odOrderId=json.odOrderId  //订单id
+                const consumeType='1' //销售订单
+                const type=values.orderPay.length>1?values.orderPay[1].type:values.orderPay[0].type//支付类型
+                const amount=values.orderPay.length>1?values.orderPay[1].amount:values.orderPay[0].amount //支付金额
+                this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
+            }else{
+                message.error(json.message)
+            }
+            
     })
 
 
@@ -1007,7 +996,7 @@ class Pay extends React.Component {
                                                 onBlur={this.payfirstonBlur.bind(this)} 
                                                 className='tr payinputsmodel' 
                                                 onChange={this.payfirstonChange.bind(this)} 
-                                                addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)} loading={this.state.loading}/>:null}
+                                                addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
                                             />
                                         </div>
                                       
@@ -1020,7 +1009,7 @@ class Pay extends React.Component {
                                             onBlur={this.paysecondonBlur.bind(this)} 
                                             className='tr payinputsmodel' 
                                             onChange={this.paysecondonChange.bind(this)} 
-                                            addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)} loading={this.state.loading}/>:null}
+                                            addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
                                         />
                                         
                                     </div>
@@ -1035,7 +1024,7 @@ class Pay extends React.Component {
                                         className={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  
                                         disabled={!this.state.group && (this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} 
                                         onChange={this.hindonChange.bind(this)}
-                                        addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)} loading={this.state.loading}/>:null}
+                                        addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
                                     />
                                    
                                     </div>

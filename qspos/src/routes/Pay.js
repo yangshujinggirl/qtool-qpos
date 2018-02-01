@@ -51,19 +51,20 @@ class Payamount extends React.Component{
             if(json.code=='0'){
                 const odOrderId=json.odOrderId
                 const status=json.status
+                const msg=json.msg
                 //返回我三种状态
                 // 1.支付成功 status=30
                 // 2.支付失败 status=40
                 // 3.支付中  status=20
                 if(status=='30'){
-                    this.paysuccess()
+                    this.paysuccess(msg)
                 }
                 if(status=='20'){
                     //每隔1s请求新的查询接口，直到返回成功或者失败，停止查询，在返回成功或者失败之前，页面是loding状态，
                     myVar=setInterval(this.payStateInfo,1000)
                 }
                 if(status=='40'){
-                    this.payerron()
+                    this.payerron(msg)
                 }
             }else{
                 this.setState({
@@ -76,7 +77,7 @@ class Payamount extends React.Component{
     }
 
     //支付成功
-    paysuccess=()=>{
+    paysuccess=(msg)=>{
         //跳转收银界面，初始化数据，loding结束
         this.setState({
             loding:false
@@ -86,6 +87,7 @@ class Payamount extends React.Component{
                 //销售订单
                 this.context.router.push('/cashier')
                 this.props.meth1.handleOk()
+                message.success(msg)
                 printSaleOrder(this.props.checkPrint,this.props.location.state.orderId)
             }
             if(consumeType=='2'){
@@ -97,7 +99,7 @@ class Payamount extends React.Component{
         })
     }
     //支付失败
-    payerron=()=>{
+    payerron=(msg)=>{
         this.setState({
             loding:false
         },function(){
@@ -117,12 +119,14 @@ class Payamount extends React.Component{
         }).then((json) => {
             if(json.code=='0'){
                 if(json.status=='30'){
+                    const msg=json.msg
                     clearInterval(myVar)
-                    this.paysuccess()
+                    this.paysuccess(msg)
                 }
                 if(json.status=='40'){
+                    const msg=json.msg
                     clearInterval(myVar)
-                    this.payerron()
+                    this.payerron(msg)
                 }
             }else{
                 this.setState({
@@ -153,7 +157,7 @@ class Payamount extends React.Component{
                                 labelCol={{ span: 5 }}
                                 wrapperCol={{ span: 10 }}
                             >
-                                <Input size="large"  className='w200' disabled value={this.props.location.state.amount}/>
+                                <p className='scanpayamount'>{this.props.location.state.amount}</p>
                             </FormItem>
                             <FormItem
                                 label="付款码"
@@ -163,6 +167,7 @@ class Payamount extends React.Component{
                                 <div className='w200 wr'>
                                     <Input size="large" className='w200s' onKeyUp={this.hindonKeyUp.bind(this)} onBlur={this.hindBlue.bind(this)}/>
                                     <Button className='w200btn' onClick={this.payok.bind(this)}>确定</Button>
+                                    <p>{122}</p>
                                 </div>
                             </FormItem>
                         </Form>

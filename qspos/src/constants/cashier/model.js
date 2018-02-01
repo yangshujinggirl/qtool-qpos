@@ -19,7 +19,6 @@ class Modales extends React.Component {
         typeclick4:false,
         reamount:'',
         type:1,
-        loding:false
 
    }
   showModal = () => {
@@ -131,12 +130,6 @@ class Modales extends React.Component {
         // if(values.type=='2'){
         //     values.type='8'
         // }
-    this.setState({
-        loding:true
-    })
-
-
-    
         const result=GetServerData('qerp.pos.mb.card.charge',values)
         result.then((res) => {
             return res;
@@ -144,8 +137,7 @@ class Modales extends React.Component {
             if(json.code=='0'){
                 this.setState({
                     visible: false,
-                    reamount:'',
-                    loding:false
+                    reamount:''
                 },function(){
                     const orderNo=json.chargeNo  //订单号
                     const odOrderId=json.mbCardMoneyChargeId  //订单id
@@ -155,11 +147,7 @@ class Modales extends React.Component {
                     this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
                 });
             }else{
-                this.setState({
-                    loding:false
-                },function(){
-                    message.warning(json.message)
-                })
+                message.warning(json.message)
             }
         })
         
@@ -205,7 +193,7 @@ class Modales extends React.Component {
                             className='fr w310ll' 
                             value={this.state.reamount} 
                             onChange={this.reamount.bind(this)}
-                            addonAfter={(this.state.type=='1' && openWechat=='1') ||(this.state.type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)} loading={this.state.loading}/>:null}
+                            addonAfter={(this.state.type=='1' && openWechat=='1') ||(this.state.type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)}/>:null}
                             />
                        
                     </div>
