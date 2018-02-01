@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import {GetServerData} from '../../services/services';
 import {printRechargeOrder} from '../../components/Method/Method'
 import {getRechargeOrderInfo} from '../../components/Method/Print';
+import Btnpay from './btnpay'
 
 
 class Modales extends React.Component {
@@ -64,53 +65,7 @@ class Modales extends React.Component {
         })
   }
 
-  //打印充值订单
-//   printRechargeOrder=(orderid)=>{
-//     if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-//         //判断打印
-//             const result=GetServerData('qerp.pos.sy.config.info')
-//             result.then((res) => {
-//                 return res;
-//             }).then((json) => {
-//                 if(json.code == "0"){
-//                     if(json.config.rechargePrint=='1'){
-//                         //判断是打印大的还是小的
-//                         if(json.config.paperSize=='80'){
-//                             let valueData =  {type:"2",outId:orderid};
-//                             const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
-//                             result.then((res) => {
-//                                 return res;
-//                             }).then((data) => {
-//                                 if(data.code == "0"){
-//                                     getRechargeOrderInfo(data,"80",json.config.rechargePrintNum);
-//                                 }else{
-//                                     message.error(data.message);
-//                                 }
-//                             });
-//                         }else{
-//                             let valueData =  {type:"2",outId:orderid};
-//                             const result=GetServerData('qerp.web.qpos.st.sale.order.detail',valueData);
-//                             result.then((res) => {
-//                                 return res;
-//                             }).then((data) => {
-//                                 if(data.code == "0"){
-//                                     getRechargeOrderInfo(data,"58",json.config.rechargePrintNum);
-//                                 }else{
-//                                     message.error(data.message);
-//                                 }
-//                             });
-//                         }
-//                     }
-//                 }else{
-//                     message.warning('打印失败')
-//                 }
-//             })
-        
-//     }else{
-//         message.warning('请在win系统下操作打印') 
-//     }
-//   }
-
+ 
 
 
     //打印
@@ -170,9 +125,18 @@ class Modales extends React.Component {
   payhindClick=()=>{
       console.log(1)
       let values={mbCardId:this.props.mbCardId,amount:this.state.reamount,type:this.state.type}
-      this.setState({
-          loding:true
-      },function(){
+        // if(values.type=='1'){
+        //     values.type='7'
+        // }
+        // if(values.type=='2'){
+        //     values.type='8'
+        // }
+    this.setState({
+        loding:true
+    })
+
+
+    
         const result=GetServerData('qerp.pos.mb.card.charge',values)
         result.then((res) => {
             return res;
@@ -183,24 +147,30 @@ class Modales extends React.Component {
                     reamount:'',
                     loding:false
                 },function(){
-                    const payorderid=json.payorderid
-                    const type=json.type
-                    const amount=json.amount
-                    const ordertype='2' //充值订单
-                    // this.context.router.push('/pay')
-                    this.context.router.push({ pathname : '/pay', state : {msg :payorderid,type:type,amount:amount,ordertype:ordertype}});  
+                    const orderNo=json.chargeNo  //订单号
+                    const odOrderId=json.mbCardMoneyChargeId  //订单id
+                    const consumeType='2' //充值订单
+                    const type=values.type//支付类型
+                    const amount=values.amount //支付金额
+                    this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
                 });
             }else{
                 this.setState({
                     loding:false
+                },function(){
+                    message.warning(json.message)
                 })
             }
-            })
-      })
+        })
+        
     
     }
     render() {
-  	    const mbCardId=this.props.mbCardId
+          const mbCardId=this.props.mbCardId
+          // const openWechat=sessionStorage.getItem("openWechat")
+        // const openAlipay=sessionStorage.getItem("openAlipay")
+        const openWechat='1'
+        const openAlipay='1'
         return (
         <div>
             <span onClick={this.showModal} className='themecolor'>充值</span>
@@ -230,8 +200,14 @@ class Modales extends React.Component {
                 <div className='w clearfix w310'>
                     <div className='fl w310l'>充值金额</div> 
                     <div>
-                        <Input  autoComplete="off" className='fr w310ll' value={this.state.reamount} onChange={this.reamount.bind(this)}/>
-                        <Button onClick={this.payhindClick.bind(this)} loading={this.state.loding}>扫码</Button>
+                        <Input  
+                            autoComplete="off" 
+                            className='fr w310ll' 
+                            value={this.state.reamount} 
+                            onChange={this.reamount.bind(this)}
+                            addonAfter={(this.state.type=='1' && openWechat=='1') ||(this.state.type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)} loading={this.state.loading}/>:null}
+                            />
+                       
                     </div>
                 </div>
             </Modal>
