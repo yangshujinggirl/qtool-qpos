@@ -1011,7 +1011,7 @@ class Pay extends React.Component {
                                             onBlur={this.paysecondonBlur.bind(this)} 
                                             className='tr payinputsmodel' 
                                             onChange={this.paysecondonChange.bind(this)} 
-                                            addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                                            addonAfter={(this.state.amountlist[1].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
                                             disabled={(this.state.amountlist[1].type=='1' || this.state.amountlist[1].type=='2' || this.state.amountlist[1].type=='3')?true:false} 
                                         />
                                         
