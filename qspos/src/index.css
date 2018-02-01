@@ -275,7 +275,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .menuitem{font-size:14px;color:#74777F}
 .menuitem:hover{color:#35BAB0;}
 .shift_bottom_list{background: #fff;}
-.shift_bottom_list li{width: 110px;height:62px;border:1px solid #F4F4F4;box-shadow:0 0 11px 0 rgba(0,0,0,0.10);text-align:center;float:left;background: #fff;margin:22px 11px 0;padding-top: 3px;}
+.shift_bottom_list li{width: 110px;height:62px;border:1px solid #F4F4F4;box-shadow:0 0 11px 0 rgba(0,0,0,0.10);text-align:center;float:left;background: #fff;margin:22px 33px 0;padding-top: 3px;}
 .dropdownmodal .ant-modal-content{width: 550px;}
 .dropdownmodal .ant-modal-header{display: none;}
 .dropdownmodal .ant-modal-body{padding:0;}
@@ -699,6 +699,39 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
     height: 30px;
     border:1px solid #E7E8EC;
     background: #FFF;
+  }
+
+  /* v20180131交班框样式 */
+  .change-center .changeWx-left,.change-center .changeAli-right{
+    width: 215px;
+    border: 1px solid #F4F4F4;
+    box-shadow: 0 0 11px 0 rgba(0,0,0,0.10);
+    text-align: center;
+    background: #fff;
+    margin-top: 22px;
+  }
+  .changeWx-left{
+    float: left;
+    margin-left: 33px;
+  }
+  .changeAli-right{
+    float: right;
+    margin-right: 33px;
+  }
+  .changeWx-left li,.changeAli-right li{
+    float: left;
+    width: 106px;
+    height: 62px;
+    padding-top: 3px;
+  }
+  
+  .center-i-splice{
+    border: none;
+    float: left;
+    width: 1px;
+    height: 30px;
+    background: #d9d9d9;
+    margin-top: 18px;
   }
 
 /* v20180123 */
