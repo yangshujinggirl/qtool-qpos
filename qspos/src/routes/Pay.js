@@ -148,7 +148,7 @@ class Payamount extends React.Component{
         console.log(this)
         return (
             <div className={styles.normal}>
-                <Header type={false} color={true}/>
+                <Header type={false} color={true} title={this.props.location.state.type=='7'?'微信':'支付宝'}/>
                 <div className='cons'>
                     <Spin tip="支付中" spinning={this.state.loding}>
                         <Form className='payamounts'>

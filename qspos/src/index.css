@@ -298,7 +298,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .userloginformbutton{width: 100%;margin-top: 12px}
 .userlogin_form{max-width: 400px;margin:0 auto;margin-top:30px;}
 .userlogin_form .ant-input-disabled{background: #fff;color: rgba(0,0,0,1);}
-
+.headercen{height: 93px;line-height: 93px;text-align: center;font-size: 30px;color: #fff;}
 
 .jiaos{height: 20px;}
 

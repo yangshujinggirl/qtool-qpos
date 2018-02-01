@@ -10,6 +10,7 @@ class Header extends React.Component{
     				<div className='clearfix'>
       					<div className='fl'><Menu type={this.props.type} linkRoute={this.props.linkRoute}/></div>
       					<div className='fr'><Userinfo/></div>
+						{this.props.title?<div className='headercen'>{this.props.title}</div>:null}
       				</div>
     			</div>
 			)
