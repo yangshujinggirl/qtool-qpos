@@ -1,7 +1,7 @@
 
-/* .normal {
-    padding-top:194px
-} */
+.payscanbox .ant-spin-text{font-size:30px;color:#ffffff;}
+
+.payscanbox .ant-spin-nested-loading > div > .ant-spin{background:rgba(0,0,0,0.60);height: 100vh;max-height:100%;}
 .cons{
     padding: 94px 30px 30px;
     height: 100vh;
@@ -9,12 +9,106 @@
 .cons .box{
     background: #fff;
     height: 100%;
+    overflow: hidden;
+}
+.payscanbox .erronremarks{font-size:24px;color:#ea2727;}
+.payamounts .ant-form-item-control{height: 80px;}
+
+.payscanbox .erronremark{font-size:24px;color:#ea2727;}
+.payscanbox .txtss{margin-left: 7px;}
+.erronremarks .box{margin-left: 122px;}
+
+.payamounts{width: 638px;margin:0 auto;margin-top:60px;}
+.payamounts .wr{height: 80px;}
+.payamounts .wr .ant-input{border-radius:5px 0px 0 5px;border-right: 0;width: 413px;height: 80px;font-size:28px;color:#384162;}
+.payamounts .scanpayamount{height: 80px;line-height: 80px;font-size:40px;color:#384162;}
+.payamounts .ant-btn{border-radius:0 5px 5px 0;width:102px;height:80px;background: #35bab0;color: #fff;font-size: 26px;padding:0;vertical-align: top;}
+.payamounts .ant-form-item-label{font-size:26px;color:#74777f;height:80px;line-height: 80px;float: left;width:122px;}
+.payamounts .ant-form-item-label label{font-size:26px;color:#74777f;}
+
+.imgbox{width: 154px;height:230px;margin:0 auto;margin-top:106px;}
+.rmark{font-size:16px;color:#35bab0;text-align: center;margin-top:26px;}
+.lodimgbox{
+    width: 88px;
+    height: 88px;
+    animation: myfirst 1s infinite linear;
+    -moz-animation: myfirst 1s infinite linear;	/* Firefox */
+    -webkit-animation: myfirst 1s infinite linear;	/* Safari 和 Chrome */
+    -o-animation: myfirst 1s infinite linear;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -44px;
+}
+@keyframes myfirst
+{
+from {
+    transform:rotate(1deg);
+    -ms-transform:rotate(1deg); 	/* IE 9 */
+    -moz-transform:rotate(1deg); 	/* Firefox */
+    -webkit-transform:rotate(1deg); /* Safari 和 Chrome */
+    -o-transform:rotate(1deg); 	/* Opera */
+}
+to {
+    transform:rotate(360deg);
+    -ms-transform:rotate(360deg); 	/* IE 9 */
+    -moz-transform:rotate(360deg); 	/* Firefox */
+    -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+    -o-transform:rotate(360deg); 	/* Opera */
+    }
 }
 
-.w200{width: 300px;height: 40px;}
-.w200s{width: 413px;height: 40px;}
-.w200btn{width:50px;height:40px;}
-.payamounts .ant-btn{border-radius:0 5px 5px 0;}
-.payamounts .wr .ant-input{border-radius:5px 0px 0 5px;border-right: 0;}
-.payamounts .ant-form-item-label label{font-size:26px;color:#74777f;}
-.payamounts .scanpayamount{height: 40px;line-height: 40px;font-size:40px;color:#384162;}
+@-moz-keyframes myfirst /* Firefox */
+{
+from {
+    transform:rotate(1deg);
+    -ms-transform:rotate(1deg); 	/* IE 9 */
+    -moz-transform:rotate(1deg); 	/* Firefox */
+    -webkit-transform:rotate(1deg); /* Safari 和 Chrome */
+    -o-transform:rotate(1deg); 	/* Opera */
+}
+to {
+    transform:rotate(360deg);
+    -ms-transform:rotate(360deg); 	/* IE 9 */
+    -moz-transform:rotate(360deg); 	/* Firefox */
+    -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+    -o-transform:rotate(360deg); 	/* Opera */
+}
+}
+
+@-webkit-keyframes myfirst /* Safari 和 Chrome */
+{
+from {
+    transform:rotate(1deg);
+    -ms-transform:rotate(1deg); 	/* IE 9 */
+    -moz-transform:rotate(1deg); 	/* Firefox */
+    -webkit-transform:rotate(1deg); /* Safari 和 Chrome */
+    -o-transform:rotate(1deg); 	/* Opera */
+}
+to {
+    transform:rotate(360deg);
+    -ms-transform:rotate(360deg); 	/* IE 9 */
+    -moz-transform:rotate(360deg); 	/* Firefox */
+    -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+    -o-transform:rotate(360deg); 	/* Opera */
+}
+}
+
+@-o-keyframes myfirst /* Opera */
+{
+from {
+    transform:rotate(1deg);
+    -ms-transform:rotate(1deg); 	/* IE 9 */
+    -moz-transform:rotate(1deg); 	/* Firefox */
+    -webkit-transform:rotate(1deg); /* Safari 和 Chrome */
+    -o-transform:rotate(1deg); 	/* Opera */
+}
+to {
+    transform:rotate(360deg);
+    -ms-transform:rotate(360deg); 	/* IE 9 */
+    -moz-transform:rotate(360deg); 	/* Firefox */
+    -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+    -o-transform:rotate(360deg); 	/* Opera */
+}
+}

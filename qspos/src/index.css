@@ -315,6 +315,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .infomodels .modeltext1{margin-top: 10px;}
 .infomodels .modeltext2{margin-bottom: 14px;}
 
+.ant-spin-nested-loading > div > .ant-spin{height:100vh;}
 
 /*界面*/
 /*登录页面*/

@@ -2,9 +2,12 @@ import React from 'react';
 import { connect } from 'dva';
 import styles from './Pay.css';
 import Header from '../components/header/Header';
-import { Input ,Form,Spin,message,Button} from 'antd';
+import AntIcon from '../components/loding/payloding';
+import { Input ,Form,Spin,message,Button,Icon} from 'antd';
+import ReactDOM from 'react-dom';
 import {GetServerData} from '../services/services';
 import {printSaleOrder,printRechargeOrder} from '../components/Method/Method'
+
 
 const FormItem = Form.Item;
 var myVar=0;
@@ -14,7 +17,8 @@ class Payamount extends React.Component{
         super(props, context);  
         this.state={
             code:null,
-            loding:false
+            loding:false,
+            erronmsg:null
         }
     }  
     //回车事件
@@ -22,7 +26,8 @@ class Payamount extends React.Component{
         if(e.keyCode=='13'){
             const code=e.target.value
             this.setState({
-                code:code
+                code:code,
+                erronmsg:null
             },function(){
                 this.payok()
             })
@@ -80,7 +85,8 @@ class Payamount extends React.Component{
     paysuccess=(msg)=>{
         //跳转收银界面，初始化数据，loding结束
         this.setState({
-            loding:false
+            loding:false,
+            erronmsg:null
         },function(){
             const consumeType=this.props.location.state.consumeType
             if(consumeType=='1'){
@@ -101,9 +107,9 @@ class Payamount extends React.Component{
     //支付失败
     payerron=(msg)=>{
         this.setState({
-            loding:false
-        },function(){
-            message.error('支付失败');
+            loding:false,
+            erronmsg:msg
+
         })
     }
     //支付状态查询接口
@@ -144,39 +150,57 @@ class Payamount extends React.Component{
             code:e.target.value
         })
     }
+    codeChange=()=>{
+        this.setState({
+            erronmsg:null
+        })
+    }
     render(){
         console.log(this)
         return (
-            <div className={styles.normal}>
-                <Header type={false} color={true} title={this.props.location.state.type=='7'?'微信':'支付宝'}/>
-                <div className='cons'>
-                    <div className='box'>
-                    <Spin tip="支付中" spinning={this.state.loding}>
-                        <Form className='payamounts'>
-                            <FormItem
-                                label="支付金额"
-                                labelCol={{ span: 5 }}
-                                wrapperCol={{ span: 10 }}
-                            >
-                                <p className='scanpayamount'>{this.props.location.state.amount}</p>
-                            </FormItem>
-                            <FormItem
-                                label="付款码"
-                                labelCol={{ span: 5 }}
-                                wrapperCol={{ span: 10 }}
-                            >
-                                <div className='w200 wr'>
-                                    <Input size="large" className='w200s' onKeyUp={this.hindonKeyUp.bind(this)} onBlur={this.hindBlue.bind(this)}/>
-                                    <Button className='w200btn' onClick={this.payok.bind(this)}>确定</Button>
-                                    <p>{122}</p>
-                                </div>
-                            </FormItem>
-                        </Form>
-                    </Spin>
+            <div className='payscanbox'>
+                <Spin tip={this.props.location.state.type=='7'?'微信支付中...':'支付宝支付中...'} spinning={this.state.loding} indicator={<AntIcon/>}>
+                    <Header type={false} color={true} title={this.props.location.state.type=='7'?'微信':'支付宝'}/>
+                    <div className='cons'>
+                        <div className='box'>
+                            <Form className='payamounts'>
+                                <FormItem
+                                    label="支付金额::"
+                                    
+                                >
+                                    <p className='scanpayamount'>{this.props.location.state.amount}</p>
+                                </FormItem>
+                                <FormItem
+                                    label="付款码::"
+                                    
+                                >
+                                    <div className='wr'>
+                                        <Input size="large"  onKeyUp={this.hindonKeyUp.bind(this)} onBlur={this.hindBlue.bind(this)} onChange={this.codeChange.bind(this)} ref='code'/>
+                                        <Button onClick={this.payok.bind(this)}>确定</Button>
+                                        <p className='erronremarks'>
+                                            <div className='box'>
+                                                {this.state.erronmsg?<div><Icon type="exclamation-circle-o" /><span className='txtss'>{this.state.erronmsg}</span></div>:null}
+                                                
+                                                
+                                            </div>
+                                        </p>
+                                    </div>
+                                </FormItem>
+                            </Form>
+                            <div className='imgbox'>
+                                <img src={require('../images/paya@2x.png')} className='w100 h100'/>
+                            </div>
+                            <p className='rmark'>请扫码顾客{this.props.location.state.type=='7'?'微信':'支付宝'}的付款码</p>
+                        
+                        </div>
                     </div>
-                </div>
+                </Spin>
             </div>
         );
+    }
+    componentDidMount(){
+        const ValueorderNoses=ReactDOM.findDOMNode(this.refs.code)
+        ValueorderNoses.focus()
     }
 }
 

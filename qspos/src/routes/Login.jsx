@@ -68,17 +68,17 @@ class NormalLoginForm extends React.Component {
             <Form  className='login_forms'>
                 <FormItem>
                     {getFieldDecorator('username', {})(
-                        <Input prefix={<Icon type="user" className='f13' />} placeholder="输入手机号"/>
+                        <Input prefix={<Icon type="user" className='f13' />} placeholder="输入手机号" size="large"/>
                     )}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('password', {})(
-                        <Input prefix={<Icon type="lock"  className='f13'/>}  placeholder="输入密码" type='password' onKeyUp={this.hindkeyup.bind(this)}/>
+                        <Input prefix={<Icon type="lock"  className='f13'/>}  placeholder="输入密码" type='password' onKeyUp={this.hindkeyup.bind(this)} size="large"/>
                     )}
                 </FormItem>
                 <FormItem>
                     <div className={this.state.login?'login_form_forgot':'login_form_forgots'}>手机号或密码错误，请重新输入</div>
-                    <Button type="primary" className='loginformbuttons' onClick={this.handleSubmit.bind(this)} >
+                    <Button type="primary" className='loginformbuttons' onClick={this.handleSubmit.bind(this)} size='large'>
                         立即登录
                     </Button>
                 </FormItem>

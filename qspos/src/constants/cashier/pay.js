@@ -944,6 +944,7 @@ class Pay extends React.Component {
             }
             
     })
+    // this.context.router.push({ pathname : '/pay', state : {orderId :'100',type:'7',amount:'100',consumeType:'1',orderNo:'0898u'}});
 
 
 
