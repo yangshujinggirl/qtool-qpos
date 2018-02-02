@@ -1,4 +1,4 @@
-// import styles from '../../routes/Pay.css';
+import styles from '../../routes/Pay.css';
 class AntIcon extends React.Component{
     render(){
        return (

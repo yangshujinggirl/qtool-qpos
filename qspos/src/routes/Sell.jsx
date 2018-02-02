@@ -114,7 +114,7 @@ class Searchcompon extends React.Component {
             <div className='clearfix searchqery'>
                 <div className='fr clearfix'>
                     <div className='fl clearfix' style={{marginRight:"10px"}}>
-                        <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'5px'}}>订单时间</p>
+                        <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'5px',marginBottom:"0"}}>订单时间</p>
                             <RangePicker format={dateFormat} onChange={this.timechange.bind(this)} className='selltime'/>
                     </div>
                     <div className='searchselect clearfix fl'>

@@ -274,7 +274,7 @@ class ProfitReportForm extends React.Component {
                         <ul>
                             <li>
                                 <div>
-                                    <p style={{color:"#FB6349"}}><i>¥</i>
+                                    <p style={{color:"#FB6349",marginBottom:'0'}}><i>¥</i>
                                     {this.state.rpProfit.amount&&this.state.rpProfit.amount!="0"?this.state.rpProfit.amount.split('.')[0]:"0"}
                                     <span>.{this.state.rpProfit.amount&&this.state.rpProfit.amount!="0"?this.state.rpProfit.amount.split('.')[1]:"00"}</span>
                                     </p>
@@ -287,7 +287,7 @@ class ProfitReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#F7A303"}}><i>¥</i>
+                                    <p style={{color:"#F7A303",marginBottom:'0'}}><i>¥</i>
                                     {this.state.rpProfit.saleCostAmount&&this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[0]:"0"}
                                     <span>.{this.state.rpProfit.saleCostAmount&&this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}</span>
                                     </p>
@@ -300,7 +300,7 @@ class ProfitReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#51C193"}}><i>¥</i>
+                                    <p style={{color:"#51C193",marginBottom:'0'}}><i>¥</i>
                                     {this.state.rpProfit.profitAmount&&this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[0]:"0"}
                                     <span>. {this.state.rpProfit.profitAmount&&this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[1]:"00"}</span>
                                     </p>

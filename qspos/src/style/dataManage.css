@@ -320,7 +320,7 @@
 /* seletc样式修改 */
 .ant-select-arrow{
     right: 3px;
-    margin-top:-8px;
+    /* margin-top:-8px; */
 }
 .discount-modal .ant-form{
     text-align: center;

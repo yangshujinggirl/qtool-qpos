@@ -146,7 +146,7 @@ class DailyBillForm extends React.Component {
                     <ul>
                         <li>
                             <div>
-                                <p style={{color:"#FB6349"}}>
+                                <p style={{color:"#FB6349",marginBottom:'0'}}>
                                     <i>¥</i>
                                     {this.state.rpDayAccount.cleanAmount&&this.state.rpDayAccount.cleanAmount!="0"?this.state.rpDayAccount.cleanAmount.split('.')[0]:"0"}
                                     <span>.{this.state.rpDayAccount.cleanAmount&&this.state.rpDayAccount.cleanAmount!="0"?this.state.rpDayAccount.cleanAmount.split('.')[1]:"00"}</span>
@@ -160,7 +160,7 @@ class DailyBillForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#F7A303"}}>
+                                <p style={{color:"#F7A303",marginBottom:'0'}}>
                                     <i>¥</i>
                                     {this.state.rpDayAccount.saleAmount&&this.state.rpDayAccount.saleAmount!="0"?this.state.rpDayAccount.saleAmount.split('.')[0]:"0"}
                                     <span>.{this.state.rpDayAccount.saleAmount&&this.state.rpDayAccount.saleAmount!="0"?this.state.rpDayAccount.saleAmount.split('.')[1]:"00"}</span>
@@ -174,7 +174,7 @@ class DailyBillForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#806EC6"}}>
+                                <p style={{color:"#806EC6",marginBottom:'0'}}>
                                 <i style={{visibility:"hidden"}}>¥</i>
                                 {this.state.rpDayAccount.orderQty?this.state.rpDayAccount.orderQty:"0"}
                                 <span style={{visibility:"hidden"}}>.</span>
@@ -188,7 +188,7 @@ class DailyBillForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#51C193"}}>
+                                <p style={{color:"#51C193",marginBottom:'0'}}>
                                     <i>¥</i>
                                     {this.state.rpDayAccount.rechargeAmount&&this.state.rpDayAccount.rechargeAmount!="0"?this.state.rpDayAccount.rechargeAmount.split('.')[0]:"0"}
                                     <span>

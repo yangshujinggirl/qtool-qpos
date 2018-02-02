@@ -19,10 +19,12 @@ import Memberinfo from "./routes/Memberinfo";
 import AdjustLog from "./routes/AdjustLog";
 import InventorydiffLog from "./routes/inventorydiffLog";
 import Payamount from "./routes/Pay";
-
+import zhCN from 'antd/lib/locale-provider/zh_CN';
+import { LocaleProvider } from 'antd';
 
 function RouterConfig({ history }) {
   return (
+		<LocaleProvider locale={zhCN}>
     <Router history={history}>
       	<Route path='/' component={IndexPage} />
       	<Route path='/cashier' component={Cashier} />
@@ -42,6 +44,7 @@ function RouterConfig({ history }) {
       	<Route path="/inventorydiffLog" component={InventorydiffLog}/>
 		<Route path="/pay" component={Payamount}/>
     </Router>
+		</LocaleProvider>
   );
 }
 

@@ -91,7 +91,7 @@ a{
 /*--antd--*/
 span.ant-radio + *{font-size: 16px;color: #74777F;}
 .ant-radio-inner{border-radius: 3px;width: 16px;height: 16px;top:1;}
-.ant-radio-inner:after{border-radius: 0;left: 4px;top:4px;}
+.ant-radio-inner:after{border-radius: 0;left: 3px;top:3px;}
 .ant-modal-footer{height: 60px;padding:0;}
 .ant-modal-header{text-align: center;padding:0;border-radius: 5px;}
 .ant-modal-title{height: 66px;line-height: 66px;}
@@ -180,7 +180,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 /*组件*/
 
 /*operation*/
-
+.memberinfoboxlist p{margin-bottom: 0;}
 .memberinfobox1{width: 72px;}
 .memberinfobox3{width: 88px; }
 .memberinfobox2{width: 64px;}
@@ -229,6 +229,8 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .lines{width: 1px;height: 15px;background: #E7E8EC;}
 .lines1{position: absolute;left: 100px;top:11px;}
 .lines2{position: absolute;left: 200px;top:11px;}
+.operationl .ant-switch span{font-size: 16px;}
+
 
 
 
@@ -316,6 +318,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .infomodels .modeltext2{margin-bottom: 14px;}
 
 .ant-spin-nested-loading > div > .ant-spin{height:100vh;}
+.ant-pagination-options .ant-select-arrow{margin-top:0;}
 
 /*界面*/
 /*登录页面*/
@@ -416,6 +419,8 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .birthday .ant-switch-checked .ant-switch-inner{margin-left: 4px;font-size: 10px;}
 .formdis .ant-form-item-control{width: 340px;height: 40px;line-height: 40px;}
 .formdis .ant-input-disabled{background: #fff;color:rgba(0, 0, 0, 0.65);border:0;padding:0;}
+.birthday .ant-select-selection-selected-value{padding-right: 0;}
+.birthday .ant-select-arrow:before{margin-top:22px;}
 
 
 
@@ -440,7 +445,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .returngood{width: 45%;height: 40px;margin-left: 2%;}
 .returngood .ant-switch{width: 100%;height: 40px;line-height: 40px;background: #fff;border: 1px solid #FB6349;}
 .returngood .ant-switch span{color: #FB6349;line-height: 39px;}
-.returngood .ant-switch:after{top:11px;background:#FB6349;top:1px;width: 36px;height: 36px;border:2px solid #fff;box-shadow: 0 0 20px 0 rgba(116,119,127,0.30);left: 92%;}
+.returngood .ant-switch:after{top:11px;background:#FB6349;top:1px;width: 36px;height: 36px;border:2px solid #fff;box-shadow: 0 0 20px 0 rgba(116,119,127,0.30);left: 95%;}
 .returngoodtable .ant-table-bordered .ant-table-thead > tr > th:first-child{width: 5%;}
 .returngoodtable .ant-table-bordered .ant-table-tbody > tr > td:first-child{width: 5%;}
 
@@ -451,7 +456,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .formdis .ant-form-item-control-wrapper{display: inline-block;width: 300px;}
 .flexcon{height:100%;display:flex;flex-direction:column}
 
-.accformdis .ant-select-selection-selected-value{line-height: 40px;}
+.accformdis .ant-select-selection-selected-value{line-height: 30px;}
 .formdis .ant-select-lg .ant-select-selection__rendered{line-height: 40px;}
 .formdis .ant-select-lg .ant-select-selection--single{height: 40px;font-size: 14px;color: #74777F;}
 .accountmodel .ant-radio-group{}
@@ -478,7 +483,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 
 
 /* 组合支付 抹零*/
-.btnbg{margin-top: 10px;}
+.btnbg{margin-top: 10px;padding-left: 0;}
 .pay .listtoff{border-radius: 5px;width:117px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;float: left;}
 .pay .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;}
 .pay .listtoffzu{border-radius: 5px;width:117px;height:75px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;float: left;}
@@ -844,8 +849,8 @@ input::-webkit-contacts-auto-fill-button {
 
 /*--antd--*/
 span.ant-radio + *{font-size: 12px;color: #74777F;}
-.ant-radio-inner{border-radius: 3px;width: 16px;height: 16px;top:1;}
-.ant-radio-inner:after{border-radius: 0;left: 4px;top:4px;}
+.ant-radio-inner{border-radius: 3px;width: 16px;height: 16px;}
+.ant-radio-inner:after{border-radius: 0;left: 3px;top:3px;}
 .ant-modal-footer{height: 60px;padding:0;border-top: 1px solid #d8d8d8;}
 .ant-modal-header{text-align: center;border-bottom: 1px solid #d8d8d8;}
 .ant-tabs{height: 100%;}
@@ -1112,7 +1117,7 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .formdis .ant-form-item-control-wrapper{display: inline-block;}
 .flexcon{height:100%;display:flex;flex-direction:column}
 
-.accformdis .ant-select-selection-selected-value{line-height: 40px;}
+.accformdis .ant-select-selection-selected-value{line-height: 30px;}
 .formdis .ant-select-lg .ant-select-selection__rendered{line-height: 40px;}
 .formdis .ant-select-lg .ant-select-selection--single{height: 40px;font-size: 14px;color: #74777F;}
 

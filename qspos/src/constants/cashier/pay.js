@@ -1041,7 +1041,7 @@ class Pay extends React.Component {
                         </div>
                         <div className='fr fix-800-fr' style={{width:'274px'}}>
                             <div>
-                                <ul className='clearfix'>
+                                <ul className='clearfix' style={{paddingLeft:'0'}}>
                                     {
                                         this.state.paytypelisy.map((item,index)=>{
                                             return(

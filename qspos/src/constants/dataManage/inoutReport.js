@@ -233,7 +233,7 @@ class InOutReportForm extends React.Component {
                         <ul>
                             <li>
                                 <div>
-                                    <p style={{color:"#806EC6"}}><i>¥</i>
+                                    <p style={{color:"#806EC6",marginBottom:'0'}}><i>¥</i>
                                     {this.state.finalInvAmountSum&&this.state.finalInvAmountSum!="0"?this.state.finalInvAmountSum.split('.')[0]:"0"}
                                     <span>.{this.state.finalInvAmountSum&&this.state.finalInvAmountSum!="0"?this.state.finalInvAmountSum.split('.')[1]:"00"}</span>
                                     </p>
@@ -246,7 +246,7 @@ class InOutReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#F4A314"}}><i>¥</i>
+                                    <p style={{color:"#F4A314",marginBottom:'0'}}><i>¥</i>
                                     {this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[0]:"0"}
                                     <span>.{this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[1]:"00"}</span>
                                     </p>
@@ -259,7 +259,7 @@ class InOutReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#0D89C8"}}><i>¥</i>
+                                    <p style={{color:"#0D89C8",marginBottom:'0'}}><i>¥</i>
                                     {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[0]:"0"}
                                     <span>. {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[1]:"00"}</span>
                                     </p>
@@ -272,7 +272,7 @@ class InOutReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#51C193"}}><i>¥</i>
+                                    <p style={{color:"#51C193",marginBottom:'0'}}><i>¥</i>
                                     {this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[0]:"0"}
                                     <span>.{this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[1]:"00"}</span>
                                     </p>
@@ -285,7 +285,7 @@ class InOutReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#F24343"}}><i>¥</i>
+                                    <p style={{color:"#F24343",marginBottom:'0'}}><i>¥</i>
                                     {this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?this.state.adjustPdCheckAmountSum.split('.')[0]:"0"}
                                     <span>.{this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?this.state.adjustPdCheckAmountSum.split('.')[1]:"00"}</span>
                                     </p>
