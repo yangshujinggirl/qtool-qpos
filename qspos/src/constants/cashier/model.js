@@ -4,6 +4,7 @@ import {GetServerData} from '../../services/services';
 import {printRechargeOrder} from '../../components/Method/Method'
 import {getRechargeOrderInfo} from '../../components/Method/Print';
 import Btnpay from './btnpay'
+import Btnbrfore from './btnbefore'
 
 
 class Modales extends React.Component {
@@ -162,7 +163,7 @@ class Modales extends React.Component {
         return (
         <div>
             <span onClick={this.showModal} className='themecolor'>充值</span>
-            <Modal
+            {/* <Modal
                 className='rechargepays'
                 title="会员充值"
                 visible={this.state.visible}
@@ -198,6 +199,57 @@ class Modales extends React.Component {
                        
                     </div>
                 </div>
+            </Modal> */}
+            <Modal
+                className='rechargepays'
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+                footer={null}
+                width={842}
+                
+            >   
+                <div className='clearfix'>
+                    <div className='fl'>
+                        <div className='rechargepays-list clearfix'>
+                            <div className='fl listl'>会员姓名</div>
+                            <div className='fr listr'>{this.props.name}</div>
+                        </div>
+                        <div className='rechargepays-list'>
+                            <div className='fl listl'>会员卡号</div>
+                            <div className='fr listr'>{this.props.cardNo}</div>
+                        </div>
+                        <div className='rechargepays-list'>
+                            <div className='fl listl'>账户余额</div>
+                            <div className='fr listr'>{this.props.amount}</div>
+                        </div>
+                    </div>
+                    <div className='fr'>
+                        <ul className='rechargelist'>
+                            <li onClick={this.typelist.bind(this,1)}><Button className={this.state.typeclick1?'rechargetype':'rechargetypeoff'}>微信</Button></li>
+                            <li onClick={this.typelist.bind(this,2)}><Button className={this.state.typeclick2?'rechargetype':'rechargetypeoff'}>支付宝</Button></li>
+                            <li onClick={this.typelist.bind(this,3)}><Button className={this.state.typeclick3?'rechargetype':'rechargetypeoff'}>银联</Button></li>
+                            <li onClick={this.typelist.bind(this,4)}><Button className={this.state.typeclick4?'rechargetype':'rechargetypeoff'}>现金</Button></li>
+                        </ul>
+                        <div className='rechargeover'>
+                            <Input  
+                                autoComplete="off" 
+                                value={this.state.reamount} 
+                                onChange={this.reamount.bind(this)}
+                                addonBefore={<Btnbrfore title={this.state.type=='1'?'微信':(this.state.type=='2'?'支付宝':(this.state.type=='3'?'银联':(this.state.type=='4'?'现金':null)))}/>}
+                                addonAfter={(this.state.type=='1' && openWechat=='1') ||(this.state.type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)}/>:null}
+                                />
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div className='tc rechargeok' onClick={this.handleOk.bind(this)}>
+                        确定
+                    </div>
+                </div>
+
+                
+                
             </Modal>
         </div>
     );

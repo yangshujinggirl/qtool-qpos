@@ -177,6 +177,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .ant-table-placeholder{display: none;}
 .ant-modal-content{border-radius: 5px;}
 .ant-form-explain{font-size: 14px;}
+.ant-input:focus{box-shadow:none}
 /*组件*/
 
 /*operation*/
@@ -217,8 +218,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .footright{width:174px;font-size: 16px;color:#35BAB0;height:60px;line-height:60px;cursor: pointer}
 .footcen{width: 2px;height: 15px;background:#E7E8EC;margin:0 auto;margin-top: 20px}
 .chargep{width:310px;border-bottom:1px solid #E7E8EC;height:55px;line-height:55px;margin:0 auto}
-.rechargetype{color:#35bab0;border:1px solid #35bab0}
-.rechargetypeoff{color:#384162;border: 1px solid #E7E8EC}
+
 .w310{width: 310px}
 .w310l{height:40px;line-height:40px}
 .w310ll{width:237px;height:40px}
@@ -230,7 +230,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .lines1{position: absolute;left: 100px;top:11px;}
 .lines2{position: absolute;left: 200px;top:11px;}
 .operationl .ant-switch span{font-size: 16px;}
-
+.ant-input-group-addon{border:0;padding:0;}
 
 
 
@@ -437,9 +437,19 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .cashier .ant-switch{width: 100%;height: 40px;line-height: 40px;background: #fff;border: 1px solid #E7E8EC;}
 .cashier .ant-switch span{color: #35bab0;margin-left: 70%;line-height: 39px;}
 .cashier .ant-switch:after{top:1px;background:#35bab0;width: 36px;height: 36px;border:2px solid #fff;box-shadow: 0 0 20px 0 rgba(116,119,127,0.30);}
-.rechargelist{display: flex;width:310px;margin:0 auto;justify-content: space-between;margin-top:20px;margin-bottom: 20px;}
- 
 
+/* 充值 */
+.rechargelist{display: flex;width:386px;justify-content: space-between;flex-wrap: wrap;padding-left: 0;margin-bottom: 0;}
+.rechargepays .ant-modal-body{padding:30px;}
+.rechargepays .rechargepays-list{background: #fff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:355px;height:75px;margin-bottom: 20px;}
+.rechargepays .rechargepays-list .listl{width: 138px;height: 40px;font-size:20px;color:#74777f;line-height:40px;text-align:left;margin-left: 20px;margin-top: 20px;}
+.rechargepays .rechargepays-list .listr{width: 138px;height: 40px;font-size:32px;color:#666666;line-height:40px;text-align:right;margin-right: 14px;margin-top: 20px;}
+.rechargetype{color:#fff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width: 182px;height: 75px;background: #35bab0;margin-bottom: 20px;}
+.rechargetypeoff{color:#384162;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width: 182px;height: 75px;background: #fff;margin-bottom: 20px;}
+.rechargeover{background:#ffffff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:384px;height:75px;}
+.rechargeover .ant-input-group .ant-input{height: 75px;border:0;font-size:32px;color:#384162;}
+.rechargeover .ant-btn{width: 90px;height: 75px;padding:0;border:0;border-left:1px solid #e7e8ec;border-radius: 0;font-size:26px;color:#35bab0;}
+.rechargepays .rechargeok{font-size:28px;color:#ffffff;height: 75px;background: #35bab0;line-height: 75px;border-radius: 3px;cursor: pointer;margin-top: 60px;}
 
 /*退货*/
 .returngood{width: 45%;height: 40px;margin-left: 2%;}
@@ -547,7 +557,8 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 
 
 
-.rechargepays .ant-modal-body{padding:0 0 20px 0;}
+
+
 
 
 .comp-scanbtn{width:100px;text-align: center;}
