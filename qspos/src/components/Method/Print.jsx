@@ -862,7 +862,7 @@ function printReturnOrder(message,printCount){
 		infoLen = moneyInfo[i].name.length*11;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
-		LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name);
+		LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
@@ -996,7 +996,7 @@ function printReturnOrderSmall(message,printCount){
 		infoLen = moneyInfo[i].name.length*9;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
-		LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name);
+		LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
@@ -1149,7 +1149,7 @@ function printSaleOrder(message,printCount){
 		infoLen = moneyInfo[i].name.length*11;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
-		LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name);
+		LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
@@ -1319,7 +1319,7 @@ function printSaleOrderSmall(message,printCount){
 		infoLen = moneyInfo[i].name.length*9;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
-		LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name);
+		LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
