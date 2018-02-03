@@ -1,4 +1,4 @@
-import { Modal, Button ,Input,message} from 'antd'
+import { Modal, Button ,Input,message,Checkbox} from 'antd'
 import { connect } from 'dva';
 import {GetServerData} from '../../services/services';
 import {printRechargeOrder} from '../../components/Method/Method'
@@ -27,6 +27,27 @@ class Modales extends React.Component {
     if(this.props.mbCardId==null || undefined || ''){
             message.warning('请输入正确的会员卡号')
     }else{
+        const result=GetServerData('qerp.pos.sy.config.info')
+        result.then((res) => {
+           return res;
+         }).then((json) => {
+            if(json.code == "0"){
+                if(json.config.rechargePrint=='1'){
+                    const recheckPrint=true
+                    this.props.dispatch({
+                        type:'cashier/rechangeCheckPrint',
+                        payload:recheckPrint
+                    })
+                }else{
+                    const recheckPrint=false
+                    this.props.dispatch({
+                        type:'cashier/rechangeCheckPrint',
+                        payload:recheckPrint
+                    })
+                }
+            }
+        })
+
         this.setState({
             visible: true,
         });
@@ -53,7 +74,7 @@ class Modales extends React.Component {
                 message.success('充值成功',1)
                 const mbCardMoneyChargeIds=json.mbCardMoneyChargeId;
                 const chargeNos=json.chargeNo;
-                printRechargeOrder(mbCardMoneyChargeIds)
+                printRechargeOrder(this.props.recheckPrint,mbCardMoneyChargeIds)
                 
                 
             });
@@ -151,55 +172,22 @@ class Modales extends React.Component {
                 message.warning(json.message)
             }
         })
-        
-    
     }
-    render() {
-          const mbCardId=this.props.mbCardId
-          // const openWechat=sessionStorage.getItem("openWechat")
-        // const openAlipay=sessionStorage.getItem("openAlipay")
-        const openWechat='1'
-        const openAlipay='1'
+
+    choosePrint=(e)=>{
+        const recheckPrint=e.target.checked
+        this.props.dispatch({
+            type:'cashier/rechangeCheckPrint',
+            payload:recheckPrint
+        })
+    }
+    render(){
+            const mbCardId=this.props.mbCardId
+            const openWechat=sessionStorage.getItem("openWechat")
+            const openAlipay=sessionStorage.getItem("openAlipay")
         return (
         <div>
             <span onClick={this.showModal} className='themecolor'>充值</span>
-            {/* <Modal
-                className='rechargepays'
-                title="会员充值"
-                visible={this.state.visible}
-                width={350}
-                onOk={this.handleOk}
-                onCancel={this.handleCancel}
-                footer={[
-                                <div className='fl tc footleft' key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
-                                <div className='fr tc footright' key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
-                                <div key='line' className='footcen'></div>
-                            ]}
-                    closable={false}
-            >
-                <p className='clearfix chargep'><span className='fl'>会员姓名</span><span className='fr'>{this.props.name}</span></p>
-                <p className='clearfix chargep'><span className='fl'>会员卡号</span><span className='fr'>{this.props.cardNo}</span></p>
-                <p className='clearfix chargep'><span className='fl'>账户余额</span><span className='fr'>{this.props.amount}</span></p>
-                <ul className='rechargelist'>
-                    <li onClick={this.typelist.bind(this,1)}><Button className={this.state.typeclick1?'rechargetype':'rechargetypeoff'}>微信</Button></li>
-                    <li onClick={this.typelist.bind(this,2)}><Button className={this.state.typeclick2?'rechargetype':'rechargetypeoff'}>支付宝</Button></li>
-                    <li onClick={this.typelist.bind(this,3)}><Button className={this.state.typeclick3?'rechargetype':'rechargetypeoff'}>银联</Button></li>
-                    <li onClick={this.typelist.bind(this,4)}><Button className={this.state.typeclick4?'rechargetype':'rechargetypeoff'}>现金</Button></li>
-                </ul>
-                <div className='w clearfix w310'>
-                    <div className='fl w310l'>充值金额</div> 
-                    <div>
-                        <Input  
-                            autoComplete="off" 
-                            className='fr w310ll' 
-                            value={this.state.reamount} 
-                            onChange={this.reamount.bind(this)}
-                            addonAfter={(this.state.type=='1' && openWechat=='1') ||(this.state.type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)}/>:null}
-                            />
-                       
-                    </div>
-                </div>
-            </Modal> */}
             <Modal
                 className='rechargepays'
                 visible={this.state.visible}
@@ -246,6 +234,7 @@ class Modales extends React.Component {
                     <div className='tc rechargeok' onClick={this.handleOk.bind(this)}>
                         确定
                     </div>
+                    <div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.recheckPrint}>打印小票</Checkbox></div>
                 </div>
 
                 
@@ -262,7 +251,7 @@ Modales.contextTypes= {
 }
 
 function mapStateToProps(state) {
-    const {datasouce,meths}=state.cashier
-    return {datasouce,meths};
+    const {datasouce,meths,recheckPrint}=state.cashier
+    return {datasouce,meths,recheckPrint};
 }
 export default connect(mapStateToProps)(Modales);

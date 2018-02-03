@@ -100,7 +100,7 @@ class Payamount extends React.Component{
                 //充值订单
                 this.context.router.push('/cashier')
                 this.props.meth1.handleOk()
-                printRechargeOrder(this.props.location.state.orderId)
+                printRechargeOrder(this.props.recheckPrint,this.props.location.state.orderId)
             }
         })
     }
@@ -208,8 +208,8 @@ Payamount.contextTypes= {
     router: React.PropTypes.object
 }
 function mapStateToProps(state) {
-    const {meth1,checkPrint}=state.cashier
-    return {meth1,checkPrint};
+    const {meth1,checkPrint,recheckPrint}=state.cashier
+    return {meth1,checkPrint,recheckPrint};
 }
 
 export default connect(mapStateToProps)(Payamount);

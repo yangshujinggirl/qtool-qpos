@@ -27,7 +27,8 @@ export default {
           themeindex:0,
           barcode:null,
           cardNoMobile:null,
-          checkPrint:false
+          checkPrint:false,
+          recheckPrint:false
 
     },
     reducers: {
@@ -121,6 +122,10 @@ export default {
         changeCheckPrint(state, { payload: checkPrint}) {
             return {...state,checkPrint}
         },
+        rechangeCheckPrint(state, { payload: recheckPrint}) {
+            return {...state,recheckPrint}
+        },
+
        
     },
     effects: {

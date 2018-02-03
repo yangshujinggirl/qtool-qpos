@@ -960,17 +960,15 @@ class Pay extends React.Component {
 
     //是否勾选打印小票
     choosePrint = (e) =>{
+        const checkPrint=e.target.checked
         this.props.dispatch({
             type:'cashier/changeCheckPrint',
-            payload:e.target.checked
+            payload:checkPrint
         })
     }
     render() {
-        // const openWechat=sessionStorage.getItem("openWechat")
-        // const openAlipay=sessionStorage.getItem("openAlipay")
-        const openWechat='1'
-        const openAlipay='1'
-        console.log(this.state.amountlist)
+        const openWechat=sessionStorage.getItem("openWechat")
+        const openAlipay=sessionStorage.getItem("openAlipay")
         return (
             <div>
                 <Modal
