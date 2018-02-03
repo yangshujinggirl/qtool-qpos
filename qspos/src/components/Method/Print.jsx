@@ -850,6 +850,7 @@ function printReturnOrder(message,printCount){
 	LODOP.ADD_PRINT_TEXT(130,"50mm","20mm",20,"金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	//70mm 1mm=3.78px
 	var lineWidth = 70*3.78;
@@ -892,6 +893,7 @@ function printReturnOrder(message,printCount){
 	LODOP.ADD_PRINT_TEXT(posi+10,"50mm","20mm",20,totalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
 	if(returnPoint && Number(returnPoint)>0){
@@ -985,6 +987,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.ADD_PRINT_TEXT(120,"35mm","15mm",20,"金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	//70mm 1mm=3.78px
 	var lineWidth = 70*3.78;
@@ -1026,6 +1029,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.ADD_PRINT_TEXT(posi+10,"35mm","15mm",20,totalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
 	if(returnPoint && Number(returnPoint)>0){
@@ -1139,6 +1143,7 @@ function printSaleOrder(message,printCount){
 	LODOP.ADD_PRINT_TEXT(130,"50mm","20mm",20,"金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	//70mm 1mm=3.78px
 	var lineWidth = 70*3.78;
@@ -1180,6 +1185,7 @@ function printSaleOrder(message,printCount){
 	LODOP.ADD_PRINT_TEXT(posi+10,"50mm","20mm",20,totalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
 	//折扣优惠
@@ -1310,6 +1316,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.ADD_PRINT_TEXT(120,"35mm","15mm",20,"金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	//70mm 1mm=3.78px
 	var lineWidth = 70*3.78;
@@ -1352,6 +1359,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.ADD_PRINT_TEXT(posi+10,"35mm","15mm",20,totalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
 
