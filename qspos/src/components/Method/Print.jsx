@@ -901,7 +901,7 @@ function printReturnOrder(message,printCount){
 
 	let position2 = posi+30;
 	if(message.mbCard){
-	if(returnPoint && Number(returnPoint)>0){
+	
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"扣除积分");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
@@ -910,7 +910,6 @@ function printReturnOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		position2 = position2+20;
-	}
 	}
 	LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
@@ -1042,7 +1041,6 @@ function printReturnOrderSmall(message,printCount){
 
 	let position2 = posi+30;
 	if(message.mbCard){
-		if(returnPoint && Number(returnPoint)>0){
 			LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"扣除积分");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
@@ -1051,7 +1049,6 @@ function printReturnOrderSmall(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			position2 = position2+20;
-		}
 	}
 
 
