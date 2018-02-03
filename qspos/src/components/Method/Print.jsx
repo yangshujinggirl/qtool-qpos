@@ -1045,7 +1045,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
-	if(message.mbCard){
+	if(returnInfoAll.mbCard){
 			LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"扣除积分");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
