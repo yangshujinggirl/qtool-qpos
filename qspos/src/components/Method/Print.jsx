@@ -900,9 +900,12 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
+	console.log('wo shi ni')
+	console.log(returnInfoAll)
 	console.log(message)
 	console.log(message.mbCard)
-	if(message.mbCard){
+	console.log(returnInfoAll.mbCard)
+	if(returnInfoAll.mbCard){
 		console.log(1)
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"扣除积分");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
