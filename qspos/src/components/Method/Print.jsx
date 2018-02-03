@@ -863,7 +863,11 @@ function printReturnOrder(message,printCount){
 		infoLen = moneyInfo[i].name.length*11;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
-		LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+		if(moneyInfo[i].displayName){
+			LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+		}else{
+			LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name);
+		}
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
@@ -896,6 +900,7 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
+	if(message.mbCard){
 	if(returnPoint && Number(returnPoint)>0){
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"扣除积分");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -906,7 +911,7 @@ function printReturnOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		position2 = position2+20;
 	}
-
+	}
 	LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
 	LODOP.ADD_PRINT_TEXT(position2+85,0,"70mm",20,"扫描关注Qtools官方微信公众号");
@@ -999,8 +1004,12 @@ function printReturnOrderSmall(message,printCount){
 	for(var i=0;i<moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*9;
 		lineCount = Math.ceil(infoLen/lineWidth);
-
-		LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+		if(moneyInfo[i].displayName){
+			LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+		}else{
+			LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name);
+		}
+		
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
@@ -1032,16 +1041,21 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
-	if(returnPoint && Number(returnPoint)>0){
-		LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"扣除积分");
-		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-
-		LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,returnPoint);
-		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-		position2 = position2+20;
+	if(message.mbCard){
+		if(returnPoint && Number(returnPoint)>0){
+			LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"扣除积分");
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+			LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,returnPoint);
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			position2 = position2+20;
+		}
 	}
+
+
+	
 
 	LODOP.ADD_PRINT_BARCODE(position2,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
@@ -1156,7 +1170,12 @@ function printSaleOrder(message,printCount){
 		infoLen = moneyInfo[i].name.length*11;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
-		LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+		if(moneyInfo[i].displayName){
+			LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+		}else{
+			LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name);
+		}
+		
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
@@ -1329,7 +1348,11 @@ function printSaleOrderSmall(message,printCount){
 		infoLen = moneyInfo[i].name.length*9;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
-		LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+		if(moneyInfo[i].displayName){
+			LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+		}else{
+			LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name);
+		}
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
