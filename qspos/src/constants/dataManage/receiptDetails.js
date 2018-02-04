@@ -18,8 +18,8 @@ class ReceiptDetailsForm extends React.Component {
             total:0,
             currentPage:0,
             limit:10,
-            operateST:'',
-            operateET:'',
+            operateST:null,
+            operateET:null,
             keywords:'',
             windowHeight:'',
             posOrder:{
@@ -68,15 +68,39 @@ class ReceiptDetailsForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        console.log(page)
+        console.log(pageSize)
         this.setState({
-            currentPage:page
+            limit:pageSize,
+            pageSize:pageSize,
+            currentPage:Number(page)-1
+        },function(){
+            let values = {
+                pdOrderId:this.props.detailId,
+                keywords:this.state.keywords,
+                operateST:this.state.operateST,
+                operateET:this.state.operateET,
+                limit:this.state.limit,
+                currentPage:this.state.currentPage
+            }
+            this.getServerData(values)
         });
     }
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
-            pageSize:pageSize,
-            current:current,
-            currentPage:1
+            limit:pageSize,
+            currentPage:Number(current)-1
+        },function(){
+            let values = {
+                pdOrderId:this.props.detailId,
+                keywords:this.state.keywords,
+                operateST:this.state.operateST,
+                keywords:this.state.keywords,
+                operateET:this.state.operateET,
+                limit:this.state.limit,
+                currentPage:this.state.currentPage
+            }
+            this.getServerData(values)
         })
     }
 
@@ -113,16 +137,21 @@ class ReceiptDetailsForm extends React.Component {
         const self = this;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
+            console.log(values)
             this.setState({
                 keywords:values.keywords
             },function(){
                 let values = {
                     pdOrderId:this.props.detailId,
+                    keywords:this.state.keywords,
                     currentPage:0,
                     limit:10,
                     startDate:this.state.startDate,
-                    endDate:this.state.endDate,
-                    keywords:this.state.keywords
+                    operateST:this.state.operateST,
+                    operateET:this.state.operateET,
+
+
+                    
                 }
                 self.getServerData(values);
             })
@@ -173,9 +202,10 @@ class ReceiptDetailsForm extends React.Component {
                         columns={this.columns} 
                         dataSource={this.state.dataSource}
                         pagination={false}
-                        total={20}
-                        current={1}
-                        pageSize={10}
+                        current={Number(this.state.currentPage)}
+                        total={this.state.total}
+                        currentPage={this.state.currentPage}
+                        pageSize={this.state.limit}
                         onShowSizeChange={this.onShowSizeChange}
                         pageChange={this.pageChange}
                         />
@@ -183,7 +213,7 @@ class ReceiptDetailsForm extends React.Component {
                 <div className="footer-pagefixed">
                     <Pagination 
                         total={this.state.total} 
-                        current={this.state.currentPage+1}
+                        current={Number(this.state.currentPage)+1}
                         pageSize={this.state.limit}
                         showSizeChanger 
                         onShowSizeChange={this.onShowSizeChange} 
@@ -198,7 +228,12 @@ class ReceiptDetailsForm extends React.Component {
     componentDidMount(){
         if(this.props.detailId){
             let values = {
-                pdOrderId:this.props.detailId
+                pdOrderId:this.props.detailId,
+                keywords:this.state.keywords,
+                operateST:this.state.operateST,
+                operateET:this.state.operateET,
+                limit:10,
+                currentPage:0
             }
             this.getServerData(values);
         }
