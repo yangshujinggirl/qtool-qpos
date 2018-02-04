@@ -35,14 +35,16 @@ class Cashierindex extends React.Component {
                      }).then((json) => {
                         if(json.code == "0"){
                             if(json.config.submitPrint=='1'){
+                                const checkPrint=true
                                 this.props.dispatch({
                                     type:'cashier/changeCheckPrint',
-                                    payload:true
+                                    payload:checkPrint
                                 })
                             }else{
+                                const checkPrint=false
                                 this.props.dispatch({
                                     type:'cashier/changeCheckPrint',
-                                    payload:false
+                                    payload:checkPrint
                                 })
                             }
                         }

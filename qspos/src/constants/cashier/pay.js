@@ -49,10 +49,19 @@ class Pay extends React.Component {
     //初始化方法
     initModel=()=>{
         const ismember=this.props.ismember
+        const amountlist=[{
+            name:'微信',
+            value:null,
+            type:'1'
+        }]
         const paytotolamount=this.props.totolamount
         this.props.dispatch({
             type:'cashier/paytotolamount',
             payload:paytotolamount
+        })
+        this.props.dispatch({
+            type:'cashier/amountlist',
+            payload:amountlist
         })
         if(ismember){
             const values={mbCardId:this.props.mbCardId}
@@ -72,11 +81,6 @@ class Pay extends React.Component {
                             {name:'会员卡',check:false,disabled:false,type:'5'},
                             {name:'积分',check:false,disabled:false,type:'6'}
                         ], 
-                        amountlist:[{
-                            name:'微信',
-                            value:null,
-                            type:'1'
-                        }],
                         waringfirst:false,
                         visible:true,
                         cutAmount:'0',
@@ -128,9 +132,13 @@ class Pay extends React.Component {
                                 })
                         }
 
+                        this.props.dispatch({
+                            type:'cashier/amountlist',
+                            payload:amountlist
+                        })
+
                         this.setState({
                             paytypelisy:paytypelisy,
-                            amountlist:amountlist,
                             waringfirst:waringfirsts,
                             text:texts,
                             group:groups,
@@ -152,11 +160,6 @@ class Pay extends React.Component {
                     {name:'会员卡',check:false,disabled:false,type:'5'},
                     {name:'积分',check:false,disabled:false,type:'6'}
                 ], 
-                amountlist:[{
-                    name:'微信',
-                    value:null,
-                    type:'1'
-                }],
                 waringfirst:false,
                 visible:true,
                 group:false,
@@ -178,14 +181,20 @@ class Pay extends React.Component {
                     value:this.props.paytotolamount,
                     type:'1'
                 })
+                this.props.dispatch({
+                    type:'cashier/amountlist',
+                    payload:amountlist
+                })
                 this.setState({
                     paytypelisy:paytypelisy,
-                    amountlist:amountlist,
                     backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
                 })
             })
             }
         }
+
+
+
 
         handleOk = (e) => {
             this.setState({
@@ -284,7 +293,7 @@ class Pay extends React.Component {
     //点击不同支付方式
     listclick=(index)=>{
         const paytypelisy=this.state.paytypelisy //按钮list
-        const amountlist=this.state.amountlist //左边栏数组
+        const amountlist=this.props.amountlist //左边栏数组
         var newamountlist=[] //新的左边栏数组
         var waringfirsts=false
         var texts=null
@@ -428,8 +437,6 @@ class Pay extends React.Component {
                     backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)))
                 }
 
-                
-               
             }else{
                 const danu=NP.minus(paytotolamount, newamountlist[0].value)
                 if(danu==0){
@@ -440,10 +447,13 @@ class Pay extends React.Component {
 
             }
 
-
+           
+            this.props.dispatch({
+                type:'cashier/newamountlist',
+                payload:newamountlist
+            })
             this.setState({
                 paytypelisy:paytypelisy,
-                amountlist:newamountlist,
                 waringfirst:waringfirsts,
                 text:texts,
                 backmoney:backmoneyed
@@ -459,7 +469,7 @@ class Pay extends React.Component {
         }
         const backmoney=this.state.backmoney
         const group=this.state.group
-        const amountlist=this.state.amountlist
+        const amountlist=this.props.amountlist
         var totols=0;
         var orderPay=[];
         if(group){
@@ -486,7 +496,7 @@ class Pay extends React.Component {
         }
 
         if(totols==this.props.paytotolamount && backmoney=='0.00'){
-            const amountlist=this.state.amountlist
+            const amountlist=this.props.amountlist
             let values={
                     mbCard:{mbCardId:this.props.ismember?this.props.mbCardId:null},
                     odOrder:{
@@ -533,7 +543,7 @@ class Pay extends React.Component {
     hindonBlur=(e)=>{
         const values=parseFloat(e.target.value)
         const paytotolamount=this.props.paytotolamount
-        const amountlist=this.state.amountlist
+        const amountlist=this.props.amountlist
         if(parseFloat(values)>=parseFloat(paytotolamount)){
             amountlist[0].value=paytotolamount
             if(amountlist[0].type=='5'){
@@ -562,8 +572,14 @@ class Pay extends React.Component {
         }
         amountlist[0].value=dataedit(String(amountlist[0].value))
         const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value)))
+        this.props.dispatch({
+            type:'cashier/amountlist',
+            payload:amountlist
+        })
+       
+       
+       
         this.setState({
-            amountlist:amountlist,
             backmoney:backmoney
         })
     }
@@ -573,17 +589,18 @@ class Pay extends React.Component {
 		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
-            const amountlist=this.state.amountlist
+            const amountlist=this.props.amountlist
             amountlist[0].value=values
-            this.setState({
-                amountlist:amountlist
+            this.props.dispatch({
+                type:'cashier/amountlist',
+                payload:amountlist
             })
         }
     }
     payfirstonBlur=(e)=>{
         const values=parseFloat(e.target.value)
         const paytotolamount=this.props.paytotolamount
-        const amountlist=this.state.amountlist
+        const amountlist=this.props.amountlist
         if(parseFloat(values)>=parseFloat(paytotolamount)){
             //大于总额
             amountlist[0].value=paytotolamount
@@ -676,15 +693,19 @@ class Pay extends React.Component {
         const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
         amountlist[0].value=dataedit(String(amountlist[0].value))
         amountlist[1].value=dataedit(String(amountlist[1].value))
+        
+        this.props.dispatch({
+            type:'cashier/amountlist',
+            payload:amountlist
+        })
         this.setState({
-            amountlist:amountlist,
             backmoney:backmoney
         })
     }
     paysecondonBlur=(e)=>{
         const values=parseFloat(e.target.value)
         const paytotolamount=this.props.paytotolamount
-        const amountlist=this.state.amountlist
+        const amountlist=this.props.amountlist
         if(parseFloat(values)>=parseFloat(paytotolamount)){
             //大于总额
             amountlist[1].value=paytotolamount
@@ -776,8 +797,11 @@ class Pay extends React.Component {
         const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
         amountlist[0].value=dataedit(String(amountlist[0].value))
         amountlist[1].value=dataedit(String(amountlist[1].value))
+        this.props.dispatch({
+            type:'cashier/amountlist',
+            payload:amountlist
+        })
         this.setState({
-            amountlist:amountlist,
             backmoney:backmoney
         })
     }
@@ -787,10 +811,11 @@ class Pay extends React.Component {
 		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
-            const amountlist=this.state.amountlist
+            const amountlist=this.props.amountlist
             amountlist[0].value=values
-            this.setState({
-                amountlist:amountlist
+            this.props.dispatch({
+                type:'cashier/amountlist',
+                payload:amountlist
             })
         }
     }
@@ -799,10 +824,11 @@ class Pay extends React.Component {
 		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
-            const amountlist=this.state.amountlist
+            const amountlist=this.props.amountlist
             amountlist[1].value=values
-            this.setState({
-                amountlist:amountlist
+            this.props.dispatch({
+                type:'cashier/amountlist',
+                payload:amountlist
             })
         }
     }
@@ -810,7 +836,7 @@ class Pay extends React.Component {
     nozeroclick=()=>{
         const diffamount=NP.minus(this.props.paytotolamount, parseInt(this.props.paytotolamount))
         if(diffamount>0){
-            const amountlist=this.state.amountlist.slice(0)
+            const amountlist=this.props.amountlist.slice(0)
             if(amountlist.length>1){
                 //抹第二个
                 var moer=NP.minus(amountlist[1].value, diffamount)
@@ -857,10 +883,13 @@ class Pay extends React.Component {
                 type:'cashier/paytotolamount',
                 payload:paytotolamount
             })
+            this.props.dispatch({
+                type:'cashier/amountlist',
+                payload:amountlist
+            })
             this.setState({
                 cutAmount:'1',
                 backmoney:backmoneyed,
-                amountlist:amountlist
             }) 
 
         }
@@ -875,7 +904,7 @@ class Pay extends React.Component {
     onhindClicks=()=>{
         const backmoney=this.state.backmoney
         const group=this.state.group
-        const amountlist=this.state.amountlist
+        const amountlist=this.props.amountlist
         console.log(amountlist)
         var totols=0;
         var orderPay=[];
@@ -905,7 +934,7 @@ class Pay extends React.Component {
         }
 
         if(totols==this.props.paytotolamount && backmoney=='0.00'){
-            const amountlist=this.state.amountlist
+            const amountlist=this.props.amountlist
             let values={
                     mbCard:{mbCardId:this.props.ismember?this.props.mbCardId:null},
                     odOrder:{
@@ -941,10 +970,11 @@ class Pay extends React.Component {
                 this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
             }else{
                 message.error(json.message)
+                this.context.router.push({ pathname : '/pay', state : {orderId :'100',type:'7',amount:'100',consumeType:'1',orderNo:'0898u'}});
             }
             
     })
-    // this.context.router.push({ pathname : '/pay', state : {orderId :'100',type:'7',amount:'100',consumeType:'1',orderNo:'0898u'}});
+    
 
 
 
@@ -973,7 +1003,7 @@ class Pay extends React.Component {
             <div>
                 <Modal
                     title=""
-                    visible={this.state.visible}
+                    visible={this.props.payvisible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     width={924}
@@ -985,48 +1015,48 @@ class Pay extends React.Component {
                         <div className='fl paylw'>
                             <Input  autoComplete="off" addonBefore='总额' value={this.props.paytotolamount}  disabled className='paylh tr payinputsmodel'/>
                             {
-                                this.state.amountlist.length>1
+                                this.props.amountlist.length>1
                                 ?<div className='clearfix inputcenter'>
-                                    <div className={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?'payharflwl inputcenterdis':'payharflwl inputcenteropen'}>
+                                    <div className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?'payharflwl inputcenterdis':'payharflwl inputcenteropen'}>
                                         <div>
                                             <Input  
                                                 autoComplete="off" 
-                                                addonBefore={this.state.amountlist[0].name}  
-                                                value={this.state.amountlist[0].value}  
+                                                addonBefore={this.props.amountlist[0].name}  
+                                                value={this.props.amountlist[0].value}  
                                                 onBlur={this.payfirstonBlur.bind(this)} 
                                                 className='tr payinputsmodel' 
                                                 onChange={this.payfirstonChange.bind(this)} 
-                                                addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
-                                                disabled={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} 
+                                                addonAfter={(this.props.amountlist[0].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                                                disabled={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false} 
                                             />
                                         </div>
                                       
                                     </div>
-                                    <div className={(this.state.amountlist[1].type=='1' || this.state.amountlist[1].type=='2' || this.state.amountlist[1].type=='3')?'payharflwr inputcenterdis':'payharflwr inputcenteropen'}>
+                                    <div className={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?'payharflwr inputcenterdis':'payharflwr inputcenteropen'}>
                                         <Input  
                                             autoComplete="off" 
-                                            addonBefore={this.state.amountlist[1].name} 
-                                            value={this.state.amountlist[1].value}  
+                                            addonBefore={this.props.amountlist[1].name} 
+                                            value={this.props.amountlist[1].value}  
                                             onBlur={this.paysecondonBlur.bind(this)} 
                                             className='tr payinputsmodel' 
                                             onChange={this.paysecondonChange.bind(this)} 
-                                            addonAfter={(this.state.amountlist[1].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
-                                            disabled={(this.state.amountlist[1].type=='1' || this.state.amountlist[1].type=='2' || this.state.amountlist[1].type=='3')?true:false} 
+                                            addonAfter={(this.props.amountlist[1].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                                            disabled={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?true:false} 
                                         />
                                         
                                     </div>
                                 </div>
-                                :<div className={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?'inputcenter inputcenterdis':'inputcenter inputcenteropen'}>
+                                :<div className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?'inputcenter inputcenterdis':'inputcenter inputcenteropen'}>
                                     <Input  
                                         autoComplete="off" 
-                                        addonBefore={this.state.amountlist[0].name} 
-                                        value={this.state.amountlist[0].value}  
+                                        addonBefore={this.props.amountlist[0].name} 
+                                        value={this.props.amountlist[0].value}  
                                         ref='paymoneys' 
                                         onBlur={this.hindonBlur.bind(this)} 
-                                        className={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  
-                                        disabled={(this.state.amountlist[0].type=='1' || this.state.amountlist[0].type=='2' || this.state.amountlist[0].type=='3')?true:false} 
+                                        className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  
+                                        disabled={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false} 
                                         onChange={this.hindonChange.bind(this)}
-                                        addonAfter={(this.state.amountlist[0].type=='1' && openWechat=='1') ||(this.state.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                                        addonAfter={(this.props.amountlist[0].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
                                     />
                                    
                                     </div>
@@ -1034,8 +1064,8 @@ class Pay extends React.Component {
                             }
                             <div><Input  autoComplete="off" addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
                             <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
-                            {this.state.amountlist.length==1?<div className='payends'><Button className='paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
-                            {this.state.amountlist.length==1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
+                            {this.props.amountlist.length==1?<div className='payends'><Button className='paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
+                            {this.props.amountlist.length==1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
                         </div>
                         <div className='fr fix-800-fr' style={{width:'274px'}}>
                             <div>
@@ -1054,14 +1084,14 @@ class Pay extends React.Component {
                             </div>
                             <div>
                                 <ul className='btnbg'>
-                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?(this.state.amountlist.length>1?'listtdiszu':'listtdis'):(this.state.group?(this.state.amountlist.length>1?'listtoffzu':'listtoff'):(this.state.amountlist.length>1?'listtzu':'listt'))}><Button disabled={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
-                                    <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.state.amountlist.length>1?(this.state.cutAmount=='0'?'listtzu':'listtoffzu'):(this.state.cutAmount=='0'?'listt':'listtoff')}><Button>抹零</Button></li>
+                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?(this.props.amountlist.length>1?'listtdiszu':'listtdis'):(this.state.group?(this.props.amountlist.length>1?'listtoffzu':'listtoff'):(this.props.amountlist.length>1?'listtzu':'listt'))}><Button disabled={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
+                                    <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.props.amountlist.length>1?(this.state.cutAmount=='0'?'listtzu':'listtoffzu'):(this.state.cutAmount=='0'?'listt':'listtoff')}><Button>抹零</Button></li>
                                 </ul>
                             </div>
                         </div>
 
-                        {this.state.amountlist.length>1?<div className='payends'><Button className={this.state.amountlist.length>1?'paylhszu':'paylhs'} onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
-                        {this.state.amountlist.length>1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
+                        {this.props.amountlist.length>1?<div className='payends'><Button className={this.props.amountlist.length>1?'paylhszu':'paylhs'} onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
+                        {this.props.amountlist.length>1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
               	    </div>
             </Modal>
         </div>
@@ -1089,8 +1119,8 @@ Pay.contextTypes= {
 }
 
 function mapStateToProps(state) {
-    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint}=state.cashier
-    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint};
+    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist}=state.cashier
+    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist};
 }
 export default connect(mapStateToProps)(Pay);
 

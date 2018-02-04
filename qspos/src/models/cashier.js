@@ -28,7 +28,15 @@ export default {
           barcode:null,
           cardNoMobile:null,
           checkPrint:false,
-          recheckPrint:false
+            recheckPrint:false,
+          //支付弹窗数据转移
+            amountlist:[{   //左边栏展示数组
+                name:'微信',
+                value:null,
+                type:'1'
+            }],
+
+
 
     },
     reducers: {
@@ -87,6 +95,15 @@ export default {
         barcode(state, { payload: barcode}) {
             return {...state,barcode}
          },
+        amountlist(state, { payload: amountlist}) { 
+            return {...state,amountlist}
+        },
+        newamountlist(state, { payload: newamountlist}) { 
+            const amountlist=newamountlist
+            return {...state,amountlist}
+        },
+
+
         //只用于table中onchange数据绑定
         changedatasouce(state, { payload: datasouce}) {
             for(var i=0;i<datasouce.length;i++){
@@ -244,7 +261,7 @@ export default {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/cashier') {
-                      dispatch({ type: 'initstate', payload:[]})
+                    //   dispatch({ type: 'initstate', payload:[]})
                 }
             });
         },
