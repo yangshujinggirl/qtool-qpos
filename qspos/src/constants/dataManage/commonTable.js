@@ -40,8 +40,8 @@ class CommonTable extends React.Component {
                         defaultPageSize:10,
                         pageSize:this.props.pageSize,
                         showSizeChanger:true,
-                        onShowSizeChange:this.onShowSizeChange,
-                        onChange:this.pageChange,
+                        onShowSizeChange:this.props.onShowSizeChange,
+                        onChange:this.props.pageChange,
                         pageSizeOptions:['10','12','15','17','20','50','100','200']
                     }:
                     false
