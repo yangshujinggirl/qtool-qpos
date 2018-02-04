@@ -50,8 +50,14 @@ class ClerkSaleForm extends React.Component {
                             净收款&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
         this.wechatAmount = <Tooltip placement="top" title='微信消费+微信充值-微信退款'>
                             微信转帐&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+        this.wechatAmounts = <Tooltip placement="top" title='微信消费+微信充值'>
+        微信扫码&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+
         this.alipayAmount = <Tooltip placement="top" title='支付宝消费+支付宝充值-支付宝退款'>
                             支付宝转账&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+        this.alipayAmounts = <Tooltip placement="top" title='支付宝消费+支付宝充值'>
+        支付宝扫码&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;                   
+
         this.cashAmount = <Tooltip placement="top" title='现金消费+现金充值-现金退款'>
                             现金&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
         this.unionpayAmount = <Tooltip placement="top" title='银联消费+银联充值-银联退款'>
@@ -74,13 +80,13 @@ class ClerkSaleForm extends React.Component {
             title: this.wechatAmount,
             dataIndex: 'wechatAmount'
         },{
-            title: '微信扫码',
+            title: this.wechatAmounts,
             dataIndex: 'scanWechatAmount'
         },{
             title: this.alipayAmount,
             dataIndex: 'alipayAmount'
         },{
-            title: '支付宝扫码',
+            title: this.alipayAmounts,
             dataIndex: 'scanAlipayAmount'
         },{
             title: this.unionpayAmount,
