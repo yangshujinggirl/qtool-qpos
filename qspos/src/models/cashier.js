@@ -46,7 +46,15 @@ export default {
             group:false,
             cutAmount:'0',
             point:null,
-            amount:null
+            amount:null,
+            //充值数据迁移
+            rechargevisible:false,
+            reamount:null,
+            typeclick1:true,
+            typeclick2:false,
+            typeclick3:false,
+            typeclick4:false,
+            rechargetype:1
     
     },
     reducers: {
@@ -86,7 +94,16 @@ export default {
             const cutAmount='0'
             const point=null
             const amount=null
-			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile,amountlist,paytypelisy,group,cutAmount,point,amount}
+
+            const rechargevisible=false
+            const reamount=null
+            const typeclick1=true
+            const typeclick2=false
+            const typeclick3=false
+            const typeclick4=false
+            const rechargetype=1
+
+			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile,amountlist,paytypelisy,group,cutAmount,point,amount,rechargevisible,reamount,typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
 		},
   	    datasouce(state, { payload: datasouce}) {
               console.log(datasouce)
@@ -118,6 +135,9 @@ export default {
 
         cardNoMobile(state, { payload: cardNoMobile}) {
            return {...state,cardNoMobile}
+        },
+        rechargevisible(state, { payload: rechargevisible}) {
+            return {...state,rechargevisible}
         },
         barcode(state, { payload: barcode}) {
             return {...state,barcode}
@@ -185,7 +205,12 @@ export default {
         cutAmount(state, { payload: cutAmount}) {
             return {...state,cutAmount}
         },
-       
+        reamount(state, { payload: reamount}) {
+            return {...state,reamount}
+        },
+        typeclicks(state, { payload: {typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}}) {
+            return {...state,typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
+        },
     },
     effects: {
   	    *barfetch({ payload: {code,values} }, { call, put ,select}) {
@@ -276,16 +301,7 @@ export default {
                  message.error(result.message);
             }   
         }, 
-        *membercharge({ payload: {code,values} }, { call, put,select }) {
-            const result=yield call(GetServerData,code,values);
-            console.log(result)
-            if(result.code=='0'){
-                
-
-            }else{
-                 message.error(result.message);
-            }   
-        },
+      
 
 
     },

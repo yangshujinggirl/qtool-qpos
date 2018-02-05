@@ -13,13 +13,7 @@ class Modales extends React.Component {
         this.firstclick=true
      }
     state = { 
-        visible: false,
-        typeclick1:true,
-        typeclick2:false,
-        typeclick3:false,
-        typeclick4:false,
-        reamount:'',
-        type:1,
+        
 
    }
   showModal = () => {
@@ -48,9 +42,11 @@ class Modales extends React.Component {
             }
         })
 
-        this.setState({
-            visible: true,
-        });
+        const rechargevisible=true
+        this.props.dispatch({
+            type:'cashier/rechargevisible',
+            payload:rechargevisible
+        })
     }
   }
   handleOk = (e) => {
@@ -59,29 +55,34 @@ class Modales extends React.Component {
     }else{
         return
     }
-  	let values={mbCardId:this.props.mbCardId,amount:this.state.reamount,type:this.state.type}
+  	let values={mbCardId:this.props.mbCardId,amount:this.props.reamount,type:this.props.rechargetype}
     const result=GetServerData('qerp.pos.mb.card.charge',values)
     result.then((res) => {
         return res;
     }).then((json) => {
         if(json.code=='0'){
-            this.setState({
-                visible: false,
-                reamount:''
-            },function(){
+            const rechargevisible=false
+            this.props.dispatch({
+                type:'cashier/rechargevisible',
+                payload:rechargevisible
+            })
+            const reamount=null
+            this.props.dispatch({
+                type:'cashier/reamount',
+                payload:reamount
+            })
+            setTimeout(()=>{
                 this.firstclick=true
                 this.props.searchmemberinfo()
                 message.success('充值成功',1)
                 const mbCardMoneyChargeIds=json.mbCardMoneyChargeId;
                 const chargeNos=json.chargeNo;
                 printRechargeOrder(this.props.recheckPrint,mbCardMoneyChargeIds)
-                
-                
-            });
+
+            },1) 
         }else{   
             message.warning(json.message)
             this.firstclick=true
-
         }
         })
   }
@@ -94,58 +95,68 @@ class Modales extends React.Component {
         GetLodop(id,type,orderNo,size)
     }
     handleCancel = (e) => {
-        this.setState({
-            visible: false,
-        });
+        const rechargevisible=false
+        this.props.dispatch({
+            type:'cashier/rechargevisible',
+            payload:rechargevisible
+        })
     }
     typelist=(index)=>{
         if(index==1){
-            this.setState({
-                typeclick1:true,
-                typeclick2:false,
-                typeclick3:false,
-                typeclick4:false,
-                type:1
+            const typeclick1=true
+            const typeclick2=false
+            const typeclick3=false
+            const typeclick4=false
+            const rechargetype=1 
+            this.props.dispatch({
+                type:'cashier/typeclicks',
+                payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
             })
         }
         if(index==2){
-            this.setState({
-                typeclick1:false,
-                typeclick2:true,
-                typeclick3:false,
-                typeclick4:false,
-                type:2
+            const typeclick1=false
+            const typeclick2=true
+            const typeclick3=false
+            const typeclick4=false
+            const rechargetype=2
+            this.props.dispatch({
+                type:'cashier/typeclicks',
+                payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
             })
         }
         if(index==3){
-            this.setState({
-                typeclick1:false,
-                typeclick2:false,
-                typeclick3:true,
-                typeclick4:false,
-                type:3
+            const typeclick1=false
+            const typeclick2=false
+            const typeclick3=true
+            const typeclick4=false
+            const rechargetype=3
+            this.props.dispatch({
+                type:'cashier/typeclicks',
+                payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
             })
-
         }
         if(index==4){
-            this.setState({
-                typeclick1:false,
-                typeclick2:false,
-                typeclick3:false,
-                typeclick4:true,
-                type:4
+            const typeclick1=false
+            const typeclick2=false
+            const typeclick3=false
+            const typeclick4=true
+            const rechargetype=4
+            this.props.dispatch({
+                type:'cashier/typeclicks',
+                payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
             })
-
         }
-  }
-  reamount=(e)=>{
-  	this.setState({
-  		reamount:e.target.value
-  	})
+    }
+    reamount=(e)=>{
+    const reamount=e.target.value
+    this.props.dispatch({
+        type:'cashier/reamount',
+        payload:reamount
+    })
   }
   payhindClick=()=>{
       console.log(1)
-      let values={mbCardId:this.props.mbCardId,amount:this.state.reamount,type:this.state.type}
+      let values={mbCardId:this.props.mbCardId,amount:this.props.reamount,type:this.props.rechargetype}
         // if(values.type=='1'){
         //     values.type='7'
         // }
@@ -157,19 +168,27 @@ class Modales extends React.Component {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                this.setState({
-                    visible: false,
-                    reamount:''
-                },function(){
+                const rechargevisible=false
+                this.props.dispatch({
+                    type:'cashier/rechargevisible',
+                    payload:rechargevisible
+                })
+                const reamount=null
+                this.props.dispatch({
+                    type:'cashier/reamount',
+                    payload:reamount
+                })
+                setTimeout(()=>{
                     const orderNo=json.chargeNo  //订单号
                     const odOrderId=json.mbCardMoneyChargeId  //订单id
                     const consumeType='2' //充值订单
                     const type=values.type//支付类型
                     const amount=values.amount //支付金额
                     this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
-                });
+                })
             }else{
                 message.warning(json.message)
+                this.context.router.push({ pathname : '/pay', state : {orderId :'100',type:'7',amount:'100',consumeType:'1',orderNo:'0898u'}});
             }
         })
     }
@@ -190,7 +209,7 @@ class Modales extends React.Component {
             <span onClick={this.showModal} className='themecolor'>充值</span>
             <Modal
                 className='rechargepays'
-                visible={this.state.visible}
+                visible={this.props.rechargevisible}
                 onOk={this.handleOk}
                 onCancel={this.handleCancel}
                 footer={null}
@@ -214,18 +233,18 @@ class Modales extends React.Component {
                     </div>
                     <div className='fr'>
                         <ul className='rechargelist'>
-                            <li onClick={this.typelist.bind(this,1)}><Button className={this.state.typeclick1?'rechargetype':'rechargetypeoff'}>微信</Button></li>
-                            <li onClick={this.typelist.bind(this,2)}><Button className={this.state.typeclick2?'rechargetype':'rechargetypeoff'}>支付宝</Button></li>
-                            <li onClick={this.typelist.bind(this,3)}><Button className={this.state.typeclick3?'rechargetype':'rechargetypeoff'}>银联</Button></li>
-                            <li onClick={this.typelist.bind(this,4)}><Button className={this.state.typeclick4?'rechargetype':'rechargetypeoff'}>现金</Button></li>
+                            <li onClick={this.typelist.bind(this,1)} className={this.props.typeclick1?'rechargetype':'rechargetypeoff'}><Button>微信</Button></li>
+                            <li onClick={this.typelist.bind(this,2)} className={this.props.typeclick2?'rechargetype':'rechargetypeoff'}><Button>支付宝</Button></li>
+                            <li onClick={this.typelist.bind(this,3)} className={this.props.typeclick3?'rechargetype':'rechargetypeoff'}><Button>银联</Button></li>
+                            <li onClick={this.typelist.bind(this,4)} className={this.props.typeclick4?'rechargetype':'rechargetypeoff'}><Button>现金</Button></li>
                         </ul>
                         <div className='rechargeover'>
                             <Input  
                                 autoComplete="off" 
-                                value={this.state.reamount} 
+                                value={this.props.reamount} 
                                 onChange={this.reamount.bind(this)}
-                                addonBefore={<Btnbrfore title={this.state.type=='1'?'微信':(this.state.type=='2'?'支付宝':(this.state.type=='3'?'银联':(this.state.type=='4'?'现金':null)))}/>}
-                                addonAfter={(this.state.type=='1' && openWechat=='1') ||(this.state.type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)}/>:null}
+                                addonBefore={<Btnbrfore title={this.props.rechargetype=='1'?'微信':(this.props.rechargetype=='2'?'支付宝':(this.props.rechargetype=='3'?'银联':(this.props.rechargetype=='4'?'现金':null)))}/>}
+                                addonAfter={(this.props.rechargetype=='1' && openWechat=='1') ||(this.props.rechargetype=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)}/>:null}
                                 />
                         </div>
                     </div>
@@ -251,7 +270,8 @@ Modales.contextTypes= {
 }
 
 function mapStateToProps(state) {
-    const {datasouce,meths,recheckPrint}=state.cashier
-    return {datasouce,meths,recheckPrint};
+    const {datasouce,meths,recheckPrint,rechargevisible,reamount,rechargetype,typeclick1,typeclick2,typeclick3,typeclick4}=state.cashier
+    console.log(typeclick2)
+    return {datasouce,meths,recheckPrint,rechargevisible,reamount,rechargetype,typeclick1,typeclick2,typeclick3,typeclick4};
 }
 export default connect(mapStateToProps)(Modales);
