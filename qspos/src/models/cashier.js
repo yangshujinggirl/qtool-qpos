@@ -69,7 +69,24 @@ export default {
             const themeindex=0
             const barcode=null
             const cardNoMobile=null
-			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile}
+            const amountlist=[{   
+                name:'微信',
+                value:null,
+                type:'1'
+            }]
+            const paytypelisy=[  //右边按钮区展示数组
+                {name:'微信',check:false,disabled:false,type:'1'},
+                {name:'支付宝',check:false,disabled:false,type:'2'},
+                {name:'银联',check:false,disabled:false,type:'3'},
+                {name:'现金',check:false,disabled:false,type:'4'},
+                {name:'会员卡',check:false,disabled:false,type:'5'},
+                {name:'积分',check:false,disabled:false,type:'6'}
+            ]
+            const group=false
+            const cutAmount='0'
+            const point=null
+            const amount=null
+			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile,amountlist,paytypelisy,group,cutAmount,point,amount}
 		},
   	    datasouce(state, { payload: datasouce}) {
               console.log(datasouce)
@@ -275,8 +292,9 @@ export default {
     subscriptions: {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
-                if (pathname === '/cashier') {
-                    //   dispatch({ type: 'initstate', payload:[]})
+                console.log(query)
+                if (pathname === '/cashier' && (!query.backinit)) {
+                    dispatch({ type: 'initstate', payload:[]})
                 }
             });
         },

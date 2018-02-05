@@ -8,7 +8,7 @@ class Header extends React.Component{
 		return(
 				<div className={this.props.color?'headers':'headersno'}>
     				<div className='clearfix'>
-      					<div className='fl'><Menu type={this.props.type} linkRoute={this.props.linkRoute}/></div>
+      					<div className='fl'><Menu type={this.props.type} linkRoute={this.props.linkRoute} backinit={this.props.backinit}/></div>
       					<div className='fr'><Userinfo/></div>
 						{this.props.title?<div className='headercen'>{this.props.title}</div>:null}
       				</div>

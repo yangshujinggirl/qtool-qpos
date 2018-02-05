@@ -146,54 +146,59 @@ class Cashierindex extends React.Component {
     }
     //初始化清空数据
     initdata=()=>{
-        const datasouce=[]
-        const themeindex=0
-        const name=null
-        const levelStr=null
-        const memberpoint=null
-        const memberamount=null
-        const cardNo=null
-        const mbCardId=null
-        const isBirthMonth=null
-        const ismember=false
-        const payvisible=false
-        const onbule=false
-        const barcode=null
-        const cardNoMobile=null
-        const checkPrint = false
+        // const datasouce=[]
+        // const themeindex=0
+        // const name=null
+        // const levelStr=null
+        // const memberpoint=null
+        // const memberamount=null
+        // const cardNo=null
+        // const mbCardId=null
+        // const isBirthMonth=null
+        // const ismember=false
+        // const payvisible=false
+        // const onbule=false
+        // const barcode=null
+        // const cardNoMobile=null
+        // const checkPrint = false
 
+        // this.props.dispatch({
+        //     type:'cashier/datasouce',
+        //     payload:datasouce
+        // })
+        // this.props.dispatch({
+        //     type:'cashier/memberlist',
+        //     payload:{name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember}
+        // })
+        // this.props.dispatch({
+        //     type:'cashier/payvisible',
+        //     payload:payvisible
+        // })
+        // this.props.dispatch({
+        //     type:'cashier/themeindex',
+        //     payload:themeindex
+        // })
+        // this.props.dispatch({
+        //     type:'cashier/onbule',
+        //     payload:onbule
+        // })
+        // this.props.dispatch({
+        //     type:'cashier/barcode',
+        //     payload:barcode
+        // })
+        // this.props.dispatch({
+        //     type:'cashier/cardNoMobile',
+        //     payload:cardNoMobile
+        // })
+        // this.props.dispatch({
+        //     type:'cashier/changeCheckPrint',
+        //     payload:checkPrint
+        // })
         this.props.dispatch({
-            type:'cashier/datasouce',
-            payload:datasouce
+            type:'cashier/initstate',
+            payload:{}
         })
-        this.props.dispatch({
-            type:'cashier/memberlist',
-            payload:{name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember}
-        })
-        this.props.dispatch({
-            type:'cashier/payvisible',
-            payload:payvisible
-        })
-        this.props.dispatch({
-            type:'cashier/themeindex',
-            payload:themeindex
-        })
-        this.props.dispatch({
-            type:'cashier/onbule',
-            payload:onbule
-        })
-        this.props.dispatch({
-            type:'cashier/barcode',
-            payload:barcode
-        })
-        this.props.dispatch({
-            type:'cashier/cardNoMobile',
-            payload:cardNoMobile
-        })
-        this.props.dispatch({
-            type:'cashier/changeCheckPrint',
-            payload:checkPrint
-        })
+
         this.props.meths.focustap()
     }
     handleokents=(e)=>{

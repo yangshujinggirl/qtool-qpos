@@ -8,12 +8,8 @@ import {dataedit} from '../../utils/commonFc';
 import NP from 'number-precision'
 import Btnpay from './btnpay'
 import Scanbtn from '../../components/Button/scanbtn'
-
-
 import {getSaleOrderInfo} from '../../components/Method/Print';
 //引入打印
-
-
 
 class Pay extends React.Component {
      constructor(props) {
@@ -23,12 +19,6 @@ class Pay extends React.Component {
 
     state = { 
         text:null,
-        point:null,
-        amountlist:[{//左边栏展示数组
-            name:'微信',
-            value:null,
-            type:'1'
-        }],  
         initModel:this.initModel,
         waringfirst:false,
         visible: false,
@@ -38,6 +28,7 @@ class Pay extends React.Component {
     //初始化方法
     initModel=()=>{
         const ismember=this.props.ismember
+        console.log(ismember)
         const amountlist=[{
             name:'微信',
             value:null,
@@ -53,6 +44,8 @@ class Pay extends React.Component {
         ]
         const paytotolamount=this.props.totolamount
         const group=false
+        const cutAmount='0'
+
         this.props.dispatch({
             type:'cashier/paytotolamount',
             payload:paytotolamount
@@ -69,13 +62,13 @@ class Pay extends React.Component {
             type:'cashier/group',
             payload:group
         })
-        const cutAmount='0'
         this.props.dispatch({
             type:'cashier/cutAmount',
             payload:cutAmount
         })
 
         if(ismember){
+            console.log('123')
             const values={mbCardId:this.props.mbCardId}
             const result=GetServerData('qerp.pos.mb.card.info',values)
             result.then((res) => {
@@ -83,32 +76,35 @@ class Pay extends React.Component {
             }).then((json) => {
                 if(json.code=='0'){
                     this.setState({
-                        waringfirst:false,
-                        visible:true,
+                        waringfirst:false
                     },function(){
                         const point=json.mbCardInfo.point
                         const amount=json.mbCardInfo.amount
-                        this.props.dispatch({
-                            type:'cashier/amountpoint',
-                            payload:{amount,point}
-                        })
-
                         const payvisible=true
-                        this.props.dispatch({
-                            type:'cashier/payvisible',
-                            payload:payvisible
-                        })
                         const paytypelisy=this.props.paytypelisy
                         const amountlist=[]
                         var texts=null
                         var waringfirsts=false
                         var groups=false
-                        //判断积分是否禁用
+
+                        this.props.dispatch({
+                            type:'cashier/amountpoint',
+                            payload:{amount,point}
+                        })
+                        this.props.dispatch({
+                            type:'cashier/payvisible',
+                            payload:payvisible
+                        })
+
+
+                        setTimeout(()=>{
+                            //判断积分是否禁用
                         if(Number(this.props.point)<=0){
                             //禁用
                             paytypelisy[5].disabled=true
                         }
                         if(parseFloat(this.props.amount)>0){
+                            console.log(789)
                                 //会员卡选中为默认支付方式，不禁用
                                 paytypelisy[4].check=true
                                 //判断会员卡总额和总消费金额
@@ -153,12 +149,20 @@ class Pay extends React.Component {
                             text:texts,
                             backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
                         })
+
+                        },1)
+
+
+
+                        
+                        
                     })
                 }else{
                     message.error(json.message)
                 }
             })
         }else{
+            console.log('456')
             //不是会员
             this.setState({
                 waringfirst:false,
@@ -187,8 +191,6 @@ class Pay extends React.Component {
                     type:'cashier/paytypelisy',
                     payload:paytypelisy
                 })
-
-
                 this.setState({
                     backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
                 })

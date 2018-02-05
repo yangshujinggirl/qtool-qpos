@@ -51,20 +51,21 @@ function Menuuse({urUser}) {
         </div>
     )
 }
-function Menuicon({linkRoute}) {
+function Menuicon({linkRoute,backinit}) {
     return (
         <div className='menuicon'>
-            <div className='ml30 mt30 headermenuiconcount'><Link to={!linkRoute?'/cashier':'/'+linkRoute}><img src={require('../../images/icon_back.png')} className='w100 h100'/></Link></div>
+            {/* <div className='ml30 mt30 headermenuiconcount'><Link to={!linkRoute?'/cashier':'/'+linkRoute}><img src={require('../../images/icon_back.png')} className='w100 h100'/></Link></div> */}
+            <div className='ml30 mt30 headermenuiconcount'><Link to={!linkRoute?{pathname:'/cashier',query:{backinit:backinit}}:'/'+linkRoute}><img src={require('../../images/icon_back.png')} className='w100 h100'/></Link></div>
         </div>
   )
 }
-function Menu({type,urUser,linkRoute}) {
+function Menu({type,urUser,linkRoute,backinit}) {
     return (
         <div>
             {
                 type
                 ?<Menuuse urUser={urUser}/>
-                :<Menuicon linkRoute={linkRoute}/>
+                :<Menuicon linkRoute={linkRoute} backinit={backinit}/>
             }
         </div>
   )

@@ -160,7 +160,7 @@ class Payamount extends React.Component{
         return (
             <div className='payscanbox'>
                 <Spin tip={this.props.location.state.type=='7'?'微信支付中...':'支付宝支付中...'} spinning={this.state.loding} indicator={<AntIcon/>}>
-                    <Header type={false} color={true} title={this.props.location.state.type=='7'?'微信':'支付宝'}/>
+                    <Header type={false} color={true} title={this.props.location.state.type=='7'?'微信':'支付宝'} backinit={true}/>
                     <div className='cons'>
                         <div className='box'>
                             <Form className='payamounts'>
