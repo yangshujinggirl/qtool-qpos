@@ -43,10 +43,19 @@ class Receivegoodsindex extends React.Component {
                 pdOrderId:this.props.pdOrderId,
                 pdOrderReceives:pdOrderReceives
             }
-			this.props.dispatch({
-				type:'receivegoods/payok',
-				payload:{code:'qerp.pos.pd.order.receive',values:values}
-			})
+            if(this.props.isfetchover){
+                this.props.dispatch({
+                    type:'receivegoods/payok',
+                    payload:{code:'qerp.pos.pd.order.receive',values:values}
+                })
+                const isfetchover=false
+                this.props.dispatch({
+                    type:'receivegoods/isfetchover',
+                    payload:isfetchover
+                })
+
+            }
+			
         }else{
             message.warning('数量为0，不能收货');
         }
@@ -81,8 +90,8 @@ class Receivegoodsindex extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {datasouce,themeindex,totolsamount,datasoucelen,meth,pdOrderId} = state.receivegoods;
-    return {datasouce,themeindex,totolsamount,datasoucelen,meth,pdOrderId};
+    const {datasouce,themeindex,totolsamount,datasoucelen,meth,pdOrderId,isfetchover} = state.receivegoods;
+    return {datasouce,themeindex,totolsamount,datasoucelen,meth,pdOrderId,isfetchover};
 }
 
 export default connect(mapStateToProps)(Receivegoodsindex);
