@@ -11,8 +11,6 @@ class Operationls extends React.Component {
 		cardNoMobile:'',
 		name:'',
 		levelStr:'',
-		point:'',//积分
-		amount:'',//余额
 		integertotalamount:null,
 		checked:false,
 		cardNo:'',
@@ -43,8 +41,8 @@ class Operationls extends React.Component {
 		var cardNoMobile=e.target.value.replace(/\s+/g,""); 
 		const name=null
 		const levelStr=null
-		const point=null
-		const amount=null
+		const memberpoint=null
+		const memberamount=null
 		const cardNo=null
 		const mbCardId=null
 		const isBirthMonth=null
@@ -55,7 +53,7 @@ class Operationls extends React.Component {
 		})
 		this.props.dispatch({
 			type:'cashier/memberlist',
-			payload:{name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember}
+			payload:{name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember}
 		})
 	}
 	//条码框键盘事件
@@ -151,8 +149,8 @@ class Operationls extends React.Component {
                         </div>
 	    				<div className='clearfix posion cashierbox_b'>
 	    					<div className='fl tc mt10 memberinfobox1 memberinfoboxlist' >
-                                <p className='c74 clearfix'><div className='fl'>余额</div><div className='rechargebtn'><Modales name={this.props.name} cardNo={this.props.cardNo} amount={this.props.amount} mbCardId={this.props.mbCardId} searchmemberinfo={this.searchmemberinfo.bind(this)}/></div></p>
-                                <p className='c38 p2'>{this.props.amount}</p>
+                                <p className='c74 clearfix'><div className='fl'>余额</div><div className='rechargebtn'><Modales name={this.props.name} cardNo={this.props.cardNo} amount={this.props.memberamount} mbCardId={this.props.mbCardId} searchmemberinfo={this.searchmemberinfo.bind(this)}/></div></p>
+                                <p className='c38 p2'>{this.props.memberamount}</p>
                             </div>
                             <div className='fr tc mt10 memberinfobox2 memberinfoboxlist'>
                                 <p className='c74 p1'>本次积分</p>
@@ -160,7 +158,7 @@ class Operationls extends React.Component {
                             </div>
 	    					<div className='w tc mt10 memberinfobox3 memberinfoboxlist'>
                                 <p className='c74'>剩余积分</p>
-                                <p className='c38 p2'>{this.props.point}</p>
+                                <p className='c38 p2'>{this.props.memberpoint}</p>
                             </div>
                             <div className='lines lines1'></div>
                             <div className='lines lines2'></div>
@@ -188,8 +186,8 @@ Operationls.contextTypes= {
 }
 
 function mapStateToProps(state) {
-	 const {name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember,thispoint,barcode,cardNoMobile} = state.cashier;
-	return {name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember,thispoint,barcode,cardNoMobile};
+	 const {name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,thispoint,barcode,cardNoMobile} = state.cashier;
+	return {name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,thispoint,barcode,cardNoMobile};
 }
 
 export default connect(mapStateToProps)(Operationls);

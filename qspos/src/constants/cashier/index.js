@@ -150,8 +150,8 @@ class Cashierindex extends React.Component {
         const themeindex=0
         const name=null
         const levelStr=null
-        const point=null
-        const amount=null
+        const memberpoint=null
+        const memberamount=null
         const cardNo=null
         const mbCardId=null
         const isBirthMonth=null
@@ -168,7 +168,7 @@ class Cashierindex extends React.Component {
         })
         this.props.dispatch({
             type:'cashier/memberlist',
-            payload:{name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember}
+            payload:{name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember}
         })
         this.props.dispatch({
             type:'cashier/payvisible',

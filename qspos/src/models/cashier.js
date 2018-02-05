@@ -15,8 +15,8 @@ export default {
           meths:{},
           name:null,
           levelStr:null,
-          point:null,
-          amount:null,
+          memberpoint:null,
+          memberamount:null,
           cardNo:null,
           mbCardId:null,
           isBirthMonth:null,
@@ -35,9 +35,19 @@ export default {
                 value:null,
                 type:'1'
             }],
-
-
-
+            paytypelisy:[  //右边按钮区展示数组
+                {name:'微信',check:false,disabled:false,type:'1'},
+                {name:'支付宝',check:false,disabled:false,type:'2'},
+                {name:'银联',check:false,disabled:false,type:'3'},
+                {name:'现金',check:false,disabled:false,type:'4'},
+                {name:'会员卡',check:false,disabled:false,type:'5'},
+                {name:'积分',check:false,disabled:false,type:'6'}
+            ], 
+            group:false,
+            cutAmount:'0',
+            point:null,
+            amount:null
+    
     },
     reducers: {
         initstate(state, { payload: {}}) {
@@ -48,8 +58,8 @@ export default {
             const onbule=false
             const name=null
             const levelStr=null
-            const point=null
-            const amount=null
+            const memberpoint=null
+            const memberamount=null
             const cardNo=null
             const mbCardId=null
             const isBirthMonth=null
@@ -59,7 +69,7 @@ export default {
             const themeindex=0
             const barcode=null
             const cardNoMobile=null
-			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile}
+			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile}
 		},
   	    datasouce(state, { payload: datasouce}) {
               console.log(datasouce)
@@ -121,8 +131,8 @@ export default {
         meth1(state, { payload: meth1}) {
             return {...state,meth1}
         },
-        memberlist(state, { payload: {name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember}}) {
-            return {...state,name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember}
+        memberlist(state, { payload: {name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember}}) {
+            return {...state,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember}
         },
         ismember(state, { payload: ismember}) {
             return {...state,ismember}
@@ -142,7 +152,19 @@ export default {
         rechangeCheckPrint(state, { payload: recheckPrint}) {
             return {...state,recheckPrint}
         },
-
+        paytypelisy(state, { payload: paytypelisy}) {
+            return {...state,paytypelisy}
+        },
+        group(state, { payload: group}) {
+            return {...state,group}
+        },
+        groups(state, { payload: groups}) {
+            const group=groups
+            return {...state,group}
+        },
+        amountpoint(state, { payload: {amount,point}}) {
+            return {...state,amount,point}
+        },
        
     },
     effects: {
@@ -220,15 +242,15 @@ export default {
             if(result.code=='0'){
                 const name=result.mbCardInfo.name
                 const levelStr=result.mbCardInfo.levelStr
-                const point=result.mbCardInfo.point
-                const amount=result.mbCardInfo.amount
+                const memberpoint=result.mbCardInfo.point
+                const memberamount=result.mbCardInfo.amount
                 const cardNo=result.mbCardInfo.cardNo
                 const mbCardId=result.mbCardInfo.mbCardId
                 const isBirthMonth=result.mbCardInfo.isBirthMonth
                 const ismember=true
                 const focustap = yield select(state => state.cashier.meths.focustap);
                 focustap()
-                yield put({type: 'memberlist',payload:{name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember}});
+                yield put({type: 'memberlist',payload:{name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember}});
 
             }else{
                  message.error(result.message);
@@ -238,17 +260,7 @@ export default {
             const result=yield call(GetServerData,code,values);
             console.log(result)
             if(result.code=='0'){
-                // const name=result.mbCardInfo.name
-                // const levelStr=result.mbCardInfo.levelStr
-                // const point=result.mbCardInfo.point
-                // const amount=result.mbCardInfo.amount
-                // const cardNo=result.mbCardInfo.cardNo
-                // const mbCardId=result.mbCardInfo.mbCardId
-                // const isBirthMonth=result.mbCardInfo.isBirthMonth
-                // const ismember=true
-                // const focustap = yield select(state => state.cashier.meths.focustap);
-                // focustap()
-                // yield put({type: 'memberlist',payload:{name,levelStr,point,amount,cardNo,mbCardId,isBirthMonth,ismember}});
+                
 
             }else{
                  message.error(result.message);

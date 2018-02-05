@@ -24,22 +24,12 @@ class Pay extends React.Component {
     state = { 
         text:null,
         point:null,
-        amount:null,
         amountlist:[{//左边栏展示数组
             name:'微信',
             value:null,
             type:'1'
-        }], 
-        paytypelisy:[  //右边按钮区展示数组
-            {name:'微信',check:false,disabled:false,type:'1'},
-            {name:'支付宝',check:false,disabled:false,type:'2'},
-            {name:'银联',check:false,disabled:false,type:'3'},
-            {name:'现金',check:false,disabled:false,type:'4'},
-            {name:'会员卡',check:false,disabled:false,type:'5'},
-            {name:'积分',check:false,disabled:false,type:'6'}
-        ], 
+        }],  
         initModel:this.initModel,
-        group:false,//是否组合支付
         waringfirst:false,
         visible: false,
         backmoney:'0.00',
@@ -54,15 +44,37 @@ class Pay extends React.Component {
             value:null,
             type:'1'
         }]
+        const paytypelisy=[  
+            {name:'微信',check:false,disabled:false,type:'1'},
+            {name:'支付宝',check:false,disabled:false,type:'2'},
+            {name:'银联',check:false,disabled:false,type:'3'},
+            {name:'现金',check:false,disabled:false,type:'4'},
+            {name:'会员卡',check:false,disabled:false,type:'5'},
+            {name:'积分',check:false,disabled:false,type:'6'}
+        ]
         const paytotolamount=this.props.totolamount
+        const group=false
         this.props.dispatch({
             type:'cashier/paytotolamount',
             payload:paytotolamount
         })
         this.props.dispatch({
+            type:'cashier/paytypelisy',
+            payload:paytypelisy
+        })
+
+
+
+        this.props.dispatch({
             type:'cashier/amountlist',
             payload:amountlist
         })
+        this.props.dispatch({
+            type:'cashier/group',
+            payload:group
+        })
+
+
         if(ismember){
             const values={mbCardId:this.props.mbCardId}
             const result=GetServerData('qerp.pos.mb.card.info',values)
@@ -71,40 +83,37 @@ class Pay extends React.Component {
             }).then((json) => {
                 if(json.code=='0'){
                     this.setState({
-                        point:json.mbCardInfo.point,
-                        amount:json.mbCardInfo.amount,
-                        paytypelisy:[  
-                            {name:'微信',check:false,disabled:false,type:'1'},
-                            {name:'支付宝',check:false,disabled:false,type:'2'},
-                            {name:'银联',check:false,disabled:false,type:'3'},
-                            {name:'现金',check:false,disabled:false,type:'4'},
-                            {name:'会员卡',check:false,disabled:false,type:'5'},
-                            {name:'积分',check:false,disabled:false,type:'6'}
-                        ], 
                         waringfirst:false,
                         visible:true,
                         cutAmount:'0',
                     },function(){
+                        const point=json.mbCardInfo.point
+                        const amount=json.mbCardInfo.amount
+                        this.props.dispatch({
+                            type:'cashier/amountpoint',
+                            payload:{amount,point}
+                        })
+
                         const payvisible=true
                         this.props.dispatch({
                             type:'cashier/payvisible',
                             payload:payvisible
                         })
-                        const paytypelisy=this.state.paytypelisy
+                        const paytypelisy=this.props.paytypelisy
                         const amountlist=[]
                         var texts=null
                         var waringfirsts=false
                         var groups=false
                         //判断积分是否禁用
-                        if(Number(this.state.point)<=0){
+                        if(Number(this.props.point)<=0){
                             //禁用
                             paytypelisy[5].disabled=true
                         }
-                        if(parseFloat(this.state.amount)>0){
+                        if(parseFloat(this.props.amount)>0){
                                 //会员卡选中为默认支付方式，不禁用
                                 paytypelisy[4].check=true
                                 //判断会员卡总额和总消费金额
-                                if(parseFloat(this.state.amount)>parseFloat(this.props.paytotolamount)){
+                                if(parseFloat(this.props.amount)>parseFloat(this.props.paytotolamount)){
                                     amountlist.push({
                                         name:'会员卡',
                                         value:this.props.paytotolamount,
@@ -113,7 +122,7 @@ class Pay extends React.Component {
                                 }else{
                                     amountlist.push({
                                         name:'会员卡',
-                                        value:this.state.amount,
+                                        value:this.props.amount,
                                         type:'5'
                                     })
                                     //报警告
@@ -136,12 +145,13 @@ class Pay extends React.Component {
                             type:'cashier/amountlist',
                             payload:amountlist
                         })
-
+                        this.props.dispatch({
+                            type:'cashier/groups',
+                            payload:groups
+                        })
                         this.setState({
-                            paytypelisy:paytypelisy,
                             waringfirst:waringfirsts,
                             text:texts,
-                            group:groups,
                             backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
                         })
                     })
@@ -152,17 +162,8 @@ class Pay extends React.Component {
         }else{
             //不是会员
             this.setState({
-                paytypelisy:[  
-                    {name:'微信',check:false,disabled:false,type:'1'},
-                    {name:'支付宝',check:false,disabled:false,type:'2'},
-                    {name:'银联',check:false,disabled:false,type:'3'},
-                    {name:'现金',check:false,disabled:false,type:'4'},
-                    {name:'会员卡',check:false,disabled:false,type:'5'},
-                    {name:'积分',check:false,disabled:false,type:'6'}
-                ], 
                 waringfirst:false,
                 visible:true,
-                group:false,
                 cutAmount:'0',
 
             },function(){
@@ -171,7 +172,7 @@ class Pay extends React.Component {
                     type:'cashier/payvisible',
                     payload:payvisible
                 })
-                const paytypelisy=this.state.paytypelisy
+                const paytypelisy=this.props.paytypelisy
                 const amountlist=[]
                 paytypelisy[4].disabled=true
                 paytypelisy[5].disabled=true
@@ -185,8 +186,13 @@ class Pay extends React.Component {
                     type:'cashier/amountlist',
                     payload:amountlist
                 })
+                this.props.dispatch({
+                    type:'cashier/paytypelisy',
+                    payload:paytypelisy
+                })
+
+
                 this.setState({
-                    paytypelisy:paytypelisy,
                     backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
                 })
             })
@@ -231,23 +237,36 @@ class Pay extends React.Component {
 
         //组合支付
         connectclick=()=>{
-            const group=this.state.group
-            this.setState({
-                group:!group
-            },function(){
-                if(!this.state.group){
-                    const paytypelisy=this.state.paytypelisy //按钮list 
-                    for(var i=0;i<paytypelisy.length;i++){
-                        paytypelisy[i].check=false
-                    }
-                    this.setState({
-                        paytypelisy:paytypelisy
-                    },function(){
-                        this.listclick(0)
-                    })
-                }
+            const group=this.props.group
+            console.log(group)
+            const groups=this.props.group?false:true
+            console.log(groups)
+            this.props.dispatch({
+                type:'cashier/groups',
+                payload:groups
             })
+            console.log(this.props.group)
+            if(!groups){
+                console.log('123')
+                const paytypelisy=this.props.paytypelisy //按钮list 
+                for(var i=0;i<paytypelisy.length;i++){
+                    paytypelisy[i].check=false
+                }
+                
+                this.props.dispatch({
+                    type:'cashier/paytypelisy',
+                    payload:paytypelisy
+                })
+                console.log(this)
+                setTimeout(()=>{
+                    console.log(567)
+                    this.listclick(0)
+                },1)
+               
+            }
         }
+
+        
 
     //权重处理方法
      arrarow=(arr)=>{
@@ -292,7 +311,7 @@ class Pay extends React.Component {
 
     //点击不同支付方式
     listclick=(index)=>{
-        const paytypelisy=this.state.paytypelisy //按钮list
+        const paytypelisy=this.props.paytypelisy //按钮list
         const amountlist=this.props.amountlist //左边栏数组
         var newamountlist=[] //新的左边栏数组
         var waringfirsts=false
@@ -300,7 +319,8 @@ class Pay extends React.Component {
         const paytotolamount=this.props.paytotolamount//支付总额
         const lastpayamount=NP.minus(paytotolamount, amountlist[0].value);  //剩余金额
         if(!paytypelisy[index].check){
-            if(this.state.group){
+            if(this.props.group){
+                console.log('wo ai ni')
                 const newarrlist=[]
                 newarrlist.push(amountlist[0])   
                 newarrlist.push({
@@ -315,8 +335,8 @@ class Pay extends React.Component {
                 //积分会员卡不同状态value处理
                 const i=this.isInArray(newamountlist,'5')
                 const j=this.isInArray(newamountlist,'6')
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员余额
                 if(i!='-1'){
                     //存在会员
                     if(j=='-1'){
@@ -388,8 +408,8 @@ class Pay extends React.Component {
                 })
                 const ismember=this.props.ismember
                 if(ismember){
-                    const point=NP.divide(this.state.point,100); //积分换算金额
-                    const amount=this.state.amount //会员余额
+                    const point=NP.divide(this.props.point,100); //积分换算金额
+                    const amount=this.props.amount //会员余额
                     if(newamountlist[0].type=='5'){
                         if(parseFloat(amount)<parseFloat(paytotolamount)){
                             newamountlist[0].value=amount
@@ -452,8 +472,11 @@ class Pay extends React.Component {
                 type:'cashier/newamountlist',
                 payload:newamountlist
             })
+            this.props.dispatch({
+                type:'cashier/paytypelisy',
+                payload:paytypelisy
+            })
             this.setState({
-                paytypelisy:paytypelisy,
                 waringfirst:waringfirsts,
                 text:texts,
                 backmoney:backmoneyed
@@ -468,7 +491,7 @@ class Pay extends React.Component {
             return
         }
         const backmoney=this.state.backmoney
-        const group=this.state.group
+        const group=this.props.group
         const amountlist=this.props.amountlist
         var totols=0;
         var orderPay=[];
@@ -547,25 +570,25 @@ class Pay extends React.Component {
         if(parseFloat(values)>=parseFloat(paytotolamount)){
             amountlist[0].value=paytotolamount
             if(amountlist[0].type=='5'){
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员卡余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员卡余额
                 amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
             }
             if(amountlist[0].type=='6'){
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员卡余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员卡余额
                 amountlist[0].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
             }
         }else{
             amountlist[0].value=values
             if(amountlist[0].type=='5'){
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员卡余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员卡余额
                 amountlist[0].value=(parseFloat(amount)>=parseFloat(values))?values:amount
             }
             if(amountlist[0].type=='6'){
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员卡余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员卡余额
                 amountlist[0].value=(parseFloat(point)>=parseFloat(values))?values:point
             }
 
@@ -606,8 +629,8 @@ class Pay extends React.Component {
             amountlist[0].value=paytotolamount
             amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
             if(amountlist[0].type=='5'){
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员卡余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员卡余额
                 amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
                 amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
                 if(amountlist[1].type=='6'){
@@ -616,8 +639,8 @@ class Pay extends React.Component {
             }else{
                 //当前是积分
                 if(amountlist[0].type=='6'){
-                    const point=NP.divide(this.state.point,100); //积分换算金额
-                    const amount=this.state.amount //会员卡余额
+                    const point=NP.divide(this.props.point,100); //积分换算金额
+                    const amount=this.props.amount //会员卡余额
                     if(amountlist[1].type=='5'){
                         amountlist[1].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
@@ -630,14 +653,14 @@ class Pay extends React.Component {
                     amountlist[0].value=paytotolamount
                     amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
                     if(amountlist[1].type=='5'){
-                        const point=NP.divide(this.state.point,100); //积分换算金额
-                        const amount=this.state.amount //会员卡余额
+                        const point=NP.divide(this.props.point,100); //积分换算金额
+                        const amount=this.props.amount //会员卡余额
                         amountlist[1].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                     }
                     if(amountlist[1].type=='6'){
-                        const point=NP.divide(this.state.point,100); //积分换算金额
-                        const amount=this.state.amount //会员卡余额
+                        const point=NP.divide(this.props.point,100); //积分换算金额
+                        const amount=this.props.amount //会员卡余额
                         amountlist[1].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                     }
@@ -651,8 +674,8 @@ class Pay extends React.Component {
             amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
             //当前是会员卡
             if(amountlist[0].type=='5'){
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员卡余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员卡余额
                 amountlist[0].value=(parseFloat(amount)>=parseFloat(values))?values:amount
                 amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
                 if(amountlist[1].type=='6'){
@@ -662,8 +685,8 @@ class Pay extends React.Component {
             }else{
                  //当前是积分
                 if(amountlist[0].type=='6'){
-                    const point=NP.divide(this.state.point,100); //积分换算金额
-                    const amount=this.state.amount //会员卡余额
+                    const point=NP.divide(this.props.point,100); //积分换算金额
+                    const amount=this.props.amount //会员卡余额
                     if(amountlist[1].type=='5'){
                        amountlist[0].value=(parseFloat(point)>=parseFloat(values))?values:point
                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[0].value)
@@ -676,14 +699,14 @@ class Pay extends React.Component {
                     amountlist[0].value=values
                     amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
                     if(amountlist[1].type=='5'){
-                        const point=NP.divide(this.state.point,100); //积分换算金额
-                        const amount=this.state.amount //会员卡余额
+                        const point=NP.divide(this.props.point,100); //积分换算金额
+                        const amount=this.props.amount //会员卡余额
                         amountlist[0].value=values
                         amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[0].value)
                     }
                     if(amountlist[1].type=='6'){
-                        const point=NP.divide(this.state.point,100); //积分换算金额
-                        const amount=this.state.amount //会员卡余额
+                        const point=NP.divide(this.props.point,100); //积分换算金额
+                        const amount=this.props.amount //会员卡余额
                         amountlist[0].value=values
                         amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(point)?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
                     }
@@ -711,8 +734,8 @@ class Pay extends React.Component {
             amountlist[1].value=paytotolamount
             amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
             if(amountlist[1].type=='5'){
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员卡余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员卡余额
                 amountlist[1].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
                 amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                 if(amountlist[0].type=='6'){
@@ -721,8 +744,8 @@ class Pay extends React.Component {
             }else{
                 //当前是积分
                 if(amountlist[1].type=='6'){
-                    const point=NP.divide(this.state.point,100); //积分换算金额
-                    const amount=this.state.amount //会员卡余额
+                    const point=NP.divide(this.props.point,100); //积分换算金额
+                    const amount=this.props.amount //会员卡余额
                     if(amountlist[0].type=='5'){
                         amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
                         amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
@@ -735,14 +758,14 @@ class Pay extends React.Component {
                     amountlist[1].value=paytotolamount
                     amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                     if(amountlist[0].type=='5'){
-                        const point=NP.divide(this.state.point,100); //积分换算金额
-                        const amount=this.state.amount //会员卡余额
+                        const point=NP.divide(this.props.point,100); //积分换算金额
+                        const amount=this.props.amount //会员卡余额
                         amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
                         amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
                     }
                     if(amountlist[0].type=='6'){
-                        const point=NP.divide(this.state.point,100); //积分换算金额
-                        const amount=this.state.amount //会员卡余额
+                        const point=NP.divide(this.props.point,100); //积分换算金额
+                        const amount=this.props.amount //会员卡余额
                         amountlist[0].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
                         amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
                     }
@@ -754,8 +777,8 @@ class Pay extends React.Component {
             amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
             //当前是会员卡
             if(amountlist[1].type=='5'){
-                const point=NP.divide(this.state.point,100); //积分换算金额
-                const amount=this.state.amount //会员卡余额
+                const point=NP.divide(this.props.point,100); //积分换算金额
+                const amount=this.props.amount //会员卡余额
                 amountlist[1].value=(parseFloat(amount)>=parseFloat(values))?values:amount
                 amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                 if(amountlist[0].type=='6'){
@@ -764,8 +787,8 @@ class Pay extends React.Component {
             }else{
                  //当前是积分
                 if(amountlist[1].type=='6'){
-                    const point=NP.divide(this.state.point,100); //积分换算金额
-                    const amount=this.state.amount //会员卡余额
+                    const point=NP.divide(this.props.point,100); //积分换算金额
+                    const amount=this.props.amount //会员卡余额
                     if(amountlist[0].type=='5'){
                         amountlist[1].value=(parseFloat(point)>=parseFloat(values))?values:point
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[1].value)
@@ -778,14 +801,14 @@ class Pay extends React.Component {
                     amountlist[1].value=values
                     amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
                     if(amountlist[0].type=='5'){
-                        const point=NP.divide(this.state.point,100); //积分换算金额
-                        const amount=this.state.amount //会员卡余额
+                        const point=NP.divide(this.props.point,100); //积分换算金额
+                        const amount=this.props.amount //会员卡余额
                         amountlist[1].value=values
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[1].value)
                     }
                     if(amountlist[0].type=='6'){
-                        const point=NP.divide(this.state.point,100); //积分换算金额
-                        const amount=this.state.amount //会员卡余额
+                        const point=NP.divide(this.props.point,100); //积分换算金额
+                        const amount=this.props.amount //会员卡余额
                         amountlist[1].value=values
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(point)?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
                     }
@@ -903,7 +926,7 @@ class Pay extends React.Component {
     //扫码按钮点击
     onhindClicks=()=>{
         const backmoney=this.state.backmoney
-        const group=this.state.group
+        const group=this.props.group
         const amountlist=this.props.amountlist
         console.log(amountlist)
         var totols=0;
@@ -1071,7 +1094,7 @@ class Pay extends React.Component {
                             <div>
                                 <ul className='clearfix' style={{paddingLeft:'0'}}>
                                     {
-                                        this.state.paytypelisy.map((item,index)=>{
+                                        this.props.paytypelisy.map((item,index)=>{
                                             return(
                                                 <li className='fl' onClick={this.listclick.bind(this,index)} key={index} className={item.disabled?'listdis':(item.check?'listoff':'list')}>
                                                     <Button  disabled={item.disabled}>{item.name}</Button>
@@ -1084,7 +1107,7 @@ class Pay extends React.Component {
                             </div>
                             <div>
                                 <ul className='btnbg'>
-                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?(this.props.amountlist.length>1?'listtdiszu':'listtdis'):(this.state.group?(this.props.amountlist.length>1?'listtoffzu':'listtoff'):(this.props.amountlist.length>1?'listtzu':'listt'))}><Button disabled={this.state.paytypelisy[4].disabled==true && this.state.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
+                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?(this.props.amountlist.length>1?'listtdiszu':'listtdis'):(this.props.group?(this.props.amountlist.length>1?'listtoffzu':'listtoff'):(this.props.amountlist.length>1?'listtzu':'listt'))}><Button disabled={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
                                     <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.props.amountlist.length>1?(this.state.cutAmount=='0'?'listtzu':'listtoffzu'):(this.state.cutAmount=='0'?'listt':'listtoff')}><Button>抹零</Button></li>
                                 </ul>
                             </div>
@@ -1119,8 +1142,8 @@ Pay.contextTypes= {
 }
 
 function mapStateToProps(state) {
-    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist}=state.cashier
-    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist};
+    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point}=state.cashier
+    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point};
 }
 export default connect(mapStateToProps)(Pay);
 
