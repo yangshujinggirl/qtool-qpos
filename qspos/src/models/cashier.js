@@ -165,6 +165,9 @@ export default {
         amountpoint(state, { payload: {amount,point}}) {
             return {...state,amount,point}
         },
+        cutAmount(state, { payload: cutAmount}) {
+            return {...state,cutAmount}
+        },
        
     },
     effects: {

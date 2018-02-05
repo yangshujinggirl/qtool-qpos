@@ -32,8 +32,7 @@ class Pay extends React.Component {
         initModel:this.initModel,
         waringfirst:false,
         visible: false,
-        backmoney:'0.00',
-        cutAmount:'0',
+        backmoney:'0.00'
     }
 
     //初始化方法
@@ -62,9 +61,6 @@ class Pay extends React.Component {
             type:'cashier/paytypelisy',
             payload:paytypelisy
         })
-
-
-
         this.props.dispatch({
             type:'cashier/amountlist',
             payload:amountlist
@@ -73,7 +69,11 @@ class Pay extends React.Component {
             type:'cashier/group',
             payload:group
         })
-
+        const cutAmount='0'
+        this.props.dispatch({
+            type:'cashier/cutAmount',
+            payload:cutAmount
+        })
 
         if(ismember){
             const values={mbCardId:this.props.mbCardId}
@@ -85,7 +85,6 @@ class Pay extends React.Component {
                     this.setState({
                         waringfirst:false,
                         visible:true,
-                        cutAmount:'0',
                     },function(){
                         const point=json.mbCardInfo.point
                         const amount=json.mbCardInfo.amount
@@ -164,8 +163,6 @@ class Pay extends React.Component {
             this.setState({
                 waringfirst:false,
                 visible:true,
-                cutAmount:'0',
-
             },function(){
                 const payvisible=true
                 this.props.dispatch({
@@ -528,7 +525,7 @@ class Pay extends React.Component {
                         payAmount:this.props.paytotolamount,
                         qty:this.props.totolnumber,
                         skuQty:this.props.datasouce.length,
-                        cutAmount:this.state.cutAmount,
+                        cutAmount:this.props.cutAmount,
                     },
                     orderDetails:this.props.datasouce,
                     orderPay:orderPay
@@ -910,8 +907,14 @@ class Pay extends React.Component {
                 type:'cashier/amountlist',
                 payload:amountlist
             })
+            const cutAmount='1'
+            this.props.dispatch({
+                type:'cashier/cutAmount',
+                payload:cutAmount
+            })
+
+
             this.setState({
-                cutAmount:'1',
                 backmoney:backmoneyed,
             }) 
 
@@ -966,7 +969,7 @@ class Pay extends React.Component {
                         payAmount:this.props.paytotolamount,
                         qty:this.props.totolnumber,
                         skuQty:this.props.datasouce.length,
-                        cutAmount:this.state.cutAmount,
+                        cutAmount:this.props.cutAmount,
                     },
                     orderDetails:this.props.datasouce,
                     orderPay:orderPay
@@ -1108,7 +1111,7 @@ class Pay extends React.Component {
                             <div>
                                 <ul className='btnbg'>
                                     <li className='fl' onClick={this.connectclick.bind(this)} className={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?(this.props.amountlist.length>1?'listtdiszu':'listtdis'):(this.props.group?(this.props.amountlist.length>1?'listtoffzu':'listtoff'):(this.props.amountlist.length>1?'listtzu':'listt'))}><Button disabled={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
-                                    <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.props.amountlist.length>1?(this.state.cutAmount=='0'?'listtzu':'listtoffzu'):(this.state.cutAmount=='0'?'listt':'listtoff')}><Button>抹零</Button></li>
+                                    <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.props.amountlist.length>1?(this.props.cutAmount=='0'?'listtzu':'listtoffzu'):(this.props.cutAmount=='0'?'listt':'listtoff')}><Button>抹零</Button></li>
                                 </ul>
                             </div>
                         </div>
@@ -1142,8 +1145,8 @@ Pay.contextTypes= {
 }
 
 function mapStateToProps(state) {
-    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point}=state.cashier
-    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point};
+    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point,cutAmount}=state.cashier
+    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point,cutAmount};
 }
 export default connect(mapStateToProps)(Pay);
 
