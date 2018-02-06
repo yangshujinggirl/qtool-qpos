@@ -29,7 +29,6 @@ class Pay extends React.Component {
     //初始化方法
     initModel=()=>{
         const ismember=this.props.ismember
-        console.log(ismember)
         const amountlist=[{
             name:'微信',
             value:null,
@@ -69,7 +68,6 @@ class Pay extends React.Component {
         })
 
         if(ismember){
-            console.log('123')
             const values={mbCardId:this.props.mbCardId}
             const result=GetServerData('qerp.pos.mb.card.info',values)
             result.then((res) => {
@@ -105,7 +103,6 @@ class Pay extends React.Component {
                             paytypelisy[5].disabled=true
                         }
                         if(parseFloat(this.props.amount)>0){
-                            console.log(789)
                                 //会员卡选中为默认支付方式，不禁用
                                 paytypelisy[4].check=true
                                 //判断会员卡总额和总消费金额
@@ -163,7 +160,6 @@ class Pay extends React.Component {
                 }
             })
         }else{
-            console.log('456')
             //不是会员
             this.setState({
                 waringfirst:false,
@@ -238,16 +234,12 @@ class Pay extends React.Component {
         //组合支付
         connectclick=()=>{
             const group=this.props.group
-            console.log(group)
             const groups=this.props.group?false:true
-            console.log(groups)
             this.props.dispatch({
                 type:'cashier/groups',
                 payload:groups
             })
-            console.log(this.props.group)
             if(!groups){
-                console.log('123')
                 const paytypelisy=this.props.paytypelisy //按钮list 
                 for(var i=0;i<paytypelisy.length;i++){
                     paytypelisy[i].check=false
@@ -257,9 +249,7 @@ class Pay extends React.Component {
                     type:'cashier/paytypelisy',
                     payload:paytypelisy
                 })
-                console.log(this)
                 setTimeout(()=>{
-                    console.log(567)
                     this.listclick(0)
                 },1)
                
@@ -270,10 +260,7 @@ class Pay extends React.Component {
 
     //权重处理方法
      arrarow=(arr)=>{
-        console.log(arr)
         const newarr=[]
-
-
         for(var i=0;i<arr.length;i++){
             if(Number(arr[i].type)==5){
                 arr[i].types=6
@@ -285,26 +272,20 @@ class Pay extends React.Component {
                 arr[i].types=4
             }
         }
-        console.log(arr)
         if(Number(arr[0].types)>Number(arr[1].types)){
-            console.log(1)
             for(var i=0;i<arr.length;i++){
                 newarr.push(arr[i])
             }
             
         }
         if(Number(arr[0].types)==Number(arr[1].types)){
-            console.log(2)
-            console.log(arr)
             newarr.push(arr[1])
         
         }
         if(Number(arr[0].types)<Number(arr[1].types)){
-            console.log(3)
             newarr.push(arr[1])
             newarr.push(arr[0])
         }
-        console.log(newarr)
         return newarr
     }   
 
@@ -320,7 +301,6 @@ class Pay extends React.Component {
         const lastpayamount=NP.minus(paytotolamount, amountlist[0].value);  //剩余金额
         if(!paytypelisy[index].check){
             if(this.props.group){
-                console.log('wo ai ni')
                 const newarrlist=[]
                 newarrlist.push(amountlist[0])   
                 newarrlist.push({
@@ -328,10 +308,8 @@ class Pay extends React.Component {
                     value:NP.minus(paytotolamount, newarrlist[0].value),
                     type:paytypelisy[index].type
                 })
-                console.log(newarrlist)
                 //权重处理方法
                 newamountlist=this.arrarow(newarrlist) //权重处理后的数组
-                console.log(newamountlist)
                 //积分会员卡不同状态value处理
                 const i=this.isInArray(newamountlist,'5')
                 const j=this.isInArray(newamountlist,'6')
@@ -340,14 +318,11 @@ class Pay extends React.Component {
                 if(i!='-1'){
                     //存在会员
                     if(j=='-1'){
-                        console.log('001')
                         //不存在积分
                         if(parseFloat(amount)>=parseFloat(paytotolamount)){
                             newamountlist[i].value=paytotolamount
-                            console.log(1)
                         }else{
                             newamountlist[i].value=amount
-                            console.log(2)
                         }
                         if(i==0){
                             newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value); 
@@ -356,7 +331,6 @@ class Pay extends React.Component {
                         }
 
                     }else{
-                        console.log('002')
                         //存在积分
                         if(parseFloat(amount)>=parseFloat(paytotolamount)){
                             newamountlist[i].value=paytotolamount
@@ -375,14 +349,11 @@ class Pay extends React.Component {
                         }
                     }
                 }else{
-                    console.log('003')
                     //不存在会员
                     if( j=='-1'){
-                        console.log('004')
                         //不存在积分=不存在会员，不存在积分
                         newamountlist[0].value=paytotolamount
                     }else{
-                        console.log('005')
                         //存在积分==不存在会员，存在积分
                         if(parseFloat(point)>=parseFloat(paytotolamount)){
                             newamountlist[j].value=paytotolamount
@@ -399,7 +370,6 @@ class Pay extends React.Component {
 
                
             }else{
-                console.log('fei')
                 //非组合支付
                 newamountlist.push({
                     name:paytypelisy[index].name,
@@ -427,9 +397,6 @@ class Pay extends React.Component {
                     }
                 }
             }
-            
-            console.log(paytypelisy)
-            console.log(newamountlist)
             //格式化所有，然后找到左边栏数组中的type，更新右边展示
             for(var i=0;i<paytypelisy.length;i++){
                 paytypelisy[i].check=false
@@ -934,7 +901,6 @@ class Pay extends React.Component {
         const backmoney=this.state.backmoney
         const group=this.props.group
         const amountlist=this.props.amountlist
-        console.log(amountlist)
         var totols=0;
         var orderPay=[];
         if(group){
@@ -990,7 +956,6 @@ class Pay extends React.Component {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                console.log(json)
                 const orderNo=json.orderNo  //订单号
                 const odOrderId=json.odOrderId  //订单id
                 const consumeType='1' //销售订单
