@@ -910,8 +910,7 @@ class Pay extends React.Component {
                     if(amountlist[i].value!='0.00'){
                         orderPay.push({
                             amount:amountlist[i].value,
-                            // type:amountlist[i].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[i].type),
-                            type:amountlist[i].type,
+                            type:amountlist[i].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[i].type)
                         })
                     }
                 }
@@ -923,8 +922,7 @@ class Pay extends React.Component {
             totols=amountlist[0].value
             orderPay=[{
                 amount:amountlist[0].value,
-                // type:amountlist[0].type=='1'?'7':(amountlist[0].type=='2'?'8':amountlist[0].type)
-                type:amountlist[0].type
+                type:amountlist[0].type=='1'?'7':(amountlist[0].type=='2'?'8':amountlist[0].type)
             }]
         }
 
@@ -964,7 +962,6 @@ class Pay extends React.Component {
                 this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
             }else{
                 message.error(json.message)
-                this.context.router.push({ pathname : '/pay', state : {orderId :'100',type:'7',amount:'100',consumeType:'1',orderNo:'0898u'}});
             }
             
     })

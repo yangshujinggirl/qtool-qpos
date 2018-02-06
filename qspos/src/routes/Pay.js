@@ -36,40 +36,45 @@ class Payamount extends React.Component{
     //结算
     payok=()=>{
         const values={
-            orderNo:this.props.location.state.orderNo,
-            orderId:this.props.location.state.orderId,
-            code:this.state.code,
-            consumeType:this.props.location.state.consumeType,
-            amount:this.props.location.state.amount,
-            type:this.props.location.state.type
+            mbQposOdScanCode:{
+                outTradeNo:this.props.location.state.orderNo,
+                orderId:this.props.location.state.orderId,
+                authCode:this.state.code,
+                tradeType:this.props.location.state.consumeType,
+                amount:this.props.location.state.amount,
+                type:this.props.location.state.type
+            }
         }
 
         this.setState({
             loding:true
         })
-
-
         const result=GetServerData('qerp.web.qpos.od.scan.code',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                const odOrderId=json.odOrderId
-                const status=json.status
-                const msg=json.msg
+                const data=json.mbQposOdScanCode
+                const tradeType=json.mbQposOdScanCode.tradeType
+                const outTradeNo=json.mbQposOdScanCode.outTradeNo
+                const status=json.mbQposOdScanCode.status
+                const odOrderId=json.mbQposOdScanCode.odOrderId
+                const remark=json.mbQposOdScanCode.remark
+
+               
                 //返回我三种状态
-                // 1.支付成功 status=30
-                // 2.支付失败 status=40
-                // 3.支付中  status=20
-                if(status=='30'){
-                    this.paysuccess(msg)
-                }
+                // 1.支付成功 status=20
+                // 2.支付失败 status=30
+                // 3.支付中  status=10
                 if(status=='20'){
-                    //每隔1s请求新的查询接口，直到返回成功或者失败，停止查询，在返回成功或者失败之前，页面是loding状态，
-                    myVar=setInterval(this.payStateInfo,1000)
+                    this.paysuccess(remark)
                 }
-                if(status=='40'){
-                    this.payerron(msg)
+                if(status=='10'){
+                    //每隔1s请求新的查询接口，直到返回成功或者失败，停止查询，在返回成功或者失败之前，页面是loding状态，
+                    myVar=setInterval(this.payStateInfo(data),1000)
+                }
+                if(status=='30'){
+                    this.payerron(remark)
                 }
             }else{
                 this.setState({
@@ -100,6 +105,7 @@ class Payamount extends React.Component{
                 //充值订单
                 this.context.router.push('/cashier')
                 this.props.meth1.handleOk()
+                message.success(msg)
                 printRechargeOrder(this.props.recheckPrint,this.props.location.state.orderId)
             }
         })
@@ -109,30 +115,27 @@ class Payamount extends React.Component{
         this.setState({
             loding:false,
             erronmsg:msg
-
         })
     }
     //支付状态查询接口
-    payStateInfo=()=>{
+    payStateInfo=(data)=>{
         const values={
-            orderNo:this.props.location.state.orderNo,
-            orderId:this.props.location.state.orderId,
-            consumeType:this.props.location.state.consumeType,
+            mbQposOdScanCode:data
+            
         }
-        const result=GetServerData('qerp.web.qpos.od.order.status',values)
+        const result=GetServerData('qerp.web.qpos.od.payment.status',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                if(json.status=='30'){
-                    const msg=json.msg
+                const remark=json.mbQposOdScanCode.remark
+                if(json.mbQposOdScanCode.status=='20'){
                     clearInterval(myVar)
-                    this.paysuccess(msg)
+                    this.paysuccess(remark)
                 }
-                if(json.status=='40'){
-                    const msg=json.msg
+                if(json.mbQposOdScanCode.status=='30'){
                     clearInterval(myVar)
-                    this.payerron(msg)
+                    this.payerron(remark)
                 }
             }else{
                 this.setState({
@@ -156,7 +159,6 @@ class Payamount extends React.Component{
         })
     }
     render(){
-        console.log(this)
         return (
             <div className='payscanbox'>
                 <Spin tip={this.props.location.state.type=='7'?'微信支付中...':'支付宝支付中...'} spinning={this.state.loding} indicator={<AntIcon/>}>
