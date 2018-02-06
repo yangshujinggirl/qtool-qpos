@@ -1,4 +1,5 @@
 html, body{height: 100%;padding:0;margin:0;border: 0;background:#F4F4F4;overflow-x:hidden;}
+*{padding:0;margin:0}
 li{list-style: none;}
 .clearfix:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
 .clearfix { display: inline-table; }
@@ -19,6 +20,10 @@ input::-webkit-contacts-auto-fill-button {
   position: absolute;
   right: 0;
 }
+
+
+
+
 
 
 /* .ant-modal{position: absolute;left: 50%;top:50%;transform: translate(-50%, -50%);} */
@@ -522,24 +527,41 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 
 /* 结算弹窗输入框 */
 .paylw{width:580px;}
-.pay .ant-input{border-left: 0;font-size: 40px;color: #384162;border-radius: 0;}
+.pay .ant-input{border-left: 0;font-size: 40px;color: #384162;border-radius: 0;border: 0}
 .pay .ant-input-disabled{background: #e7e8ec;}
-.pay .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border: 1px solid #E7E8EC;border-right: 0;background: #e7e8ec;padding:0 5px}
+.pay .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border-right: 0;background: #e7e8ec;padding:0;}
 .pay .inputcenteropen .ant-input-group-addon{background: #fff;}
-.pay .payscanbtn{width: 98px;height: 73px;border-radius: 0;border:0;margin-right: -5px;font-size:26px;color:#35bab0;}
+.pay .payscanbtn{width: 98px;height: 75px;border-radius: 0;border:0;font-size:26px;color:#35bab0;border-left: 1px solid #e7e8ec;}
+.pay .payscanbtn ant-btn{padding:0;}
 .pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);}
 .payharflw{width:580px;height:80px;}
 .payharflwl{width:580px;height:80px;margin-bottom: 20px;}
 .payharflwr{width:580px;height:80px;margin-bottom: 20px;}
-.payinputsmodel{padding-right: 20px;height: 75px;}
+.payinputsmodel{height: 75px;}
 .payinputsmodels{background:#fff;}
 .payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);}
-.paylh{height:80px}
+/* .paylh{height:80px} */
 .paylhs{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 .paylhszu{width:860px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 .paylhs:hover{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 .paylhszu:hover{width:860px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 
+.payinput-before{
+    height:75px;
+    line-height:75px;
+    width:90px;
+    background:#fff;
+    font-size:18px;
+    color:#384162
+}
+.payinput-before-dis{
+  height:75px;
+  line-height:75px;
+  width:90px;
+  background:#e7e8ec;
+  font-size:18px;
+  color:#384162
+}
 
 
 /* 结算按钮 */
@@ -574,8 +596,6 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px white inset !important; }
 
 .payinputs{padding-right: 20px;}
-/* .pay .ant-input-group-addon{padding-left: 20px;border: 1px solid #E7E8EC;border-right: 0;} */
-.pay .ant-input{border: 1px solid #E7E8EC;border-left: 0;}
 /*宝宝生日*/
 .babytables .ant-select-enabled{height: 40px;vertical-align: top;}
 .babytablesbox{width: 245px}
@@ -1143,7 +1163,7 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .pay .listt{width:110px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;border: 1px solid #d8d8d8;}
 .pay .listtoff{border-radius: 5px;width:110px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;}
 .pay .listtdis{border-radius: 5px;width:110px;height:144px;background:#d8d8d8;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
-.pay .ant-input{border: 1px solid #d8d8d8;border-left: 0;font-size: 40px;color: #384162;}
+.pay .ant-input{border: 0;border-left: 0;font-size: 40px;color: #384162;height: 75px;}
 .pay .ant-input:hover{border-color: #e2e2e2;}
 .pay .ant-input-group-addon{background: #e7e8ec;border: 1px solid #d8d8d8;border-right: 0;padding:0;}
 .pay .inputcenter .ant-input-group-addon{background: #fff}

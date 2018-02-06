@@ -9,6 +9,7 @@ import NP from 'number-precision'
 import Btnpay from './btnpay'
 import Scanbtn from '../../components/Button/scanbtn'
 import {getSaleOrderInfo} from '../../components/Method/Print';
+import Btnbrforepay from './btnbeforepay'
 //引入打印
 
 class Pay extends React.Component {
@@ -1041,7 +1042,7 @@ class Pay extends React.Component {
                 >
                     <div className='clearfix'>
                         <div className='fl paylw'>
-                            <Input  autoComplete="off" addonBefore='总额' value={this.props.paytotolamount}  disabled className='paylh tr payinputsmodel'/>
+                            <Input  autoComplete="off" addonBefore={<Btnbrforepay title='总额' dis={true}/>} value={this.props.paytotolamount}  disabled className='paylh tr payinputsmodel'/>
                             {
                                 this.props.amountlist.length>1
                                 ?<div className='clearfix inputcenter'>
@@ -1049,7 +1050,8 @@ class Pay extends React.Component {
                                         <div>
                                             <Input  
                                                 autoComplete="off" 
-                                                addonBefore={this.props.amountlist[0].name}  
+                                                // addonBefore={this.props.amountlist[0].name}  
+                                                addonBefore={<Btnbrforepay title={this.props.amountlist[0].name} dis={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false}/>} 
                                                 value={this.props.amountlist[0].value}  
                                                 onBlur={this.payfirstonBlur.bind(this)} 
                                                 className='tr payinputsmodel' 
@@ -1063,7 +1065,8 @@ class Pay extends React.Component {
                                     <div className={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?'payharflwr inputcenterdis':'payharflwr inputcenteropen'}>
                                         <Input  
                                             autoComplete="off" 
-                                            addonBefore={this.props.amountlist[1].name} 
+                                            // addonBefore={this.props.amountlist[1].name} 
+                                            addonBefore={<Btnbrforepay title={this.props.amountlist[1].name} dis={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?true:false}/>} 
                                             value={this.props.amountlist[1].value}  
                                             onBlur={this.paysecondonBlur.bind(this)} 
                                             className='tr payinputsmodel' 
@@ -1077,7 +1080,8 @@ class Pay extends React.Component {
                                 :<div className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?'inputcenter inputcenterdis':'inputcenter inputcenteropen'}>
                                     <Input  
                                         autoComplete="off" 
-                                        addonBefore={this.props.amountlist[0].name} 
+                                        // addonBefore={this.props.amountlist[0].name} 
+                                        addonBefore={<Btnbrforepay title={this.props.amountlist[0].name} dis={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false}/>}
                                         value={this.props.amountlist[0].value}  
                                         ref='paymoneys' 
                                         onBlur={this.hindonBlur.bind(this)} 
@@ -1090,7 +1094,7 @@ class Pay extends React.Component {
                                     </div>
                                 
                             }
-                            <div><Input  autoComplete="off" addonBefore='找零'  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
+                            <div><Input  autoComplete="off" addonBefore={<Btnbrforepay title='找零' dis={true}/>}  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
                             <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
                             {this.props.amountlist.length==1?<div className='payends'><Button className='paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
                             {this.props.amountlist.length==1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}

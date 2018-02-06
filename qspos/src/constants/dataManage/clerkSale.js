@@ -145,8 +145,8 @@ class ClerkSaleForm extends React.Component {
                 totalUserSale.pointAmount = totalUserSale.pointAmountTotal;
                 totalUserSale.returnAmount = totalUserSale.returnAmountTotal;
                 //微信和支付宝扫码
-                totalUserSale.scanWechatAmount = totalUserSale.scanSumWechatAmount;
-                totalUserSale.scanAlipayAmount = totalUserSale.scanSumAlipayAmount;
+                totalUserSale.scanWechatAmount = totalUserSale.scanSumWechatAmountTotal;
+                totalUserSale.scanAlipayAmount = totalUserSale.scanSumAlipayAmountTotal;
                 const setsouce=[];
                 for(var i=0;i<userSales.length;i++){
                     userSales[i].key = i+1;
