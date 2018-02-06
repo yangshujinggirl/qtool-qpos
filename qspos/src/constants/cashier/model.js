@@ -157,12 +157,12 @@ class Modales extends React.Component {
   payhindClick=()=>{
       console.log(1)
       let values={mbCardId:this.props.mbCardId,amount:this.props.reamount,type:this.props.rechargetype}
-        // if(values.type=='1'){
-        //     values.type='7'
-        // }
-        // if(values.type=='2'){
-        //     values.type='8'
-        // }
+        if(values.type=='1'){
+            values.type='7'
+        }
+        if(values.type=='2'){
+            values.type='8'
+        }
         const result=GetServerData('qerp.pos.mb.card.charge',values)
         result.then((res) => {
             return res;
