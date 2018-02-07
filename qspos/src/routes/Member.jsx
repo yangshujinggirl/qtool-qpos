@@ -34,6 +34,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const batrhdata=Gettime()
+
 //pop弹窗
 class Modelform extends Component { 
     constructor(props) {
@@ -121,6 +122,7 @@ class Modelform extends Component {
         memberdatas()
     }
     render() {
+        console.log(batrhdata)
         const type=this.props.type
         const { getFieldDecorator,getFieldInstance,getFieldProps } = this.props.form;
         const { name, mobile, cardNo,level,mbCardId,amount,point} = this.props.record;
