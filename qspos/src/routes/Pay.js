@@ -38,7 +38,7 @@ class Payamount extends React.Component{
         const values={
             mbQposOdScanCode:{
                 outTradeNo:this.props.location.state.orderNo,
-                orderId:this.props.location.state.orderId,
+                odOrderId:this.props.location.state.orderId,
                 authCode:this.state.code,
                 tradeType:this.props.location.state.consumeType,
                 amount:this.props.location.state.amount,
