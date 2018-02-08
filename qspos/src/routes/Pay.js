@@ -71,7 +71,7 @@ class Payamount extends React.Component{
                 }
                 if(status=='10'){
                     //每隔1s请求新的查询接口，直到返回成功或者失败，停止查询，在返回成功或者失败之前，页面是loding状态，
-                    myVar=setInterval(this.payStateInfo(data),1000)
+                    this.payStateInfo(data);
                 }
                 if(status=='30'){
                     this.payerron(remark)
@@ -128,7 +128,9 @@ class Payamount extends React.Component{
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                const remark=json.mbQposOdScanCode.remark
+                const self = this;
+                const remark=json.mbQposOdScanCode.remark;
+                const data2 = json.mbQposOdScanCode;
                 if(json.mbQposOdScanCode.status=='20'){
                     clearInterval(myVar)
                     this.paysuccess(remark)
@@ -136,6 +138,11 @@ class Payamount extends React.Component{
                 if(json.mbQposOdScanCode.status=='30'){
                     clearInterval(myVar)
                     this.payerron(remark)
+                }
+                if(json.mbQposOdScanCode.status=='10'){
+                    setTimeout(function(){
+                        self.payStateInfo(data2)
+                    },1000);
                 }
             }else{
                 this.setState({
