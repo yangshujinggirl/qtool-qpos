@@ -198,29 +198,29 @@ class InOutReportForm extends React.Component {
     //获取当前时间
     getNowFormatDate = () =>{
         const self = this;
-        var date = new Date(); //前一天;
-        var seperator1 = "-";
-        var month = date.getMonth();
-        let year = date.getFullYear();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
-        }
-        if(month == 0){
-            month = "12";
-            year = year-1;
-        }
-        var currentdate = year + seperator1 + month;
-        this.setState({
-            rpDate:currentdate
-        },function(){
+        // var date = new Date(); //前一天;
+        // var seperator1 = "-";
+        // var month = date.getMonth();
+        // let year = date.getFullYear();
+        // if (month >= 1 && month <= 9) {
+        //     month = "0" + month;
+        // }
+        // if(month == 0){
+        //     month = "12";
+        //     year = year-1;
+        // }
+        // var currentdate = year + seperator1 + month;
+        // this.setState({
+        //     rpDate:currentdate
+        // },function(){
             let values = {
                 currentPage:0,
                 limit:10,
                 time:this.state.rpDate,
                 name:this.state.name
-            }
+            };
             self.getServerData(values);
-        })
+        // })
     }
 
     render() {
@@ -305,7 +305,6 @@ class InOutReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                             <MonthPicker 
-                            allowClear={false}
                             value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
                             format={dateFormat}
                             onChange={this.dateChange.bind(this)}/>
