@@ -21,8 +21,8 @@ class ReceiptReportForm extends React.Component {
             total:0,
             currentPage:0,
             limit:10,
-            operateST:'',
-            operateET:'',
+            operateStart:'',
+            operateEnd:'',
             status:'',
             orderNo:''
         };
@@ -91,8 +91,8 @@ class ReceiptReportForm extends React.Component {
 
     dateChange = (date, dateString) =>{
         this.setState({
-            operateST:dateString[0],
-            operateET:dateString[1]
+            operateStart:dateString[0],
+            operateEnd:dateString[1]
         })
     }
 
@@ -105,8 +105,8 @@ class ReceiptReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                operateST:this.state.operateST,
-                operateET:this.state.operateET,
+                operateStart:this.state.operateStart,
+                operateEnd:this.state.operateEnd,
                 status:this.state.status!="-1"?this.state.status:"",
                 orderNo:this.state.orderNo
             }
@@ -122,8 +122,8 @@ class ReceiptReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                operateST:this.state.operateST,
-                operateET:this.state.operateET,
+                operateStart:this.state.operateStart,
+                operateEnd:this.state.operateEnd,
                 status:this.state.status!="-1"?this.state.status:"",
                 orderNo:this.state.orderNo
             };
@@ -142,8 +142,8 @@ class ReceiptReportForm extends React.Component {
                 let data = {
                     currentPage:0,
                     limit:10,
-                    operateST:this.state.operateST,
-                    operateET:this.state.operateET,
+                    operateStart:this.state.operateStart,
+                    operateEnd:this.state.operateEnd,
                     status:this.state.status!="-1"?this.state.status:"",
                     orderNo:this.state.orderNo
                 };
@@ -180,14 +180,14 @@ class ReceiptReportForm extends React.Component {
         let startRpDate=timeForMats(30).t2;
         let endRpDate=timeForMats(30).t1;
         this.setState({
-            operateST:startRpDate,
-            operateET:endRpDate
+            operateStart:startRpDate,
+            operateEnd:endRpDate
         },function(){
             let values = {
                 currentPage:0,
                 limit:10,
-                operateST:this.state.operateST,
-                operateET:this.state.operateET
+                operateStart:this.state.operateStart,
+                operateEnd:this.state.operateEnd
             }
             self.getServerData(values);
         })
@@ -206,7 +206,7 @@ class ReceiptReportForm extends React.Component {
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                             <RangePicker 
-                                value={this.state.operateST?[moment(this.state.operateST, dateFormat), moment(this.state.operateET, dateFormat)]:null}
+                                value={this.state.operateStart?[moment(this.state.operateStart, dateFormat), moment(this.state.operateEnd, dateFormat)]:null}
                                 format={dateFormat}
                                 onChange={this.dateChange.bind(this)} />
                         </FormItem>
