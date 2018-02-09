@@ -177,12 +177,12 @@ class ReceiptReportForm extends React.Component {
         //     strDate1 = "0" + strDate1;
         // }
         // var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
-        let startRpDate=timeForMats(30).t2;
-        let endRpDate=timeForMats(30).t1;
-        this.setState({
-            operateStart:startRpDate,
-            operateEnd:endRpDate
-        },function(){
+        // let startRpDate=timeForMats(30).t2;
+        // let endRpDate=timeForMats(30).t1;
+        // this.setState({
+        //     operateStart:startRpDate,
+        //     operateEnd:endRpDate
+        // },function(){
             let values = {
                 currentPage:0,
                 limit:10,
@@ -190,7 +190,7 @@ class ReceiptReportForm extends React.Component {
                 operateEnd:this.state.operateEnd
             }
             self.getServerData(values);
-        })
+        // })
     }
 
     render() {
