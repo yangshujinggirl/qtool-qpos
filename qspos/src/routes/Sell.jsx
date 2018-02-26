@@ -112,22 +112,24 @@ class Searchcompon extends React.Component {
     render(){
         return(
             <div className='clearfix searchqery'>
-                <div className='fr clearfix'>
-                    <div className='fl clearfix' style={{marginRight:"10px"}}>
-                        <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'10px',marginLeft:'5px',marginBottom:"0"}}>订单时间</p>
+                <div className='fr clearfix w100'>
+                    <div className='fl clearfix' style={{marginLeft:"25px"}}>
+                        <p style={{lineHeight:'40px',height:'40px',float:'left',fontSize: '14px',color: '#74777F',marginRight:'5px',marginBottom:"0"}}>订单时间</p>
                             <RangePicker format={dateFormat} onChange={this.timechange.bind(this)} className='selltime'/>
                     </div>
-                    <div className='searchselect clearfix fl'>
-                        <label style={{fontSize: '14px',color: '#74777F',marginRight:'5px'}}>订单分类</label>
-                        <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'10px' }} onChange={this.handleChange.bind(this)}>
-                            <Option value="0">全部分类</Option>
-                            <Option value="1">销售订单</Option>
-                            <Option value="2">充值订单</Option>
-                            <Option value="3">退货订单</Option>
-                        </Select>
-                    </div>
-                    <div className='fl sell-search-input' style={{marginRight:'5px'}}>
-                        <Searchinput text='请输入商品条码、名称、订单号' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/>
+                    <div style={{float:"right",marginRight:"20px"}}>
+                        <div className='searchselect clearfix fl'>
+                            <label style={{fontSize: '14px',color: '#74777F',marginRight:'5px'}}>订单分类</label>
+                            <Select defaultValue="0" style={{ width: 100,height:40,marginRight:'10px' }} onChange={this.handleChange.bind(this)}>
+                                <Option value="0">全部分类</Option>
+                                <Option value="1">销售订单</Option>
+                                <Option value="2">充值订单</Option>
+                                <Option value="3">退货订单</Option>
+                            </Select>
+                        </div>
+                        <div className='fl sell-search-input' style={{marginRight:'5px'}}>
+                            <Searchinput text='请输入商品条码、名称、订单号' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this)}/>
+                        </div>
                     </div>
                 </div>
           </div>
