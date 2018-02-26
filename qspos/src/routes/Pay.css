@@ -20,11 +20,14 @@
 
 .payamounts{width: 638px;margin:0 auto;margin-top:60px;}
 .payamounts .wr{height: 80px;}
-.payamounts .wr .ant-input{border-radius:5px 0px 0 5px;border-right: 0;width: 413px;height: 80px;font-size:28px;color:#384162;}
+.payamounts .wr .ant-input{border-radius:5px 0px 0 5px;border-right: 0;width: 413px;height: 80px;font-size:28px;color:#384162;padding-left: 24px;}
+.payamounts .wr .ant-input:hover{border-color:  #e7e8ec;}
 .payamounts .scanpayamount{height: 80px;line-height: 80px;font-size:40px;color:#384162;}
+.payamounts .scanpayamount_text{padding-left: 24px;}
 .payamounts .ant-btn{border-radius:0 5px 5px 0;width:102px;height:80px;background: #35bab0;color: #fff;font-size: 26px;padding:0;vertical-align: top;}
 .payamounts .ant-form-item-label{font-size:26px;color:#74777f;height:80px;line-height: 80px;float: left;width:122px;}
 .payamounts .ant-form-item-label label{font-size:26px;color:#74777f;}
+
 
 .imgbox{width: 154px;height:230px;margin:0 auto;margin-top:106px;}
 .rmark{font-size:16px;color:#35bab0;text-align: center;margin-top:26px;}

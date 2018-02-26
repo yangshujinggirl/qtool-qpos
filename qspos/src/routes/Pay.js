@@ -170,7 +170,7 @@ class Payamount extends React.Component{
                                     label="支付金额::"
                                     
                                 >
-                                    <p className='scanpayamount'>{this.props.location.state.amount}</p>
+                                    <p className='scanpayamount'><span className='scanpayamount_text'>{this.props.location.state.amount}</span></p>
                                 </FormItem>
                                 <FormItem
                                     label="付款码::"

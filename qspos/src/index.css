@@ -556,6 +556,7 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 
 /* 结算弹窗输入框 */
 .pay .paylw{width:580px;}
+.pay .payinputsmodels{background:#fff;}
 .pay .ant-input{border-left: 0;font-size: 40px;color: #384162;border-radius: 0;border: 0}
 .pay .ant-input-disabled{background: #e7e8ec;}
 .pay .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border-right: 0;background: #e7e8ec;padding:0;}
@@ -568,7 +569,6 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 .pay .payharflwl{width:580px;height:90px;margin-bottom: 20px;}
 .pay .payharflwr{width:580px;height:90px;margin-bottom: 20px;}
 .pay .payinputsmodel{height: 90px;}
-.pay .payinputsmodels{background:#fff;}
 .pay .payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);}
 .pay .paylhs{width:580px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 .pay .paylhszu{width:860px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
