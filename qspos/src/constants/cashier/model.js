@@ -253,7 +253,7 @@ class Modales extends React.Component {
                     <div className='tc rechargeok' onClick={this.handleOk.bind(this)}>
                         确定
                     </div>
-                    <div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.recheckPrint}>打印小票</Checkbox></div>
+                    <div style={{textAlign:"center",marginTop:"10px"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.recheckPrint}>打印小票</Checkbox></div>
                 </div>
 
                 
