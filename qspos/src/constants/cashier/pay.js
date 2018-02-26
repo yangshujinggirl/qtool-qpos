@@ -1000,11 +1000,11 @@ class Pay extends React.Component {
                     width={924}
                     closable={true}
                     footer={null}
-                    className='pay check-box-style'
+                    className={this.props.amountlist.length>1?'payzu':'pay'}
                 >
                     <div className='clearfix'>
                         <div className='fl paylw'>
-                            <Input  autoComplete="off" addonBefore={<Btnbrforepay title='总额' dis={true}/>} value={this.props.paytotolamount}  disabled className='paylh tr payinputsmodel'/>
+                            <Input  autoComplete="off" addonBefore={<Btnbrforepay title='总额' dis={true}/>} value={this.props.paytotolamount}  disabled className='tr payinputsmodel'/>
                             {
                                 this.props.amountlist.length>1
                                 ?<div className='clearfix inputcenter'>
@@ -1047,7 +1047,7 @@ class Pay extends React.Component {
                                         value={this.props.amountlist[0].value}  
                                         ref='paymoneys' 
                                         onBlur={this.hindonBlur.bind(this)} 
-                                        className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')? 'paylh tr payinputsmodel payinputsmodels':'paylh tr payinputsmodel'}  
+                                        className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')? 'tr payinputsmodel payinputsmodels':'tr payinputsmodel'}  
                                         disabled={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false} 
                                         onChange={this.hindonChange.bind(this)}
                                         addonAfter={(this.props.amountlist[0].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
@@ -1056,14 +1056,14 @@ class Pay extends React.Component {
                                     </div>
                                 
                             }
-                            <div><Input  autoComplete="off" addonBefore={<Btnbrforepay title='找零' dis={true}/>}  value={this.state.backmoney}  disabled className='paylh tr payinputsmodel'/></div>
+                            <div><Input  autoComplete="off" addonBefore={<Btnbrforepay title='找零' dis={true}/>}  value={this.state.backmoney}  disabled className='tr payinputsmodel'/></div>
                             <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
                             {this.props.amountlist.length==1?<div className='payends'><Button className='paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
-                            {this.props.amountlist.length==1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
+                            {this.props.amountlist.length==1?<div className='check_print'><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
                         </div>
                         <div className='fr fix-800-fr' style={{width:'274px'}}>
                             <div>
-                                <ul className='clearfix' style={{paddingLeft:'0'}}>
+                                <ul className='clearfix' style={{paddingLeft:'0',marginBottom:'0'}}>
                                     {
                                         this.props.paytypelisy.map((item,index)=>{
                                             return(
@@ -1076,7 +1076,7 @@ class Pay extends React.Component {
                                     }
                                 </ul>
                             </div>
-                            <div>
+                            <div >
                                 <ul className='btnbg'>
                                     <li className='fl' onClick={this.connectclick.bind(this)} className={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?(this.props.amountlist.length>1?'listtdiszu':'listtdis'):(this.props.group?(this.props.amountlist.length>1?'listtoffzu':'listtoff'):(this.props.amountlist.length>1?'listtzu':'listt'))}><Button disabled={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
                                     <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.props.amountlist.length>1?(this.props.cutAmount=='0'?'listtzu':'listtoffzu'):(this.props.cutAmount=='0'?'listt':'listtoff')}><Button>抹零</Button></li>
@@ -1085,7 +1085,7 @@ class Pay extends React.Component {
                         </div>
 
                         {this.props.amountlist.length>1?<div className='payends'><Button className={this.props.amountlist.length>1?'paylhszu':'paylhs'} onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
-                        {this.props.amountlist.length>1?<div style={{textAlign:"center"}}><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
+                        {this.props.amountlist.length>1?<div className='check_print'><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
               	    </div>
             </Modal>
         </div>

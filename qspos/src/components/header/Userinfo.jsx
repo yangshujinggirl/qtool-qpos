@@ -240,14 +240,14 @@ class Dropdownmenu extends React.Component {
                         <div className='themebgcolor usershift_top'>
                             <div className='w usershift_count'>
                                 <div className='clearfix fff usershift_top_title'>
-                                    <div className='fl f14'>本次登录时间：{userSales.lastExchangeLoginTimeStr} -- {userSales.endTime}</div>
+                                    <div className='fl f14 pop_tits'>本次登录时间：<span>{userSales.lastExchangeLoginTimeStr} -- {userSales.endTime}</span></div>
                                     <div className='fr f20'>收营员：{userSales.nickname}</div>
                                 </div>
                                 <div>
                                     <ul className='clearfix posion ul-3-style'>
-                                        <li className='fl tc f20 fff usershift_top_list'><span className='f14'>销售额</span><br/>￥{userSales.amount}</li>
-                                        <li className='fr tc f20 fff usershift_top_list'><span className='f14'>净收款</span><br/>￥{userSales.icAmount}</li>
-                                        <li className='w tc f20 fff usershift_top_list'><span className='f14'>销售订单</span><br/>{userSales.orderQty}笔</li>
+                                        <li className='fl tc f20 fff usershift_top_list'><span className='f14 pop_tits'>销售额</span><div className='pop_titsq'>￥{userSales.amount}</div></li>
+                                        <li className='fr tc f20 fff usershift_top_list'><span className='f14 pop_tits'>净收款</span><div className='pop_titsq'>￥{userSales.icAmount}</div></li>
+                                        <li className='w tc f20 fff usershift_top_list'><span className='f14 pop_tits'>销售订单</span><div className='pop_titsq'>{userSales.orderQty}笔</div></li>
                                         <li className='usershift_top_list_line1'></li>
                                         <li className='usershift_top_list_line2'></li>
                                     </ul>
