@@ -498,11 +498,11 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 /* 六个按钮三种状态 */
 .pay .list{width:117px;height:90px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-.pay .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+.pay .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:20px;}
 .pay .listoff{ width:117px;height:90px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
-.pay .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
+.pay .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:20px;}
 .pay .listdis{ width:117px;height:90px;background:#f7f7f7;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
-.pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+.pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:20px;}
 
 
 .payzu .list{width:117px;height:75px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
@@ -515,12 +515,12 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 /* 组合支付 抹零*/
 .btnbg{padding-left: 0;margin-bottom: 0;}
 .pay .listtoff{border-radius: 5px;width:117px;height:144px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
-.pay .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
+.pay .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:20px;}
 .pay .listtoffzu{border-radius: 5px;width:117px;height:90px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
 .pay .listtoffzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
 .pay .listt{width:117px;height:144px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-.pay .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size: 24px;}
+.pay .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size: 20px;}
 .pay .listtzu{width:117px;height:90px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
   .pay .listtzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
@@ -563,7 +563,7 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 .pay .inputcenteropen .ant-input-group-addon{background: #fff;}
 .pay .payscanbtn{width: 98px;height: 90px;border-radius: 0;border:0;font-size:24px;color:#35bab0;border-left: 1px solid #e7e8ec;}
 .pay .payscanbtn ant-btn{padding:0;}
-.pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
+.pay .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 20px;}
 
 .pay .payharflw{width:580px;height:90px;}
 .pay .payharflwl{width:580px;height:90px;margin-bottom: 20px;}
@@ -1023,7 +1023,7 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
   top: 20px;
 }
 .fix-800-fr{
-  width:270px!important;
+  width:220px!important;
 }
 
 /*组件*/
@@ -1247,25 +1247,106 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 
 /*结算*/
 .pay .ant-modal-body{padding:30px 12px 30px 30px;}
-.pay .list{width:110px;height:90px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #d8d8d8;}
-.pay .listoff{ width:110px;height:90px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;}
-.pay .listdis{ width:110px;height:90px;background:#d8d8d8;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;color: rgba(0, 0, 0, 0.25)}
+.pay .paylw{width:322px;}
+.pay .list{width:90px;height:60px;background:#fff;color:#384162;font-size:13px;margin-right: 6px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #d8d8d8;}
+.pay .listoff{ width:90px;height:60px;background:#35BAB0;color:#fff;font-size:13px;margin-right: 6px;margin-left: 10px;margin-bottom: 20px;}
+.pay .listdis{ width:90px;height:60px;background:#d8d8d8;color:#fff;font-size:13px;margin-right: 6px;margin-left: 10px;margin-bottom: 20px;color: rgba(0, 0, 0, 0.25)}
 
-.pay .listt{width:110px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;border: 1px solid #d8d8d8;}
-.pay .listtoff{border-radius: 5px;width:110px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;}
-.pay .listtdis{border-radius: 5px;width:110px;height:144px;background:#d8d8d8;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
-.pay .ant-input{border: 0;border-left: 0;font-size: 40px;color: #384162;height: 75px;}
+.pay .listt{width:90px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 6px;margin-left: 10px;border: 1px solid #d8d8d8;}
+.pay .listtoff{border-radius: 5px;width:90px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;}
+.pay .listtdis{border-radius: 5px;width:90px;height:144px;background:#d8d8d8;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
+.pay .ant-input{font-size: 34px;color: #384162;height: 60px;border:1px solid #d9d9d9;border-left: 0;}
 .pay .ant-input:hover{border-color: #e2e2e2;}
 .pay .ant-input-group-addon{background: #e7e8ec;border: 1px solid #d8d8d8;border-right: 0;padding:0;}
 .pay .inputcenter .ant-input-group-addon{background: #fff}
 .pay .iconk{font-size: 14px;}
 .pay .waring{text-align: center;width: 580px;font-size: 12px;color: #D7636B;}
 .pay .waringnone{text-align: center;width: 580px;font-size: 12px;color: #D7636B;opacity: 0}
-.ant-input-group > .ant-input:last-child, .ant-input-group-addon:last-child{height: 90px;}
+.pay .ant-input-group > .ant-input:last-child, .ant-input-group-addon:last-child{height: 60px;}
 .ant-input-group-wrapper{margin-bottom: 20px;}
 
+.pay .payscanbtn{width: 70px;height: 60px;border-radius: 0;border:0;font-size:20px;color:#35bab0;border-right: 1px solid #d9d9d9;box-sizing: border-box;}
+.pay .payscanbtn ant-btn{padding:0;}
+
+.pay .payends{margin-top:-7px;}
+
+.pay .paylhs{width:324px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.pay .paylhszu{width:560px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.pay .paylhs:hover{width:324px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.pay .paylhszu:hover{width:560px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 
 input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -webkit-box-shadow: 0 0 0 1000px white inset !important; }
+
+
+.pay .payinput-before{
+  height:58px;
+  line-height:60px;
+  width:40px;
+  background:#fff;
+  font-size:10px;
+  color:#74777f;
+  font-weight: lighter;
+  
+}
+.pay .payinput-before-dis{
+height:58px;
+line-height:60px;
+width:40px;
+background:#e7e8ec;
+font-size:10px;
+color:#74777f;
+font-weight: lighter;
+
+}
+
+
+
+
+.payzu .paylw{width:260px;}
+.payzu .ant-input{border-left: 0;font-size: 40px;color: #384162;border-radius: 0;border: 0}
+.payzu .ant-input-disabled{background: #e7e8ec;}
+.payzu .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border-right: 0;background: #e7e8ec;padding:0;}
+.payzu .inputcenteropen .ant-input-group-addon{background: #fff;}
+.payzu .payscanbtn{width: 98px;height: 75px;border-radius: 0;border:0;font-size:24px;color:#35bab0;border-left: 1px solid #e7e8ec;}
+.payzu .payscanbtn ant-btn{padding:0;}
+.payzu .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
+
+
+
+.payzu .payharflw{width:260px;height:75px;}
+.payzu .payharflwl{width:260px;height:75px;margin-bottom: 20px;}
+.payzu .payharflwr{width:260px;height:75px;margin-bottom: 20px;}
+.payzu .payinputsmodel{height: 75px;}
+.payzu .payinputsmodels{background:#fff;}
+.payzu .payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);}
+.payzu .paylhs{width:260px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.payzu .paylhszu{width:540px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.payzu .paylhs:hover{width:540px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.payzu .paylhszu:hover{width:540px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+
+
+.payzu .list{width:90px;height:75px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+.payzu .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+.payzu .listoff{ width:90px;height:75px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
+.payzu .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
+.payzu .listdis{ width:90px;height:75px;background:#f7f7f7;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
+.payzu .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+
+.payzu .listtoff{border-radius: 5px;width:117px;height:144px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
+.payzu .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
+.payzu .listtoffzu{border-radius: 5px;width:90px;height:75px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
+.payzu .listtoffzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
+.payzu .listt{width:90px;height:144px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
+box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+.payzu .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size: 24px;}
+.payzu .listtzu{width:90px;height:75px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
+  box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
+  .payzu .listtzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+.payzu .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
+.payzu .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
+.payzu .listtdiszu{width:117px;height:75px;background:#f7f7f7;color:#fff;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
+.payzu .listtdiszu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
 
 /*首页样式修改*/
 .ant-switch-checked:after{
@@ -1445,19 +1526,19 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
   .rechargepays{
     width: 700px!important;
   }
-  .rechargelist{display: flex;width:386px;justify-content: space-between;flex-wrap: wrap;padding-left: 0;margin-bottom: 0;}
+  .rechargelist{display: flex;width:324px;justify-content: space-between;flex-wrap: wrap;padding-left: 0;margin-bottom: 0;margin-top:0px;}
   .rechargepays .ant-modal-body{padding:30px;}
-  .rechargepays .rechargepays-list{background: #fff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:167px;height:75px;margin-bottom: 20px;}
+  .rechargepays .rechargepays-list{background: #fff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:290px;height:75px;margin-bottom: 20px;}
   .rechargepays .rechargepays-list .listl{width: 64px;height: 40px;font-size:10px;color:#74777f;line-height:40px;text-align:left;margin-left: 20px;margin-top: 20px;}
-  .rechargepays .rechargepays-list .listr{width: 64px;height: 40px;font-size:16px;color:#666666;line-height:40px;text-align:right;margin-right: 14px;margin-top: 20px;}
-  .rechargetype{width: 182px;height: 90px;margin-bottom: 20px;}
-  .rechargetype .ant-btn{width: 100%;height: 100%;color:#fff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;background: #35bab0;}
-  .rechargetypeoff{width: 182px;height: 90px;margin-bottom: 20px;}
-  .rechargetypeoff .ant-btn{color:#384162;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;background: #fff;width: 100%;height: 100%;}
-  .rechargeover{background:#ffffff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:384px;height:75px;}
-  .rechargeover .ant-input-group .ant-input{height: 75px;border:0;font-size:16px;color:#384162;}
+  .rechargepays .rechargepays-list .listr{width: 64px;height: 40px;font-size:26px;color:#666666;line-height:40px;text-align:right;margin-right: 14px;margin-top: 20px;}
+  .rechargetype{width: 152px;height: 75px;margin-bottom: 20px;}
+  .rechargetype .ant-btn{width: 100%;height: 100%;color:#fff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;background: #35bab0;font-size: 20px;}
+  .rechargetypeoff{width: 152px;height: 75px;margin-bottom: 20px;}
+  .rechargetypeoff .ant-btn{color:#384162;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;background: #fff;width: 100%;height: 100%;font-size: 20px;}
+  .rechargeover{background:#ffffff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:280px;height:75px;}
+  .rechargeover .ant-input-group .ant-input{height: 75px;border:0;font-size:16px;color:#384162;width: 100px;}
   .rechargeover .ant-btn{width: 90px;height: 75px;padding:0;border:0;border-left:1px solid #e7e8ec;border-radius: 0;font-size:13px;color:#35bab0;}
-  .rechargepays .rechargeok{font-size:14px;color:#ffffff;height: 75px;background: #35bab0;line-height: 75px;border-radius: 3px;cursor: pointer;margin-top: 60px;}
+  .rechargepays .rechargeok{font-size:28px;color:#ffffff;height: 92px;background: #35bab0;line-height: 92px;border-radius: 3px;cursor: pointer;margin-top: 4px;}
 
 
 
@@ -1499,3 +1580,12 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 /* 收银 */
 .popmodel .ant-modal-body{padding:40px 20px;}
 .popmodel .ant-form-item-label label{font-size: 26px;color: #384162}
+
+.searchqery .timechoose{}
+
+
+
+
+
+
+
