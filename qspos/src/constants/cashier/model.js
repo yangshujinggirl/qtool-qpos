@@ -149,16 +149,36 @@ class Modales extends React.Component {
     }
     reamount=(e)=>{
     const reamount=e.target.value
+    const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+    const str=re.test(reamount)
+    if(str){
+        this.props.dispatch({
+            type:'cashier/reamount',
+            payload:reamount
+        })
+    }
 
-    // const re=/^(\-|\+)?\d+(\.\d+)?$/
-    // const str=re.test(reamount)
-    // if(str){
-        
-    // }
-    this.props.dispatch({
-        type:'cashier/reamount',
-        payload:reamount
-    })
+  }
+
+
+  reamountblue=(e)=>{
+      const values=e.target.value
+    
+
+    if(values){
+        const reamount=parseFloat(e.target.value)
+        if(reamount){
+            this.props.dispatch({
+                type:'cashier/reamount',
+                payload:reamount
+            })
+        }
+
+    }
+
+    
+    
+
   }
   payhindClick=()=>{
       console.log(1)
@@ -256,6 +276,7 @@ class Modales extends React.Component {
                                 autoComplete="off" 
                                 value={this.props.reamount} 
                                 onChange={this.reamount.bind(this)}
+                                onBlur={this.reamountblue.bind(this)}
                                 addonBefore={<Btnbrfore title={this.props.rechargetype=='1'?'微信':(this.props.rechargetype=='2'?'支付宝':(this.props.rechargetype=='3'?'银联':(this.props.rechargetype=='4'?'现金':null)))}/>}
                                 addonAfter={(this.props.rechargetype=='1' && openWechat=='1') ||(this.props.rechargetype=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)}/>:null}
                                 />
