@@ -576,11 +576,13 @@ class Pay extends React.Component {
     hindonChange=(e)=>{
         //只能输入最多两位数字
         const values=e.target.value
+        console.log(values)
 		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
-            const amountlist=this.props.amountlist
+            const amountlist=this.props.amountlist.slice(0)
             amountlist[0].value=values
+            console.log(amountlist)
             this.props.dispatch({
                 type:'cashier/amountlist',
                 payload:amountlist
@@ -801,7 +803,7 @@ class Pay extends React.Component {
 		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
-            const amountlist=this.props.amountlist
+            const amountlist=this.props.amountlist.slice(0)
             amountlist[0].value=values
             this.props.dispatch({
                 type:'cashier/amountlist',
@@ -814,7 +816,7 @@ class Pay extends React.Component {
 		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
-            const amountlist=this.props.amountlist
+            const amountlist=this.props.amountlist.slice(0)
             amountlist[1].value=values
             this.props.dispatch({
                 type:'cashier/amountlist',
@@ -903,6 +905,22 @@ class Pay extends React.Component {
         const amountlist=this.props.amountlist
         var totols=0;
         var orderPay=[];
+
+        if(amountlist.length>1){
+            if(Number(amountlist[1].value<=0)){
+                message.error('金额有误，不能支付')
+                return
+            }
+        }else{
+            if(Number(amountlist[0].value<=0)){
+                message.error('金额有误，不能支付')
+                return
+            } 
+        }
+
+
+
+
         if(group){
             if(amountlist.length>1){
                 totols=NP.plus(amountlist[0].value,amountlist[1].value); 
@@ -941,7 +959,10 @@ class Pay extends React.Component {
                     orderDetails:this.props.datasouce,
                     orderPay:orderPay
                 }
-             this.btnSaoPay(values)   
+
+                  
+                
+                this.btnSaoPay(values)
         }else{
             message.error('金额有误，不能支付')
         }
@@ -1114,6 +1135,7 @@ Pay.contextTypes= {
 
 function mapStateToProps(state) {
     const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point,cutAmount}=state.cashier
+    console.log(amountlist)
     return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point,cutAmount};
 }
 export default connect(mapStateToProps)(Pay);
