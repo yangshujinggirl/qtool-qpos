@@ -115,3 +115,23 @@ to {
     -o-transform:rotate(360deg); 	/* Opera */
 }
 }
+
+
+
+
+@media screen and (max-width: 820px) {
+    .payamounts .ant-form-item-control{height: 40px;}
+    
+    .payamounts .scanpayamount_text{padding-left:14px;font-size: 22px;height: 44px;display: inline-block;line-height: 43px;vertical-align: top;}
+    .payamounts{width: 476px;margin:0 auto;margin-top:30px;}
+    .payamounts .wr{height: 44px;}
+    .payamounts .wr .ant-input{border-radius:5px 0px 0 5px;border-right: 0;width: 240px;height: 44px;font-size:18px;color:#384162;padding-left: 14px;}
+    .payamounts .wr .ant-input:hover{border-color:  #e7e8ec;}
+    .payamounts .scanpayamount{height: 44px;line-height: 44px;font-size:40px;color:#384162;}
+    .payamounts .ant-btn{border-radius:0 5px 5px 0;width:55px;height:44px;background: #35bab0;color: #fff;font-size: 14px;padding:0;vertical-align: top;}
+    .payamounts .ant-form-item-label{font-size:14px;color:#74777f;height:44px;line-height: 44px;float: left;width:122px;}
+    .payamounts .ant-form-item-label label{font-size:14px;color:#74777f;}
+    .payamounts .ant-form-item{margin-bottom:16px}
+    .imgbox{width: 85px;height:126px;margin:0 auto;margin-top:60px;}
+    .rmark{font-size:10px;color:#35bab0;text-align: center;margin-top:14px;font-weight: lighter;}
+}

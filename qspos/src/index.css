@@ -463,6 +463,14 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .rechargeover .ant-btn{width: 90px;height: 90px;padding:0;border:0;border-left:1px solid #e7e8ec;border-radius: 0;font-size:26px;color:#35bab0;}
 .rechargepays .rechargeok{font-size:28px;color:#ffffff;height: 144px;background: #35bab0;line-height: 144px;border-radius: 3px;cursor: pointer;margin-top: 45px;}
 
+.rechargeover .reacge-before-one{
+  height:90px;
+  width:90px;
+  background:#fff;
+  font-size:26px;
+  color:#384162;
+  line-height: 90px
+}
 /*退货*/
 .returngood{width: 45%;height: 40px;margin-left: 2%;}
 .returngood .ant-switch{width: 100%;height: 40px;line-height: 40px;background: #fff;border: 1px solid #FB6349;}
@@ -1256,16 +1264,18 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .pay .listtoff{border-radius: 5px;width:90px;height:144px;background:#35BAB0;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;}
 .pay .listtdis{border-radius: 5px;width:90px;height:144px;background:#d8d8d8;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
 .pay .ant-input{font-size: 34px;color: #384162;height: 60px;border:1px solid #d9d9d9;border-left: 0;}
-.pay .ant-input:hover{border-color: #e2e2e2;}
+.pay .ant-input:hover{border-color: #d9d9d9;}
 .pay .ant-input-group-addon{background: #e7e8ec;border: 1px solid #d8d8d8;border-right: 0;padding:0;}
-.pay .inputcenter .ant-input-group-addon{background: #fff}
+.pay .inputcenter .ant-input-group-addon{background: #fff;}
 .pay .iconk{font-size: 14px;}
-.pay .waring{text-align: center;width: 580px;font-size: 12px;color: #D7636B;}
-.pay .waringnone{text-align: center;width: 580px;font-size: 12px;color: #D7636B;opacity: 0}
+.pay .waring{text-align: center;width: 322px;font-size: 12px;color: #D7636B;}
+.pay .waringnone{text-align: center;width: 322px;font-size: 12px;color: #D7636B;opacity: 0}
 .pay .ant-input-group > .ant-input:last-child, .ant-input-group-addon:last-child{height: 60px;}
-.ant-input-group-wrapper{margin-bottom: 20px;}
 
-.pay .payscanbtn{width: 70px;height: 60px;border-radius: 0;border:0;font-size:20px;color:#35bab0;border-right: 1px solid #d9d9d9;box-sizing: border-box;}
+.pay .ant-input-group-wrapper{margin-bottom: 20px;}
+.payzu .ant-input-group-wrapper{margin-bottom: 10px;}
+
+.pay .payscanbtn{width: 70px;height: 58px;border-radius: 0;border:0;font-size:20px;color:#35bab0;border-right: 1px solid #d9d9d9;box-sizing: border-box;}
 .pay .payscanbtn ant-btn{padding:0;}
 
 .pay .payends{margin-top:-7px;}
@@ -1302,51 +1312,77 @@ font-weight: lighter;
 
 
 
-.payzu .paylw{width:260px;}
-.payzu .ant-input{border-left: 0;font-size: 40px;color: #384162;border-radius: 0;border: 0}
+.payzu .paylw{width:322px;}
+.payzu .ant-input{font-size: 34px;color: #384162;border-radius: 0;border:1px solid #d9d9d9;border-left: 0;height: 60px;}
 .payzu .ant-input-disabled{background: #e7e8ec;}
-.payzu .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border-right: 0;background: #e7e8ec;padding:0;}
+.payzu .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border-right: 0;background: #e7e8ec;padding:0;height: 60px;}
 .payzu .inputcenteropen .ant-input-group-addon{background: #fff;}
-.payzu .payscanbtn{width: 98px;height: 75px;border-radius: 0;border:0;font-size:24px;color:#35bab0;border-left: 1px solid #e7e8ec;}
+.payzu .payscanbtn{width: 70px;height: 60px;border-radius: 0;font-size:20px;color:#35bab0;border: 1px solid #d9d9d9;border-left: 0;}
 .payzu .payscanbtn ant-btn{padding:0;}
-.payzu .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
+.payzu .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 20px;}
 
 
 
-.payzu .payharflw{width:260px;height:75px;}
-.payzu .payharflwl{width:260px;height:75px;margin-bottom: 20px;}
-.payzu .payharflwr{width:260px;height:75px;margin-bottom: 20px;}
-.payzu .payinputsmodel{height: 75px;}
-.payzu .payinputsmodels{background:#fff;}
+.payzu .payharflw{width:322px;height:60px;}
+.payzu .payharflwl{width:322px;height:60px;margin-bottom: 10px;}
+.payzu .payharflwr{width:322px;height:60px;margin-bottom: 10px;}
+.payzu .payinputsmodel{height: 60px;}
+.payzu .payinputsmodels{background:#fff;border-right: 0;}
 .payzu .payinputsmodelbox{box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);}
-.payzu .paylhs{width:260px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
-.payzu .paylhszu{width:540px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
-.payzu .paylhs:hover{width:540px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
-.payzu .paylhszu:hover{width:540px;height:144px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.payzu .paylhs{width:260px;height:112px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.payzu .paylhszu{width:540px;height:112px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.payzu .paylhs:hover{width:540px;height:112px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
+.payzu .paylhszu:hover{width:540px;height:112px;background: #35BAB0;border: 1px solid #E7E8EC;box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;font-size:40px;color:#fff;font-weight: normal;}
 
 
-.payzu .list{width:90px;height:75px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
+.payzu .list{width:90px;height:60px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;margin-bottom: 10px;border: 1px solid #d9d9d9;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-.payzu .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
-.payzu .listoff{ width:90px;height:75px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
-.payzu .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
-.payzu .listdis{ width:90px;height:75px;background:#f7f7f7;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
-.payzu .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+.payzu .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:20px;}
+.payzu .listoff{ width:90px;height:60px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 10px;border-radius: 5px;float: left;}
+.payzu .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:20px;}
+.payzu .listdis{ width:90px;height:60px;background:#d8d8d8;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 10px;border-radius: 5px;float: left;}
+.payzu .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:20px;}
 
 .payzu .listtoff{border-radius: 5px;width:117px;height:144px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
-.payzu .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
-.payzu .listtoffzu{border-radius: 5px;width:90px;height:75px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
-.payzu .listtoffzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
-.payzu .listt{width:90px;height:144px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
+.payzu .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:20px;}
+.payzu .listtoffzu{border-radius: 5px;width:90px;height:60px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
+.payzu .listtoffzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:20px;}
+.payzu .listt{width:90px;height:60px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-.payzu .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size: 24px;}
-.payzu .listtzu{width:90px;height:75px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
+.payzu .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size: 20px;}
+.payzu .listtzu{width:90px;height:60px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #d9d9d9;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-  .payzu .listtzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+  .payzu .listtzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:20px;}
 .payzu .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
-.payzu .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
+.payzu .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 20px;}
 .payzu .listtdiszu{width:117px;height:75px;background:#f7f7f7;color:#fff;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
-.payzu .listtdiszu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
+.payzu .listtdiszu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 20px;}
+.payzu .ant-input-group > .ant-input:last-child, .ant-input-group-addon:last-child{height: 60px;}
+
+.payzu .payinput-before{
+  height:60px;
+  line-height:58px;
+  width:40px;
+  background:#fff;
+  font-size:10px;
+  color:#74777f;
+  font-weight: lighter;
+  border:1px solid #d9d9d9;
+  border-right: 0;
+  
+}
+.payzu .payinput-before-dis{
+height:60px;
+line-height:58px;
+width:40px;
+background:#e7e8ec;
+font-size:10px;
+color:#74777f;
+font-weight: lighter;
+border:1px solid #d9d9d9;
+border-right: 0;
+
+}
 
 /*首页样式修改*/
 .ant-switch-checked:after{
@@ -1370,26 +1406,22 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
   height: 90px;
 }
 .payharflwl .ant-input{
-  font-size: 22px;
+  font-size: 34px;
+  /* border-right: 0; */
 }
-.payharflwl .ant-input-group-addon,.payharflwr .ant-input-group-addon{
-  padding-left:5px;
+
+.pay .payharflwl .ant-input{
+  /* border-right: 0; */
 }
-.payharflwl .payinputsmodel,.payharflwr .payinputsmodel{
-  padding-right: 5px;
-}
-.payharflwl .ant-input,.payharflwr .ant-input{
-  padding:4px 1px;
-}
-.payharflwl .ant-input-group-addon,.payharflwr .ant-input-group-addon{
-  padding:4px 1px;
+.pay .payinputsmodelfir{
+  border-right: 0;
 }
 .payharflwr{
   width:130px;
   height: 90px;
 }
 .payharflwr .ant-input{
-  font-size: 22px;
+  font-size: 34px;
 }
 .btnbg{margin-top: 0px;}
 .pay .listnonezero{
@@ -1528,22 +1560,29 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
   }
   .rechargelist{display: flex;width:324px;justify-content: space-between;flex-wrap: wrap;padding-left: 0;margin-bottom: 0;margin-top:0px;}
   .rechargepays .ant-modal-body{padding:30px;}
-  .rechargepays .rechargepays-list{background: #fff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:290px;height:75px;margin-bottom: 20px;}
+  .rechargepays .rechargepays-list{background: #fff;border:1px solid #d9d9d9;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:290px;height:75px;margin-bottom: 20px;}
   .rechargepays .rechargepays-list .listl{width: 64px;height: 40px;font-size:10px;color:#74777f;line-height:40px;text-align:left;margin-left: 20px;margin-top: 20px;}
-  .rechargepays .rechargepays-list .listr{width: 64px;height: 40px;font-size:26px;color:#666666;line-height:40px;text-align:right;margin-right: 14px;margin-top: 20px;}
+  .rechargepays .rechargepays-list .listr{width: 100px;height: 40px;font-size:26px;color:#666666;line-height:40px;text-align:right;margin-right: 14px;margin-top: 20px;}
   .rechargetype{width: 152px;height: 75px;margin-bottom: 20px;}
   .rechargetype .ant-btn{width: 100%;height: 100%;color:#fff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;background: #35bab0;font-size: 20px;}
   .rechargetypeoff{width: 152px;height: 75px;margin-bottom: 20px;}
   .rechargetypeoff .ant-btn{color:#384162;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;background: #fff;width: 100%;height: 100%;font-size: 20px;}
-  .rechargeover{background:#ffffff;border:1px solid #e7e8ec;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:280px;height:75px;}
-  .rechargeover .ant-input-group .ant-input{height: 75px;border:0;font-size:16px;color:#384162;width: 100px;}
-  .rechargeover .ant-btn{width: 90px;height: 75px;padding:0;border:0;border-left:1px solid #e7e8ec;border-radius: 0;font-size:13px;color:#35bab0;}
+  .rechargeover{background:#ffffff;border:1px solid #d9d9d9;box-shadow:0 0 10px 0 rgba(0,0,0,0.10);border-radius:3px;width:322px;height:75px;}
+  .rechargeover .ant-input-group .ant-input{height: 73px;border:0;font-size:20px;color:#384162;}
+  .rechargeover .ant-btn{width: 75px;height: 73px;padding:0;border:0;border-left:1px solid #e7e8ec;border-radius: 0;font-size:20px;color:#35bab0;vertical-align: top;}
   .rechargepays .rechargeok{font-size:28px;color:#ffffff;height: 92px;background: #35bab0;line-height: 92px;border-radius: 3px;cursor: pointer;margin-top: 4px;}
 
 
+.rechargeover .reacge-before-one{
+  height:73px;
+  width:75px;
+  background:#fff;
+  font-size:20px;
+  color:#384162;
+  line-height: 75px
+}
 
-
-
+  .pay .check_print{text-align: center;margin-top: 10px;font-size: 14px;}
 
 
 
@@ -1584,8 +1623,9 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 .searchqery .timechoose{}
 
 
-
-
+.birthline .line{width: 1px;height: 16px;background: #35bab0;display: inline-block;top:11px;position: absolute;right: 38px;}
+.headercen{height: 60px;line-height: 60px;text-align: center;font-size: 22px;color: #fff;}
+.rechargeover .ant-input-group-addon{border-left: 1px solid #d8d8d8;}
 
 
 
