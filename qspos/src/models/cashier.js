@@ -301,16 +301,18 @@ export default {
                  message.error(result.message);
             }   
         }, 
-      
-
-
+        *fetch2({ payload: {code,values} }, { call, put }) {
+            const result=yield call(GetServerData,code,values);
+            // localStorage.removeItem("payCancelValues") 
+        },
     },
     subscriptions: {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
-                console.log(query)
                 if (pathname === '/cashier' && (!query.backinit)) {
                     dispatch({ type: 'initstate', payload:[]})
+                }else if(pathname === '/cashier' && (query.backinit)) {
+                    dispatch({ type: 'fetch2', payload: {code:'qerp.web.qpos.od.scan.cancel',values:JSON.parse(localStorage.getItem("payCancelValues"))}});
                 }
             });
         },

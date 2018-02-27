@@ -208,6 +208,18 @@ class Payamount extends React.Component{
         );
     }
     componentDidMount(){
+        const valuesNeed={
+            mbQposOdScanCode:{
+                outTradeNo:this.props.location.state.orderNo,
+                odOrderId:this.props.location.state.orderId,
+                authCode:this.state.code,
+                tradeType:this.props.location.state.consumeType,
+                amount:this.props.location.state.amount,
+                type:this.props.location.state.type
+            }
+        };
+        localStorage.setItem("payCancelValues",JSON.stringify(valuesNeed));
+
         const ValueorderNoses=ReactDOM.findDOMNode(this.refs.code)
         ValueorderNoses.focus()
     }
