@@ -149,6 +149,12 @@ class Modales extends React.Component {
     }
     reamount=(e)=>{
     const reamount=e.target.value
+
+    // const re=/^(\-|\+)?\d+(\.\d+)?$/
+    // const str=re.test(reamount)
+    // if(str){
+        
+    // }
     this.props.dispatch({
         type:'cashier/reamount',
         payload:reamount
@@ -156,6 +162,13 @@ class Modales extends React.Component {
   }
   payhindClick=()=>{
       console.log(1)
+
+    if(!this.props.reamount || Number(this.props.reamount)<=0){
+        message.warning('金额有误')
+        return
+    }
+
+
       let values={mbCardId:this.props.mbCardId,amount:this.props.reamount,type:this.props.rechargetype}
         if(values.type=='1'){
             values.type='7'
