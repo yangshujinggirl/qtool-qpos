@@ -515,9 +515,9 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 
 .payzu .list{width:117px;height:75px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-.payzu .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+.payzu .list .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:20px;}
 .payzu .listoff{ width:117px;height:75px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
-.payzu .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
+.payzu .listoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:20px;}
 .payzu .listdis{ width:117px;height:75px;background:#f7f7f7;color:#fff;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border-radius: 5px;float: left;}
 .payzu .listdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
 /* 组合支付 抹零*/
@@ -539,19 +539,19 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 
 
 .payzu .listtoff{border-radius: 5px;width:117px;height:144px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
-.payzu .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
+.payzu .listtoff .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:20px;}
 .payzu .listtoffzu{border-radius: 5px;width:117px;height:75px;background:#35BAB0;color:#fff;margin-right: 10px;margin-left: 10px;float: left;}
-.payzu .listtoffzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:24px;}
+.payzu .listtoffzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #fff;font-size:20px;}
 .payzu .listt{width:117px;height:144px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
 box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-.payzu .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size: 24px;}
+.payzu .listt .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size: 20px;}
 .payzu .listtzu{width:117px;height:75px;background:#fff;color:#384162;margin-right: 10px;margin-left: 10px;border: 1px solid #E7E8EC;
   box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
-  .payzu .listtzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:24px;}
+  .payzu .listtzu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: #384162;font-size:20px;}
 .payzu .listtdis{width:117px;height:144px;background:#f7f7f7;color:#fff;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
-.payzu .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
+.payzu .listtdis .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 20px;}
 .payzu .listtdiszu{width:117px;height:75px;background:#f7f7f7;color:#fff;margin-top: 8px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25);float: left;margin-top: 0;}
-.payzu .listtdiszu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 24px;}
+.payzu .listtdiszu .ant-btn{background-color: transparent;width: 100%;height: 100%;border:0;display: inline-block;color: rgba(0, 0, 0, 0.25);font-size: 20px;}
 
 /* 退货弹窗抹零 */
 .pay .listnonezero{width:117px;height:144px;background:#fff;color:#384162;font-size:26px;margin-right: 10px;margin-left: 10px;margin-bottom: 20px;border: 1px solid #E7E8EC;
@@ -1265,8 +1265,9 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .pay .listtdis{border-radius: 5px;width:90px;height:144px;background:#d8d8d8;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
 .pay .ant-input{font-size: 34px;color: #384162;height: 60px;border:1px solid #d9d9d9;border-left: 0;}
 .pay .ant-input:hover{border-color: #d9d9d9;}
-.pay .ant-input-group-addon{background: #e7e8ec;border: 1px solid #d8d8d8;border-right: 0;padding:0;}
-.pay .inputcenter .ant-input-group-addon{background: #fff;}
+.pay .ant-input-group-addon{background: #e7e8ec;border: 1px solid #d8d8d8;border-right: 0;padding:0;border-left: 0;}
+
+.pay .inputcenter .ant-input-group-addon{background: #fff;border-left: 0;}
 .pay .iconk{font-size: 14px;}
 .pay .waring{text-align: center;width: 322px;font-size: 12px;color: #D7636B;}
 .pay .waringnone{text-align: center;width: 322px;font-size: 12px;color: #D7636B;opacity: 0}
@@ -1296,6 +1297,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
   font-size:10px;
   color:#74777f;
   font-weight: lighter;
+  border-left: 1px solid #d8d8d8;
   
 }
 .pay .payinput-before-dis{
@@ -1306,6 +1308,7 @@ background:#e7e8ec;
 font-size:10px;
 color:#74777f;
 font-weight: lighter;
+border-left: 1px solid #d8d8d8;
 
 }
 
@@ -1625,7 +1628,8 @@ border-right: 0;
 
 .birthline .line{width: 1px;height: 16px;background: #35bab0;display: inline-block;top:11px;position: absolute;right: 38px;}
 .headercen{height: 60px;line-height: 60px;text-align: center;font-size: 22px;color: #fff;}
-.rechargeover .ant-input-group-addon{border-left: 1px solid #d8d8d8;}
+.rechargeover .ant-input-group-addon{border-left:0;}
+.rechargeover .ant-input-group .ant-input{border-right:1px solid #d8d8d8;}
 
 
 
