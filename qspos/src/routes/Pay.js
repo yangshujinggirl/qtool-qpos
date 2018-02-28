@@ -18,7 +18,7 @@ class Payamount extends React.Component{
         super(props, context);  
         this.state={
             code:null,
-            loding:true,
+            loding:false,
             erronmsg:null
         }
     }  

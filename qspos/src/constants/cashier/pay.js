@@ -1011,6 +1011,8 @@ class Pay extends React.Component {
     render() {
         const openWechat=sessionStorage.getItem("openWechat")
         const openAlipay=sessionStorage.getItem("openAlipay")
+        console.log(openWechat)
+        console.log(openAlipay)
         return (
             <div>
                 <Modal
@@ -1054,7 +1056,7 @@ class Pay extends React.Component {
                                             onBlur={this.paysecondonBlur.bind(this)} 
                                             className='tr payinputsmodel' 
                                             onChange={this.paysecondonChange.bind(this)} 
-                                            addonAfter={(this.props.amountlist[1].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                                            addonAfter={(this.props.amountlist[1].type=='1' && openWechat=='1') ||(this.props.amountlist[1].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
                                             disabled={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?true:false} 
                                         />
                                         
