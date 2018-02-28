@@ -18,7 +18,7 @@ class Payamount extends React.Component{
         super(props, context);  
         this.state={
             code:null,
-            loding:false,
+            loding:true,
             erronmsg:null
         }
     }  
@@ -197,8 +197,6 @@ class Payamount extends React.Component{
                                         <p className='erronremarks'>
                                             <div className='box'>
                                                 {this.state.erronmsg?<div><Icon type="exclamation-circle-o" /><span className='txtss'>{this.state.erronmsg}</span></div>:null}
-                                                
-                                                
                                             </div>
                                         </p>
                                     </div>
