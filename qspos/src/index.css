@@ -1309,7 +1309,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 height:58px;
 line-height:60px;
 width:40px;
-background:#e7e8ec;
+background:#d9d9d9;
 font-size:10px;
 color:#74777f;
 font-weight: lighter;
@@ -1322,7 +1322,7 @@ border-left: 1px solid #d8d8d8;
 
 .payzu .paylw{width:322px;}
 .payzu .ant-input{font-size: 34px;color: #384162;border-radius: 0;border:1px solid #d9d9d9;border-left: 0;height: 60px;}
-.payzu .ant-input-disabled{background: #e7e8ec;}
+.payzu .ant-input-disabled{background: #d9d9d9;}
 .payzu .ant-input-group-addon{font-weight: bolder;font-size: 18px;border-radius: 0 0 0 0;border-right: 0;background: #e7e8ec;padding:0;height: 60px;}
 .payzu .inputcenteropen .ant-input-group-addon{background: #fff;}
 .payzu .payscanbtn{width: 70px;height: 60px;border-radius: 0;font-size:20px;color:#35bab0;border: 1px solid #d9d9d9;border-left: 0;padding:0;}
@@ -1383,7 +1383,7 @@ box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);border-radius: 5px;float: left;}
 height:60px;
 line-height:58px;
 width:40px;
-background:#e7e8ec;
+background:#d9d9d9;
 font-size:10px;
 color:#74777f;
 font-weight: lighter;
@@ -1619,12 +1619,13 @@ border-right: 0;
   }
   /* 小屏 */
   .useinputss{width:80%;height:50px;font-size:30px;line-height: 50px;color:#384162;margin-left: 5%;margin-top: 8%;}
-}
 
 
 
 
-/* 收银 */
+
+
+  /* 收银 */
 .popmodel .ant-modal-body{padding:40px 20px;}
 .popmodel .ant-form-item-label label{font-size: 26px;color: #384162}
 
@@ -1635,6 +1636,17 @@ border-right: 0;
 .headercen{height: 60px;line-height: 60px;text-align: center;font-size: 22px;color: #fff;}
 .rechargeover .ant-input-group-addon{border-left:0;}
 .rechargeover .ant-input-group .ant-input{border-right:1px solid #d8d8d8;}
+.pay .ant-input-disabled{background: #d9d9d9;}
+
+
+
+
+
+}
+
+
+
+
 
 
 
