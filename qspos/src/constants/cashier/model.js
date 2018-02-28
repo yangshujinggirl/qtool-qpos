@@ -163,7 +163,6 @@ class Modales extends React.Component {
 
   reamountblue=(e)=>{
       const values=e.target.value
-    
 
     if(values){
         const reamount=parseFloat(e.target.value)

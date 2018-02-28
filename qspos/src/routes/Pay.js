@@ -9,6 +9,7 @@ import {GetServerData} from '../services/services';
 import {printSaleOrder,printRechargeOrder} from '../components/Method/Method'
 
 
+
 const FormItem = Form.Item;
 var myVar=0;
 
@@ -21,6 +22,12 @@ class Payamount extends React.Component{
             erronmsg:null
         }
     }  
+
+
+
+    codeSelect=()=>{
+		ReactDOM.findDOMNode(this.refs.code).select()
+	}
     //回车事件
     hindonKeyUp=(e)=>{
         if(e.keyCode=='13'){
@@ -35,6 +42,7 @@ class Payamount extends React.Component{
     }
     //结算
     payok=()=>{
+        this.codeSelect()
         const values={
             mbQposOdScanCode:{
                 outTradeNo:this.props.location.state.orderNo,
