@@ -262,6 +262,9 @@ class Pay extends React.Component {
      arrarow=(arr)=>{
         const newarr=[]
         for(var i=0;i<arr.length;i++){
+
+
+
             if(Number(arr[i].type)==5){
                 arr[i].types=6
             }
@@ -397,6 +400,8 @@ class Pay extends React.Component {
                     }
                 }
             }
+
+
             //格式化所有，然后找到左边栏数组中的type，更新右边展示
             for(var i=0;i<paytypelisy.length;i++){
                 paytypelisy[i].check=false
@@ -448,6 +453,96 @@ class Pay extends React.Component {
                 text:texts,
                 backmoney:backmoneyed
             })
+        }else{
+            //当组合支付情况下且是会员卡+积分情况下，处理
+            if(amountlist.length>1 && amountlist[0].type=='5' && amountlist[1].type=='6'){
+                if(index=='4'){
+                    //判断积分和总额，如果积分最大值大于总额，值为总额，否则为积分最大额
+                    const point=NP.divide(this.props.point,100); //积分换算金额
+                    const amount=this.props.amount //会员余额
+                    newamountlist.push(amountlist[1])  
+
+                    if(parseFloat(point)<parseFloat(paytotolamount)){
+                        newamountlist[0].value=point
+                        waringfirsts=true
+                        texts='积分余额不足'
+                    }else{
+                        newamountlist[0].value=paytotolamount
+                        waringfirsts=false
+                        texts=''
+                    }
+                }else{
+                    //判断会员卡和总额，如果会员卡最大值大于总额，值为总额，否则为积分最大额
+                    const point=NP.divide(this.props.point,100); //积分换算金额
+                    const amount=this.props.amount //会员余额
+                    newamountlist.push(amountlist[0])  
+                    if(parseFloat(amount)<parseFloat(paytotolamount)){
+                        newamountlist[0].value=amount
+                        waringfirsts=true
+                        texts='会员卡余额不足'
+                    }else{
+                        newamountlist[0].value=paytotolamount
+                        waringfirsts=false
+                        texts=''
+                    }
+                }
+
+            //格式化所有，然后找到左边栏数组中的type，更新右边展示
+            for(var i=0;i<paytypelisy.length;i++){
+                paytypelisy[i].check=false
+            }
+            for(var i=0;i<paytypelisy.length;i++){
+                for(var j=0;j<newamountlist.length;j++){
+                    if(paytypelisy[i].type==newamountlist[j].type){
+                        paytypelisy[i].check=true
+                    }
+                }
+            }
+
+            // const backmoney='-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
+            newamountlist[0].value=dataedit(String(newamountlist[0].value))
+            if(newamountlist.length>1){
+                newamountlist[1].value=dataedit(String(newamountlist[1].value))
+            }
+           
+            var backmoneyed=0
+            if(newamountlist.length>1){
+                const danu=NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)
+                if(danu==0){
+                    backmoneyed='0.00'
+                }else{
+                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)))
+                }
+
+            }else{
+                const danu=NP.minus(paytotolamount, newamountlist[0].value)
+                if(danu==0){
+                    backmoneyed='0.00'
+                }else{
+                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, newamountlist[0].value)))
+                }
+
+            }
+
+           
+            this.props.dispatch({
+                type:'cashier/newamountlist',
+                payload:newamountlist
+            })
+            this.props.dispatch({
+                type:'cashier/paytypelisy',
+                payload:paytypelisy
+            })
+            this.setState({
+                waringfirst:waringfirsts,
+                text:texts,
+                backmoney:backmoneyed
+            })
+                
+
+            }
+  
+
         }
 
     }
