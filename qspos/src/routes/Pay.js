@@ -53,7 +53,7 @@ class Payamount extends React.Component{
                 amount:this.props.location.state.amount,
                 type:this.props.location.state.type
             }
-        }
+        };
 
         this.setState({
             loding:true
@@ -70,7 +70,18 @@ class Payamount extends React.Component{
                 const odOrderId=json.mbQposOdScanCode.odOrderId
                 const remark=json.mbQposOdScanCode.remark
 
-               
+                const returnValues={
+                    mbQposOdScanCode:{
+                        outTradeNo:json.mbQposOdScanCode.outTradeNo,
+                        odOrderId:json.mbQposOdScanCode.odOrderId,
+                        authCode:this.state.code,
+                        tradeType:this.props.location.state.consumeType,
+                        amount:this.props.location.state.amount,
+                        type:this.props.location.state.type
+                    }
+                };
+
+                localStorage.setItem("payCancelValues",JSON.stringify(returnValues));
                 //返回我三种状态
                 // 1.支付成功 status=20
                 // 2.支付失败 status=30
