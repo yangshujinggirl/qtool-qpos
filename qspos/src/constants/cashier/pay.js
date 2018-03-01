@@ -28,171 +28,203 @@ class Pay extends React.Component {
 
     //初始化方法
     initModel=()=>{
-        const ismember=this.props.ismember
-        const amountlist=[{
-            name:'微信',
-            value:null,
-            type:'1'
-        }]
-        const paytypelisy=[  
-            {name:'微信',check:false,disabled:false,type:'1'},
-            {name:'支付宝',check:false,disabled:false,type:'2'},
-            {name:'银联',check:false,disabled:false,type:'3'},
-            {name:'现金',check:false,disabled:false,type:'4'},
-            {name:'会员卡',check:false,disabled:false,type:'5'},
-            {name:'积分',check:false,disabled:false,type:'6'}
-        ]
-        const paytotolamount=this.props.totolamount
-        const group=false
-        const cutAmount='0'
+        const uservalues={"urUserId":null}
+        const result=GetServerData('qerp.pos.ur.user.info',uservalues)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                sessionStorage.setItem('openWechat',json.urUser.shop.openWechat);
+                sessionStorage.setItem('openAlipay',json.urUser.shop.openAlipay);
 
-        this.props.dispatch({
-            type:'cashier/paytotolamount',
-            payload:paytotolamount
-        })
-        this.props.dispatch({
-            type:'cashier/paytypelisy',
-            payload:paytypelisy
-        })
-        this.props.dispatch({
-            type:'cashier/amountlist',
-            payload:amountlist
-        })
-        this.props.dispatch({
-            type:'cashier/group',
-            payload:group
-        })
-        this.props.dispatch({
-            type:'cashier/cutAmount',
-            payload:cutAmount
-        })
-
-        if(ismember){
-            const values={mbCardId:this.props.mbCardId}
-            const result=GetServerData('qerp.pos.mb.card.info',values)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
-                if(json.code=='0'){
-                    this.setState({
-                        waringfirst:false
-                    },function(){
-                        const point=json.mbCardInfo.point
-                        const amount=json.mbCardInfo.amount
-                        const payvisible=true
-                        const paytypelisy=this.props.paytypelisy
-                        const amountlist=[]
-                        var texts=null
-                        var waringfirsts=false
-                        var groups=false
-
-                        this.props.dispatch({
-                            type:'cashier/amountpoint',
-                            payload:{amount,point}
-                        })
-                        this.props.dispatch({
-                            type:'cashier/payvisible',
-                            payload:payvisible
-                        })
-
-
-                        setTimeout(()=>{
-                            //判断积分是否禁用
-                        if(Number(this.props.point)<=0){
-                            //禁用
-                            paytypelisy[5].disabled=true
-                        }
-                        if(parseFloat(this.props.amount)>0){
-                                //会员卡选中为默认支付方式，不禁用
-                                paytypelisy[4].check=true
-                                //判断会员卡总额和总消费金额
-                                if(parseFloat(this.props.amount)>parseFloat(this.props.paytotolamount)){
-                                    amountlist.push({
-                                        name:'会员卡',
-                                        value:this.props.paytotolamount,
-                                        type:'5'
-                                    })
-                                }else{
-                                    amountlist.push({
-                                        name:'会员卡',
-                                        value:this.props.amount,
-                                        type:'5'
-                                    })
-                                    //报警告
-                                   waringfirsts=true
-                                   texts='会员卡余额不足，请选择组合支付'
-                                   groups=true
-                                }
-                        }else{
-                                //默认选中微信，会员卡禁用
-                                paytypelisy[0].check=true
-                                paytypelisy[4].disabled=true
-                                amountlist.push({
-                                    name:'微信',
-                                    value:this.props.paytotolamount,
-                                    type:'1'
-                                })
-                        }
-
-                        this.props.dispatch({
-                            type:'cashier/amountlist',
-                            payload:amountlist
-                        })
-                        this.props.dispatch({
-                            type:'cashier/groups',
-                            payload:groups
-                        })
-                        this.setState({
-                            waringfirst:waringfirsts,
-                            text:texts,
-                            backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
-                        })
-
-                        },1)
-
-
-
-                        
-                        
-                    })
-                }else{
-                    message.error(json.message)
-                }
-            })
-        }else{
-            //不是会员
-            this.setState({
-                waringfirst:false,
-                visible:true,
-            },function(){
-                const payvisible=true
-                this.props.dispatch({
-                    type:'cashier/payvisible',
-                    payload:payvisible
-                })
-                const paytypelisy=this.props.paytypelisy
-                const amountlist=[]
-                paytypelisy[4].disabled=true
-                paytypelisy[5].disabled=true
-                paytypelisy[0].check=true
-                amountlist.push({
+                const ismember=this.props.ismember
+                const amountlist=[{
                     name:'微信',
-                    value:this.props.paytotolamount,
+                    value:null,
                     type:'1'
+                }]
+                const paytypelisy=[  
+                    {name:'微信',check:false,disabled:false,type:'1'},
+                    {name:'支付宝',check:false,disabled:false,type:'2'},
+                    {name:'银联',check:false,disabled:false,type:'3'},
+                    {name:'现金',check:false,disabled:false,type:'4'},
+                    {name:'会员卡',check:false,disabled:false,type:'5'},
+                    {name:'积分',check:false,disabled:false,type:'6'}
+                ]
+                const paytotolamount=this.props.totolamount
+                const group=false
+                const cutAmount='0'
+        
+                this.props.dispatch({
+                    type:'cashier/paytotolamount',
+                    payload:paytotolamount
+                })
+                this.props.dispatch({
+                    type:'cashier/paytypelisy',
+                    payload:paytypelisy
                 })
                 this.props.dispatch({
                     type:'cashier/amountlist',
                     payload:amountlist
                 })
                 this.props.dispatch({
-                    type:'cashier/paytypelisy',
-                    payload:paytypelisy
+                    type:'cashier/group',
+                    payload:group
                 })
-                this.setState({
-                    backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
+                this.props.dispatch({
+                    type:'cashier/cutAmount',
+                    payload:cutAmount
                 })
-            })
+        
+                if(ismember){
+                    const values={mbCardId:this.props.mbCardId}
+                    const result=GetServerData('qerp.pos.mb.card.info',values)
+                    result.then((res) => {
+                        return res;
+                    }).then((json) => {
+                        if(json.code=='0'){
+                            this.setState({
+                                waringfirst:false
+                            },function(){
+                                const point=json.mbCardInfo.point
+                                const amount=json.mbCardInfo.amount
+                                const payvisible=true
+                                const paytypelisy=this.props.paytypelisy
+                                const amountlist=[]
+                                var texts=null
+                                var waringfirsts=false
+                                var groups=false
+        
+                                this.props.dispatch({
+                                    type:'cashier/amountpoint',
+                                    payload:{amount,point}
+                                })
+                                this.props.dispatch({
+                                    type:'cashier/payvisible',
+                                    payload:payvisible
+                                })
+        
+        
+                                setTimeout(()=>{
+                                    //判断积分是否禁用
+                                if(Number(this.props.point)<=0){
+                                    //禁用
+                                    paytypelisy[5].disabled=true
+                                }
+                                if(parseFloat(this.props.amount)>0){
+                                        //会员卡选中为默认支付方式，不禁用
+                                        paytypelisy[4].check=true
+                                        //判断会员卡总额和总消费金额
+                                        if(parseFloat(this.props.amount)>parseFloat(this.props.paytotolamount)){
+                                            amountlist.push({
+                                                name:'会员卡',
+                                                value:this.props.paytotolamount,
+                                                type:'5'
+                                            })
+                                        }else{
+                                            amountlist.push({
+                                                name:'会员卡',
+                                                value:this.props.amount,
+                                                type:'5'
+                                            })
+                                            //报警告
+                                           waringfirsts=true
+                                           texts='会员卡余额不足，请选择组合支付'
+                                           groups=true
+                                        }
+                                }else{
+                                        //默认选中微信，会员卡禁用
+                                        paytypelisy[0].check=true
+                                        paytypelisy[4].disabled=true
+                                        amountlist.push({
+                                            name:'微信',
+                                            value:this.props.paytotolamount,
+                                            type:'1'
+                                        })
+                                }
+        
+                                this.props.dispatch({
+                                    type:'cashier/amountlist',
+                                    payload:amountlist
+                                })
+                                this.props.dispatch({
+                                    type:'cashier/groups',
+                                    payload:groups
+                                })
+                                this.setState({
+                                    waringfirst:waringfirsts,
+                                    text:texts,
+                                    backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
+                                })
+        
+                                },1)
+        
+        
+        
+                                
+                                
+                            })
+                        }else{
+                            message.error(json.message)
+                        }
+                    })
+                }else{
+                    //不是会员
+                    this.setState({
+                        waringfirst:false,
+                        visible:true,
+                    },function(){
+                        const payvisible=true
+                        this.props.dispatch({
+                            type:'cashier/payvisible',
+                            payload:payvisible
+                        })
+                        const paytypelisy=this.props.paytypelisy
+                        const amountlist=[]
+                        paytypelisy[4].disabled=true
+                        paytypelisy[5].disabled=true
+                        paytypelisy[0].check=true
+                        amountlist.push({
+                            name:'微信',
+                            value:this.props.paytotolamount,
+                            type:'1'
+                        })
+                        this.props.dispatch({
+                            type:'cashier/amountlist',
+                            payload:amountlist
+                        })
+                        this.props.dispatch({
+                            type:'cashier/paytypelisy',
+                            payload:paytypelisy
+                        })
+                        this.setState({
+                            backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
+                        })
+                    })
+                    }
+
+
+
+
+
+            }else{
+                message.error(json.message)
             }
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
         }
 
 

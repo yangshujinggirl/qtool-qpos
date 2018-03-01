@@ -21,32 +21,57 @@ class Modales extends React.Component {
     if(this.props.mbCardId==null || undefined || ''){
             message.warning('请输入正确的会员卡号')
     }else{
-        const result=GetServerData('qerp.pos.sy.config.info')
+        const uservalues={"urUserId":null}
+        const result=GetServerData('qerp.pos.ur.user.info',uservalues)
         result.then((res) => {
-           return res;
-         }).then((json) => {
-            if(json.code == "0"){
-                if(json.config.rechargePrint=='1'){
-                    const recheckPrint=true
-                    this.props.dispatch({
-                        type:'cashier/rechangeCheckPrint',
-                        payload:recheckPrint
-                    })
-                }else{
-                    const recheckPrint=false
-                    this.props.dispatch({
-                        type:'cashier/rechangeCheckPrint',
-                        payload:recheckPrint
-                    })
-                }
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                sessionStorage.setItem('openWechat',json.urUser.shop.openWechat);
+                sessionStorage.setItem('openAlipay',json.urUser.shop.openAlipay);
+                const result=GetServerData('qerp.pos.sy.config.info')
+                result.then((res) => {
+                   return res;
+                 }).then((json) => {
+                    if(json.code == "0"){
+                        if(json.config.rechargePrint=='1'){
+                            const recheckPrint=true
+                            this.props.dispatch({
+                                type:'cashier/rechangeCheckPrint',
+                                payload:recheckPrint
+                            })
+                        }else{
+                            const recheckPrint=false
+                            this.props.dispatch({
+                                type:'cashier/rechangeCheckPrint',
+                                payload:recheckPrint
+                            })
+                        }
+                    }
+                })
+        
+                const rechargevisible=true
+                this.props.dispatch({
+                    type:'cashier/rechargevisible',
+                    payload:rechargevisible
+                })
+
             }
+
+
         })
 
-        const rechargevisible=true
-        this.props.dispatch({
-            type:'cashier/rechargevisible',
-            payload:rechargevisible
-        })
+
+
+
+
+
+
+
+
+
+
+        
     }
   }
   handleOk = (e) => {
