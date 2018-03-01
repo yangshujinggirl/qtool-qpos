@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
-import {getSaleOrderInfo} from '../../components/Method/Print';
+import {getSaleOrderInfo,getShiftInfo,getRechargeOrderInfo} from '../../components/Method/Print';
 
 export function Messagesuccess(values, time, call) {
    message.success(values, time, call);
