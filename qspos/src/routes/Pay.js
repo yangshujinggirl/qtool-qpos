@@ -19,7 +19,8 @@ class Payamount extends React.Component{
         this.state={
             code:null,
             loding:false,
-            erronmsg:null
+            erronmsg:null,
+            outTradeNo:this.props.location.state.orderNo
         }
     }  
 
@@ -45,7 +46,7 @@ class Payamount extends React.Component{
         this.codeSelect()
         const values={
             mbQposOdScanCode:{
-                outTradeNo:this.props.location.state.orderNo,
+                outTradeNo:this.state.outTradeNo,
                 odOrderId:this.props.location.state.orderId,
                 authCode:this.state.code,
                 tradeType:this.props.location.state.consumeType,
@@ -82,7 +83,7 @@ class Payamount extends React.Component{
                     this.payStateInfo(data);
                 }
                 if(status=='30'){
-                    this.payerron(remark)
+                    this.payerron(remark,outTradeNo)
                 }
             }else{
                 this.setState({
@@ -119,10 +120,11 @@ class Payamount extends React.Component{
         })
     }
     //支付失败
-    payerron=(msg)=>{
+    payerron=(msg,outTradeNo)=>{
         this.setState({
             loding:false,
-            erronmsg:msg
+            erronmsg:msg,
+            outTradeNo:outTradeNo
         })
     }
     //支付状态查询接口
@@ -139,13 +141,14 @@ class Payamount extends React.Component{
                 const self = this;
                 const remark=json.mbQposOdScanCode.remark;
                 const data2 = json.mbQposOdScanCode;
+                const outTradeNo=json.mbQposOdScanCode.outTradeNo
                 if(json.mbQposOdScanCode.status=='20'){
                     clearInterval(myVar)
                     this.paysuccess(remark)
                 }
                 if(json.mbQposOdScanCode.status=='30'){
                     clearInterval(myVar)
-                    this.payerron(remark)
+                    this.payerron(remark,outTradeNo)
                 }
                 if(json.mbQposOdScanCode.status=='10'){
                     setTimeout(function(){
