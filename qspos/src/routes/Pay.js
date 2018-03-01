@@ -20,7 +20,8 @@ class Payamount extends React.Component{
             code:null,
             loding:false,
             erronmsg:null,
-            outTradeNo:this.props.location.state.orderNo
+            outTradeNo:this.props.location.state.orderNo,
+            rechargeorderid:null
         }
     }  
 
@@ -87,7 +88,17 @@ class Payamount extends React.Component{
                 // 2.支付失败 status=30
                 // 3.支付中  status=10
                 if(status=='20'){
-                    this.paysuccess(remark)
+                    const consumeType=this.props.location.state.consumeType
+                    if(consumeType=='2'){
+                        const odOrderId=json.mbQposOdScanCode.odOrderId
+                        this.paysuccess(remark,odOrderId)
+                    }else{
+                        this.paysuccess(remark)
+                    }
+
+
+
+                    
                 }
                 if(status=='10'){
                     //每隔1s请求新的查询接口，直到返回成功或者失败，停止查询，在返回成功或者失败之前，页面是loding状态，
@@ -107,11 +118,13 @@ class Payamount extends React.Component{
     }
 
     //支付成功
-    paysuccess=(msg)=>{
+    paysuccess=(msg,rechargeorderid)=>{
         //跳转收银界面，初始化数据，loding结束
         this.setState({
             loding:false,
-            erronmsg:null
+            erronmsg:null,
+            rechargeorderid:rechargeorderid
+
         },function(){
             const consumeType=this.props.location.state.consumeType
             if(consumeType=='1'){
@@ -126,7 +139,7 @@ class Payamount extends React.Component{
                 this.context.router.push('/cashier')
                 this.props.meth1.handleOk()
                 message.success(msg)
-                printRechargeOrder(this.props.recheckPrint,this.props.location.state.orderId)
+                printRechargeOrder(this.props.recheckPrint,this.state.rechargeorderid)
             }
         })
     }
@@ -154,8 +167,20 @@ class Payamount extends React.Component{
                 const data2 = json.mbQposOdScanCode;
                 const outTradeNo=json.mbQposOdScanCode.outTradeNo
                 if(json.mbQposOdScanCode.status=='20'){
-                    clearInterval(myVar)
-                    this.paysuccess(remark)
+                    const consumeType=this.props.location.state.consumeType
+                    if(consumeType=='2'){
+                        const odOrderId=json.mbQposOdScanCode.odOrderId
+                        clearInterval(myVar)
+                        this.paysuccess(remark,odOrderId)
+                    }else{
+                        clearInterval(myVar)
+                        this.paysuccess(remark)
+                    }
+
+
+
+
+                    
                 }
                 if(json.mbQposOdScanCode.status=='30'){
                     clearInterval(myVar)
