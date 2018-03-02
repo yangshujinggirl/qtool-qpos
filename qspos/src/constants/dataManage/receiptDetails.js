@@ -55,7 +55,7 @@ class ReceiptDetailsForm extends React.Component {
             dataIndex: 'consignee',
         },{
             title: '最后操作时间',
-            dataIndex: 'updateTime'
+            dataIndex: 'operateTime'
         }];
     }
 
