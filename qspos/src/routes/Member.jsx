@@ -271,7 +271,7 @@ class EditableTablebaby extends React.Component {
         dataIndex: 'year',
         render: (text, record, index) => (
             <div>
-                <Select  style={{ width: 72 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
+                <Select  style={{ width: 78 }} onChange={this.yearhandleChange.bind(this,index)} value={this.state.dataSource[index].year}>
                 {
                     batrhdata.year.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -287,7 +287,7 @@ class EditableTablebaby extends React.Component {
         width: '30%',
         render: (text, record, index) => (
             <div>
-                <Select  style={{ width: 60 }} onChange={this.monthhandleChange.bind(this,index)} value={this.state.dataSource[index].month}>
+                <Select  style={{ width: 62 }} onChange={this.monthhandleChange.bind(this,index)} value={this.state.dataSource[index].month}>
                   {
                     batrhdata.month.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -303,7 +303,7 @@ class EditableTablebaby extends React.Component {
         width: '30%',
         render: (text, record, index) => (
              <div>
-                <Select style={{ width: 60 }} onChange={this.dayhandleChange.bind(this,index)} value={this.state.dataSource[index].day}>
+                <Select style={{ width: 62 }} onChange={this.dayhandleChange.bind(this,index)} value={this.state.dataSource[index].day}>
                   {
                     batrhdata.day.map((item,index)=>{
                         return (<Option  key={index} value={item}>{item}</Option>)
@@ -506,8 +506,8 @@ class EditableTablebaby extends React.Component {
                 className='babytables'
             />
         </div>
-        <div className='fl clearfix' style={{width:'90px'}}>
-            <div onClick={this.handleAdd} className='fl mr10 ml10 themecolor' style={{height:'40px',lineHeight:'40px'}}>
+        <div className='fl clearfix' style={{width:'86px'}}>
+            <div onClick={this.handleAdd} className='fl mr8 ml8 themecolor ' style={{height:'40px',lineHeight:'40px'}}>
                 <Icon type="plus-circle-o" />
             </div>
             <div className='fl' style={{width:'54px',height:'40ox',lineHeight:'36px'}}>

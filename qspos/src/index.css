@@ -51,7 +51,8 @@ a{
 .pl30{padding-left: 30px;}
 .mt25{margin-top: 9px;}
 .tr{text-align: right;}
-
+.ml8{margin-left: 8px;}
+.mr8{margin-right: 8px;}
 /*字体*/
 .f12{font-size: 12px;}
 .f13{font-size: 13px;}
@@ -418,9 +419,9 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 }
 
 /*会员管理*/
-.birthday .ant-table-tbody > tr{border: 1px solid #E7E8EC;display: inline-block;border-radius: 3px;width: 245px;height: 42px;padding:0;margin-bottom: 10px;}
+.birthday .ant-table-tbody > tr{border: 1px solid #E7E8EC;display: inline-block;border-radius: 3px;width: 254px;height: 42px;padding:0;margin-bottom: 10px;}
 .birthday .ant-table-tbody > tr>td{height: 41px;display: inline-block;padding:0;}
-.birthday .ant-select-selection{border:0;}
+.birthday .ant-select-selection{border:0;font-size: 14px;}
 .birthday .ant-select-focused .ant-select-selection, .ant-select-selection:focus, .ant-select-selection:active{box-shadow:none;}
 .birthday .ant-table-thead > tr.ant-table-row-hover > td, .ant-table-tbody > tr.ant-table-row-hover > td, .ant-table-thead > tr:hover > td, .ant-table-tbody > tr:hover > td{background:none;}
 .addicon{vertical-align: top;}
@@ -430,7 +431,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .formdis .ant-form-item-control{width: 340px;height: 40px;line-height: 40px;}
 .formdis .ant-input-disabled{background: #fff;color:rgba(0, 0, 0, 0.65);border:0;padding:0;}
 .birthday .ant-select-selection-selected-value{padding-right: 0;}
-.birthday .ant-select-arrow:before{margin-top:22px;}
+/* .birthday .ant-select-arrow:before{margin-top:22px;} */
 
 
 
@@ -697,7 +698,7 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 .payinputs{padding-right: 20px;}
 /*宝宝生日*/
 .babytables .ant-select-enabled{height: 40px;vertical-align: top;}
-.babytablesbox{width: 245px}
+.babytablesbox{width: 254px}
 .babytables .ant-select-enabled .ant-select-selection--single{height: 38px;vertical-align: top;}
 .formdis .listform{margin-bottom:0px;}
 
