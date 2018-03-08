@@ -1165,7 +1165,7 @@ class Pay extends React.Component {
               width={924}
               closable={true}
               footer={null}
-              className='pay check-box-style'
+              className='pay check-box-style returnpay'
             >
                 <div className='clearfix'>
                 	<div className='fl paylw'>

@@ -873,6 +873,18 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
     margin-top: 18px;
   }
 
+
+
+
+
+  /* 退货弹窗 */
+
+.returnpay .ant-input-group-addon{width: 90px;}
+.returnpay .inputcenter .ant-input-group-addon{background: #fff;}
+
+
+
+
 /* v20180123 */
 @media screen and (min-width: 820px) {
     .ant-tabs.ant-tabs-card .ant-tabs-content > .ant-tabs-tabpane, .ant-tabs.ant-tabs-editable-card .ant-tabs-content > .ant-tabs-tabpane{
@@ -1271,9 +1283,11 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .pay .listtdis{border-radius: 5px;width:90px;height:144px;background:#d8d8d8;color:#fff;font-size:26px;margin-right: 10px;margin-left: 10px;color: rgba(0, 0, 0, 0.25)}
 .pay .ant-input{font-size: 34px;color: #384162;height: 60px;border:1px solid #d9d9d9;border-left: 0;}
 .pay .ant-input:hover{border-color: #d9d9d9;}
-.pay .ant-input-group-addon{background: #e7e8ec;border: 1px solid #d8d8d8;border-right: 0;padding:0;border-left: 0;}
+.pay .ant-input-group-addon{background: #d9d9d9 ;border: 1px solid #d8d8d8;border-right: 0;padding:0;border-left: 0;}
+
 
 .pay .inputcenter .ant-input-group-addon{background: #fff;border-left: 0;}
+.returnpay .inputcenter .ant-input-group-addon{background: #fff;border-left: 1px solid #d9d9d9;}
 .pay .iconk{font-size: 14px;}
 .pay .waring{text-align: center;width: 322px;font-size: 12px;color: #D7636B;}
 .pay .waringnone{text-align: center;width: 322px;font-size: 12px;color: #D7636B;opacity: 0}
@@ -1437,6 +1451,12 @@ border-right: 0;
   border: 1px solid #d8d8d8;
   width: 110px;
 }
+
+.returnpay .listnonezero{
+  border: 1px solid #d8d8d8;
+  width: 90px;
+}
+
 .bgf-goods-style{
   border-radius: 0px;
 }
