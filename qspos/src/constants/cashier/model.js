@@ -5,6 +5,7 @@ import {printRechargeOrder} from '../../components/Method/Method'
 import {getRechargeOrderInfo} from '../../components/Method/Print';
 import Btnpay from './btnpay'
 import Btnbrfore from './btnbefore'
+import ReactDOM from 'react-dom';
 
 
 class Modales extends React.Component {
@@ -12,11 +13,10 @@ class Modales extends React.Component {
         super(props);
         this.firstclick=true
      }
-    state = { 
-        
-
-   }
+    state = {}
   showModal = () => {
+   console.log(this)
+//    this.focusn()
     //判断有没有填写会员信息
     if(this.props.mbCardId==null || undefined || ''){
             message.warning('请输入正确的会员卡号')
@@ -55,6 +55,7 @@ class Modales extends React.Component {
                     type:'cashier/rechargevisible',
                     payload:rechargevisible
                 })
+               
 
             }
 
@@ -257,6 +258,12 @@ class Modales extends React.Component {
             payload:recheckPrint
         })
     }
+
+    focusn=()=>{
+        const ValueorderNoses=ReactDOM.findDOMNode(this.refs.chargeinput)
+        ValueorderNoses.focus()
+    }
+
     render(){
             const mbCardId=this.props.mbCardId
             const openWechat=sessionStorage.getItem("openWechat")
@@ -301,8 +308,10 @@ class Modales extends React.Component {
                                 value={this.props.reamount} 
                                 onChange={this.reamount.bind(this)}
                                 onBlur={this.reamountblue.bind(this)}
+                                ref={(node) => { this.input = node; }}
                                 addonBefore={<Btnbrfore title={this.props.rechargetype=='1'?'微信':(this.props.rechargetype=='2'?'支付宝':(this.props.rechargetype=='3'?'银联':(this.props.rechargetype=='4'?'现金':null)))}/>}
                                 addonAfter={(this.props.rechargetype=='1' && openWechat=='1') ||(this.props.rechargetype=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)}/>:null}
+                                autoFocus
                                 />
                         </div>
                     </div>
@@ -319,6 +328,18 @@ class Modales extends React.Component {
             </Modal>
         </div>
     );
+  }
+  componentDidMount(){
+    //   console.log('wj')
+    //   console.log(this.input)
+    // this.wrap.focus();
+    //  this.input.focus();
+    // console.log(this)
+    // console.log(this.searchInput)
+    // this.searchInput.focus()
+    // const ValueorderNoses=ReactDOM.findDOMNode(this.searchInput)
+    // console.log(ValueorderNoses)
+    // ValueorderNoses.focus()
   }
 }
 
