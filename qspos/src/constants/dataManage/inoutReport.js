@@ -27,7 +27,8 @@ class InOutReportForm extends React.Component {
             limit:10,
             rpDate:'',
             name:'',
-            windowHeight:''
+            windowHeight:'',
+            loading:false
         };
         this.columns = [{
             title: '商品条码',
@@ -125,38 +126,52 @@ class InOutReportForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        
-        const result=GetServerData('qerp.qpos.rp.inventory.page',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                let dataList = [];
-                dataList = json.inventorys;
-                let finalInvAmountSum = json.finalInvAmountSum;
-                let invAmountSum = json.invAmountSum;
-                let receiptAmountSum = json.receiptAmountSum;
-                let saleAmountSum = json.saleAmountSum;
-                let adjustPdCheckAmountSum = json.adjustPdCheckAmountSum;
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                };
-                this.setState({
-                    finalInvAmountSum:finalInvAmountSum,//#String 期末库存总成本
-                    invAmountSum:invAmountSum,//#String 期初库存总成本
-                    receiptAmountSum:receiptAmountSum,//#String 收货总成本
-                    saleAmountSum:saleAmountSum,//#String 销售总成本
-                    adjustPdCheckAmountSum:adjustPdCheckAmountSum,//#String 损益总成本
+        this.setState({
+            loading:true
+        },function(){
+            const result=GetServerData('qerp.qpos.rp.inventory.page',values)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    let dataList = [];
+                    dataList = json.inventorys;
+                    let finalInvAmountSum = json.finalInvAmountSum;
+                    let invAmountSum = json.invAmountSum;
+                    let receiptAmountSum = json.receiptAmountSum;
+                    let saleAmountSum = json.saleAmountSum;
+                    let adjustPdCheckAmountSum = json.adjustPdCheckAmountSum;
+                    for(let i=0;i<dataList.length;i++){
+                        dataList[i].key = i+1;
+                    };
+                    this.setState({
+                        finalInvAmountSum:finalInvAmountSum,//#String 期末库存总成本
+                        invAmountSum:invAmountSum,//#String 期初库存总成本
+                        receiptAmountSum:receiptAmountSum,//#String 收货总成本
+                        saleAmountSum:saleAmountSum,//#String 销售总成本
+                        adjustPdCheckAmountSum:adjustPdCheckAmountSum,//#String 损益总成本
+    
+                        dataSource:dataList,
+                        total:Number(json.total),
+                        currentPage:Number(json.currentPage),
+                        limit:Number(json.limit),
+                        loading:false
+                    });
+                }else{  
+                    this.setState({
+                        loading:false
+                    },function(){
+                        message.error(json.message); 
+                    })  
+                   
+                }
+            })
 
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                });
-            }else{  
-                message.error(json.message); 
-            }
+
         })
+
+
+       
     }
 
     handleSubmit = (e) =>{
@@ -335,6 +350,7 @@ class InOutReportForm extends React.Component {
                         pageSize={10}
                         onShowSizeChange={this.onShowSizeChange}
                         pageChange={this.pageChange}
+                        loading={this.state.loading}
                         />
                 </div>
                 <div className="footer-pagefixed">

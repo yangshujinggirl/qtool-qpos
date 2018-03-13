@@ -47,6 +47,7 @@ class CommonTable extends React.Component {
                     false
                 }
                 locale={this.props.emptyText?{emptyText:this.props.emptyText}:null}
+                loading={this.props.loading}
             />
         );
     }
