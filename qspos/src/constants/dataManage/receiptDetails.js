@@ -9,7 +9,7 @@ import {deepcCloneObj} from '../../utils/commonFc';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
-const dateFormat = 'YYYY-MM-DD hh:mm:ss';
+const dateFormat = 'YYYY-MM-DD';
 class ReceiptDetailsForm extends React.Component {
     constructor(props,context) {
         super(props,context);
