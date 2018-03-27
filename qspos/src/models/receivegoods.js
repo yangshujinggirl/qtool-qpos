@@ -11,7 +11,8 @@ export default {
 		datasoucelen:0,
 		totolsamount:0,
 		pdOrderId:null,
-		meth:{}
+		meth:{},
+		isfetchover:true
 	},
 	reducers: {
 		pbarcode(state, { payload: pbarcode}) {
@@ -34,6 +35,9 @@ export default {
 		},
 		meth(state, { payload: meth}) {
 			return {...state,meth}
+		},
+		isfetchover(state, { payload: isfetchover}) {
+			return {...state,isfetchover}
 		},
 
 		initstate(state, { payload: {}}) {
@@ -67,9 +71,14 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			if(result.code=='0'){
 				message.success('收货成功');
+				const isfetchover=true
 				yield put({type: 'initstate',payload:{}});
+				yield put({type: 'isfetchover',payload:isfetchover});
 			}else{
+				const isfetchover=true
+				yield put({type: 'isfetchover',payload:isfetchover});
 				message.error(result.message);
+
 			}   
 		},
 	},
