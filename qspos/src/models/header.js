@@ -37,6 +37,7 @@ export default {
                 message.error(result.message);
             }   
         },
+        
         *shift({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
