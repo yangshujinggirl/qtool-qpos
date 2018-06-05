@@ -235,7 +235,6 @@ const  Modelforms=Form.create()(Modelform);
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             windowHeight:''
         };
@@ -335,7 +334,10 @@ class App extends React.Component {
         paperSize:"80",
         submitPrint:"1",
         rechargePrint:"1",
-        xitong:true
+        xitong:true,
+        exchangePrintNum1:'1',
+        exchangePrint1:'1'
+
     }
     //获取设置
     getSetData = () =>{
@@ -545,6 +547,39 @@ class App extends React.Component {
             )}
             </FormItem>
             <div style={{width:"100%",height:"1px",visibility:"hidden"}}></div>
+            <FormItem
+                label="调拨后打印"
+                style={{display:"inline-block"}}
+            >
+            {getFieldDecorator('exchangePrint1', { 
+                initialValue: this.state.exchangePrint1,
+            })(
+                <RadioGroup>
+                    <Radio value={'1'}>是</Radio>
+                    <Radio value={'0'}>否</Radio>
+                </RadioGroup>
+            )}
+            </FormItem>
+            <FormItem
+                className="page-count"
+                label="小票份数"
+                style={{display:"inline-block"}}
+                labelCol={{span:3}}
+                wrapperCol={{span:15}}
+            >
+            {getFieldDecorator('exchangePrintNum1', {
+                    initialValue:this.state.exchangePrintNum1,
+                })(
+                    <Select style={{ width: 120 }}>
+                        <Option value="1">1</Option>
+                        <Option value="2">2</Option>
+                        <Option value="3">3</Option>
+                        <Option value="4">4</Option>
+                        <Option value="5">5</Option>
+                    </Select>
+            )}
+            </FormItem>
+            <div style={{width:"100%",height:"1px",visibility:"hidden"}}></div>
             <FormItem>
                 <div onClick={this.handleSubmit.bind(this)} className='submitform'>确定</div>
             </FormItem>
@@ -618,7 +653,6 @@ function Account({users,dispatch}) {
 }
 function mapStateToProps(state) {
     const {users} = state.account;
-    console.log(users)
     return {users};
 }
 export default connect(mapStateToProps)(Account);

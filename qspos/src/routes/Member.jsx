@@ -8,6 +8,7 @@ import Searchinput from '../components/Searchinput/Searchinput';
 import {Messagesuccess} from '../components/Method/Method';
 import {GetServerData} from '../services/services';
 import {Gettime} from '../services/data';
+import '../style/member.css';
 //css
 const btn={position:'absolute',right:'0','top':'0'}
 const inputwidth={width:'340px',height:'40px'}
@@ -45,6 +46,7 @@ class Modelform extends Component {
             accountvalue:1,
             mbCardBirths:[],
             key:0,
+            visiblesure:false
         },
         this.babydatasouces=[]
     }
@@ -70,6 +72,19 @@ class Modelform extends Component {
         this.setState({ visible: false });
         this.props.form.resetFields()
     }
+
+    //新建会员点击确定按钮执行方法
+    hindokNewmember=()=>{
+        let limitSize = localStorage.getItem('pageSize');
+        this.props.dispatch({
+             type:'member/fetch',
+             payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
+         });
+        //重置页码为第一页
+        this.props.initPageCurrent(1);
+        // message.success('会员新建成功',1)
+    }
+
     handleOk = () => {
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -89,25 +104,35 @@ class Modelform extends Component {
                         return res;
                     }).then((json) => {
                         if(json.code=='0'){
-                            if(this.props.type){
-                                message.success('会员新建成功',1)
-                            }else{
-                                message.success('会员信息修改成功',1)
-                            }
-                           this.hideModal();
-                           let limitSize = localStorage.getItem('pageSize');
-                           this.props.dispatch({
-                                type:'member/fetch',
-                                payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
-                            });
-                           //重置页码为第一页
-                           this.props.initPageCurrent(1);
-                        }else{  
-                           message.error(json.message);
+                            this.hideModal();
+                            setTimeout(() => {
+                                if(this.props.type){
+                                    //如果是新增会员，出弹窗，点击确定，再执行
+                                    this.setState({
+                                        visiblesure:true
+                                    })
+                                }else{
+                                    message.success('会员信息修改成功',1)
+                                    let limitSize = localStorage.getItem('pageSize');
+                                    this.props.dispatch({
+                                         type:'member/fetch',
+                                         payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
+                                     });
+                                    //重置页码为第一页
+                                    this.props.initPageCurrent(1);
+                                }
+                              }, 1000)
+                        }else{
+                            message.error(json.message);
                         }
                     })
                 }else{
                     message.warning('生日信息不全')
+
+                   
+
+
+
                 }
             } 
         
@@ -121,8 +146,29 @@ class Modelform extends Component {
         const memberdatas=this.props.form.getFieldInstance('ref').memberdata
         memberdatas()
     }
+
+
+    //新建成功确认
+    surehandleOk=()=>{
+        this.setState({
+            visiblesure: false,
+          },function(){
+            const limitSize = localStorage.getItem('pageSize');
+            this.props.dispatch({
+                 type:'member/fetch',
+                 payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
+             });
+            //重置页码为第一页
+            this.props.initPageCurrent(1);
+          });
+    }
+    //新建成功取消
+    surehandleCancel=()=>{
+        this.setState({
+            visiblesure: false,
+        });
+    }
     render() {
-        console.log(batrhdata)
         const type=this.props.type
         const { getFieldDecorator,getFieldInstance,getFieldProps } = this.props.form;
         const { name, mobile, cardNo,level,mbCardId,amount,point} = this.props.record;
@@ -150,6 +196,23 @@ class Modelform extends Component {
                     ]}
                 >
                     <Form className='formdis'>
+                        {
+                            this.props.type?null:
+                            <FormItem 
+                            label="会员卡号"
+                            labelCol={{ span: 5 }}
+                            wrapperCol={{ span: 16 }}
+                            >
+                            {getFieldDecorator('cardNo', {
+                                initialValue: cardNo,
+                                rules: [{ required: true, message: '请输入1-5位会员姓名' }],
+                            })(
+                                
+                                <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off" disabled/>
+                            )}
+                            </FormItem>
+
+                        }
                         <FormItem 
                             label="会员姓名"
                             labelCol={{ span: 5 }}
@@ -159,6 +222,7 @@ class Modelform extends Component {
                                 initialValue: name,
                                 rules: [{ required: true, message: '请输入1-5位会员姓名' }],
                             })(
+                                
                                 <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off"/>
                             )}
                         </FormItem>
@@ -174,18 +238,7 @@ class Modelform extends Component {
                                 <Input placeholder="请输入11位手机号" className='inputwidth' autoComplete="off" />
                             )}
                         </FormItem>
-                        <FormItem 
-                            label="会员卡号"
-                            labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 16 }}
-                            >
-                            {getFieldDecorator('cardNo', {
-                                initialValue: cardNo,
-                                rules: [{ required: true, message: '请输入6位会员卡号' }],
-                            })(
-                                <Input placeholder="请输入6位会员卡号" className='inputwidth'  autoComplete="off"/>
-                            )}
-                        </FormItem>
+                        
                         <FormItem 
                             label="宝宝生日"
                             labelCol={{ span: 5 }}
@@ -255,6 +308,17 @@ class Modelform extends Component {
                            
                          }
                     </Form>   
+                </Modal>
+                <Modal
+                    className='member-nextmodel'
+                    title=""
+                    visible={this.state.visiblesure}
+                    onOk={this.surehandleOk}
+                    onCancel={this.surehandleCancel}
+                    footer={[<div key="submit" ><span onClick={this.surehandleOk}>确定</span></div>]}
+                    >
+                    <p>会员新增成功</p>
+                    <p>会员卡号:<span>123456</span></p>
                 </Modal>
             </div>
         );
@@ -524,7 +588,7 @@ class EditableTablebaby extends React.Component {
       </div>
     );
   }
-  componentDidMount(){
+    componentDidMount(){
         this.memberdata()
     }
 

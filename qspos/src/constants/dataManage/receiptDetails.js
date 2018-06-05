@@ -164,10 +164,10 @@ class ReceiptDetailsForm extends React.Component {
             <div className="ph-info">
                 <div className="scroll-wrapper receipetDetailWrapper">
                     <div className="info-title">
-                        配货单信息
+                        订单信息
                     </div>
                     <div className="info-content">
-                        <label>配货单号：</label><span>{this.props.headerInfo.orderNo}</span>
+                        <label>订单号：</label><span>{this.props.headerInfo.orderNo}</span>
                         <label>商品总数：</label><span>{this.props.headerInfo.qtySum}</span>
                         <label>已收商品数量：</label><span>{this.props.headerInfo.receiveQty}</span>
                         <label>订单状态：</label><span>{this.props.headerInfo.statusStr}</span>

@@ -27,7 +27,7 @@ class ReceiptReportForm extends React.Component {
             orderNo:''
         };
         this.columns = [{
-            title: '配货单号',
+            title: '订单号',
             dataIndex: 'orderNo',
             render: (text, record, index) => {
                 return (

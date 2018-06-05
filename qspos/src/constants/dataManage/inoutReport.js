@@ -79,6 +79,12 @@ class InOutReportForm extends React.Component {
             title: '盘点损益成本',
             dataIndex: 'checkAmount',
         },{
+            title: '调出数量',
+            dataIndex: 'checkQty1',
+        },{
+            title: '调出成本',
+            dataIndex: 'checkAmount2',
+        },{
             title: '期末库存数量',
             dataIndex: 'finalQty',
         },{

@@ -20,6 +20,7 @@ import ProfitReport from '../constants/dataManage/profitReport';
 //进销存报表
 import InoutReport from '../constants/dataManage/inoutReport';
 
+import OnroadGoodsForm from '../constants/dataManage/onroad'
 const TabPane = Tabs.TabPane;
 
 class DataManage extends React.Component {
@@ -36,6 +37,7 @@ class DataManage extends React.Component {
             payload: "1"
         })
     }
+
 
     render() {
         const role = sessionStorage.getItem('role');
@@ -64,9 +66,13 @@ class DataManage extends React.Component {
                         <TabPane tab="利润报表" key="5">
                             {this.state.key == 5 && <ProfitReport/>} 
                         </TabPane>
-                        {/* <TabPane tab="进销存报表" key="6">
+                        <TabPane tab="在途商品" key="11">
+                            {this.state.key == 11 && <OnroadGoodsForm/>} 
+                        </TabPane>
+
+                        <TabPane tab="进销存报表" key="6">
                             {this.state.key == 6 && <InoutReport/>} 
-                        </TabPane> */}
+                        </TabPane>
                     </Tabs>
                     :
                     <Tabs type="card" tabBarStyle={{height:'54px'}} 

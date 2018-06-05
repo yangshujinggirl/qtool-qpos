@@ -553,6 +553,9 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 	LODOP.PRINT();
 }
 
+
+
+
 //充值订单打印
 export function getRechargeOrderInfo(message,size,printCount){
 	if(size == "80"){
@@ -643,12 +646,23 @@ function printRechargeOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
+
+
 	LODOP.ADD_PRINT_TEXT(posi+15,"20mm","50mm",20,payAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
-	
+
+	//添加的支付方式
+	const payType="「微信扫码：1200.00   会员卡：31.20」"
+	LODOP.ADD_PRINT_TEXT(posi+15,"20mm","50mm",20,payType);
+	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
+
+
 	LODOP.ADD_PRINT_BARCODE(posi+35,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
 	LODOP.ADD_PRINT_TEXT(posi+120,0,"70mm",20,"扫描关注Qtools官方微信公众号");
@@ -759,6 +773,14 @@ function printRechargeOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
+	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
+
+	//添加的支付方式
+	const payType="「微信扫码：1200.00   会员卡：31.20」"
+	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","15mm",20,payType);
+	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 	
 	LODOP.ADD_PRINT_BARCODE(posi+30,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
@@ -900,11 +922,16 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
-	console.log('wo shi ni')
-	console.log(returnInfoAll)
-	console.log(message)
-	console.log(message.mbCard)
-	console.log(returnInfoAll.mbCard)
+
+
+	//添加支付方式
+	const payType="「微信扫码：1200.00   会员卡：31.20」"
+	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","35mm",20,payType);
+	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+
+
 	if(returnInfoAll.mbCard){
 		console.log(1)
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"扣除积分");
@@ -1045,6 +1072,14 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
+
+	//添加支付方式
+	const payType="「微信扫码：1200.00   会员卡：31.20」"
+	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","25mm",20,payType);
+	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+
 	if(returnInfoAll.mbCard){
 			LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"扣除积分");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1209,6 +1244,14 @@ function printSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
+
+	//添加支付方式
+	const payType="「微信扫码：1200.00   会员卡：31.20」"
+	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","35mm",20,payType);
+	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+
 	//折扣优惠
 	if(discountAmount){
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"折扣优惠");
@@ -1387,6 +1430,13 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 	let position2 = posi+30;
+
+	//添加支付方式
+	const payType="「微信扫码：1200.00   会员卡：31.20」"
+	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","25mm",20,payType);
+	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
 
 	//折扣优惠

@@ -1,0 +1,32 @@
+
+.member-nextmodel{
+    width: 338px!important;
+}
+.member-nextmodel .ant-modal-body{
+    text-align: center;
+}
+
+
+.member-nextmodel .ant-modal-footer{
+    height: 60px;
+    
+}
+.member-nextmodel .ant-modal-footer div{
+    height: 60px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 16px;
+    color: #35BAB0;
+}
+.member-nextmodel .ant-modal-footer div span{
+    cursor: pointer;
+}
+
+.member-nextmodel .ant-modal-body p{
+    font-size: 26px;
+    color: #384162;
+}
+.member-nextmodel .ant-modal-body p span{
+    font-size: 26px;
+    color:#35BAB0;
+}
