@@ -3,10 +3,13 @@ import { connect } from 'dva';
 import Header from '../components/header/Header';
 import Searchinput from '../components/Searchinput/Searchinput';
 import {LocalizedModal,Buttonico,Buttonicos} from '../components/Button/Button';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,Radio} from 'antd';
 import { Link } from 'dva/router'
 import {GetServerData} from '../services/services';
+import Editmodel from '../constants/inventory/model'
+import '../constants/inventorydiffLog/inventorydiff.css'
 
+const RadioGroup = Radio.Group;
 const disnone={display:'none'}
 const disblock={display:'block'}
 
@@ -103,10 +106,16 @@ class Searchcomponent extends React.Component {
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载盘点模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'/></div>
-                    <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonicos text='查看盘点损益日志'/></Link></div>
+                    <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonicos text='店铺盘点日志'/></Link></div>
 	      		</div>
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
           			<div className='searchselect clearfix'>
+                        <div className='fl ml20 radiogr'>
+                            <RadioGroup>
+                                <Radio value={1}>按照导入顺序排序</Radio>
+                                <Radio value={2}>按照差异倒序排序</Radio>
+                            </RadioGroup>
+                        </div>
 	                    <div className='fl btn ml20'><Link to='/goods'><Buttonico text='取消盘点'/></Link></div>
 	      				<div className='fl btn ml20'><Link to='/inventorydiff'><Buttonico text='生成盘点差异'/></Link></div>
 	                </div>
@@ -140,10 +149,21 @@ class EditableTable extends React.Component {
       		title: '盘点数',
             dataIndex: 'checkQty',
             width:"8%"
+        },{
+            title: '操作',
+            dataIndex: 'opera',
+            width:"8%",
+            render: (text, record, index) => {
+                return (
+                    <Editmodel recorddata={record}/>
+                )
+            }
         }];
         this._isMounted = false;
 	    this.state = {
-	      	dataSource: [],
+	      	dataSource: [{
+                barcode:'12'
+              }],
 	      	count: 2,
             pdCheckId:null,
             total:0,
@@ -227,7 +247,7 @@ class EditableTable extends React.Component {
             window.addEventListener('resize', this.windowResize);    
         }
     }
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }

@@ -26,6 +26,7 @@ import Adjustloginfo from './constants/adjustLog/info'
 import Gooddb from './constants/gooddb/index'
 import DbLogIndex from './constants/gooddb/dblog/index'
 import Dbloginfo from './constants/gooddb/dblog/info'
+import Inventoryloginfo from './constants/inventorydiffLog/info'
 
 
 function RouterConfig({ history }) {
@@ -54,6 +55,7 @@ function RouterConfig({ history }) {
 
 		<Route path="/dblog" component={DbLogIndex}/>
 		<Route path="/dblog/info" component={Dbloginfo}/>
+		<Route path="/inventorydiffLog/info" component={Inventoryloginfo}/>
 		
 
 

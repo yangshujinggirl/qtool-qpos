@@ -16,7 +16,10 @@ class InventorydiffLogIndexForm extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            dataSource:[],
+            dataSource:[{
+                barcode:"13",
+                name:"we"
+            }],
             total:0,
             currentPage:0,
             limit:10,
@@ -26,35 +29,30 @@ class InventorydiffLogIndexForm extends React.Component {
         };
         this._isMounted = false;
         this.columns = [{
-            title: '商品条码',
+            title: '商品盘点单号',
             dataIndex: 'barcode',
             width:'10%',
+            render: (text, record, index) => {
+                return (
+                    // <div onClick={this.toRoute.bind(this,record)} style={{color:"#35BAB0",cursor:"pointer"}}>{text}</div>
+                     <Link to={{pathname:'/inventorydiffLog/info',query:{id:'1'}}}>{text}</Link>
+                )
+            }
+
         },{
-            title: '商品名称',
+            title: '盘点SKU数量',
             dataIndex: 'name',
             width:'12%',
         },{
-            title: '规格',
+            title: '盘点商品数量',
             dataIndex: 'displayName',
             width:'12%',
         },{
-            title: '成本价',
+            title: '创建人',
             dataIndex: 'averageRecPrice',
             width:'10%',
         },{
-            title: '损益数量',
-            dataIndex: 'qty',
-            width:'8%',
-        },{
-            title: '损益金额',
-            dataIndex: 'adjustAmount',
-            width:'8%',
-        },{
-            title: '操作人',
-            dataIndex: 'operater',
-            width:'8%',
-        },{
-            title: '操作时间',
+            title: '创建时间',
             dataIndex: 'operateTime',
             width:'12%',
         }];
@@ -135,7 +133,8 @@ class InventorydiffLogIndexForm extends React.Component {
                     {/*搜索部分 */}
                     <Form className="search-form">
                         <FormItem
-                        label="损益时间"
+                        style={{marginRight:"10px"}}
+                        label="盘点时间"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                             <RangePicker 
@@ -144,16 +143,15 @@ class InventorydiffLogIndexForm extends React.Component {
                                 onChange={this.dateChange.bind(this)} />
                         </FormItem>
                         <FormItem
-                        label="商品名称"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
                         {getFieldDecorator('name')(
-                            <Input autoComplete="off" placeholder="请输入商品名称" />
+                            <Input autoComplete="off" placeholder="商品名称/条码/单号" />
                         )}
                         </FormItem>
                         <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSearch.bind(this)}>搜索</Button>
-                            <Button type="primary" onClick={this.exportList.bind(this)}>导出数据</Button>
+                            <Button type="primary" icon="search" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+                            {/* <Button type="primary" onClick={this.exportList.bind(this)}>导出数据</Button> */}
                         </FormItem>
                         {/* <div className="export-div">
                            className="export-btn" 
@@ -211,29 +209,6 @@ class InventorydiffLogIndexForm extends React.Component {
     //获取当前时间
      getNowFormatDate = () =>{
         const self = this;
-        // let date = new Date();
-        // let seperator1 = "-";
-        // let month = date.getMonth() + 1;
-        // let strDate = date.getDate();
-        // if (month >= 1 && month <= 9) {
-        //     month = "0" + month;
-        // }
-        // if (strDate >= 0 && strDate <= 9) {
-        //     strDate = "0" + strDate;
-        // }
-        // let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-
-        // let date2 = new Date(date);
-        // date2.setDate(date.getDate() - 30);
-        // let month1 = date2.getMonth() + 1;
-        // let strDate1 = date2.getDate();
-        // if (month1 >= 1 && month1 <= 9) {
-        //     month1 = "0" + month;
-        // }
-        // if (strDate1 >= 0 && strDate1 <= 9) {
-        //     strDate1 = "0" + strDate1;
-        // }
-        // var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
         let startRpDate=timeForMats(30).t2;
         let endRpDate=timeForMats(30).t1;
         this.setState({
@@ -282,7 +257,7 @@ class InventorydiffLogIndexForm extends React.Component {
             window.addEventListener('resize', this.windowResize.bind(this));    
         }
         //获取当前时间
-        this.getNowFormatDate();
+        // this.getNowFormatDate();
     }
 
     componentWillUnmount(){   
