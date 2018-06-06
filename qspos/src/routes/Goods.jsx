@@ -71,7 +71,7 @@ class Searchcomponent extends React.Component {
       			<div className='fr clearfix'>
 	      			<div className='searchselect clearfix fl'>
 	                    <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>商品分类</label>
-	                    <Select  style={{ width: 100,height:40,marginRight:'5px' }} onChange={this.handleChange.bind(this)} defaultValue={null}>
+	                    <Select  style={{ width: 120,height:40,marginRight:'20px' }} onChange={this.handleChange.bind(this)} defaultValue={null}>
                             <Option value={null} key='-1'>全部</Option>
                             {
                                 this.props.pdCategories.map((item,index)=>{
@@ -81,13 +81,13 @@ class Searchcomponent extends React.Component {
 	                        
 	                    </Select>
 	                </div>
-                      <div className='fl'>
+                    <div className='fl'>
                         <SearchinputTwo 
                             text='请输入商品条码、名称' 
                             revisemessage={this.revisemessage.bind(this)} 
                             hindsearch={this.hindsearch.bind(this)}
                             exportData={this.exportData.bind(this)}/>
-                        </div>
+                    </div>
      			</div>
     		</div>
         )
