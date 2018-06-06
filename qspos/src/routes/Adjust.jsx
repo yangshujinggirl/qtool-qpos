@@ -132,7 +132,6 @@ class Searchcomponent extends React.Component {
         window.open('../static/adjust.xlsx')
     }
 
-    //
     Setdate=(message,total)=>{
         this.props.setdayasouce(message,total)
     }
@@ -146,7 +145,10 @@ class Searchcomponent extends React.Component {
         }
     }
     hideModal = () => {
-        this.setState({ visible: false });
+        const form = this.form;
+        this.setState({ visible: false },function(){
+            form.resetFields();
+        });
     }
     submitListInfo = () => {
         const form = this.form;
@@ -154,6 +156,7 @@ class Searchcomponent extends React.Component {
             if (err) {
                 return;
             }
+            console.log(values)
             let data = {};
             data.remark = values.remark;
             data.adjusts = this.state.dataSourcemessage;

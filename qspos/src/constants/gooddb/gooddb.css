@@ -1,0 +1,11 @@
+.searchbtn{
+    font-size: 14px;
+    color: #35BAB0;
+    text-align: center;
+}
+.ant-input-affix-wrapper{
+    width: 360px;
+}
+search_inputmod input::-ms-input-placeholder{font-size: 14px;color: #B4B4B4;}
+.search_inputmod input::-webkit-input-placeholder{font-size: 14px;color: #B4B4B4;}
+.cancel-btn-style .ant-btn-lg{font-size: 14px;color: #35BAB0;}

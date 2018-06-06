@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
 import Header from '../components/header/Header';
-// import Searchinput from '../components/Searchinput/Searchinput';
 import SearchinputTwo from '../components/Searchinput/searchTwo';
 import {Buttonico} from '../components/Button/Button';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
@@ -22,13 +21,6 @@ class Searchcomponent extends React.Component {
         this.setState({
             selectvalue:value
         })
-        // ,function(){
-        //     this.props.dispatch({
-        //         type:'goods/fetch',
-        //         payload: {code:'qerp.pos.pd.spu.query',values:{keywords:this.state.inputvalue,pdCategoryId:this.state.selectvalue,limit:limitSize,currentPage:0} }
-        //     })
-        // }
-        // )  
     }
     revisemessage=(messages)=>{
         this.setState({
@@ -72,6 +64,7 @@ class Searchcomponent extends React.Component {
                     <div className='fl clearfix'>
                         <div className='fl btn'><Link to='/adjust'><Buttonico text='商品损益'/></Link></div>
                         <div className='fl btn ml20'><Link to='/inventory'><Buttonico text='店铺盘点'/></Link></div>
+                        <div className='fl btn ml20'><Link to='/gooddb'><Buttonico text='店铺调拨'/></Link></div>
                     </div>
                     :null
                 }
@@ -88,10 +81,13 @@ class Searchcomponent extends React.Component {
 	                        
 	                    </Select>
 	                </div>
-                      <div className='fl'><SearchinputTwo text='请输入商品条码、名称' 
-                                                        revisemessage={this.revisemessage.bind(this)} 
-                                                        hindsearch={this.hindsearch.bind(this)}
-                                                        exportData={this.exportData.bind(this)}/></div>
+                      <div className='fl'>
+                        <SearchinputTwo 
+                            text='请输入商品条码、名称' 
+                            revisemessage={this.revisemessage.bind(this)} 
+                            hindsearch={this.hindsearch.bind(this)}
+                            exportData={this.exportData.bind(this)}/>
+                        </div>
      			</div>
     		</div>
         )
@@ -260,16 +256,7 @@ class Goods extends React.Component {
             </div>
         );
     }
-    componentDidMount(){
-        // window.addEventListener('click', this.inputclick,true);
-        // window.addEventListener('keydown', this.handleokents,true);  
-        // window.addEventListener('keyup', this.handleokent,true); 
-    }
-    componentWillUnmount(){
-        // window.removeEventListener('click', this.inputclick,true);
-        // window.removeEventListener('keydown', this.handleokents,true);
-        // window.addEventListener('keyup', this.handleokent,true);
-    }
+   
 
 
 }

@@ -966,7 +966,7 @@ input::-webkit-contacts-auto-fill-button {
 .themebgcolor{background: #35BAB0;}
 
 /*元素*/
-.btn{width: 100px;height: 40px;}
+.btn{height: 40px;}
 .dividingline{
   width: 2px;
     height: 15px;

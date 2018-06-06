@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
 import { Link } from 'dva/router';
-import CommonTable from '../../constants/dataManage/commonTable';
-import {GetServerData} from '../../services/services';
-import {GetExportData} from '../../services/services';
+import {GetServerData} from '../../../services/services';
+import {GetExportData} from '../../../services/services';
 import moment from 'moment';
-import RemarkText from './remarkModal';
-import {timeForMats} from '../../utils/commonFc';
-import '../../style/adjustLog.css'
+// import RemarkText from './remarkModal';
+import {timeForMats} from '../../../utils/commonFc';
+import '../../../style/adjustLog.css'
+import Header from '../../../components/header/Header';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -37,7 +37,7 @@ class AdjustLogIndexForm extends React.Component {
             render: (text, record, index) => {
                 return (
                     // <div onClick={this.toRoute.bind(this,record)} style={{color:"#35BAB0",cursor:"pointer"}}>{text}</div>
-                     <Link to={{pathname:'/dataManage/receiptDetail',query:{id:record.pdOrderId}}}>{text}</Link>
+                     <Link to={{pathname:'/dblog/info',query:{id:record.pdOrderId}}}>{text}</Link>
                 )
             }
         },{
@@ -158,6 +158,8 @@ class AdjustLogIndexForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="adjust-index">
+                <Header type={false} color={true} linkRoute="goods"/>
+                <div className='counters'>
                 <div className="form-wrapper">
                     <Form className="search-form">
                         <FormItem
@@ -200,8 +202,8 @@ class AdjustLogIndexForm extends React.Component {
                     </Form>
                 </div>
                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">
-                    <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
-                                remarkText={this.state.remarkText}/>
+                    {/* <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
+                                remarkText={this.state.remarkText}/> */}
                     <Table 
                         bordered 
                         columns={this.columns} 
@@ -221,6 +223,7 @@ class AdjustLogIndexForm extends React.Component {
                             }
                         }
                         />
+                </div>
                 </div>
             </div>
         );
@@ -309,10 +312,7 @@ class AdjustLogIndexForm extends React.Component {
     }
 }
 
-function mapStateToProps(state){
-   return {};
-}
 
-const AdjustLogIndex = Form.create()(AdjustLogIndexForm);
+const DbLogIndex = Form.create()(AdjustLogIndexForm);
 
-export default connect(mapStateToProps)(AdjustLogIndex);
+export default connect()(DbLogIndex);

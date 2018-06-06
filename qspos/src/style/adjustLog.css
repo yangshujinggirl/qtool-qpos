@@ -81,3 +81,13 @@
         line-height: 25px;
     }
 }
+
+
+.adjust-log .ant-calendar-range-picker-input{
+    height: 100%;
+    vertical-align: top;
+}
+.adjust-log .ant-calendar-range-picker-separator{
+    margin-top: -5px;
+}
+

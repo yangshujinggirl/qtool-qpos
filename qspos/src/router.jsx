@@ -21,6 +21,12 @@ import InventorydiffLog from "./routes/inventorydiffLog";
 import Payamount from "./routes/Pay";
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { LocaleProvider } from 'antd';
+import Adjustloginfo from './constants/adjustLog/info'
+
+import Gooddb from './constants/gooddb/index'
+import DbLogIndex from './constants/gooddb/dblog/index'
+import Dbloginfo from './constants/gooddb/dblog/info'
+
 
 function RouterConfig({ history }) {
   return (
@@ -43,6 +49,15 @@ function RouterConfig({ history }) {
       	<Route path="/adjustLog" component={AdjustLog}/>
       	<Route path="/inventorydiffLog" component={InventorydiffLog}/>
 		<Route path="/pay" component={Payamount}/>
+		<Route path="/adjustLog/info" component={Adjustloginfo}/>
+		<Route path="/gooddb" component={Gooddb}/>
+
+		<Route path="/dblog" component={DbLogIndex}/>
+		<Route path="/dblog/info" component={Dbloginfo}/>
+		
+
+
+
     </Router>
 		</LocaleProvider>
   );
