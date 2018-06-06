@@ -46,7 +46,8 @@ class Modelform extends Component {
             accountvalue:1,
             mbCardBirths:[],
             key:0,
-            visiblesure:false
+            visiblesure:false,
+            cardNo:null
         },
         this.babydatasouces=[]
     }
@@ -104,23 +105,27 @@ class Modelform extends Component {
                         return res;
                     }).then((json) => {
                         if(json.code=='0'){
+                            console.log(json)
                             this.hideModal();
                             setTimeout(() => {
                                 if(this.props.type){
                                     //如果是新增会员，出弹窗，点击确定，再执行
                                     this.setState({
-                                        visiblesure:true
+                                        visiblesure:true,
+                                        cardNo:json.cardNo
                                     })
                                 }else{
                                     message.success('会员信息修改成功',1)
-                                    let limitSize = localStorage.getItem('pageSize');
-                                    this.props.dispatch({
-                                         type:'member/fetch',
-                                         payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
-                                     });
-                                    //重置页码为第一页
-                                    this.props.initPageCurrent(1);
                                 }
+                                let limitSize = localStorage.getItem('pageSize');
+                                this.props.dispatch({
+                                     type:'member/fetch',
+                                     payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
+                                 });
+                                //重置页码为第一页
+                                this.props.initPageCurrent(1);
+
+
                               }, 1000)
                         }else{
                             message.error(json.message);
@@ -128,11 +133,6 @@ class Modelform extends Component {
                     })
                 }else{
                     message.warning('生日信息不全')
-
-                   
-
-
-
                 }
             } 
         
@@ -152,14 +152,6 @@ class Modelform extends Component {
     surehandleOk=()=>{
         this.setState({
             visiblesure: false,
-          },function(){
-            const limitSize = localStorage.getItem('pageSize');
-            this.props.dispatch({
-                 type:'member/fetch',
-                 payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:limitSize,currentPage:0}}
-             });
-            //重置页码为第一页
-            this.props.initPageCurrent(1);
           });
     }
     //新建成功取消
@@ -310,6 +302,7 @@ class Modelform extends Component {
                     </Form>   
                 </Modal>
                 <Modal
+                    closable={false}
                     className='member-nextmodel'
                     title=""
                     visible={this.state.visiblesure}
@@ -318,7 +311,7 @@ class Modelform extends Component {
                     footer={[<div key="submit" ><span onClick={this.surehandleOk}>确定</span></div>]}
                     >
                     <p>会员新增成功</p>
-                    <p>会员卡号:<span>123456</span></p>
+                    <p>会员卡号:<span>{this.state.cardNo}</span></p>
                 </Modal>
             </div>
         );
