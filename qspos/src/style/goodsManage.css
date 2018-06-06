@@ -4,12 +4,9 @@
     line-height: 40px;
     border-radius: 3px;
 }
-.searchinputbtn{
-    margin-left: 5px;
-    border-radius:3px;
-}
+
 .searchinput{
-    border-radius:3px;
+    /* border-radius:3px; */
 }
 @media screen and (max-width: 950px){
     .goods-v15-style .searchinput{
