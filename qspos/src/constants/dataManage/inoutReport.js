@@ -80,10 +80,10 @@ class InOutReportForm extends React.Component {
             dataIndex: 'checkAmount',
         },{
             title: '调出数量',
-            dataIndex: 'checkQty1',
+            dataIndex: 'pdExchangeQty',
         },{
             title: '调出成本',
-            dataIndex: 'checkAmount2',
+            dataIndex: 'pdExchangeAmount',
         },{
             title: '期末库存数量',
             dataIndex: 'finalQty',

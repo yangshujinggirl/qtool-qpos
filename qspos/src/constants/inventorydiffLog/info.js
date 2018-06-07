@@ -162,8 +162,6 @@ class ReceiptDetailsForm extends React.Component {
     componentDidMount(){
         this.getSearchData()
         this.checkRecord()
-
-    
     }
 }
 

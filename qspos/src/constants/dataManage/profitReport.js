@@ -114,78 +114,6 @@ class ProfitReportForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        // let dataList = [
-        //     {
-        //         barcode:"34523201",
-        //         name:"商品1",
-        //         displayName:"小规格",
-        //         pdCategory1:"零食类",
-        //         saleSinglePrice:"23",
-        //         qty:"30",
-        //         amount:"34523.00",
-        //         pdCostAmount:"16",
-        //         sumCostAmount:"18",
-        //         saleProfitAmount:"3",
-        //         saleProfitRate:"6",
-        //         adjustQty:"10",
-        //         adjustCostAmount:"3",
-        //         pdProfit:"23"
-        //     },
-        //     {
-        //         barcode:"34523201",
-        //         name:"商品1",
-        //         displayName:"小规格",
-        //         pdCategory1:"零食类",
-        //         saleSinglePrice:"23",
-        //         qty:"30",
-        //         amount:"34523.00",
-        //         pdCostAmount:"16",
-        //         sumCostAmount:"18",
-        //         saleProfitAmount:"3",
-        //         saleProfitRate:"6",
-        //         adjustQty:"10",
-        //         adjustCostAmount:"3",
-        //         pdProfit:"23"
-        //     },
-        //     {
-        //         barcode:"34523201",
-        //         name:"商品1",
-        //         displayName:"小规格",
-        //         pdCategory1:"零食类",
-        //         saleSinglePrice:"23",
-        //         qty:"30",
-        //         amount:"34523.00",
-        //         pdCostAmount:"16",
-        //         sumCostAmount:"18",
-        //         saleProfitAmount:"3",
-        //         saleProfitRate:"6",
-        //         adjustQty:"10",
-        //         adjustCostAmount:"3",
-        //         pdProfit:"23"
-        //     },
-        //     {
-        //         barcode:"34523201",
-        //         name:"商品1",
-        //         displayName:"小规格",
-        //         pdCategory1:"零食类",
-        //         saleSinglePrice:"23",
-        //         qty:"30",
-        //         amount:"34523.00",
-        //         pdCostAmount:"16",
-        //         sumCostAmount:"18",
-        //         saleProfitAmount:"3",
-        //         saleProfitRate:"6",
-        //         adjustQty:"10",
-        //         adjustCostAmount:"3",
-        //         pdProfit:"23"
-        //     }
-        // ];
-        // let  rpProfit={
-        //     amount:"2432.00",
-        //     saleCostAmount:"543.00",
-        //     profitAmount:"223.00"
-        // };
-        
         const result=GetServerData('qerp.pos.rp.profit.page',values)
         result.then((res) => {
             return res;
@@ -301,8 +229,8 @@ class ProfitReportForm extends React.Component {
                             <li>
                                 <div>
                                     <p style={{color:"#F7A303",marginBottom:'0'}}><i>¥</i>
-                                    {this.state.rpProfit.saleCostAmount&&this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[0]:"0"}
-                                    <span>.{this.state.rpProfit.saleCostAmount&&this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}</span>
+                                    {this.state.rpProfit.cutAmount&&this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[0]:"0"}
+                                    <span>.{this.state.rpProfit.cutAmount&&this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[1]:"00"}</span>
                                     </p>
                                     <span className="explain-span">
                                         <Tooltip title="统计时间段内，所有销售订单（XS订单）抹零总金额 - 所有退货订单（XT订单）抹零总金额">
