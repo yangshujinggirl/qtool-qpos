@@ -1,3 +1,18 @@
+.adjust-index .search-form .ant-btn{
+    margin-left: 0;
+    border-radius:0 3px 3px 0;
+}
+
+.adjust-index .search-form .search-con-input .ant-input{
+    border-radius: 3px 0 0 3px;
+    width: 260px;
+}
+
+
+.adjust-index .search-form .search-con-data1 .ant-input{
+    width: 220px;
+}
+
 .adjust-log{
     width: 100%;
     height: 100%;
@@ -41,7 +56,7 @@
     overflow: hidden;
 }
 .adjust-index  .search-form{
-    float: right;
+    /* float: right; */
 }
 .remark-modal .ant-modal-body{
     padding-bottom: 20px;

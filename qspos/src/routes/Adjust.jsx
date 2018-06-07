@@ -138,13 +138,13 @@ class Searchcomponent extends React.Component {
 
     //modal
     showModal = () => {
-        // if(!this.state.dataSourcemessage.length){
-        //     message.error('请先添加损益商品信息');
-        // }else{
-        //     this.setState({ visible: true });
-        // }
+        if(!this.state.dataSourcemessage.length){
+            message.error('请先添加损益商品信息');
+        }else{
+            this.setState({ visible: true });
+        }
 
-        this.setState({ visible: true });
+        // this.setState({ visible: true });
     }
     hideModal = () => {
         const form = this.form;

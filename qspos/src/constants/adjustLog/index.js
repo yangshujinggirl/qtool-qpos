@@ -6,7 +6,6 @@ import CommonTable from '../../constants/dataManage/commonTable';
 import {GetServerData} from '../../services/services';
 import {GetExportData} from '../../services/services';
 import moment from 'moment';
-import RemarkText from './remarkModal';
 import {timeForMats} from '../../utils/commonFc';
 import '../../style/adjustLog.css'
 
@@ -26,44 +25,35 @@ class AdjustLogIndexForm extends React.Component {
             adjustTimeStart:"",
             adjustTimeEnd:"",
             visible:false,
-            remarkText:'',
             windowHeight:''
         };
         this._isMounted = false;
         this.columns = [{
             title: '商品损益单号',
-            dataIndex: 'barcode',
+            dataIndex: 'adjustNo',
             width:'12%',
             render: (text, record, index) => {
                 return (
-                    // <div onClick={this.toRoute.bind(this,record)} style={{color:"#35BAB0",cursor:"pointer"}}>{text}</div>
-                     <Link to={{pathname:'/dataManage/receiptDetail',query:{id:record.pdOrderId}}}>{text}</Link>
+                    <Link to={{pathname:'/adjustLog/info',query:{id:record.adjustId,adjustNo:record.adjustNo,qty:record.qty,typeStr:record.typeStr,operater:record.operater,operateTime:record.operateTime,remark:record.remark}}}>{text}</Link>
                 )
             }
         },{
             title: '损益数量',
-            dataIndex: 'name',
+            dataIndex: 'qty',
             width:'12%',
         },{
             title: '损益类型',
-            dataIndex: 'displayName',
+            dataIndex: 'typeStr',
             width:'12%',
         },{
             title: '创建人',
-            dataIndex: 'averageRecPrice',
+            dataIndex: 'operater',
             width:'8%',
         },{
             title: '损益时间',
-            dataIndex: 'diffQty',
+            dataIndex: 'operateTime',
             width:'8%',
         }];
-    }
-
-    showRemark = (record) =>{
-        this.setState({
-            remarkText:record.remark,
-            visible:true
-        })
     }
 
     dateChange = (date, dateString) =>{
@@ -75,55 +65,47 @@ class AdjustLogIndexForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
-        const self = this;
-        this.setState({
-            currentPage:page-1
-        },function(){
-            let data = {
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                adjustTimeStart:this.state.adjustTimeStart,
-                adjustTimeEnd:this.state.adjustTimeEnd,
-                name:this.state.name,
-                type:1
-            }
-            self.getServerData(data);
-        });
-    }
-    onShowSizeChange=(current, pageSize)=>{
-        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:0
+            currentPage:Number(page)-1
         },function(){
-            let data = {
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                adjustTimeStart:this.state.adjustTimeStart,
-                adjustTimeEnd:this.state.adjustTimeEnd,
-                name:this.state.name,
-                type:1
-            }
-            self.getServerData(data);
+                this.handleSearch()
+        })
+    }
+    onShowSizeChange=(current, pageSize)=>{
+        this.setState({
+            limit:pageSize,
+            currentPage:Number(current)-1
+        },function(){
+            this.handleSearch()
         })
     }
 
     handleSearch = (e) =>{
         const self = this;
-        e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            this.setState({
-                name:values.name
-            },function(){
-                let data = {
-                    currentPage:0,
-                    limit:10,
-                    adjustTimeStart:this.state.adjustTimeStart,
-                    adjustTimeEnd:this.state.adjustTimeEnd,
-                    name:this.state.name,
-                    type:1
+            values.adjustTimeStart=this.state.adjustTimeStart
+            values.adjustTimeEnd=this.state.adjustTimeEnd
+            values.limit=this.state.limit;
+            values.currentPage=this.state.currentPage
+            const result=GetServerData('qerp.pos.pd.adjust.query',values)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    const adjustNos = json.adjustNos;
+                    for(let i=0;i<adjustNos.length;i++){
+                        adjustNos[i].key = i+1;
+                    };
+                    this.setState({
+                        dataSource:adjustNos,
+                        total:Number(json.total),
+                        currentPage:Number(json.currentPage),
+                        limit:Number(json.limit)
+                    })
+                }else{
+                    message.error(json.message); 
                 }
-                self.getServerData(data);
             })
         })
     }
@@ -139,20 +121,44 @@ class AdjustLogIndexForm extends React.Component {
         const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
 
-    //改变visible
-    changeVisible = () =>{
-        this.setState({
-            visible:false
-        })
-    }
-
+    
     rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
     	}else{
       		return 'table_white'
     	}
-  	}
+      }
+      
+   
+
+    //获取当前时间
+    getNowFormatDate = () =>{
+        let startRpDate=timeForMats(30).t2;
+        let endRpDate=timeForMats(30).t1;
+        this.setState({
+            adjustTimeStart:startRpDate,
+            adjustTimeEnd:endRpDate
+        },function(){
+            this.handleSearch();
+        })
+    }
+
+    windowResize = () =>{
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            if(document.body.offsetWidth>800){
+                this.setState({
+                    windowHeight:document.body.offsetHeight-300,
+                })
+            }else{
+                this.setState({
+                windowHeight:document.body.offsetHeight-270,
+            });
+            }
+        }
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -161,6 +167,7 @@ class AdjustLogIndexForm extends React.Component {
                 <div className="form-wrapper">
                     <Form className="search-form">
                         <FormItem
+                            className='search-con-data1'
                             label="损益时间"
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
@@ -176,32 +183,30 @@ class AdjustLogIndexForm extends React.Component {
                             label="损益类型"
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
-                                <Select size='large' style={{marginRight:"10px"}}>
-                                    <Option value="jack">店铺活动赠品</Option>
-                                    <Option value="lucy">仓储快递损坏</Option>
-                                    <Option value="disabled">商品丢失损坏</Option>
-                                    <Option value="Yiminghe">盘点差异调整</Option>
-                                    <Option value="Yiminghe2">过期商品处理</Option>
-                                </Select>
+                                {getFieldDecorator('type')(
+                                   <Select size='large' style={{marginRight:"10px"}}>
+                                        <Option value="3">店铺活动赠品</Option>
+                                        <Option value="4">仓储快递损坏</Option>
+                                        <Option value="1">商品丢失损坏</Option>
+                                        <Option value="2">盘点差异调整</Option>
+                                        <Option value="5">过期商品处理</Option>
+                                    </Select>
+                                )} 
                         </FormItem>
-                        <FormItem>
-                        {getFieldDecorator('name')(
+                        <FormItem className='fr'>
+                            <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+                            {/* <div className="export-div">  className="export-btn"*/}
+                                {/* <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button> */}
+                            {/* </div> */}
+                        </FormItem>
+                        <FormItem className='fr search-con-input'>
+                        {getFieldDecorator('keywords')(
                             <Input  autoComplete="off" placeholder="请输入商品名称/条码/单号"/>
                         )}
                         </FormItem>
-
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
-                            {/* <div className="export-div">  className="export-btn"*/}
-                                <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button>
-                            {/* </div> */}
-                        </FormItem>
-                        
                     </Form>
                 </div>
                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">
-                    <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
-                                remarkText={this.state.remarkText}/>
                     <Table 
                         bordered 
                         columns={this.columns} 
@@ -226,64 +231,7 @@ class AdjustLogIndexForm extends React.Component {
         );
     }
 
-    //获取数据
-    getServerData = (values) =>{
-        const result=GetServerData('qerp.pos.pd.adjust.detail',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                let dataList = json.adjustSpus;
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                };
-                this.setState({
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                })
-            }else{  
-                message.error(json.message); 
-            }
-        })
-    }
-
-    //获取当前时间
-     getNowFormatDate = () =>{
-        const self = this;
-        let startRpDate=timeForMats(30).t2;
-        let endRpDate=timeForMats(30).t1;
-        this.setState({
-            adjustTimeStart:startRpDate,
-            adjustTimeEnd:endRpDate
-        },function(){
-            let values = {
-                currentPage:0,
-                limit:10,
-                adjustTimeStart:this.state.adjustTimeStart,
-                adjustTimeEnd:this.state.adjustTimeEnd,
-                type:1
-            }
-            self.getServerData(values);
-        })
-    }
-
-    windowResize = () =>{
-        if(!this.refs.tableWrapper){
-            return
-        }else{
-            if(document.body.offsetWidth>800){
-                this.setState({
-                    windowHeight:document.body.offsetHeight-300,
-                })
-            }else{
-                this.setState({
-                windowHeight:document.body.offsetHeight-270,
-            });
-            }
-        }
-    }
+   
 
     componentDidMount(){
         this._isMounted = true;
@@ -309,10 +257,6 @@ class AdjustLogIndexForm extends React.Component {
     }
 }
 
-function mapStateToProps(state){
-   return {};
-}
 
 const AdjustLogIndex = Form.create()(AdjustLogIndexForm);
-
-export default connect(mapStateToProps)(AdjustLogIndex);
+export default connect()(AdjustLogIndex);

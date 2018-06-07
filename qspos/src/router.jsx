@@ -21,7 +21,7 @@ import InventorydiffLog from "./routes/inventorydiffLog";
 import Payamount from "./routes/Pay";
 import zhCN from 'antd/lib/locale-provider/zh_CN';
 import { LocaleProvider } from 'antd';
-import Adjustloginfo from './constants/adjustLog/info'
+import Adjustloginfo from './routes/adjustloginfo'
 
 import Gooddb from './constants/gooddb/index'
 import DbLogIndex from './constants/gooddb/dblog/index'
