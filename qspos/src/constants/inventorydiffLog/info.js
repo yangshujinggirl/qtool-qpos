@@ -2,11 +2,10 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
 import { Link } from 'dva/router';
+import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
 import CommonTable from '../dataManage/commonTable';
 import {deepcCloneObj} from '../../utils/commonFc';
-import Header from '../../components/header/Header';
-import './inventorydiff.css'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -21,84 +20,45 @@ class ReceiptDetailsForm extends React.Component {
             total:0,
             currentPage:0,
             limit:10,
-            operateST:null,
-            operateET:null,
-            keywords:'',
-            windowHeight:'',
-            posOrder:{
-                "orderNo": "",
-                "qtySum": "",
-                "receiveQty": "",
-                "statusStr": "",
-            }
+            logdataSource:[]
         };
         this.columns = [{
             title: '商品条码',
-            dataIndex: 'pdBarcode',
+            dataIndex: 'barcode',
         },{
             title: '商品名称',
-            dataIndex: 'pdSpuName',
+            dataIndex: 'name',
         },{
             title: '商品规格',
-            dataIndex: 'pdSkuType',
+            dataIndex: 'displayName',
         },{
-            title: '成本价',
-            dataIndex: 'price',
+            title: '系统数量',
+            dataIndex: 'invQty',
         },{
-            title: '预收数量',
-            dataIndex: 'qty',
+            title: '盘点数量',
+            dataIndex: 'checkQty',
         },{
-            title: '已收数量',
-            dataIndex: 'receiveQty',
-        },{
-            title: '差异',
-            dataIndex: 'differenceQty',
-        },{
-            title: '最后收货人',
-            dataIndex: 'consignee',
-        },{
-            title: '最后操作时间',
-            dataIndex: 'operateTime'
+            title: '盘点差异',
+            dataIndex: 'diffQty',
         }];
         this.columns1=[{
             title: '操作记录',
-            dataIndex: 'pdBarcode',
+            dataIndex: 'action',
         },{
             title: '操作人',
-            dataIndex: 'pdSpuName',
+            dataIndex: 'operater',
         },{
             title: '操作时间',
-            dataIndex: 'pdSkuType',
+            dataIndex: 'operateTime',
         }]
     }
-
-
-
-    dateChange = (date, dateString) =>{
-        this.setState({
-            operateST:dateString[0],
-            operateET:dateString[1]
-        })
-    }
-
     //表格的方法
     pageChange=(page,pageSize)=>{
-        console.log(page)
-        console.log(pageSize)
         this.setState({
             limit:pageSize,
-            pageSize:pageSize,
             currentPage:Number(page)-1
         },function(){
-            let values = {
-                pdOrderId:this.props.detailId,
-                keywords:this.state.keywords,
-                operateST:this.state.operateST,
-                operateET:this.state.operateET,
-                limit:this.state.limit,
-                currentPage:this.state.currentPage
-            }
-            this.getServerData(values)
+            this.getSearchData()
         });
     }
     onShowSizeChange=(current, pageSize)=>{
@@ -106,89 +66,69 @@ class ReceiptDetailsForm extends React.Component {
             limit:pageSize,
             currentPage:Number(current)-1
         },function(){
-            let values = {
-                pdOrderId:this.props.detailId,
-                keywords:this.state.keywords,
-                operateST:this.state.operateST,
-                keywords:this.state.keywords,
-                operateET:this.state.operateET,
-                limit:this.state.limit,
-                currentPage:this.state.currentPage
-            }
-            this.getServerData(values)
+            this.getSearchData()
         })
     }
 
     //获取数据
-    getServerData = (values) =>{
-        const result=GetServerData('qerp.qpos.order.receiveRepDetail',values)
+    getSearchData = () =>{
+        const values={
+            checkId:this.props.query.id,
+            limit:this.state.limit,
+            currentPage:this.state.currentPage
+        }
+        const result=GetServerData('qerp.pos.pd.check.detail.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                let dataList = json.details;
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                    if(!dataList[i].operateTime){
-                        dataList[i].operateTime="/";
-                    };
-                    if(!dataList[i].consignee){
-                        dataList[i].consignee="/";
-                    };
-                }
+                const checkdetails=json.checkdetails
                 this.setState({
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                });
+                    dataSource:checkdetails,
+                    limit:json.limit,
+                    currentPage:json.currentPage,
+                    total:json.total
+                })
             }else{  
                 message.error(json.message); 
             }
         })
     }
 
-    handleSubmit = (e) =>{
-        const self = this;
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            console.log(values)
-            this.setState({
-                keywords:values.keywords
-            },function(){
-                let values = {
-                    pdOrderId:this.props.detailId,
-                    keywords:this.state.keywords,
-                    currentPage:0,
-                    limit:10,
-                    startDate:this.state.startDate,
-                    operateST:this.state.operateST,
-                    operateET:this.state.operateET,
-
-
-                    
-                }
-                self.getServerData(values);
-            })
+    //订单日志查询
+    checkRecord=()=>{
+        const values={
+            checkNo:this.props.query.checkNo
+        }
+        const result=GetServerData('qerp.pos.pd.check.record.query',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                const checkRecords=json.checkRecords
+                this.setState({
+                    logdataSource:checkRecords
+                })
+            }else{  
+                message.error(json.message); 
+            }
         })
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div>
-            <Header type={false} color={true} linkRoute="goods"/>
-            <div className='counters'>
             <div className="ph-info">
                 <div className="scroll-wrapper receipetDetailWrapper">
                     <div className="info-title">
                         商品盘点信息
                     </div>
                     <div className="info-content">
-                        <label>订单号:</label><span>{1}</span>
-                        {/* <label>创建人:</label><span>{this.props.headerInfo.qtySum}</span>
-                        <label>损益时间:</label><span>{this.props.headerInfo.receiveQty}</span>
-                        <label>订单状态:</label><span>{this.props.headerInfo.statusStr}</span> */}
+                        <label>订单号:</label><span>{this.props.query.checkNo}</span>
+                        <label>盘点SKU数量:</label><span>{this.props.query.skuSum}</span>
+                        <label>盘点商品数量:</label><span>{this.props.query.qty}</span>
+                        <label>创建人:</label><span>{this.props.query.operater}</span>
+                        <label>创建时间:</label><span>{this.props.query.operateTime}</span>
                     </div>
                     <div className="info-title">
                         商品信息
@@ -197,72 +137,39 @@ class ReceiptDetailsForm extends React.Component {
                     <CommonTable 
                         columns={this.columns} 
                         dataSource={this.state.dataSource}
-                        pagination={false}
+                        pagination={true}
                         current={Number(this.state.currentPage)}
                         total={this.state.total}
                         currentPage={this.state.currentPage}
                         pageSize={this.state.limit}
                         onShowSizeChange={this.onShowSizeChange}
                         pageChange={this.pageChange}
-                        />
-                         <div className="info-title">
+                    />
+                    <div className="info-title">
                         订单日志
                     </div>
+                    {/*搜索部分 */}
                     <CommonTable 
                         columns={this.columns1} 
-                        dataSource={this.state.dataSource}
+                        dataSource={this.state.logdataSource}
                         pagination={false}
-                        current={Number(this.state.currentPage)}
-                        total={this.state.total}
-                        currentPage={this.state.currentPage}
-                        pageSize={this.state.limit}
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
-                        />
-                    
+                    />
                 </div>
-
-
-
-                {/* <div className="footer-pagefixed">
-                    <Pagination 
-                        total={this.state.total} 
-                        current={Number(this.state.currentPage)+1}
-                        pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
-                        onChange={this.pageChange} 
-                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
-                        />
-                </div> */}
-            </div>
-            </div>
             </div>
         );
     }
 
     componentDidMount(){
-        // if(this.props.detailId){
-        //     let values = {
-        //         pdOrderId:this.props.detailId,
-        //         keywords:this.state.keywords,
-        //         operateST:this.state.operateST,
-        //         operateET:this.state.operateET,
-        //         limit:10,
-        //         currentPage:0
-        //     }
-        //     this.getServerData(values);
-        // }
-        // //添加
-        // this.props.dispatch({
-        //     type:'dataManage/initKey',
-        //     payload: "4"
-        // })
+        this.getSearchData()
+        this.checkRecord()
+
+    
     }
 }
 
 
 
-const Inventoryloginfo = Form.create()(ReceiptDetailsForm);
+const Inventoryloginfos = Form.create()(ReceiptDetailsForm);
 
-export default connect()(Inventoryloginfo);
+export default connect()(Inventoryloginfos);
+

@@ -5,96 +5,108 @@ import { Link } from 'dva/router';
 import CommonTable from '../../constants/dataManage/commonTable';
 import {GetServerData} from '../../services/services';
 import {GetExportData} from '../../services/services';
-import {timeForMats} from '../../utils/commonFc';
 import moment from 'moment';
+import {timeForMats} from '../../utils/commonFc';
+import '../../style/adjustLog.css'
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
 
-class InventorydiffLogIndexForm extends React.Component {
+class AdjustLogIndexForm extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            dataSource:[{
-                barcode:"13",
-                name:"we"
-            }],
+            dataSource:[],
             total:0,
             currentPage:0,
             limit:10,
-            adjustTimeStart:"",
-            adjustTimeEnd:"",
+            checkTimeStart:"",
+            checkTimeEnd:"",
+            visible:false,
             windowHeight:''
         };
         this._isMounted = false;
         this.columns = [{
             title: '商品盘点单号',
-            dataIndex: 'barcode',
-            width:'10%',
+            dataIndex: 'checkNo',
+            width:'12%',
             render: (text, record, index) => {
                 return (
-                    // <div onClick={this.toRoute.bind(this,record)} style={{color:"#35BAB0",cursor:"pointer"}}>{text}</div>
-                     <Link to={{pathname:'/inventorydiffLog/info',query:{id:'1'}}}>{text}</Link>
+                    <Link to={{pathname:'/inventorydiffLog/info',query:{id:record.checkId,checkNo:record.checkNo,skuSum:record.skuSum,qty:record.qty,operater:record.operater,operateTime:record.operateTime}}}>{text}</Link>
                 )
             }
-
         },{
             title: '盘点SKU数量',
-            dataIndex: 'name',
+            dataIndex: 'skuSum',
             width:'12%',
         },{
             title: '盘点商品数量',
-            dataIndex: 'displayName',
+            dataIndex: 'qty',
             width:'12%',
         },{
             title: '创建人',
-            dataIndex: 'averageRecPrice',
-            width:'10%',
+            dataIndex: 'operater',
+            width:'8%',
         },{
             title: '创建时间',
             dataIndex: 'operateTime',
-            width:'12%',
+            width:'8%',
         }];
     }
 
     dateChange = (date, dateString) =>{
-        console.log(date, dateString);
         this.setState({
-            adjustTimeStart:dateString[0],
-            adjustTimeEnd:dateString[1]
+            checkTimeStart:dateString[0],
+            checkTimeEnd:dateString[1]
         })
     }
 
     //表格的方法
     pageChange=(page,pageSize)=>{
         this.setState({
-            currentPage:page-1
-        });
+            limit:pageSize,
+            currentPage:Number(page)-1
+        },function(){
+                this.handleSearch()
+        })
     }
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:Number(current)-1
+        },function(){
+            this.handleSearch()
         })
     }
 
     handleSearch = (e) =>{
         const self = this;
-        e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            this.setState({
-                name:values.name
-            },function(){
-                let data = {
-                    currentPage:0,
-                    limit:10,
-                    adjustTimeStart:this.state.adjustTimeStart,
-                    adjustTimeEnd:this.state.adjustTimeEnd,
-                    name:this.state.name,
-                    type:2
+            values.checkTimeStart=this.state.checkTimeStart
+            values.checkTimeEnd=this.state.checkTimeEnd
+            values.limit=this.state.limit;
+            values.currentPage=this.state.currentPage
+
+            const result=GetServerData('qerp.pos.pd.check.query',values)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    const checkNos = json.checkNos;
+                    for(let i=0;i<checkNos.length;i++){
+                        checkNos[i].key = i+1;
+                    };
+                    this.setState({
+                        dataSource:checkNos,
+                        total:Number(json.total),
+                        currentPage:Number(json.currentPage),
+                        limit:Number(json.limit)
+                    })
+                }else{
+                    message.error(json.message); 
                 }
-                self.getServerData(data);
             })
         })
     }
@@ -102,60 +114,78 @@ class InventorydiffLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            adjustTimeStart:this.state.adjustTimeStart,
-            adjustTimeEnd:this.state.adjustTimeEnd,
+            checkTimeStart:this.state.checkTimeStart,
+            checkTimeEnd:this.state.checkTimeEnd,
             name:this.state.name,
-            type:2
+            type:1
         }
         const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
 
-    //改变visible
-    changeVisible = () =>{
-        this.setState({
-            visible:false
-        })
-    }
-
+    
     rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
     	}else{
       		return 'table_white'
     	}
-  	}
+    }
+    //获取当前时间
+    getNowFormatDate = () =>{
+        let startRpDate=timeForMats(30).t2;
+        let endRpDate=timeForMats(30).t1;
+        this.setState({
+            checkTimeStart:startRpDate,
+            checkTimeEnd:endRpDate
+        },function(){
+            this.handleSearch();
+        })
+    }
+
+    windowResize = () =>{
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            if(document.body.offsetWidth>800){
+                this.setState({
+                    windowHeight:document.body.offsetHeight-300,
+                })
+            }else{
+                this.setState({
+                windowHeight:document.body.offsetHeight-270,
+            });
+            }
+        }
+    }
 
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="adjust-index inventory-log">
+            <div className="adjust-index">
                 <div className="form-wrapper">
-                    {/*搜索部分 */}
                     <Form className="search-form">
                         <FormItem
-                        style={{marginRight:"10px"}}
-                        label="盘点时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
+                            className='search-con-data1'
+                            label="盘点时间"
+                            labelCol={{ span: 5 }}
+                            wrapperCol={{span: 10}}>
                             <RangePicker 
-                                value={[moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]}
+                                value={this.state.checkTimeStart?
+                                        [moment(this.state.checkTimeStart, dateFormat), moment(this.state.checkTimeEnd, dateFormat)]
+                                        :null
+                                    }
                                 format={dateFormat}
                                 onChange={this.dateChange.bind(this)} />
                         </FormItem>
-                        <FormItem
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                        {getFieldDecorator('name')(
-                            <Input autoComplete="off" placeholder="商品名称/条码/单号" />
+                        
+                        <FormItem className='fr'>
+                            <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+                        </FormItem>
+                        <FormItem className='fr search-con-input'>
+                        {getFieldDecorator('keywords')(
+                            <Input  autoComplete="off" placeholder="请输入商品名称/条码/单号"/>
                         )}
                         </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
-                            {/* <Button type="primary" onClick={this.exportList.bind(this)}>导出数据</Button> */}
-                        </FormItem>
-                        {/* <div className="export-div">
-                           className="export-btn" 
-                        </div> */}
                     </Form>
                 </div>
                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">
@@ -182,66 +212,6 @@ class InventorydiffLogIndexForm extends React.Component {
             </div>
         );
     }
-
-    //获取数据
-    getServerData = (values) =>{
-        const result=GetServerData('qerp.pos.pd.adjust.detail',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                let dataList = json.adjustSpus;
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                };
-                this.setState({
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                })
-            }else{  
-                message.error(json.message); 
-            }
-        })
-    }
-
-    //获取当前时间
-     getNowFormatDate = () =>{
-        const self = this;
-        let startRpDate=timeForMats(30).t2;
-        let endRpDate=timeForMats(30).t1;
-        this.setState({
-            adjustTimeStart:startRpDate,
-            adjustTimeEnd:endRpDate
-        },function(){
-            let values = {
-                currentPage:0,
-                limit:10,
-                adjustTimeStart:this.state.adjustTimeStart,
-                adjustTimeEnd:this.state.adjustTimeEnd,
-                type:2
-            }
-            self.getServerData(values);
-        })
-    }
-
-    windowResize = () =>{
-        if(!this.refs.tableWrapper){
-            return
-        }else{
-            if(document.body.offsetWidth>800){
-                this.setState({
-                    windowHeight:document.body.offsetHeight-300,
-                })
-            }else{
-                this.setState({
-                    windowHeight:document.body.offsetHeight-270,
-                });
-            }
-        }
-    }
-
     componentDidMount(){
         this._isMounted = true;
         if(this._isMounted){
@@ -254,23 +224,18 @@ class InventorydiffLogIndexForm extends React.Component {
                     windowHeight:document.body.offsetHeight-270,
                 });
             }
-            window.addEventListener('resize', this.windowResize.bind(this));    
+            window.addEventListener('resize',this.windowResize.bind(this));
         }
         //获取当前时间
-        // this.getNowFormatDate();
+        this.getNowFormatDate();
     }
 
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize.bind(this));
     }
 }
 
-function mapStateToProps(state){
-    const {pdCheckId} = state.inventory;
-  	return {pdCheckId};
-}
 
-const InventorydiffLogIndex = Form.create()(InventorydiffLogIndexForm);
-
-export default connect(mapStateToProps)(InventorydiffLogIndex);
+const InventorydiffLogIndex = Form.create()(AdjustLogIndexForm);
+export default connect()(InventorydiffLogIndex);

@@ -26,7 +26,7 @@ import Adjustloginfo from './routes/adjustloginfo'
 import Gooddb from './constants/gooddb/index'
 import DbLogIndex from './constants/gooddb/dblog/index'
 import Dbloginfo from './constants/gooddb/dblog/info'
-import Inventoryloginfo from './constants/inventorydiffLog/info'
+import Inventoryloginfo from './routes/inventorydiffloginfo'
 
 
 function RouterConfig({ history }) {
