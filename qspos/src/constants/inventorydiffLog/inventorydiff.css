@@ -5,3 +5,20 @@
    height: 40px;
    line-height: 40px;
 }
+
+.radiogr .ant-radio-group .ant-radio-inner{
+    border-radius: 50%;
+}
+
+.radiogr .ant-radio-group .ant-radio-inner:after{
+    border-radius: 50%;
+}
+
+
+.radiogr .ant-radio-group .ant-radio-wrapper span.ant-radio + *{
+    font-size: 14px;
+    color: #74777F
+}
+.radiogr .ant-radio-group .ant-radio-wrapper-checked span.ant-radio + *{
+    color: #35bab0;
+}

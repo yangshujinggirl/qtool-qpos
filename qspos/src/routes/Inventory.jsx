@@ -9,6 +9,7 @@ import {GetServerData} from '../services/services';
 import Editmodel from '../constants/inventory/model'
 import '../constants/inventorydiffLog/inventorydiff.css'
 
+
 const RadioGroup = Radio.Group;
 const disnone={display:'none'}
 const disblock={display:'block'}
@@ -20,11 +21,10 @@ class MyUpload extends React.Component {
     }
     handleChange = (info) => {
         let fileList = info.fileList;
-        fileList = fileList.slice(-2);
+        fileList = fileList.slice(-1);
         fileList = fileList.filter((file) => {
             if (file.response) {
                 if(file.response.code=='0'){
-                    console.log(file.response)
                     const pdCheckId=file.response.pdCheckId
                     let values={pdCheckId:pdCheckId,limit:100000,currentPage:0}
                     this.setdatas(values)
@@ -77,7 +77,8 @@ class MyUpload extends React.Component {
 class Searchcomponent extends React.Component {
     state={
         inventorygoods:true,
-        dataSourcemessage:[]
+        dataSourcemessage:[],
+        radiovalue:'1'
     }
     revisedaramessages=(messages)=>{
         this.setState({
@@ -95,10 +96,32 @@ class Searchcomponent extends React.Component {
         const Setdates=this.refs.up.setdatas
         Setdates(messages)
     }
-
-
     download=()=>{
         window.open('../static/inventory.xlsx')
+    }
+
+    //radioChange
+    radioChange=(e)=>{
+        this.setState({
+            radiovalue: e.target.value,
+        },function(){
+            //根据值进行排序
+            if(this.state.radiovalue=='1'){
+                this.improveDataType()
+            }
+            if(this.state.radiovalue=='2'){
+                this.DiffDataType()
+            }
+        });
+    }
+
+    //按照导入顺序排序
+    improveDataType=()=>{
+        console.log(1)
+    }
+    //按照差异倒序排
+    DiffDataType=()=>{
+        console.log(2)
     }
     render(){
         return(
@@ -111,9 +134,9 @@ class Searchcomponent extends React.Component {
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
           			<div className='searchselect clearfix'>
                         <div className='fl ml20 radiogr'>
-                            <RadioGroup>
-                                <Radio value={1}>按照导入顺序排序</Radio>
-                                <Radio value={2}>按照差异倒序排序</Radio>
+                            <RadioGroup onChange={this.radioChange.bind(this)} value={this.state.radiovalue}>
+                                <Radio value='1'>按照导入顺序排序</Radio>
+                                <Radio value='2'>按照差异倒序排序</Radio>
                             </RadioGroup>
                         </div>
 	                    <div className='fl btn ml20'><Link to='/goods'><Buttonico text='取消盘点'/></Link></div>
@@ -155,15 +178,13 @@ class EditableTable extends React.Component {
             width:"8%",
             render: (text, record, index) => {
                 return (
-                    <Editmodel recorddata={record}/>
+                    <Editmodel recorddata={record}  getNewcheckData={this.getNewcheckData.bind(this)} index={index}/>
                 )
             }
         }];
         this._isMounted = false;
 	    this.state = {
-	      	dataSource: [{
-                barcode:'12'
-              }],
+	      	dataSource: [],
 	      	count: 2,
             pdCheckId:null,
             total:0,
@@ -176,9 +197,22 @@ class EditableTable extends React.Component {
     	}else{
       		return 'table_white'
     	}
-  	}
+      }
+      
+    //改变盘点数
+    getNewcheckData=(data,index)=>{
+        console.log(data)
+        console.log(index)
+        const dataSource=this.state.dataSource.slice(0)
+        dataSource[index].checkQty=data
+        this.setState({
+            dataSource:dataSource
+        },function(){
+            const seracedatasouce=this.props.seracedatasouce
+            seracedatasouce(this.state.dataSource)
+        })
+    }
     setdatasouce=(messages,total,id)=>{
-        console.log(messages)
         const messagedata=messages
         for(var i=0;i<messagedata.length;i++){
             messagedata[i].index=i+1
@@ -222,7 +256,10 @@ class EditableTable extends React.Component {
     	const columns = this.columns;
     	return (
       		<div className='bgf bgf-goods-style' ref="tableWrapper">
-        		<Table bordered dataSource={this.state.dataSource} columns={columns} 
+                <Table 
+                bordered 
+                dataSource={this.state.dataSource} 
+                columns={columns} 
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                 onChange={this.pagechange.bind(this)}
@@ -263,7 +300,6 @@ class Inventory extends React.Component{
         revisedaramessages(messages)
     }
     setdatas=(messages)=>{
-        console.log(this)
         const setdatas=this.refs.search.Setdates
         setdatas(messages)
     }
@@ -283,8 +319,5 @@ class Inventory extends React.Component{
 }
 
 
-function mapStateToProps(state) {
-    return {};
-}
 
-export default connect(mapStateToProps)(Inventory);
+export default connect()(Inventory);

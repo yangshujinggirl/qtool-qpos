@@ -32,7 +32,7 @@ const CollectionCreateForm = Form.create()(
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
             >
-              {getFieldDecorator('description0',{
+              {getFieldDecorator('barcode',{
 				  initialValue: record.barcode,
 			  })(
 
@@ -44,28 +44,35 @@ const CollectionCreateForm = Form.create()(
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
             >
-              {getFieldDecorator('description1')(<Input disabled />)}
+              {getFieldDecorator('name',{
+				  initialValue: record.name,
+			  })(<Input disabled />)}
             </FormItem>
             <FormItem 
                 label="商品规格"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
                 >
-              {getFieldDecorator('description2')(<Input disabled/>)}
+              {getFieldDecorator('displayName',{
+				  initialValue: record.displayName,
+			  })(<Input disabled/>)}
             </FormItem>
 			<FormItem 
                 label="系统数量"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
             >
-              {getFieldDecorator('description3')(<Input disabled/>)}
+              {getFieldDecorator('inventory',{
+				  initialValue: record.inventory,
+			  })(<Input disabled/>)}
             </FormItem>
             <FormItem 
                 label="盘点数量"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
             >
-              {getFieldDecorator('description4',{
+              {getFieldDecorator('checkQty',{
+				  	initialValue: record.checkQty,
                     rules: [{ required: true, message: '请输入盘点数量' }],
               })(<Input/>)}
             </FormItem>
@@ -77,33 +84,38 @@ const CollectionCreateForm = Form.create()(
 );
 
 class Editmodel extends React.Component {
-  state = {
-    visible: false,
-  };
-  showModal = () => {
-    this.setState({ visible: true });
-  }
-  handleCancel = () => {
-    this.setState({ visible: false },function(){
+	state = {
+		visible: false,
+	};
+	showModal = () => {
+		this.setState({ visible: true });
+	}
+	handleCancel = () => {
+		this.setState({ visible: false },function(){
+			const form = this.formRef.props.form;
+			form.resetFields();
+		});
+	}
+	handleCreate = () => {
 		const form = this.formRef.props.form;
-		form.resetFields();
-	});
-  }
-  handleCreate = () => {
-    const form = this.formRef.props.form;
-    form.validateFields((err, values) => {
-      if (err) {
-        return;
-      }
+		form.validateFields((err, values) => {
+		if (err) {
+			return;
+		}
 
-      console.log('Received values of form: ', values);
-      form.resetFields();
-      this.setState({ visible: false });
-    });
-  }
-  saveFormRef = (formRef) => {
-    this.formRef = formRef;
-  }
+		console.log('Received values of form: ', values);
+		//把新的盘点数派给table
+		const checkQty=values.checkQty
+		const index=this.props.index
+		this.props.getNewcheckData(checkQty,index)
+
+		form.resetFields();
+		this.setState({ visible: false });
+		});
+	}
+	saveFormRef = (formRef) => {
+		this.formRef = formRef;
+	}
   render() {
     return (
       <div>
