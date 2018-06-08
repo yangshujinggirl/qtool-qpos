@@ -2,10 +2,9 @@ import { Button,Input,Icon,message } from 'antd';
 import "./gooddb.css"
 import MyUpload from './upload'
 import { Link } from 'dva/router';
+import {GetServerData} from '../../services/services';
 import DbTextModal from './model'
-
 import {LocalizedModal,Buttonico} from '../../components/Button/Button';
-import AdjustTextModal from '../../components/modal/confirmModal';
 
 const Search = Input.Search;
 const searchtext=<span style={{fontSize:'14px'}}><Icon type="search" />搜索</span>
@@ -15,20 +14,39 @@ class Searchcomponent extends React.Component {
         inputvalue:'',
         dataSourcemessage:[],
         visible: false,
-        type:null
+        type:null,
     }
-
     //下载
     download=()=>{
-        window.open('../static/adjust.xlsx')
+        window.open('../static/db.xlsx')
     }
     //导入上传数据
-    setUploadDate=(data)=>{
-
+    setdayasouceas=(data,total)=>{
+        this.props.setdayasouce(data,total)
     }
     //搜索
     hindSearch=(value)=>{
-        console.log(value)
+        const values={keywords:value,limit:100000,currentPage:0}
+        const result=GetServerData('qerp.pos.pd.spu.query',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let pdSpus=json.pdSpus
+                let total=json.total
+                this.setState({
+                    pdSpus:pdSpus,
+                    total:total
+                },function(){
+                    for(var i=0;i<pdSpus.length;i++){
+                        pdSpus[i].key=i
+                    }
+                    this.props.setdayasouce(pdSpus,this.state.total)
+                })
+            }else{
+                message.error(json.message);
+            }
+        })
     }
     //ref
     saveFormRef = (form) => {
@@ -43,16 +61,8 @@ class Searchcomponent extends React.Component {
     }
 
     //打开弹窗
-    showModal = (type) => {
-        console.log(type)
-        this.setState({ visible: true ,type:type});
-
-        
-        // if(!this.state.dataSourcemessage.length){
-        //     message.error('请先添加损益商品信息');
-        // }else{
-        //     this.setState({ visible: true ,type:type});
-        // }
+    showModal = () => {
+        this.setState({ visible: true});
     }
     //搜索
     submitListInfo = () => {
@@ -61,42 +71,21 @@ class Searchcomponent extends React.Component {
             if (err) {
                 return;
             }
-            //确认
-            if(this.state.type=='1'){
-                console.log(values)
-                let data = {};
-                data.remark = values.remark;
-                const result=GetServerData('qerp.pos.pd.adjust.save',data);
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    if(json.code=='0'){
-                        message.success('损益成功',3,this.callback());
-                        form.resetFields();
-                        this.setState({ visible: false });
-                    }else{
-                        message.error(json.message);
-                    }
-                })
-            }
-            //取消
-            if(this.state.type=='2'){
-                console.log(values)
-                let data = {};
-                data.remark = values.remark;
-                const result=GetServerData('qerp.pos.pd.adjust.save',data);
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    if(json.code=='0'){
-                        message.success('损益成功',3,this.callback());
-                        form.resetFields();
-                        this.setState({ visible: false });
-                    }else{  
-                        message.error(json.message);
-                    }
-                })
-            }
+            console.log(values)
+            values.details=this.ptops.datasouce
+            values.inShopId=this.props.inShopId
+            const result=GetServerData('qerp.pos.pd.adjust.save',data);
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    message.success('调拨成功',3,this.callback());
+                    form.resetFields();
+                    this.setState({ visible: false });
+                }else{
+                    message.error(json.message);
+                }
+            })
         });
     }
 
@@ -104,23 +93,12 @@ class Searchcomponent extends React.Component {
     callback=()=>{
     	this.context.router.push('/goods');
     }
-
-
-
-    
-    
-    
-   
-    
-
-    
-
     render(){
         return(
             <div className='clearfix mb10 adjust-v15-style'>
 	      		<div className='fl clearfix'>
 	      			<div className='fl mr20' onClick={this.download.bind(this)}><Buttonico text='下载调拨模板'/></div>
-	      			<div className='fl mr20'><MyUpload Setdate={this.setUploadDate.bind(this)}/></div>
+	      			<div className='fl mr20'><MyUpload Setdate={this.setdayasouceas.bind(this)}/></div>
                     <div className='fl'><Link to='/dblog'><Button size='large' className='searchbtn'>商品调拨日志</Button></Link></div>
 	      		</div>
       			<div className='fr clearfix'>
@@ -128,8 +106,8 @@ class Searchcomponent extends React.Component {
                         <Search placeholder='请输入商品条码、名称' size="large" enterButton={searchtext}  onSearch={this.hindSearch.bind(this)}/>
                     </div>
           			<div className='searchselect clearfix fl'>
-	                    <div className='fl ml20 cancel-btn-style'><Button size='large' onClick={this.showModal.bind(this,2)}>取消调拨</Button></div>
-	      				<div className='fl ml20 cancel-btn-style'><Button size='large' onClick={this.showModal.bind(this,1)}>确认调拨</Button></div>
+	                    <div className='fl ml20 cancel-btn-style'><Button size='large'>取消调拨</Button></div>
+	      				<div className='fl ml20 cancel-btn-style'><Button size='large' onClick={this.showModal.bind(this)}>确认调拨</Button></div>
                         <DbTextModal
                             ref={this.saveFormRef}
                             visible={this.state.visible}

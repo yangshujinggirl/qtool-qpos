@@ -9,3 +9,28 @@
 search_inputmod input::-ms-input-placeholder{font-size: 14px;color: #B4B4B4;}
 .search_inputmod input::-webkit-input-placeholder{font-size: 14px;color: #B4B4B4;}
 .cancel-btn-style .ant-btn-lg{font-size: 14px;color: #35BAB0;}
+
+.ant-table-bordered .ant-table-thead > tr > th{
+    border-top: 1px solid #e9e9e9;
+}
+.ant-select-auto-complete.ant-select .ant-input{
+    height: 40px;
+    line-height: 40px;
+}
+.spidsh{
+    display: inline-block;
+    height: 40px;
+    vertical-align: top;
+    line-height: 40px;
+    font-size: 14px;
+    color: #74777F;
+}
+
+.adjust-inputwidth{
+    color: #384162;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* .gooddbcon input::-ms-input-placeholder{font-size: 14px;color: red;margin-top:10px;}
+.gooddbcon input::-webkit-input-placeholder{font-size: 14px;color:red;margin-top:10px;} */

@@ -3,11 +3,10 @@ import { connect } from 'dva';
 import Header from '../../components/header/Header';
 import Searchinput from './search';
 import {LocalizedModal,Buttonico} from '../../components/Button/Button';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,AutoComplete} from 'antd';
 import {GetServerData} from '../../services/services';
 import { Link } from 'dva/router';
-import AdjustTextModal from '../../components/modal/confirmModal';
-import "../../style/adjustLog.css";
+import "./gooddb.css";
 
 import Searchcomponent from './search'
 
@@ -37,41 +36,41 @@ class EditableTable extends React.Component {
             width:"12%"
         }, {
       		title: '库存数量',
-              dataIndex: 'inventory',
+              dataIndex: 'invQty',
               width:"8%"
     	}, {
       		title: '调拨数量',
-            dataIndex: 'adjustQty',
+            dataIndex: 'qty',
             width:"8%",
       		render: (text, record, index) => {
         	return (
-                    <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)} 
-                            onBlur={this.hindBlur.bind(this)}
-                            value={this.state.dataSource[((Number(this.state.page)-1)*10)+index].adjustQty} 
+                    <Input className="adjust-inputwidth" onChange={this.qtyhindchange.bind(this,index)} 
+                            onBlur={this.qtyhindBlur.bind(this,record,index)}
+                            value={this.state.dataSource[index].qty} 
                             autoComplete="off"
-                           />
+                    />
         		)
       		}
     	},{
             title: '进货单价',
-            dataIndex: 'averageRecPrice',
+            dataIndex: 'toBprice',
             width:"8%"
         },{
             title: '零售单价',
-            dataIndex: 'adjustAmount',
+            dataIndex: 'toCprice',
             width:"8%"
         },{
             title: '调拨总价',
-            dataIndex: 'adjustAmount12',
+            dataIndex: 'price',
             width:"8%",
             render: (text, record, index) => {
                 return (
                     <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)} 
-                            onBlur={this.hindBlur.bind(this)}
-                            value={this.state.dataSource[((Number(this.state.page)-1)*10)+index].adjustQty} 
+                            onBlur={this.hindBlur.bind(this,index)}
+                            value={this.state.dataSource[index].price} 
                             autoComplete="off"
-                            />
-                    )
+                    />
+                )
             }
         }];
 	    this.state = {
@@ -80,10 +79,48 @@ class EditableTable extends React.Component {
             inputvalue:'',
             total:0,
             page:1,
-            windowHeight:''
+            windowHeight:'',
+            dataSources:[],
+            shopId:null
         };
         this._isMounted = false;
     }
+
+    onSelect=(value)=>{
+        this.setState({
+            shopId:value
+        },function(){
+            this.props.getNewidData(this.state.shopId)
+        })
+    }
+
+    handleSearch = (value) => {
+        let data={name:value};
+        const result=GetServerData('qerp.web.sp.shop.list',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let shopList=json.shops;
+                let dataSources=[];
+                for(let i=0;i<shopList.length;i++){
+                    dataSources.push({
+                        text:shopList[i].name,
+                        value:shopList[i].spShopId,
+                        key:i
+                    })
+                }
+                this.setState({
+                    dataSources:dataSources,
+                    shopId:null,
+                    sureShopId:null
+                },function(){
+                    this.props.getNewidData(this.state.shopId)
+                });
+            }
+        })
+    }
+
     setdatasouce=(messages,total)=>{
         //设置dataSource和total
         this.setState({
@@ -91,37 +128,68 @@ class EditableTable extends React.Component {
             total:total,
             page:1
         },function(){
-            const seracedatasouce=this.props.seracedatasouce;
-            //调用父元素seracedatasouce方法
-            seracedatasouce(this.state.dataSource)
+            this.props.getNewData(this.state.dataSource)
         })
     }
 
-    //在改变损益数量时
+    //在改变调拨数量时
+    qtyhindchange=(index,e)=>{
+        const values=e.target.value
+        console.log(values)
+        const dataSource=this.state.dataSource.slice(0)
+        const re=/^[0-9]*$/
+        const str=re.test(values)
+        if(str){
+            dataSource[index].qty=values
+            this.setState({
+                dataSource:dataSource
+            },function(){
+                this.props.getNewData(this.state.dataSource)
+            })
+        }
+    }
+
+    qtyhindBlur=(record,index,e)=>{
+        if(e.target.value){
+            const qtyvalue=e.target.value
+            if(Number(qtyvalue)>Number(record.invQty)){
+                const dataSource=this.state.dataSource.slice(0)
+                dataSource[index].qty=record.invQty
+                this.setState({
+                    dataSource:dataSource
+                },function(){
+                    this.props.getNewData(this.state.dataSource)
+                })
+            }
+        }
+    }
+
     hindchange=(index,e)=>{
-        let indexs=((Number(this.state.page)-1)*10)+index;
-        let dataSourc=this.state.dataSource;
-        let patternTest=/^-?[1-9]\d*$/;
-        if(patternTest.test(e.target.value)){
-            dataSourc[indexs].adjustQty=e.target.value;
-            dataSourc[indexs].adjustAmount =(Number(e.target.value)*parseFloat(dataSourc[indexs].averageRecPrice)).toFixed(2);
-        }else{
-            dataSourc[indexs].adjustQty=e.target.value;
-            dataSourc[indexs].adjustAmount =(0*dataSourc[indexs].averageRecPrice).toFixed(2);
-        }
-        this.setState({
-            dataSource:dataSourc
-        },function(){
-            const seracedatasouce=this.props.seracedatasouce
-            seracedatasouce(this.state.dataSource)
-        })
+        const values=e.target.value
+		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+        const str=re.test(values)
+        console.log(str)
+		if(str){
+			const datasouce=this.state.dataSource.splice(0)
+			datasouce[index].price=values
+			this.setState({
+                dataSource:datasouce
+            },function(){
+                this.props.getNewData(this.state.dataSource)
+            })
+		}
     }
 
-    hindBlur = (e) =>{
-        let patternTest=/^-?[1-9]\d*$/;
-        if(!patternTest.test(e.target.value)){
-            message.error('请输入正确的损益数');
-        }
+    hindBlur = (index,e) =>{
+        var values=parseFloat(e.target.value)
+        const datasouce=this.state.dataSource.splice(0)
+        datasouce[index].price=values
+        this.setState({
+            dataSource:datasouce
+        },function(){
+            this.props.getNewData(this.state.dataSource)
+        })
+	
     }
   	rowClassName=(record, index)=>{
     	if (index % 2) {
@@ -152,12 +220,20 @@ class EditableTable extends React.Component {
             }
         } 
     }
-
   	render() {
     	const columns = this.columns;
         const pdSpus=this.props.pdSpus
     	return (
-      		<div className='bgf' ref="tableWrapper">
+      		<div className='bgf gooddbcon' ref="tableWrapper">
+              <div style={{marginLeft:"30px",marginBottom:'20px',marginTop:"30px"}}>
+                <span className='spidsh'>需求门店:</span>
+                <AutoComplete
+                    dataSource={this.state.dataSources}
+                    onSelect={this.onSelect}
+                    onSearch={this.handleSearch}
+                    placeholder='请选择门店名称'
+                />
+                </div>
         		<Table bordered 
                     dataSource={this.state.dataSource} 
                     columns={columns} 
@@ -165,6 +241,7 @@ class EditableTable extends React.Component {
                     pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                     onChange={this.pagechange.bind(this)}
                     scroll={{y:this.state.windowHeight}}
+
                 />
       		</div>
     	);
@@ -178,8 +255,8 @@ class EditableTable extends React.Component {
                    windowHeight:document.body.offsetHeight-300,
                  });
             }else{
-               this.setState({
-                 windowHeight:document.body.offsetHeight-270,
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
                 });
             }
         }
@@ -193,35 +270,52 @@ class EditableTable extends React.Component {
 }
 
 
+
+
+
 class Gooddb extends React.Component {
-    //
+    constructor(props) {
+    	super(props);
+	    this.state = {
+            datasouce:[],
+            inShopId:null
+        };
+    }
     setdayasouce=(messages,total)=>{
         const setdatasouce=this.refs.adjust.setdatasouce
         setdatasouce(messages,total)
     }
-    //调用search的方法
-    seracedatasouce=(messages)=>{
-        const revisedaramessages=this.refs.search.revisedaramessages
-        revisedaramessages(messages)
+
+    //获取最新的数据，传递给search
+    getNewData=(data)=>{
+        this.setState({
+            datasouce:data
+        })
     }
+    
+    getNewidData=(data)=>{
+        this.setState({
+            inShopId:data
+        })
+    }
+
     render(){
         return(
             <div>
                 <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
-                    <Searchcomponent dispatch={this.props.dispatch} setdayasouce={this.setdayasouce.bind(this)} ref='search'/>
-                    <EditableTable dispatch={this.props.dispatch} ref='adjust' seracedatasouce={this.seracedatasouce.bind(this)}/>
+                    <Searchcomponent 
+                        dispatch={this.props.dispatch} 
+                        setdayasouce={this.setdayasouce.bind(this)} 
+                        datasouce={this.state.datasouce}
+                        inShopId={this.state.inShopId}
+                        ref='search'/>
+                    <EditableTable dispatch={this.props.dispatch} ref='adjust' getNewData={this.getNewData.bind(this)}/>
                 </div>
             </div>
-            )
-        
+        )
     }
     
 }
 
-function mapStateToProps(state) {
-    const {pdSpus} = state.adjust;
-    return {pdSpus};
-}
-
-export default connect(mapStateToProps)(Gooddb);
+export default connect()(Gooddb);

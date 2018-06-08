@@ -12,8 +12,9 @@ class MyUpload extends React.Component {
             if (file.response) {
                 if(file.response.code=='0'){
                     //得到数据，把数据抛出
-
-
+                    const data=json.pdSpu
+                    const total=json.total
+                    this.props.Setdate(data,total)
                 }else{
                     fileList=[]
                     message.error(file.response.message);
@@ -26,7 +27,7 @@ class MyUpload extends React.Component {
     }
     render() {
         const props = {
-            action: '/erpQposRest/qposrest.htm?code=qerp.pos.pd.adjust.import',
+            action: '/erpQposRest/qposrest.htm?code=qerp.pos.sp.order.import',
             onChange: this.handleChange,
             multiple: false,
             showUploadList:false,
