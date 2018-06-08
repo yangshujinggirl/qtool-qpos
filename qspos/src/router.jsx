@@ -24,8 +24,8 @@ import { LocaleProvider } from 'antd';
 import Adjustloginfo from './routes/adjustloginfo'
 
 import Gooddb from './constants/gooddb/index'
-import DbLogIndex from './constants/gooddb/dblog/index'
-import Dbloginfo from './constants/gooddb/dblog/info'
+import DbLogIndex from './routes/dblog'
+import Dbloginfo from './routes/dbinfolog'
 import Inventoryloginfo from './routes/inventorydiffloginfo'
 
 

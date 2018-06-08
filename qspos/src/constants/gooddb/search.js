@@ -106,7 +106,7 @@ class Searchcomponent extends React.Component {
                         <Search placeholder='请输入商品条码、名称' size="large" enterButton={searchtext}  onSearch={this.hindSearch.bind(this)}/>
                     </div>
           			<div className='searchselect clearfix fl'>
-	                    <div className='fl ml20 cancel-btn-style'><Button size='large'>取消调拨</Button></div>
+	                    <div className='fl ml20 cancel-btn-style'><Link to='/goods'><Button size='large'>取消调拨</Button></Link></div>
 	      				<div className='fl ml20 cancel-btn-style'><Button size='large' onClick={this.showModal.bind(this)}>确认调拨</Button></div>
                         <DbTextModal
                             ref={this.saveFormRef}
