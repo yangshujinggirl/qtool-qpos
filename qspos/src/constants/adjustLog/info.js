@@ -35,14 +35,14 @@ class ReceiptDetailsForm extends React.Component {
             dataIndex: 'averageRecPrice',
         },{
             title: '损益数量',
-            dataIndex: 'adjustQty',
+            dataIndex: 'diffQty',
         },{
             title: '损益总价',
             dataIndex: 'adjustAmount',
         }];
     }
 
-    
+
     //表格的方法
     pageChange=(page,pageSize)=>{
         this.setState({
@@ -73,15 +73,15 @@ class ReceiptDetailsForm extends React.Component {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                const pdSpus=json.pdSpus
+                const pdSpus=json.adjustSpus
                 this.setState({
                     dataSource:pdSpus,
                     limit:json.limit,
                     currentPage:json.currentPage,
                     total:json.total
                 })
-            }else{  
-                message.error(json.message); 
+            }else{
+                message.error(json.message);
             }
         })
     }
@@ -104,8 +104,8 @@ class ReceiptDetailsForm extends React.Component {
                         商品信息
                     </div>
                     {/*搜索部分 */}
-                    <CommonTable 
-                        columns={this.columns} 
+                    <CommonTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         pagination={true}
                         current={Number(this.state.currentPage)}
@@ -122,8 +122,6 @@ class ReceiptDetailsForm extends React.Component {
 
     componentDidMount(){
         this.getSearchData()
-
-    
     }
 }
 

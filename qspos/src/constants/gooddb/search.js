@@ -15,6 +15,7 @@ class Searchcomponent extends React.Component {
         dataSourcemessage:[],
         visible: false,
         type:null,
+        shopId:null,
     }
     //下载
     download=()=>{
@@ -23,6 +24,9 @@ class Searchcomponent extends React.Component {
     //导入上传数据
     setdayasouceas=(data,total)=>{
         this.props.setdayasouce(data,total)
+    }
+    getShopId=()=>{
+       this.props.getShopId()
     }
     //搜索
     hindSearch=(value)=>{
@@ -64,21 +68,26 @@ class Searchcomponent extends React.Component {
     showModal = () => {
         this.setState({ visible: true});
     }
-    //搜索
+
     submitListInfo = () => {
         const form = this.form;
         form.validateFields((err, values) => {
             if (err) {
                 return;
             }
-            console.log(values)
-            values.details=this.ptops.datasouce
-            values.inShopId=this.props.inShopId
-            const result=GetServerData('qerp.pos.pd.adjust.save',data);
+            let payload = {
+              inShopId:this.props.inShopId,
+              details:this.props.datasouce
+            }
+            console.log(this.props.inShopId)
+            console.log(this.props.datasouce)
+            console.log(payload)
+            const result=GetServerData('qerp.qpos.pd.exchange.save',payload);
             result.then((res) => {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
+                    console.log(json)
                     message.success('调拨成功',3,this.callback());
                     form.resetFields();
                     this.setState({ visible: false });
@@ -104,18 +113,18 @@ class Searchcomponent extends React.Component {
       			<div className='fr clearfix'>
           			<div className='fl search_inputmod'>
                         <Search placeholder='请输入商品条码、名称' size="large" enterButton={searchtext}  onSearch={this.hindSearch.bind(this)}/>
-                    </div>
+                </div>
           			<div className='searchselect clearfix fl'>
 	                    <div className='fl ml20 cancel-btn-style'><Link to='/goods'><Button size='large'>取消调拨</Button></Link></div>
 	      				<div className='fl ml20 cancel-btn-style'><Button size='large' onClick={this.showModal.bind(this)}>确认调拨</Button></div>
-                        <DbTextModal
+                  <DbTextModal
                             ref={this.saveFormRef}
                             visible={this.state.visible}
                             onCancel={this.hideModal}
                             onCreate={this.submitListInfo}
                             type={this.state.type}
                         />
-	                </div>
+                </div>
      			</div>
     		</div>
         )

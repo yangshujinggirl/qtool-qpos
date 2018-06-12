@@ -1,4 +1,4 @@
-import { Upload, Button, Icon } from 'antd';
+import { Upload, Button, Icon,message} from 'antd';
 import "./gooddb.css"
 
 class MyUpload extends React.Component {
@@ -12,8 +12,8 @@ class MyUpload extends React.Component {
             if (file.response) {
                 if(file.response.code=='0'){
                     //得到数据，把数据抛出
-                    const data=json.pdSpu
-                    const total=json.total
+                    const data=file.response.pdSpu
+                    const total=data.length
                     this.props.Setdate(data,total)
                 }else{
                     fileList=[]
@@ -42,5 +42,5 @@ class MyUpload extends React.Component {
       );
     }
   }
-  
+
   export default MyUpload;

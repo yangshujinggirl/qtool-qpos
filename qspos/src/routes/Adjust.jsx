@@ -51,7 +51,7 @@ class MyUpload extends React.Component {
         };
     return (
         <Upload {...props} fileList={this.state.fileList}>
-            <Buttonico text='导入损益商品'/>
+            <Buttonico text='导入盘点商品'/>
         </Upload>
     );
   }
@@ -87,16 +87,16 @@ class Searchcomponent extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 message.success('损益成功',3,this.callback());
-            }else{  
+            }else{
                 message.error(json.message);
             }
         })
     }
-   
+
     callback=()=>{
     	this.context.router.push('/goods');
     }
-    
+
     revisemessage=(messages)=>{
         this.setState({
             inputvalue:messages
@@ -122,7 +122,7 @@ class Searchcomponent extends React.Component {
                     }
                     this.props.setdayasouce(pdSpus,this.state.total)
                 })
-            }else{  
+            }else{
                     message.error(json.message);
             }
         })
@@ -171,7 +171,7 @@ class Searchcomponent extends React.Component {
                     message.success('损益成功',3,this.callback());
                     form.resetFields();
                     this.setState({ visible: false });
-                }else{  
+                }else{
                     message.error(json.message);
                 }
             })
@@ -237,9 +237,9 @@ class EditableTable extends React.Component {
               width:"8%",
       		render: (text, record, index) => {
         	return (
-                    <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)} 
+                    <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)}
                             onBlur={this.hindBlur.bind(this)}
-                            value={this.state.dataSource[((Number(this.state.page)-1)*10)+index].adjustQty} 
+                            value={this.state.dataSource[((Number(this.state.page)-1)*10)+index].adjustQty}
                             autoComplete="off"
                            />
         		)
@@ -330,7 +330,7 @@ class EditableTable extends React.Component {
                     windowHeight:document.body.offsetHeight-270,
                 });
             }
-        } 
+        }
     }
 
   	render() {
@@ -338,10 +338,10 @@ class EditableTable extends React.Component {
         const pdSpus=this.props.pdSpus
     	return (
       		<div className='bgf' ref="tableWrapper">
-        		<Table bordered 
-                    dataSource={this.state.dataSource} 
-                    columns={columns} 
-                    rowClassName={this.rowClassName.bind(this)} 
+        		<Table bordered
+                    dataSource={this.state.dataSource}
+                    columns={columns}
+                    rowClassName={this.rowClassName.bind(this)}
                     pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                     onChange={this.pagechange.bind(this)}
                     scroll={{y:this.state.windowHeight}}
@@ -363,13 +363,13 @@ class EditableTable extends React.Component {
                 });
             }
         }
-        window.addEventListener('resize', this.windowResize);    
+        window.addEventListener('resize', this.windowResize);
     }
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
-      
+
 }
 
 
@@ -394,9 +394,9 @@ class Adjust extends React.Component {
                 </div>
             </div>
             )
-        
+
     }
-    
+
 }
 
 function mapStateToProps(state) {

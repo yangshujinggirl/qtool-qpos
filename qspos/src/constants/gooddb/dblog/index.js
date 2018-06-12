@@ -166,7 +166,7 @@
 //                             label="调拨时间"
 //                             labelCol={{ span: 5 }}
 //                             wrapperCol={{span: 10}}>
-//                             <RangePicker 
+//                             <RangePicker
 //                                 value={this.state.adjustTimeStart?
 //                                         [moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]
 //                                         :null
@@ -210,16 +210,16 @@
 //                                 <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button>
 //                             {/* </div> */}
 //                         </FormItem>
-                        
+
 //                     </Form>
 //                 </div>
 //                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">
 //                     {/* <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
 //                                 remarkText={this.state.remarkText}/> */}
-//                     <Table 
-//                         bordered 
-//                         columns={this.columns} 
-//                         dataSource={this.state.dataSource} 
+//                     <Table
+//                         bordered
+//                         columns={this.columns}
+//                         dataSource={this.state.dataSource}
 //                         rowClassName={this.rowClassName.bind(this)}
 //                         scroll={{y:this.state.windowHeight}}
 //                         pagination={
@@ -258,8 +258,8 @@
 //                     currentPage:Number(json.currentPage),
 //                     limit:Number(json.limit)
 //                 })
-//             }else{  
-//                 message.error(json.message); 
+//             }else{
+//                 message.error(json.message);
 //             }
 //         })
 //     }
@@ -318,7 +318,7 @@
 //         this.getNowFormatDate();
 //     }
 
-//     componentWillUnmount(){   
+//     componentWillUnmount(){
 //         this._isMounted = false;
 //         window.removeEventListener('resize', this.windowResize.bind(this));
 //     }
@@ -436,7 +436,7 @@ class AdjustLogIndexForm extends React.Component {
                         limit:Number(json.limit)
                     })
                 }else{
-                    message.error(json.message); 
+                    message.error(json.message);
                 }
             })
         })
@@ -453,7 +453,7 @@ class AdjustLogIndexForm extends React.Component {
         const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
 
-    
+
     rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
@@ -461,8 +461,8 @@ class AdjustLogIndexForm extends React.Component {
       		return 'table_white'
     	}
       }
-      
-   
+
+
 
     //获取当前时间
     getNowFormatDate = () =>{
@@ -503,7 +503,7 @@ class AdjustLogIndexForm extends React.Component {
                             label="调拨时间"
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
-                            <RangePicker 
+                            <RangePicker
                                 value={this.state.adjustTimeStart?
                                         [moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]
                                         :null
@@ -523,7 +523,7 @@ class AdjustLogIndexForm extends React.Component {
                                         <Option value="2">盘点差异调整</Option>
                                         <Option value="5">过期商品处理</Option>
                                     </Select>
-                                )} 
+                                )}
                         </FormItem>
                         <FormItem className='fr'>
                             <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
@@ -539,10 +539,10 @@ class AdjustLogIndexForm extends React.Component {
                     </Form>
                 </div>
                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">
-                    <Table 
-                        bordered 
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource} 
+                    <Table
+                        bordered
+                        columns={this.columns}
+                        dataSource={this.state.dataSource}
                         rowClassName={this.rowClassName.bind(this)}
                         scroll={{y:this.state.windowHeight}}
                         pagination={
@@ -563,7 +563,7 @@ class AdjustLogIndexForm extends React.Component {
         );
     }
 
-   
+
 
     componentDidMount(){
         this._isMounted = true;
@@ -583,12 +583,12 @@ class AdjustLogIndexForm extends React.Component {
         this.getNowFormatDate();
     }
 
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize.bind(this));
     }
 }
 
-
 const DbLogIndexs =Form.create()(AdjustLogIndexForm);
+
 export default connect()(DbLogIndexs);

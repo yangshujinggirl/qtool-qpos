@@ -10,13 +10,6 @@ import "./gooddb.css";
 
 import Searchcomponent from './search'
 
-const Option = Select.Option;
-const inputwidth={
-    width:'90px',
-    height:'30px',
-    border:'1px solid #E7E8EC',
-    background: '#FFF'
-}
 
 //在adjust组件中
 class EditableTable extends React.Component {
@@ -36,38 +29,38 @@ class EditableTable extends React.Component {
             width:"12%"
         }, {
       		title: '库存数量',
-              dataIndex: 'invQty',
+              dataIndex: 'inventory',
               width:"8%"
     	}, {
       		title: '调拨数量',
-            dataIndex: 'qty',
+            dataIndex: 'exchangeQty',
             width:"8%",
       		render: (text, record, index) => {
-        	return (
-                    <Input className="adjust-inputwidth" onChange={this.qtyhindchange.bind(this,index)} 
-                            onBlur={this.qtyhindBlur.bind(this,record,index)}
-                            value={this.state.dataSource[index].qty} 
-                            autoComplete="off"
-                    />
+            return (
+            <Input className="adjust-inputwidth" onChange={this.qtyhindchange.bind(this,index)}
+                   onBlur={this.qtyhindBlur.bind(this,record,index)}
+                   value={this.state.dataSource[index].exchangeQty}
+                    autoComplete="off"
+            />
         		)
       		}
     	},{
             title: '进货单价',
-            dataIndex: 'toBprice',
+            dataIndex: 'toBPrice',
             width:"8%"
         },{
             title: '零售单价',
-            dataIndex: 'toCprice',
+            dataIndex: 'toCPrice',
             width:"8%"
         },{
             title: '调拨总价',
-            dataIndex: 'price',
+            dataIndex: 'exchangePrice',
             width:"8%",
             render: (text, record, index) => {
                 return (
-                    <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)} 
+                    <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)}
                             onBlur={this.hindBlur.bind(this,index)}
-                            value={this.state.dataSource[index].price} 
+                            value={this.state.dataSource[index].exchangePrice}
                             autoComplete="off"
                     />
                 )
@@ -76,7 +69,7 @@ class EditableTable extends React.Component {
 	    this.state = {
 	      	dataSource: [],
 	      	count: 2,
-            inputvalue:'',
+          inputvalue:'',
             total:0,
             page:1,
             windowHeight:'',
@@ -87,16 +80,21 @@ class EditableTable extends React.Component {
     }
 
     onSelect=(value)=>{
-        this.setState({
-            shopId:value
-        },function(){
-            this.props.getNewidData(this.state.shopId)
-        })
+       let dataSources = this.state.dataSources
+       let shopId
+       for(let i=0;i<dataSources.length;i++){
+         if(dataSources[i].name == value){
+           shopId = dataSources[i].spShopId
+         }
+       }
+       this.setState({
+         shopId:shopId
+       })
     }
 
     handleSearch = (value) => {
         let data={name:value};
-        const result=GetServerData('qerp.web.sp.shop.list',data);
+        const result=GetServerData('qerp.qpos.pd.exchange.shop.list',data);
         result.then((res) => {
             return res;
         }).then((json) => {
@@ -104,24 +102,16 @@ class EditableTable extends React.Component {
                 let shopList=json.shops;
                 let dataSources=[];
                 for(let i=0;i<shopList.length;i++){
-                    dataSources.push({
-                        text:shopList[i].name,
-                        value:shopList[i].spShopId,
-                        key:i
-                    })
+                    dataSources.push(shopList[i].name)
                 }
                 this.setState({
-                    dataSources:dataSources,
-                    shopId:null,
-                    sureShopId:null
-                },function(){
-                    this.props.getNewidData(this.state.shopId)
-                });
+                    dataSources:dataSources
+                })
             }
         })
     }
 
-    setdatasouce=(messages,total)=>{
+    setdatasouce=(messages,total,shopId)=>{
         //设置dataSource和total
         this.setState({
             dataSource:messages,
@@ -131,16 +121,15 @@ class EditableTable extends React.Component {
             this.props.getNewData(this.state.dataSource)
         })
     }
-
+  
     //在改变调拨数量时
     qtyhindchange=(index,e)=>{
         const values=e.target.value
-        console.log(values)
         const dataSource=this.state.dataSource.slice(0)
         const re=/^[0-9]*$/
         const str=re.test(values)
         if(str){
-            dataSource[index].qty=values
+            dataSource[index].exchangeQty=values
             this.setState({
                 dataSource:dataSource
             },function(){
@@ -165,13 +154,13 @@ class EditableTable extends React.Component {
     }
 
     hindchange=(index,e)=>{
-        const values=e.target.value
-		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
-        const str=re.test(values)
-        console.log(str)
+      const values=e.target.value
+		  const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+      const str=re.test(values)
+      console.log(str)
 		if(str){
 			const datasouce=this.state.dataSource.splice(0)
-			datasouce[index].price=values
+			datasouce[index].exchangePrice=values
 			this.setState({
                 dataSource:datasouce
             },function(){
@@ -183,14 +172,15 @@ class EditableTable extends React.Component {
     hindBlur = (index,e) =>{
         var values=parseFloat(e.target.value)
         const datasouce=this.state.dataSource.splice(0)
-        datasouce[index].price=values
+        datasouce[index].exchangePrice=values
         this.setState({
             dataSource:datasouce
         },function(){
             this.props.getNewData(this.state.dataSource)
         })
-	
+
     }
+
   	rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
@@ -218,30 +208,30 @@ class EditableTable extends React.Component {
                     windowHeight:document.body.offsetHeight-270,
                 });
             }
-        } 
+        }
     }
+
   	render() {
     	const columns = this.columns;
-        const pdSpus=this.props.pdSpus
+      const pdSpus=this.props.pdSpus
     	return (
       		<div className='bgf gooddbcon' ref="tableWrapper">
               <div style={{marginLeft:"30px",marginBottom:'20px',marginTop:"30px"}}>
                 <span className='spidsh'>需求门店:</span>
                 <AutoComplete
                     dataSource={this.state.dataSources}
-                    onSelect={this.onSelect}
-                    onSearch={this.handleSearch}
+                    onSelect={this.onSelect.bind(this)}
+                    onSearch={this.handleSearch.bind(this)}
                     placeholder='请选择门店名称'
                 />
                 </div>
-        		<Table bordered 
-                    dataSource={this.state.dataSource} 
-                    columns={columns} 
-                    rowClassName={this.rowClassName.bind(this)} 
+        		<Table bordered
+                    dataSource={this.state.dataSource}
+                    columns={columns}
+                    rowClassName={this.rowClassName.bind(this)}
                     pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                     onChange={this.pagechange.bind(this)}
                     scroll={{y:this.state.windowHeight}}
-
                 />
       		</div>
     	);
@@ -260,17 +250,14 @@ class EditableTable extends React.Component {
                 });
             }
         }
-        window.addEventListener('resize', this.windowResize);    
+        window.addEventListener('resize', this.windowResize);
     }
+
     componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
-      
 }
-
-
-
 
 
 class Gooddb extends React.Component {
@@ -285,17 +272,10 @@ class Gooddb extends React.Component {
         const setdatasouce=this.refs.adjust.setdatasouce
         setdatasouce(messages,total)
     }
-
     //获取最新的数据，传递给search
     getNewData=(data)=>{
         this.setState({
             datasouce:data
-        })
-    }
-    
-    getNewidData=(data)=>{
-        this.setState({
-            inShopId:data
         })
     }
 
@@ -304,9 +284,9 @@ class Gooddb extends React.Component {
             <div>
                 <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
-                    <Searchcomponent 
-                        dispatch={this.props.dispatch} 
-                        setdayasouce={this.setdayasouce.bind(this)} 
+                    <Searchcomponent
+                        dispatch={this.props.dispatch}
+                        setdayasouce={this.setdayasouce.bind(this)}
                         datasouce={this.state.datasouce}
                         inShopId={this.state.inShopId}
                         ref='search'/>
@@ -315,7 +295,7 @@ class Gooddb extends React.Component {
             </div>
         )
     }
-    
+
 }
 
 export default connect()(Gooddb);
