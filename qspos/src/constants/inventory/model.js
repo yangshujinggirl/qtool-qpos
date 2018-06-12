@@ -16,7 +16,7 @@ const CollectionCreateForm = Form.create()(
       return (
         <Modal
           visible={visible}
-          title="修改盘数量"
+          title="修改盘点数量"
           onCancel={onCancel}
           onOk={onCreate}
           className='inven_model'
@@ -119,7 +119,7 @@ class Editmodel extends React.Component {
   render() {
     return (
       <div>
-        <span  onClick={this.showModal} className='themecolor point'>修改盘数量</span>
+        <span  onClick={this.showModal} className='themecolor point'>修改盘点数量</span>
         <CollectionCreateForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}

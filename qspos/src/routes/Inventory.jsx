@@ -28,7 +28,7 @@ class MyUpload extends React.Component {
                     const pdCheckId=file.response.pdCheckId
                     let values={pdCheckId:pdCheckId,limit:100000,currentPage:0}
                     this.setdatas(values)
-                    
+
                 }else{
                     message.warning(file.response.message);
                 }
@@ -53,7 +53,7 @@ class MyUpload extends React.Component {
                 })
                 const Setdate=this.props.Setdate
                 Setdate(json.pdCheckDetails,json.total,messages.pdCheckId)
-            }else{  
+            }else{
                 message.warning(json.message);
             }
         })
@@ -117,11 +117,64 @@ class Searchcomponent extends React.Component {
 
     //按照导入顺序排序
     improveDataType=()=>{
-        console.log(1)
+        const source = this.state.dataSourcemessage
+        const result = source.sort(this.byOrder("checkDetailId"))
+        console.log('按导入排序开始')
+        console.log(result)
+        console.log('按导入排序结束')
+        // this.revisedaramessages(result)
+        // this.setState({
+        //   dataSource:result
+        // },function(){
+        //   const seracedatasouce=this.props.seracedatasouce
+        //   seracedatasouce(this.state.dataSource)
+        // })
     }
-    //按照差异倒序排
+    //按照差异倒序排序
     DiffDataType=()=>{
-        console.log(2)
+      const source = this.state.dataSourcemessage
+      const result = source.sort(this.byDiffQty("difQty"))
+      console.log('按差异排序开始')
+      console.log(result)
+      console.log('按差异排序结束')
+      // this.setState({
+      //   dataSource:result
+      // },function(){
+      //   const seracedatasouce=this.props.seracedatasouce
+      //   seracedatasouce(this.state.dataSource)
+      // })
+    }
+    byOrder=(index)=>{
+      return function(o, p){
+        var a, b;
+        if (typeof o === "object" && typeof p === "object" && o && p) {
+          a = o[index];
+          b = p[index];
+          if (a === b) {
+            return 0;
+          }
+          if (typeof a === typeof b) {
+            return a < b ? -1 : 1;
+          }
+          return typeof a < typeof b ? -1 : 1;
+        }
+      }
+    }
+    byDiffQty=(diffQty)=>{
+      return function(o, p){
+        var a, b;
+        if (typeof o === "object" && typeof p === "object" && o && p) {
+          a = o[diffQty];
+          b = p[diffQty];
+          if (Math.abs(a) === Math.abs(b)) {
+            return 0;
+          }
+          if (typeof a === typeof b) {
+            return Math.abs(a) > Math.abs(b) ? -1 : 1;
+          }
+          return typeof Math.abs(a) > typeof Math.abs(b) ? -1 : 1;
+        }
+      }
     }
     render(){
         return(
@@ -191,18 +244,17 @@ class EditableTable extends React.Component {
             windowHeight:""
 	    };
   	}
-  	rowClassName=(record, index)=>{
+
+    rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
     	}else{
       		return 'table_white'
     	}
       }
-      
+
     //改变盘点数
     getNewcheckData=(data,index)=>{
-        console.log(data)
-        console.log(index)
         const dataSource=this.state.dataSource.slice(0)
         dataSource[index].checkQty=data
         this.setState({
@@ -211,7 +263,24 @@ class EditableTable extends React.Component {
             const seracedatasouce=this.props.seracedatasouce
             seracedatasouce(this.state.dataSource)
         })
+      //调用修改盘点数量接口
+      let payload = {
+        checkDetailId:this.state.dataSource[index].checkDetailId,
+        qty:data
+      }
+      let inv = this.state.dataSource[index].inventory
+      const result=GetServerData('qerp.pos.pd.check.updateQty',payload)
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        if(json.code =='0'){
+          this.changeDiffQty(index,inv,data)
+        }else{
+          message.warning(json.message);
+        }
+      })
     }
+
     setdatasouce=(messages,total,id)=>{
         const messagedata=messages
         for(var i=0;i<messagedata.length;i++){
@@ -224,15 +293,14 @@ class EditableTable extends React.Component {
         },function(){
             const seracedatasouce=this.props.seracedatasouce
             seracedatasouce(this.state.dataSource)
-            
         })
     }
+
     pagechange=(page)=>{
         var pages=Number(page.current)-1
         let values={pdCheckId:this.state.pdCheckId,limit:10,currentPage:pages}
         const setdatas=this.props.setdatas
         setdatas(values)
-  
     }
 
     windowResize = () =>{
@@ -251,15 +319,26 @@ class EditableTable extends React.Component {
         }
     }
 
+    changeDiffQty = (index,inv,qty) =>{
+      const oldDataSource = this.state.dataSource
+      oldDataSource[index].difQty = String(Number(qty)-Number(inv))
+      this.setState({
+        dataSouce:oldDataSource
+      },function(){
+        const seracedatasouce=this.props.seracedatasouce
+        seracedatasouce(this.state.dataSource)
+      })
+    }
+
   	render() {
     	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
       		<div className='bgf bgf-goods-style' ref="tableWrapper">
-                <Table 
-                bordered 
-                dataSource={this.state.dataSource} 
-                columns={columns} 
+                <Table
+                bordered
+                dataSource={this.state.dataSource}
+                columns={columns}
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                 onChange={this.pagechange.bind(this)}
@@ -268,7 +347,7 @@ class EditableTable extends React.Component {
       		</div>
     	);
     }
-      
+
     componentDidMount(){
         this._isMounted = true;
         if(this._isMounted){
@@ -281,9 +360,10 @@ class EditableTable extends React.Component {
                  windowHeight:document.body.offsetHeight-270,
              });
             }
-            window.addEventListener('resize', this.windowResize);    
+            window.addEventListener('resize', this.windowResize);
         }
     }
+
     componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
@@ -317,7 +397,6 @@ class Inventory extends React.Component{
         );
     }
 }
-
 
 
 export default connect()(Inventory);
