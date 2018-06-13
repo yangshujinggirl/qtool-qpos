@@ -175,7 +175,7 @@
 //                                 onChange={this.dateChange.bind(this)} />
 //                         </FormItem>
 //                         <FormItem
-//                             label="需求门店"
+//                             label=""
 //                             labelCol={{ span: 5 }}
 //                             wrapperCol={{span: 10}}
 //                         >

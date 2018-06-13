@@ -90,6 +90,7 @@ class EditableTable extends React.Component {
        this.setState({
          shopId:shopId
        })
+
     }
 
     handleSearch = (value) => {
@@ -121,7 +122,7 @@ class EditableTable extends React.Component {
             this.props.getNewData(this.state.dataSource)
         })
     }
-  
+
     //在改变调拨数量时
     qtyhindchange=(index,e)=>{
         const values=e.target.value
@@ -217,7 +218,7 @@ class EditableTable extends React.Component {
     	return (
       		<div className='bgf gooddbcon' ref="tableWrapper">
               <div style={{marginLeft:"30px",marginBottom:'20px',marginTop:"30px"}}>
-                <span className='spidsh'>需求门店:</span>
+                <span className='spidsh'>门店名称</span>
                 <AutoComplete
                     dataSource={this.state.dataSources}
                     onSelect={this.onSelect.bind(this)}

@@ -5,9 +5,7 @@ import { Link } from 'dva/router';
 import {GetServerData} from '../../services/services';
 import DbTextModal from './model'
 import {LocalizedModal,Buttonico} from '../../components/Button/Button';
-
-const Search = Input.Search;
-const searchtext=<span style={{fontSize:'14px'}}><Icon type="search" />搜索</span>
+import Searchinput from  '../../components/Searchinput/Searchinput'
 
 class Searchcomponent extends React.Component {
     state={
@@ -28,9 +26,16 @@ class Searchcomponent extends React.Component {
     getShopId=()=>{
        this.props.getShopId()
     }
+
+    revisemessage=(messages)=>{
+      this.setState({
+        inputvalue:messages
+      })
+    }
+
     //搜索
-    hindSearch=(value)=>{
-        const values={keywords:value,limit:100000,currentPage:0}
+    hindSearch=()=>{
+        const values={keywords:this.state.inputvalue,limit:100000,currentPage:0}
         const result=GetServerData('qerp.pos.pd.spu.query',values)
         result.then((res) => {
             return res;
@@ -79,9 +84,6 @@ class Searchcomponent extends React.Component {
               inShopId:this.props.inShopId,
               details:this.props.datasouce
             }
-            console.log(this.props.inShopId)
-            console.log(this.props.datasouce)
-            console.log(payload)
             const result=GetServerData('qerp.qpos.pd.exchange.save',payload);
             result.then((res) => {
                 return res;
@@ -106,17 +108,15 @@ class Searchcomponent extends React.Component {
         return(
             <div className='clearfix mb10 adjust-v15-style'>
 	      		<div className='fl clearfix'>
-	      			<div className='fl mr20' onClick={this.download.bind(this)}><Buttonico text='下载调拨模板'/></div>
-	      			<div className='fl mr20'><MyUpload Setdate={this.setdayasouceas.bind(this)}/></div>
-                    <div className='fl'><Link to='/dblog'><Button size='large' className='searchbtn'>商品调拨日志</Button></Link></div>
+	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载调拨模板'/></div>
+	      			<div className='fl btn ml20'><MyUpload Setdate={this.setdayasouceas.bind(this)}/></div>
+              <div className='fl btn ml20'><Link to='/dblog'><Buttonico text='商品调拨日志'/></Link></div>
 	      		</div>
       			<div className='fr clearfix'>
-          			<div className='fl search_inputmod'>
-                        <Search placeholder='请输入商品条码、名称' size="large" enterButton={searchtext}  onSearch={this.hindSearch.bind(this)}/>
-                </div>
+              <div className='fl'><Searchinput text='请输入商品条码、商品名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindSearch.bind(this,0)}/></div>
           			<div className='searchselect clearfix fl'>
-	                    <div className='fl ml20 cancel-btn-style'><Link to='/goods'><Button size='large'>取消调拨</Button></Link></div>
-	      				<div className='fl ml20 cancel-btn-style'><Button size='large' onClick={this.showModal.bind(this)}>确认调拨</Button></div>
+                  <div className='fl ml20 cancel-btn-style'><Link to='/goods'><Buttonico text='取消调拨'/></Link></div>
+                  <div className='fl ml20 cancel-btn-style'><Buttonico text='确认调拨'/></div>
                   <DbTextModal
                             ref={this.saveFormRef}
                             visible={this.state.visible}

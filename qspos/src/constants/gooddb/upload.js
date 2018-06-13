@@ -1,5 +1,6 @@
 import { Upload, Button, Icon,message} from 'antd';
 import "./gooddb.css"
+import {LocalizedModal,Buttonico} from '../../components/Button/Button';
 
 class MyUpload extends React.Component {
     state = {
@@ -35,9 +36,7 @@ class MyUpload extends React.Component {
         };
         return (
             <Upload {...props} fileList={this.state.fileList}>
-                <Button size='large' className='searchbtn'>
-                    导入调拨商品
-                </Button>
+              <Buttonico text='导入调拨商品'/>
             </Upload>
       );
     }

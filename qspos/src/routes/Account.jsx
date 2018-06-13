@@ -109,15 +109,15 @@ class Modelform extends Component {
                                         type:'account/fetch',
                                         payload: {code:'qerp.pos.ur.user.query'}
                                     })
-  
+
                                 }
-                                
+
                              })
-                    }else{  
+                    }else{
                        message.error(json.message)
                     }
                 })
-                
+
             }
         });
     }
@@ -144,9 +144,9 @@ class Modelform extends Component {
                         const {username}= this.props.record;
                         const showInfomodel=this.props.showInfomodel
                         showInfomodel('重置密码成功',username,json.newPassword)
-                       
-                    }else{  
-                       
+
+                    }else{
+
                     }
                 })
         }
@@ -178,7 +178,7 @@ class Modelform extends Component {
                     ]}
                 >
                     <Form className='formdis'>
-                        <FormItem 
+                        <FormItem
                             label="帐号名称"
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
@@ -189,7 +189,7 @@ class Modelform extends Component {
                                 <Input  autoComplete="off" placeholder="请输入1-5位会员姓名" className='inputwidth'/>
                             )}
                         </FormItem>
-                        <FormItem 
+                        <FormItem
                             label="帐号电话"
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
@@ -200,9 +200,9 @@ class Modelform extends Component {
                                 <Input autoComplete="off" placeholder="请输入11位手机号" className='inputwidth' />
                             )}
                         </FormItem>
-                        <FormItem  label="账号权限" 
+                        <FormItem  label="账号权限"
                              labelCol={{ span: 5 }}
-                            wrapperCol={{ span: 8 }} 
+                            wrapperCol={{ span: 8 }}
                             className='listto checkboxlabel'>
                             {getFieldDecorator('role', {
                             })(
@@ -212,7 +212,7 @@ class Modelform extends Component {
                                 </RadioGroup>
                             )}
                         </FormItem>
-                        <FormItem label="帐号状态" 
+                        <FormItem label="帐号状态"
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 8 }}
                           className='checkboxlabel checkboxlabelstatus'>
@@ -238,13 +238,13 @@ class EditableTable extends React.Component {
         this.state = {
             windowHeight:''
         };
-        
+
         this._isMounted = false;
         this.columns = [{
             title: '姓名',
             width:'8%',
             dataIndex: 'nickname'
-            
+
         }, {
             title: '账号手机',
             width:'10%',
@@ -302,10 +302,10 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         return (
             <div ref="tableWrapper">
-                <Table bordered 
-                       dataSource={this.props.users} 
-                       columns={columns} 
-                       rowClassName={this.rowClassName.bind(this)} 
+                <Table bordered
+                       dataSource={this.props.users}
+                       columns={columns}
+                       rowClassName={this.rowClassName.bind(this)}
                        pagination={false}
                        scroll={{y:this.state.windowHeight}}/>
                 <Infomodel ref='Infomodel'/>
@@ -319,10 +319,10 @@ class EditableTable extends React.Component {
             this.setState({
                 windowHeight:document.body.offsetHeight-300
             });
-            window.addEventListener('resize', this.windowResize);  
-        } 
+            window.addEventListener('resize', this.windowResize);
+        }
     }
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
@@ -335,8 +335,8 @@ class App extends React.Component {
         submitPrint:"1",
         rechargePrint:"1",
         xitong:true,
-        exchangePrintNum1:'1',
-        exchangePrint1:'1'
+        allocationPrintNum:'1',
+        allocationPrint:'1'
 
     }
     //获取设置
@@ -355,7 +355,9 @@ class App extends React.Component {
                     rechargePrintNum:setData.rechargePrintNum,
                     submitPrintNum:setData.submitPrintNum,
                     exchangePrint:setData.exchangePrint,
-                    exchangePrintNum:setData.exchangePrintNum
+                    exchangePrintNum:setData.exchangePrintNum,
+                    allocationPrint:setData.allocationPrint,
+                    allocationPrintNum:setData.allocationPrintNum
                   })
               }
         })
@@ -374,7 +376,7 @@ class App extends React.Component {
                     console.log(json)
                     if(json.code=='0'){
                       message.success('设置成功',1)
-                    }else{  
+                    }else{
                        message.waring(json.message)
                     }
                 })
@@ -398,8 +400,8 @@ class App extends React.Component {
     handleSelectChange = (value) => {
         console.log(value);
     }
-    
-   
+
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -415,7 +417,7 @@ class App extends React.Component {
                     })(
                         <p className='downk'>
                            <a href='/static/CLodop_Setup_for_Win32NT.exe' target='_self'>下载打印控件</a>
-                        </p> 
+                        </p>
                     )}
                 </FormItem>
                 :
@@ -427,7 +429,7 @@ class App extends React.Component {
                     })(
                         <p className='downk'>
                            <a href='/static/CLodop_Setup_for_Win32NT.exe' target='_self'>下载打印控件</a>
-                        </p> 
+                        </p>
                     )}
                 </FormItem>
             }
@@ -442,7 +444,7 @@ class App extends React.Component {
                         <Radio value={'80'}>80mm</Radio>
                         <Radio value={'58'}>58mm</Radio>
                     </RadioGroup>
-                    
+
                 )}
             </FormItem>
             <FormItem
@@ -457,7 +459,7 @@ class App extends React.Component {
                         <Radio value={'1'}>是</Radio>
                         <Radio value={'0'}>否</Radio>
                     </RadioGroup>
-                    
+
                 )}
             </FormItem>
             <FormItem
@@ -484,14 +486,14 @@ class App extends React.Component {
                 label="充值后打印"
                 style={{display:"inline-block"}}
             >
-            {getFieldDecorator('rechargePrint', { 
+            {getFieldDecorator('rechargePrint', {
                 initialValue: this.state.rechargePrint,
             })(
                 <RadioGroup>
                     <Radio value={'1'}>是</Radio>
                     <Radio value={'0'}>否</Radio>
                 </RadioGroup>
-               
+
             )}
             </FormItem>
             <FormItem
@@ -518,7 +520,7 @@ class App extends React.Component {
                 label="交班后打印"
                 style={{display:"inline-block"}}
             >
-            {getFieldDecorator('exchangePrint', { 
+            {getFieldDecorator('exchangePrint', {
                 initialValue: this.state.exchangePrint,
             })(
                 <RadioGroup>
@@ -551,8 +553,8 @@ class App extends React.Component {
                 label="调拨后打印"
                 style={{display:"inline-block"}}
             >
-            {getFieldDecorator('exchangePrint1', { 
-                initialValue: this.state.exchangePrint1,
+            {getFieldDecorator('allocationPrint', {
+                initialValue: this.state.allocationPrint,
             })(
                 <RadioGroup>
                     <Radio value={'1'}>是</Radio>
@@ -567,8 +569,8 @@ class App extends React.Component {
                 labelCol={{span:3}}
                 wrapperCol={{span:15}}
             >
-            {getFieldDecorator('exchangePrintNum1', {
-                    initialValue:this.state.exchangePrintNum1,
+            {getFieldDecorator('allocationPrintNum', {
+                    initialValue:this.state.allocationPrintNum,
                 })(
                     <Select style={{ width: 120 }}>
                         <Option value="1">1</Option>
@@ -584,7 +586,7 @@ class App extends React.Component {
                 <div onClick={this.handleSubmit.bind(this)} className='submitform'>确定</div>
             </FormItem>
         </Form>
-         
+
      );
     }
     componentDidMount(){
@@ -638,7 +640,7 @@ class Tags extends React.Component {
                     </Tabs>
                     <Infomodel ref='Infomodel'/>
                 </div>
-            
+
         )
     }
 }

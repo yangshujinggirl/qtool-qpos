@@ -187,19 +187,19 @@ class Searchcomponent extends React.Component {
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载损益模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)}/></div>
-                    <div className='fl btn ml20'><Link to='/adjustLog'><Buttonico text='查看损益日志'/></Link></div>
+              <div className='fl btn ml20'><Link to='/adjustLog'><Buttonico text='查看损益日志'/></Link></div>
 	      		</div>
       			<div className='fr clearfix'>
           			<div className='fl'><Searchinput text='请输入商品条码、商品名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this,0)}/></div>
           			<div className='searchselect clearfix fl'>
-	                    <div className='fl btn ml20 cancel-btn-style'><Link to='/goods'><Buttonico text='取消损益'/></Link></div>
-	      				<div className='fl btn ml20 cancel-btn-style' onClick={this.showModal.bind(this)}><Buttonico text='确定损益'/></div>
-                        <AdjustTextModal
-                            ref={this.saveFormRef}
-                            visible={this.state.visible}
-                            onCancel={this.hideModal}
-                            onCreate={this.submitListInfo}
-                            />
+                  <div className='fl btn ml20 cancel-btn-style'><Link to='/goods'><Buttonico text='取消损益'/></Link></div>
+	      				  <div className='fl btn ml20 cancel-btn-style' onClick={this.showModal.bind(this)}><Buttonico text='确定损益'/></div>
+                  <AdjustTextModal
+                    ref={this.saveFormRef}
+                    visible={this.state.visible}
+                    onCancel={this.hideModal}
+                    onCreate={this.submitListInfo}
+                  />
 	                </div>
      			</div>
     		</div>
