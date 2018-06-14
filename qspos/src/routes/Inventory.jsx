@@ -45,7 +45,6 @@ class MyUpload extends React.Component {
         result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
             if(json.code=='0'){
                 this.props.dispatch({
                     type:'inventory/pdCheckId',
@@ -122,13 +121,7 @@ class Searchcomponent extends React.Component {
         console.log('按导入排序开始')
         console.log(result)
         console.log('按导入排序结束')
-        // this.revisedaramessages(result)
-        // this.setState({
-        //   dataSource:result
-        // },function(){
-        //   const seracedatasouce=this.props.seracedatasouce
-        //   seracedatasouce(this.state.dataSource)
-        // })
+        this.props.getDataSource(result)
     }
     //按照差异倒序排序
     DiffDataType=()=>{
@@ -137,12 +130,7 @@ class Searchcomponent extends React.Component {
       console.log('按差异排序开始')
       console.log(result)
       console.log('按差异排序结束')
-      // this.setState({
-      //   dataSource:result
-      // },function(){
-      //   const seracedatasouce=this.props.seracedatasouce
-      //   seracedatasouce(this.state.dataSource)
-      // })
+      this.props.getDataSource(result)
     }
     byOrder=(index)=>{
       return function(o, p){
@@ -239,9 +227,9 @@ class EditableTable extends React.Component {
 	    this.state = {
 	      	dataSource: [],
 	      	count: 2,
-            pdCheckId:null,
-            total:0,
-            windowHeight:""
+          pdCheckId:null,
+          total:0,
+          windowHeight:""
 	    };
   	}
 
@@ -331,7 +319,6 @@ class EditableTable extends React.Component {
     }
 
   	render() {
-    	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
       		<div className='bgf bgf-goods-style' ref="tableWrapper">
@@ -371,27 +358,41 @@ class EditableTable extends React.Component {
 }
 
 class Inventory extends React.Component{
-     setdayasouce=(messages,total,id)=>{
+    constructor(props) {
+        super(props);
+        this.state = {
+          datasouce:[]
+        };
+      }
+
+    setdayasouce=(messages,total,id)=>{
         const setdatasouce=this.refs.inventory.setdatasouce
         setdatasouce(messages,total,id)
     }
+
     seracedatasouce=(messages)=>{
         const revisedaramessages=this.refs.search.revisedaramessages
         revisedaramessages(messages)
     }
+
     setdatas=(messages)=>{
         const setdatas=this.refs.search.Setdates
         setdatas(messages)
     }
 
+    getDataSource=(dataSource)=>{
+      this.setState({
+        dataSource:dataSource
+      })
+    }
 
     render() {
         return (
             <div>
                 <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
-                    <Searchcomponent setdayasouce={this.setdayasouce.bind(this)} ref='search' dispatch={this.props.dispatch}/>
-                    <EditableTable ref='inventory' seracedatasouce={this.seracedatasouce.bind(this)} setdatas={this.setdatas.bind(this)}/>
+                    <Searchcomponent setdayasouce={this.setdayasouce.bind(this)} ref='search' dispatch={this.props.dispatch} getDataSource={this.getDataSource.bind(this)}/>
+                    <EditableTable ref='inventory' seracedatasouce={this.seracedatasouce.bind(this)} setdatas={this.setdatas.bind(this)} />
                 </div>
             </div>
         );

@@ -6,7 +6,7 @@ const AdjustTextForm = Form.create()(
   (props) => {
     const { visible, onCancel, onCreate, form ,type} = props;
     const { getFieldDecorator } = form;
-    
+
     return (
       <Modal
         visible={visible}

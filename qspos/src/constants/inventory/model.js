@@ -12,7 +12,6 @@ const CollectionCreateForm = Form.create()(
     render() {
       const { visible, onCancel, onCreate, form ,record} = this.props;
 	  const { getFieldDecorator } = form;
-	  console.log(record)
       return (
         <Modal
           visible={visible}
@@ -28,7 +27,7 @@ const CollectionCreateForm = Form.create()(
         >
           <Form>
             <FormItem
-                label="商品条码" 
+                label="商品条码"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
             >
@@ -48,7 +47,7 @@ const CollectionCreateForm = Form.create()(
 				  initialValue: record.name,
 			  })(<Input disabled />)}
             </FormItem>
-            <FormItem 
+            <FormItem
                 label="商品规格"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
@@ -57,7 +56,7 @@ const CollectionCreateForm = Form.create()(
 				  initialValue: record.displayName,
 			  })(<Input disabled/>)}
             </FormItem>
-			<FormItem 
+			<FormItem
                 label="系统数量"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
@@ -66,7 +65,7 @@ const CollectionCreateForm = Form.create()(
 				  initialValue: record.inventory,
 			  })(<Input disabled/>)}
             </FormItem>
-            <FormItem 
+            <FormItem
                 label="盘点数量"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}

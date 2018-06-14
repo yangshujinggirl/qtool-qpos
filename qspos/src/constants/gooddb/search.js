@@ -80,9 +80,21 @@ class Searchcomponent extends React.Component {
             if (err) {
                 return;
             }
+            const newdata = []
+            const olddata = this.props.datasouce
+            for(let i=0;i<olddata.length;i++){
+              let data = {
+                pdSpuId : olddata[i].pdSpuId,
+                pdSkuId : olddata[i].pdSkuId,
+                qty : olddata[i].exchangeQty,
+                price : olddata[i].exchangePrice
+              }
+              newdata.push(data)
+            }
             let payload = {
               inShopId:this.props.inShopId,
-              details:this.props.datasouce
+              details:newdata,
+              confirmRemark:values.remark
             }
             const result=GetServerData('qerp.qpos.pd.exchange.save',payload);
             result.then((res) => {
@@ -116,7 +128,7 @@ class Searchcomponent extends React.Component {
               <div className='fl'><Searchinput text='请输入商品条码、商品名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindSearch.bind(this,0)}/></div>
           			<div className='searchselect clearfix fl'>
                   <div className='fl ml20 cancel-btn-style'><Link to='/goods'><Buttonico text='取消调拨'/></Link></div>
-                  <div className='fl ml20 cancel-btn-style'><Buttonico text='确认调拨'/></div>
+                  <div className='fl ml20 cancel-btn-style' onClick={this.showModal.bind(this)}><Buttonico text='确认调拨'/></div>
                   <DbTextModal
                             ref={this.saveFormRef}
                             visible={this.state.visible}

@@ -67,30 +67,31 @@ class EditableTable extends React.Component {
             }
         }];
 	    this.state = {
-	      	dataSource: [],
+	      	dataSource: [], //元数据
 	      	count: 2,
           inputvalue:'',
-            total:0,
-            page:1,
-            windowHeight:'',
-            dataSources:[],
-            shopId:null
+          total:0,
+          page:1,
+          windowHeight:'',
+          dataSources:[],
+          shopList:[],
+          shopId:null
         };
         this._isMounted = false;
     }
 
     onSelect=(value)=>{
-       let dataSources = this.state.dataSources
+       let shopList = this.state.shopList
        let shopId
-       for(let i=0;i<dataSources.length;i++){
-         if(dataSources[i].name == value){
-           shopId = dataSources[i].spShopId
+       for(let i=0;i<shopList.length;i++){
+         if(shopList[i].name == value){
+           shopId = shopList[i].spShopId
          }
        }
        this.setState({
          shopId:shopId
        })
-
+       this.props.getShopId(shopId)
     }
 
     handleSearch = (value) => {
@@ -106,13 +107,14 @@ class EditableTable extends React.Component {
                     dataSources.push(shopList[i].name)
                 }
                 this.setState({
+                    shopList:shopList,
                     dataSources:dataSources
                 })
             }
         })
     }
 
-    setdatasouce=(messages,total,shopId)=>{
+    setdatasouce=(messages,total)=>{
         //设置dataSource和total
         this.setState({
             dataSource:messages,
@@ -214,7 +216,6 @@ class EditableTable extends React.Component {
 
   	render() {
     	const columns = this.columns;
-      const pdSpus=this.props.pdSpus
     	return (
       		<div className='bgf gooddbcon' ref="tableWrapper">
               <div style={{marginLeft:"30px",marginBottom:'20px',marginTop:"30px"}}>
@@ -280,10 +281,17 @@ class Gooddb extends React.Component {
         })
     }
 
+    getShopId=(shopId)=>{
+        this.setState({
+          inShopId:shopId
+        })
+    }
+
     render(){
         return(
             <div>
                 <Header type={false} color={true} linkRoute="goods"/>
+                {this.state.inShopId}
                 <div className='counters'>
                     <Searchcomponent
                         dispatch={this.props.dispatch}
@@ -291,7 +299,7 @@ class Gooddb extends React.Component {
                         datasouce={this.state.datasouce}
                         inShopId={this.state.inShopId}
                         ref='search'/>
-                    <EditableTable dispatch={this.props.dispatch} ref='adjust' getNewData={this.getNewData.bind(this)}/>
+                    <EditableTable dispatch={this.props.dispatch} ref='adjust' getNewData={this.getNewData.bind(this)} getShopId={this.getShopId.bind(this)}/>
                 </div>
             </div>
         )
