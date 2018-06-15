@@ -82,12 +82,12 @@ class ReceiptReportForm extends React.Component {
                     currentPage:Number(json.currentPage),
                     limit:Number(json.limit)
                 })
-            }else{  
-                message.error(json.message); 
+            }else{
+                message.error(json.message);
             }
         })
     }
-   
+
 
     dateChange = (date, dateString) =>{
         this.setState({
@@ -181,7 +181,7 @@ class ReceiptReportForm extends React.Component {
                         label="最近操作时间"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
-                            <RangePicker 
+                            <RangePicker
                                 value={this.state.operateStart?[moment(this.state.operateStart, dateFormat), moment(this.state.operateEnd, dateFormat)]:null}
                                 format={dateFormat}
                                 onChange={this.dateChange.bind(this)} />
@@ -198,6 +198,7 @@ class ReceiptReportForm extends React.Component {
                                 <Option value="10">待收货</Option>
                                 <Option value="20">收货中</Option>
                                 <Option value="30">已收货</Option>
+                                <Option value="40">已撤销</Option>
                             </Select>
                         )}
                         </FormItem>
@@ -214,8 +215,8 @@ class ReceiptReportForm extends React.Component {
                             <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
                         </FormItem>
                     </Form>
-                    <CommonTable 
-                        columns={this.columns} 
+                    <CommonTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         pagination={false}
                         total={20}
@@ -226,13 +227,13 @@ class ReceiptReportForm extends React.Component {
                         />
                 </div>
                 <div className="footer-pagefixed">
-                    <Pagination 
-                        total={this.state.total} 
+                    <Pagination
+                        total={this.state.total}
                         current={this.state.currentPage+1}
                         pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
-                        onChange={this.pageChange} 
+                        showSizeChanger
+                        onShowSizeChange={this.onShowSizeChange}
+                        onChange={this.pageChange}
                         pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
                 </div>

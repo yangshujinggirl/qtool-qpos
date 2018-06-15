@@ -24,6 +24,7 @@ search_inputmod input::-ms-input-placeholder{font-size: 14px;color: #B4B4B4;}
     line-height: 40px;
     font-size: 14px;
     color: #74777F;
+    margin-right: 10px;
 }
 
 .adjust-inputwidth{

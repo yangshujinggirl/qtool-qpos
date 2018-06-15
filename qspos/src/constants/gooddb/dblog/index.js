@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,AutoComplete} from 'antd';
 import { Link } from 'dva/router';
 import {GetServerData} from '../../../services/services';
 import moment from 'moment';
@@ -17,6 +17,8 @@ class AdjustLogIndexForm extends React.Component {
         super(props);
         this.state={
             dataSource:[],
+            dataSources:[],
+            shopList:[],
             total:0,
             currentPage:0,
             limit:10,
@@ -25,7 +27,8 @@ class AdjustLogIndexForm extends React.Component {
             visible:false,
             windowHeight:'',
             modelRemark:'',
-            exchangeId:''
+            exchangeId:'',
+            shopId:'',
         };
         this._isMounted = false;
         this.columns = [{
@@ -103,6 +106,7 @@ class AdjustLogIndexForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             values.exchangeTimeStart=this.state.exchangeTimeStart
             values.exchangeTimeEnd=this.state.exchangeTimeEnd
+            values.inShopId = this.state.shopId
             values.limit=this.state.limit;
             values.currentPage=this.state.currentPage
             const result=GetServerData('qerp.pos.pd.exchange.query',values)
@@ -197,6 +201,38 @@ class AdjustLogIndexForm extends React.Component {
         }
     }
 
+    onSelect =(value) =>{
+      let shopList = this.state.shopList
+      let shopId
+      for(let i=0;i<shopList.length;i++){
+        if(shopList[i].name == value){
+          shopId = shopList[i].spShopId
+        }
+      }
+      this.setState({
+        shopId:shopId
+      })
+    }
+
+    handleShopSearch = (value) =>{
+      let data={name:value};
+      const result=GetServerData('qerp.qpos.pd.exchange.shop.list',data);
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        if(json.code=='0'){
+          let shopList=json.shops;
+          let dataSources=[];
+          for(let i=0;i<shopList.length;i++){
+            dataSources.push(shopList[i].name)
+          }
+          this.setState({
+            shopList:shopList,
+            dataSources:dataSources
+          })
+        }
+      })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -218,7 +254,12 @@ class AdjustLogIndexForm extends React.Component {
                         </FormItem>
                         <FormItem label='需求门店' labelCol={{ span: 5 }} wrapperCol={{span: 10}}>
                           {getFieldDecorator('inShopId')(
-                            <Input placeholder="请输入调入门店名称" autoComplete="off"/>
+                            <AutoComplete
+                              dataSource={this.state.dataSources}
+                              onSelect={this.onSelect.bind(this)}
+                              onSearch={this.handleShopSearch.bind(this)}
+                              placeholder='请输入调入门店名称'
+                            />
                           )}
                         </FormItem>
                         <FormItem
