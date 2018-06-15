@@ -9,7 +9,7 @@ class Dbloginfo extends React.Component{
    render(){
         return (
             <div>
-                <Header type={false} color={true} linkRoute="inventory"/>
+                <Header type={false} color={true} linkRoute="dblog"/>
                 <div className='counters'>
                     <div className="adjust-log">
                         <Dbloginfos/>

@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import {GetServerData} from '../../../services/services';
 import moment from 'moment';
 import {timeForMats} from '../../../utils/commonFc';
+import DbTextModal from './model'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -22,7 +23,9 @@ class AdjustLogIndexForm extends React.Component {
             exchangeTimeStart:"",
             exchangeTimeEnd:"",
             visible:false,
-            windowHeight:''
+            windowHeight:'',
+            modelRemark:'',
+            exchangeId:''
         };
         this._isMounted = false;
         this.columns = [{
@@ -63,8 +66,8 @@ class AdjustLogIndexForm extends React.Component {
           dataIndex: 'operate',
           width:'5%',
           render:(text,record)=>{
-            if(record.status === '20'){
-              return <div>撤销</div>
+            if(record.status === '10'){
+              return <Link onClick={this.showModal.bind(this,record.qposPdExchangeId)}>撤销</Link>
             }
           }
       }];
@@ -97,7 +100,6 @@ class AdjustLogIndexForm extends React.Component {
     }
 
     handleSearch = (e) =>{
-        const self = this;
         this.props.form.validateFields((err, values) => {
             values.exchangeTimeStart=this.state.exchangeTimeStart
             values.exchangeTimeEnd=this.state.exchangeTimeEnd
@@ -108,7 +110,6 @@ class AdjustLogIndexForm extends React.Component {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
-                    console.log(json)
                     const exchangeNos = json.exchangeNos;
                     for(let i=0;i<exchangeNos.length;i++){
                       exchangeNos[i].key = i+1;
@@ -124,6 +125,40 @@ class AdjustLogIndexForm extends React.Component {
                 }
             })
         })
+    }
+
+    showModal = (record) =>{
+        this.setState({
+          visible:true,
+          exchangeId:record
+        })
+    }
+
+    handleOk=(values)=>{
+      let payload = {
+        qposPdExchangeId:this.state.exchangeId,
+        cancelRemark:values.cancelRemark
+      }
+      const result = GetServerData('qerp.qpos.pd.exchange.cancel',payload)
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        if(json.code=='0'){
+          message.success('撤销成功')
+          this.setState({
+            visible:false
+          })
+          this.handleSearch()
+        }else{
+          message.error(json.message);
+        }
+      })
+    }
+
+    handleCancel=()=>{
+      this.setState({
+        visible:false
+      })
     }
 
     rowClassName=(record, index)=>{
@@ -230,6 +265,11 @@ class AdjustLogIndexForm extends React.Component {
                         }
                         />
                 </div>
+                {this.state.visible ? <DbTextModal
+                  onCreate={this.handleOk.bind(this)}
+                  onCancel={this.handleCancel.bind(this)}
+                  visible={this.state.visible}
+                /> : ''}
             </div>
         );
     }

@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
-import { Link } from 'dva/router';
 
 import {GetServerData} from '../../../services/services';
 import CommonTable from '../../dataManage/commonTable';
-import {deepcCloneObj} from '../../../utils/commonFc';
-
 
 class ReceiptDetailsForm extends React.Component {
     constructor(props,context) {
@@ -52,9 +49,13 @@ class ReceiptDetailsForm extends React.Component {
         },{
           title: '操作时间',
           dataIndex: 'operateTime',
+        },{
+          title: '备注',
+          dataIndex: 'remark',
         }]
+
     }
-  
+
     //表格的方法
     pageChange=(page,pageSize)=>{
         this.setState({
@@ -120,7 +121,7 @@ class ReceiptDetailsForm extends React.Component {
             }
           })
     }
-  
+
     render() {
         return (
             <div className="ph-info">
@@ -136,7 +137,6 @@ class ReceiptDetailsForm extends React.Component {
                       <label>创建时间:</label><span>{this.state.currentItem.createTime}</span>
                     </div>
                     <div className="info-title">商品信息</div>
-                    {/*搜索部分 */}
                     <CommonTable
                         columns={this.columns}
                         dataSource={this.state.dataSource}
@@ -148,7 +148,6 @@ class ReceiptDetailsForm extends React.Component {
                         onShowSizeChange={this.onShowSizeChange}
                         pageChange={this.pageChange}
                         />
-                    {/*搜索部分 */}
                     <CommonTable
                       columns={this.columns1}
                       dataSource={this.state.logdataSource}
