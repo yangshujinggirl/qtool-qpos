@@ -6,6 +6,7 @@ import {GetServerData} from '../../../services/services';
 import moment from 'moment';
 import {timeForMats} from '../../../utils/commonFc';
 import DbTextModal from './model'
+import "../gooddb.css";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -255,11 +256,11 @@ class AdjustLogIndexForm extends React.Component {
                         <FormItem label='需求门店' labelCol={{ span: 5 }} wrapperCol={{span: 10}}>
                           {getFieldDecorator('inShopId')(
                             <AutoComplete
-                              dataSource={this.state.dataSources}
-                              onSelect={this.onSelect.bind(this)}
-                              onSearch={this.handleShopSearch.bind(this)}
-                              placeholder='请输入调入门店名称'
-                            />
+                                  dataSource={this.state.dataSources}
+                                  onSelect={this.onSelect.bind(this)}
+                                  onSearch={this.handleShopSearch.bind(this)}
+                                  placeholder='请输入调入门店名称'
+                                />
                           )}
                         </FormItem>
                         <FormItem
