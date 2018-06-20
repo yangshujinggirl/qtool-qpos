@@ -71,6 +71,7 @@ class Searchcomponent extends React.Component {
 
     //打开弹窗
     showModal = () => {
+        
         this.setState({ visible: true});
     }
 

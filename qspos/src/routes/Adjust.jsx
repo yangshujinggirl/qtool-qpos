@@ -51,7 +51,7 @@ class MyUpload extends React.Component {
         };
     return (
         <Upload {...props} fileList={this.state.fileList}>
-            <Buttonico text='导入盘点商品'/>
+            <Buttonico text='导入损益商品'/>
         </Upload>
     );
   }
