@@ -8,13 +8,16 @@ import {LocalizedModal,Buttonico} from '../../components/Button/Button';
 import Searchinput from  '../../components/Searchinput/Searchinput'
 
 class Searchcomponent extends React.Component {
-    state={
-        inputvalue:'',
-        dataSourcemessage:[],
-        visible: false,
-        type:null,
-        shopId:null,
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputvalue: '',
+      dataSourcemessage: [],
+      visible: false,
+      type: null,
+      shopId: null,
     }
+  }
     //下载
     download=()=>{
         window.open('../static/db.xlsx')
@@ -57,10 +60,12 @@ class Searchcomponent extends React.Component {
             }
         })
     }
+
     //ref
     saveFormRef = (form) => {
         this.form = form;
     }
+
     //关闭弹窗
     hideModal = () => {
         const form = this.form;
@@ -71,8 +76,22 @@ class Searchcomponent extends React.Component {
 
     //打开弹窗
     showModal = () => {
-        
-        this.setState({ visible: true});
+        if(this.props.datasouce.length > 0){
+          for(let i=0;i<this.props.datasouce.length;i++){
+            let item = this.props.datasouce[i]
+            if(!(Number(item.qty)<Number(item.inventory))){
+              message.error('第'+ (i+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量')
+            }else{
+              if(item.exchangePrice > parseFloat(item.toCPrice*item.qty)){
+                message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价')
+              }else if(item.exchangePrice < parseFloat(item.toBPrice*item.qty)){
+                message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价')
+              }else{
+                this.setState({ visible: true});
+              }
+            }
+          }
+        }
     }
 
     submitListInfo = () => {
@@ -117,6 +136,7 @@ class Searchcomponent extends React.Component {
     callback=()=>{
     	this.context.router.push('/goods');
     }
+
     render(){
         return(
             <div className='clearfix mb10 adjust-v15-style'>

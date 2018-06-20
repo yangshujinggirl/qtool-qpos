@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import Header from '../../components/header/Header';
-import Searchinput from './search';
-import {LocalizedModal,Buttonico} from '../../components/Button/Button';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,AutoComplete} from 'antd';
 import {GetServerData} from '../../services/services';
-import { Link } from 'dva/router';
 import "./gooddb.css";
 
 import Searchcomponent from './search'
