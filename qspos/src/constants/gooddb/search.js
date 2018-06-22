@@ -159,7 +159,7 @@ class Searchcomponent extends React.Component {
 
     //跳转
     callback=()=>{
-    	this.context.router.push('/dblog');
+    	this.context.router.push('/goods');
     }
 
     render(){

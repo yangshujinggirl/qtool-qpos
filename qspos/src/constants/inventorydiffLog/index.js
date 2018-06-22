@@ -22,8 +22,8 @@ class AdjustLogIndexForm extends React.Component {
             total:0,
             currentPage:0,
             limit:10,
-            checkTimeStart:"",
-            checkTimeEnd:"",
+            checkTimeST:"",
+            checkTimeET:"",
             visible:false,
             windowHeight:''
         };
@@ -58,8 +58,8 @@ class AdjustLogIndexForm extends React.Component {
 
     dateChange = (date, dateString) =>{
         this.setState({
-            checkTimeStart:dateString[0],
-            checkTimeEnd:dateString[1]
+          checkTimeST:dateString[0],
+          checkTimeET:dateString[1]
         })
     }
 
@@ -84,8 +84,8 @@ class AdjustLogIndexForm extends React.Component {
     handleSearch = (e) =>{
         const self = this;
         this.props.form.validateFields((err, values) => {
-            values.checkTimeStart=this.state.checkTimeStart
-            values.checkTimeEnd=this.state.checkTimeEnd
+            values.checkTimeST=this.state.checkTimeST
+            values.checkTimeET=this.state.checkTimeET
             values.limit=this.state.limit;
             values.currentPage=this.state.currentPage
 
@@ -105,7 +105,7 @@ class AdjustLogIndexForm extends React.Component {
                         limit:Number(json.limit)
                     })
                 }else{
-                    message.error(json.message); 
+                    message.error(json.message);
                 }
             })
         })
@@ -114,15 +114,15 @@ class AdjustLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            checkTimeStart:this.state.checkTimeStart,
-            checkTimeEnd:this.state.checkTimeEnd,
+            checkTimeST :this.state.checkTimeST,
+            checkTimeET:this.state.checkTimeET,
             name:this.state.name,
             type:1
         }
         const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
 
-    
+
     rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
@@ -135,8 +135,8 @@ class AdjustLogIndexForm extends React.Component {
         let startRpDate=timeForMats(30).t2;
         let endRpDate=timeForMats(30).t1;
         this.setState({
-            checkTimeStart:startRpDate,
-            checkTimeEnd:endRpDate
+          checkTimeST:startRpDate,
+          checkTimeET:endRpDate
         },function(){
             this.handleSearch();
         })
@@ -169,15 +169,15 @@ class AdjustLogIndexForm extends React.Component {
                             label="盘点时间"
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
-                            <RangePicker 
-                                value={this.state.checkTimeStart?
-                                        [moment(this.state.checkTimeStart, dateFormat), moment(this.state.checkTimeEnd, dateFormat)]
+                            <RangePicker
+                                value={this.state.checkTimeST?
+                                        [moment(this.state.checkTimeST, dateFormat), moment(this.state.checkTimeET, dateFormat)]
                                         :null
                                     }
                                 format={dateFormat}
                                 onChange={this.dateChange.bind(this)} />
                         </FormItem>
-                        
+
                         <FormItem className='fr'>
                             <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                         </FormItem>
@@ -189,10 +189,10 @@ class AdjustLogIndexForm extends React.Component {
                     </Form>
                 </div>
                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">
-                    <Table 
-                        bordered 
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource} 
+                    <Table
+                        bordered
+                        columns={this.columns}
+                        dataSource={this.state.dataSource}
                         rowClassName={this.rowClassName.bind(this)}
                         scroll={{y:this.state.windowHeight}}
                         pagination={

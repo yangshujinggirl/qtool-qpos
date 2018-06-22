@@ -7,22 +7,22 @@ class MyUpload extends React.Component {
       fileList: [],
     }
     handleChange = (info) => {
-        var fileList = info.fileList;
-        fileList = fileList.slice(-1);
-        fileList = fileList.filter((file) => {
-            if (file.response) {
-                if(file.response.code=='0'){
-                    //得到数据，把数据抛出
-                    const data=file.response.pdSpu
-                    const total=data.length
-                    this.props.Setdate(data,total)
-                }else{
-                    fileList=[]
-                    message.error(file.response.message);
-                }
-                return file.response.status === 'success';
-            }
-            return true;
+      var fileList = info.fileList;
+      fileList = fileList.slice(-1);
+      fileList = fileList.filter((file) => {
+        if (file.response) {
+          if(file.response.code=='0'){
+            //得到数据，把数据抛出
+            const data=file.response.pdSpu
+            const total=data.length
+            this.props.Setdate(data,total)
+          }else{
+            fileList=[]
+            message.error(file.response.message);
+          }
+          return file.response.status === 'success';
+        }
+        return true;
         });
         this.setState({ fileList });
     }
