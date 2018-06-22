@@ -140,7 +140,8 @@ class EditableTable extends React.Component {
         const re=/^[0-9]*$/
         const str=re.test(values)
         if(str){
-            dataSource[index].exchangeQty=values
+            dataSource[index].exchangeQty = values
+            dataSource[index].exchangePrice = values*dataSource[index].toBPrice
             this.setState({
                 dataSource:dataSource
             },function(){

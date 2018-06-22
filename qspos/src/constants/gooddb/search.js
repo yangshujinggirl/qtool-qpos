@@ -114,13 +114,15 @@ class Searchcomponent extends React.Component {
             const newdata = []
             const olddata = this.props.datasouce
             for(let i=0;i<olddata.length;i++){
-              let data = {
-                pdSpuId : olddata[i].pdSpuId,
-                pdSkuId : olddata[i].pdSkuId,
-                qty : olddata[i].exchangeQty,
-                price : olddata[i].exchangePrice
+              if(olddata[i].exchangeQty != null && olddata[i].exchangePrice != null){
+                let data = {
+                  pdSpuId : olddata[i].pdSpuId,
+                  pdSkuId : olddata[i].pdSkuId,
+                  qty : olddata[i].exchangeQty,
+                  price : olddata[i].exchangePrice
+                }
+                newdata.push(data)
               }
-              newdata.push(data)
             }
             let payload = {
               inShopId:this.props.inShopId,
@@ -144,7 +146,7 @@ class Searchcomponent extends React.Component {
 
     //跳转
     callback=()=>{
-    	this.context.router.push('/goods');
+    	this.context.router.push('/dblog');
     }
 
     render(){
