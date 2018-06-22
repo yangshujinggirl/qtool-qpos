@@ -332,7 +332,7 @@
 
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,AutoComplete} from 'antd';
 import { Link } from 'dva/router';
 import CommonTable from '../../../constants/dataManage/commonTable';
 import {GetServerData} from '../../../services/services';
@@ -354,10 +354,11 @@ class AdjustLogIndexForm extends React.Component {
             total:0,
             currentPage:0,
             limit:10,
-            adjustTimeStart:"",
-            adjustTimeEnd:"",
+            adjustTimeStart:null,
+            adjustTimeEnd:null,
             visible:false,
-            windowHeight:''
+            windowHeight:'',
+            shopId:null
         };
         this._isMounted = false;
         this.columns = [{
@@ -416,8 +417,8 @@ class AdjustLogIndexForm extends React.Component {
     handleSearch = (e) =>{
         const self = this;
         this.props.form.validateFields((err, values) => {
-            values.adjustTimeStart=this.state.adjustTimeStart
-            values.adjustTimeEnd=this.state.adjustTimeEnd
+            values.exchangeTimeStart=this.state.adjustTimeStart
+            values.exchangeTimeEnd=this.state.adjustTimeEnd
             values.limit=this.state.limit;
             values.currentPage=this.state.currentPage
             const result=GetServerData('qerp.pos.pd.adjust.query',values)
@@ -492,6 +493,41 @@ class AdjustLogIndexForm extends React.Component {
         }
     }
 
+
+    handlespSearch = (value) => {
+        let data={name:value};
+        const result=GetServerData('qerp.web.sp.shop.list',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                let shopList=json.shops;
+                let dataSources=[];
+                for(let i=0;i<shopList.length;i++){
+                    dataSources.push({
+                        text:shopList[i].name,
+                        value:shopList[i].spShopId,
+                        key:i
+                    })
+                }
+                this.setState({
+                    dataSources:dataSources,
+                    shopId:null,
+                    sureShopId:null
+                },function(){
+                    this.props.getNewidData(this.state.shopId)
+                });
+            }
+        })
+    }
+
+    onSelect=(value)=>{
+        this.setState({
+            shopId:value
+        },function(){
+            this.props.getNewidData(this.state.shopId)
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -512,16 +548,30 @@ class AdjustLogIndexForm extends React.Component {
                                 onChange={this.dateChange.bind(this)} />
                         </FormItem>
                         <FormItem
-                            label="损益类型"
+                            className='search-con-data1'
+                            label="调拨时间"
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
-                                {getFieldDecorator('type')(
+                            <AutoComplete
+                                dataSource={this.state.dataSources}
+                                onSelect={this.onSelect}
+                                onSearch={this.handlespSearch}
+                                placeholder='请选择门店名称'
+                            />
+                        </FormItem>
+
+
+
+                        <FormItem
+                            label="调拨状态"
+                            labelCol={{ span: 5 }}
+                            wrapperCol={{span: 10}}>
+                                {getFieldDecorator('status')(
                                    <Select size='large' style={{marginRight:"10px"}}>
-                                        <Option value="3">店铺活动赠品</Option>
-                                        <Option value="4">仓储快递损坏</Option>
-                                        <Option value="1">商品丢失损坏</Option>
-                                        <Option value="2">盘点差异调整</Option>
-                                        <Option value="5">过期商品处理</Option>
+                                        <Option value="1">待收货</Option>
+                                        <Option value="3">收货中</Option>
+                                        <Option value="4">已收货</Option>
+                                        <Option value="2">已撤销</Option>
                                     </Select>
                                 )} 
                         </FormItem>
@@ -563,8 +613,6 @@ class AdjustLogIndexForm extends React.Component {
         );
     }
 
-   
-
     componentDidMount(){
         this._isMounted = true;
         if(this._isMounted){
@@ -583,7 +631,7 @@ class AdjustLogIndexForm extends React.Component {
         this.getNowFormatDate();
     }
 
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize.bind(this));
     }
