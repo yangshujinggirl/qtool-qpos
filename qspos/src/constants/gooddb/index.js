@@ -71,8 +71,8 @@ class EditableTable extends React.Component {
           total:0,
           page:1,
           windowHeight:'',
-          dataSources:[],
-          shopList:[],
+          dataSources:[],  //需求门店的数据源
+          shopList:[],   //需求门店
           shopId:null
         };
         this._isMounted = false;
@@ -91,6 +91,16 @@ class EditableTable extends React.Component {
        })
        this.props.getShopId(shopId)
     }
+
+     handleChange=(value)=>{
+       if(value == ''){
+         this.setState({
+           shopId:null
+         })
+         this.props.getShopId(null)
+       }
+
+     }
 
     handleSearch = (value) => {
         let data={name:value};
@@ -152,14 +162,12 @@ class EditableTable extends React.Component {
         let bPrice = dataSource[index].toBPrice
         let cPrice = dataSource[index].toCPrice
         if(qtyvalue != ''){
-          if(dataSource[index].qty == undefined && price == null){  //用户先点击调拨数量,后点击调拨总价
+          if(dataSource[index].exchangeQty == undefined && price == null){  //用户先点击调拨数量,后点击调拨总价
             if(qtyvalue){
               if(Number(qtyvalue)<Number(record.inventory)){
-                dataSource[index].qty=qtyvalue
+                dataSource[index].exchangeQty=qtyvalue
                 this.setState({
                   dataSource:dataSource
-                },function(){
-                  this.props.getNewData(this.state.dataSource)
                 })
               }else{
                 message.error('第'+ (index+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量')
@@ -167,28 +175,26 @@ class EditableTable extends React.Component {
             }
           }else{
             if(Number(qtyvalue) < Number(record.inventory)){  //数量符合,后校验钱
-              if(price > parseFloat(cPrice*qtyvalue)){  //不正常
-                message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价')
-              }else if(price < parseFloat(bPrice*qtyvalue)){
-                message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价')
-              }else{
-                dataSource[index].qty=qtyvalue
-                this.setState({
-                  dataSource:dataSource
-                },function(){
-                  this.props.getNewData(this.state.dataSource)
-                })
+              if(price != null){
+                if(price > parseFloat(cPrice*qtyvalue)){  //不正常
+                  message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价')
+                }else if(price < parseFloat(bPrice*qtyvalue)){
+                  message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价')
+                }else{
+                  dataSource[index].exchangeQty=qtyvalue
+                  this.setState({
+                    dataSource:dataSource
+                  })
+                }
               }
             }else{
               message.error('第'+ (index+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量')
             }
           }
         }else{
-          dataSource[index].qty = undefined
+          dataSource[index].exchangeQty = undefined
           this.setState({
             dataSource:dataSource
-          },function(){
-            this.props.getNewData(this.state.dataSource)
           })
         }
     }
@@ -216,8 +222,13 @@ class EditableTable extends React.Component {
      */
     hindFous=(record,index,e)=>{
       const dataSource=this.state.dataSource
-      if(dataSource[index].qty == undefined){
+      if(dataSource[index].exchangeQty == undefined){
         message.error('请先输入调拨数量')
+      }else{
+        dataSource[index].exchangePrice = undefined
+        this.setState({
+          dataSource:dataSource
+        })
       }
     }
 
@@ -233,8 +244,8 @@ class EditableTable extends React.Component {
         let bPrice = dataSource[index].toBPrice
         let cPrice = dataSource[index].toCPrice
         if(price != ''){
-          if(dataSource[index].qty != undefined){  //用户先点击调拨数量,后点击调拨总价
-            let qty = dataSource[index].qty
+          if(dataSource[index].exchangeQty != undefined){  //用户先点击调拨数量,后点击调拨总价
+            let qty = dataSource[index].exchangeQty
             if(price > parseFloat(cPrice*qty)){  //不正常
               message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价')
             }else if(price < parseFloat(bPrice*qty)){
@@ -243,8 +254,6 @@ class EditableTable extends React.Component {
               dataSource[index].exchangePrice=parseFloat(e.target.value)
               this.setState({
                 dataSource:dataSource
-              },function(){
-                this.props.getNewData(this.state.dataSource)
               })
             }
           }
@@ -291,10 +300,11 @@ class EditableTable extends React.Component {
                     dataSource={this.state.dataSources}
                     onSelect={this.onSelect.bind(this)}
                     onSearch={this.handleSearch.bind(this)}
+                    onChange={this.handleChange.bind(this)}
                     placeholder='请选择门店名称'
                 />
                 </div>
-        		<Table bordered
+        		    <Table bordered
                     dataSource={this.state.dataSource}
                     columns={columns}
                     rowClassName={this.rowClassName.bind(this)}
@@ -358,7 +368,6 @@ class Gooddb extends React.Component {
         return(
             <div>
                 <Header type={false} color={true} linkRoute="goods"/>
-                {this.state.inShopId}
                 <div className='counters'>
                     <Searchcomponent
                         dispatch={this.props.dispatch}

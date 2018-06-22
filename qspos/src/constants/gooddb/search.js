@@ -15,7 +15,6 @@ class Searchcomponent extends React.Component {
       dataSourcemessage: [],
       visible: false,
       type: null,
-      shopId: null,
     }
   }
     //下载
@@ -25,9 +24,6 @@ class Searchcomponent extends React.Component {
     //导入上传数据
     setdayasouceas=(data,total)=>{
         this.props.setdayasouce(data,total)
-    }
-    getShopId=()=>{
-       this.props.getShopId()
     }
 
     revisemessage=(messages)=>{
@@ -76,22 +72,37 @@ class Searchcomponent extends React.Component {
 
     //打开弹窗
     showModal = () => {
+      let total = 0
+      if(this.props.inShopId == null){
+        message.error('请输入需求门店')
+      }else{
         if(this.props.datasouce.length > 0){
           for(let i=0;i<this.props.datasouce.length;i++){
             let item = this.props.datasouce[i]
-            if(!(Number(item.exchangeQty)<Number(item.inventory))){
-              message.error('第'+ (i+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量')
-            }else{
-              if(item.exchangePrice > parseFloat(item.toCPrice*item.qty)){
-                message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价')
-              }else if(item.exchangePrice < parseFloat(item.toBPrice*item.qty)){
-                message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价')
+            if(item.exchangeQty != null){
+              total = total + item.exchangeQty
+              if(!(Number(item.exchangeQty)<Number(item.inventory))){
+                message.error('第'+ (i+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量')
               }else{
-                this.setState({ visible: true});
+                if(item.exchangePrice != null){
+                  if(item.exchangePrice > parseFloat(item.toCPrice*item.exchangeQty)){
+                    message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价')
+                  }else if(item.exchangePrice < parseFloat(item.toBPrice*item.exchangeQty)){
+                    message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价')
+                  }
+                }
               }
             }
           }
+          if(total == 0){
+            message.error('调拨商品总数不能为0')
+          }else{
+            this.setState({visible:true})
+          }
+        }else{
+          message.error('请导入或搜索要调拨的商品')
         }
+      }
     }
 
     submitListInfo = () => {
@@ -121,7 +132,6 @@ class Searchcomponent extends React.Component {
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
-                    console.log(json)
                     message.success('调拨成功',3,this.callback());
                     form.resetFields();
                     this.setState({ visible: false });
