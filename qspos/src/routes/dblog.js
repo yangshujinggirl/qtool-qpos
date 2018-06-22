@@ -9,7 +9,7 @@ class DbLogIndex extends React.Component{
    render(){
         return (
             <div>
-                <Header type={false} color={true} linkRoute="inventory"/>
+                <Header type={false} color={true} linkRoute="gooddb"/>
                 <div className='counters'>
                     <div className="adjust-log">
                         <DbLogIndexs/>

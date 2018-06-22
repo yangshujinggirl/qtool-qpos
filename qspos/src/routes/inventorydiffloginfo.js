@@ -8,10 +8,10 @@ import '../style/adjustLog.css';
 class Inventoryloginfo extends React.Component{
 
    render(){
-    
+
         return (
             <div>
-                <Header type={false} color={true} linkRoute="adjust"/>
+                <Header type={false} color={true} linkRoute="inventorydiffLog"/>
                 <div className='counters'>
                     <div className="adjust-log">
                         <Inventoryloginfos query={this.props.location.query}/>

@@ -31,7 +31,7 @@ class Searchcomponent extends React.Component {
                 if(json.code =='0'){
                     this.props.initpdCheckId();
                     message.success('损益成功',3,this.callback());
-                }else{  
+                }else{
                     message.error(json.message);
                 }
             })
@@ -39,7 +39,7 @@ class Searchcomponent extends React.Component {
             message.error("暂无盘点损益信息");
         }
     }
-    
+
     callback=()=>{
         this.context.router.push('/inventory');
     }
@@ -55,6 +55,10 @@ class Searchcomponent extends React.Component {
             settablesouce:messages
         })
     }
+    writelog=()=>{
+      const payload = {checkId:this.props.pdCheckId}
+      GetServerData('qerp.pos.pd.check.log',payload)
+    }
     render(){
         return(
             <div className='clearfix'>
@@ -63,7 +67,7 @@ class Searchcomponent extends React.Component {
 	      		</div>
       			<div className='fr'>
           			<div className='searchselect clearfix'>
-	                    <div className='fl btn ml20'><Link to='/inventory'><Buttonico text='暂不损益'/></Link></div>
+	                    <div className='fl btn ml20' onClick={this.writelog.bind(this)}><Link to='/inventory'><Buttonico text='暂不损益'/></Link></div>
 	      				<div className='fl btn ml20' onClick={this.Hindok.bind(this)}><Buttonico text='确定损益'/></div>
 	                </div>
      			</div>
@@ -94,7 +98,7 @@ class EditableTable extends React.Component {
             title: '差异数量',
             dataIndex: 'difQty',
             width:"8%"
-        } 
+        }
     	];
 
 	    this.state = {
@@ -105,7 +109,7 @@ class EditableTable extends React.Component {
             windowHeight:""
 	    };
   	}
-  
+
   	rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
@@ -132,7 +136,7 @@ class EditableTable extends React.Component {
                 },function(){
                     this.props.dataSources(this.state.dataSource)
                 })
-            }else{  
+            }else{
                 message.warning(json.message);
             }
         })
@@ -154,15 +158,15 @@ class EditableTable extends React.Component {
         }
     }
 
-  	
+
   	render() {
     	const { dataSource } = this.state;
     	const columns = this.columns;
     	return (
       		<div className='bgf' ref="tableWrapper">
-        		<Table bordered 
-                    dataSource={this.state.dataSource} 
-                    columns={columns} 
+        		<Table bordered
+                    dataSource={this.state.dataSource}
+                    columns={columns}
                     rowClassName={this.rowClassName.bind(this)}
                     pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                     scroll={{y:this.state.windowHeight}}
@@ -188,9 +192,9 @@ class EditableTable extends React.Component {
              windowHeight:document.body.offsetHeight-270,
          });
         }
-        window.addEventListener('resize', this.windowResize);    
+        window.addEventListener('resize', this.windowResize);
     }
-    componentWillUnmount(){   
+    componentWillUnmount(){
         window.removeEventListener('resize', this.windowResize);
     }
 }

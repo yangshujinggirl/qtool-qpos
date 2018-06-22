@@ -64,7 +64,7 @@ class Searchcomponent extends React.Component {
                     <div className='fl clearfix'>
                         <div className='fl btn'><Link to='/adjust'><Buttonico text='商品损益'/></Link></div>
                         <div className='fl btn ml20'><Link to='/inventory'><Buttonico text='店铺盘点'/></Link></div>
-                        <div className='fl btn ml20'><Link to='/gooddb'><Buttonico text='店铺调拨'/></Link></div>
+                        {role == 1 ? <div className='fl btn ml20'><Link to='/gooddb'><Buttonico text='店铺调拨'/></Link></div> : null}
                     </div>
                     :null
                 }
@@ -78,13 +78,13 @@ class Searchcomponent extends React.Component {
                                     return <Option value={item.pdCategoryId} key={index}>{item.name}</Option>
                                 })
                             }
-	                        
+
 	                    </Select>
 	                </div>
                     <div className='fl'>
-                        <SearchinputTwo 
-                            text='请输入商品条码、名称' 
-                            revisemessage={this.revisemessage.bind(this)} 
+                        <SearchinputTwo
+                            text='请输入商品条码、名称'
+                            revisemessage={this.revisemessage.bind(this)}
                             hindsearch={this.hindsearch.bind(this)}
                             exportData={this.exportData.bind(this)}/>
                     </div>
@@ -152,7 +152,7 @@ class EditableTable extends React.Component {
             currentPage:1
 	    };
   	}
-  	
+
   	rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
@@ -176,7 +176,7 @@ class EditableTable extends React.Component {
         },function(){
             this.props.pagefresh(0,pageSize)
         })
-        
+
     }
 
     windowResize = () =>{
@@ -202,7 +202,7 @@ class EditableTable extends React.Component {
         let role=sessionStorage.getItem('role');
     	return (
       		<div className='bgf-goods-style good-contrl-table' ref="tableWrapper">
-        		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?this.columnsClerk:this.columns} 
+        		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?this.columnsClerk:this.columns}
                 rowClassName={this.rowClassName.bind(this)}
                 pagination={
                              {'total':Number(this.props.total),current:this.state.currentPage,pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
@@ -228,9 +228,9 @@ class EditableTable extends React.Component {
              });
             }
             window.addEventListener('resize', this.windowResize);
-        } 
+        }
     }
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
@@ -256,7 +256,7 @@ class Goods extends React.Component {
             </div>
         );
     }
-   
+
 
 
 }

@@ -24,6 +24,7 @@ search_inputmod input::-ms-input-placeholder{font-size: 14px;color: #B4B4B4;}
     line-height: 40px;
     font-size: 14px;
     color: #74777F;
+    margin-right: 10px;
 }
 
 .adjust-inputwidth{
@@ -31,6 +32,8 @@ search_inputmod input::-ms-input-placeholder{font-size: 14px;color: #B4B4B4;}
     font-size: 14px;
     text-align: center;
 }
+.gooddbcon{
 
-/* .gooddbcon input::-ms-input-placeholder{font-size: 14px;color: red;margin-top:10px;}
-.gooddbcon input::-webkit-input-placeholder{font-size: 14px;color:red;margin-top:10px;} */
+}
+/* .gooddbcon input::-ms-input-placeholder{font-size: 14px;color: red;margin-top:10px;}*/
+/* .gooddbcon input::-webkit-input-placeholder{font-size: 14px;color:red;margin-top:10px;} */

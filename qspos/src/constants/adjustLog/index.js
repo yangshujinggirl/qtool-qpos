@@ -22,8 +22,8 @@ class AdjustLogIndexForm extends React.Component {
             total:0,
             currentPage:0,
             limit:10,
-            adjustTimeStart:"",
-            adjustTimeEnd:"",
+            adjustTimeST:"",
+            adjustTimeET:"",
             visible:false,
             windowHeight:''
         };
@@ -58,8 +58,8 @@ class AdjustLogIndexForm extends React.Component {
 
     dateChange = (date, dateString) =>{
         this.setState({
-            adjustTimeStart:dateString[0],
-            adjustTimeEnd:dateString[1]
+            adjustTimeST:dateString[0],
+            adjustTimeET:dateString[1]
         })
     }
 
@@ -84,8 +84,8 @@ class AdjustLogIndexForm extends React.Component {
     handleSearch = (e) =>{
         const self = this;
         this.props.form.validateFields((err, values) => {
-            values.adjustTimeStart=this.state.adjustTimeStart
-            values.adjustTimeEnd=this.state.adjustTimeEnd
+            values.adjustTimeST=this.state.adjustTimeST
+            values.adjustTimeET=this.state.adjustTimeET
             values.limit=this.state.limit;
             values.currentPage=this.state.currentPage
             const result=GetServerData('qerp.pos.pd.adjust.query',values)
@@ -104,7 +104,7 @@ class AdjustLogIndexForm extends React.Component {
                         limit:Number(json.limit)
                     })
                 }else{
-                    message.error(json.message); 
+                    message.error(json.message);
                 }
             })
         })
@@ -113,15 +113,15 @@ class AdjustLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            adjustTimeStart:this.state.adjustTimeStart,
-            adjustTimeEnd:this.state.adjustTimeEnd,
+            adjustTimeST:this.state.adjustTimeST,
+            adjustTimeET:this.state.adjustTimeET,
             name:this.state.name,
             type:1
         }
         const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
 
-    
+
     rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
@@ -129,16 +129,16 @@ class AdjustLogIndexForm extends React.Component {
       		return 'table_white'
     	}
       }
-      
-   
+
+
 
     //获取当前时间
     getNowFormatDate = () =>{
         let startRpDate=timeForMats(30).t2;
         let endRpDate=timeForMats(30).t1;
         this.setState({
-            adjustTimeStart:startRpDate,
-            adjustTimeEnd:endRpDate
+            adjustTimeST:startRpDate,
+            adjustTimeET:endRpDate
         },function(){
             this.handleSearch();
         })
@@ -171,9 +171,9 @@ class AdjustLogIndexForm extends React.Component {
                             label="损益时间"
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
-                            <RangePicker 
-                                value={this.state.adjustTimeStart?
-                                        [moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]
+                            <RangePicker
+                                value={this.state.adjustTimeST?
+                                        [moment(this.state.adjustTimeST, dateFormat), moment(this.state.adjustTimeET, dateFormat)]
                                         :null
                                     }
                                 format={dateFormat}
@@ -184,14 +184,15 @@ class AdjustLogIndexForm extends React.Component {
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
                                 {getFieldDecorator('type')(
-                                   <Select size='large' style={{marginRight:"10px"}}>
-                                        <Option value="3">店铺活动赠品</Option>
-                                        <Option value="4">仓储快递损坏</Option>
+                                   <Select size='large' style={{marginRight:"10px"}} allowClear={true}
+                                   placeholder="请选择损益类型">
                                         <Option value="1">商品丢失损坏</Option>
                                         <Option value="2">盘点差异调整</Option>
+                                        <Option value="3">店铺活动赠品</Option>
+                                        <Option value="4">仓储快递损坏</Option>
                                         <Option value="5">过期商品处理</Option>
                                     </Select>
-                                )} 
+                                )}
                         </FormItem>
                         <FormItem className='fr'>
                             <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
@@ -207,10 +208,10 @@ class AdjustLogIndexForm extends React.Component {
                     </Form>
                 </div>
                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">
-                    <Table 
-                        bordered 
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource} 
+                    <Table
+                        bordered
+                        columns={this.columns}
+                        dataSource={this.state.dataSource}
                         rowClassName={this.rowClassName.bind(this)}
                         scroll={{y:this.state.windowHeight}}
                         pagination={
@@ -231,7 +232,7 @@ class AdjustLogIndexForm extends React.Component {
         );
     }
 
-   
+
 
     componentDidMount(){
         this._isMounted = true;
@@ -251,7 +252,7 @@ class AdjustLogIndexForm extends React.Component {
         this.getNowFormatDate();
     }
 
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize.bind(this));
     }

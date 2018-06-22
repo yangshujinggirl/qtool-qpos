@@ -87,16 +87,16 @@ class Searchcomponent extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 message.success('损益成功',3,this.callback());
-            }else{  
+            }else{
                 message.error(json.message);
             }
         })
     }
-   
+
     callback=()=>{
     	this.context.router.push('/goods');
     }
-    
+
     revisemessage=(messages)=>{
         this.setState({
             inputvalue:messages
@@ -122,7 +122,7 @@ class Searchcomponent extends React.Component {
                     }
                     this.props.setdayasouce(pdSpus,this.state.total)
                 })
-            }else{  
+            }else{
                     message.error(json.message);
             }
         })
@@ -171,7 +171,7 @@ class Searchcomponent extends React.Component {
                     message.success('损益成功',3,this.callback());
                     form.resetFields();
                     this.setState({ visible: false });
-                }else{  
+                }else{
                     message.error(json.message);
                 }
             })
@@ -187,19 +187,19 @@ class Searchcomponent extends React.Component {
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载损益模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)}/></div>
-                    <div className='fl btn ml20'><Link to='/adjustLog'><Buttonico text='查看损益日志'/></Link></div>
+              <div className='fl btn ml20'><Link to='/adjustLog'><Buttonico text='查看损益日志'/></Link></div>
 	      		</div>
       			<div className='fr clearfix'>
           			<div className='fl'><Searchinput text='请输入商品条码、商品名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindsearch.bind(this,0)}/></div>
           			<div className='searchselect clearfix fl'>
-	                    <div className='fl btn ml20 cancel-btn-style'><Link to='/goods'><Buttonico text='取消损益'/></Link></div>
-	      				<div className='fl btn ml20 cancel-btn-style' onClick={this.showModal.bind(this)}><Buttonico text='确定损益'/></div>
-                        <AdjustTextModal
-                            ref={this.saveFormRef}
-                            visible={this.state.visible}
-                            onCancel={this.hideModal}
-                            onCreate={this.submitListInfo}
-                            />
+                  <div className='fl btn ml20 cancel-btn-style'><Link to='/goods'><Buttonico text='取消损益'/></Link></div>
+	      				  <div className='fl btn ml20 cancel-btn-style' onClick={this.showModal.bind(this)}><Buttonico text='确定损益'/></div>
+                  <AdjustTextModal
+                    ref={this.saveFormRef}
+                    visible={this.state.visible}
+                    onCancel={this.hideModal}
+                    onCreate={this.submitListInfo}
+                  />
 	                </div>
      			</div>
     		</div>
@@ -237,9 +237,9 @@ class EditableTable extends React.Component {
               width:"8%",
       		render: (text, record, index) => {
         	return (
-                    <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)} 
+                    <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)}
                             onBlur={this.hindBlur.bind(this)}
-                            value={this.state.dataSource[((Number(this.state.page)-1)*10)+index].adjustQty} 
+                            value={this.state.dataSource[((Number(this.state.page)-1)*10)+index].adjustQty}
                             autoComplete="off"
                            />
         		)
@@ -330,7 +330,7 @@ class EditableTable extends React.Component {
                     windowHeight:document.body.offsetHeight-270,
                 });
             }
-        } 
+        }
     }
 
   	render() {
@@ -338,10 +338,10 @@ class EditableTable extends React.Component {
         const pdSpus=this.props.pdSpus
     	return (
       		<div className='bgf' ref="tableWrapper">
-        		<Table bordered 
-                    dataSource={this.state.dataSource} 
-                    columns={columns} 
-                    rowClassName={this.rowClassName.bind(this)} 
+        		<Table bordered
+                    dataSource={this.state.dataSource}
+                    columns={columns}
+                    rowClassName={this.rowClassName.bind(this)}
                     pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
                     onChange={this.pagechange.bind(this)}
                     scroll={{y:this.state.windowHeight}}
@@ -363,13 +363,13 @@ class EditableTable extends React.Component {
                 });
             }
         }
-        window.addEventListener('resize', this.windowResize);    
+        window.addEventListener('resize', this.windowResize);
     }
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
-      
+
 }
 
 
@@ -394,9 +394,9 @@ class Adjust extends React.Component {
                 </div>
             </div>
             )
-        
+
     }
-    
+
 }
 
 function mapStateToProps(state) {
