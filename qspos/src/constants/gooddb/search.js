@@ -73,8 +73,10 @@ class Searchcomponent extends React.Component {
     //打开弹窗
     showModal = () => {
       let total = 0
+      let hasError = false
       if(this.props.inShopId == null){
-        message.error('请输入需求门店')
+        hasError = true
+        message.error('请输入需求门店',1.5)
       }else{
         if(this.props.datasouce.length > 0){
           for(let i=0;i<this.props.datasouce.length;i++){
@@ -82,26 +84,37 @@ class Searchcomponent extends React.Component {
             if(item.exchangeQty != null){
               total = total + item.exchangeQty
               if(!(Number(item.exchangeQty)<Number(item.inventory))){
-                message.error('第'+ (i+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量')
+                hasError = true
+                message.error('第'+ (i+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量',1.5)
               }else{
                 if(item.exchangePrice != null){
                   if(item.exchangePrice > parseFloat(item.toCPrice*item.exchangeQty)){
-                    message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价')
+                    hasError = true
+                    message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价',1.5)
                   }else if(item.exchangePrice < parseFloat(item.toBPrice*item.exchangeQty)){
-                    message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价')
+                    hasError = true
+                    message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价',1.5)
                   }
                 }
+              }
+              if(hasError){
+                break;
               }
             }
           }
           if(total == 0){
-            message.error('调拨商品总数不能为0')
-          }else{
-            this.setState({visible:true})
+            hasError = true
+            message.error('调拨商品总数不能为0',1.5)
           }
         }else{
-          message.error('请导入或搜索要调拨的商品')
+          hasError = true
+          message.error('请导入或搜索要调拨的商品',1.5)
         }
+      }
+      if(!hasError){
+        this.setState({
+          visible:true
+        })
       }
     }
 
