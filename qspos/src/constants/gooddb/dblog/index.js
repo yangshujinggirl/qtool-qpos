@@ -237,7 +237,7 @@ class AdjustLogIndexForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="adjust-index">
+            <div className="adjust-index  dblog-search">
                 <div className="form-wrapper">
                     <Form className="search-form">
                         <FormItem

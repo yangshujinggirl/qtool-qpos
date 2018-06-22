@@ -35,5 +35,10 @@ search_inputmod input::-ms-input-placeholder{font-size: 14px;color: #B4B4B4;}
 .gooddbcon{
 
 }
-/* .gooddbcon input::-ms-input-placeholder{font-size: 14px;color: red;margin-top:10px;}*/
-/* .gooddbcon input::-webkit-input-placeholder{font-size: 14px;color:red;margin-top:10px;} */
+/* .gooddbcon input::-ms-input-placeholder{font-size: 14px;color: red;margin-top:10px;}
+.gooddbcon input::-webkit-input-placeholder{font-size: 14px;color:red;margin-top:10px;} */
+
+
+
+.gooddbcon .ant-select-selection__placeholder, .ant-select-search__field__placeholder{height: 28px;line-height: 28px;}
+.dblog-search .ant-select-auto-complete.ant-select .ant-select-selection__rendered{line-height: 40px;}
