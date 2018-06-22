@@ -79,7 +79,7 @@ class Searchcomponent extends React.Component {
         if(this.props.datasouce.length > 0){
           for(let i=0;i<this.props.datasouce.length;i++){
             let item = this.props.datasouce[i]
-            if(!(Number(item.qty)<Number(item.inventory))){
+            if(!(Number(item.exchangeQty)<Number(item.inventory))){
               message.error('第'+ (i+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量')
             }else{
               if(item.exchangePrice > parseFloat(item.toCPrice*item.qty)){

@@ -79,6 +79,8 @@ class ReceiptDetailsForm extends React.Component {
         var exchangeId = location.hash.split('?')[1].split('&')[0].split('=')[1]
         var exchangeNo = location.hash.split('?')[1].split('&')[1].split('=')[1]
         const data0 = GetServerData('qerp.pos.pd.exchange.query',{exchangeNo:exchangeNo})
+        const data1 = GetServerData('qerp.qpos.pd.exchange.detail.info',{qposPdExchangeId:exchangeId})
+        const logdata = GetServerData('qerp.qpos.pd.exchange.info',{qposPdExchangeId:exchangeId})
         data0.then((res) => {
           return res;
         }).then((json) => {
@@ -91,7 +93,6 @@ class ReceiptDetailsForm extends React.Component {
             message.error(json.message);
           }
         })
-        const data1 = GetServerData('qerp.qpos.pd.exchange.detail.info',{qposPdExchangeId:exchangeId})
         data1.then((res) => {
           return res;
         }).then((json) => {
@@ -107,7 +108,6 @@ class ReceiptDetailsForm extends React.Component {
             message.error(json.message);
           }
         })
-        const logdata = GetServerData('qerp.qpos.pd.exchange.info',{qposPdExchangeId:exchangeId})
         logdata.then((res) => {
             return res;
           }).then((json) => {

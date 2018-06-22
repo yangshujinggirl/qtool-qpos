@@ -8,10 +8,10 @@ import '../style/adjustLog.css';
 class AdjustLoginfo extends React.Component{
 
    render(){
-    
+
         return (
             <div>
-                <Header type={false} color={true} linkRoute="adjust"/>
+                <Header type={false} color={true} linkRoute="adjustLog"/>
                 <div className='counters'>
                     <div className="adjust-log">
                         <Adjustloginfochil query={this.props.location.query}/>
