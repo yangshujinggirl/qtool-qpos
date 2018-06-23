@@ -1775,15 +1775,15 @@ function printDbOrderSmall(message,printCount){
 			LODOP.ADD_PRINT_LINE(159,0,159,"50mm",2,0);
 		
 		
-			LODOP.ADD_PRINT_TEXT(180,"0mm","25mm",20,"商品");
+			LODOP.ADD_PRINT_TEXT(170,"0mm","25mm",20,"商品");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
-			LODOP.ADD_PRINT_TEXT(180,"25mm","10mm",20,"数量");
+			LODOP.ADD_PRINT_TEXT(170,"25mm","10mm",20,"数量");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
-			LODOP.ADD_PRINT_TEXT(180,"35mm","15mm",20,"金额");
+			LODOP.ADD_PRINT_TEXT(170,"35mm","15mm",20,"金额");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
