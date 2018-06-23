@@ -1117,6 +1117,8 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.PRINT();
 }
 
+
+
 //打印销售订单
 export function getSaleOrderInfo(message,size,printCount){
 	if(size == "80"){
@@ -1513,3 +1515,369 @@ export function GetLodop(id,type,orderno,size) {
 	
 }
 
+// ——————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+//打印调拨订单
+
+
+export function getDbOrderInfo(message,size,printCount){
+	if(size == "80"){
+		printDbOrder(message,printCount);
+	}else{
+		printDbOrderSmall(message,printCount);
+	}
+}
+
+function printDbOrder(message,printCount){
+	console.log('wo dao l  dayin l')
+	console.log(message)
+	console.log(printCount)
+	if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
+		let print_count = Number(printCount);
+		let dbInfoAll = message;
+	
+		//小票数据
+		var printName = dbInfoAll.exchangeNos[0].outShopName; //门店名称
+		var orderNo = dbInfoAll.exchangeNos[0].exchangeNo; //调拨单号
+		var dbTime = dbInfoAll.exchangeNos[0].createTime;  //调拨时间
+		var needsp=dbInfoAll.exchangeNos[0].inShopName;  //需求门店
+		var moneyInfo = dbInfoAll.pdInfo;  //商品信息
+		var totalPay = dbInfoAll.exchangeNos[0].amountSum;  //合计金额
+		var totalqty = dbInfoAll.exchangeNos[0].qtySum;  //合计数量
+		var remarktext1='本单全部收货后将在你的Q掌柜账户扣除合计金额增加在'
+		var remarktext2='的Q掌柜账户中'
+		var foot1='扫描关注Qtools官方微信公众号'
+		var foot2='官方投诉电话：400-7766-999'
+		var foot3='Qtools|有温度的进口母婴品牌'
+		
+
+		LODOP=getLodop();
+		LODOP.PRINT_INIT('打印'+new Date());
+		LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
+		
+		LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
+		LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+	
+		LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.ADD_PRINT_LINE(68,0,69,"70mm",2,0);
+	
+	
+		//调拨单号
+		LODOP.ADD_PRINT_TEXT(80,"0mm","20mm",20,"调拨单号");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+		LODOP.ADD_PRINT_TEXT(80,"20mm","50mm",20,orderNo);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+		LODOP.ADD_PRINT_TEXT(100,"0mm","20mm",20,"调拨日期");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+
+		LODOP.ADD_PRINT_TEXT(100,"20mm","50mm",20,dbTime);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+	
+		LODOP.ADD_PRINT_TEXT(120,"0mm","20mm",20,"调拨日期");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		
+		LODOP.ADD_PRINT_TEXT(120,"20mm","50mm",20,dbTime);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+		LODOP.ADD_PRINT_LINE(139,0,120,"70mm",2,0);
+	
+	
+		LODOP.ADD_PRINT_TEXT(150,"0mm","35mm",20,"商品");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+		LODOP.ADD_PRINT_TEXT(150,"35mm","15mm",20,"数量");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+		LODOP.ADD_PRINT_TEXT(150,"50mm","20mm",20,"金额");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	
+	
+		//70mm 1mm=3.78px
+		var lineWidth = 70*3.78;
+		//8pt=11px
+	
+		var infoLen;
+		var lineCount;
+		var posi = 160;
+		for(var i=0;i<moneyInfo.length;i++){
+			infoLen = moneyInfo[i].name.length*11;
+			lineCount = Math.ceil(infoLen/lineWidth);
+	
+			if(moneyInfo[i].displayName){
+				LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+			}else{
+				LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name);
+			}
+			
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+			LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"36mm","14mm",20,moneyInfo[i].qty);
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+			LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"50mm","20mm",20,moneyInfo[i].payPrice);
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	
+			posi = posi+40+(lineCount-1)*12;
+		};
+		
+		LODOP.ADD_PRINT_LINE(posi-3,0,posi-2,"70mm",2,0);
+	
+		LODOP.ADD_PRINT_TEXT(posi+10,"0mm","35mm",20,"合计金额");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+		LODOP.ADD_PRINT_TEXT(posi+10,"36mm","14mm",20,totalqty);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+	
+		LODOP.ADD_PRINT_TEXT(posi+10,"50mm","20mm",20,totalPay);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	
+		
+		LODOP.ADD_PRINT_LINE(posi+20,0,posi-2,"70mm",2,0);
+		
+		var position2 = posi+30;
+	
+	
+		LODOP.ADD_PRINT_TEXT(position2+140,0,"70mm",20,"本单全部收货后将在你的Q掌柜账户扣除合计金额增加在"+needsp+'的Q掌柜账户中');
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
+	
+
+		LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+	
+		LODOP.ADD_PRINT_TEXT(position2+85,0,"70mm",20,"扫描关注Qtools官方微信公众号");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.ADD_PRINT_TEXT(position2+105,0,"70mm",20,"官方投诉电话：400-7766-999");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.ADD_PRINT_TEXT(position2+140,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.SET_PRINT_COPIES(print_count);
+		// LODOP.PRINT_DESIGN();
+		// LODOP.PREVIEW();
+		LODOP.PRINT();
+	}
+}
+
+function printDbOrderSmall(message,printCount){
+	if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
+		let print_count = Number(printCount);
+		let dbInfoAll = message;
+		var moneyInfo = dbInfoAll.orderDetails;
+		//门店打印名称字段
+		var printName = dbInfoAll.printName;
+	
+		var orderNo = dbInfoAll.odOrder.orderNo;
+		var saleTime = dbInfoAll.odOrder.saleTime;
+		var totalPay = dbInfoAll.odOrder.payAmount;
+		var totalqty = dbInfoAll.odOrder.qty;
+	
+		//添加折扣优惠
+		var discountAmount;
+		if(dbInfoAll.odOrder.discountAmount && Number(dbInfoAll.odOrder.discountAmount)<0){
+			discountAmount = dbInfoAll.odOrder.discountAmount;
+		}
+	
+		//添加抹零优惠
+		var cutAmount;
+		if(dbInfoAll.odOrder.cutAmount && Number(dbInfoAll.odOrder.cutAmount)<0){
+			cutAmount = dbInfoAll.odOrder.cutAmount;
+		}
+	
+	
+		LODOP=getLodop();
+		LODOP.PRINT_INIT('打印'+new Date());
+		LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
+	
+		LODOP.ADD_PRINT_IMAGE(0,"14mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
+		LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+	
+		LODOP.ADD_PRINT_TEXT(40,0,"50mm",20,printName);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.ADD_PRINT_LINE(57,0,58,"50mm",2,0);
+	
+		LODOP.ADD_PRINT_TEXT(70,"0mm","15mm",20,"销售单号");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+		LODOP.ADD_PRINT_TEXT(70,"15mm","50mm",20,orderNo);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+		LODOP.ADD_PRINT_TEXT(90,"0mm","15mm",20,"销售日期");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		// LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.ADD_PRINT_TEXT(90,"15mm","50mm",20,saleTime);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+		LODOP.ADD_PRINT_LINE(107,0,108,"50mm",2,0);
+	
+		LODOP.ADD_PRINT_TEXT(120,"0mm","25mm",20,"商品");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+		LODOP.ADD_PRINT_TEXT(120,"25mm","10mm",20,"数量");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+		LODOP.ADD_PRINT_TEXT(120,"35mm","15mm",20,"金额");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	
+		//70mm 1mm=3.78px
+		var lineWidth = 70*3.78;
+		//8pt=11px
+	
+		var infoLen;
+		var lineCount;
+		var posi = 140;
+		for(var i=0;i<moneyInfo.length;i++){
+			infoLen = moneyInfo[i].name.length*9;
+			lineCount = Math.ceil(infoLen/lineWidth);
+	
+			if(moneyInfo[i].displayName){
+				LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+			}else{
+				LODOP.ADD_PRINT_TEXT(posi,"0mm","50mm",20+(lineCount-1)*12,moneyInfo[i].name);
+			}
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+			LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"26mm","9mm",20,moneyInfo[i].qty);
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+			LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"35mm","15mm",20,moneyInfo[i].payPrice);
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	
+			posi = posi+40+(lineCount-1)*12;
+			console.log(posi);
+		};
+		
+		LODOP.ADD_PRINT_LINE(posi-3,0,posi-2,"70mm",2,0);
+	
+		LODOP.ADD_PRINT_TEXT(posi+10,"0mm","25mm",20,"实付金额");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+		LODOP.ADD_PRINT_TEXT(posi+10,"26mm","9mm",20,totalqty);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+		LODOP.ADD_PRINT_TEXT(posi+10,"35mm","15mm",20,totalPay);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	
+		let position2 = posi+30;
+	
+		//添加支付方式
+		const payType="「微信扫码：1200.00   会员卡：31.20」"
+		LODOP.ADD_PRINT_TEXT(posi+10,"0mm","25mm",20,payType);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	
+	
+		//折扣优惠
+		if(discountAmount){
+			LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"折扣优惠");
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+			LODOP.ADD_PRINT_TEXT(position2,"35mm","15mm",20,discountAmount);
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			position2 = position2+20;
+		}
+	
+		//抹零优惠
+		if(cutAmount){
+			LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"抹零优惠");
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+			LODOP.ADD_PRINT_TEXT(position2,"35mm","15mm",20,cutAmount);
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			position2 = position2+20;
+		}
+	
+		//会员积分
+		if(dbInfoAll.mbCard){
+			LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"本次积分");
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+	
+			LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,dbInfoAll.odOrder.orderPoint);
+			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			position2 = position2+20;
+		}
+	
+		LODOP.ADD_PRINT_BARCODE(position2,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+	
+		LODOP.ADD_PRINT_TEXT(position2+85,0,"50mm",20,"扫描关注Qtools官方微信公众号");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.ADD_PRINT_TEXT(position2+105,0,"50mm",20,"官方投诉电话：400-7766-999");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.ADD_PRINT_TEXT(position2+135,0,"50mm",20,"Qtools | 有温度的进口母婴品牌");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+	
+		LODOP.SET_PRINT_COPIES(print_count);
+		// LODOP.PRINT_DESIGN();
+		// LODOP.PREVIEW();
+		LODOP.PRINT();
+	}
+}
