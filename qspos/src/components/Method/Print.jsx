@@ -1608,7 +1608,7 @@ function printDbOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_TEXT(200,"35mm","15mm",20,"数量");
+		LODOP.ADD_PRINT_TEXT(200,"36mm","14mm",20,"数量");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
