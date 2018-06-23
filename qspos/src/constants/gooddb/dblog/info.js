@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 
 import {GetServerData} from '../../../services/services';
 import CommonTable from '../../dataManage/commonTable';
+import { getDbOrderInfo } from '../../../components/Method/Print'
 
 class ReceiptDetailsForm extends React.Component {
     constructor(props,context) {
@@ -122,6 +123,64 @@ class ReceiptDetailsForm extends React.Component {
           })
     }
 
+    //打印
+    
+
+    printDborder=(exchangNo)=>{
+      console.log('diao da yin fang fa')
+      const printdata={}
+      const values={
+        exchangNo:exchangNo
+      }
+      const result=GetServerData('qerp.pos.pd.exchange.query',values);
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        if(json.code=='0'){
+          printdata.exchangeNos=json.exchangeNos
+          const value={
+            	qposPdExchangeId:json.exchangeNos[0].qposPdExchangeId
+          }
+          const result=GetServerData('qerp.qpos.pd.exchange.detail.info',value);
+          result.then((res) => {
+            return res;
+          }).then((json) => {
+            if(json.code=='0'){
+              printdata.pdInfo=json.pdInfo
+              //请求打印的份数
+              const result=GetServerData('qerp.pos.sy.config.info')
+              result.then((res) => {
+                   return res;
+              }).then((json) => {
+                     console.log(json);
+                     if(json.code == "0"){
+                    const allocationPrint=json.config.allocationPrint  //是否可以打印  1是  0否
+                    const allocationPrintNum = json.config.allocationPrintNum  //打印份数
+                    const paperSize=json.config.paperSize  //打印纸张大小
+                    if(allocationPrint=='1'){
+                      if(paperSize=='80'){
+                        getDbOrderInfo(printdata,'80',allocationPrintNum)
+                      }else{
+                        getDbOrderInfo(printdata,'58',allocationPrintNum)
+                      }
+                    }
+  
+                  
+                   }
+               })
+            }else{
+              message.error(json.message);
+            }
+          })
+        }else{
+          message.error(json.message);
+        }
+      })
+
+    }
+
+
+
     render() {
         return (
             <div className="ph-info">
@@ -153,6 +212,9 @@ class ReceiptDetailsForm extends React.Component {
                       dataSource={this.state.logdataSource}
                       pagination={false}
                     />
+                </div>
+                <div className="re-print-db" onClick={this.printDborder.bind(this,this.state.currentItem.exchangeNo)}>
+                        <img src={require("../../../images/icon_rePrint@2x.png")} alt=""/>
                 </div>
             </div>
         );
