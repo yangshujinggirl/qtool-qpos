@@ -1580,7 +1580,7 @@ function printDbOrder(message,printCount){
 
 		//条码
 		// LODOP.ADD_PRINT_BARCODE(100,"20mm",200,30,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
-		LODOP.ADD_PRINT_BARCODE(100,"25mm",30,30,"PDF417",orderNo);
+		LODOP.ADD_PRINT_BARCODE(100,"25mm",100,30,"PDF417",orderNo);
 
 	
 		LODOP.ADD_PRINT_TEXT(150,"0mm","20mm",20,"调拨时间");
