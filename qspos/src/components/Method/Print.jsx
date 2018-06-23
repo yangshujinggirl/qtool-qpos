@@ -1622,9 +1622,9 @@ function printDbOrder(message,printCount){
 			lineCount = Math.ceil(infoLen/lineWidth);
 	
 			if(moneyInfo[i].displayName){
-				LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
+				LODOP.ADD_PRINT_TEXT(posi+10,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
 			}else{
-				LODOP.ADD_PRINT_TEXT(posi,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name);
+				LODOP.ADD_PRINT_TEXT(posi+10,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name);
 			}
 			
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
