@@ -1650,7 +1650,7 @@ function printDbOrder(message,printCount){
 			posi = posi+40+(lineCount-1)*12;
 		};
 		
-		LODOP.ADD_PRINT_LINE(posi-3,0,posi-2,"70mm",2,0);
+		LODOP.ADD_PRINT_LINE(posi,0,posi,"70mm",2,0);
 	
 		LODOP.ADD_PRINT_TEXT(posi+10,"0mm","35mm",20,"合计金额");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
