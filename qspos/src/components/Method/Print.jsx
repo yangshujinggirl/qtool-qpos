@@ -1754,36 +1754,36 @@ function printDbOrderSmall(message,printCount){
 			LODOP.ADD_PRINT_BARCODE(80,"15mm",100,30,"128Auto",orderNo);
 	
 		
-			LODOP.ADD_PRINT_TEXT(100,"0mm","15mm",20,"调拨时间");
+			LODOP.ADD_PRINT_TEXT(120,"0mm","15mm",20,"调拨时间");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
 	
-			LODOP.ADD_PRINT_TEXT(100,"15mm","50mm",20,dbTime);
+			LODOP.ADD_PRINT_TEXT(120,"15mm","50mm",20,dbTime);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
 		
-			LODOP.ADD_PRINT_TEXT(120,"0mm","15mm",20,"需求门店");
+			LODOP.ADD_PRINT_TEXT(140,"0mm","15mm",20,"需求门店");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			
-			LODOP.ADD_PRINT_TEXT(120,"15mm","50mm",20,needsp);
+			LODOP.ADD_PRINT_TEXT(140,"15mm","50mm",20,needsp);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
-			LODOP.ADD_PRINT_LINE(139,0,139,"50mm",2,0);
+			LODOP.ADD_PRINT_LINE(159,0,139,"50mm",2,0);
 		
 		
-			LODOP.ADD_PRINT_TEXT(160,"0mm","25mm",20,"商品");
+			LODOP.ADD_PRINT_TEXT(180,"0mm","25mm",20,"商品");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
-			LODOP.ADD_PRINT_TEXT(160,"25mm","10mm",20,"数量");
+			LODOP.ADD_PRINT_TEXT(180,"25mm","10mm",20,"数量");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
-			LODOP.ADD_PRINT_TEXT(160,"35mm","15mm",20,"金额");
+			LODOP.ADD_PRINT_TEXT(180,"35mm","15mm",20,"金额");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1795,7 +1795,7 @@ function printDbOrderSmall(message,printCount){
 		
 			var infoLen;
 			var lineCount;
-			var posi = 170;
+			var posi = 190;
 			for(var i=0;i<moneyInfo.length;i++){
 				infoLen = moneyInfo[i].name.length*11;
 				lineCount = Math.ceil(infoLen/lineWidth);
