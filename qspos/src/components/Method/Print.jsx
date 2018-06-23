@@ -1630,11 +1630,11 @@ function printDbOrder(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-			LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"36mm","14mm",20,moneyInfo[i].qty);
+			LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"26mm","14mm",20,moneyInfo[i].qty);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-			LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"50mm","20mm",20,moneyInfo[i].payPrice);
+			LODOP.ADD_PRINT_TEXT(posi+20+(lineCount-1)*12,"50mm","20mm",20,moneyInfo[i].price);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1663,25 +1663,25 @@ function printDbOrder(message,printCount){
 		var position2 = posi+30;
 	
 	
-		LODOP.ADD_PRINT_TEXT(position2,0,"70mm",20,"本单全部收货后将在你的Q掌柜账户扣除合计金额增加在"+needsp+'的Q掌柜账户中');
+		LODOP.ADD_PRINT_TEXT(position2+20,0,"70mm",20,"本单全部收货后将在你的Q掌柜账户扣除合计金额增加在"+needsp+'的Q掌柜账户中');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	
 
-		LODOP.ADD_PRINT_BARCODE(position2+20,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+		LODOP.ADD_PRINT_BARCODE(position2+40,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 	
-		LODOP.ADD_PRINT_TEXT(position2+105,0,"70mm",20,"扫描关注Qtools官方微信公众号");
+		LODOP.ADD_PRINT_TEXT(position2+125,0,"70mm",20,"扫描关注Qtools官方微信公众号");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 	
-		LODOP.ADD_PRINT_TEXT(position2+125,0,"70mm",20,"官方投诉电话：400-7766-999");
+		LODOP.ADD_PRINT_TEXT(position2+145,0,"70mm",20,"官方投诉电话：400-7766-999");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 	
-		LODOP.ADD_PRINT_TEXT(position2+160,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
+		LODOP.ADD_PRINT_TEXT(position2+180,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
