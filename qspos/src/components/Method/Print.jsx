@@ -1650,17 +1650,17 @@ function printDbOrder(message,printCount){
 			posi = posi+40+(lineCount-1)*12;
 		};
 		
-		LODOP.ADD_PRINT_LINE(posi,0,posi,"70mm",2,0);
+		LODOP.ADD_PRINT_LINE(posi+10,0,posi+10,"70mm",2,0);
 	
-		LODOP.ADD_PRINT_TEXT(posi+10,"0mm","35mm",20,"合计金额");
+		LODOP.ADD_PRINT_TEXT(posi+20,"0mm","35mm",20,"合计金额");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_TEXT(posi+10,"36mm","14mm",20,totalqty);
+		LODOP.ADD_PRINT_TEXT(posi+20,"36mm","14mm",20,totalqty);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_TEXT(posi+10,"50mm","20mm",20,totalPay);
+		LODOP.ADD_PRINT_TEXT(posi+20,"50mm","20mm",20,totalPay);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
