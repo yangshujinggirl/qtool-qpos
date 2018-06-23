@@ -1570,41 +1570,49 @@ function printDbOrder(message,printCount){
 		LODOP.ADD_PRINT_TEXT(80,"0mm","20mm",20,"调拨单号");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+
+
+
 	
 		LODOP.ADD_PRINT_TEXT(80,"20mm","50mm",20,orderNo);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+
+		//条码
+		LODOP.ADD_PRINT_BARCODE(100,"20mm",200,30,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+
+
 	
-		LODOP.ADD_PRINT_TEXT(100,"0mm","20mm",20,"调拨日期");
+		LODOP.ADD_PRINT_TEXT(150,"0mm","20mm",20,"调拨时间");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
 
-		LODOP.ADD_PRINT_TEXT(100,"20mm","50mm",20,dbTime);
+		LODOP.ADD_PRINT_TEXT(150,"20mm","50mm",20,dbTime);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
 	
-		LODOP.ADD_PRINT_TEXT(120,"0mm","20mm",20,"调拨日期");
+		LODOP.ADD_PRINT_TEXT(170,"0mm","20mm",20,"需求门店");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		
-		LODOP.ADD_PRINT_TEXT(120,"20mm","50mm",20,dbTime);
+		LODOP.ADD_PRINT_TEXT(170,"20mm","50mm",20,needsp);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_LINE(139,0,139,"70mm",2,0);
+		LODOP.ADD_PRINT_LINE(159,0,139,"70mm",2,0);
 	
 	
-		LODOP.ADD_PRINT_TEXT(150,"0mm","35mm",20,"商品");
+		LODOP.ADD_PRINT_TEXT(160,"0mm","35mm",20,"商品");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_TEXT(150,"35mm","15mm",20,"数量");
+		LODOP.ADD_PRINT_TEXT(160,"35mm","15mm",20,"数量");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_TEXT(150,"50mm","20mm",20,"金额");
+		LODOP.ADD_PRINT_TEXT(160,"50mm","20mm",20,"金额");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
