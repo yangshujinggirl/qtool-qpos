@@ -1783,7 +1783,7 @@ function printDbOrderSmall(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
-			LODOP.ADD_PRINT_TEXT(170,"35mm","16mm",20,"金额");
+			LODOP.ADD_PRINT_TEXT(170,"35mm","15mm",20,"金额");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
