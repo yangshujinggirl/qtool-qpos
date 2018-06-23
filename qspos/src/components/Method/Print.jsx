@@ -1612,7 +1612,7 @@ function printDbOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_TEXT(200,"49mm","20mm",20,"金额");
+		LODOP.ADD_PRINT_TEXT(200,"50mm","20mm",20,"金额");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
