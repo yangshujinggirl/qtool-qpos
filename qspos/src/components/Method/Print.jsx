@@ -1601,18 +1601,18 @@ function printDbOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_LINE(159,0,139,"70mm",2,0);
+		LODOP.ADD_PRINT_LINE(179,0,179,"70mm",2,0);
 	
 	
-		LODOP.ADD_PRINT_TEXT(160,"0mm","35mm",20,"商品");
+		LODOP.ADD_PRINT_TEXT(190,"0mm","35mm",20,"商品");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_TEXT(160,"35mm","15mm",20,"数量");
+		LODOP.ADD_PRINT_TEXT(190,"35mm","15mm",20,"数量");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	
-		LODOP.ADD_PRINT_TEXT(160,"50mm","20mm",20,"金额");
+		LODOP.ADD_PRINT_TEXT(190,"50mm","20mm",20,"金额");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
