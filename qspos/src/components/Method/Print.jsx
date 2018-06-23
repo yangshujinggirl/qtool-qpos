@@ -1795,7 +1795,7 @@ function printDbOrderSmall(message,printCount){
 		
 			var infoLen;
 			var lineCount;
-			var posi = 210;
+			var posi = 170;
 			for(var i=0;i<moneyInfo.length;i++){
 				infoLen = moneyInfo[i].name.length*11;
 				lineCount = Math.ceil(infoLen/lineWidth);
