@@ -33,22 +33,22 @@ class HotSellGoodsForm extends React.Component {
         };
         this.columns = [{
             title: '商品条码',
-            dataIndex: 'barcode',
+            dataIndex: 'goodCode',
         },{
             title: '商品名称',
-            dataIndex: 'name',
+            dataIndex: 'goodName',
         },{
             title: '规格',
             dataIndex: 'displayName',
         },{
             title: averageRecPricesd,
-            dataIndex: 'qty',
+            dataIndex: 'waitDeliveryQty',
         },{
             title: diffQtysd,
-            dataIndex: 'amount',
+            dataIndex: 'receivingQty',
         },{
             title: adjustAmount,
-            dataIndex: 'invQty',
+            dataIndex: 'waitReceiveQty',
         }];
     }
 
@@ -74,12 +74,12 @@ class HotSellGoodsForm extends React.Component {
 
     //获取数据
     searchServerData = (values) =>{
-        const result=GetServerData('qerp.pos.rp.pd.sell.list',values)
+        const result=GetServerData('qerp.qpos.pd.unreceived.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                let dataList = json.analysis;
+                let dataList = json.goods;
                 if(dataList.length){
                     for(let i=0;i<dataList.length;i++){
                         dataList[i].key = i+1;
@@ -100,7 +100,7 @@ class HotSellGoodsForm extends React.Component {
 
 
     handleSubmit = (e) =>{
-        e.preventDefault();
+        // e.preventDefault();
         this.props.form.validateFields((err, values) => {
             values.limit=this.state.limit
             values.currentPage=this.state.currentPage
@@ -121,7 +121,7 @@ class HotSellGoodsForm extends React.Component {
                     {/*搜索部分 */}
                     <Form className="search-form">
                         <FormItem>
-                            {getFieldDecorator('name')(
+                            {getFieldDecorator('nameOrCode')(
                                 <Input autoComplete="off" placeholder="请输入商品名称/条码"/>
                             )}
                         </FormItem>
@@ -133,7 +133,7 @@ class HotSellGoodsForm extends React.Component {
                         </div>
                     </Form>
                     <div className="hotSell-wrapper add-norecord-img">
-                        {
+                        {/* {
                             this.state.dataSource.length?
                             (
                                 this.state.dataSource.length == 1? 
@@ -154,37 +154,37 @@ class HotSellGoodsForm extends React.Component {
                                 )
                             )
                             :null
-                        }
+                        } */}
                         <CommonTable 
                             columns={this.columns} 
                             dataSource={this.state.dataSource}
                             pagination={false}
                             total={this.state.total}
                             current={this.state.currentPage}
-                            pageSize={10}
-                            onShowSizeChange={this.onShowSizeChange}
-                            pageChange={this.pageChange}
+                            // pageSize={10}
+                            // onShowSizeChange={this.onShowSizeChange}
+                            // pageChange={this.pageChange}
                             locale={true}
                             />
                     </div>
                 </div>
-                {/* <div className="footer-pagefixed">
+                <div className="footer-pagefixed">
                     <Pagination 
                         total={this.state.total} 
                         current={this.state.currentPage+1}
                         pageSize={this.state.limit}
-                        // showSizeChanger 
-                        // onShowSizeChange={this.onShowSizeChange} 
+                        showSizeChanger 
+                        onShowSizeChange={this.onShowSizeChange} 
                         onChange={this.pageChange} 
-                        // pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                         pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
-                </div> */}
+                </div>
             </div>
         );
     }
 
     componentDidMount(){
-        // this.handleSubmit();
+        this.handleSubmit();
     }
 }
 
