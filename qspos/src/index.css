@@ -487,6 +487,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 .formdis .ant-form-item-control-wrapper{display: inline-block;width: 300px;}
 .flexcon{height:100%;display:flex;flex-direction:column}
 
+/* .accformdis{margin-top: 30px;} */
 .accformdis .ant-select-selection-selected-value{line-height: 30px;}
 .formdis .ant-select-lg .ant-select-selection__rendered{line-height: 40px;}
 .formdis .ant-select-lg .ant-select-selection--single{height: 40px;font-size: 14px;color: #74777F;}
@@ -499,7 +500,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 /* .fireses .ant-form-item-label{margin-right: 4px;} */
 .submitform{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;font-size: 14px;text-align:center;line-height:40px;cursor: pointer;margin-left:100px;margin-top: 14px;}
 
-
+.account-center{margin-top:30px;}
 
 /*结算*/
 .pay .ant-modal-body{padding:30px 23px 30px 30px;}
@@ -897,7 +898,11 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill { -we
 .returnpay .ant-input-group-addon{width: 90px;}
 .returnpay .inputcenter .ant-input-group-addon{background: #fff;}
 
-
+.goodindex-select{
+  width: 120px;
+  height: 40px;
+  margin-right: 20px;
+}
 
 
 /* v20180123 */
@@ -1283,8 +1288,11 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .flexcon{height:100%;display:flex;flex-direction:column}
 
 .accformdis .ant-select-selection-selected-value{line-height: 30px;}
+
 .formdis .ant-select-lg .ant-select-selection__rendered{line-height: 40px;}
 .formdis .ant-select-lg .ant-select-selection--single{height: 40px;font-size: 14px;color: #74777F;}
+.account-center{margin-top:0px;}
+
 
 /*结算*/
 .pay .ant-modal-body{padding:30px 12px 30px 30px;}
@@ -1521,6 +1529,9 @@ border-right: 0;
 .submitform{
   border:1px solid #d8d8d8;
 }
+.account-subbtn{
+  margin-top:-10px;
+}
 .useinput{
   height: 30px;
 }
@@ -1673,6 +1684,8 @@ border-right: 0;
 .rechargeover .ant-input-group-addon{border-left:0;}
 .rechargeover .ant-input-group .ant-input{border-right:1px solid #d8d8d8;}
 .pay .ant-input-disabled{background: #d9d9d9;}
+
+
 
 
 

@@ -92,8 +92,8 @@ class HotSellGoodsForm extends React.Component {
                     currentPage:Number(json.currentPage),
                     limit:Number(json.limit)
                 });
-            }else{  
-                message.error(json.message); 
+            }else{
+                message.error(json.message);
             }
         })
     }
@@ -133,29 +133,7 @@ class HotSellGoodsForm extends React.Component {
                         </div>
                     </Form>
                     <div className="hotSell-wrapper add-norecord-img">
-                        {/* {
-                            this.state.dataSource.length?
-                            (
-                                this.state.dataSource.length == 1? 
-                                <div className="first-flag"></div>:
-                                (
-                                    this.state.dataSource.length == 2?
-                                    <div>
-                                        <div className="first-flag"></div>
-                                        <div className="second-flag"></div>
-                                    </div>
-                                    :(
-                                        <div>
-                                            <div className="first-flag"></div>
-                                            <div className="second-flag"></div>
-                                            <div className="third-flag"></div>
-                                        </div>
-                                    )
-                                )
-                            )
-                            :null
-                        } */}
-                        <CommonTable 
+                        <CommonTable
                             columns={this.columns} 
                             dataSource={this.state.dataSource}
                             pagination={false}
@@ -170,7 +148,7 @@ class HotSellGoodsForm extends React.Component {
                 </div>
                 <div className="footer-pagefixed">
                     <Pagination 
-                        total={this.state.total} 
+                        total={this.state.total}
                         current={this.state.currentPage+1}
                         pageSize={this.state.limit}
                         showSizeChanger 

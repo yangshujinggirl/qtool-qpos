@@ -71,7 +71,7 @@ class Searchcomponent extends React.Component {
       			<div className='fr clearfix'>
 	      			<div className='searchselect clearfix fl'>
 	                    <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>商品分类</label>
-	                    <Select  style={{ width: 120,height:40,marginRight:'20px' }} onChange={this.handleChange.bind(this)} defaultValue={null}>
+	                    <Select  onChange={this.handleChange.bind(this)} defaultValue={null} className='goodindex-select'>
                             <Option value={null} key='-1'>全部</Option>
                             {
                                 this.props.pdCategories.map((item,index)=>{

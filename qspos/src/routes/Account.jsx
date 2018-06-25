@@ -405,7 +405,7 @@ class App extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-        <Form onSubmit={this.handleSubmit} className='p30' style={{marginTop:'30px',padding:'30px'}} className='formdis accformdis basic-setting'>
+        <Form onSubmit={this.handleSubmit} className='formdis accformdis basic-setting account-center  p30'>
             {
                 this.state.xitong
                 ?
@@ -583,7 +583,7 @@ class App extends React.Component {
             </FormItem>
             <div style={{width:"100%",height:"1px",visibility:"hidden"}}></div>
             <FormItem>
-                <div onClick={this.handleSubmit.bind(this)} className='submitform'>确定</div>
+                <div onClick={this.handleSubmit.bind(this)} className='submitform account-subbtn'>确定</div>
             </FormItem>
         </Form>
 
