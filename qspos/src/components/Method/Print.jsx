@@ -1129,6 +1129,8 @@ export function getSaleOrderInfo(message,size,printCount){
 }
 
 function printSaleOrder(message,printCount){
+	console.log('wo jie shou doa  de  xinxi ru xia')
+	console.log(message)
 	let print_count = Number(printCount);
 	let saleInfoAll = message;
 	var moneyInfo = saleInfoAll.orderDetails;
@@ -1245,11 +1247,11 @@ function printSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-	let position2 = posi+30;
+	let position2 = posi+50;
 
 	//添加支付方式
 	const payType="「微信扫码：1200.00   会员卡：31.20」"
-	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","35mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+30,"0mm","35mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1314,6 +1316,8 @@ function printSaleOrder(message,printCount){
 }
 
 function printSaleOrderSmall(message,printCount){
+	console.log('wo jie shou doa  de  xinxi ru xia')
+	console.log(message)
 	let print_count = Number(printCount);
 	let saleInfoAll = message;
 	var moneyInfo = saleInfoAll.orderDetails;
@@ -1431,11 +1435,11 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-	let position2 = posi+30;
+	let position2 = posi+50;
 
 	//添加支付方式
 	const payType="「微信扫码：1200.00   会员卡：31.20」"
-	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","25mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+30,"0mm","25mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
