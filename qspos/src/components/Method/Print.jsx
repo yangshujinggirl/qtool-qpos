@@ -1781,12 +1781,12 @@ function printDbOrderSmall(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
 	
 		
-			LODOP.ADD_PRINT_TEXT(120,"0mm","15mm",20,"调拨时间");
+			LODOP.ADD_PRINT_TEXT(125,"0mm","15mm",20,"调拨时间");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
 	
-			LODOP.ADD_PRINT_TEXT(120,"15mm","50mm",20,dbTime);
+			LODOP.ADD_PRINT_TEXT(125,"15mm","50mm",20,dbTime);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
