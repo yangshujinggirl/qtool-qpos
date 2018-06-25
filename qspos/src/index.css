@@ -1032,7 +1032,7 @@ input::-webkit-contacts-auto-fill-button {
 .goodindex-select{
   width: 80px;
   height: 40px;
-  margin-right: 20px;
+  margin-right: 8px;
 }
 
 
@@ -1070,7 +1070,7 @@ span.ant-radio + *{font-size: 12px;color: #74777F;}
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container{height: 54px;}
 .ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{height: 54px;width: 200px;padding:0;text-align: center;line-height: 54px;font-size: 14px;border:1px solid #d9d9d9;margin-right: 10px;}
 .ant-tabs-bar{margin-bottom: 0;}
-.ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{background: #FFFFFF;border: 1px solid #E7E8EC;border-radius: 0 0 3px 3px;border-top:0;overflow: auto;height: 100%;}
+.ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{background: #FFFFFF;border: 1px solid #E7E8EC;border-radius: 0 0 3px 3px;border-top:0;overflow: auto;height: 100%;padding-bottom: 60px;}
 .ant-message-notice-content{background: #fff;box-shadow: 0 0 30px 0 rgba(0,0,0,0.30);border-radius: 5px;font-size: 30px;color: #384162;padding:24px 20px;}
 .ant-message .anticon{top:0;font-size: 26px;}
 .ant-message{top:50%;transform: translateY(-50%)}
@@ -1162,10 +1162,30 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .cashierbox_t{font-size: 12px;padding:0px;border-bottom: 1px solid #d8d8d8;}
 .cashierbox_b{font-size: 12px;padding: 0px;}
 
+
 /*btn*/
+.inventory-index-title .btn{width: 60px;
+}
+.inventory-index-title{
+  margin-top:10px;
+  margin-bottom: 12px;
+}
+.inventory-index-titles{
+  margin-top:10px;
+  margin-bottom:8px;
+}
+.inventory-index-titles .ant-btn{
+  font-size: 12px!important;
+  vertical-align: top;
+}
+
+.inventory-index-titles input::-webkit-input-placeholder{
+  font-size: 12px;
+}
+
 .widthmethfw{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
   font-size: 14px;text-align:center;line-height:40px;cursor: pointer;font-weight: bolder;}
-.widthmeth{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
+.widthmeth{width:60px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
   font-size: 12px;text-align:center;line-height:40px;cursor: pointer;}
 
 /* .goodindexbtn{
@@ -1770,8 +1790,14 @@ border-right: 0;
   margin-top: 0;
 }
 
+.ant-table-thead > tr > th,.ant-table-tbody > tr > td{
+  padding:0;
+}
 
-
+.searchinputTwo ::-webkit-input-placeholder{
+    font-size: 12px;
+    line-height: 20px;
+}
 
 }
 

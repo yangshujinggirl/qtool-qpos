@@ -455,7 +455,7 @@
      .memberinfo-style .ant-table-bordered .ant-table-thead > tr > th{
         border-top: 1px solid #d8d8d8;
         font-size: 12px;
-        padding: 8px 8px;
+        /* padding: 8px 8px; */
      }
      .memberinfo-style .ant-table-title{
          padding: 0px;

@@ -310,7 +310,8 @@ class EditableTable extends React.Component {
                     placeholder='请选择门店名称'
                 />
                 </div>
-        		    <Table bordered
+                    <Table bordered
+                    className='gooddb-table'
                     dataSource={this.state.dataSource}
                     columns={columns}
                     rowClassName={this.rowClassName.bind(this)}

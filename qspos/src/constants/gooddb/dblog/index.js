@@ -253,7 +253,11 @@ class AdjustLogIndexForm extends React.Component {
                                 format={dateFormat}
                                 onChange={this.dateChange.bind(this)} />
                         </FormItem>
-                        <FormItem label='需求门店' labelCol={{ span: 5 }} wrapperCol={{span: 10}}>
+                        <FormItem 
+                            label='需求门店' 
+                            labelCol={{ span: 5 }} 
+                            
+                            wrapperCol={{span: 10}}>
                           {getFieldDecorator('inShopId')(
                             <AutoComplete
                                   dataSource={this.state.dataSources}
@@ -265,6 +269,7 @@ class AdjustLogIndexForm extends React.Component {
                         </FormItem>
                         <FormItem
                             label="调拨状态"
+                            className='db-sp-auto'
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
                                 {getFieldDecorator('status')(
@@ -276,14 +281,15 @@ class AdjustLogIndexForm extends React.Component {
                                     </Select>
                                 )}
                         </FormItem>
-                        <FormItem className='fr'>
-                            <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
-                        </FormItem>
-                        <FormItem className='fr search-con-input'>
+                        <FormItem className='fl search-con-input'>
                         {getFieldDecorator('keywords')(
                             <Input  autoComplete="off" placeholder="请输入商品名称/条码/单号"/>
                         )}
                         </FormItem>
+                        <FormItem className='fl'>
+                            <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+                        </FormItem>
+                        
                     </Form>
                 </div>
                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">
@@ -325,7 +331,7 @@ class AdjustLogIndexForm extends React.Component {
                  });
             }else{
                 this.setState({
-                    windowHeight:document.body.offsetHeight-270,
+                    windowHeight:document.body.offsetHeight-320,
                 });
             }
             window.addEventListener('resize',this.windowResize.bind(this));

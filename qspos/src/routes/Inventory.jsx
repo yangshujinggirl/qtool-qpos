@@ -160,7 +160,7 @@ class Searchcomponent extends React.Component {
     }
     render(){
         return(
-            <div className='clearfix mb10'>
+            <div className='clearfix mb10 inventory-index-title'>
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载盘点模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'/></div>
