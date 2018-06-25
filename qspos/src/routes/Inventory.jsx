@@ -118,18 +118,12 @@ class Searchcomponent extends React.Component {
     improveDataType=()=>{
         const source = this.state.dataSourcemessage
         const result = source.sort(this.byOrder("checkDetailId"))
-        console.log('按导入排序开始')
-        console.log(result)
-        console.log('按导入排序结束')
         this.props.getDataSource(result)
     }
     //按照差异倒序排序
     DiffDataType=()=>{
       const source = this.state.dataSourcemessage
       const result = source.sort(this.byDiffQty("difQty"))
-      console.log('按差异排序开始')
-      console.log(result)
-      console.log('按差异排序结束')
       this.props.getDataSource(result)
     }
     byOrder=(index)=>{
@@ -219,18 +213,18 @@ class EditableTable extends React.Component {
             width:"8%",
             render: (text, record, index) => {
                 return (
-                    <Editmodel recorddata={record}  getNewcheckData={this.getNewcheckData.bind(this)} index={index}/>
+                    <Editmodel recorddata={record}  getNewcheckData={this.getNewcheckData.bind(this,record.checkQty,index)} index={index}/>
                 )
             }
         }];
         this._isMounted = false;
-	    this.state = {
-	      	dataSource: [],
-	      	count: 2,
-          pdCheckId:null,
-          total:0,
-          windowHeight:""
-	    };
+        this.state = {
+            dataSource: [],
+            count: 2,
+            pdCheckId:null,
+            total:0,
+            windowHeight:""
+        };
   	}
 
     rowClassName=(record, index)=>{
@@ -242,21 +236,28 @@ class EditableTable extends React.Component {
       }
 
     //改变盘点数
-    getNewcheckData=(data,index)=>{
-        const dataSource=this.state.dataSource.slice(0)
-        dataSource[index].checkQty=data
-        this.setState({
-            dataSource:dataSource
-        },function(){
-            const seracedatasouce=this.props.seracedatasouce
-            seracedatasouce(this.state.dataSource)
-        })
+    getNewcheckData=(olddata,index,data)=>{
       //调用修改盘点数量接口
-      let payload = {
-        checkDetailId:this.state.dataSource[index].checkDetailId,
-        qty:data
+      const currentItem = this.state.dataSource[index]
+      let state = 'nothing'
+      let diffQty = 0
+      if(currentItem.inventory == '0'){
+        if(olddata == 0 && data > 0){
+          state = 'add'
+        }
+        if(olddata > 0 && data == 0){
+          state = 'sub'
+        }
       }
-      let inv = this.state.dataSource[index].inventory
+      diffQty = Number(data) - Number(olddata)
+      let payload = {
+        pdCheckId:this.state.pdCheckId,
+        checkDetailId:currentItem.checkDetailId,
+        qty:data,
+        state:state,
+        diffQty:diffQty
+      }
+      let inv = currentItem.inventory
       const result=GetServerData('qerp.pos.pd.check.updateQty',payload)
       result.then((res) => {
         return res;
@@ -309,12 +310,13 @@ class EditableTable extends React.Component {
 
     changeDiffQty = (index,inv,qty) =>{
       const oldDataSource = this.state.dataSource
+      oldDataSource[index].checkQty=qty
       oldDataSource[index].difQty = String(Number(qty)-Number(inv))
       this.setState({
         dataSouce:oldDataSource
       },function(){
         const seracedatasouce=this.props.seracedatasouce
-        seracedatasouce(this.state.dataSource)
+        seracedatasouce(oldDataSource)
       })
     }
 
