@@ -76,6 +76,11 @@
         width: 190px;
         font-size: 12px;
     }
+
+    .adjust-index .search-form .search-con-data1 .ant-calendar-range-picker-input{
+        width: 42%;
+    }
+  
     .adjust-v15-style .widthmeth{
         width: 90px;
     }
@@ -118,6 +123,10 @@
         width: 60px;
         font-size: 12px!important;
         vertical-align: top;
+    }
+    .adjust-log .ant-calendar-range-picker-separator{
+        margin-top: -5px;
+        line-height: 37px;
     }
     
 }

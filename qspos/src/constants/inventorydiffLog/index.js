@@ -163,7 +163,7 @@ class AdjustLogIndexForm extends React.Component {
         return (
             <div className="adjust-index">
                 <div className="form-wrapper">
-                    <Form className="search-form">
+                    <Form className="search-form inventory-index-titles">
                         <FormItem
                             className='search-con-data1'
                             label="盘点时间"

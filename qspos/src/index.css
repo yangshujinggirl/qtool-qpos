@@ -1162,8 +1162,27 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .cashierbox_t{font-size: 12px;padding:0px;border-bottom: 1px solid #d8d8d8;}
 .cashierbox_b{font-size: 12px;padding: 0px;}
 
+
 /*btn*/
-.inventory-index-title .btn{width: 60px;}
+.inventory-index-title .btn{width: 60px;
+}
+.inventory-index-title{
+  margin-top:10px;
+  margin-bottom: 12px;
+}
+.inventory-index-titles{
+  margin-top:10px;
+  margin-bottom:8px;
+}
+.inventory-index-titles .ant-btn{
+  font-size: 12px!important;
+  vertical-align: top;
+}
+
+.inventory-index-titles input::-webkit-input-placeholder{
+  font-size: 12px;
+}
+
 .widthmethfw{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
   font-size: 14px;text-align:center;line-height:40px;cursor: pointer;font-weight: bolder;}
 .widthmeth{width:60px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
@@ -1775,6 +1794,10 @@ border-right: 0;
   padding:0;
 }
 
+.searchinputTwo ::-webkit-input-placeholder{
+    font-size: 12px;
+    line-height: 20px;
+}
 
 }
 
