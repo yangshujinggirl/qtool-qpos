@@ -62,9 +62,16 @@ class Searchcomponent extends React.Component {
                     role != 3
                     ?
                     <div className='fl clearfix'>
-                        <div className='fl btn'><Link to='/adjust'><Buttonico text='商品损益'/></Link></div>
-                        <div className='fl btn ml20'><Link to='/inventory'><Buttonico text='店铺盘点'/></Link></div>
-                        {role == 1 ? <div className='fl btn ml20'><Link to='/gooddb'><Buttonico text='店铺调拨'/></Link></div> : null}
+                        <div className='fl btn goodindex-btn'>
+                            <Link to='/adjust'>
+                                <Buttonico text='商品损益'/>
+                            </Link>
+                        </div>
+                        <div className='fl btn ml20 goodindex-btn'>
+                            <Link to='/inventory'>
+                                <Buttonico text='店铺盘点'/>
+                            </Link></div>
+                        {role == 1 ? <div className='fl btn ml20 goodindex-btn'><Link to='/gooddb'><Buttonico text='店铺调拨'/></Link></div> : null}
                     </div>
                     :null
                 }

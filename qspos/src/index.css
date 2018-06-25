@@ -995,6 +995,13 @@ input::-webkit-contacts-auto-fill-button {
     margin-top: 20px
 }
 
+
+.goodindex-select{
+  width: 90px;
+  height: 40px;
+  margin-right: 20px;
+}
+
 /*框架*/
 .count{padding:0 30px;position: relative;}
 .h40{height: 40px;line-height: 40px;}
@@ -1124,10 +1131,16 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .widthmeth{width:100px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
   font-size: 14px;text-align:center;line-height:40px;cursor: pointer;}
 
+/* .goodindexbtn{
+  width:80px;height:40px;background:#FFF;border: 1px solid #E7E8EC;border-radius: 3px;color: #35BAB0;
+  font-size: 14px;text-align:center;line-height:40px;cursor: pointer;
+} */
+
+
 /*Searchinput*/
 .searchinput{width:200px;height:40px;color:#B4B4B4;border-radius:3px 0 0 3px}
 .searchinputbtn{width:87px;height:40px;background: #35BAB0;line-height:40px;border-radius:0 3px 3px 0}
-
+.goodindex-input{width:100px!important;height:40px;color:#B4B4B4;border-radius:3px 0 0 3px;}
 
 /*header组件*/
 .headermenuiconcount{width:62px;height:22px}
@@ -1687,7 +1700,12 @@ border-right: 0;
 
 
 
+.goodindex-btn{width: 80px;}
+.goodindex-btn .widthmeth{width: 80px;}
 
+.goodindex-searchinputbtn{
+    width: 80px;
+}
 
 
 

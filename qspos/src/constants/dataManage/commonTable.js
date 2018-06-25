@@ -31,7 +31,7 @@ class CommonTable extends React.Component {
                 columns={this.props.columns} 
                 dataSource={this.props.dataSource} 
                 rowClassName={this.rowClassName.bind(this)}
-                scroll={this.props.scroll?{ x:this.props.scroll}:{ x:false}}
+                scroll={this.props.scroll?{ x:this.props.scroll,y:this.props.scrolly}:{ x:false}}
                 pagination={
                     this.props.pagination?
                     {

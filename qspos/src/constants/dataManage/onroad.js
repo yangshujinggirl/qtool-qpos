@@ -29,7 +29,8 @@ class HotSellGoodsForm extends React.Component {
             limit:10,
             startDate:"",
             endDate:"",
-            searchvalue:{}
+            searchvalue:{},
+            windowHeight:''
         };
         this.columns = [{
             title: '商品条码',
@@ -112,7 +113,21 @@ class HotSellGoodsForm extends React.Component {
         let data = this.state.searchvalue
         const result=GetExportData('qerp.qpos.rp.day.account.export',data);
     }
-
+    windowResize = () =>{
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            if(document.body.offsetWidth>800){
+                this.setState({
+                    windowHeight:document.body.offsetHeight-300,
+                })
+            }else{
+                this.setState({
+                windowHeight:document.body.offsetHeight-270,
+            });
+            }
+        }
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -143,6 +158,8 @@ class HotSellGoodsForm extends React.Component {
                             // onShowSizeChange={this.onShowSizeChange}
                             // pageChange={this.pageChange}
                             locale={true}
+                            scroll={{y:this.state.windowHeight}}
+                            scrolly={this.state.windowHeight}
                             />
                     </div>
                 </div>
@@ -162,7 +179,24 @@ class HotSellGoodsForm extends React.Component {
     }
 
     componentDidMount(){
+        this._isMounted = true;
+        if(this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+            window.addEventListener('resize',this.windowResize.bind(this));
+        }
         this.handleSubmit();
+    }
+    componentWillUnmount(){
+        this._isMounted = false;
+        window.removeEventListener('resize', this.windowResize.bind(this));
     }
 }
 

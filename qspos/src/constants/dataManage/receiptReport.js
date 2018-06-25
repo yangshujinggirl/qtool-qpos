@@ -24,7 +24,8 @@ class ReceiptReportForm extends React.Component {
             operateStart:'',
             operateEnd:'',
             status:'',
-            orderNo:''
+            orderNo:'',
+            windowHeight:''
         };
         this.columns = [{
             title: '订单号',
@@ -169,6 +170,22 @@ class ReceiptReportForm extends React.Component {
             self.getServerData(values);
          })
     }
+
+    windowResize = () =>{
+        if(!this.refs.tableWrapper){
+            return
+        }else{
+            if(document.body.offsetWidth>800){
+                this.setState({
+                    windowHeight:document.body.offsetHeight-300,
+                })
+            }else{
+                this.setState({
+                windowHeight:document.body.offsetHeight-270,
+            });
+            }
+        }
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -242,10 +259,28 @@ class ReceiptReportForm extends React.Component {
     }
 
     componentDidMount(){
+        this._isMounted = true;
+        if(this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
+            }
+            window.addEventListener('resize',this.windowResize.bind(this));
+        }
         this.getNowFormatDate();
         // this.getServerData();
     }
+    componentWillUnmount(){
+        this._isMounted = false;
+        window.removeEventListener('resize', this.windowResize.bind(this));
+    }
 }
+
 
 function mapStateToProps(state){
    return {};
