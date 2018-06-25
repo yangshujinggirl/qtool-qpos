@@ -1581,7 +1581,7 @@ function printDbOrder(message,printCount){
 		//条码
 		// LODOP.ADD_PRINT_BARCODE(100,"20mm",200,30,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 		LODOP.ADD_PRINT_BARCODE(100,"25mm",100,30,"128Auto",orderNo);
-
+		LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
 	
 		LODOP.ADD_PRINT_TEXT(150,"0mm","20mm",20,"调拨时间");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1752,6 +1752,7 @@ function printDbOrderSmall(message,printCount){
 			//条码
 			// LODOP.ADD_PRINT_BARCODE(100,"20mm",200,30,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 			LODOP.ADD_PRINT_BARCODE(80,"15mm",100,30,"128Auto",orderNo);
+			LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
 	
 		
 			LODOP.ADD_PRINT_TEXT(120,"0mm","15mm",20,"调拨时间");
