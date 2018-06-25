@@ -196,17 +196,17 @@ class ReceiptDetailsForm extends React.Component {
                       <label>创建时间:</label><span>{this.state.currentItem.createTime}</span>
                     </div>
                     <div className="info-title">商品信息</div>
-                    <CommonTable
-                        columns={this.columns}
-                        dataSource={this.state.dataSource}
-                        pagination={true}
-                        current={Number(this.state.currentPage)}
-                        total={this.state.total}
-                        currentPage={this.state.currentPage}
-                        pageSize={this.state.limit}
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
-                        />
+                      <CommonTable
+                          columns={this.columns}
+                          dataSource={this.state.dataSource}
+                          pagination={true}
+                          current={Number(this.state.currentPage)}
+                          total={this.state.total}
+                          currentPage={this.state.currentPage}
+                          pageSize={this.state.limit}
+                          onShowSizeChange={this.onShowSizeChange}
+                          pageChange={this.pageChange}
+                          />
                     <CommonTable
                       columns={this.columns1}
                       dataSource={this.state.logdataSource}
