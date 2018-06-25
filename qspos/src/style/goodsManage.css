@@ -19,4 +19,13 @@
     .tuihuo-infolist li.info-tuihuo p:last-child{
         margin-bottom: 10px;
     }
+    .goods-manage .exportBtn{
+        margin-left: 10px;
+        height: 40px;
+        line-height: 40px;
+        border-radius: 3px;
+        font-size: 12px;
+        
+    }
+    
 }

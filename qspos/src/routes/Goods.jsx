@@ -54,6 +54,7 @@ class Searchcomponent extends React.Component {
         })
     }
 
+
     render(){
         const role = sessionStorage.getItem('role');
         return(
@@ -76,8 +77,8 @@ class Searchcomponent extends React.Component {
                     :null
                 }
       			<div className='fr clearfix'>
-	      			<div className='searchselect clearfix fl'>
-	                    <label style={{fontSize: '14px',color: '#74777F',marginRight:'10px'}}>商品分类</label>
+	      			<div className='searchselect clearfix fl goodindex-select-box'>
+	                    <label>商品分类</label>
 	                    <Select  onChange={this.handleChange.bind(this)} defaultValue={null} className='goodindex-select'>
                             <Option value={null} key='-1'>全部</Option>
                             {
