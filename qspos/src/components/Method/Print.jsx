@@ -635,7 +635,7 @@ function printRechargeOrder(message,printCount){
 		LODOP.ADD_PRINT_TEXT(posi,"20mm","50mm",20,text[key]);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 		posi = posi+20;
@@ -654,14 +654,14 @@ function printRechargeOrder(message,printCount){
 	LODOP.ADD_PRINT_TEXT(posi+15,"20mm","50mm",20,payAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 	//添加的支付方式
-	LODOP.ADD_PRINT_TEXT(posi+35,"20mm","70mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+35,"20mm","50mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 	
 
@@ -758,10 +758,10 @@ function printRechargeOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
-		LODOP.ADD_PRINT_TEXT(posi,"15mm","50mm",20,text[key]);
+		LODOP.ADD_PRINT_TEXT(posi,"15mm","33mm",20,text[key]);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 		posi = posi+20;
@@ -776,17 +776,17 @@ function printRechargeOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
-	LODOP.ADD_PRINT_TEXT(posi+10,"15mm","50mm",20,payAmount);
+	LODOP.ADD_PRINT_TEXT(posi+10,"15mm","33mm",20,payAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 	//添加的支付方式
-	LODOP.ADD_PRINT_TEXT(posi+30,"15mm","50mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+30,"15mm","33mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 	
 	LODOP.ADD_PRINT_BARCODE(posi+50,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
@@ -833,7 +833,7 @@ function printReturnOrder(message,printCount){
 	var saleTime = returnInfoAll.odReturn.createTime;
 	var totalPay = returnInfoAll.odReturn.refundAmount;
 	var totalqty = returnInfoAll.odReturn.qty;
-	var payType="「 "+returnInfoAll.odReturn.typeStr +" 」"
+	var payType="「 "+returnInfoAll.odReturn.typeStr +"」"
 
 	//扣除积分
 	var returnPoint = returnInfoAll.odReturn.returnPoint;
@@ -930,7 +930,7 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-	LODOP.ADD_PRINT_TEXT(posi+30,"50mm","20mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+30,"40mm","30mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -948,9 +948,11 @@ function printReturnOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-		LODOP.ADD_PRINT_TEXT(position2,"20mm","20mm",20,returnPoint);
+
+		LODOP.ADD_PRINT_TEXT(position2,"20mm","50mm",20,returnPoint);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);		
 		position2 = position2+20;
 	}
 	LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
@@ -1032,7 +1034,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(120,"35mm","15mm",20,"金额");
+	LODOP.ADD_PRINT_TEXT(120,"33mm","15mm",20,"金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1083,7 +1085,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-	LODOP.ADD_PRINT_TEXT(posi+30,"35mm","15mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+30,"25mm","25mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1098,9 +1100,10 @@ function printReturnOrderSmall(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	
-			LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,returnPoint);
+			LODOP.ADD_PRINT_TEXT(position2,"15mm","33mm",20,returnPoint);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 			position2 = position2+20;
 	}
 
@@ -1156,7 +1159,7 @@ function printSaleOrder(message,printCount){
 	var saleTime = saleInfoAll.odOrder.saleTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
-	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount + saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」" 
+	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +'/'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」" 
 
 	//添加折扣优惠
 	var discountAmount;
@@ -1303,9 +1306,10 @@ function printSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-		LODOP.ADD_PRINT_TEXT(position2,"20mm","20mm",20,saleInfoAll.odOrder.orderPoint);
+		LODOP.ADD_PRINT_TEXT(position2,"20mm","50mm",20,saleInfoAll.odOrder.orderPoint);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		position2 = position2+20;
 	}
 
@@ -1339,7 +1343,7 @@ function printSaleOrderSmall(message,printCount){
 	let saleInfoAll = message;
 	var moneyInfo = saleInfoAll.orderDetails;
 	//门店打印名称字段
-	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount + saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」" 
+	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +'/'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」" 
 	var printName = saleInfoAll.printName;
 
 	var orderNo = saleInfoAll.odOrder.orderNo;
@@ -1401,7 +1405,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(120,"35mm","15mm",20,"金额");
+	LODOP.ADD_PRINT_TEXT(120,"35mm","13mm",20,"金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1492,9 +1496,10 @@ function printSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-		LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,saleInfoAll.odOrder.orderPoint);
+		LODOP.ADD_PRINT_TEXT(position2,"15mm","33mm",20,saleInfoAll.odOrder.orderPoint);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		position2 = position2+20;
 	}
 
@@ -1772,7 +1777,7 @@ function printDbOrderSmall(message,printCount){
 	
 			//条码
 			// LODOP.ADD_PRINT_BARCODE(100,"20mm",200,30,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
-			LODOP.ADD_PRINT_BARCODE(80,"15mm",100,30,"128Auto",orderNo);
+			LODOP.ADD_PRINT_BARCODE(85,"7mm",200,30,"128Auto",orderNo);
 			LODOP.SET_PRINT_STYLEA(0,"ShowBarText",0);
 	
 		
@@ -1805,7 +1810,7 @@ function printDbOrderSmall(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
-			LODOP.ADD_PRINT_TEXT(170,"35mm","15mm",20,"金额");
+			LODOP.ADD_PRINT_TEXT(170,"33mm","15mm",20,"金额");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1835,7 +1840,7 @@ function printDbOrderSmall(message,printCount){
 				LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 				LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		
-				LODOP.ADD_PRINT_TEXT(posi+30+(lineCount-1)*12,"35mm","15mm",20,moneyInfo[i].price);
+				LODOP.ADD_PRINT_TEXT(posi+30+(lineCount-1)*12,"33mm","15mm",20,moneyInfo[i].price);
 				LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 				LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 				LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1854,7 +1859,7 @@ function printDbOrderSmall(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
 		
-			LODOP.ADD_PRINT_TEXT(posi+20,"35mm","15mm",20,totalPay);
+			LODOP.ADD_PRINT_TEXT(posi+20,"33mm","15mm",20,totalPay);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
