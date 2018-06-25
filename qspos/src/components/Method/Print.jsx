@@ -661,7 +661,7 @@ function printRechargeOrder(message,printCount){
 	LODOP.ADD_PRINT_TEXT(posi+35,"20mm","70mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 	
 
@@ -716,6 +716,7 @@ function printRechargeOrderSmall(message,printCount){
 
 	var printName = info.printName;
 	var payType="「 "+ info.cardMoneyChargeInfo.typeStr +"」"
+	console.log(payType)
 
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
@@ -785,7 +786,7 @@ function printRechargeOrderSmall(message,printCount){
 	LODOP.ADD_PRINT_TEXT(posi+30,"15mm","50mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+	LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 	
 	LODOP.ADD_PRINT_BARCODE(posi+50,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
@@ -821,6 +822,8 @@ export function getReturnOrderInfo(message,size,printCount){
 }
 
 function printReturnOrder(message,printCount){
+	console.log('wo shi tui kuan ding dan')
+	console.log(message)
 	let print_count = Number(printCount);
 	let returnInfoAll = message;
 	var moneyInfo = returnInfoAll.returnOrderDetails;
@@ -830,6 +833,7 @@ function printReturnOrder(message,printCount){
 	var saleTime = returnInfoAll.odReturn.createTime;
 	var totalPay = returnInfoAll.odReturn.refundAmount;
 	var totalqty = returnInfoAll.odReturn.qty;
+	var payType="「 "+returnInfoAll.odReturn.typeStr +" 」"
 
 	//扣除积分
 	var returnPoint = returnInfoAll.odReturn.returnPoint;
@@ -926,15 +930,16 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-	let position2 = posi+30;
-
-
-	//添加支付方式
-	const payType="「微信扫码：1200.00   会员卡：31.20」"
-	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","35mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+30,"50mm","20mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+
+	let position2 = posi+50;
+
+	
+	
+	
 
 
 	if(returnInfoAll.mbCard){
@@ -972,6 +977,8 @@ function printReturnOrder(message,printCount){
 }
 
 function printReturnOrderSmall(message,printCount){
+	console.log('wo shi tui kuan ding dan')
+	console.log(message)
 	let print_count =Number(printCount);
 	let returnInfoAll = message;
 	var moneyInfo = returnInfoAll.returnOrderDetails;
@@ -981,7 +988,7 @@ function printReturnOrderSmall(message,printCount){
 	var saleTime = returnInfoAll.odReturn.createTime;
 	var totalPay = returnInfoAll.odReturn.refundAmount;
 	var totalqty = returnInfoAll.odReturn.qty;
-
+	var payType="「 "+returnInfoAll.odReturn.typeStr +" 」"
 	//扣除积分
 	var returnPoint = returnInfoAll.odReturn.returnPoint;
 
@@ -1076,14 +1083,15 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-	let position2 = posi+30;
-
-	//添加支付方式
-	const payType="「微信扫码：1200.00   会员卡：31.20」"
-	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","25mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+30,"35mm","15mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+
+	let position2 = posi+50;
+
+	//添加支付方式
+
 
 	if(returnInfoAll.mbCard){
 			LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"扣除积分");
