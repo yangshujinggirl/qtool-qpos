@@ -1327,7 +1327,7 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .slidetitle .p2{ font-size:16px;color: #384162}
 .slidetitle .p3{font-size: 16px;color:#74777F;margin-right:30px}
 /*会员管理*/
-.birthday .ant-table-tbody > tr{border: 1px solid #d8d8d8;display: inline-block;border-radius: 3px;padding:0;margin-bottom: 0px;width: auto;height: auto;}
+.birthday .ant-table-tbody > tr{border: 1px solid #d8d8d8;display: inline-block;border-radius: 3px;padding:0;margin-bottom: 5px;width: auto;height: auto;}
 .birthday .ant-table-tbody > tr>td{height: 41px;display: inline-block;padding:0;}
 .birthday .ant-select-selection{border:0;}
 .birthday .ant-select-focused .ant-select-selection, .ant-select-selection:focus, .ant-select-selection:active{box-shadow:none;}
