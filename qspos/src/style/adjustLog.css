@@ -71,6 +71,11 @@
 
 /* adjust页面样式 */
 @media screen and (max-width: 950px){
+
+    .adjust-index .search-form .search-con-data1 .ant-input{
+        width: 190px;
+        font-size: 12px;
+    }
     .adjust-v15-style .widthmeth{
         width: 90px;
     }
@@ -91,10 +96,30 @@
     }
     .adjust-log .search-form .ant-form-item-label{
         width: 75px;
+
+    }
+    .adjust-log .search-form .ant-form-item-label label{
+        font-size: 12px;
+        
     }
     .adjust-log .ant-calendar-range-picker-separator{
         line-height: 25px;
     }
+
+    
+    .search-form  .adjustlog-select-log .ant-select{
+        width: 140px!important;
+    }
+
+    .adjust-index .search-form .search-con-input .ant-input{
+        width: 190px;
+    }
+    .adjust-formsearch-btn{
+        width: 60px;
+        font-size: 12px!important;
+        vertical-align: top;
+    }
+    
 }
 
 

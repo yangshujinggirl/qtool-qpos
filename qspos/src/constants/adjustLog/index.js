@@ -181,21 +181,22 @@ class AdjustLogIndexForm extends React.Component {
                         </FormItem>
                         <FormItem
                             label="损益类型"
+                            className='adjustlog-select-log'
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
                                 {getFieldDecorator('type')(
                                    <Select size='large' style={{marginRight:"10px"}} allowClear={true}
-                                   placeholder="请选择损益类型">
-                                        <Option value="1">商品丢失损坏</Option>
-                                        <Option value="2">盘点差异调整</Option>
-                                        <Option value="3">店铺活动赠品</Option>
-                                        <Option value="4">仓储快递损坏</Option>
-                                        <Option value="5">过期商品处理</Option>
+                                        placeholder="请选择损益类型">
+                                            <Option value="1">商品丢失损坏</Option>
+                                            <Option value="2">盘点差异调整</Option>
+                                            <Option value="3">店铺活动赠品</Option>
+                                            <Option value="4">仓储快递损坏</Option>
+                                            <Option value="5">过期商品处理</Option>
                                     </Select>
                                 )}
                         </FormItem>
                         <FormItem className='fr'>
-                            <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+                            <Button type="primary" onClick={this.handleSearch.bind(this)} size='large' className='adjust-formsearch-btn'>搜索</Button>
                             {/* <div className="export-div">  className="export-btn"*/}
                                 {/* <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button> */}
                             {/* </div> */}

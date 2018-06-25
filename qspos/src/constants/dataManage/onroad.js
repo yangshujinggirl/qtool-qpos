@@ -158,8 +158,8 @@ class HotSellGoodsForm extends React.Component {
                             // onShowSizeChange={this.onShowSizeChange}
                             // pageChange={this.pageChange}
                             locale={true}
-                            scroll={{y:this.state.windowHeight}}
-                            scrolly={this.state.windowHeight}
+                            // scroll={{y:this.state.windowHeight}}
+                            // scrolly={this.state.windowHeight}
                             />
                     </div>
                 </div>
