@@ -192,7 +192,7 @@ class ReceiptReportForm extends React.Component {
             <div className="receipt-report">
                 <div className="scroll-wrapper">
                     {/*搜索部分 */}
-                    <Form className="search-form">
+                    <Form className="search-form  shouhuo-con-box">
                         <FormItem
                         className="operate-time"
                         label="最近操作时间"

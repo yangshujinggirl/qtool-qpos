@@ -195,7 +195,7 @@ class ProfitReportForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="daily-bill border-top-style">
+            <div className="daily-bill border-top-style lirun-data-con">
                 <div className="scroll-wrapper">
                     {/* 数据展示部分 */}
                     <div className="top-data">
@@ -257,7 +257,7 @@ class ProfitReportForm extends React.Component {
                         </ul>
                     </div>
                     {/*搜索部分 */}
-                    <Form className="search-form">
+                    <Form className="search-form lirun-data">
                         <FormItem
                         label="订单时间"
                         labelCol={{ span: 5 }}

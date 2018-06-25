@@ -163,7 +163,7 @@ class HotSellGoodsForm extends React.Component {
             <div className="hot-sell">
                 <div className="scroll-wrapper">
                     {/*搜索部分 */}
-                    <Form className="search-form">
+                    <Form className="search-form hot-goods">
                         <FormItem
                         label="选择时间"
                         labelCol={{ span: 5 }}

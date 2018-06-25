@@ -134,7 +134,7 @@ class HotSellGoodsForm extends React.Component {
             <div className="onroad">
                 <div className="scroll-wrapper">
                     {/*搜索部分 */}
-                    <Form className="search-form">
+                    <Form className="search-form onroad-con">
                         <FormItem>
                             {getFieldDecorator('nameOrCode')(
                                 <Input autoComplete="off" placeholder="请输入商品名称/条码"/>

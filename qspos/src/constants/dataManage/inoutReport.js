@@ -320,7 +320,7 @@ class InOutReportForm extends React.Component {
                         </ul>
                     </div>
                     {/*搜索部分 */}
-                    <Form className="search-form">
+                    <Form className="search-form inout-form">
                         <FormItem
                         label="订单时间"
                         labelCol={{ span: 5 }}

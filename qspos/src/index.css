@@ -1811,6 +1811,17 @@ border-right: 0;
 .radiogr .listmodel{
   font-size: 12px;
 }
+.search-form .ant-form-item-label label{
+  font-size: 12px!important;
+}
+
+
+.lirun-data-con .lirun-data{
+  margin-top:-10px;
+  margin-bottom:-10px;
+};
+
+
 
 }
 

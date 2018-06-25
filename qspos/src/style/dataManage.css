@@ -474,18 +474,37 @@
      }
 
      .day-zhang{
-         margin-top:-10px;
-         margin-bottom: -10px;
+         margin-top:-14px;
+         margin-bottom: -6px;
      }
-     .day-zhang .ant-form-item-label label{
+    .ant-form-item-label label{
          font-size: 12px;
      }
-     .day-zhang .ant-input,.day-zhang .ant-select{
+    .ant-input,.ant-select{
          font-size: 12px!important;
      }
-     .day-zhang .ant-btn{font-size: 12px!important;}
+    .ant-btn{font-size: 12px!important;}
 
+    .top-data.inout-data{
+        width: 100%;
+        padding: 20px 40px 0px;
+        overflow: hidden;
+        border-bottom: 1px solid #d8d8d8;
+    }
+    .inout-form{
+        margin-top:-10px;
+        margin-bottom: -6px;
+    }
 
+    .hot-goods{
+        margin-top:-10px;
+        margin-bottom: -5px;
+    }
+
+    .shouhuo-con-box{
+        margin-top:-10px;
+        margin-bottom: 5px;
+    }
 }
 
 
