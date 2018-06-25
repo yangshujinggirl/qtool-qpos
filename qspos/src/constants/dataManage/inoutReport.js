@@ -35,7 +35,7 @@ class InOutReportForm extends React.Component {
             dataIndex: 'barcode',
         },{
             title: '商品名称',
-            dataIndex: 'name',
+            dataIndex: 'pdSpuName',
         },{
             title: '商品分类',
             dataIndex: 'pdCategory1',
