@@ -122,6 +122,7 @@ class DailyBillForm extends React.Component {
         })
     }
 
+
     //导出数据
     exportList = () =>{
         let data = {
@@ -206,7 +207,7 @@ class DailyBillForm extends React.Component {
                     </ul>
                 </div>
                 {/*搜索部分 */}
-                <Form className="search-form">
+                <Form className="search-form day-zhang">
                     <FormItem
                     className="daily-billTime"
                      label="订单时间"
