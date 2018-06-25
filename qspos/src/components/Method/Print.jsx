@@ -1131,6 +1131,8 @@ export function getSaleOrderInfo(message,size,printCount){
 function printSaleOrder(message,printCount){
 	console.log('wo jie shou doa  de  xinxi ru xia')
 	console.log(message)
+
+
 	let print_count = Number(printCount);
 	let saleInfoAll = message;
 	var moneyInfo = saleInfoAll.orderDetails;
@@ -1141,6 +1143,7 @@ function printSaleOrder(message,printCount){
 	var saleTime = saleInfoAll.odOrder.saleTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
+	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount + saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」" 
 
 	//添加折扣优惠
 	var discountAmount;
@@ -1247,14 +1250,15 @@ function printSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-	let position2 = posi+50;
-
 	//添加支付方式
-	const payType="「微信扫码：1200.00   会员卡：31.20」"
 	LODOP.ADD_PRINT_TEXT(posi+30,"0mm","70mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+
+	let position2 = posi+50;
+
+	
 
 	//折扣优惠
 	if(discountAmount){
