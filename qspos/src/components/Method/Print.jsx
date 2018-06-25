@@ -566,6 +566,8 @@ export function getRechargeOrderInfo(message,size,printCount){
 }
 
 function printRechargeOrder(message,printCount){
+	console.log(message)
+	console.log('wo shi chong zhi d xinxi ')
 	let print_count =Number(printCount);
 	let info = message;
 	var title = {
@@ -589,6 +591,7 @@ function printRechargeOrder(message,printCount){
 	var payAmount = info.cardMoneyChargeInfo.amount;
 
 	var printName = info.printName;
+	var payType="「 "+ info.cardMoneyChargeInfo.typeStr +"」"
 
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
@@ -655,27 +658,27 @@ function printRechargeOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 	//添加的支付方式
-	const payType="「微信扫码：1200.00   会员卡：31.20」"
-	LODOP.ADD_PRINT_TEXT(posi+15,"20mm","50mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+35,"20mm","70mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
+	
 
 
-	LODOP.ADD_PRINT_BARCODE(posi+35,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+	LODOP.ADD_PRINT_BARCODE(posi+55,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
-	LODOP.ADD_PRINT_TEXT(posi+120,0,"70mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_TEXT(posi+140,0,"70mm",20,"扫描关注Qtools官方微信公众号");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_TEXT(posi+140,0,"70mm",20,"官方投诉电话：400-7766-999");
+	LODOP.ADD_PRINT_TEXT(posi+160,0,"70mm",20,"官方投诉电话：400-7766-999");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_TEXT(posi+170,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
+	LODOP.ADD_PRINT_TEXT(posi+190,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -687,6 +690,8 @@ function printRechargeOrder(message,printCount){
 }
 
 function printRechargeOrderSmall(message,printCount){
+	console.log(message)
+	console.log('wo shi chong zhi d xinxi ')
 	let print_count =Number(printCount);
 	let info = message;
 	var title = {
@@ -710,6 +715,7 @@ function printRechargeOrderSmall(message,printCount){
 	var payAmount = info.cardMoneyChargeInfo.amount;
 
 	var printName = info.printName;
+	var payType="「 "+ info.cardMoneyChargeInfo.typeStr +"」"
 
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
@@ -776,26 +782,25 @@ function printRechargeOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
 	//添加的支付方式
-	const payType="「微信扫码：1200.00   会员卡：31.20」"
-	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","15mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+30,"15mm","50mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 	
-	LODOP.ADD_PRINT_BARCODE(posi+30,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+	LODOP.ADD_PRINT_BARCODE(posi+50,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
-	LODOP.ADD_PRINT_TEXT(posi+115,0,"50mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_TEXT(posi+135,0,"50mm",20,"扫描关注Qtools官方微信公众号");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_TEXT(posi+130,0,"50mm",20,"官方投诉电话：400-7766-999");
+	LODOP.ADD_PRINT_TEXT(posi+150,0,"50mm",20,"官方投诉电话：400-7766-999");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-	LODOP.ADD_PRINT_TEXT(posi+150,0,"50mm",20,"Qtools | 有温度的进口母婴品牌");
+	LODOP.ADD_PRINT_TEXT(posi+170,0,"50mm",20,"Qtools | 有温度的进口母婴品牌");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
