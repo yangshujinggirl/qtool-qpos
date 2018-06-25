@@ -29,9 +29,16 @@ class Operationl extends React.Component {
 
 	render() {
 		return(
-			<div className='clearfix mt30'>
+			<div>
+			<div className='clearfix return-input-search'>
       			<Input  autoComplete="off" placeholder='扫描或输入配货单号/调拨单号/快递单号'  className='fl ml30 useinputss' ref='barcode' onKeyUp={this.HindonKeyUp.bind(this)} onChange={this.hindchange.bind(this)} value={this.props.pbarcode}/>
     		</div>
+			<div className='return-con-remark'>
+				<p className='title-p1'>收货须知：</p>
+				<p className='title-p2'>• 配货订单（通过Q掌柜下的单）可扫描配货单号/快递单号进行收货；</p>
+				<p className='title-p2'>• 调拨订单只可扫描调拨单号进行收货；</p>
+			</div>
+			</div>
 		)
 	}
 	componentDidMount(){
