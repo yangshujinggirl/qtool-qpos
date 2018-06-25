@@ -100,10 +100,12 @@ class ReceiptDetailsForm extends React.Component {
                         <label>损益类型:</label><span>{this.props.query.typeStr}</span>
                         <label>损益备注:</label><span>{this.props.query.remark}</span>
                     </div>
-                    <div className="info-title">
-                        商品信息
-                    </div>
+                    
                     {/*搜索部分 */}
+                    <div className='mt30'>
+                        <div className="info-title">
+                            商品信息
+                        </div>
                     <CommonTable
                         columns={this.columns}
                         dataSource={this.state.dataSource}
@@ -115,6 +117,7 @@ class ReceiptDetailsForm extends React.Component {
                         onShowSizeChange={this.onShowSizeChange}
                         pageChange={this.pageChange}
                         />
+                        </div>
                 </div>
             </div>
         );

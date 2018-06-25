@@ -1164,7 +1164,8 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 
 
 /*btn*/
-.inventory-index-title .btn{width: 60px;
+.inventory-index-title .btn
+{width: 60px;
 }
 .inventory-index-title{
   margin-top:10px;
@@ -1804,8 +1805,13 @@ border-right: 0;
     font-size: 12px;
     line-height: 20px;
 }
-.inventory-index-title .widthmeths,.inventory-index-title widthmeth{
+
+.inventory-index-title .btn{
+  width: 75px;
+}
+.inventory-index-title .widthmeths,.inventory-index-title .widthmeth{
     font-size: 12px;
+    width: 75px;
 }
 
 .radiogr .listmodel{

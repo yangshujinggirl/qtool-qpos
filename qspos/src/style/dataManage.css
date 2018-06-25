@@ -207,7 +207,7 @@
 }
 .info-content span{
     display: inline-block;
-    margin-right: 50px;
+    margin-right: 60px;
 }
 .ph-info .search-form .ant-form-item-label{
     width: 125px;
@@ -505,6 +505,22 @@
         margin-top:-10px;
         margin-bottom: 5px;
     }
+
+    .info-content{
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        font-size: 14px;
+        color: #666;
+    }
+    .info-content span{
+        display: inline-block;
+        margin-right: 80px;
+    }
+    .info-title{
+        margin-top:30px;
+    }
+
 }
 
 
