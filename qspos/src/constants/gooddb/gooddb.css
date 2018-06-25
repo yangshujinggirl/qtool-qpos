@@ -43,6 +43,11 @@ search_inputmod input::-ms-input-placeholder{font-size: 14px;color: #B4B4B4;}
 .gooddbcon .ant-select-selection__placeholder, .ant-select-search__field__placeholder{height: 28px;line-height: 28px;}
 .dblog-search .ant-select-auto-complete.ant-select .ant-select-selection__rendered{line-height: 40px;}
 
+.gooddb-spinput{
+    margin-left: 30px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
 
 @media screen and (max-width: 950px){
     .db-sp-auto .ant-select{
@@ -62,5 +67,26 @@ search_inputmod input::-ms-input-placeholder{font-size: 14px;color: #B4B4B4;}
         margin-right: 10px;
     }
     .gooddbcon .ant-select-selection__placeholder, .ant-select-search__field__placeholder{height: 28px;line-height: 28px;font-size: 12px;}
+
+    .gooddb-spinput{
+        margin-top:16px;
+        margin-bottom: 15px;
+    }
+    .ml20sd-model{
+        margin-top:10px;
+        margin-bottom: 10px;
+    }   
+    .ml20sd{
+        margin-left: 10px!important;
+    }
+
+    .ml20sd-model .searchinputbtn{
+        font-size: 12px;
+    }
+    .ml20sd-model input::-webkit-input-placeholder{
+        font-size: 12px;
+        line-height: 20px;
+    }
+
 }
 

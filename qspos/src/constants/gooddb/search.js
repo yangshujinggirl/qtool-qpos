@@ -258,15 +258,15 @@ class Searchcomponent extends React.Component {
         return(
             <div className='clearfix mb10 adjust-v15-style'>
 	      		<div className='fl clearfix'>
-	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载调拨模板'/></div>
-	      			<div className='fl btn ml20'><MyUpload Setdate={this.setdayasouceas.bind(this)}/></div>
-              <div className='fl btn ml20'><Link to='/dblog'><Buttonico text='商品调拨日志'/></Link></div>
+	      			<div className='fl btn ml20sd-model' onClick={this.download.bind(this)}><Buttonico text='下载调拨模板'/></div>
+	      			<div className='fl btn ml20 ml20sd ml20sd-model'><MyUpload Setdate={this.setdayasouceas.bind(this)}/></div>
+              <div className='fl btn ml20 ml20sd ml20sd-model'><Link to='/dblog'><Buttonico text='商品调拨日志'/></Link></div>
 	      		</div>
-      			<div className='fr clearfix'>
+      			<div className='fr clearfix ml20sd-model'>
               <div className='fl'><Searchinput text='请输入商品条码、商品名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindSearch.bind(this,0)}/></div>
           			<div className='searchselect clearfix fl'>
-                  <div className='fl ml20 cancel-btn-style'><Link to='/goods'><Buttonico text='取消调拨'/></Link></div>
-                  <div className='fl ml20 cancel-btn-style' onClick={this.showModal.bind(this)}><Buttonico text='确认调拨'/></div>
+                  <div className='fl ml20 cancel-btn-style ml20sd'><Link to='/goods'><Buttonico text='取消调拨'/></Link></div>
+                  <div className='fl ml20 cancel-btn-style ml20sd' onClick={this.showModal.bind(this)}><Buttonico text='确认调拨'/></div>
                   <DbTextModal
                             ref={this.saveFormRef}
                             visible={this.state.visible}

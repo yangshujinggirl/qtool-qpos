@@ -300,7 +300,7 @@ class EditableTable extends React.Component {
     	const columns = this.columns;
     	return (
       		<div className='bgf gooddbcon' ref="tableWrapper">
-              <div style={{marginLeft:"30px",marginBottom:'20px',marginTop:"30px"}}>
+              <div className='gooddb-spinput'>
                 <span className='spidsh'>门店名称</span>
                 <AutoComplete
                     dataSource={this.state.dataSources}

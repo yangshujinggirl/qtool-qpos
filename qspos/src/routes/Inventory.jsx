@@ -176,8 +176,8 @@ class Searchcomponent extends React.Component {
           			<div className='searchselect clearfix'>
                         <div className='fl ml20 radiogr'>
                             <RadioGroup onChange={this.radioChange.bind(this)} value={this.state.radiovalue}>
-                                <Radio value='1'>按照导入顺序排序</Radio>
-                                <Radio value='2'>按照差异倒序排序</Radio>
+                                <Radio value='1' className='listmodel'>按照导入顺序排序</Radio>
+                                <Radio value='2' className='listmodel'>按照差异倒序排序</Radio>
                             </RadioGroup>
                         </div>
 	                    <div className='fl btn ml20'><Link to='/goods'><Buttonico text='取消盘点'/></Link></div>

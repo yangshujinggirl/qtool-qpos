@@ -1095,7 +1095,7 @@ border-bottom:1px solid #d8d8d8;background: #fff;height: 55px;}
 .ant-tabs-nav-container{position: relative;z-index: 1;}
 .ant-form-item-required:before{display: none;}
 .ant-modal-body{padding:20px;padding-bottom: 0;}
-.ant-form-item-label{height: 40px;line-height: 40px;vertical-align: top;}
+.ant-form-item-label{height: 40px;line-height: 40px;vertical-align: top;width: 71px;}
 .ant-form-item-label label:after{content: ''}
 .ant-notification-topLeft, .ant-notification-bottomLeft{left: 50%!important;margin-left: -150px;}
 .ant-dropdown-menu-item:hover, .ant-dropdown-menu-submenu-title:hover{background: #fff;}
@@ -1504,6 +1504,11 @@ border-right: 0;
 .ant-switch-checked:after{
   margin-left: -26px;
 }
+
+.member-width-style .ant-switch-checked:after{
+  margin-left: -20px;
+}
+
 /*模态框样式修改*/
 .paylw{
   width: 270px;
@@ -1797,6 +1802,13 @@ border-right: 0;
 .searchinputTwo ::-webkit-input-placeholder{
     font-size: 12px;
     line-height: 20px;
+}
+.inventory-index-title .widthmeths,.inventory-index-title widthmeth{
+    font-size: 12px;
+}
+
+.radiogr .listmodel{
+  font-size: 12px;
 }
 
 }

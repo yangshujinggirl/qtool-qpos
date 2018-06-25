@@ -22,3 +22,18 @@
 .radiogr .ant-radio-group .ant-radio-wrapper-checked span.ant-radio + *{
     color: #35bab0;
 }
+
+
+@media screen and (max-width: 950px){
+    .radiogr .ant-radio-group .ant-radio-wrapper span.ant-radio + *{
+        font-size: 12px;
+        color: #74777F
+    }
+    .radiogr .ant-radio-group .ant-radio-wrapper-checked span.ant-radio + *{
+        color: #35bab0;
+    }
+
+   .inventory-index-title  .widthmeths{
+        width: 105px;
+    }
+}
