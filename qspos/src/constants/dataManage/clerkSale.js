@@ -231,11 +231,21 @@ class ClerkSaleForm extends React.Component {
         var dm=("0" + (d.getMonth() + 1)).slice(-2);
         var dd=("0"+d.getDate()).slice(-2);
         let a=dy+'-'+dm+'-'+dd;
-        let values={
+        this.setState({
             startDate:a,
             endDate:a
-        };
-        this.initdataspuce(values)
+        },function(){
+            let values={
+                startDate:a,
+                endDate:a
+            };
+            this.initdataspuce(values)
+        })
+
+
+
+
+        
     }
 }
 
