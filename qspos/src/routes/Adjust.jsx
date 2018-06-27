@@ -243,7 +243,7 @@ class EditableTable extends React.Component {
       		render: (text, record, index) => {
         	return (
                     <Input className="adjust-inputwidth" onChange={this.hindchange.bind(this,index)}
-                            onBlur={this.hindBlur.bind(this)}
+                            onBlur={this.hindBlur.bind(this,index)}
                             value={this.state.dataSource[((Number(this.state.page)-1)*10)+index].adjustQty}
                             autoComplete="off"
                            />
@@ -302,11 +302,37 @@ class EditableTable extends React.Component {
         })
     }
 
-    hindBlur = (e) =>{
+    hindBlur = (index,e) =>{
+        let indexs=((Number(this.state.page)-1)*10)+index;
+        let dataSourc=this.state.dataSource;
         let patternTest=/^-?[1-9]\d*$/;
-        if(!patternTest.test(e.target.value)){
-            message.error('请输入正确的损益数');
+        if(patternTest.test(parseFloat(e.target.value))){
+            dataSourc[indexs].adjustQty=parseFloat(e.target.value);
+            dataSourc[indexs].adjustAmount =(Number(e.target.value)*parseFloat(dataSourc[indexs].averageRecPrice)).toFixed(2);
+        }else{
+            dataSourc[indexs].adjustQty=parseFloat(e.target.value);
+            if(isNaN(parseFloat(e.target.value))){
+                dataSourc[indexs].adjustQty=0;
+            }
+            dataSourc[indexs].adjustAmount =(0*dataSourc[indexs].averageRecPrice).toFixed(2);
         }
+        this.setState({
+            dataSource:dataSourc
+        },function(){
+            const seracedatasouce=this.props.seracedatasouce
+            seracedatasouce(this.state.dataSource)
+        })
+
+
+
+
+        // let patternTest=/^-?[1-9]\d*$/;
+        // if(!patternTest.test(e.target.value)){
+        //     message.error('请输入正确的损益数');
+        // }
+
+
+
     }
   	rowClassName=(record, index)=>{
     	if (index % 2) {

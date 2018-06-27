@@ -165,7 +165,10 @@ class EditableTable extends React.Component {
      */
     qtyhindBlur=(record,index,e)=>{
         const dataSource=this.state.dataSource
-        const qtyvalue=e.target.value
+        if(e.target.value){
+            var qtyvalue=parseFloat(e.target.value)
+        }
+        
         let price = dataSource[index].exchangePrice
         let bPrice = dataSource[index].toBPrice
         let cPrice = dataSource[index].toCPrice
