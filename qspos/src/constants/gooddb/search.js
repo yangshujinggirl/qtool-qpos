@@ -20,7 +20,7 @@ class Searchcomponent extends React.Component {
   }
     //下载
     download=()=>{
-        window.open('../static/db.xlsx')
+        window.open('../static/exchange.xlsx')
     }
     //导入上传数据
     setdayasouceas=(data,total)=>{

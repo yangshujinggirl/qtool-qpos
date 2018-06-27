@@ -82,7 +82,7 @@ const CollectionCreateForm = Form.create()(
                 >
                   {getFieldDecorator('checkQty',{
                 initialValue: record.checkQty,
-                        rules: [{ required: true, message: '请输入盘点数量' },{pattern:/^(0|[1-9][0-9]*)$/,message:'请输入数字'}],
+                        rules: [{ required: true, message: '请输入盘点数量' },{pattern:/^[0-9]*$/,message:'请输入数字'}],
               })(<Input onBlur={this.validateQty.bind(this)}/>)}
             </FormItem>
           </Form>
@@ -112,7 +112,7 @@ class Editmodel extends React.Component {
         return;
       }
       //把新的盘点数派给table
-      const checkQty=values.checkQty
+      const checkQty=parseFloat(values.checkQty)
       if(checkQty < 0){
         message.error('盘点数量必须大于0',3)
       }else{
