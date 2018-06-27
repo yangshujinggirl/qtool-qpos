@@ -18,6 +18,8 @@ const CollectionCreateForm = Form.create()(
         }
       });
     }
+
+   
     render() {
       const { visible, onCancel, onCreate, form ,record} = this.props;
       const { getFieldDecorator } = form;
@@ -80,7 +82,7 @@ const CollectionCreateForm = Form.create()(
                 >
                   {getFieldDecorator('checkQty',{
                 initialValue: record.checkQty,
-                        rules: [{ required: true, message: '请输入盘点数量' }],
+                        rules: [{ required: true, message: '请输入盘点数量' },{pattern:/^(0|[1-9][0-9]*)$/,message:'请输入数字'}],
               })(<Input onBlur={this.validateQty.bind(this)}/>)}
             </FormItem>
           </Form>
