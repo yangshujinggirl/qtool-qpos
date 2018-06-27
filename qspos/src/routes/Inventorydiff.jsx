@@ -3,9 +3,10 @@ import { connect } from 'dva';
 import Header from '../components/header/Header';
 import Searchinput from '../components/Searchinput/Searchinput';
 import {LocalizedModal,Buttonico} from '../components/Button/Button';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Spin} from 'antd';
 import {GetServerData} from '../services/services';
 import { Link } from 'dva/router'
+import AntIcon from '../components/loding/payloding';
 
 
 class Searchcomponent extends React.Component {
@@ -13,6 +14,7 @@ class Searchcomponent extends React.Component {
         super(props);
         this.state = {
             settablesouce: [],
+            loding:false
         };
     }
 
@@ -121,11 +123,13 @@ class EditableTable extends React.Component {
     //数据请求
     //根据id请求数据
     setdatas=(messages)=>{
+        this.props.setLoding(1)
         const result=GetServerData('qerp.pos.pd.check.info',messages)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
+                this.props.setLoding(0)
                 const messagedata=json.pdCheckDetails;
                 for(var i=0;i<messagedata.length;i++){
                     messagedata[i].index=i+1
@@ -137,6 +141,7 @@ class EditableTable extends React.Component {
                     this.props.dataSources(this.state.dataSource)
                 })
             }else{
+                this.props.setLoding(0)
                 message.warning(json.message);
             }
         })
@@ -202,6 +207,12 @@ class EditableTable extends React.Component {
 
 
 class Inventorydiff extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loding:false
+        };
+    }
     dataSources=(messages)=>{
         const settablesouce=this.refs.user.settablesouce
         settablesouce(messages)
@@ -214,14 +225,30 @@ class Inventorydiff extends React.Component {
         });
     }
 
+    //设置导入loding
+    setLoding=(type)=>{
+        if(type=='1'){
+            this.setState({
+                loding:true   
+            })
+        }
+        if(type=='0'){
+            this.setState({
+                loding:false   
+            })
+        }
+    }
+
     render() {
         return (
-            <div>
-                <Header type={false} color={true} linkRoute="inventory"/>
-                <div className='counters'>
-                    <Searchcomponent  pdCheckId={this.props.pdCheckId} initpdCheckId={this.initpdCheckId} ref='user'/>
-                    <EditableTable  pdCheckId={this.props.pdCheckId} dataSources={this.dataSources.bind(this)}/>
-                </div>
+            <div className='spin-con-box'>
+                <Spin tip='请稍后...' spinning={this.state.loding} indicator={<AntIcon/>}>
+                    <Header type={false} color={true} linkRoute="inventory"/>
+                    <div className='counters'>
+                        <Searchcomponent  pdCheckId={this.props.pdCheckId} initpdCheckId={this.initpdCheckId} ref='user'/>
+                        <EditableTable  pdCheckId={this.props.pdCheckId} dataSources={this.dataSources.bind(this)} setLoding={this.setLoding.bind(this)}/>
+                    </div>
+                </Spin>
             </div>
         );
 
