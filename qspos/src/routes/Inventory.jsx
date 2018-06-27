@@ -29,7 +29,7 @@ class MyUpload extends React.Component {
                     const pdCheckId=file.response.pdCheckId
                     let values={pdCheckId:pdCheckId,limit:100000,currentPage:0}
                     this.setdatas(values)
-                    this.props.setLoding(0)
+                   
                 }else{
                     this.props.setLoding(0)
                     message.warning(file.response.message);
@@ -54,7 +54,9 @@ class MyUpload extends React.Component {
                 })
                 const Setdate=this.props.Setdate
                 Setdate(json.pdCheckDetails,json.total,messages.pdCheckId)
+                this.props.setLoding(0)
             }else{
+                this.props.setLoding(0)
                 message.warning(json.message);
             }
         })
