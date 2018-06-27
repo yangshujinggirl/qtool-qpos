@@ -220,7 +220,7 @@ export default {
                 console.log(values)
                 const initdatasouce = yield select(state => state.cashier.datasouce);
                 const datasouce=initdatasouce.slice(0)
-                const i=isInArray(datasouce,values.barCode)
+                const i=isInArray(datasouce,result.pdSpu.barcode)
                 if(i==='-1'){
                     //不存在，判断库存
                     if(Number(result.pdSpu.inventory)>0){
