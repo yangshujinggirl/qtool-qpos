@@ -3,11 +3,12 @@ import { connect } from 'dva';
 import Header from '../components/header/Header';
 import Searchinput from '../components/Searchinput/Searchinput';
 import {LocalizedModal,Buttonico} from '../components/Button/Button';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,Spin} from 'antd';
 import {GetServerData} from '../services/services';
 import { Link } from 'dva/router';
 import AdjustTextModal from '../components/modal/confirmModal';
 import "../style/adjustLog.css";
+import AntIcon from '../components/loding/payloding';
 
 //导入--在Searchcomponent组件中
 class MyUpload extends React.Component {
@@ -15,6 +16,7 @@ class MyUpload extends React.Component {
     fileList: []
   }
   handleChange = (info) => {
+        this.props.setLoding(1)
         let fileList = info.fileList;
         fileList = fileList.slice(-2);
         fileList = fileList.filter((file) => {
@@ -34,10 +36,13 @@ class MyUpload extends React.Component {
                 //   console.log('列表数据：'+JSON.stringify(pdAdjustDetails));
                     const Setdate=this.props.Setdate
                     Setdate(pdAdjustDetails,file.response.total)
+                    this.props.setLoding(0) 
                 }else{
                     message.error(file.response.message);
+                    this.props.setLoding(0) 
                 }
                 return file.response.status === 'success';
+               
             }
             return true;
         });
@@ -186,7 +191,7 @@ class Searchcomponent extends React.Component {
             <div className='clearfix mb10 adjust-v15-style'>
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载损益模板'/></div>
-	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)}/></div>
+	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} setLoding={this.props.setLoding}/></div>
               <div className='fl btn ml20'><Link to='/adjustLog'><Buttonico text='查看损益日志'/></Link></div>
 	      		</div>
       			<div className='fr clearfix'>
@@ -374,6 +379,13 @@ class EditableTable extends React.Component {
 
 
 class Adjust extends React.Component {
+    constructor(props, context) {
+        super(props, context);  
+        this.state={
+            loding:false
+        }
+    }
+
     //
     setdayasouce=(messages,total)=>{
         const setdatasouce=this.refs.adjust.setdatasouce
@@ -384,14 +396,33 @@ class Adjust extends React.Component {
         const revisedaramessages=this.refs.search.revisedaramessages
         revisedaramessages(messages)
     }
+
+    
+    //设置导入loding
+    setLoding=(type)=>{
+        if(type=='1'){
+            this.setState({
+                loding:true   
+            })
+        }
+        if(type=='0'){
+            this.setState({
+                loding:false   
+            })
+        }
+    }
+
+
     render(){
         return(
-            <div>
-                <Header type={false} color={true} linkRoute="goods"/>
-                <div className='counters'>
-                    <Searchcomponent dispatch={this.props.dispatch} setdayasouce={this.setdayasouce.bind(this)} ref='search'/>
-                    <EditableTable dispatch={this.props.dispatch} ref='adjust' seracedatasouce={this.seracedatasouce.bind(this)}/>
-                </div>
+            <div className='spin-con-box'>
+                <Spin tip='导入中，请稍后...' spinning={this.state.loding} indicator={<AntIcon/>}>
+                    <Header type={false} color={true} linkRoute="goods"/>
+                    <div className='counters'>
+                        <Searchcomponent dispatch={this.props.dispatch} setdayasouce={this.setdayasouce.bind(this)} ref='search' setLoding={this.setLoding.bind(this)}/>
+                        <EditableTable dispatch={this.props.dispatch} ref='adjust' seracedatasouce={this.seracedatasouce.bind(this)}/>
+                    </div>
+                </Spin>
             </div>
             )
 
