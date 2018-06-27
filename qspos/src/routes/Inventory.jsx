@@ -3,12 +3,12 @@ import { connect } from 'dva';
 import Header from '../components/header/Header';
 import Searchinput from '../components/Searchinput/Searchinput';
 import {LocalizedModal,Buttonico,Buttonicos} from '../components/Button/Button';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,Radio} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,Radio,Spin} from 'antd';
 import { Link } from 'dva/router'
 import {GetServerData} from '../services/services';
 import Editmodel from '../constants/inventory/model'
 import '../constants/inventorydiffLog/inventorydiff.css'
-
+import AntIcon from '../components/loding/payloding';
 
 const RadioGroup = Radio.Group;
 const disnone={display:'none'}
@@ -20,6 +20,7 @@ class MyUpload extends React.Component {
         fileList: []
     }
     handleChange = (info) => {
+        this.props.setLoding(1)
         let fileList = info.fileList;
         fileList = fileList.slice(-1);
         fileList = fileList.filter((file) => {
@@ -28,8 +29,9 @@ class MyUpload extends React.Component {
                     const pdCheckId=file.response.pdCheckId
                     let values={pdCheckId:pdCheckId,limit:100000,currentPage:0}
                     this.setdatas(values)
-
+                    this.props.setLoding(0)
                 }else{
+                    this.props.setLoding(0)
                     message.warning(file.response.message);
                 }
                 return file.response.status === 'success';
@@ -77,7 +79,7 @@ class Searchcomponent extends React.Component {
     state={
         inventorygoods:true,
         dataSourcemessage:[],
-        radiovalue:'1'
+        radiovalue:'1',
     }
     revisedaramessages=(messages)=>{
         this.setState({
@@ -163,7 +165,7 @@ class Searchcomponent extends React.Component {
             <div className='clearfix mb10 inventory-index-title'>
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载盘点模板'/></div>
-	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'/></div>
+	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'  setLoding={this.props.setLoding}/></div>
                     <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonicos text='店铺盘点日志'/></Link></div>
 	      		</div>
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
@@ -363,7 +365,8 @@ class Inventory extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          datasouce:[]
+          datasouce:[],
+          loding:false
         };
       }
 
@@ -387,15 +390,29 @@ class Inventory extends React.Component{
         dataSource:dataSource
       })
     }
-
+    //设置导入loding
+    setLoding=(type)=>{
+        if(type=='1'){
+            this.setState({
+                loding:true   
+            })
+        }
+        if(type=='0'){
+            this.setState({
+                loding:false   
+            })
+        }
+    }
     render() {
         return (
-            <div>
+            <div className='spin-con-box'>
+                <Spin tip='导入中，请稍后...' spinning={this.state.loding} indicator={<AntIcon/>}>
                 <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
-                    <Searchcomponent setdayasouce={this.setdayasouce.bind(this)} ref='search' dispatch={this.props.dispatch} getDataSource={this.getDataSource.bind(this)}/>
+                    <Searchcomponent setdayasouce={this.setdayasouce.bind(this)} ref='search' dispatch={this.props.dispatch} getDataSource={this.getDataSource.bind(this)} setLoding={this.setLoding.bind(this)}/>
                     <EditableTable ref='inventory' seracedatasouce={this.seracedatasouce.bind(this)} setdatas={this.setdatas.bind(this)} />
                 </div>
+                </Spin>
             </div>
         );
     }

@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import Header from '../../components/header/Header';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,AutoComplete} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,AutoComplete,Spin} from 'antd';
+import AntIcon from '../../components/loding/payloding';
 import {GetServerData} from '../../services/services';
 import "./gooddb.css";
 
@@ -351,7 +352,8 @@ class Gooddb extends React.Component {
     	super(props);
 	    this.state = {
             datasouce:[],
-            inShopId:null
+            inShopId:null,
+            loding:false
         };
     }
     setdayasouce=(messages,total)=>{
@@ -370,13 +372,28 @@ class Gooddb extends React.Component {
           inShopId:shopId
         })
     }
+     //设置导入loding
+     setLoding=(type)=>{
+        if(type=='1'){
+            this.setState({
+                loding:true   
+            })
+        }
+        if(type=='0'){
+            this.setState({
+                loding:false   
+            })
+        }
+    }
 
     render(){
         return(
-            <div>
+            <div className='spin-con-box'>
+                 <Spin tip='导入中，请稍后...' spinning={this.state.loding} indicator={<AntIcon/>}>
                 <Header type={false} color={true} linkRoute="goods"/>
                 <div className='counters'>
                     <Searchcomponent
+                        setLoding={this.setLoding.bind(this)}
                         dispatch={this.props.dispatch}
                         setdayasouce={this.setdayasouce.bind(this)}
                         datasouce={this.state.datasouce}
@@ -384,6 +401,7 @@ class Gooddb extends React.Component {
                         ref='search'/>
                     <EditableTable dispatch={this.props.dispatch} ref='adjust' getNewData={this.getNewData.bind(this)} getShopId={this.getShopId.bind(this)}/>
                 </div>
+                </Spin>
             </div>
         )
     }

@@ -7,16 +7,19 @@ class MyUpload extends React.Component {
       fileList: [],
     }
     handleChange = (info) => {
+      this.props.setLoding(1)
       var fileList = info.fileList;
       fileList = fileList.slice(-1);
       fileList = fileList.filter((file) => {
         if (file.response) {
           if(file.response.code=='0'){
+            this.props.setLoding(0)
             //得到数据，把数据抛出
             const data=file.response.pdSpu
             const total=data.length
             this.props.Setdate(data,total)
           }else{
+            this.props.setLoding(0)
             fileList=[]
             message.error(file.response.message);
           }
