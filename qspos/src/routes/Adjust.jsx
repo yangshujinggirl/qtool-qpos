@@ -25,15 +25,15 @@ class MyUpload extends React.Component {
                   let pdAdjustDetails = file.response.pdAdjustDetails;
                     let patternTest=/^-?[1-9]\d*$/;
                   for(let i=0;i<pdAdjustDetails.length;i++){
-                      if(patternTest.test(pdAdjustDetails[i].adjustQty)){
+                      if(pdAdjustDetails[i].adjustQty && patternTest.test(pdAdjustDetails[i].adjustQty) &&  pdAdjustDetails[i].adjustQty>0){
                             pdAdjustDetails[i].key=i+1;
                             pdAdjustDetails[i].adjustAmount = (Number(pdAdjustDetails[i].adjustQty)*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
                       }else{
                             pdAdjustDetails[i].key=i+1;
-                            pdAdjustDetails[i].adjustAmount = (0*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
+                            pdAdjustDetails[i].adjustAmount = (0*parseFloat(pdAdjustDetails[i].toBPrice)).toFixed(2);
                       }
                   }
-                //   console.log('列表数据：'+JSON.stringify(pdAdjustDetails));
+               
                     const Setdate=this.props.Setdate
                     Setdate(pdAdjustDetails,file.response.total)
                     this.props.setLoding(0) 
@@ -292,10 +292,10 @@ class EditableTable extends React.Component {
         let patternTest=/^-?[1-9]\d*$/;
         if(patternTest.test(e.target.value)){
             dataSourc[indexs].adjustQty=e.target.value;
-            dataSourc[indexs].adjustAmount =(Number(e.target.value)*parseFloat(dataSourc[indexs].averageRecPrice)).toFixed(2);
+            dataSourc[indexs].adjustAmount =(Number(e.target.value)*parseFloat(dataSourc[indexs].newaverageRecPrice)).toFixed(2);
         }else{
             dataSourc[indexs].adjustQty=e.target.value;
-            dataSourc[indexs].adjustAmount =(0*dataSourc[indexs].averageRecPrice).toFixed(2);
+            dataSourc[indexs].adjustAmount =(0*dataSourc[indexs].newaverageRecPrice).toFixed(2);
         }
         this.setState({
             dataSource:dataSourc
@@ -311,13 +311,13 @@ class EditableTable extends React.Component {
         let patternTest=/^-?[1-9]\d*$/;
         if(patternTest.test(parseFloat(e.target.value))){
             dataSourc[indexs].adjustQty=parseFloat(e.target.value);
-            dataSourc[indexs].adjustAmount =(Number(e.target.value)*parseFloat(dataSourc[indexs].averageRecPrice)).toFixed(2);
+            dataSourc[indexs].adjustAmount =(Number(e.target.value)*parseFloat(dataSourc[indexs].newaverageRecPrice)).toFixed(2);
         }else{
             dataSourc[indexs].adjustQty=parseFloat(e.target.value);
             if(isNaN(parseFloat(e.target.value))){
                 dataSourc[indexs].adjustQty=0;
             }
-            dataSourc[indexs].adjustAmount =(0*dataSourc[indexs].averageRecPrice).toFixed(2);
+            dataSourc[indexs].adjustAmount =(0*dataSourc[indexs].newaverageRecPrice).toFixed(2);
         }
         this.setState({
             dataSource:dataSourc
