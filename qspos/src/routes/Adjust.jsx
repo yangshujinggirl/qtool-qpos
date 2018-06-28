@@ -251,7 +251,7 @@ class EditableTable extends React.Component {
       		}
     	},{
             title: '成本价',
-            dataIndex: 'averageRecPrice',
+            dataIndex: 'newaverageRecPrice',
             width:"8%"
         },{
             title: '损益金额',
@@ -270,6 +270,9 @@ class EditableTable extends React.Component {
         this._isMounted = false;
     }
     setdatasouce=(messages,total)=>{
+        for(var i=0;i<messages.length;i++){
+            messages[i].newaverageRecPrice=(messages[i].inventory && Number(messages[i].inventory))>0?messages[i].averageRecPrice:messages[i].toBPrice
+        }
         //设置dataSource和total
         this.setState({
             dataSource:messages,
