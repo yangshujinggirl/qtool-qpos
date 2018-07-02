@@ -130,7 +130,7 @@ class ReceiptDetailsForm extends React.Component {
       console.log('diao da yin fang fa')
       const printdata={}
       const values={
-        exchangNo:exchangNo
+        exchangeNo:exchangNo
       }
       const result=GetServerData('qerp.pos.pd.exchange.query',values);
       result.then((res) => {

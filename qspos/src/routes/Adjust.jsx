@@ -54,11 +54,11 @@ class MyUpload extends React.Component {
             onChange: this.handleChange,
             name:'mfile'
         };
-    return (
-        <Upload {...props} fileList={this.state.fileList}>
-            <Buttonico text='导入损益商品'/>
-        </Upload>
-    );
+        return (
+            <Upload {...props} fileList={this.state.fileList}>
+                <Buttonico text='导入损益商品'/>
+            </Upload>
+        );
   }
 }
 
