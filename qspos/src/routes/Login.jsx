@@ -67,12 +67,12 @@ class NormalLoginForm extends React.Component {
             <Form  className='login_forms'>
                 <FormItem>
                     {getFieldDecorator('username', {})(
-                        <Input prefix={<Icon type="user" className='f13' />} placeholder="输入手机号" size="large"/>
+                        <Input prefix={<Icon type="user" className='f13' />} placeholder="输入手机号" size="large" style={{"width":"100%"}}/>
                     )}
                 </FormItem>
                 <FormItem>
                     {getFieldDecorator('password', {})(
-                        <Input prefix={<Icon type="lock"  className='f13'/>}  placeholder="输入密码" type='password' onKeyUp={this.hindkeyup.bind(this)} size="large"/>
+                        <Input prefix={<Icon type="lock"  className='f13'/>}  placeholder="输入密码" type='password' style={{"width":"100%"}} onKeyUp={this.hindkeyup.bind(this)} size="large"/>
                     )}
                 </FormItem>
                 <FormItem>
