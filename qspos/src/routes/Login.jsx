@@ -11,9 +11,8 @@ const FormItem = Form.Item;
 function Logo() {
     return (
         <div className='loginlogos'>
-            <div className='loginlogoboxs'>
-                <img src={require('../images/logo_head.png')} className='w100 h100'/>
-            </div>
+
+            <img src={require('../images/login_banner.png')} className='w100 h100'/>
         </div>
   )
 }
@@ -48,7 +47,7 @@ class NormalLoginForm extends React.Component {
                         sessionStorage.setItem('openWechat',json.urUser.shop.openWechat);
                         sessionStorage.setItem('openAlipay',json.urUser.shop.openAlipay);
                         this.context.router.push('/cashier')
-                    }else{      
+                    }else{
                         this.setState({
                             login:false,
                       })
@@ -106,8 +105,3 @@ class IndexPage extends React.Component {
 }
 
 export default IndexPage;
-
-
-
-
-
