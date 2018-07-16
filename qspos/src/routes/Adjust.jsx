@@ -30,19 +30,20 @@ class MyUpload extends React.Component {
                             pdAdjustDetails[i].adjustAmount = (Number(pdAdjustDetails[i].adjustQty)*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
                       }else{
                             pdAdjustDetails[i].key=i+1;
-                            pdAdjustDetails[i].adjustAmount = (0*parseFloat(pdAdjustDetails[i].toBPrice)).toFixed(2);
+                            // pdAdjustDetails[i].adjustAmount = (0*parseFloat(pdAdjustDetails[i].toBPrice)).toFixed(2);
+                            pdAdjustDetails[i].adjustAmount = (Number(pdAdjustDetails[i].adjustQty)*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
                       }
                   }
-               
+
                     const Setdate=this.props.Setdate
                     Setdate(pdAdjustDetails,file.response.total)
-                    this.props.setLoding(0) 
+                    this.props.setLoding(0)
                 }else{
                     message.error(file.response.message);
-                    this.props.setLoding(0) 
+                    this.props.setLoding(0)
                 }
                 return file.response.status === 'success';
-               
+
             }
             return true;
         });
@@ -370,6 +371,7 @@ class EditableTable extends React.Component {
   	render() {
     	const columns = this.columns;
         const pdSpus=this.props.pdSpus
+        console.log(this.state.dataSource)
     	return (
       		<div className='bgf' ref="tableWrapper">
         		<Table bordered
@@ -409,7 +411,7 @@ class EditableTable extends React.Component {
 
 class Adjust extends React.Component {
     constructor(props, context) {
-        super(props, context);  
+        super(props, context);
         this.state={
             loding:false
         }
@@ -426,17 +428,17 @@ class Adjust extends React.Component {
         revisedaramessages(messages)
     }
 
-    
+
     //设置导入loding
     setLoding=(type)=>{
         if(type=='1'){
             this.setState({
-                loding:true   
+                loding:true
             })
         }
         if(type=='0'){
             this.setState({
-                loding:false   
+                loding:false
             })
         }
     }
