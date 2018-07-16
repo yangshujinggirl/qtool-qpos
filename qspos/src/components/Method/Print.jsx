@@ -1566,7 +1566,8 @@ function printDbOrder(message,printCount){
 		var printName = dbInfoAll.exchangeNos[0].outShopName; //门店名称
 		var orderNo = dbInfoAll.exchangeNos[0].exchangeNo; //调拨单号
 		var dbTime = dbInfoAll.exchangeNos[0].createTime;  //调拨时间
-		var needsp=dbInfoAll.exchangeNos[0].outShopName;  //需求门店
+		var needsp=dbInfoAll.exchangeNos[0].inShopName;  //需求门店
+		var needspFooter=dbInfoAll.exchangeNos[0].outShopName;  //需求门店
 		var moneyInfo = dbInfoAll.pdInfo;  //商品信息
 		var totalPay = dbInfoAll.exchangeNos[0].amountSum;  //合计金额
 		var totalqty = dbInfoAll.exchangeNos[0].qtySum;  //合计数量
@@ -1697,7 +1698,7 @@ function printDbOrder(message,printCount){
 		var position2 = posi+30;
 
 
-		LODOP.ADD_PRINT_TEXT(position2+20,0,"70mm",20,"本单全部收货后将在你的Q掌柜账户扣除合计金额增加在"+needsp+'的Q掌柜账户中');
+		LODOP.ADD_PRINT_TEXT(position2+20,0,"70mm",20,"本单全部收货后将在你的Q掌柜账户扣除合计金额增加在"+needspFooter+'的Q掌柜账户中');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
@@ -1740,7 +1741,8 @@ function printDbOrderSmall(message,printCount){
 			var printName = dbInfoAll.exchangeNos[0].outShopName; //门店名称
 			var orderNo = dbInfoAll.exchangeNos[0].exchangeNo; //调拨单号
 			var dbTime = dbInfoAll.exchangeNos[0].createTime;  //调拨时间
-			var needsp=dbInfoAll.exchangeNos[0].outShopName;  //需求门店
+			var needsp=dbInfoAll.exchangeNos[0].inShopName;  //需求门店
+			var needspFooter=dbInfoAll.exchangeNos[0].outShopName;  //需求门店
 			var moneyInfo = dbInfoAll.pdInfo;  //商品信息
 			var totalPay = dbInfoAll.exchangeNos[0].amountSum;  //合计金额
 			var totalqty = dbInfoAll.exchangeNos[0].qtySum;  //合计数量
@@ -1870,7 +1872,7 @@ function printDbOrderSmall(message,printCount){
 			var position2 = posi+30;
 
 
-			LODOP.ADD_PRINT_TEXT(position2+20,0,"50mm",20,"本单全部收货后将在你的Q掌柜账户扣除合计金额增加在"+needsp+'的Q掌柜账户中');
+			LODOP.ADD_PRINT_TEXT(position2+20,0,"50mm",20,"本单全部收货后将在你的Q掌柜账户扣除合计金额增加在"+needspFooter+'的Q掌柜账户中');
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
