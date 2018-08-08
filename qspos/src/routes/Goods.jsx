@@ -117,9 +117,17 @@ class EditableTable extends React.Component {
             width:'15%',
             dataIndex: 'displayName'
         },{
-            title: '数量',
+            title: '库存数量',
             width:'10%',
             dataIndex: 'inventory',
+        },{
+            title: '可用库存数',
+            width:'10%',
+            dataIndex: 'qtyLeft',
+        },{
+            title: 'APP占用',
+            width:'10%',
+            dataIndex: 'qtyAppAllocated',
         },{
       		title: '零售价',
             width:'12%',
@@ -142,9 +150,17 @@ class EditableTable extends React.Component {
                 width:'15%',
                 dataIndex: 'displayName'
             },{
-                title: '数量',
+                title: '库存数量',
                 width:'10%',
                 dataIndex: 'inventory',
+            },{
+                title: '可用库存数',
+                width:'10%',
+                dataIndex: 'qtyLeft',
+            },{
+                title: 'APP占用',
+                width:'10%',
+                dataIndex: 'qtyAppAllocated',
             },{
                 title: '零售价',
                 width:'12%',

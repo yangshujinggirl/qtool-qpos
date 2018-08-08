@@ -50,6 +50,9 @@ class DailyBillForm extends React.Component {
             title: '支付宝扫码',
             dataIndex: 'scanAlipayAmount',
         },{
+            title: 'App支付',
+            dataIndex: 'appPay',
+        },{
             title: '现金',
             dataIndex: 'cashAmount',
         },{
@@ -213,10 +216,10 @@ class DailyBillForm extends React.Component {
                      label="订单时间"
                      labelCol={{ span: 5 }}
                      wrapperCol={{span: 10}}>
-                        <RangePicker 
+                        <RangePicker
                             allowClear={false}
                             // disabledDate={this.setDisabledDate.bind(this)}
-                            // ranges={{ range: moment["2017-09-01","2017-10-01"] }}     
+                            // ranges={{ range: moment["2017-09-01","2017-10-01"] }}
                             value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
                             format={dateFormat}
                             onChange={this.dateChange.bind(this)} />
@@ -243,8 +246,8 @@ class DailyBillForm extends React.Component {
                         <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
                     </div>
                 </Form>
-                <CommonTable 
-                    columns={this.columns} 
+                <CommonTable
+                    columns={this.columns}
                     dataSource={this.state.dataSource}
                     pagination={false}
                     total={this.state.total}
@@ -255,13 +258,13 @@ class DailyBillForm extends React.Component {
                     />
                 </div>
                 <div className="footer-pagefixed">
-                    <Pagination 
-                        total={this.state.total} 
+                    <Pagination
+                        total={this.state.total}
                         current={this.state.currentPage+1}
                         pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
-                        onChange={this.pageChange} 
+                        showSizeChanger
+                        onShowSizeChange={this.onShowSizeChange}
+                        onChange={this.pageChange}
                         pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
                 </div>
@@ -290,8 +293,8 @@ class DailyBillForm extends React.Component {
                     currentPage:Number(json.currentPage),
                     limit:Number(json.limit)
                 })
-            }else{  
-                message.error(json.message); 
+            }else{
+                message.error(json.message);
             }
         })
     }

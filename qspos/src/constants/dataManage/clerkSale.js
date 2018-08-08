@@ -56,7 +56,10 @@ class ClerkSaleForm extends React.Component {
         this.alipayAmount = <Tooltip placement="top" title='支付宝消费+支付宝充值-支付宝退款'>
                             支付宝转账&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
         this.alipayAmounts = <Tooltip placement="top" title='支付宝消费+支付宝充值'>
-        支付宝扫码&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;                   
+        支付宝扫码&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+
+        this.apppayAmounts = <Tooltip placement="top" title='App支付'>
+        App支付&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
 
         this.cashAmount = <Tooltip placement="top" title='现金消费+现金充值-现金退款'>
                             现金&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
@@ -88,6 +91,9 @@ class ClerkSaleForm extends React.Component {
         },{
             title: this.alipayAmounts,
             dataIndex: 'scanAlipayAmount'
+        },{
+            title: this.apppayAmounts,
+            dataIndex: 'appPay'
         },{
             title: this.unionpayAmount,
             dataIndex: 'unionpayAmount'
@@ -158,8 +164,8 @@ class ClerkSaleForm extends React.Component {
                     totalUserSale:totalUserSale,
                     setsouce:setsouce
                 })
-            }else{  
-                message.error(json.message); 
+            }else{
+                message.error(json.message);
             }
         })
     }
@@ -188,7 +194,7 @@ class ClerkSaleForm extends React.Component {
                         label="选择时间"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
-                            <RangePicker 
+                            <RangePicker
                                 defaultValue={[moment(a,dateFormat),moment(a, dateFormat)]}
                                 format="YYYY-MM-DD"
                                 allowClear={false}
@@ -245,7 +251,7 @@ class ClerkSaleForm extends React.Component {
 
 
 
-        
+
     }
 }
 
