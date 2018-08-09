@@ -168,7 +168,7 @@ class EditableTable extends React.Component {
         if(e.target.value){
             var qtyvalue=parseFloat(e.target.value)
         }
-        
+
         let price = dataSource[index].exchangePrice
         let bPrice = dataSource[index].toBPrice
         let cPrice = dataSource[index].toCPrice
@@ -302,6 +302,7 @@ class EditableTable extends React.Component {
 
   	render() {
     	const columns = this.columns;
+      console.log(this.state.windowHeight)
     	return (
       		<div className='bgf gooddbcon' ref="tableWrapper">
               <div className='gooddb-spinput'>
@@ -314,15 +315,17 @@ class EditableTable extends React.Component {
                     placeholder='请选择门店名称'
                 />
                 </div>
-                    <Table bordered
+                <div className='table-list-wrap'>
+                  <Table bordered
                     className='gooddb-table'
                     dataSource={this.state.dataSource}
                     columns={columns}
                     rowClassName={this.rowClassName.bind(this)}
-                    pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
+                    // pagination={{'showQuickJumper':true,'total':Number(this.state.total)}}
+                    pagination={false}
                     onChange={this.pagechange.bind(this)}
-                    scroll={{y:this.state.windowHeight}}
-                />
+                    scroll={{y:this.state.windowHeight}}/>
+                </div>
       		</div>
     	);
     }
@@ -332,7 +335,7 @@ class EditableTable extends React.Component {
         if(this._isMounted){
             if(document.body.offsetWidth>800){
                 this.setState({
-                   windowHeight:document.body.offsetHeight-300,
+                   windowHeight:document.body.offsetHeight-362,
                  });
             }else{
                 this.setState({
@@ -379,12 +382,12 @@ class Gooddb extends React.Component {
      setLoding=(type)=>{
         if(type=='1'){
             this.setState({
-                loding:true   
+                loding:true
             })
         }
         if(type=='0'){
             this.setState({
-                loding:false   
+                loding:false
             })
         }
     }
