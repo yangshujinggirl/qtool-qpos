@@ -1312,7 +1312,7 @@ function printSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		position2 = position2+20;
 	}
-
+  console.log('position2:'+position2)
 	LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
 	LODOP.ADD_PRINT_TEXT(position2+85,0,"70mm",20,"扫描关注Qtools官方微信公众号");
@@ -1640,42 +1640,34 @@ function printCDSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-	// //添加支付方式
-	// LODOP.ADD_PRINT_TEXT(posi+30,"0mm","70mm",20,payType);
-	// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	// LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-	// LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
-
-	let position2 = posi+50;
-
-
-
+	let position2 = posi+30;
+  //折扣优惠
   LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"折扣优惠");
   LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
   LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-  // LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,discountAmount);
+  LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,'0.00');
+  LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+  LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+  position2 = position2+20;
+  //抹零优惠
+  LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"抹零优惠");
+  LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+
   LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,'0.00');
   LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
   LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
   LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   position2 = position2+20;
 
-  LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"抹零优惠");
-  LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-  LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-
-  // LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,cutAmount);
-  LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,'0.00');
-  LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-  LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-  LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+  LODOP.ADD_PRINT_LINE(position2,2,position2-1,"66mm",3,0);
   position2 = position2+20;
 
   LODOP.ADD_PRINT_TEXT(position2,"0mm","35mm",20,"实付金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-
 
 	LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,saleInfoAll.odOrder.payAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1687,9 +1679,9 @@ function printCDSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+  position2 = position2+20;
 	//本次积分
 	if(saleInfoAll.mbCard){
-    position2 = position2+20;
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"本次积分");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
@@ -1700,18 +1692,20 @@ function printCDSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		position2 = position2+20;
 	}
+  LODOP.ADD_PRINT_LINE(position2,0,position2-1,"70mm",2,0);
+  position2 = position2+20
 	LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
-
+  // position2 = position2+90
 	LODOP.ADD_PRINT_TEXT(position2+85,0,"70mm",20,"扫描关注Qtools官方微信公众号");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-
+  // position2 =position2+30;
 	LODOP.ADD_PRINT_TEXT(position2+105,0,"70mm",20,"官方投诉电话：400-7766-999");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-
+  // position2 =position2+20;
 	LODOP.ADD_PRINT_TEXT(position2+140,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
@@ -1730,25 +1724,14 @@ function printCDSaleOrderSmall(message,printCount){
 	let saleInfoAll = message;
 	var moneyInfo = saleInfoAll.orderDetails;
 	//门店打印名称字段
-	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +'/'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」"
+	// var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +'/'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」"
 	var printName = saleInfoAll.printName;
+  var payType="「 App支付："+saleInfoAll.odOrder.payAmount+" 」"
 
 	var orderNo = saleInfoAll.odOrder.orderNo;
 	var saleTime = saleInfoAll.odOrder.saleTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
-
-	//添加折扣优惠
-	var discountAmount;
-	if(saleInfoAll.odOrder.discountAmount && Number(saleInfoAll.odOrder.discountAmount)<0){
-		discountAmount = saleInfoAll.odOrder.discountAmount;
-	}
-
-	//添加抹零优惠
-	var cutAmount;
-	if(saleInfoAll.odOrder.cutAmount && Number(saleInfoAll.odOrder.cutAmount)<0){
-		cutAmount = saleInfoAll.odOrder.cutAmount;
-	}
 
 
 	LODOP=getLodop();
@@ -1831,51 +1814,60 @@ function printCDSaleOrderSmall(message,printCount){
 
 	LODOP.ADD_PRINT_LINE(posi-3,0,posi-2,"70mm",2,0);
 
-	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","25mm",20,"实付金额");
+	LODOP.ADD_PRINT_TEXT(posi+10,"0mm","25mm",20,"应付金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(posi+10,"26mm","9mm",20,totalqty);
+	LODOP.ADD_PRINT_TEXT(posi+10,"26mm","9mm",20,saleInfoAll.odOrder.qty);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(posi+10,"35mm","15mm",20,totalPay);
-	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
-
-	LODOP.ADD_PRINT_TEXT(posi+30,"0mm","50mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posi+10,"35mm","15mm",20,saleInfoAll.odOrder.amount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 
-
-	let position2 = posi+50;
+	let position2 = posi+30;
 
 
 	//折扣优惠
-	if(discountAmount){
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"折扣优惠");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-		LODOP.ADD_PRINT_TEXT(position2,"35mm","15mm",20,discountAmount);
+		LODOP.ADD_PRINT_TEXT(position2,"35mm","15mm",20,'0.00');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		position2 = position2+20;
-	}
 
 	//抹零优惠
-	if(cutAmount){
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"抹零优惠");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-		LODOP.ADD_PRINT_TEXT(position2,"35mm","15mm",20,cutAmount);
+		LODOP.ADD_PRINT_TEXT(position2,"35mm","15mm",20,'0.00');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		position2 = position2+20;
-	}
+
+    LODOP.ADD_PRINT_LINE(position2,2,position2-1,"66mm",3,0);
+    position2 = position2+20;
+
+    LODOP.ADD_PRINT_TEXT(position2,"0mm","35mm",20,"实付金额");
+  	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+
+  	LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,saleInfoAll.odOrder.payAmount);
+  	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+  	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+    position2 =position2+20;
+    //添加支付方式
+  	LODOP.ADD_PRINT_TEXT(position2,"0mm","70mm",20,payType);
+  	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+  	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+    position2 = position2+20;
 
 	//会员积分
 	if(saleInfoAll.mbCard){
@@ -1889,6 +1881,9 @@ function printCDSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		position2 = position2+20;
 	}
+
+  LODOP.ADD_PRINT_LINE(position2,0,position2-1,"70mm",2,0);
+  position2 = position2+20
 
 	LODOP.ADD_PRINT_BARCODE(position2,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
