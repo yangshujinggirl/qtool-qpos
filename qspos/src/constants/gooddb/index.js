@@ -339,7 +339,7 @@ class EditableTable extends React.Component {
                  });
             }else{
                 this.setState({
-                    windowHeight:document.body.offsetHeight-270,
+                    windowHeight:document.body.offsetHeight-330,
                 });
             }
         }
