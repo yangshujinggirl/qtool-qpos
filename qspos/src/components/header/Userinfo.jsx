@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Menu, Dropdown, Icon, Modal, Form, Input, Button,message} from 'antd';
+import { Menu, Dropdown, Icon, Modal, Form, Input, Button,message, Tooltip} from 'antd';
 import {GetServerData} from '../../services/services';
 import {getShiftInfo} from '../../components/Method/Print';
-
+import './header.less'
 // 修改密码form
 const FormItem = Form.Item;
 class NormalLoginForm extends React.Component {
@@ -82,7 +82,7 @@ const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 
 //修改密码
 class Dropdownmenu extends React.Component {
-    state = { 
+    state = {
         visible: false,
         title:'',
         isshift:true
@@ -97,11 +97,11 @@ class Dropdownmenu extends React.Component {
                     payload: {code:'qerp.web.qpos.st.user.sale.exchangequery',values:{}}
                 })
                 this.showModal()
-            }) 
+            })
         }
         if(key==2){
             window.open('../../static/help.pdf')
-       
+
         }
         if(key==3){
             this.setState({
@@ -109,14 +109,14 @@ class Dropdownmenu extends React.Component {
             },function(){
                 this.showModal()
             })
-            
+
         }
         if(key==4){
               this.props.dispatch({
                 type:'header/logout',
                 payload: {code:'qerp.pos.ur.user.logout',values:{}}
             })
-           
+
         }
     }
     handleOk = (e) => {
@@ -146,7 +146,7 @@ class Dropdownmenu extends React.Component {
                                             }else{
                                                 getShiftInfo(this.props.userAllInfo,this.props.urUser,"58",json.config.exchangePrintNum);
                                                 // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
-                                            } 
+                                            }
                                         }
                                     }else{
                                         message.warning('打印失败')
@@ -161,7 +161,7 @@ class Dropdownmenu extends React.Component {
              this.setState({
                 visible: false
             })
-        }   
+        }
     }
 
     logoutsettime=()=>{
@@ -229,7 +229,7 @@ class Dropdownmenu extends React.Component {
                     footer={null}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
-                    className='dropdownmodal dropdownmodal-changePerson'
+                    className='dropdownmodal dropdownmodal-changePerson header-user-info-modal'
                     footer={[
                         <div className='fl tc usermodelfootbtn' key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
                         <div className='fr tc themecolor usermodelfootbtn' key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
@@ -241,13 +241,44 @@ class Dropdownmenu extends React.Component {
                             <div className='w usershift_count'>
                                 <div className='clearfix fff usershift_top_title'>
                                     <div className='fl f14 pop_tits'>本次登录时间：<span>{userSales.lastExchangeLoginTimeStr} -- {userSales.endTime}</span></div>
-                                    <div className='fr f20'>收营员：{userSales.nickname}</div>
+                                    <div className='fr f20'>收银员：{userSales.nickname}</div>
                                 </div>
                                 <div>
                                     <ul className='clearfix posion ul-3-style'>
-                                        <li className='fl tc f20 fff usershift_top_list'><span className='f14 pop_tits'>销售额</span><div className='pop_titsq'>￥{userSales.amount}</div></li>
-                                        <li className='fr tc f20 fff usershift_top_list'><span className='f14 pop_tits'>净收款</span><div className='pop_titsq'>￥{userSales.icAmount}</div></li>
-                                        <li className='w tc f20 fff usershift_top_list'><span className='f14 pop_tits'>销售订单</span><div className='pop_titsq'>{userSales.orderQty}笔</div></li>
+                                        <li className='fl tc f20 fff usershift_top_list'>
+                                          <Tooltip title="销售订单总金额 - 退货订单总金额">
+                                            <div>
+                                              <div className="tools-title">
+                                                <span className='f14 pop_tits sale-key'>销售额</span>
+                                                <Icon type="exclamation-circle-o f14" />
+                                              </div>
+                                              <div className='pop_titsq'>￥{userSales.amount}</div>
+                                            </div>
+                                          </Tooltip>
+
+                                        </li>
+                                        <li className='fr tc f20 fff usershift_top_list'>
+                                          <Tooltip title="微信+支付宝+现金+银联+APP支付">
+                                            <div>
+                                              <div className="tools-title">
+                                                <span className='f14 pop_tits sale-key'>净收款</span>
+                                                <Icon type="exclamation-circle-o f14" />
+                                              </div>
+                                              <div className='pop_titsq'>￥{userSales.icAmount}</div>
+                                            </div>
+                                          </Tooltip>
+                                        </li>
+                                        <li className='w tc f20 fff usershift_top_list'>
+                                          <Tooltip title="所有订单总数">
+                                            <div>
+                                              <div className="tools-title">
+                                                <span className='f14 pop_tits sale-key'>订单数</span>
+                                                <Icon type="exclamation-circle-o f14" />
+                                              </div>
+                                              <div className='pop_titsq'>￥{userSales.orderQty}</div>
+                                            </div>
+                                          </Tooltip>
+                                        </li>
                                         <li className='usershift_top_list_line1'></li>
                                         <li className='usershift_top_list_line2'></li>
                                     </ul>
@@ -259,6 +290,7 @@ class Dropdownmenu extends React.Component {
                             <li><span className='f14 c74'>微信扫码</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.scanWechatAmount}</span></li>
                             <li><span className='f14 c74'>支付宝转账</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.alipayAmount}</span></li>
                             <li><span className='f14 c74'>支付宝扫码</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.scanAlipayAmount}</span></li>
+                            <li><span className='f14 c74'>App支付</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.appPay}</span></li>
                             <li><span className='f14 c74'>现金</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.cashAmount}</span></li>
                             <li><span className='f14 c74'>银联</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.unionpayAmount}</span></li>
                             <li><span className='f14 c74'>会员充值</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.cardChargeAmount}</span></li>
@@ -288,7 +320,7 @@ class Dropdownmenu extends React.Component {
                     </div>
                 </Modal>
                 }
-                
+
             </div>
         )
     }
@@ -320,4 +352,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Userinfo);
-
