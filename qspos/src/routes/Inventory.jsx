@@ -29,7 +29,7 @@ class MyUpload extends React.Component {
                     const pdCheckId=file.response.pdCheckId
                     let values={pdCheckId:pdCheckId,limit:100000,currentPage:0}
                     this.setdatas(values)
-                   
+
                 }else{
                     this.props.setLoding(0)
                     message.warning(file.response.message);
@@ -168,19 +168,19 @@ class Searchcomponent extends React.Component {
 	      		<div className='fl clearfix'>
 	      			<div className='fl btn' onClick={this.download.bind(this)}><Buttonico text='下载盘点模板'/></div>
 	      			<div className='fl btn ml20'><MyUpload Setdate={this.Setdate.bind(this)} dispatch={this.props.dispatch} ref='up'  setLoding={this.props.setLoding}/></div>
-                    <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonicos text='店铺盘点日志'/></Link></div>
+              <div className='fl btn ml20'><Link to='/inventorydiffLog'><Buttonicos text='店铺盘点日志'/></Link></div>
 	      		</div>
       			<div className='fr' style={this.state.inventorygoods?disblock:disnone}>
-          			<div className='searchselect clearfix'>
-                        <div className='fl ml20 radiogr'>
-                            <RadioGroup onChange={this.radioChange.bind(this)} value={this.state.radiovalue}>
-                                <Radio value='1' className='listmodel'>按照导入顺序排序</Radio>
-                                <Radio value='2' className='listmodel'>按照差异倒序排序</Radio>
-                            </RadioGroup>
-                        </div>
-	                    <div className='fl btn ml20'><Link to='/goods'><Buttonico text='取消盘点'/></Link></div>
-	      				<div className='fl btn ml20'><Link to='/inventorydiff'><Buttonico text='生成盘点差异'/></Link></div>
-	                </div>
+        			<div className='searchselect clearfix'>
+                <div className='fl ml20 radiogr'>
+                  <RadioGroup onChange={this.radioChange.bind(this)} value={this.state.radiovalue}>
+                    <Radio value='1' className='listmodel'>按照导入顺序排序</Radio>
+                    <Radio value='2' className='listmodel'>按照差异倒序排序</Radio>
+                  </RadioGroup>
+                </div>
+                <div className='fl btn ml20'><Link to='/goods'><Buttonico text='取消盘点'/></Link></div>
+                <div className='fl btn ml20'><Link to='/inventorydiff'><Buttonico text='生成盘点差异'/></Link></div>
+              </div>
      			</div>
     		</div>
         )
@@ -216,6 +216,7 @@ class EditableTable extends React.Component {
             dataIndex: 'opera',
             width:"8%",
             render: (text, record, index) => {
+              console.log(record.checkQty)
                 return (
                     <Editmodel recorddata={record}  getNewcheckData={this.getNewcheckData.bind(this,record.checkQty,index)} index={index}/>
                 )
@@ -396,12 +397,12 @@ class Inventory extends React.Component{
     setLoding=(type)=>{
         if(type=='1'){
             this.setState({
-                loding:true   
+                loding:true
             })
         }
         if(type=='0'){
             this.setState({
-                loding:false   
+                loding:false
             })
         }
     }

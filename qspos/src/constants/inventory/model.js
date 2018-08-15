@@ -19,7 +19,7 @@ const CollectionCreateForm = Form.create()(
       });
     }
 
-   
+
     render() {
       const { visible, onCancel, onCreate, form ,record} = this.props;
       const { getFieldDecorator } = form;
@@ -117,7 +117,8 @@ class Editmodel extends React.Component {
         message.error('盘点数量必须大于0',3)
       }else{
         const index=this.props.index
-        this.props.getNewcheckData(checkQty,index)
+        // this.props.getNewcheckData(checkQty,index)
+        this.props.getNewcheckData(checkQty,this.props.recorddata)
         form.resetFields();
         this.setState({ visible: false });
       }

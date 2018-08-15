@@ -113,7 +113,21 @@ class Searchcompon extends React.Component {
 
     pagechange=()=>{
         let limitSize = this.props.pageSizeShow;
-        this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
+        this.props.dispatch({
+          type: 'sell/fetch',
+          payload: {
+            code:'qerp.web.qpos.st.sale.order.query',
+            values:{
+              keywords:this.state.inpurvalue,
+              type:this.state.selectvalue,
+              startTime:this.state.startTime,
+              endTime:this.state.endTime,
+              limit:limitSize,
+              currentPage:this.state.page,
+              source:this.state.source,
+            }
+          }
+        })
     }
     setpage=(page)=>{
         this.setState({
@@ -126,7 +140,18 @@ class Searchcompon extends React.Component {
     pagefresh = (currentPage,pagesize) =>{
         this.props.dispatch({
                 type:'sell/fetch',
-                payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:pagesize,currentPage:currentPage} }
+                payload: {
+                  code:'qerp.web.qpos.st.sale.order.query',
+                  values:{
+                    keywords:this.state.inpurvalue,
+                    type:this.state.selectvalue,
+                    startTime:this.state.startTime,
+                    endTime:this.state.endTime,
+                    limit:pagesize,
+                    currentPage:currentPage,
+                    source:this.state.source,
+                  }
+                }
         })
     }
 

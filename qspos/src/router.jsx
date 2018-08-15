@@ -8,7 +8,7 @@ import Receivegoods from "./routes/Receivegoods";
 import Goods from "./routes/Goods";
 import Sell from "./routes/Sell";
 import Returngoods from "./routes/Returngoods";
-import Inventory from "./routes/Inventory";
+import Inventory from "./routes/Inventory0";
 import Adjust from "./routes/Adjust";
 import Inventorydiff from "./routes/Inventorydiff";
 
@@ -56,7 +56,7 @@ function RouterConfig({ history }) {
 		<Route path="/dblog" component={DbLogIndex}/>
 		<Route path="/dblog/info" component={Dbloginfo}/>
 		<Route path="/inventorydiffLog/info" component={Inventoryloginfo}/>
-		
+
 
 
 
