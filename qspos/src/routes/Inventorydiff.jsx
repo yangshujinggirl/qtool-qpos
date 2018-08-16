@@ -133,6 +133,7 @@ class EditableTable extends React.Component {
                 const messagedata=json.pdCheckDetails;
                 for(var i=0;i<messagedata.length;i++){
                     messagedata[i].index=i+1
+                    messagedata[i].key=messagedata[i].checkDetailId
                 }
                 this.setState({
                     dataSource:messagedata,
@@ -229,12 +230,12 @@ class Inventorydiff extends React.Component {
     setLoding=(type)=>{
         if(type=='1'){
             this.setState({
-                loding:true   
+                loding:true
             })
         }
         if(type=='0'){
             this.setState({
-                loding:false   
+                loding:false
             })
         }
     }

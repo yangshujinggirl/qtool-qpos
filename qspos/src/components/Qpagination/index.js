@@ -5,25 +5,6 @@ import './index.css';
 class Qpagination extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      sizeOptions:this.props.sizeOptions||'1',
-    }
-  }
-  onShowSizeChange(currentPage, pageSize) {
-    currentPage = 0;
-    let params = {
-      currentPage,
-      limit:pageSize
-    }
-    this.props.onShowSizeChange&&this.props.onShowSizeChange(params)
-  }
-  initPageSize() {
-    const { sizeOptions } =this.state;
-    if(sizeOptions == '1') {
-      return ['15','30','50','100','200','500']
-    } else {
-      return ['16','50','100','200']
-    }
   }
 
   render() {
@@ -31,18 +12,15 @@ class Qpagination extends Component {
     total = Number(total);
     limit = Number(limit);
     currentPage = Number(currentPage);
-    console.log(total, limit, currentPage)
     currentPage++;
     return(
       <div className="common-pagination-components">
         <Pagination
-          showSizeChanger
+          showQuickJumper
           total={total}
           pageSize={limit}
           current={currentPage}
-          pageSizeOptions={this.initPageSize()}
           onChange={this.props.onChange}
-          onShowSizeChange={this.onShowSizeChange.bind(this)}
           hideOnSinglePage={false}/>
       </div>
     )

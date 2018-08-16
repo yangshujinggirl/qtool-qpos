@@ -10,7 +10,7 @@ import Editmodel from '../constants/inventory/model'
 import '../constants/inventorydiffLog/inventorydiff.css'
 import AntIcon from '../components/loding/payloding';
 import Qpagination from '../components/Qpagination/index.js';
-import './Inventory0.less';
+import './InventoryNew.less';
 
 const RadioGroup = Radio.Group;
 const disnone={display:'none'}
@@ -204,7 +204,10 @@ class Inventory extends React.Component{
       }
       GetServerData('qerp.pos.pd.check.info',values)
       .then((res) => {
-        const { code, pdCheckDetails, currentPage, limit, total } =res;
+        let { code, pdCheckDetails, currentPage, limit, total } =res;
+        pdCheckDetails.map((el) => (
+          el.key = el.checkDetailId
+        ))
         if(code=='0'){
           this.setState({
             pdCheckId:values.pdCheckId,
@@ -212,6 +215,14 @@ class Inventory extends React.Component{
             currentPage,
             limit,
             total
+          })
+          //盘点差异页面用
+          this.props.dispatch({
+              type:'inventory/pdCheckId',
+              payload: {
+                pdCheckDetails:pdCheckDetails,
+                pdCheckId:values.pdCheckId
+              }
           })
         }else{
           message.warning(res.message);
@@ -297,8 +308,6 @@ class Inventory extends React.Component{
                 {
                   dataSource.length>0&&
                   <Qpagination
-                    sizeOptions="2"
-                    onShowSizeChange={this.changePageSize}
                     data={dataList}
                     onChange={this.changePage}/>
                 }
