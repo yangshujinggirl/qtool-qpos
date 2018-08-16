@@ -228,7 +228,8 @@ class SlidecountCD extends React.Component {
     }
 
     render(){
-      const { mbCardCd, odOrderCd, orderDetailsCd } =this.props;
+      const { mbCardCd, odOrderCd, orderDetailsCd, orOrderPayCd } =this.props;
+      console.log(orOrderPayCd)
         return(
                 <div className="sellinfolist-wrapper">
                   {
@@ -269,11 +270,14 @@ class SlidecountCD extends React.Component {
                           }
                         </li>
                         <li style={{borderBottom:'0'}}>
+                          {
+                            mbCardCd&&
                             <div className="sellinfo-row">
                               <div><span>会员姓名</span>：{mbCardCd&&mbCardCd.name} </div>
                               <div><span>会员电话</span>：{mbCardCd&&mbCardCd.mobile} </div>
                               <div><span>本次积分</span>：{odOrderCd.orderPoint}</div>
                             </div>
+                          }
                             <div className="sellinfo-row">
                               <div><span>折扣优惠</span>：0.00</div>
                               <div><span>抹零优惠</span>：0.00</div>
@@ -282,7 +286,10 @@ class SlidecountCD extends React.Component {
                               <div>
                                 <span>结算收银</span>：
                                 {odOrderCd.amount}
-                                「用户APP支付：<span>{odOrderCd.payAmount}，</span>Qtools补贴：{odOrderCd.discountAmount}」
+                                {
+                                  orOrderPayCd.length>0&&
+                                  <span>「用户APP支付：<span>{orOrderPayCd[0].amount}，</span>Qtools补贴：{orOrderPayCd[1].amount}」</span>
+                                }
                               </div>
                             </div>
                         </li>
@@ -550,6 +557,7 @@ class Ordertap extends React.Component {
             saleCdAll:{},
             mbCardCd:{},
             odOrderCd:{},
+            orOrderPayCd:[],
             orderDetailsCd:[],
             //销售
             saleOrderAll:{},
@@ -612,13 +620,14 @@ class Ordertap extends React.Component {
                 result.then((res) => {
                     return res;
                 }).then((json) => {
-                  const { mbCard, odOrder, orderDetails } =json;
+                  const { mbCard, odOrder, orderDetails, orOrderPay } =json;
                     if(json.code=='0'){
                        this.setState({
                         saleCdAll:json,
                         mbCardCd:mbCard,
                         odOrderCd:odOrder,
                         orderDetailsCd:orderDetails,
+                        orOrderPayCd:orOrderPay,
                        })
                     }else{
                         message.warning(json.message);
@@ -797,6 +806,7 @@ class Ordertap extends React.Component {
                     saleCdAll={this.state.saleCdAll}
                     mbCardCd={this.state.mbCardCd}
                     odOrderCd={this.state.odOrderCd}
+                    orOrderPayCd={this.state.orOrderPayCd}
                     orderDetailsCd={this.state.orderDetailsCd}/>
           break;
       }
