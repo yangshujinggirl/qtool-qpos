@@ -8,7 +8,7 @@ import NP from 'number-precision';
 import {LocalizedModal,Buttonico} from '../components/Button/Button';
 import {GetServerData} from '../services/services';
 import OperationRe from '../components/Operation/OperationRe.jsx';
-
+import './Returngoods.less'
 const inputwidth={width:'80%',height:'30px',border:'1px solid #E7E8EC',background: '#FFF',textAlign:'center'}
 
 
@@ -24,7 +24,7 @@ class EditableTable extends React.Component {
                 return (
                     <Checkbox onChange={this.checkonChange.bind(this,record,index)} checked={this.state.dataSource[index].check}></Checkbox>
 
-                ) 
+                )
             }
 
         },{
@@ -49,16 +49,16 @@ class EditableTable extends React.Component {
             dataIndex: 'qty',
             render: (text, record, index) => {
                 return (
-                    this.state.dataSource.length > 0 
+                    this.state.dataSource.length > 0
                     ?
                         (
-                            <Input style={inputwidth} 
+                            <Input style={inputwidth}
                             autoComplete="off"
-                                onKeyDown={this.onKeydown.bind(this)} 
-                                value={this.state.dataSource[index].qty} 
+                                onKeyDown={this.onKeydown.bind(this)}
+                                value={this.state.dataSource[index].qty}
                                 onBlur={this.qtyblur.bind(this,index)}
                                 onChange={this.qtyonchange.bind(this,index)}/>
-                        ) 
+                        )
                     : null
                 )
             }
@@ -68,17 +68,17 @@ class EditableTable extends React.Component {
             width:'10%',
             render: (text, record, index) => {
                 return (
-                    this.state.dataSource.length > 0 
+                    this.state.dataSource.length > 0
                     ?
                         (
-                            <Input style={inputwidth} 
+                            <Input style={inputwidth}
                             autoComplete="off"
-                                onKeyDown={this.onKeydown.bind(this)} 
+                                onKeyDown={this.onKeydown.bind(this)}
                                 value={this.state.dataSource[index].discount}
                                 onChange={this.discountonchange.bind(this,index)}
                                 onBlur={this.discountblur.bind(this,index)}
                             />
-                        ) 
+                        )
                     : null
                 )
             }
@@ -88,17 +88,17 @@ class EditableTable extends React.Component {
             width:'10%',
             render: (text, record, index) => {
                 return (
-                    this.state.dataSource.length > 0 
+                    this.state.dataSource.length > 0
                     ?
                         (
-                            <Input style={inputwidth} 
+                            <Input style={inputwidth}
                             autoComplete="off"
-                                onKeyDown={this.onKeydown.bind(this)} 
+                                onKeyDown={this.onKeydown.bind(this)}
                                 value={this.state.dataSource[index].payPrice}
                                 onChange={this.payPriceonchange.bind(this,index)}
                                 onBlur={this.payPriceblur.bind(this,index)}
                             />
-                        ) 
+                        )
                     : null
                 )
             }
@@ -117,7 +117,7 @@ class EditableTable extends React.Component {
             selectedRowKeys:[]
 
         };
-      
+
     }
 
     checkonChange=(record,index,e)=>{
@@ -130,7 +130,7 @@ class EditableTable extends React.Component {
             for(var i=0;i<this.state.dataSource.length;i++){
                 if(this.state.dataSource[i].check){
                     isdataSource.push(this.state.dataSource[i])
-                } 
+                }
             }
             //光标移动
             this.props.focuser()
@@ -141,8 +141,8 @@ class EditableTable extends React.Component {
                 this.uptotaldata()
             })
 
-        })     
-    }  
+        })
+    }
     clearselect=()=>{
         const datasoucess=this.state.dataSource
         for(var i=0;i<datasoucess.length;i++){
@@ -199,8 +199,8 @@ class EditableTable extends React.Component {
          console.log(isdataSource)
          if(isdataSource.length>0){
 
-           
-           
+
+
                 if(this.state.ismbCard){
                     //是会员
                     const showModal=this.props.showModal
@@ -216,14 +216,14 @@ class EditableTable extends React.Component {
                      }
                      showModal(7,data)
                 }
-            
+
          }else{
             message.warning('退货数量为0，不能退货')
          }
     }
 
     qtyonchange=(index,e)=>{
-        var str=e.target.value.replace(/\s+/g,"");  
+        var str=e.target.value.replace(/\s+/g,"");
         let changedataSource=this.state.dataSource
         changedataSource[index].qty=str
         this.setState({
@@ -270,7 +270,7 @@ class EditableTable extends React.Component {
             }
 
 
-            
+
         }else{
                 changedataSource[index].qty=changedataSource[index].inventory
                 changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
@@ -286,7 +286,7 @@ class EditableTable extends React.Component {
 
             })
             message.warning('数量不能大于销售数量')
-            
+
         }
     }
 
@@ -298,7 +298,7 @@ class EditableTable extends React.Component {
         changedataSource[index].discount=str
         this.setState({
             dataSource:changedataSource
-        }) 
+        })
     }
     discountblur=(index)=>{
     	let changedataSource=this.state.dataSource
@@ -324,7 +324,7 @@ class EditableTable extends React.Component {
     			this.uptotaldata()
     			message.error('最低折扣不小于0')
     		})
-    	}  
+    	}
     }
     payPriceonchange=(index,e)=>{
         var str=e.target.value.replace(/\s+/g,"");
@@ -338,7 +338,7 @@ class EditableTable extends React.Component {
     	let changedataSource=this.state.dataSource
         console.log(changedataSource)
         if(parseFloat(changedataSource[index].payPrice)<0){
-            changedataSource[index].payPrice=0 
+            changedataSource[index].payPrice=0
         }
     	changedataSource[index].discount=this.discount(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].payPrice)
     	changedataSource[index].payPrice=parseFloat(changedataSource[index].payPrice).toFixed(2)
@@ -352,7 +352,7 @@ class EditableTable extends React.Component {
                     this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
                 }
 
-                
+
     		})
     }
     rowClassName=(record, index)=>{
@@ -369,7 +369,7 @@ class EditableTable extends React.Component {
     onKeydown=(e)=>{
         if(e.keyCode==9){
             e.preventDefault()
-        } 
+        }
     }
     //下键
     rowchange=()=>{
@@ -383,7 +383,7 @@ class EditableTable extends React.Component {
             this.setState({
                 index:index+1
             })
-        }   
+        }
     }
     //上缉键
     onrowchange=()=>{
@@ -399,7 +399,7 @@ class EditableTable extends React.Component {
             })
         }
     }
-   
+
 
    //可操作区计算公式,a为零售价，b为数量，c为折扣，d为折后价
    //折扣计算
@@ -419,21 +419,23 @@ class EditableTable extends React.Component {
         return count
    }
    //折后价计算
-    payPrice=(a,b,c)=>{ 
+    payPrice=(a,b,c)=>{
         var payPricedatas=this.accMul(a,b,c)//实际结果却10
         var payPricedata=this.accDiv(payPricedatas,10) //实际结果
         var payPriceda=parseFloat(payPricedata.toFixed(2))//取小数后两位
         var payPrice;
-        if(payPricedata-payPriceda>0){
-            payPrice=NP.plus(payPriceda, 0.01); 
-            console.log(payPrice)
-            payPrice=payPrice.toFixed(2)
-        }else{
-            payPrice=payPriceda
-            console.log(payPrice)
-            payPrice=payPrice.toFixed(2)
-        }
-        return payPrice  
+        // if(payPricedata-payPriceda>0){
+        //     payPrice=NP.plus(payPriceda, 0.01);
+        //     console.log(payPrice)
+        //     payPrice=payPrice.toFixed(2)
+        // }else{
+        //     payPrice=payPriceda
+        //     console.log(payPrice)
+        //     payPrice=payPrice.toFixed(2)
+        // }
+        payPrice=payPriceda
+        payPrice=payPrice.toFixed(2)
+        return payPrice
     }
     rowclick=(record,index,event)=>{
         this.rowClassName(record,index)
@@ -492,13 +494,11 @@ class EditableTable extends React.Component {
 
     //根据订单号请求订单信息及会员id
     barcodesetdatasoce=(messages)=>{
-        console.log(messages)
         let datasouces=this.state.dataSource
         const result=GetServerData('qerp.web.qpos.od.return.query',messages)
             result.then((res) => {
                 return res;
             }).then((json) => {
-                console.log(json)
                 if(json.code=='0'){
                 	const odOrderDetails=json.odOrderDetails
                 	for(var i=0;i<odOrderDetails.length;i++){
@@ -527,8 +527,9 @@ class EditableTable extends React.Component {
                             this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
                             this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
                         })
-                    }	
-                }else{  
+                    }
+                    this.props.getAmountDetail(json.order)
+                }else{
                     message.warning(json.message)
                 }
             })
@@ -555,10 +556,10 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         return (
         <div className='bgf' ref="tableWrapper">
-            <Table bordered 
-                dataSource={dataSource} 
-                columns={columns} 
-                pagination={false} 
+            <Table bordered
+                dataSource={dataSource}
+                columns={columns}
+                pagination={false}
                 scroll={{ y: this.state.windowHeight }}
                 onRowClick={this.rowclick.bind(this)}
                 rowClassName={this.rowClassName.bind(this)}
@@ -577,9 +578,9 @@ class EditableTable extends React.Component {
           windowHeight:document.body.offsetHeight-295,
       });
      }
-     window.addEventListener('resize', this.windowResize);    
+     window.addEventListener('resize', this.windowResize);
  }
- componentWillUnmount(){   
+ componentWillUnmount(){
      window.removeEventListener('resize', this.windowResize);
  }
 }
@@ -636,7 +637,7 @@ class Returngoods extends React.Component {
                         }
                     }
                 })
-                //出弹窗 
+                //出弹窗
                 this.showpops()
             }
         }
@@ -664,7 +665,7 @@ class Returngoods extends React.Component {
 
         }
         //下箭头
-        if(e.keyCode==40){  
+        if(e.keyCode==40){
             const rowchange=this.refs.table.rowchange
             rowchange()
 
@@ -730,7 +731,7 @@ class Returngoods extends React.Component {
         const reinitdata=this.refs.table.reinitdata
         reinitdata()
     }
-    
+
     useinitdata=()=>{
         const initdata=this.refs.opera.initdata
         initdata()
@@ -751,45 +752,60 @@ class Returngoods extends React.Component {
             checkPrint:printFlag
         })
     }
+    getAmountDetail(amountDetail) {
+      this.setState({
+        amountDetail
+      })
+    }
     render() {
+      const { amountDetail } =this.state
         return(
-            <div>
+            <div className="return-goods-pages">
                <Header type={false} color={false}/>
                 <div className='counter'>
-                    <EditableTable 
+                    <EditableTable
                         ref='table'
-                        clearingdata={this.clearingdata.bind(this)} 
-                        clearingdatal={this.clearingdatal.bind(this)} 
+                        clearingdata={this.clearingdata.bind(this)}
+                        clearingdatal={this.clearingdatal.bind(this)}
                         updateintegertotalamount={this.updateintegertotalamount.bind(this)}
                         showModal={this.showModals.bind(this)}
                         revisedata={this.revisedata.bind(this)}
                         focuser={this.focuser.bind(this)}
+                        getAmountDetail={this.getAmountDetail.bind(this)}
                         />
-                    </div>
-                <div><Pay ref='pay' reinitdata={this.reinitdata.bind(this)} useinitdata={this.useinitdata.bind(this)} 
+                </div>
+                {
+                  amountDetail&&
+                  <div className="amout-detail-action">
+                    <p className="money-item">实付金额：<span className="mon-num">{amountDetail.payAmount}</span></p>
+                    <p className="money-item">已退金额：<span className="mon-num">{amountDetail.canReturnAmount}</span></p>
+                    <p className="money-item">可退金额：<span className="mon-num returnAmount">{amountDetail.returnAmount}</span></p>
+                  </div>
+                }
+                <div><Pay ref='pay' reinitdata={this.reinitdata.bind(this)} useinitdata={this.useinitdata.bind(this)}
                                     checkPrint={this.state.checkPrint} changeCheckPrint={this.changeCheckPrint.bind(this)}/></div>
                 <div className='mt30 footers'>
                     <div className='mt20'>
-                        <OperationRe 
-                            color={false} 
-                            type={false} 
-                            index={true} 
-                            cashrevisetabledatasouce={this.cashrevisetabledatasouce.bind(this)} 
-                            userplace='1' 
-                            ref='opera' 
+                        <OperationRe
+                            color={false}
+                            type={false}
+                            index={true}
+                            cashrevisetabledatasouce={this.cashrevisetabledatasouce.bind(this)}
+                            userplace='1'
+                            ref='opera'
                             setonblue={this.setonblue.bind(this)}
                             revisedata={this.revisedata.bind(this)}
                             showpops={this.showpops.bind(this)}
                         />
                         </div>
                 </div>
-                
-             </div> 
+
+             </div>
             )
     }
     componentDidMount(){
         window.addEventListener('click', this.inputclick,true);
-        window.addEventListener('keyup', this.handleokent,true);    
+        window.addEventListener('keyup', this.handleokent,true);
     }
     componentWillUnmount(){
         window.removeEventListener('click', this.inputclick,true);
@@ -803,42 +819,3 @@ class Returngoods extends React.Component {
     }
 
 export default connect(mapStateToProps)(Returngoods);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

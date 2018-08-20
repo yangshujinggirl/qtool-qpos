@@ -36,7 +36,7 @@ class Operationls extends React.Component {
                 this.memberinfo()
             })
         }
-		
+
 	}
 	updateintegertotalamount=(messages)=>{
 		this.setState({
@@ -64,7 +64,7 @@ class Operationls extends React.Component {
 		}
 	}
 	barcodechange=(e)=>{
-        var str=e.target.value.replace(/\s+/g,"");  
+        var str=e.target.value.replace(/\s+/g,"");
 		this.setState({
 			barcode:str
 		},function(){
@@ -80,7 +80,7 @@ class Operationls extends React.Component {
          	this.props.setonblue(this.state.onBlur)
          })
 	}
-    
+
 	//根据订单号给的id请求会员信息
 	memberinfo=()=>{
 		let values={cardNoMobile:this.state.cardNoMobile}
@@ -103,8 +103,8 @@ class Operationls extends React.Component {
 
 
                 })
-            }else{  
-                message.warning(json.message)   
+            }else{
+                message.warning(json.message)
             }
         })
 	}
@@ -277,18 +277,18 @@ class OperationRe extends React.Component {
 			<div className='count clearfix'>
 				<div className='opera'>
       				<div className='operationl fl'>
-      					<Operationls 
-                            tabledataset={this.props.tabledataset} 
-                            cashrevisetabledatasouce={this.props.cashrevisetabledatasouce} 
-                            ref='cashier' 
+      					<Operationls
+                            tabledataset={this.props.tabledataset}
+                            cashrevisetabledatasouce={this.props.cashrevisetabledatasouce}
+                            ref='cashier'
                             setonblue={this.props.setonblue}
                             revisedata={this.props.revisedata}
                             />
       				</div>
       				<div className='operationr fr' onClick={this.hindpayclick.bind(this)}>
-                        <Operationr 
-                            color={this.props.color} 
-                            type={this.props.type} 
+                        <Operationr
+                            color={this.props.color}
+                            type={this.props.type}
                             ref='operationr'
                             revisedata={this.props.revisedata}
                             />
@@ -297,6 +297,6 @@ class OperationRe extends React.Component {
     		</div>
 		)
 	}
-	
+
 }
 export default OperationRe;
