@@ -778,8 +778,8 @@ class Returngoods extends React.Component {
                   amountDetail&&
                   <div className="amout-detail-action">
                     <p className="money-item">实付金额：<span className="mon-num">{amountDetail.payAmount}</span></p>
-                    <p className="money-item">已退金额：<span className="mon-num">{amountDetail.canReturnAmount}</span></p>
-                    <p className="money-item">可退金额：<span className="mon-num returnAmount">{amountDetail.returnAmount}</span></p>
+                    <p className="money-item">已退金额：<span className="mon-num">{amountDetail.returnAmount}</span></p>
+                    <p className="money-item">可退金额：<span className="mon-num returnAmount">{amountDetail.canReturnAmount}</span></p>
                   </div>
                 }
                 <div><Pay ref='pay' reinitdata={this.reinitdata.bind(this)} useinitdata={this.useinitdata.bind(this)}
