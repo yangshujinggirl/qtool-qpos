@@ -5,7 +5,7 @@ import {GetServerData} from '../../services/services';
 import {GetLodop} from '../Method/Print.jsx';
 import {getRechargeOrderInfo} from '../../components/Method/Print';
 
-class Operationls extends React.Component {
+class Operationls extends React.Component { //左边输入订单号组件
 	state={
 		barcode:'',
 		onBlur:true,
@@ -148,36 +148,67 @@ class Operationls extends React.Component {
 
 	render(){
 		return(
-    		<div>
+  		<div>
 				<div className='clearfix mt30'>
-	      			<Input placeholder='订单号'  autoComplete="off" className='fl ml30 useinput' ref='barcode' onKeyUp={this.HindonKeyUp.bind(this)} value={this.state.barcode} onChange={this.barcodechange.bind(this)} onKeyDown={this.onKeydown.bind(this)}/>
-	      			<Input placeholder='会员号/手机号'  autoComplete="off" className='fl ml20 useinput' ref='member'  onKeyDown={this.onKeydown.bind(this)}  disabled/>
+    			<Input
+						placeholder='订单号'
+						autoComplete="off"
+						className='fl ml30 useinput'
+						ref='barcode'
+						onKeyUp={this.HindonKeyUp.bind(this)}
+						value={this.state.barcode}
+						onChange={this.barcodechange.bind(this)}
+						onKeyDown={this.onKeydown.bind(this)}/>
+    			<Input
+						placeholder='会员号/手机号'
+						autoComplete="off"
+						className='fl ml20 useinput'
+						ref='member'
+						onKeyDown={this.onKeydown.bind(this)}
+						disabled/>
 	    		</div>
 	    		<div className='clearfix mt20'>
-	    			<div className='returngood fl'><Switch checkedChildren="用户退货" unCheckedChildren="对外售卖" onChange={this.hindchange.bind(this)} checked={this.state.checked}/></div>
+	    			<div className='returngood fl'>
+							<Switch
+								checkedChildren="用户退货"
+								unCheckedChildren="对外售卖"
+								onChange={this.hindchange.bind(this)}
+								checked={this.state.checked}/>
+						</div>
 	    			<div className='fl cashierbox'>
 	    				<div className='clearfix cashierbox_t'>
-                            <div className='fl'><span className='c74'>会员姓名</span><span className='c38 ml10'>{this.state.name}</span></div>
-                            <div className='fr'><span className='themecolor'>{this.state.levelStr}</span><span>{this.state.isBirthMonth=='true'?<span className='birthline'><span className='line'></span>生日</span>:null}</span></div>
-                        </div>
+                  <div className='fl'>
+										<span className='c74'>会员姓名</span>
+										<span className='c38 ml10'>{this.state.name}</span>
+									</div>
+                  <div className='fr'>
+										<span className='themecolor'>{this.state.levelStr}</span>
+										<span>
+											{this.state.isBirthMonth=='true'
+												?<span className='birthline'><span className='line'></span>生日</span>
+												:null
+											}
+										</span>
+									</div>
+              </div>
 	    				<div className='clearfix f14 posion cashierbox_b'>
 	    					<div className='fl tc mt10 memberinfobox1 memberinfoboxlist'>
-                                <p className='c74 clearfix w100 tc'>
-                                    <div className='fl tc w100'>余额</div>
-                                </p>
-                                <p className='c38'>{this.state.amount}</p>
-                            </div>
+                    <p className='c74 clearfix w100 tc'>
+                        <div className='fl tc w100'>余额</div>
+                    </p>
+                    <p className='c38'>{this.state.amount}</p>
+                </div>
 	    					<div className='fr tc mt10 memberinfobox2 memberinfoboxlist'>
-                                <p className='c74'>本次积分</p>
-                                <p className='c38'>{this.state.integertotalamount}</p>
-                            </div>
+                    <p className='c74'>本次积分</p>
+                    <p className='c38'>{this.state.integertotalamount}</p>
+                </div>
 	    					<div className='w tc mt10 memberinfobox3 memberinfoboxlist'>
-                                <p className='c74'>剩余积分</p>
-                                <p className='c38'>{this.state.point}</p>
-                            </div>
-	    				    <div className='lines lines1'></div>
-                            <div className='lines lines2'></div>
-                        </div>
+                    <p className='c74'>剩余积分</p>
+                    <p className='c38'>{this.state.point}</p>
+                </div>
+    				    <div className='lines lines1'></div>
+                    <div className='lines lines2'></div>
+                </div>
 	    			</div>
 	    		</div>
     		</div>
@@ -192,7 +223,7 @@ Operationls.contextTypes= {
     router: React.PropTypes.object
 }
 
-class Operationr extends React.Component {
+class Operationr extends React.Component {  //右边点击结算组件
 	state={
 		quantity:0,
 		totalamount:0,
@@ -244,59 +275,51 @@ class OperationRe extends React.Component {
 	clearingdatas=(messages,totalamount)=>{
 		const clearingdatas=this.refs.operationr.clearingdata
 		clearingdatas(messages,totalamount)
-
 	}
-
-    //接收会员信息
+  //接收会员信息
 	clearingdatasl=(integertotalamount,ismbCard)=>{
 		const clearingdatas=this.refs.cashier.clearingdata
 		clearingdatas(integertotalamount,ismbCard)
-
-
-
-
 	}
 	//积分更新
 	updateintegertotalamount=(messages)=>{
 		const updateintegertotalamount=this.refs.cashier.updateintegertotalamount
 		updateintegertotalamount(messages)
 	}
-    initdata=()=>{
-        const initdatal=this.refs.cashier.initdatal
-        const initdatar=this.refs.operationr.initdatar
-        initdatal()
-        initdatar()
-    }
-    hindpayclick=()=>{
-        console.log(2)
-        const showpops=this.props.showpops
-        showpops()
-    }
+  initdata=()=>{
+    const initdatal=this.refs.cashier.initdatal
+    const initdatar=this.refs.operationr.initdatar
+    initdatal()
+    initdatar()
+  }
+  hindpayclick=()=>{
+    const showpops=this.props.showpops
+    showpops()
+  }
 	render() {
 		return(
 			<div className='count clearfix'>
 				<div className='opera'>
       				<div className='operationl fl'>
       					<Operationls
-                            tabledataset={this.props.tabledataset}
-                            cashrevisetabledatasouce={this.props.cashrevisetabledatasouce}
-                            ref='cashier'
-                            setonblue={this.props.setonblue}
-                            revisedata={this.props.revisedata}
-                            />
+                  tabledataset={this.props.tabledataset}
+                  cashrevisetabledatasouce={this.props.cashrevisetabledatasouce}
+                  ref='cashier'
+                  setonblue={this.props.setonblue}
+                  revisedata={this.props.revisedata}
+                  />
       				</div>
       				<div className='operationr fr' onClick={this.hindpayclick.bind(this)}>
-                        <Operationr
-                            color={this.props.color}
-                            type={this.props.type}
-                            ref='operationr'
-                            revisedata={this.props.revisedata}
-                            />
-                    </div>
+                  <Operationr
+                      color={this.props.color}
+                      type={this.props.type}
+                      ref='operationr'
+                      revisedata={this.props.revisedata}
+                    />
+              </div>
       			</div>
     		</div>
 		)
 	}
-
 }
 export default OperationRe;

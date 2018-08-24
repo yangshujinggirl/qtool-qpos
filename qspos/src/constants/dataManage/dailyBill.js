@@ -51,7 +51,7 @@ class DailyBillForm extends React.Component {
             dataIndex: 'scanAlipayAmount',
         },{
             title: 'App支付',
-            dataIndex: 'appPay',
+            dataIndex: 'appSumPayTotal',
         },{
             title: '现金',
             dataIndex: 'cashAmount',
@@ -156,7 +156,7 @@ class DailyBillForm extends React.Component {
                                     <span>.{this.state.rpDayAccount.cleanAmount&&this.state.rpDayAccount.cleanAmount!="0"?this.state.rpDayAccount.cleanAmount.split('.')[1]:"00"}</span>
                                 </p>
                                 <span className="explain-span">
-                                    <Tooltip title="微信+支付宝+现金+银联">
+                                    <Tooltip title="微信+支付宝+现金+银联+APP支付">
                                         净收款&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>

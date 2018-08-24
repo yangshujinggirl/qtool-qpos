@@ -15,7 +15,7 @@ class Pay extends React.Component {
         this.lists=[]
         this.firstclick=true
      }
-    state = { 
+    state = {
         visible: false,
         group:true,//是否组合
         payfirst:{
@@ -53,7 +53,7 @@ class Pay extends React.Component {
         rechargePrint:'1',
         //收银接收数据
         datadatasoucer:[],  //table
-        datadatasoucerlength:0, 
+        datadatasoucerlength:0,
         datamember:null,//会员
         datanumber:0, //数量
         datatotalamount:'0.00', //总额
@@ -119,7 +119,7 @@ class Pay extends React.Component {
         if(messagedata.type==7){
             //退货种类数 金额
             this.setState({
-                quantity:messagedata.quantity, 
+                quantity:messagedata.quantity,
                 retotalamount:messagedata.totalamount,
                 totolamount:messagedata.totalamount
             })
@@ -162,15 +162,13 @@ class Pay extends React.Component {
                     rebarcode:messagedata.odOrderNo
                 })
             }
-            
+
         }
     }
 
 
 
     showModal=(type,data) => {
-        console.log(type)
-        console.log(data)
         if(type==1){
             //先判断谁是被禁用的：index:5被禁用
             const backmoney=this.backmoneymeth(data.totalamount,data.totalamount,0)
@@ -184,7 +182,7 @@ class Pay extends React.Component {
                 visible: true,
                 group:false,
                 paynext:payinput,
-                totolamount:data.totalamount, 
+                totolamount:data.totalamount,
                 backmoney:backmoney,
                 listarrs:listarrs,
                 type:1,
@@ -387,7 +385,7 @@ class Pay extends React.Component {
     handleOk = (e) => {
         this.setState({
           visible: false,
-         
+
           group:true,
             payfirst:{
                 name:'会员卡',
@@ -413,7 +411,7 @@ class Pay extends React.Component {
                 ],
             type:'1',
             usetype:true, //收银 false，退货,
-          
+
             datamember:null,
             datadatasoucer:[],
             datadatasoucerlength:0,
@@ -526,7 +524,7 @@ class Pay extends React.Component {
                             waringfirst:false
                         })
                    }
-                } 
+                }
             }
         }
 
@@ -558,7 +556,7 @@ class Pay extends React.Component {
                     paysecond.value=this.state.pointmoney
                 }
             }
-            
+
 
 
 
@@ -572,7 +570,7 @@ class Pay extends React.Component {
                     warning:false,
                     backmoney:backmoney,
                     waringfirst:false
-                }) 
+                })
             }else{
                 this.setState({
                     listarrs:listarrs,
@@ -581,7 +579,7 @@ class Pay extends React.Component {
                     warning:false,
                     backmoney:backmoney,
                     waringfirst:false
-                }) 
+                })
             }
         }
     }
@@ -681,7 +679,7 @@ class Pay extends React.Component {
                         //可以支付
                         let type=list[1]+1
                         let amount=this.state.datatotalamount
-                        
+
                         if(this.state.cutAmount==1){
                             orderPay.push({amount:this.state.paynext.value,type:type})
                         }else{
@@ -749,8 +747,8 @@ class Pay extends React.Component {
             let type=list[1]+1
             let values={
                 "odReturn":{
-                    "amount":this.state.totolamount, 
-                    "orderNo":this.state.rebarcode, 
+                    "amount":this.state.totolamount,
+                    "orderNo":this.state.rebarcode,
                     "qty":this.state.quantity,
                     "refundAmount":this.state.paynext.value,
                     "returnPoint":this.state.rejifen,
@@ -795,7 +793,7 @@ class Pay extends React.Component {
                                     }else{
                                         getSaleOrderInfo(orderAll,"58",json.config.submitPrintNum);
                                         // this.handprint(odOrderIds,'odOrder',orderNos,false)
-                                    } 
+                                    }
                                 }else{
                                     message.warning('打印失败')
                                 }
@@ -858,7 +856,7 @@ class Pay extends React.Component {
                                                 message.error(data.message);
                                             }
                                         });
-                                    } 
+                                    }
                                 }else{
                                     message.warning('打印失败')
                                 }
@@ -889,13 +887,13 @@ class Pay extends React.Component {
                 backmoney:backmoneymeths,
                 paynext:moneyvalue
             })
-        
-        
+
+
     }
 
     nozeroclick=()=>{
         //是整的就不用抹零，如果抹零，下面输入框之间减去
-       
+
 
 
         const diffs=this.state.totolamount-parseInt(this.state.totolamount).toFixed(2)
@@ -929,9 +927,9 @@ class Pay extends React.Component {
                         backmoney:backmoney,
                         cutAmount:'1'
                     })
-    
+
             }else{
-                   
+
                     const paynextvalue=this.state.paynext
                     paynextvalue.value=totolamount
                     console.log(this.state.membermoney)
@@ -945,15 +943,15 @@ class Pay extends React.Component {
                         console.log(this.state.paynext)
                     })
         }
-        
 
-       
+
+
         }
 
 
 
 
-        
+
     }
     payfirstchange=(e)=>{
         const payfirst=this.state.payfirst
@@ -1085,7 +1083,7 @@ class Pay extends React.Component {
                     paysecond.value=this.state.pointmoney
                     payfirst.value=(-parseFloat(this.backmoneymeth(this.state.totolamount,paysecond.value,0))).toFixed(2)
                     backmoney='0.00'
-                }   
+                }
             }
 
         }else{
@@ -1177,7 +1175,7 @@ class Pay extends React.Component {
         						<div className='payharflwr'><Input  autoComplete="off" addonBefore={this.state.paysecond.name} value={this.state.paysecond.value} onChange={this.paysecondchange.bind(this)} onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel'/></div>
         	         		</div>
         	         		:<div className='inputcenter'><Input  autoComplete="off" addonBefore={this.state.paynext.name} value={this.state.paynext.value} onChange={this.paymoney.bind(this)} ref='paymoneys' onBlur={this.hindonBlur.bind(this)} className='paylh tr payinputsmodel'/></div>
-                            
+
         	         	}
                  		<div><Input  autoComplete="off" addonBefore='找零'  value={this.state.backmoney} onChange={this.backmoney.bind(this)} disabled className='paylh tr payinputsmodel'/></div>
                  		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>

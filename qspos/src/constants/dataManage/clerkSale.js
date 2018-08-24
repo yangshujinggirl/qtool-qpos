@@ -93,7 +93,7 @@ class ClerkSaleForm extends React.Component {
             dataIndex: 'scanAlipayAmount'
         },{
             title: this.apppayAmounts,
-            dataIndex: 'appPay'
+            dataIndex: 'appSumPayTotal'
         },{
             title: this.unionpayAmount,
             dataIndex: 'unionpayAmount'
