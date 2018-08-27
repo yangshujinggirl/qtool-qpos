@@ -845,8 +845,17 @@ function printReturnOrder(message,printCount){
 	var saleTime = returnInfoAll.odReturn.createTime;
 	var totalPay = returnInfoAll.odReturn.refundAmount;
 	var totalqty = returnInfoAll.odReturn.qty;
-	var payType="「 "+returnInfoAll.odReturn.typeStr +"」"
-
+	var payType="「 "+returnInfoAll.odReturn.typeStr +"」";
+  var isOpenApp = sessionStorage.getItem('openApp');
+  var footerText;
+  var codeUrl;
+  if(isOpenApp == '1') {
+    footerText = '扫码下载Qtools APP，获取更多精彩内容';
+    codeUrl = 'http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q'
+  } else {
+    footerText = '扫码关注Qtools官方微信公号';
+    codeUrl = 'http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q';
+  }
 	//扣除积分
 	var returnPoint = returnInfoAll.odReturn.returnPoint;
 
@@ -967,9 +976,10 @@ function printReturnOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		position2 = position2+20;
 	}
-	LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
-	LODOP.ADD_PRINT_TEXT(position2+85,0,"70mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode",codeUrl);
+
+	LODOP.ADD_PRINT_TEXT(position2+85,0,"70mm",20,footerText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -1301,6 +1311,7 @@ function printSaleOrder(message,printCount){
 		LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,discountAmount);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+    LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		position2 = position2+20;
 	}
 
@@ -1313,6 +1324,7 @@ function printSaleOrder(message,printCount){
 		LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,cutAmount);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+    LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		position2 = position2+20;
 	}
 
@@ -1616,6 +1628,7 @@ function printCDSaleOrder(message,printCount){
 	var payType="「 App支付："+saleInfoAll.odOrder.payAmount+" 」";
   var actuallyPay=saleInfoAll.orOrderPay[0].amount;//实付
   var coupon=saleInfoAll.orOrderPay[1].amount;//优惠券
+  var isOpenApp = sessionStorage.getItem('openApp');
 
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
@@ -1732,15 +1745,18 @@ function printCDSaleOrder(message,printCount){
   LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   position2 = position2+20;
   //优惠券
-  LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"优惠券");
-  LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-  LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+  if(isOpenApp == '1') {
+    LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"优惠券减免");
+    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 
-  LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,coupon);
-  LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-  LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-  LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
-  position2 = position2+20;
+    LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,coupon);
+    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+    LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+    position2 = position2+20;
+  }
+
 
   // LODOP.ADD_PRINT_LINE(position2,2,position2-1,"66mm",3,0);
   LODOP.ADD_PRINT_TEXT(position2,"3mm","68mm",10,'***********************************************');
@@ -1780,7 +1796,7 @@ function printCDSaleOrder(message,printCount){
   position2 = position2+20
 	LODOP.ADD_PRINT_BARCODE(position2,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
   // position2 = position2+90
-	LODOP.ADD_PRINT_TEXT(position2+85,0,"70mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_TEXT(position2+85,0,"70mm",20,"扫码下载Qtools APP，获取更多精彩内容");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -1940,7 +1956,7 @@ function printCDSaleOrderSmall(message,printCount){
 		position2 = position2+20;
 
 	//优惠券
-		LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"优惠券");
+		LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"优惠券减免");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
@@ -1991,7 +2007,7 @@ function printCDSaleOrderSmall(message,printCount){
 
 	LODOP.ADD_PRINT_BARCODE(position2,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
 
-	LODOP.ADD_PRINT_TEXT(position2+85,0,"50mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_TEXT(position2+85,0,"50mm",20,"扫码下载Qtools APP，获取更多精彩内容");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
