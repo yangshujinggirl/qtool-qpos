@@ -339,6 +339,9 @@ class Slidecountsell extends React.Component {
                               <div>
                                 <span>销售订单</span>：{this.props.odOrder.orderNo}
                               </div>
+                              <div>
+                                <span>订单来源：</span>POS
+                              </div>
                             </div>
                             <div className="sellinfo-row">
                               <div><span>销售时间</span>：{this.props.odOrder.saleTime}</div>
@@ -396,7 +399,7 @@ class Slidecountsell extends React.Component {
                                         <li style={{borderBottom:'0'}}>
                                             <div className="sellinfo-row"><div><span>会员姓名</span>：{this.props.mbCard1.name} </div><div><span>会员电话</span>：{this.props.mbCard1.mobile} </div><div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div></div>
                                             <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                            <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
+                                            <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}，<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
                                         </li>
                                     :
                                         <li style={{borderBottom:'0'}}>

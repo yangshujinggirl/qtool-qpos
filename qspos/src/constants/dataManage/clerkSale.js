@@ -93,7 +93,14 @@ class ClerkSaleForm extends React.Component {
             dataIndex: 'scanAlipayAmount'
         },{
             title: this.apppayAmounts,
-            dataIndex: 'appSumPayTotal'
+            dataIndex: 'appSumPayTotal',
+            render:(text,record,index)=> {
+              return <div>
+                {
+                  record.name == '合计'?record.appSumPayTotal:record.appPay
+                }
+              </div>
+            }
         },{
             title: this.unionpayAmount,
             dataIndex: 'unionpayAmount'
@@ -184,7 +191,7 @@ class ClerkSaleForm extends React.Component {
         let dy=d.getFullYear() //年
         let dm=d.getMonth()+1//月
         let dd=d.getDate()//日
-        let a=dy+'-'+dm+'-'+dd
+        let a=dy+'-'+dm+'-'+dd;
         return (
             <div className="clerk-sale">
                 <div className="clerk-sale-wrapper">

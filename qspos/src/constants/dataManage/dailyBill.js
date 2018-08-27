@@ -51,7 +51,7 @@ class DailyBillForm extends React.Component {
             dataIndex: 'scanAlipayAmount',
         },{
             title: 'App支付',
-            dataIndex: 'appSumPayTotal',
+            dataIndex: 'appPay',
         },{
             title: '现金',
             dataIndex: 'cashAmount',
