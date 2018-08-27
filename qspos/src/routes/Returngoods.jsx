@@ -44,6 +44,10 @@ class EditableTable extends React.Component {
             width:'10%',
             dataIndex: 'price'
         },{
+            title: '可退数量',
+            width:'10%',
+            dataIndex: 'canReturnQty'
+        },{
             title: '数量',
             width:'10%',
             dataIndex: 'qty',
@@ -173,22 +177,22 @@ class EditableTable extends React.Component {
     uptotaldata=()=>{
     	const selectedRows=this.state.isdataSource
     	var quantity=0
-		var totalamount=0
-		var integertotalamount=0
+  		var totalamount=0
+  		var integertotalamount=0
 	    for(var i=0;i<selectedRows.length;i++){
 	    	quantity=quantity+Number(selectedRows[i].qty)
 	    	totalamount=totalamount+parseFloat(selectedRows[i].payPrice)
 	    }
-        totalamount=totalamount.toFixed(2)
-        integertotalamount=Math.round(totalamount) //四舍五入取整
-        //更新积分和树龄总额到展示区
-        this.props.clearingdata(quantity,totalamount)
-        if(this.state.ismbCard){
-            this.props.updateintegertotalamount(integertotalamount)
-        }
-        this.setState({
-            totalamount:totalamount
-        })
+      totalamount=totalamount.toFixed(2)
+      integertotalamount=Math.round(totalamount) //四舍五入取整
+      //更新积分和树龄总额到展示区
+      this.props.clearingdata(quantity,totalamount)
+      if(this.state.ismbCard){
+          this.props.updateintegertotalamount(integertotalamount)
+      }
+      this.setState({
+          totalamount:totalamount
+      })
 
     }
 
@@ -515,6 +519,8 @@ class EditableTable extends React.Component {
                         },function(){
                             //传递会员卡信息到展示数据
                             this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
+                            //置空结算数据
+                            this.props.clearingdata('0','0')
                             //传递会员卡信息到pay
                             this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
                         })
@@ -674,6 +680,10 @@ class Returngoods extends React.Component {
 
     //更新数据到操作区
     clearingdata=(messages,totalamount)=>{
+      //存储总金额
+      this.setState({
+        totalamount
+      })
         const clearingdatas=this.refs.opera.clearingdatas
         clearingdatas(messages,totalamount)
     }
@@ -742,6 +752,11 @@ class Returngoods extends React.Component {
         focustap()
     }
     showpops=()=>{
+      const { amountDetail, totalamount } =this.state;
+      if(totalamount>amountDetail.canReturnAmount) {
+        message.warning('结算金额不得大于可退金额')
+        return;
+      }
         const jiesuan=this.refs.table.jiesuan
         jiesuan()
     }
