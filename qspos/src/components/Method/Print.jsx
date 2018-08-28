@@ -2296,17 +2296,17 @@ function printDbOrder(message,printCount){
     LODOP.ADD_PRINT_IMAGE(position2+160+(lineNum-1)*12,"25mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-		LODOP.ADD_PRINT_TEXT(position2+210+(lineNum-1)*12,0,"70mm",20,"扫描关注Qtools官方微信公众号");
-		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+		// LODOP.ADD_PRINT_TEXT(position2+210+(lineNum-1)*12,0,"70mm",20,"扫描关注Qtools官方微信公众号");
+		// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		// LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		// LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    //
+		// LODOP.ADD_PRINT_TEXT(position2+230+(lineNum-1)*12,0,"70mm",20,"官方投诉电话：400-7766-999");
+		// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		// LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+		// LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-		LODOP.ADD_PRINT_TEXT(position2+230+(lineNum-1)*12,0,"70mm",20,"官方投诉电话：400-7766-999");
-		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-
-		LODOP.ADD_PRINT_TEXT(position2+265+(lineNum-1)*12,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
+		LODOP.ADD_PRINT_TEXT(position2+210+(lineNum-1)*12,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -2499,17 +2499,17 @@ function printDbOrderSmall(message,printCount){
       LODOP.ADD_PRINT_IMAGE(position2+160+(lineNum-1)*12,"14mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
       LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-			LODOP.ADD_PRINT_TEXT(position2+210+(lineNum-1)*12,0,"50mm",20,"扫描关注Qtools官方微信公众号");
-			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-			LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+			// LODOP.ADD_PRINT_TEXT(position2+210+(lineNum-1)*12,0,"50mm",20,"扫描关注Qtools官方微信公众号");
+			// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			// LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			// LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+      //
+			// LODOP.ADD_PRINT_TEXT(position2+230+(lineNum-1)*12,0,"50mm",20,"官方投诉电话：400-7766-999");
+			// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+			// LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+			// LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-			LODOP.ADD_PRINT_TEXT(position2+230+(lineNum-1)*12,0,"50mm",20,"官方投诉电话：400-7766-999");
-			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-			LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-
-			LODOP.ADD_PRINT_TEXT(position2+265+(lineNum-1)*12,0,"50mm",20,"Qtools | 有温度的进口母婴品牌");
+			LODOP.ADD_PRINT_TEXT(position2+210+(lineNum-1)*12,0,"50mm",20,"Qtools | 有温度的进口母婴品牌");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
