@@ -2146,18 +2146,18 @@ function printDbOrder(message,printCount){
 		LODOP.PRINT_INIT('打印'+new Date());
 		LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
 
-		LODOP.ADD_PRINT_TEXT(0,0,"70mm",27,printName);
+		LODOP.ADD_PRINT_TEXT(10,0,"70mm",27,printName);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-		LODOP.ADD_PRINT_TEXT(28,0,"70mm",35,'***请将小票随调拨商品一起寄往需求门店***');
+		LODOP.ADD_PRINT_TEXT(38,0,"70mm",35,'***请将小票随调拨商品一起寄往需求门店***');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-		LODOP.ADD_PRINT_LINE(48,0,48,"70mm",2,0);
-    let heightOne = 60;
+		LODOP.ADD_PRINT_LINE(58,0,58,"70mm",2,0);
+    let heightOne = 70;
 
 		//调拨单号
 		LODOP.ADD_PRINT_TEXT(heightOne,"0mm","20mm",20,"调拨单号");
@@ -2348,19 +2348,19 @@ function printDbOrderSmall(message,printCount){
 			LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
 
 
-			LODOP.ADD_PRINT_TEXT(0,0,"50mm",20,printName);
+			LODOP.ADD_PRINT_TEXT(10,0,"50mm",20,printName);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-      LODOP.ADD_PRINT_TEXT(17,0,"50mm",35,'***请将小票随调拨商品一起寄往需求门店***');
+      LODOP.ADD_PRINT_TEXT(27,0,"50mm",35,'***请将小票随调拨商品一起寄往需求门店***');
   		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
   		LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
   		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-			LODOP.ADD_PRINT_LINE(34,0,34,"50mm",2,0);
+			LODOP.ADD_PRINT_LINE(44,0,44,"50mm",2,0);
 
-      let heightOne = 50;
+      let heightOne = 60;
 			//调拨单号
 			LODOP.ADD_PRINT_TEXT(heightOne,"0mm","15mm",20,"调拨单号");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
