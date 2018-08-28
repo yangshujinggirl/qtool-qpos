@@ -50,7 +50,7 @@ class EditableTable extends React.Component {
         },{
             title: '数量',
             width:'10%',
-            dataIndex: 'qty',
+            dataIndex: 'newQty',
             render: (text, record, index) => {
                 return (
                     this.state.dataSource.length > 0
@@ -240,19 +240,19 @@ class EditableTable extends React.Component {
         var r = /^\+?[1-9][0-9]*$/;
         let changedataSource=this.state.dataSource
         console.log(changedataSource)
-        if(Number(changedataSource[index].qty)<=Number(changedataSource[index].inventory)){
+        if(Number(changedataSource[index].qty)<=Number(changedataSource[index].canReturnQty)){
             if(r.test(Number(changedataSource[index].qty))){
-                //如果是正整数
-                changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
-                    this.setState({
-                        dataSource:changedataSource
-                    },function(){
-                            this.uptotaldata()
-                            if(this.state.ismbCard){
-                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                            }else{
-                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                            }
+              //如果是正整数
+              changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+                this.setState({
+                    dataSource:changedataSource
+                },function(){
+                  this.uptotaldata()
+                  if(this.state.ismbCard){
+                    this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+                  }else{
+                    this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+                  }
                 })
             }else{
                 //如果非整数
@@ -272,29 +272,23 @@ class EditableTable extends React.Component {
                     message.warning('数量只能是大于等于0的整数')
 
             }
-
-
-
         }else{
-                changedataSource[index].qty=changedataSource[index].inventory
-                changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
-                    this.setState({
-                        dataSource:changedataSource
-                    },function(){
-                            this.uptotaldata()
-                            if(this.state.ismbCard){
-                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                            }else{
-                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                            }
-
+            changedataSource[index].qty=changedataSource[index].canReturnQty
+            changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+            this.setState({
+                dataSource:changedataSource
+            },function(){
+              this.uptotaldata()
+              if(this.state.ismbCard){
+                          this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+              }else{
+                          this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+              }
             })
-            message.warning('数量不能大于销售数量')
+            message.warning('退货数量不可大于可退数量')
 
         }
     }
-
-
 
     discountonchange=(index,e)=>{
         var str=e.target.value.replace(/\s+/g,"");
@@ -506,10 +500,11 @@ class EditableTable extends React.Component {
                 if(json.code=='0'){
                 	const odOrderDetails=json.odOrderDetails
                 	for(var i=0;i<odOrderDetails.length;i++){
-                		odOrderDetails[i].key=i
-                        odOrderDetails[i].inventory=odOrderDetails[i].qty
-                		// odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
-                        odOrderDetails[i].check=false
+                		odOrderDetails[i].key=i;
+                    odOrderDetails[i].qty=odOrderDetails[i].canReturnQty//把订单数量更改为可退数量
+                    odOrderDetails[i].inventory=odOrderDetails[i].qty
+            		// odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
+                    odOrderDetails[i].check=false
                 	}
                     if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
                         this.setState({
