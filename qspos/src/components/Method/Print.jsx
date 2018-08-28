@@ -604,6 +604,17 @@ function printRechargeOrder(message,printCount){
 
 	var printName = info.printName;
 	var payType="「 "+ info.cardMoneyChargeInfo.typeStr +"」"
+  var isOpenApp = sessionStorage.getItem('openApp');
+  var footerText;
+  var codeUrl;
+
+  if(isOpenApp == '1') {
+    footerText = '扫码下载Qtools APP，获取更多精彩内容';
+    codeUrl = 'http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q';
+  } else {
+    footerText = '扫码关注Qtools官方微信公号';
+    codeUrl = 'http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q';
+  }
 
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
@@ -676,11 +687,9 @@ function printRechargeOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
+	LODOP.ADD_PRINT_BARCODE(posi+55,"25mm",100,100,"QRCode",codeUrl);
 
-
-	LODOP.ADD_PRINT_BARCODE(posi+55,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
-
-	LODOP.ADD_PRINT_TEXT(posi+140,0,"70mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_TEXT(posi+140,0,"70mm",20,footerText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -728,7 +737,17 @@ function printRechargeOrderSmall(message,printCount){
 
 	var printName = info.printName;
 	var payType="「 "+ info.cardMoneyChargeInfo.typeStr +"」"
-	console.log(payType)
+  var isOpenApp = sessionStorage.getItem('openApp');
+  var footerText;
+  var codeUrl;
+
+  if(isOpenApp == '1') {
+    footerText = '扫码下载Qtools APP，获取更多精彩内容';
+    codeUrl = 'http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q';
+  } else {
+    footerText = '扫码关注Qtools官方微信公号';
+    codeUrl = 'http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q';
+  }
 
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
@@ -801,9 +820,9 @@ function printRechargeOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
-	LODOP.ADD_PRINT_BARCODE(posi+50,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+	LODOP.ADD_PRINT_BARCODE(posi+50,"15mm",100,100,"QRCode",codeUrl);
 
-	LODOP.ADD_PRINT_TEXT(posi+135,0,"50mm",20,"扫描关注Qtools官方微信公众号");
+	LODOP.ADD_PRINT_TEXT(posi+135,0,"50mm",20,footerText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -2127,21 +2146,21 @@ function printDbOrder(message,printCount){
 		LODOP.PRINT_INIT('打印'+new Date());
 		LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
 
-		LODOP.ADD_PRINT_IMAGE(0,"25mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
+
 		LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
 
-		LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
+		LODOP.ADD_PRINT_TEXT(0,0,"70mm",27,printName);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",10);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-		LODOP.ADD_PRINT_TEXT(68,0,"70mm",35,'***请将小票随调拨商品一起寄往需求门店***');
+		LODOP.ADD_PRINT_TEXT(28,0,"70mm",35,'***请将小票随调拨商品一起寄往需求门店***');
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-		LODOP.ADD_PRINT_LINE(88,0,88,"70mm",2,0);
-    let heightOne = 100;
+		LODOP.ADD_PRINT_LINE(48,0,48,"70mm",2,0);
+    let heightOne = 60;
 
 		//调拨单号
 		LODOP.ADD_PRINT_TEXT(heightOne,"0mm","20mm",20,"调拨单号");
@@ -2276,7 +2295,8 @@ function printDbOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 
 
-		LODOP.ADD_PRINT_BARCODE(position2+120+(lineNum-1)*12,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+		// LODOP.ADD_PRINT_BARCODE(position2+120+(lineNum-1)*12,"25mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+    LODOP.ADD_PRINT_IMAGE(position2+120+(lineNum-1)*12,"25mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 
 		LODOP.ADD_PRINT_TEXT(position2+210+(lineNum-1)*12,0,"70mm",20,"扫描关注Qtools官方微信公众号");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -2328,21 +2348,21 @@ function printDbOrderSmall(message,printCount){
 			LODOP=getLodop();
 			LODOP.PRINT_INIT('打印'+new Date());
 			LODOP.SET_PRINT_PAGESIZE(3,580,40,"");
-			LODOP.ADD_PRINT_IMAGE(0,"14mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
+
 			LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
-			LODOP.ADD_PRINT_TEXT(40,0,"50mm",20,printName);
+			LODOP.ADD_PRINT_TEXT(0,0,"50mm",20,printName);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-      LODOP.ADD_PRINT_TEXT(57,0,"50mm",35,'***请将小票随调拨商品一起寄往需求门店***');
+      LODOP.ADD_PRINT_TEXT(17,0,"50mm",35,'***请将小票随调拨商品一起寄往需求门店***');
   		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
   		LODOP.SET_PRINT_STYLEA(0,"FontSize",6);
   		LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
 
-			LODOP.ADD_PRINT_LINE(74,0,74,"50mm",2,0);
+			LODOP.ADD_PRINT_LINE(34,0,34,"50mm",2,0);
 
-      let heightOne = 90;
+      let heightOne = 50;
 			//调拨单号
 			LODOP.ADD_PRINT_TEXT(heightOne,"0mm","15mm",20,"调拨单号");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -2477,7 +2497,8 @@ function printDbOrderSmall(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 
 
-			LODOP.ADD_PRINT_BARCODE(position2+120+(lineNum-1)*12,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+			// LODOP.ADD_PRINT_BARCODE(position2+120+(lineNum-1)*12,"15mm",100,100,"QRCode","http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q");
+      LODOP.ADD_PRINT_IMAGE(position2+120+(lineNum-1)*12,"14mm",97,26,"<img border='0' src='"+imgSrc+"'/>");
 
 			LODOP.ADD_PRINT_TEXT(position2+210+(lineNum-1)*12,0,"50mm",20,"扫描关注Qtools官方微信公众号");
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
