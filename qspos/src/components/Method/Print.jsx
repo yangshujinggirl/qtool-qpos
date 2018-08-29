@@ -1776,15 +1776,15 @@ function printCDSaleOrder(message,printCount){
 
 	let position2 = posi+30;
   //折扣优惠
-  LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"折扣优惠");
-  LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-  LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-
-  LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,'0.00');
-  LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-  LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
-  LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
-  position2 = position2+20;
+  // LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"折扣优惠");
+  // LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  // LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+  //
+  // LODOP.ADD_PRINT_TEXT(position2,"50mm","20mm",20,'0.00');
+  // LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  // LODOP.SET_PRINT_STYLEA(0,"FontSize",8);
+  // LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+  // position2 = position2+20;
   //抹零优惠
   LODOP.ADD_PRINT_TEXT(position2,"0mm","20mm",20,"抹零优惠");
   LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1997,15 +1997,15 @@ function printCDSaleOrderSmall(message,printCount){
 
 
 	//折扣优惠
-		LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"折扣优惠");
-		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-
-		LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,'0.00');
-		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-    LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
-		position2 = position2+20;
+		// LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"折扣优惠");
+		// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		// LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+    //
+		// LODOP.ADD_PRINT_TEXT(position2,"15mm","35mm",20,'0.00');
+		// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		// LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+    // LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+		// position2 = position2+20;
 
 	//抹零优惠
 		LODOP.ADD_PRINT_TEXT(position2,"0mm","15mm",20,"抹零优惠");
