@@ -748,7 +748,7 @@ class Returngoods extends React.Component {
     }
     showpops=()=>{
       const { amountDetail, totalamount } =this.state;
-      if(totalamount>amountDetail.canReturnAmount) {
+      if(Number(totalamount)>Number(amountDetail.canReturnAmount)) {
         message.warning('结算金额不得大于可退金额')
         return;
       }
