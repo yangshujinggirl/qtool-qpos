@@ -1780,7 +1780,7 @@ function printCDSaleOrder(message,printCount){
 	var saleTime = saleInfoAll.odOrder.saleTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
-	var payType="「 App支付"+saleInfoAll.odOrder.payAmount+" 」";
+	var payType="「 App支付"+" 」";
   var actuallyPay=saleInfoAll.orOrderPay[0].amount;//实付
   var coupon = 0;//优惠券
   if(saleInfoAll.orOrderPay.length>1) {
@@ -1797,11 +1797,11 @@ function printCDSaleOrder(message,printCount){
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
 
-	LODOP.ADD_PRINT_IMAGE(posiTopNum,"18mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"18mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
   posiTopNum = posiTopNum+50;
 
-	LODOP.ADD_PRINT_TEXT(40,0,"70mm",27,printName);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",27,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",titleFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
