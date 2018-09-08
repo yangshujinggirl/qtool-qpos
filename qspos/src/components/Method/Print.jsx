@@ -1601,11 +1601,11 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
   posiTopNum = posiTopNum+40;
 
-  let titleLen = printName.length*10;
-  let titleNum = Math.ceil(titleLen/lineWidth);
-  titlHeight = (titleNum-1)*10;
+  // let titleLen = printName.length*10;
+  // let titleNum = Math.ceil(titleLen/lineWidth);
+  // titlHeight = (titleNum-1)*10;
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20+titlHeight,printName);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -1717,9 +1717,9 @@ function printSaleOrderSmall(message,printCount){
   LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum =posiTopNum+12;
 
-  let payLen = payType.length*10;
-  let payNum = Math.ceil(payLen/lineWidth);
-  payHeight = (payNum-1)*10;
+  // let payLen = payType.length*10;
+  // let payNum = Math.ceil(payLen/lineWidth);
+  // payHeight = (payNum-1)*10;
   //添加支付方式
   LODOP.ADD_PRINT_TEXT(posiTopNum,"0","50mm",20,payType);
   LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1984,7 +1984,7 @@ function printCDSaleOrderSmall(message,printCount){
 	//门店打印名称字段
 	// var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +'/'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」"
 	var printName = saleInfoAll.printName;
-  var payType="「 App支付："+saleInfoAll.odOrder.payAmount+" 」"
+  var payType="「 App支付："+" 」"
 
 	var orderNo = saleInfoAll.odOrder.orderNo;
 	var saleTime = saleInfoAll.odOrder.saleTime;
@@ -2012,11 +2012,11 @@ function printCDSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
   posiTopNum = posiTopNum+40;
 
-  let titleLen = printName.length*10;
-  let titleNum = Math.ceil(titleLen/lineWidth);
-  titlHeight = (titleNum-1)*10;
+  // let titleLen = printName.length*10;
+  // let titleNum = Math.ceil(titleLen/lineWidth);
+  // titlHeight = (titleNum-1)*10;
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20+titlHeight,printName);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,printName);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",titleFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
@@ -2125,12 +2125,12 @@ function printCDSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum = posiTopNum+12;
-
-  let payLen = payType.length*10;
-  let payNum = Math.ceil(payLen/lineWidth);
-  payHeight = (payNum-1)*10;
+  //
+  // let payLen = payType.length*10;
+  // let payNum = Math.ceil(payLen/lineWidth);
+  // payHeight = (payNum-1)*10;
   //添加支付方式
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"0","50mm",20+payHeight,payType);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"0","50mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
