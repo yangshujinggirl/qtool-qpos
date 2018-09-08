@@ -6,8 +6,8 @@ var LODOP;
 var CreatedOKLodop7766=null;
 let hostAddress  = window.location.host;
 var imgSrc ="http://"+hostAddress+'/static/top_logo.png';
-var logoImgBig ="http://"+hostAddress+'/static/top_logo.png';
-var logoImgLittle ="http://"+hostAddress+'/static/top_logo_litle.png';
+var logoImgBig ="http://"+hostAddress+'/print/static/top_logo.png';
+var logoImgLittle ="http://"+hostAddress+'/print/static/top_logo_litle.png';
 var wxCodeUrl ='http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q';
 var appCodeUrl ='http://a.app.qq.com/o/simple.jsp?pkgname=qtools.customer.android';
 var isOpenApp = '';//是否开通C端App
@@ -751,8 +751,8 @@ function printRechargeOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",200,200,"QRCode",footerContent.codeUrl);
-  posiTopNum = posiTopNum+210;
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"16mm",160,160,"QRCode",footerContent.codeUrl);
+  posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -894,8 +894,8 @@ function printRechargeOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"50mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",145,145,"QRCode",footerContent.codeUrl);
-  posiTopNum = posiTopNum+124;
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
+  posiTopNum = posiTopNum+124
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1100,8 +1100,8 @@ function printReturnOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",200,200,"QRCode",footerContent.codeUrl);
-  posiTopNum = posiTopNum+210;
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",160,160,"QRCode",footerContent.codeUrl);
+  posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1293,7 +1293,7 @@ function printReturnOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"50mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",145,145,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",120,120,"QRCode",footerContent.codeUrl);
   posiTopNum = posiTopNum+124;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,footerContent.scanText);
@@ -1347,7 +1347,7 @@ function printSaleOrder(message,printCount){
 	var saleTime = saleInfoAll.odOrder.saleTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
-	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +'/'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」"
+	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +';'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」"
 	var cutAmount = saleInfoAll.odOrder.cutAmount?saleInfoAll.odOrder.cutAmount:0;//添加抹零优惠
 
   let posiTopNum = 0;
@@ -1495,8 +1495,8 @@ function printSaleOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",200,200,"QRCode",footerContent.codeUrl);
-  posiTopNum = posiTopNum+210;
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",160,160,"QRCode",footerContent.codeUrl);
+  posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1532,7 +1532,7 @@ function printSaleOrderSmall(message,printCount){
 	let saleInfoAll = message;
 	var moneyInfo = saleInfoAll.orderDetails;
 	//门店打印名称字段
-	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +'/'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」"
+	var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +';'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」"
 	var printName = saleInfoAll.printName;
 
 	var orderNo = saleInfoAll.odOrder.orderNo;
@@ -1686,7 +1686,7 @@ function printSaleOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
   posiTopNum = posiTopNum+30
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",145,145,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",120,120,"QRCode",footerContent.codeUrl);
   posiTopNum = posiTopNum+124;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,footerContent.scanText);
@@ -1889,8 +1889,8 @@ function printCDSaleOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",200,200,"QRCode",footerContent.codeUrl);
-  posiTopNum = posiTopNum+210;
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",160,160,"QRCode",footerContent.codeUrl);
+  posiTopNum = posiTopNum+170;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -2087,7 +2087,7 @@ function printCDSaleOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
   posiTopNum = posiTopNum+30
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",145,145,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"9mm",120,120,"QRCode",footerContent.codeUrl);
   posiTopNum = posiTopNum+124;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,footerContent.scanText);
