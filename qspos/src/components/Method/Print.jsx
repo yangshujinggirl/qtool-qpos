@@ -1984,7 +1984,7 @@ function printCDSaleOrderSmall(message,printCount){
 	//门店打印名称字段
 	// var payType=saleInfoAll.orOrderPay.length>1?"「 "+ saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount +'/'+ saleInfoAll.orOrderPay[1].typeStr+saleInfoAll.orOrderPay[1].amount +" 」":  "「 "+saleInfoAll.orOrderPay[0].typeStr+saleInfoAll.orOrderPay[0].amount+" 」"
 	var printName = saleInfoAll.printName;
-  var payType="「 App支付："+" 」"
+  var payType="「 App支付"+" 」"
 
 	var orderNo = saleInfoAll.odOrder.orderNo;
 	var saleTime = saleInfoAll.odOrder.saleTime;
