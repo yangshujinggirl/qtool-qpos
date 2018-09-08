@@ -1468,7 +1468,7 @@ function printSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
     posiTopNum = posiTopNum+20+(lineCount-1)*12;
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"36mm","15mm",20,moneyInfo[i].qty);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","15mm",20,moneyInfo[i].qty);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
