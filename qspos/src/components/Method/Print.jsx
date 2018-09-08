@@ -11,6 +11,8 @@ var logoImgLittle ="http://"+hostAddress+'/static/print/top_logo_litle.png';
 var wxCodeUrl ='http://weixin.qq.com/r/wkgRCTjEM2VMrXxq9x3Q';
 var appCodeUrl ='http://a.app.qq.com/o/simple.jsp?pkgname=qtools.customer.android';
 var isOpenApp = '';//是否开通C端App
+var isOpenAliPay = '';//是否开通非常付宝
+var isOpenWechat = '';//是否开通微信
 var footerText;//页脚
 var codeUrl;//二维码
 var footerContent = {
@@ -76,7 +78,9 @@ if (needCLodop()) {
 }
 //====获取LODOP对象的主过程：====
 function getLodop(oOBJECT,oEMBED){
+
     isOpenApp = sessionStorage.getItem('openApp');
+
     if(isOpenApp == '1') {
       footerContent = {
         scanText:'下载Qtools官方APP 畅领600元红包大礼',
@@ -240,6 +244,9 @@ function printShiftInfo(userSales,urUser,printCount){
   var contentFz = 8;
   var contentTwoFz = 7;
 
+  isOpenAliPay = sessionStorage.getItem('openAlipay');
+  isOpenWechat = sessionStorage.getItem('openWechat');
+
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,720,400,"");
@@ -251,7 +258,7 @@ function printShiftInfo(userSales,urUser,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Bold",0.5);
   posiTopNum = posiTopNum+40;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"63mm",3,0);
   posiTopNum = posiTopNum+15;
 
 	var textWidth;
@@ -273,7 +280,7 @@ function printShiftInfo(userSales,urUser,printCount){
 		}
 	};
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",2,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"63mm",2,0);
   posiTopNum = posiTopNum+10;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","17mm",20,"支付方式");
@@ -297,7 +304,7 @@ function printShiftInfo(userSales,urUser,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
   posiTopNum = posiTopNum+17;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"63mm",3,0);
   posiTopNum = posiTopNum+10;
 
 	let moneyInfo = [{use:"微信"},{use:"支付宝"},{use:"App支付"},{use:"现金"},{use:"银联"},{use:"积分抵扣"},{use:"会员卡消费"},{use:"会员卡退款"}];
@@ -356,6 +363,24 @@ function printShiftInfo(userSales,urUser,printCount){
 		moneyInfo[6].count = (parseFloat(moneyInfo[6].sale)).toFixed(2);
 		moneyInfo[7].count = (parseFloat(moneyInfo[7].tui)).toFixed(2);
 
+    if(isOpenAliPay == 0) {
+      let index = moneyInfo.findIndex(function(value, index, arr) {
+        return value.use == '支付宝';
+      })
+      moneyInfo.splice(index,1)
+    }
+    if(isOpenWechat == 0) {
+      let index = moneyInfo.findIndex(function(value, index, arr) {
+        return value.use == '微信';
+      })
+      moneyInfo.splice(index,1)
+    }
+    if(isOpenApp == 0) {
+      let index = moneyInfo.findIndex(function(value, index, arr) {
+        return value.use == 'App支付';
+      })
+      moneyInfo.splice(index,1)
+    }
   for(var i=0;i<moneyInfo.length;i++){
 			LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","17mm",20,moneyInfo[i].use);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -379,7 +404,7 @@ function printShiftInfo(userSales,urUser,printCount){
 			posiTopNum  = posiTopNum + 20;
 	};
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"63mm",3,0);
   posiTopNum = posiTopNum+10;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"店铺收货单");
@@ -402,7 +427,7 @@ function printShiftInfo(userSales,urUser,printCount){
   LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum=posiTopNum+17;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"63mm",3,0);
   posiTopNum = posiTopNum+20;
 
   LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
@@ -443,6 +468,9 @@ function printShiftInfoSmall(userSales,urUser,printCount){
   var titleFz = 13;
   var contentFz = 7;
   var contentTwoFz = 6;
+
+  isOpenAliPay = sessionStorage.getItem('openAlipay');
+  isOpenWechat = sessionStorage.getItem('openWechat');
 
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
@@ -567,7 +595,24 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 	}
 	moneyInfo[6].count = (parseFloat(moneyInfo[6].sale)).toFixed(2);
 	moneyInfo[7].count = (parseFloat(moneyInfo[7].tui)).toFixed(2);
-
+  if(isOpenAliPay == 0) {
+    let index = moneyInfo.findIndex(function(value, index, arr) {
+      return value.use == '支付宝';
+    })
+    moneyInfo.splice(index,1)
+  }
+  if(isOpenWechat == 0) {
+    let index = moneyInfo.findIndex(function(value, index, arr) {
+      return value.use == '微信';
+    })
+    moneyInfo.splice(index,1)
+  }
+  if(isOpenApp == 0) {
+    let index = moneyInfo.findIndex(function(value, index, arr) {
+      return value.use == 'App支付';
+    })
+    moneyInfo.splice(index,1)
+  }
 	for(var i=0;i<moneyInfo.length;i++){
 			 LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","12mm",20,moneyInfo[i].use);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1048,7 +1093,7 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","20mm",20,totalPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","20mm",20,stTotalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1073,7 +1118,7 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,stTotalPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,totalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
