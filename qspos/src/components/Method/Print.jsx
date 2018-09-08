@@ -1286,7 +1286,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","14mm",20,totalPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","14mm",20,stTotalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1311,7 +1311,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"15mm","34mm",20,stTotalPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"15mm","34mm",20,totalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
