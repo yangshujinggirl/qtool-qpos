@@ -1124,7 +1124,7 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum = posiTopNum+15;
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"40mm","30mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","70mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1317,7 +1317,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum = posiTopNum+12;
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"25mm","13mm",20,payType);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","50mm",20,payType);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
