@@ -905,7 +905,7 @@ function printRechargeOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
 		LODOP.SET_PRINT_STYLEA(0,"Bold",0);
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"15mm","34mm",20,text[key]);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"15mm","30mm",20,text[key]);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1625,7 +1625,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
   posiTopNum = posiTopNum+15;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"50mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+10;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","25mm",20,"商品");
@@ -1636,7 +1636,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","14mm",20,"金额");
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,"金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1658,7 +1658,7 @@ function printSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
     posiTopNum = posiTopNum+15+(lineCount-1)*12;
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"26mm","9mm",20,moneyInfo[i].qty);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"25mm","10mm",20,moneyInfo[i].qty);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
@@ -1669,7 +1669,7 @@ function printSaleOrderSmall(message,printCount){
 		posiTopNum = posiTopNum+15+(lineCount-1)*12;
 	};
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+10;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","25mm",20,"商品合计");
@@ -1680,7 +1680,7 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","14mm",20,saleInfoAll.odOrder.amount);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,saleInfoAll.odOrder.amount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1697,7 +1697,7 @@ function printSaleOrderSmall(message,printCount){
     LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		posiTopNum = posiTopNum+15;
 	}
-  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+10;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","15mm",20,"实付金额");
@@ -1728,10 +1728,10 @@ function printSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		posiTopNum = posiTopNum+15;
 	}
-  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+30
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",120,120,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
   posiTopNum = posiTopNum+124;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,footerContent.scanText);
@@ -1986,8 +1986,6 @@ function printCDSaleOrderSmall(message,printCount){
   } else {
     coupon = 0;
   }
-  console.log(coupon)
-
   let posiTopNum = 0;
   var titleFz = 8;
   var contentFz = 7;
@@ -2006,7 +2004,7 @@ function printCDSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
   posiTopNum = posiTopNum+18;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"50mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+10;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","15mm",20,"销售单号");
@@ -2027,7 +2025,7 @@ function printCDSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
   posiTopNum = posiTopNum+15;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"50mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+10;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","25mm",20,"商品");
@@ -2038,7 +2036,7 @@ function printCDSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","14mm",20,"金额");
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,"金额");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -2065,13 +2063,13 @@ function printCDSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","14mm",20,moneyInfo[i].payPrice);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,moneyInfo[i].payPrice);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		posiTopNum = posiTopNum+15+(lineCount-1)*12;
 	};
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+10;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","25mm",20,"商品合计");
@@ -2099,7 +2097,7 @@ function printCDSaleOrderSmall(message,printCount){
     LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
     posiTopNum = posiTopNum+15;
   }
-  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+10;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","25mm",20,"实付金额");
@@ -2129,7 +2127,7 @@ function printCDSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		posiTopNum = posiTopNum+10;
 	}
-  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"50mm",3,0);
   posiTopNum = posiTopNum+30
 
 	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",120,120,"QRCode",footerContent.codeUrl);
