@@ -403,7 +403,7 @@ function printShiftInfo(userSales,urUser,printCount){
   posiTopNum=posiTopNum+17;
 
 	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
-  posiTopNum = posiTopNum+13;
+  posiTopNum = posiTopNum+20;
 
   LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
@@ -619,7 +619,7 @@ function printShiftInfoSmall(userSales,urUser,printCount){
   posiTopNum = posiTopNum+15;
 
 	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"52mm",3,0);
-  posiTopNum = posiTopNum+13;
+  posiTopNum = posiTopNum+20;
 
 	LODOP.ADD_PRINT_IMAGE(posiTopNum,"12mm",101,29,"<img border='0' src='"+logoImgLittle+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);//按原图比例(不变形)缩放模式
@@ -2309,13 +2309,13 @@ function printDbOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentTwoFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
-    posiTopNum = posiTopNum+10+textHeight;
+    posiTopNum = posiTopNum+20+textHeight;
 
 		LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",textHeightThr,dbInfoThr);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentTwoFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
-    posiTopNum = posiTopNum+40;
+    posiTopNum = posiTopNum+60;
 
     LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
   	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
@@ -2489,13 +2489,13 @@ function printDbOrderSmall(message,printCount){
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
-      posiTopNum = posiTopNum+20;
+      posiTopNum = posiTopNum+15;
 
 			LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",textHeight,dbInfoTWo);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 			LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
-      posiTopNum = posiTopNum+20+textHeight;
+      posiTopNum = posiTopNum+10+textHeight;
 
 			LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",textHeightThr,dbInfoThr);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
