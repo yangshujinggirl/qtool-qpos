@@ -677,7 +677,7 @@ function printRechargeOrder(message,printCount){
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
 
-	LODOP.ADD_PRINT_IMAGE(posiTopNum,"10mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
+	LODOP.ADD_PRINT_IMAGE(posiTopNum,"20mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
   posiTopNum = posiTopNum+50;
 
