@@ -1735,7 +1735,7 @@ function printCDSaleOrder(message,printCount){
 	var saleTime = saleInfoAll.odOrder.saleTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
-	var payType="「 App支付："+saleInfoAll.odOrder.payAmount+" 」";
+	var payType="「 App支付"+saleInfoAll.odOrder.payAmount+" 」";
   var actuallyPay=saleInfoAll.orOrderPay[0].amount;//实付
   var coupon = 0;//优惠券
   if(saleInfoAll.orOrderPay.length>1) {
