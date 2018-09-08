@@ -405,9 +405,9 @@ function printShiftInfo(userSales,urUser,printCount){
 	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
   posiTopNum = posiTopNum+13;
 
-  LODOP.ADD_PRINT_IMAGE(posiTopNum,"10mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
 	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
-  posiTopNum = posiTopNum+50;
+  posiTopNum = posiTopNum+60;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","70mm",20,"Qtools | 有温度的进口母婴品牌");
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -2317,9 +2317,9 @@ function printDbOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",1);
     posiTopNum = posiTopNum+40;
 
-    LODOP.ADD_PRINT_IMAGE(posiTopNum,"12mm",101,29,"<img border='0' src='"+logoImgLittle+"'/>");
+    LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",155,45,"<img border='0' src='"+logoImgBig+"'/>");
   	LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
-    posiTopNum = posiTopNum+30;
+    posiTopNum = posiTopNum+60;
 
 		LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,"Qtools | 有温度的进口母婴品牌");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
