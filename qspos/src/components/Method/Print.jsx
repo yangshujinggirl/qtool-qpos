@@ -1413,7 +1413,7 @@ function printSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
   posiTopNum = posiTopNum+25;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"销售单号");
@@ -1434,7 +1434,7 @@ function printSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
   posiTopNum = posiTopNum+18;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",2,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","35mm",20,"商品");
@@ -1479,7 +1479,7 @@ function printSaleOrder(message,printCount){
 		posiTopNum = posiTopNum+20+(lineCount-1)*12;
 	};
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","35mm",20,"商品合计");
@@ -1507,7 +1507,7 @@ function printSaleOrder(message,printCount){
     LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
     posiTopNum = posiTopNum+18;
 	}
-  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","35mm",20,"实付金额");
@@ -1537,7 +1537,7 @@ function printSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		posiTopNum = posiTopNum+18
 	}
-  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
 	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",footerContent.codeUrl);
@@ -1818,7 +1818,7 @@ function printCDSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
   posiTopNum = posiTopNum+25;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"销售单号");
@@ -1839,7 +1839,7 @@ function printCDSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
   posiTopNum = posiTopNum+18;
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",2,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","35mm",20,"商品");
@@ -1884,7 +1884,7 @@ function printCDSaleOrder(message,printCount){
 		posiTopNum = posiTopNum+20+(lineCount-1)*12;
 	};
 
-	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","35mm",20,"商品合计");
@@ -1912,7 +1912,7 @@ function printCDSaleOrder(message,printCount){
     LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
     posiTopNum = posiTopNum+18;
   }
-  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","35mm",20,"实付金额");
@@ -1942,7 +1942,7 @@ function printCDSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		posiTopNum = posiTopNum+18;
 	}
-  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum+1,"70mm",3,0);
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
 	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",footerContent.codeUrl);
