@@ -246,9 +246,7 @@ function printShiftInfo(userSales,urUser,printCount){
 
   isOpenAliPay = sessionStorage.getItem('openAlipay');
   isOpenWechat = sessionStorage.getItem('openWechat');
-  console.log(userInfoAll)
-  console.log('isOpenAliPay',isOpenAliPay)
-  console.log('isOpenWechat',isOpenWechat)
+
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,720,400,"");
@@ -309,7 +307,6 @@ function printShiftInfo(userSales,urUser,printCount){
 	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"63mm",3,0);
   posiTopNum = posiTopNum+10;
 
-	// let moneyInfo = [{use:"微信"},{use:"支付宝"},{use:"App支付"},{use:"现金"},{use:"银联"},{use:"积分抵扣"},{use:"会员卡消费"},{use:"会员卡退款"}];
 	let moneyInfo = [{
                     use:"微信",
                     key:'001'
