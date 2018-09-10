@@ -246,7 +246,9 @@ function printShiftInfo(userSales,urUser,printCount){
 
   isOpenAliPay = sessionStorage.getItem('openAlipay');
   isOpenWechat = sessionStorage.getItem('openWechat');
-
+  console.log(userInfoAll)
+  console.log('isOpenAliPay',isOpenAliPay)
+  console.log('isOpenWechat',isOpenWechat)
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,720,400,"");
@@ -307,80 +309,120 @@ function printShiftInfo(userSales,urUser,printCount){
 	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"63mm",3,0);
   posiTopNum = posiTopNum+10;
 
-	let moneyInfo = [{use:"微信"},{use:"支付宝"},{use:"App支付"},{use:"现金"},{use:"银联"},{use:"积分抵扣"},{use:"会员卡消费"},{use:"会员卡退款"}];
-
-		moneyInfo[0]["sale"] = userInfoAll.userShift[0].wechatAmount?userInfoAll.userShift[0].wechatAmount:"/";
-
-		moneyInfo[1]["sale"] = userInfoAll.userShift[0].alipayAmount?userInfoAll.userShift[0].alipayAmount:"/";
-
-		moneyInfo[2]["sale"] = userInfoAll.userShift[0].appPay?userInfoAll.userShift[0].appPay:"/";//APP支付/
-
-		moneyInfo[3]["sale"] = userInfoAll.userShift[0].cashAmount?userInfoAll.userShift[0].cashAmount:"/";
-
-		moneyInfo[4]["sale"] = userInfoAll.userShift[0].unionpayAmount?userInfoAll.userShift[0].unionpayAmount:"/";
-
-		moneyInfo[5]["sale"] = userInfoAll.userShift[0].pointAmount?userInfoAll.userShift[0].pointAmount:"/";
-
-		moneyInfo[6]["sale"] = userInfoAll.userShift[0].cardConsumeAmount?userInfoAll.userShift[0].cardConsumeAmount:"/";
-
-		moneyInfo[7]["sale"] = "/";
-
-		moneyInfo[0]["tui"] = userInfoAll.userShift[1].wechatAmount?userInfoAll.userShift[1].wechatAmount:"/";
-
-		moneyInfo[1]["tui"] = userInfoAll.userShift[1].alipayAmount?userInfoAll.userShift[1].alipayAmount:"/";
-
-		moneyInfo[2]["tui"] = userInfoAll.userShift[1].appPay?userInfoAll.userShift[1].appPay:"/";
-
-		moneyInfo[3]["tui"] = userInfoAll.userShift[1].cashAmount?userInfoAll.userShift[1].cashAmount:"/";
-
-		moneyInfo[4]["tui"] = userInfoAll.userShift[1].unionpayAmount?userInfoAll.userShift[1].unionpayAmount:"/";
-
-		moneyInfo[5]["tui"] = userInfoAll.userShift[1].pointAmount?userInfoAll.userShift[1].pointAmount:"/";
-
-		moneyInfo[6]["tui"] = "/";
-
-		moneyInfo[7]["tui"] = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
-
-		moneyInfo[0]["chong"] = userInfoAll.userShift[2].wechatAmount?userInfoAll.userShift[2].wechatAmount:"/";
-
-		moneyInfo[1]["chong"] = userInfoAll.userShift[2].alipayAmount?userInfoAll.userShift[2].alipayAmount:"/";
-
-		moneyInfo[2]["chong"] = userInfoAll.userShift[2].appPay?userInfoAll.userShift[2].appPay:"/";
-
-		moneyInfo[3]["chong"] = userInfoAll.userShift[2].cashAmount?userInfoAll.userShift[2].cashAmount:"/";
-
-		moneyInfo[4]["chong"] = userInfoAll.userShift[2].unionpayAmount?userInfoAll.userShift[2].unionpayAmount:"/";
-
-		moneyInfo[5]["chong"] = userInfoAll.userShift[2].pointAmount?userInfoAll.userShift[2].pointAmount:"/";
-
-		moneyInfo[6]["chong"] = "/";
-
-		moneyInfo[7]["chong"] = "/";
-
-		for(var i=0;i<moneyInfo.length-2;i++){
-			moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)-parseFloat(moneyInfo[i].tui)).toFixed(2);
-		}
-		moneyInfo[6].count = (parseFloat(moneyInfo[6].sale)).toFixed(2);
-		moneyInfo[7].count = (parseFloat(moneyInfo[7].tui)).toFixed(2);
-
-    if(isOpenAliPay == 0) {
-      let index = moneyInfo.findIndex(function(value, index, arr) {
-        return value.use == '支付宝';
-      })
-      moneyInfo.splice(index,1)
+	// let moneyInfo = [{use:"微信"},{use:"支付宝"},{use:"App支付"},{use:"现金"},{use:"银联"},{use:"积分抵扣"},{use:"会员卡消费"},{use:"会员卡退款"}];
+	let moneyInfo = [{
+                    use:"微信",
+                    key:'001'
+                  },
+                  {
+                    use:"微信扫码",
+                    key:'002'
+                  },
+                  {
+                    use:"支付宝",
+                    key:'003'
+                  },
+                  {
+                    use:"支付宝扫码",
+                    key:'004'
+                  },
+                  {
+                    use:"App支付",
+                    key:'005'
+                  },
+                  {
+                    use:"现金",
+                    key:'006'
+                  },
+                  {
+                    use:"银联",
+                    key:'007'
+                  },
+                  {
+                    use:"积分抵扣",
+                    key:'008'
+                  },
+                  {
+                    use:"会员卡消费",
+                    key:'009'
+                  },
+                  {
+                    use:"会员卡退款",
+                    key:'010'
+                  }];
+  moneyInfo.map((el,index) => {
+    if(el.key == '001') {
+      el.sale = userInfoAll.userShift[0].wechatAmount?userInfoAll.userShift[0].wechatAmount:"/";
+      el.tui = userInfoAll.userShift[1].wechatAmount?userInfoAll.userShift[1].wechatAmount:"/";
+      el.chong = userInfoAll.userShift[2].wechatAmount?userInfoAll.userShift[2].wechatAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '002') {
+      el.sale = userInfoAll.userShift[0].scanWechatAmount?userInfoAll.userShift[0].scanWechatAmount:"/";
+      el.tui = userInfoAll.userShift[1].scanWechatAmount?userInfoAll.userShift[1].scanWechatAmount:"/";
+      el.chong = userInfoAll.userShift[2].scanWechatAmount?userInfoAll.userShift[2].scanWechatAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '003') {
+      el.sale = userInfoAll.userShift[0].alipayAmount?userInfoAll.userShift[0].alipayAmount:"/";
+      el.tui = userInfoAll.userShift[1].alipayAmount?userInfoAll.userShift[1].alipayAmount:"/";
+      el.chong = userInfoAll.userShift[2].alipayAmount?userInfoAll.userShift[2].alipayAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '004') {
+      el.sale = userInfoAll.userShift[0].scanAlipayAmount?userInfoAll.userShift[0].scanAlipayAmount:"/";
+      el.tui = userInfoAll.userShift[1].scanAlipayAmount?userInfoAll.userShift[1].scanAlipayAmount:"/";
+      el.chong = userInfoAll.userShift[2].scanAlipayAmount?userInfoAll.userShift[2].scanAlipayAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '005') {
+      el.sale = userInfoAll.userShift[0].appPay?userInfoAll.userShift[0].appPay:"/";
+      el.tui = userInfoAll.userShift[1].appPay?userInfoAll.userShift[1].appPay:"/";
+      el.chong = userInfoAll.userShift[2].appPay?userInfoAll.userShift[2].appPay:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '006') {
+      el.sale = userInfoAll.userShift[0].cashAmount?userInfoAll.userShift[0].cashAmount:"/";
+      el.tui = userInfoAll.userShift[1].cashAmount?userInfoAll.userShift[1].cashAmount:"/";
+      el.chong = userInfoAll.userShift[2].cashAmount?userInfoAll.userShift[2].cashAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '007') {
+      el.sale = userInfoAll.userShift[0].unionpayAmount?userInfoAll.userShift[0].unionpayAmount:"/";
+      el.tui = userInfoAll.userShift[1].unionpayAmount?userInfoAll.userShift[1].unionpayAmount:"/";
+      el.chong = userInfoAll.userShift[2].unionpayAmount?userInfoAll.userShift[2].unionpayAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '008') {
+      el.sale = userInfoAll.userShift[0].pointAmount?userInfoAll.userShift[0].pointAmount:"/";
+      el.tui = userInfoAll.userShift[1].pointAmount?userInfoAll.userShift[1].pointAmount:"/";
+      el.chong = userInfoAll.userShift[2].pointAmount?userInfoAll.userShift[2].pointAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '009') {
+      el.sale = userInfoAll.userShift[0].cardConsumeAmount?userInfoAll.userShift[0].cardConsumeAmount:"/";
+      el.tui = "/";
+      el.chong = "/";
+      el.count = (parseFloat(el.sale)).toFixed(2);
+    } else if(el.key == '010') {
+      el.sale = "/";
+      el.tui = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
+      el.chong = "/";
+      el.count = (parseFloat(el.tui)).toFixed(2);
     }
-    if(isOpenWechat == 0) {
-      let index = moneyInfo.findIndex(function(value, index, arr) {
-        return value.use == '微信';
-      })
-      moneyInfo.splice(index,1)
-    }
-    if(isOpenApp == 0) {
-      let index = moneyInfo.findIndex(function(value, index, arr) {
-        return value.use == 'App支付';
-      })
-      moneyInfo.splice(index,1)
-    }
+    return el;
+  })
+
+  if(isOpenAliPay == 0) {
+    let index = moneyInfo.findIndex(function(value, index, arr) {
+      return value.key == '004';
+    })
+    moneyInfo.splice(index,1)
+  }
+  if(isOpenWechat == 0) {
+    let index = moneyInfo.findIndex(function(value, index, arr) {
+      return value.key == '002';
+    })
+    moneyInfo.splice(index,1)
+  }
+  if(isOpenApp == 0) {
+    let index = moneyInfo.findIndex(function(value, index, arr) {
+      return value.key == '005';
+    })
+    moneyInfo.splice(index,1)
+  }
   for(var i=0;i<moneyInfo.length;i++){
 			LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","17mm",20,moneyInfo[i].use);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -540,79 +582,120 @@ function printShiftInfoSmall(userSales,urUser,printCount){
 	LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+12;
 
-	let moneyInfo = [{use:"微信"},{use:"支付宝"},{use:"App支付"},{use:"现金"},{use:"银联"},{use:"积分抵扣"},{use:"会员卡消费"},{use:"会员卡退款"}];
+  let moneyInfo = [{
+                    use:"微信",
+                    key:'001'
+                  },
+                  {
+                    use:"微信扫码",
+                    key:'002'
+                  },
+                  {
+                    use:"支付宝",
+                    key:'003'
+                  },
+                  {
+                    use:"支付宝扫码",
+                    key:'004'
+                  },
+                  {
+                    use:"App支付",
+                    key:'005'
+                  },
+                  {
+                    use:"现金",
+                    key:'006'
+                  },
+                  {
+                    use:"银联",
+                    key:'007'
+                  },
+                  {
+                    use:"积分抵扣",
+                    key:'008'
+                  },
+                  {
+                    use:"会员卡消费",
+                    key:'009'
+                  },
+                  {
+                    use:"会员卡退款",
+                    key:'010'
+                  }];
+  moneyInfo.map((el,index) => {
+    if(el.key == '001') {
+      el.sale = userInfoAll.userShift[0].wechatAmount?userInfoAll.userShift[0].wechatAmount:"/";
+      el.tui = userInfoAll.userShift[1].wechatAmount?userInfoAll.userShift[1].wechatAmount:"/";
+      el.chong = userInfoAll.userShift[2].wechatAmount?userInfoAll.userShift[2].wechatAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '002') {
+      el.sale = userInfoAll.userShift[0].scanWechatAmount?userInfoAll.userShift[0].scanWechatAmount:"/";
+      el.tui = userInfoAll.userShift[1].scanWechatAmount?userInfoAll.userShift[1].scanWechatAmount:"/";
+      el.chong = userInfoAll.userShift[2].scanWechatAmount?userInfoAll.userShift[2].scanWechatAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '003') {
+      el.sale = userInfoAll.userShift[0].alipayAmount?userInfoAll.userShift[0].alipayAmount:"/";
+      el.tui = userInfoAll.userShift[1].alipayAmount?userInfoAll.userShift[1].alipayAmount:"/";
+      el.chong = userInfoAll.userShift[2].alipayAmount?userInfoAll.userShift[2].alipayAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '004') {
+      el.sale = userInfoAll.userShift[0].scanAlipayAmount?userInfoAll.userShift[0].scanAlipayAmount:"/";
+      el.tui = userInfoAll.userShift[1].scanAlipayAmount?userInfoAll.userShift[1].scanAlipayAmount:"/";
+      el.chong = userInfoAll.userShift[2].scanAlipayAmount?userInfoAll.userShift[2].scanAlipayAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '005') {
+      el.sale = userInfoAll.userShift[0].appPay?userInfoAll.userShift[0].appPay:"/";
+      el.tui = userInfoAll.userShift[1].appPay?userInfoAll.userShift[1].appPay:"/";
+      el.chong = userInfoAll.userShift[2].appPay?userInfoAll.userShift[2].appPay:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '006') {
+      el.sale = userInfoAll.userShift[0].cashAmount?userInfoAll.userShift[0].cashAmount:"/";
+      el.tui = userInfoAll.userShift[1].cashAmount?userInfoAll.userShift[1].cashAmount:"/";
+      el.chong = userInfoAll.userShift[2].cashAmount?userInfoAll.userShift[2].cashAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '007') {
+      el.sale = userInfoAll.userShift[0].unionpayAmount?userInfoAll.userShift[0].unionpayAmount:"/";
+      el.tui = userInfoAll.userShift[1].unionpayAmount?userInfoAll.userShift[1].unionpayAmount:"/";
+      el.chong = userInfoAll.userShift[2].unionpayAmount?userInfoAll.userShift[2].unionpayAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '008') {
+      el.sale = userInfoAll.userShift[0].pointAmount?userInfoAll.userShift[0].pointAmount:"/";
+      el.tui = userInfoAll.userShift[1].pointAmount?userInfoAll.userShift[1].pointAmount:"/";
+      el.chong = userInfoAll.userShift[2].pointAmount?userInfoAll.userShift[2].pointAmount:"/";
+      el.count = (parseFloat(el.sale) +parseFloat(el.chong)-parseFloat(el.tui)).toFixed(2);
+    } else if(el.key == '009') {
+      el.sale = userInfoAll.userShift[0].cardConsumeAmount?userInfoAll.userShift[0].cardConsumeAmount:"/";
+      el.tui = "/";
+      el.chong = "/";
+      el.count = (parseFloat(el.sale)).toFixed(2);
+    } else if(el.key == '010') {
+      el.sale = "/";
+      el.tui = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
+      el.chong = "/";
+      el.count = (parseFloat(el.tui)).toFixed(2);
+    }
+    return el;
+  })
 
-  moneyInfo[0]["sale"] = userInfoAll.userShift[0].wechatAmount?userInfoAll.userShift[0].wechatAmount:"/";
-
-  moneyInfo[1]["sale"] = userInfoAll.userShift[0].alipayAmount?userInfoAll.userShift[0].alipayAmount:"/";
-
-  moneyInfo[2]["sale"] = userInfoAll.userShift[0].appPay?userInfoAll.userShift[0].appPay:"/";//APP支付/
-
-  moneyInfo[3]["sale"] = userInfoAll.userShift[0].cashAmount?userInfoAll.userShift[0].cashAmount:"/";
-
-  moneyInfo[4]["sale"] = userInfoAll.userShift[0].unionpayAmount?userInfoAll.userShift[0].unionpayAmount:"/";
-
-  moneyInfo[5]["sale"] = userInfoAll.userShift[0].pointAmount?userInfoAll.userShift[0].pointAmount:"/";
-
-  moneyInfo[6]["sale"] = userInfoAll.userShift[0].cardConsumeAmount?userInfoAll.userShift[0].cardConsumeAmount:"/";
-
-  moneyInfo[7]["sale"] = "/";
-
-  moneyInfo[0]["tui"] = userInfoAll.userShift[1].wechatAmount?userInfoAll.userShift[1].wechatAmount:"/";
-
-  moneyInfo[1]["tui"] = userInfoAll.userShift[1].alipayAmount?userInfoAll.userShift[1].alipayAmount:"/";
-
-  moneyInfo[2]["tui"] = userInfoAll.userShift[1].appPay?userInfoAll.userShift[1].appPay:"/";
-
-  moneyInfo[3]["tui"] = userInfoAll.userShift[1].cashAmount?userInfoAll.userShift[1].cashAmount:"/";
-
-  moneyInfo[4]["tui"] = userInfoAll.userShift[1].unionpayAmount?userInfoAll.userShift[1].unionpayAmount:"/";
-
-  moneyInfo[5]["tui"] = userInfoAll.userShift[1].pointAmount?userInfoAll.userShift[1].pointAmount:"/";
-
-  moneyInfo[6]["tui"] = "/";
-
-  moneyInfo[7]["tui"] = userInfoAll.userShift[1].cardConsumeAmount?userInfoAll.userShift[1].cardConsumeAmount:"/";
-
-  moneyInfo[0]["chong"] = userInfoAll.userShift[2].wechatAmount?userInfoAll.userShift[2].wechatAmount:"/";
-
-  moneyInfo[1]["chong"] = userInfoAll.userShift[2].alipayAmount?userInfoAll.userShift[2].alipayAmount:"/";
-
-  moneyInfo[2]["chong"] = userInfoAll.userShift[2].appPay?userInfoAll.userShift[2].appPay:"/";
-
-  moneyInfo[3]["chong"] = userInfoAll.userShift[2].cashAmount?userInfoAll.userShift[2].cashAmount:"/";
-
-  moneyInfo[4]["chong"] = userInfoAll.userShift[2].unionpayAmount?userInfoAll.userShift[2].unionpayAmount:"/";
-
-  moneyInfo[5]["chong"] = userInfoAll.userShift[2].pointAmount?userInfoAll.userShift[2].pointAmount:"/";
-
-  moneyInfo[6]["chong"] = "/";
-
-  moneyInfo[7]["chong"] = "/";
-
-	for(var i=0;i<moneyInfo.length-2;i++){
-		moneyInfo[i].count = (parseFloat(moneyInfo[i].sale) +parseFloat(moneyInfo[i].chong)-parseFloat(moneyInfo[i].tui)).toFixed(2);
-	}
-	moneyInfo[6].count = (parseFloat(moneyInfo[6].sale)).toFixed(2);
-	moneyInfo[7].count = (parseFloat(moneyInfo[7].tui)).toFixed(2);
   if(isOpenAliPay == 0) {
     let index = moneyInfo.findIndex(function(value, index, arr) {
-      return value.use == '支付宝';
+      return value.key == '004';
     })
     moneyInfo.splice(index,1)
   }
   if(isOpenWechat == 0) {
     let index = moneyInfo.findIndex(function(value, index, arr) {
-      return value.use == '微信';
+      return value.key == '002';
     })
     moneyInfo.splice(index,1)
   }
   if(isOpenApp == 0) {
     let index = moneyInfo.findIndex(function(value, index, arr) {
-      return value.use == 'App支付';
+      return value.key == '005';
     })
     moneyInfo.splice(index,1)
   }
+
 	for(var i=0;i<moneyInfo.length;i++){
 			 LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","12mm",20,moneyInfo[i].use);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
