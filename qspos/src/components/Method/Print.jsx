@@ -403,7 +403,7 @@ function printShiftInfo(userSales,urUser,printCount){
   })
   //当支付宝扫码，微信扫码，App支付不为0时，把开关打开为1
   moneyInfo.map((el,index) => {
-      if(el.count !== 0) {
+      if(el.count != 0) {
         if(el.key == '004') {
           isOpenAliPay = 1;
         }  else if (el.key == '002') {
@@ -688,7 +688,7 @@ function printShiftInfoSmall(userSales,urUser,printCount){
   })
   //当支付宝扫码，微信扫码，App支付不为0时，把开关打开为1
   moneyInfo.map((el,index) => {
-      if(el.count !== 0) {
+      if(el.count != 0) {
         if(el.key == '004') {
           isOpenAliPay = 1;
         }  else if (el.key == '002') {
