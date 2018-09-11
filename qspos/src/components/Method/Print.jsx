@@ -401,7 +401,20 @@ function printShiftInfo(userSales,urUser,printCount){
     }
     return el;
   })
-
+  //当支付宝扫码，微信扫码，App支付不为0时，把开关打开为1
+  moneyInfo.map((el,index) => {
+      if(el.count !== 0) {
+        if(el.key == '004') {
+          isOpenAliPay = 1;
+        }  else if (el.key == '002') {
+          isOpenWechat = 1;
+        } else if (el.key == '005') {
+          isOpenApp = 1;
+        }
+      }
+      return el;
+  })
+  //过滤是否开通扫码支付
   if(isOpenAliPay == 0) {
     let index = moneyInfo.findIndex(function(value, index, arr) {
       return value.key == '004';
@@ -673,7 +686,19 @@ function printShiftInfoSmall(userSales,urUser,printCount){
     }
     return el;
   })
-
+  //当支付宝扫码，微信扫码，App支付不为0时，把开关打开为1
+  moneyInfo.map((el,index) => {
+      if(el.count !== 0) {
+        if(el.key == '004') {
+          isOpenAliPay = 1;
+        }  else if (el.key == '002') {
+          isOpenWechat = 1;
+        } else if (el.key == '005') {
+          isOpenApp = 1;
+        }
+      }
+      return el;
+  })
   if(isOpenAliPay == 0) {
     let index = moneyInfo.findIndex(function(value, index, arr) {
       return value.key == '004';
