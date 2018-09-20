@@ -290,11 +290,11 @@ class EditableTable extends React.Component {
         }else{
             if(document.body.offsetWidth>800){
                 this.setState({
-                     windowHeight:document.body.offsetHeight-300,
+                     windowHeight:document.body.offsetHeight-362,
                 });
             }else{
                this.setState({
-                    windowHeight:document.body.offsetHeight-270,
+                    windowHeight:document.body.offsetHeight-230,
                 });
             }
         }
