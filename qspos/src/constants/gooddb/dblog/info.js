@@ -59,28 +59,34 @@ class ReceiptDetailsForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
-        this.setState({
-            limit:pageSize,
-            currentPage:Number(page)-1
-        },function(){
-            this.getSearchData()
-        });
+      page--
+      this.setState({
+          limit:pageSize,
+          currentPage:page
+      });
+
+      this.getSearchData(page,pageSize)
     }
 
     onShowSizeChange=(current, pageSize)=>{
+        current--;
         this.setState({
             limit:pageSize,
             currentPage:Number(current)-1
-        },function(){
-            this.getSearchData()
         })
+        this.getSearchData(current, pageSize)
     }
     //获取数据
-    getSearchData = () =>{
+    getSearchData = (page,pageSize) =>{
         var exchangeId = location.hash.split('?')[1].split('&')[0].split('=')[1]
         var exchangeNo = location.hash.split('?')[1].split('&')[1].split('=')[1]
+        let params1 = {
+          currentPage:page||0,
+          limit:pageSize||15,
+          qposPdExchangeId:exchangeId
+        }
         const data0 = GetServerData('qerp.pos.pd.exchange.query',{exchangeNo:exchangeNo})
-        const data1 = GetServerData('qerp.qpos.pd.exchange.detail.info',{qposPdExchangeId:exchangeId})
+        const data1 = GetServerData('qerp.qpos.pd.exchange.detail.info',params1)
         const logdata = GetServerData('qerp.qpos.pd.exchange.info',{qposPdExchangeId:exchangeId})
         data0.then((res) => {
           return res;
@@ -124,7 +130,7 @@ class ReceiptDetailsForm extends React.Component {
     }
 
     //打印
-    
+
 
     printDborder=(exchangNo)=>{
       console.log('diao da yin fang fa')
@@ -164,8 +170,8 @@ class ReceiptDetailsForm extends React.Component {
                         getDbOrderInfo(printdata,'58',allocationPrintNum)
                       }
                     }
-  
-                  
+
+
                    }
                })
             }else{
@@ -182,6 +188,9 @@ class ReceiptDetailsForm extends React.Component {
 
 
     render() {
+        console.log(this.state.currentPage)
+        let { currentPage } =this.state;
+        currentPage++;
         return (
             <div className="ph-info">
                 <div className="scroll-wrapper receipetDetailWrapper">
@@ -200,9 +209,9 @@ class ReceiptDetailsForm extends React.Component {
                           columns={this.columns}
                           dataSource={this.state.dataSource}
                           pagination={true}
-                          current={Number(this.state.currentPage)}
+                          current={currentPage}
                           total={this.state.total}
-                          currentPage={this.state.currentPage}
+                          currentPage={currentPage}
                           pageSize={this.state.limit}
                           onShowSizeChange={this.onShowSizeChange}
                           pageChange={this.pageChange}
