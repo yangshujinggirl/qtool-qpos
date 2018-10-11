@@ -2,7 +2,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select
 import Modales from './model'
 import ReactDOM from 'react-dom';
 import { connect } from 'dva';
-import {GetServerData} from '../../services/services';
+import {GetServerData} from '../../../services/services';
 
 class Btnpay extends React.Component {
 	state={}
@@ -13,7 +13,7 @@ class Btnpay extends React.Component {
 		return(
 			<div style={{cursor:'pointer'}} onClick={this.hindClick.bind(this)}>
 				 <Button className='payscanbtn'>扫码</Button>
-    		</div>
+  		</div>
 		)
 	}
 }

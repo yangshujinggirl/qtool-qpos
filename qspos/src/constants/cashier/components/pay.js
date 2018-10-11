@@ -1,49 +1,56 @@
 import { Modal, Button ,Input,message,Checkbox } from 'antd';
 import { connect } from 'dva';
 import ReactDOM from 'react-dom';
-import {GetServerData} from '../../services/services';
-import {GetLodop} from '../../components/Method/Print'
-import {printSaleOrder} from '../../components/Method/Method'
-import {dataedit} from '../../utils/commonFc';
+import {GetServerData} from '../../../services/services';
+import { GetLodop, getSaleOrderInfo} from '../../../components/Method/Print'
+import {printSaleOrder} from '../../../components/Method/Method'
+import {dataedit} from '../../../utils/commonFc';
 import NP from 'number-precision'
 import Btnpay from './btnpay'
-import Scanbtn from '../../components/Button/scanbtn'
-import {getSaleOrderInfo} from '../../components/Method/Print';
+import Scanbtn from '../../../components/Button/scanbtn'
+// import {getSaleOrderInfo} from '../../../components/Method/Print';
 import Btnbrforepay from './btnbeforepay'
 //引入打印
 
 class Pay extends React.Component {
-     constructor(props) {
-        super(props);
-        this.firstclick=true
-     }
-
-    state = { 
-        text:null,
-        initModel:this.initModel,
-        waringfirst:false,
-        visible: false,
-        backmoney:'0.00'
+    constructor(props) {
+      super(props);
+      this.firstclick=true;
+      this.state = {
+          text:null,
+          initModel:this.initModel,
+          waringfirst:false,
+          visible: false,
+          backmoney:'0.00'
+      }
     }
+    componentDidMount(){
+     const meth1={
+         initModel:this.initModel,
+         hindpayclick:this.hindpayclick,
+         handleOk:this.handleOk,
 
+     }
+     this.props.dispatch({
+         type:'cashier/meth1',
+         payload:meth1
+     })
+    }
     //初始化方法
     initModel=()=>{
         const uservalues={"urUserId":null}
-        const result=GetServerData('qerp.pos.ur.user.info',uservalues)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
+        GetServerData('qerp.pos.ur.user.info',uservalues)
+        .then((json) => {
             if(json.code=='0'){
                 sessionStorage.setItem('openWechat',json.urUser.shop.openWechat);
                 sessionStorage.setItem('openAlipay',json.urUser.shop.openAlipay);
-
                 const ismember=this.props.ismember
                 const amountlist=[{
                     name:'微信',
                     value:null,
                     type:'1'
                 }]
-                const paytypelisy=[  
+                const paytypelisy=[
                     {name:'微信',check:false,disabled:false,type:'1'},
                     {name:'支付宝',check:false,disabled:false,type:'2'},
                     {name:'银联',check:false,disabled:false,type:'3'},
@@ -54,7 +61,6 @@ class Pay extends React.Component {
                 const paytotolamount=this.props.totolamount
                 const group=false
                 const cutAmount='0'
-        
                 this.props.dispatch({
                     type:'cashier/paytotolamount',
                     payload:paytotolamount
@@ -75,97 +81,94 @@ class Pay extends React.Component {
                     type:'cashier/cutAmount',
                     payload:cutAmount
                 })
-        
                 if(ismember){
                     const values={mbCardId:this.props.mbCardId}
-                    const result=GetServerData('qerp.pos.mb.card.info',values)
-                    result.then((res) => {
-                        return res;
-                    }).then((json) => {
+                    GetServerData('qerp.pos.mb.card.info',values)
+                    .then((json) => {
                         if(json.code=='0'){
-                            this.setState({
-                                waringfirst:false
-                            },function(){
-                                const point=json.mbCardInfo.point
-                                const amount=json.mbCardInfo.amount
-                                const payvisible=true
-                                const paytypelisy=this.props.paytypelisy
-                                const amountlist=[]
-                                var texts=null
-                                var waringfirsts=false
-                                var groups=false
-        
-                                this.props.dispatch({
-                                    type:'cashier/amountpoint',
-                                    payload:{amount,point}
-                                })
-                                this.props.dispatch({
-                                    type:'cashier/payvisible',
-                                    payload:payvisible
-                                })
-        
-        
-                                setTimeout(()=>{
-                                    //判断积分是否禁用
-                                if(Number(this.props.point)<=0){
-                                    //禁用
-                                    paytypelisy[5].disabled=true
-                                }
-                                if(parseFloat(this.props.amount)>0){
-                                        //会员卡选中为默认支付方式，不禁用
-                                        paytypelisy[4].check=true
-                                        //判断会员卡总额和总消费金额
-                                        if(parseFloat(this.props.amount)>parseFloat(this.props.paytotolamount)){
-                                            amountlist.push({
-                                                name:'会员卡',
-                                                value:this.props.paytotolamount,
-                                                type:'5'
-                                            })
-                                        }else{
-                                            amountlist.push({
-                                                name:'会员卡',
-                                                value:this.props.amount,
-                                                type:'5'
-                                            })
-                                            //报警告
-                                           waringfirsts=true
-                                           texts='会员卡余额不足，请选择组合支付'
-                                           groups=true
-                                        }
-                                }else{
-                                        //默认选中微信，会员卡禁用
-                                        paytypelisy[0].check=true
-                                        paytypelisy[4].disabled=true
-                                        amountlist.push({
-                                            name:'微信',
-                                            value:this.props.paytotolamount,
-                                            type:'1'
-                                        })
-                                }
-        
-                                this.props.dispatch({
-                                    type:'cashier/amountlist',
-                                    payload:amountlist
-                                })
-                                this.props.dispatch({
-                                    type:'cashier/groups',
-                                    payload:groups
-                                })
-                                this.setState({
-                                    waringfirst:waringfirsts,
-                                    text:texts,
-                                    backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
-                                })
-        
-                                },1)
-        
-        
-        
-                                
-                                
-                            })
+                          this.setState({
+                              waringfirst:false
+                          },()=>{
+                              const point=json.mbCardInfo.point
+                              const amount=json.mbCardInfo.amount
+                              const payvisible=true
+                              const paytypelisy=this.props.paytypelisy
+                              const amountlist=[]
+                              var texts=null
+                              var waringfirsts=false
+                              var groups=false
+
+                              this.props.dispatch({
+                                  type:'cashier/amountpoint',
+                                  payload:{amount,point}
+                              })
+                              this.props.dispatch({
+                                  type:'cashier/payvisible',
+                                  payload:payvisible
+                              })
+
+
+                              setTimeout(()=>{
+                                  //判断积分是否禁用
+                              if(Number(this.props.point)<=0){
+                                  //禁用
+                                  paytypelisy[5].disabled=true
+                              }
+                              if(parseFloat(this.props.amount)>0){
+                                      //会员卡选中为默认支付方式，不禁用
+                                      paytypelisy[4].check=true
+                                      //判断会员卡总额和总消费金额
+                                      if(parseFloat(this.props.amount)>parseFloat(this.props.paytotolamount)){
+                                          amountlist.push({
+                                              name:'会员卡',
+                                              value:this.props.paytotolamount,
+                                              type:'5'
+                                          })
+                                      }else{
+                                          amountlist.push({
+                                              name:'会员卡',
+                                              value:this.props.amount,
+                                              type:'5'
+                                          })
+                                          //报警告
+                                         waringfirsts=true
+                                         texts='会员卡余额不足，请选择组合支付'
+                                         groups=true
+                                      }
+                              }else{
+                                      //默认选中微信，会员卡禁用
+                                      paytypelisy[0].check=true
+                                      paytypelisy[4].disabled=true
+                                      amountlist.push({
+                                          name:'微信',
+                                          value:this.props.paytotolamount,
+                                          type:'1'
+                                      })
+                              }
+
+                              this.props.dispatch({
+                                  type:'cashier/amountlist',
+                                  payload:amountlist
+                              })
+                              this.props.dispatch({
+                                  type:'cashier/groups',
+                                  payload:groups
+                              })
+                              this.setState({
+                                  waringfirst:waringfirsts,
+                                  text:texts,
+                                  backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
+                              })
+
+                              },1)
+
+
+
+
+
+                          })
                         }else{
-                            message.error(json.message)
+                          message.error(json.message)
                         }
                     })
                 }else{
@@ -173,7 +176,7 @@ class Pay extends React.Component {
                     this.setState({
                         waringfirst:false,
                         visible:true,
-                    },function(){
+                    },()=>{
                         const payvisible=true
                         this.props.dispatch({
                             type:'cashier/payvisible',
@@ -201,130 +204,94 @@ class Pay extends React.Component {
                             backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
                         })
                     })
-                    }
-
-
-
-
-
+                }
             }else{
                 message.error(json.message)
             }
         })
-
-
-
-
-
-
-
-
-
-
-
-
-
-       
-        }
-
-
-
-
-        handleOk = (e) => {
-            this.setState({
-                visible: false,
-            },function(){
-                const payvisible=false
-                this.props.dispatch({
-                    type:'cashier/payvisible',
-                    payload:payvisible
-                })
-                this.props.initdata()
-            });
-        }
-        handleCancel = (e) => {
-            this.setState({
+    }
+    handleOk = (e) => {
+        this.setState({
             visible: false,
-            },function(){
-                const payvisible=false
-                this.props.dispatch({
-                    type:'cashier/payvisible',
-                    payload:payvisible
-                })
-            });
-        }
-        //js判断是否在数组中
-        isInArray=(arr,value)=>{
-            for(var i = 0; i < arr.length; i++){
-                if(value == arr[i].type){
-                    return i;
-                }
-            }
-            return '-1';
-        }
-
-        //组合支付
-        connectclick=()=>{
-            const group=this.props.group
-            const groups=this.props.group?false:true
+        },function(){
+            const payvisible=false
             this.props.dispatch({
-                type:'cashier/groups',
-                payload:groups
+                type:'cashier/payvisible',
+                payload:payvisible
             })
-            if(!groups){
-                const paytypelisy=this.props.paytypelisy //按钮list 
-                for(var i=0;i<paytypelisy.length;i++){
-                    paytypelisy[i].check=false
-                }
-                
-                this.props.dispatch({
-                    type:'cashier/paytypelisy',
-                    payload:paytypelisy
-                })
-                setTimeout(()=>{
-                    this.listclick(0)
-                },1)
-               
+            this.props.initdata()
+        });
+    }
+    handleCancel = (e) => {
+        this.setState({
+        visible: false,
+        },function(){
+            const payvisible=false
+            this.props.dispatch({
+                type:'cashier/payvisible',
+                payload:payvisible
+            })
+        });
+    }
+    //js判断是否在数组中
+    isInArray=(arr,value)=>{
+      for(var i = 0; i < arr.length; i++){
+          if(value == arr[i].type){
+              return i;
+          }
+      }
+      return '-1';
+    }
+    //组合支付
+    connectclick=()=>{
+        const group=this.props.group
+        const groups=this.props.group?false:true
+        this.props.dispatch({
+            type:'cashier/groups',
+            payload:groups
+        })
+        if(!groups){
+            const paytypelisy=this.props.paytypelisy //按钮list
+            for(var i=0;i<paytypelisy.length;i++){
+                paytypelisy[i].check=false
             }
+            this.props.dispatch({
+                type:'cashier/paytypelisy',
+                payload:paytypelisy
+            })
+            setTimeout(()=>{
+                this.listclick(0)
+            },1)
         }
-
-        
-
+    }
     //权重处理方法
-     arrarow=(arr)=>{
-        const newarr=[]
+    arrarow=(arr)=>{
+      const newarr=[]
+      for(var i=0;i<arr.length;i++){
+        if(Number(arr[i].type)==5){
+          arr[i].types=6
+        }
+        if(Number(arr[i].type)==6){
+          arr[i].types=5
+        }
+        if(Number(arr[i].type)<5){
+          arr[i].types=4
+        }
+      }
+      if(Number(arr[0].types)>Number(arr[1].types)){
         for(var i=0;i<arr.length;i++){
-
-
-
-            if(Number(arr[i].type)==5){
-                arr[i].types=6
-            }
-            if(Number(arr[i].type)==6){
-                arr[i].types=5
-            }
-            if(Number(arr[i].type)<5){
-                arr[i].types=4
-            }
+          newarr.push(arr[i])
         }
-        if(Number(arr[0].types)>Number(arr[1].types)){
-            for(var i=0;i<arr.length;i++){
-                newarr.push(arr[i])
-            }
-            
-        }
-        if(Number(arr[0].types)==Number(arr[1].types)){
-            newarr.push(arr[1])
-        
-        }
-        if(Number(arr[0].types)<Number(arr[1].types)){
-            newarr.push(arr[1])
-            newarr.push(arr[0])
-        }
-        return newarr
-    }   
-
-
+      }
+      if(Number(arr[0].types)==Number(arr[1].types)){
+        newarr.push(arr[1])
+      }
+      if(Number(arr[0].types)<Number(arr[1].types)){
+        newarr.push(arr[1])
+        newarr.push(arr[0])
+      }
+      return newarr
+    }
     //点击不同支付方式
     listclick=(index)=>{
         const paytypelisy=this.props.paytypelisy //按钮list
@@ -337,7 +304,7 @@ class Pay extends React.Component {
         if(!paytypelisy[index].check){
             if(this.props.group){
                 const newarrlist=[]
-                newarrlist.push(amountlist[0])   
+                newarrlist.push(amountlist[0])
                 newarrlist.push({
                     name:paytypelisy[index].name,
                     value:NP.minus(paytotolamount, newarrlist[0].value),
@@ -360,16 +327,16 @@ class Pay extends React.Component {
                             newamountlist[i].value=amount
                         }
                         if(i==0){
-                            newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value); 
+                            newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value);
                         }else{
-                            newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value); 
+                            newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value);
                         }
 
                     }else{
                         //存在积分
                         if(parseFloat(amount)>=parseFloat(paytotolamount)){
                             newamountlist[i].value=paytotolamount
-                            newamountlist[j].value=NP.minus(paytotolamount, newamountlist[i].value); 
+                            newamountlist[j].value=NP.minus(paytotolamount, newamountlist[i].value);
 
                         }else{
                             newamountlist[i].value=amount
@@ -396,14 +363,14 @@ class Pay extends React.Component {
                             newamountlist[j].value=point
                         }
                         if(j==0){
-                            newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value); 
+                            newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value);
                         }else{
-                            newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value); 
-                        }  
+                            newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value);
+                        }
                     }
                 }
 
-               
+
             }else{
                 //非组合支付
                 newamountlist.push({
@@ -451,7 +418,7 @@ class Pay extends React.Component {
             if(newamountlist.length>1){
                 newamountlist[1].value=dataedit(String(newamountlist[1].value))
             }
-           
+
             var backmoneyed=0
             if(newamountlist.length>1){
                 const danu=NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)
@@ -471,7 +438,7 @@ class Pay extends React.Component {
 
             }
 
-           
+
             this.props.dispatch({
                 type:'cashier/newamountlist',
                 payload:newamountlist
@@ -492,7 +459,7 @@ class Pay extends React.Component {
                     //判断积分和总额，如果积分最大值大于总额，值为总额，否则为积分最大额
                     const point=NP.divide(this.props.point,100); //积分换算金额
                     const amount=this.props.amount //会员余额
-                    newamountlist.push(amountlist[1])  
+                    newamountlist.push(amountlist[1])
 
                     if(parseFloat(point)<parseFloat(paytotolamount)){
                         newamountlist[0].value=point
@@ -507,7 +474,7 @@ class Pay extends React.Component {
                     //判断会员卡和总额，如果会员卡最大值大于总额，值为总额，否则为积分最大额
                     const point=NP.divide(this.props.point,100); //积分换算金额
                     const amount=this.props.amount //会员余额
-                    newamountlist.push(amountlist[0])  
+                    newamountlist.push(amountlist[0])
                     if(parseFloat(amount)<parseFloat(paytotolamount)){
                         newamountlist[0].value=amount
                         waringfirsts=true
@@ -536,7 +503,7 @@ class Pay extends React.Component {
             if(newamountlist.length>1){
                 newamountlist[1].value=dataedit(String(newamountlist[1].value))
             }
-           
+
             var backmoneyed=0
             if(newamountlist.length>1){
                 const danu=NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)
@@ -556,7 +523,7 @@ class Pay extends React.Component {
 
             }
 
-           
+
             this.props.dispatch({
                 type:'cashier/newamountlist',
                 payload:newamountlist
@@ -570,68 +537,66 @@ class Pay extends React.Component {
                 text:texts,
                 backmoney:backmoneyed
             })
-                
+
 
             }
-  
+
 
         }
 
     }
-
     //结算
     hindpayclick=()=>{
-        if(!this.firstclick){
-            return
-        }
-        const backmoney=this.state.backmoney
-        const group=this.props.group
-        const amountlist=this.props.amountlist
-        var totols=0;
-        var orderPay=[];
-        if(group){
-            if(amountlist.length>1){
-                totols=NP.plus(amountlist[0].value,amountlist[1].value); 
-                for(var i=0;i<amountlist.length;i++){
-                    if(amountlist[i].value!='0.00'){
-                        orderPay.push({
-                            amount:amountlist[i].value,
-                            type:amountlist[i].type,
-                        })
-                    }
-                }
-            }else{
-                message.error('金额有误，不能支付')
-                return
-            }
-        }else{
-            totols=amountlist[0].value
-            orderPay=[{
-                amount:amountlist[0].value,
-                type:amountlist[0].type
-            }]
-        }
+      if(!this.firstclick){
+          return
+      }
+      const backmoney=this.state.backmoney
+      const group=this.props.group
+      const amountlist=this.props.amountlist
+      var totols=0;
+      var orderPay=[];
+      if(group){
+          if(amountlist.length>1){
+              totols=NP.plus(amountlist[0].value,amountlist[1].value);
+              for(var i=0;i<amountlist.length;i++){
+                  if(amountlist[i].value!='0.00'){
+                      orderPay.push({
+                          amount:amountlist[i].value,
+                          type:amountlist[i].type,
+                      })
+                  }
+              }
+          }else{
+              message.error('金额有误，不能支付')
+              return
+          }
+      }else{
+          totols=amountlist[0].value
+          orderPay=[{
+              amount:amountlist[0].value,
+              type:amountlist[0].type
+          }]
+      }
+      if(totols==this.props.paytotolamount && backmoney=='0.00'){
+          const amountlist=this.props.amountlist
+          let values={
+                  mbCard:{mbCardId:this.props.ismember?this.props.mbCardId:null},
+                  odOrder:{
+                      amount:this.props.totolamount,
+                      orderPoint:this.props.thispoint,
+                      payAmount:this.props.paytotolamount,
+                      qty:this.props.totolnumber,
+                      skuQty:this.props.datasouce.length,
+                      cutAmount:this.props.cutAmount,
+                  },
+                  orderDetails:this.props.datasouce,
+                  orderPay:orderPay
+              }
 
-        if(totols==this.props.paytotolamount && backmoney=='0.00'){
-            const amountlist=this.props.amountlist
-            let values={
-                    mbCard:{mbCardId:this.props.ismember?this.props.mbCardId:null},
-                    odOrder:{
-                        amount:this.props.totolamount,
-                        orderPoint:this.props.thispoint,  
-                        payAmount:this.props.paytotolamount,
-                        qty:this.props.totolnumber,
-                        skuQty:this.props.datasouce.length,
-                        cutAmount:this.props.cutAmount,
-                    },
-                    orderDetails:this.props.datasouce,
-                    orderPay:orderPay
-                }
-
-            this.paying(values)
-        }else{
-            message.error('金额有误，不能支付')
-        }
+          this.paying(values)
+      }else{
+          message.error('金额有误，不能支付')
+      }
     }
     //调用结算接口
     paying=(values)=>{
@@ -655,7 +620,6 @@ class Pay extends React.Component {
                 }
         })
     }
-
     //单独输入框失去焦点
     hindonBlur=(e)=>{
         const values=parseFloat(e.target.value)
@@ -693,28 +657,26 @@ class Pay extends React.Component {
             type:'cashier/amountlist',
             payload:amountlist
         })
-       
-       
-       
+
+
+
         this.setState({
             backmoney:backmoney
         })
     }
     hindonChange=(e)=>{
-        //只能输入最多两位数字
-        const values=e.target.value
-        console.log(values)
-		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
-        const str=re.test(values)
-        if(str){
-            const amountlist=this.props.amountlist.slice(0)
-            amountlist[0].value=values
-            console.log(amountlist)
-            this.props.dispatch({
-                type:'cashier/amountlist',
-                payload:amountlist
-            })
-        }
+      //只能输入最多两位数字
+      const values=e.target.value
+	    const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+      const str=re.test(values)
+      if(str){
+          const amountlist=this.props.amountlist.slice(0)
+          amountlist[0].value=values
+          this.props.dispatch({
+              type:'cashier/amountlist',
+              payload:amountlist
+          })
+      }
     }
     payfirstonBlur=(e)=>{
         const values=parseFloat(e.target.value)
@@ -812,7 +774,7 @@ class Pay extends React.Component {
         const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
         amountlist[0].value=dataedit(String(amountlist[0].value))
         amountlist[1].value=dataedit(String(amountlist[1].value))
-        
+
         this.props.dispatch({
             type:'cashier/amountlist',
             payload:amountlist
@@ -909,7 +871,7 @@ class Pay extends React.Component {
                         amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(point)?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
                     }
                 }
-            } 
+            }
         }
 
 
@@ -924,10 +886,9 @@ class Pay extends React.Component {
             backmoney:backmoney
         })
     }
-
     payfirstonChange=(e)=>{
         const values=e.target.value
-		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+	      const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
             const amountlist=this.props.amountlist.slice(0)
@@ -940,7 +901,7 @@ class Pay extends React.Component {
     }
     paysecondonChange=(e)=>{
         const values=e.target.value
-		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+	      const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
             const amountlist=this.props.amountlist.slice(0)
@@ -969,7 +930,7 @@ class Pay extends React.Component {
             if(amountlist.length==1){
                 amountlist[0].value=NP.minus(amountlist[0].value, diffamount)
             }
-           
+
             const paytotolamount=dataedit(String(parseInt(this.props.paytotolamount)))
             var backmoneyed=0
             if(amountlist.length>1){
@@ -980,8 +941,8 @@ class Pay extends React.Component {
                     backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, amountlist[0].value,amountlist[1].value)))
                 }
 
-                
-               
+
+
             }else{
                 const danu=NP.minus(paytotolamount, amountlist[0].value)
                 if(danu==0){
@@ -1015,16 +976,15 @@ class Pay extends React.Component {
 
             this.setState({
                 backmoney:backmoneyed,
-            }) 
+            })
 
         }
 
 
-        
-       
-          
-    }
 
+
+
+    }
     //扫码按钮点击
     onhindClicks=()=>{
         const backmoney=this.state.backmoney
@@ -1042,15 +1002,11 @@ class Pay extends React.Component {
             if(Number(amountlist[0].value<=0)){
                 message.error('金额有误，不能支付')
                 return
-            } 
+            }
         }
-
-
-
-
         if(group){
             if(amountlist.length>1){
-                totols=NP.plus(amountlist[0].value,amountlist[1].value); 
+                totols=NP.plus(amountlist[0].value,amountlist[1].value);
                 for(var i=0;i<amountlist.length;i++){
                     if(amountlist[i].value!='0.00'){
                         orderPay.push({
@@ -1077,7 +1033,7 @@ class Pay extends React.Component {
                     mbCard:{mbCardId:this.props.ismember?this.props.mbCardId:null},
                     odOrder:{
                         amount:this.props.totolamount,
-                        orderPoint:this.props.thispoint,  
+                        orderPoint:this.props.thispoint,
                         payAmount:this.props.paytotolamount,
                         qty:this.props.totolnumber,
                         skuQty:this.props.datasouce.length,
@@ -1086,47 +1042,28 @@ class Pay extends React.Component {
                     orderDetails:this.props.datasouce,
                     orderPay:orderPay
                 }
-
-                  
-                
                 this.btnSaoPay(values)
         }else{
             message.error('金额有误，不能支付')
         }
     }
-
     //扫码支付
     btnSaoPay=(values)=>{
-        const result=GetServerData('qerp.web.qpos.od.order.save',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                const orderNo=json.orderNo  //订单号
-                const odOrderId=json.odOrderId  //订单id
-                const consumeType='1' //销售订单
-                const type=values.orderPay.length>1?values.orderPay[1].type:values.orderPay[0].type//支付类型
-                const amount=values.orderPay.length>1?values.orderPay[1].amount:values.orderPay[0].amount //支付金额
-                this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});  
-            }else{
-                message.error(json.message)
-            }
-            
-    })
-    
+      GetServerData('qerp.web.qpos.od.order.save',values)
+      .then((json) => {
+          if(json.code=='0'){
+              const orderNo=json.orderNo  //订单号
+              const odOrderId=json.odOrderId  //订单id
+              const consumeType='1' //销售订单
+              const type=values.orderPay.length>1?values.orderPay[1].type:values.orderPay[0].type//支付类型
+              const amount=values.orderPay.length>1?values.orderPay[1].amount:values.orderPay[0].amount //支付金额
+              this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});
+          }else{
+              message.error(json.message)
+          }
 
-
-
-
-        
-    }   
-
-
-
-
-
-
-
+      })
+    }
     //是否勾选打印小票
     choosePrint = (e) =>{
         const checkPrint=e.target.checked
@@ -1136,137 +1073,180 @@ class Pay extends React.Component {
         })
     }
     render() {
-        const openWechat=sessionStorage.getItem("openWechat")
-        const openAlipay=sessionStorage.getItem("openAlipay")
-        console.log(openWechat)
-        console.log(openAlipay)
-        return (
-            <div>
-                <Modal
-                    title=""
-                    visible={this.props.payvisible}
-                    onOk={this.handleOk}
-                    onCancel={this.handleCancel}
-                    width={924}
-                    closable={true}
-                    footer={null}
-                    className={this.props.amountlist.length>1?'payzu':'pay'}
-                >
-                    <div className='clearfix'>
-                        <div className='fl paylw'>
-                            <Input  autoComplete="off" addonBefore={<Btnbrforepay title='总额' dis={true}/>} value={this.props.paytotolamount}  disabled className='tr payinputsmodel'/>
-                            {
-                                this.props.amountlist.length>1
-                                ?<div className='clearfix inputcenter'>
-                                    <div className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?'payharflwl inputcenterdis':'payharflwl inputcenteropen'}>
-                                        <div>
-                                            <Input  
-                                                autoComplete="off" 
-                                                // addonBefore={this.props.amountlist[0].name}  
-                                                addonBefore={<Btnbrforepay title={this.props.amountlist[0].name} dis={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false}/>} 
-                                                value={this.props.amountlist[0].value}  
-                                                onBlur={this.payfirstonBlur.bind(this)} 
-                                                className='tr payinputsmodel' 
-                                                onChange={this.payfirstonChange.bind(this)} 
-                                                addonAfter={(this.props.amountlist[0].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
-                                                disabled={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false} 
-                                            />
-                                        </div>
-                                      
-                                    </div>
-                                    <div className={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?'payharflwr inputcenterdis':'payharflwr inputcenteropen'}>
-                                        <Input  
-                                            autoComplete="off" 
-                                            // addonBefore={this.props.amountlist[1].name} 
-                                            addonBefore={<Btnbrforepay title={this.props.amountlist[1].name} dis={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?true:false}/>} 
-                                            value={this.props.amountlist[1].value}  
-                                            onBlur={this.paysecondonBlur.bind(this)} 
-                                            className='tr payinputsmodel' 
-                                            onChange={this.paysecondonChange.bind(this)} 
-                                            addonAfter={(this.props.amountlist[1].type=='1' && openWechat=='1') ||(this.props.amountlist[1].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
-                                            disabled={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?true:false} 
-                                        />
-                                        
-                                    </div>
-                                </div>
-                                :<div className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?'inputcenter inputcenterdis':'inputcenter inputcenteropen'}>
-                                    <Input  
-                                        autoComplete="off" 
-                                        // addonBefore={this.props.amountlist[0].name} 
-                                        addonBefore={<Btnbrforepay title={this.props.amountlist[0].name} dis={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false}/>}
-                                        value={this.props.amountlist[0].value}  
-                                        ref='paymoneys' 
-                                        onBlur={this.hindonBlur.bind(this)} 
-                                        className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')? 'tr payinputsmodel payinputsmodels':'tr payinputsmodel'}  
-                                        disabled={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false} 
-                                        onChange={this.hindonChange.bind(this)}
-                                        addonAfter={(this.props.amountlist[0].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
-                                    />
-                                   
-                                    </div>
-                                
-                            }
-                            <div><Input  autoComplete="off" addonBefore={<Btnbrforepay title='找零' dis={true}/>}  value={this.state.backmoney}  disabled className='tr payinputsmodel'/></div>
-                            <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
-                            {this.props.amountlist.length==1?<div className='payends'><Button className='paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
-                            {this.props.amountlist.length==1?<div className='check_print'><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
+      const openWechat=sessionStorage.getItem("openWechat")
+      const openAlipay=sessionStorage.getItem("openAlipay")
+      return (
+        <Modal
+          title=""
+          visible={this.props.payvisible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          width={924}
+          closable={true}
+          footer={null}
+          className={this.props.amountlist.length>1?'payzu':'pay'}>
+            <div className='clearfix'>
+              <div className='fl paylw'>
+                  <Input  autoComplete="off" addonBefore={<Btnbrforepay title='总额' dis={true}/>} value={this.props.paytotolamount}  disabled className='tr payinputsmodel'/>
+                  {
+                      this.props.amountlist.length>1?
+                      <div className='clearfix inputcenter'>
+                        <div className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?'payharflwl inputcenterdis':'payharflwl inputcenteropen'}>
+                          <div>
+                            <Input
+                              autoComplete="off"
+                              addonBefore={
+                                <Btnbrforepay
+                                  title={this.props.amountlist[0].name}
+                                  dis={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false}/>
+                                }
+                              value={this.props.amountlist[0].value}
+                              onBlur={this.payfirstonBlur.bind(this)}
+                              className='tr payinputsmodel'
+                              onChange={this.payfirstonChange.bind(this)}
+                              addonAfter={(this.props.amountlist[0].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                              disabled={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false}/>
+                          </div>
                         </div>
-                        <div className='fr fix-800-fr' style={{width:'274px'}}>
-                            <div>
-                                <ul className='clearfix' style={{paddingLeft:'0',marginBottom:'0'}}>
-                                    {
-                                        this.props.paytypelisy.map((item,index)=>{
-                                            return(
-                                                <li className='fl' onClick={this.listclick.bind(this,index)} key={index} className={item.disabled?'listdis':(item.check?'listoff':'list')}>
-                                                    <Button  disabled={item.disabled}>{item.name}</Button>
-                                                </li>
-                                            )
-                                        })
-
-                                    }
-                                </ul>
-                            </div>
-                            <div >
-                                <ul className='btnbg'>
-                                    <li className='fl' onClick={this.connectclick.bind(this)} className={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?(this.props.amountlist.length>1?'listtdiszu':'listtdis'):(this.props.group?(this.props.amountlist.length>1?'listtoffzu':'listtoff'):(this.props.amountlist.length>1?'listtzu':'listt'))}><Button disabled={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button></li>
-                                    <li className='fl' onClick={this.nozeroclick.bind(this)} className={this.props.amountlist.length>1?(this.props.cutAmount=='0'?'listtzu':'listtoffzu'):(this.props.cutAmount=='0'?'listt':'listtoff')}><Button>抹零</Button></li>
-                                </ul>
-                            </div>
+                        <div className={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?'payharflwr inputcenterdis':'payharflwr inputcenteropen'}>
+                          <Input
+                            autoComplete="off"
+                            addonBefore={<Btnbrforepay title={this.props.amountlist[1].name} dis={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?true:false}/>}
+                            value={this.props.amountlist[1].value}
+                            onBlur={this.paysecondonBlur.bind(this)}
+                            className='tr payinputsmodel'
+                            onChange={this.paysecondonChange.bind(this)}
+                            addonAfter={(this.props.amountlist[1].type=='1' && openWechat=='1') ||(this.props.amountlist[1].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}
+                            disabled={(this.props.amountlist[1].type=='1' || this.props.amountlist[1].type=='2' || this.props.amountlist[1].type=='3')?true:false}/>
                         </div>
-
-                        {this.props.amountlist.length>1?<div className='payends'><Button className={this.props.amountlist.length>1?'paylhszu':'paylhs'} onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>:null}
-                        {this.props.amountlist.length>1?<div className='check_print'><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>:null}
-              	    </div>
-            </Modal>
-        </div>
+                      </div>
+                      :
+                      <div className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?'inputcenter inputcenterdis':'inputcenter inputcenteropen'}>
+                        <Input
+                          autoComplete="off"
+                          addonBefore={<Btnbrforepay title={this.props.amountlist[0].name} dis={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false}/>}
+                          value={this.props.amountlist[0].value}
+                          ref='paymoneys'
+                          onBlur={this.hindonBlur.bind(this)}
+                          className={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')? 'tr payinputsmodel payinputsmodels':'tr payinputsmodel'}
+                          disabled={(this.props.amountlist[0].type=='1' || this.props.amountlist[0].type=='2' || this.props.amountlist[0].type=='3')?true:false}
+                          onChange={this.hindonChange.bind(this)}
+                          addonAfter={(this.props.amountlist[0].type=='1' && openWechat=='1') ||(this.props.amountlist[0].type=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.onhindClicks.bind(this)}/>:null}/>
+                      </div>
+                  }
+                  <div>
+                    <Input  autoComplete="off" addonBefore={<Btnbrforepay title='找零' dis={true}/>}  value={this.state.backmoney}  disabled className='tr payinputsmodel'/>
+                  </div>
+                  <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
+                  {
+                    this.props.amountlist.length==1?
+                    <div className='payends'><Button className='paylhs' onClick={this.hindpayclick.bind(this)}>结算<p className='iconk'>「空格键」</p></Button></div>
+                    :
+                    null
+                  }
+                  {
+                    this.props.amountlist.length==1?
+                    <div className='check_print'><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>
+                    :
+                    null
+                  }
+              </div>
+              <div className='fr fix-800-fr' style={{width:'274px'}}>
+                <div>
+                  <ul className='clearfix' style={{paddingLeft:'0',marginBottom:'0'}}>
+                    {
+                      this.props.paytypelisy.map((item,index)=>{
+                        return(
+                          <li
+                            className='fl'
+                            onClick={this.listclick.bind(this,index)}
+                            key={index}
+                            className={item.disabled?'listdis':(item.check?'listoff':'list')}>
+                              <Button  disabled={item.disabled}>{item.name}</Button>
+                          </li>
+                        )
+                      })
+                    }
+                  </ul>
+                </div>
+                <div >
+                  <ul className='btnbg'>
+                    <li
+                      className='fl'
+                      onClick={this.connectclick.bind(this)}
+                      className={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?(this.props.amountlist.length>1?'listtdiszu':'listtdis'):(this.props.group?(this.props.amountlist.length>1?'listtoffzu':'listtoff'):(this.props.amountlist.length>1?'listtzu':'listt'))}>
+                      <Button disabled={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button>
+                    </li>
+                    <li
+                      className='fl'
+                      onClick={this.nozeroclick.bind(this)}
+                      className={this.props.amountlist.length>1?(this.props.cutAmount=='0'?'listtzu':'listtoffzu'):(this.props.cutAmount=='0'?'listt':'listtoff')}>
+                      <Button>抹零</Button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {
+                this.props.amountlist.length>1?
+                <div className='payends'>
+                  <Button className={this.props.amountlist.length>1?'paylhszu':'paylhs'} onClick={this.hindpayclick.bind(this)}>
+                    结算<p className='iconk'>「空格键」</p>
+                  </Button>
+                </div>
+                :
+                null
+              }
+              {
+                this.props.amountlist.length>1?
+                <div className='check_print'>
+                  <Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox>
+                </div>
+                :
+                null
+              }
+      	    </div>
+        </Modal>
     );
   }
-  componentDidMount(){
-    const meth1={
-        initModel:this.initModel,
-        hindpayclick:this.hindpayclick,
-        handleOk:this.handleOk,
-
-    }
-    this.props.dispatch({
-        type:'cashier/meth1',
-        payload:meth1
-    })
-  }
-
 }
-
-
-
 Pay.contextTypes= {
     router: React.PropTypes.object
 }
 
 function mapStateToProps(state) {
-    const {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point,cutAmount}=state.cashier
-    console.log(amountlist)
-    return {payvisible,totolamount,ismember,mbCardId,paytotolamount,datasouce,totolnumber,thispoint,checkPrint,amountlist,paytypelisy,group,amount,point,cutAmount};
+    const {
+            payvisible,
+            totolamount,
+            ismember,
+            mbCardId,
+            paytotolamount,
+            datasouce,
+            totolnumber,
+            thispoint,
+            checkPrint,
+            amountlist,
+            paytypelisy,
+            group,
+            amount,
+            point,
+            cutAmount
+          }=state.cashier
+    return {
+            payvisible,
+            totolamount,
+            ismember,
+            mbCardId,
+            paytotolamount,
+            datasouce,
+            totolnumber,
+            thispoint,
+            checkPrint,
+            amountlist,
+            paytypelisy,
+            group,
+            amount,
+            point,
+            cutAmount
+          };
 }
 export default connect(mapStateToProps)(Pay);
-
-
