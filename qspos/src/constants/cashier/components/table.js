@@ -76,7 +76,6 @@ class EditableTable extends React.Component {
 		}];
 		this._isMounted = false;
 		this.state = {
-			// dataSource: [],
 			count: 1,
 			index:0,
 			quantity:0,//数量

@@ -5,44 +5,57 @@ import {GetServerData} from '../../../services/services';
 import {GetLodop} from '../../../components/Method/Print.jsx'
 import { connect } from 'dva';
 import Modales from './model'
-import Operationls from './uesleft'
-import Operationr from './userright'
+import OperationlLeft from './uesleft'
 
 
 class Operation extends React.Component {
-	clearingdatas=(messages,totalamount)=>{
-		const clearingdatas=this.refs.operationr.clearingdata
-		clearingdatas(messages,totalamount)
+	hindclick=()=>{
+    if(Number(this.props.totolnumber)>0 && parseFloat(this.props.totolamount)>0){
+	    GetServerData('qerp.pos.sy.config.info')
+	    .then((json) => {
+		    if(json.code == "0"){
+		        if(json.config.submitPrint=='1'){
+	            this.props.dispatch({
+	              type:'cashier/changeCheckPrint',
+	              payload:true
+	            })
+		        }else{
+	            this.props.dispatch({
+	              type:'cashier/changeCheckPrint',
+	              payload:false
+	            })
+		        }
+		    }
+	    })
+      this.props.meth1.initModel()
+    }else{
+      message.error('数量为0，不能结算')
+      return
+    }
 	}
-	clearingdatasl=(integertotalamount)=>{
-		const clearingdatas=this.refs.cashier.clearingdata
-		clearingdatas(integertotalamount)
-	}
-  initdatar=()=>{
-      const initdatar=this.refs.cashier.initdatar
-      initdatar()
-  }
-
 	render() {
+
 		return(
 			<div className='count clearfix'>
 				<div className='opera'>
   				<div className='operationl fl'>
-				     <Operationls
-                tabledataset={this.props.tabledataset}
-                cashrevisetabledatasouce={this.props.cashrevisetabledatasouce}
-                ref='cashier'
-                Backmemberinfo={this.props.Backmemberinfo}
-                revisedata={this.props.revisedata}
-                initthisinfo={this.props.initthisinfo}/>
+				     <OperationlLeft getBarCodeRefs={this.props.getBarCodeRefs}/>
   				</div>
   				<div className='operationr fr'>
-              <Operationr
-								color={this.props.color}
-								type={this.props.type}
-								ref='operationr'
-								Backemoney={this.props.Backemoney}
-								revisedata={this.props.revisedata}/>
+						<div className={this.props.color?'operationcon':'operationconbg'}>
+			        <div className='fl list1' onClick={this.hindclick.bind(this)}>
+			          <div className='con1'>结算</div>
+			          <div className='con2'>「空格键」</div>
+			        </div>
+			        <div className='fl list2'>
+			          <div className='con1'>数量</div>
+			          <div className='con2'>{this.props.totolnumber}</div>
+			        </div>
+			        <div className='fl list3'>
+			          <div className='con1'>金额</div>
+			          <div className='con2'>{this.props.totolamount}</div>
+			        </div>
+			      </div>
           </div>
   			</div>
   		</div>
@@ -50,8 +63,9 @@ class Operation extends React.Component {
 	}
 
 }
+function mapStateToProps(state) {
+	const { totolnumber, totolamount, meth1 } = state.cashier;
+	return { totolnumber, totolamount, meth1 };
+}
 
-
-
-
-export default connect()(Operation);
+export default connect(mapStateToProps)(Operation);

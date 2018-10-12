@@ -1,11 +1,11 @@
 
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,message,Modal} from 'antd';
-import Operation from './components/Operationcaster.jsx';
+import Operationcaster from './components/Operationcaster.jsx';
 import Header from '../../components/header/Header';
-import Btncashier from './components/btns';
+import Btncashier from './components/Btncashier';
 import EditableTable from './components/table';
-import Pay from './components/pay';
+import PayModal from './components/PayModal';
 import {GetServerData} from '../../services/services';
 import NP from 'number-precision'
 import { dataedit } from '../../utils/commonFc';
@@ -33,74 +33,110 @@ class Cashierindex extends React.Component {
           this.props.meths.focustap()
       }
     }
-    handleokent=(e)=>{
-      if(e.keyCode=='32'){
-        this.props.meths.focustap()
-        const visible=this.props.payvisible
-        if(visible){
-            //结算按钮
-            this.props.meth1.hindpayclick()
-        }else{
-            //出弹窗
-            if(Number(this.props.totolnumber)>0 && parseFloat(this.props.totolamount)>0){
-                //判断系统默认选择是否打印
-                const result=GetServerData('qerp.pos.sy.config.info')
-                result.then((res) => {
-                   return res;
-                 }).then((json) => {
-                    if(json.code == "0"){
-                        if(json.config.submitPrint=='1'){
-                            const checkPrint=true
-                            this.props.dispatch({
-                                type:'cashier/changeCheckPrint',
-                                payload:checkPrint
-                            })
-                        }else{
-                            const checkPrint=false
-                            this.props.dispatch({
-                                type:'cashier/changeCheckPrint',
-                                payload:checkPrint
-                            })
-                        }
-                    }
-                })
-                this.props.meth1.initModel()
-            }else{
-                message.error('数量为0，不能结算')
-                return
-            }
-        }
-      }
-      // tap
-      if(e.keyCode==9 && this.props.onBlur==false){
-          this.props.meths.focustap()
-      }
-      if(e.keyCode==113){
-          this.takeout()
-      }
+    handleokents=(e)=>{
       if(e.keyCode==114){
-          this.takein()
-      }
-      if(e.keyCode==115){
-          this.rowonDelete()
-      }
-      //上箭头
-      if(e.keyCode==38){
-          const themeindex=Number(this.props.themeindex)=='0'?Number(this.props.datasouce.length)-1:Number(this.props.themeindex)-1
-          this.props.dispatch({
-              type:'cashier/themeindex',
-              payload:themeindex
-          })
-      }
-      //下箭头
-      if(e.keyCode==40){
-          const themeindex=Number(this.props.themeindex)==Number(this.props.datasouce.length)-1?0:Number(this.props.themeindex)+1
-          this.props.dispatch({
-              type:'cashier/themeindex',
-              payload:themeindex
-          })
+         e.preventDefault()
       }
     }
+    //键盘code事件
+    handleokent=(e)=>{
+      let code = e.keyCode;
+      switch(code) {
+        case 32:
+          this.clearingEvent();
+          break;
+        case 9:
+          if(!this.props.onBlur) {
+            this.props.meths.focustap()
+          }
+          break;
+        case 113:
+          this.takeout();
+          break;
+        case 114:
+          this.takein();
+          break;
+        case 115:
+          this.rowonDelete();
+          break;
+        case 38:
+          this.upArrowEvent();
+          break;
+        case 40:
+          this.downArrowEvent();
+          break;
+      }
+    }
+    //上箭头事件
+    upArrowEvent() {
+      let { themeindex, datasouce } = this.props;
+      themeindex = Number(themeindex);
+      if(themeindex) {
+        themeindex--;
+      } else {
+        themeindex = Number(datasouce.length)-1;
+      }
+      // const themeindex=Number(themeindex)=='0'?Number(datasouce.length)-1:Number(themeindex)-1
+      this.props.dispatch({
+          type:'cashier/themeindex',
+          payload:themeindex
+      });
+    }
+    //下箭头事件
+    downArrowEvent() {
+      let { themeindex, datasouce } = this.props;
+      themeindex = Number(themeindex);
+      if( themeindex == (datasouce.length-1)) {
+        themeindex = 0;
+      } else {
+        themeindex++;
+      }
+      // const themeindex=Number(this.props.themeindex)==Number(this.props.datasouce.length)-1?0:Number(this.props.themeindex)+1
+      this.props.dispatch({
+          type:'cashier/themeindex',
+          payload:themeindex
+      });
+    }
+    //结算事件
+    clearingEvent() {
+      this.props.meths.focustap();
+      const visible=this.props.payvisible;
+      if(visible){//结算按钮
+        this.props.meth1.hindpayclick()
+      }else{
+        this.showModalEvent()
+      }
+    }
+    //显示结算弹框//出弹窗
+    showModalEvent() {
+      const { totolnumber, totolamount } = this.props;
+      //判断系统默认选择是否打印
+      if(Number(totolnumber)>0 && parseFloat(totolamount)>0){
+          GetServerData('qerp.pos.sy.config.info')
+          .then((json) => {
+              if(json.code == "0"){
+                  if(json.config.submitPrint=='1'){
+                      const checkPrint=true
+                      this.props.dispatch({
+                          type:'cashier/changeCheckPrint',
+                          payload:checkPrint
+                      })
+                  }else{
+                      const checkPrint=false
+                      this.props.dispatch({
+                          type:'cashier/changeCheckPrint',
+                          payload:checkPrint
+                      })
+                  }
+              }
+          })
+          this.props.meth1.initModel()
+      }else{
+          message.error('数量为0，不能结算')
+          return
+      }
+    }
+    //移除商品
     rowonDelete=()=>{
       const themeindex=this.props.themeindex
       const datasouce=this.props.datasouce.splice(0)
@@ -110,14 +146,14 @@ class Cashierindex extends React.Component {
           payload:datasouce
       })
     }
+    //挂单
     takeout=()=>{
-      //挂单
       const datasouce=this.props.datasouce
       sessionStorage.setItem('olddatasouce',JSON.stringify(datasouce));
       this.initdata()
     }
+    //取单
     takein=()=>{
-      //取单
       if(sessionStorage.olddatasouce){
         let datasouce=eval('('+sessionStorage.olddatasouce+')')
         this.props.dispatch({
@@ -126,20 +162,22 @@ class Cashierindex extends React.Component {
         })
       }
     }
+    //整单折扣值价格重置
     takezhe=(value)=>{
-      //对得到的数据进行判断
       var dis=value
       let role=sessionStorage.getItem('role');
-      if(role=='2'||role=='1'){
-        if(dis<8){
-          dis=8
+      if(dis<8) {
+        switch(role) {
+          case '1':
+          case '2':
+            dis = 8;
+            break;
+          case '3':
+          dis = 9;
+          break;
         }
       }
-      if(role=='3'){
-        if(dis<8){
-          dis=9
-        }
-      }
+
      const datasouce=this.props.datasouce.splice(0)
      for(var i=0;i<datasouce.length;i++){
         datasouce[i].discount=dis
@@ -157,18 +195,14 @@ class Cashierindex extends React.Component {
       })
     }
     //初始化清空数据
-    initdata=()=>{
+    resetData=()=>{
       this.props.dispatch({
         type:'cashier/initstate',
         payload:{}
       })
       this.props.meths.focustap()
     }
-    handleokents=(e)=>{
-      if(e.keyCode==114){
-         e.preventDefault()
-      }
-    }
+
     render() {
       return(
         <div>
@@ -177,24 +211,20 @@ class Cashierindex extends React.Component {
             <EditableTable/>
           </div>
           <div className='mt30 footer'>
-            <div>
-              <Btncashier
-                rowonDelete={this.rowonDelete.bind(this)}
-                takein={this.takein.bind(this)}
-                takeout={this.takeout.bind(this)}
-                takezhe={this.takezhe.bind(this)}/>
-            </div>
+            <Btncashier
+              rowonDelete={this.rowonDelete.bind(this)}
+              takein={this.takein.bind(this)}
+              takeout={this.takeout.bind(this)}
+              takezhe={this.takezhe.bind(this)}/>
             <div className='mt20'>
-              <Operation
+              <Operationcaster
                 color={true}
                 type={false}
                 index={true}
                 userplace='1'/>
             </div>
           </div>
-          <div>
-            <Pay ref='pay' initdata={this.initdata.bind(this)}/>
-          </div>
+          <PayModal ref='pay' initdata={this.resetData.bind(this)}/>
         </div>
       )
     }

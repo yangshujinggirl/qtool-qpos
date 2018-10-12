@@ -7,12 +7,11 @@ import {printSaleOrder} from '../../../components/Method/Method'
 import {dataedit} from '../../../utils/commonFc';
 import NP from 'number-precision'
 import Btnpay from './btnpay'
-import Scanbtn from '../../../components/Button/scanbtn'
-// import {getSaleOrderInfo} from '../../../components/Method/Print';
+import Scanbtn from '../../../components/Button/scanbtn';
 import Btnbrforepay from './btnbeforepay'
 //引入打印
 
-class Pay extends React.Component {
+class PayModal extends React.Component {
     constructor(props) {
       super(props);
       this.firstclick=true;
@@ -1209,7 +1208,7 @@ class Pay extends React.Component {
     );
   }
 }
-Pay.contextTypes= {
+PayModal.contextTypes= {
     router: React.PropTypes.object
 }
 
@@ -1249,4 +1248,4 @@ function mapStateToProps(state) {
             cutAmount
           };
 }
-export default connect(mapStateToProps)(Pay);
+export default connect(mapStateToProps)(PayModal);
