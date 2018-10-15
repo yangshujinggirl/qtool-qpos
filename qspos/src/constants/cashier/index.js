@@ -11,7 +11,12 @@ import NP from 'number-precision'
 import { dataedit } from '../../utils/commonFc';
 
 class Cashierindex extends React.Component {
-    state = {checkPrint:false};
+    constructor(props) {
+      super(props);
+      this.state = {
+        checkPrint:false
+      };
+    }
     componentDidMount(){
       this.props.dispatch({
           type:'dataManage/initKey',
@@ -76,7 +81,6 @@ class Cashierindex extends React.Component {
       } else {
         themeindex = Number(datasouce.length)-1;
       }
-      // const themeindex=Number(themeindex)=='0'?Number(datasouce.length)-1:Number(themeindex)-1
       this.props.dispatch({
           type:'cashier/themeindex',
           payload:themeindex
@@ -91,7 +95,6 @@ class Cashierindex extends React.Component {
       } else {
         themeindex++;
       }
-      // const themeindex=Number(this.props.themeindex)==Number(this.props.datasouce.length)-1?0:Number(this.props.themeindex)+1
       this.props.dispatch({
           type:'cashier/themeindex',
           payload:themeindex
@@ -170,14 +173,13 @@ class Cashierindex extends React.Component {
         switch(role) {
           case '1':
           case '2':
-            dis = 8;
-            break;
-          case '3':
+          dis = 8;
+          break;
+        case '3':
           dis = 9;
           break;
         }
       }
-
      const datasouce=this.props.datasouce.splice(0)
      for(var i=0;i<datasouce.length;i++){
         datasouce[i].discount=dis

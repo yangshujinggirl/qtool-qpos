@@ -19,12 +19,11 @@ class Operationls extends React.Component {
 	}
 	componentDidMount(){
 		this.focustap()
-		const meths={
-			focustap:this.focustap
-		}
 		this.props.dispatch({
 			type:'cashier/meths',
-			payload:meths
+			payload:{
+				focustap:this.focustap
+			}
 		})
 	}
 	//阻止默认事件

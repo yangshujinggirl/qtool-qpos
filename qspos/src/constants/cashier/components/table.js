@@ -104,6 +104,7 @@ class EditableTable extends React.Component {
 		this._isMounted = false;
 		window.removeEventListener('resize', this.windowResize);
 	}
+	//change事件
 	qtyonchange=(index,e)=>{
 		const values=e.target.value
 		const datasouce=this.props.datasouce.splice(0)
@@ -114,12 +115,12 @@ class EditableTable extends React.Component {
 		}else{
 			message.warning('数量只能输入数字')
 		}
-
 		this.props.dispatch({
 			type:'cashier/changedatasouce',
 			payload:datasouce
 		})
 	}
+	//失去焦点事件
 	qtyblur=(index,e)=>{
 		const values=e.target.value
 		const re=/^([1-9][0-9]*)$/
@@ -148,8 +149,8 @@ class EditableTable extends React.Component {
 			type:'cashier/datasouce',
 			payload:datasouce
 		})
-
 	}
+	//折扣change事件
 	discountonchange=(index,e)=>{
 		const values=e.target.value
 		const re=/^([0-9]*)+((\.)|.[0-9]{1,1})?$/
@@ -163,6 +164,7 @@ class EditableTable extends React.Component {
 			})
 		}
 	}
+	//折扣失焦事件
 	discountblur=(index,e)=>{
 		var values=parseFloat(e.target.value)
 		const datasouce=this.props.datasouce.splice(0)
@@ -174,7 +176,6 @@ class EditableTable extends React.Component {
 		if((role=='3') && values<9){
 			datasouce[index].discount=9
 		}
-
 		var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
 		const editpayPrice =dataedit(zeropayPrice)
 		if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
@@ -187,8 +188,7 @@ class EditableTable extends React.Component {
 			payload:datasouce
 		})
 	}
-
-
+	//折后价change事件
 	payPriceonchange=(index,e)=>{
 		const values=e.target.value
 		const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
@@ -202,16 +202,14 @@ class EditableTable extends React.Component {
 			})
 		}
 	}
+	//折扣价失焦事件
 	payPriceblur=(index,e)=>{
 		var values=parseFloat(e.target.value)
 		const datasouce=this.props.datasouce.splice(0)
 		let role=sessionStorage.getItem('role');
-
-
 		values =dataedit(String(values))
 		datasouce[index].payPrice=values
 		datasouce[index].discount=NP.times(NP.divide(datasouce[index].payPrice,datasouce[index].toCPrice,datasouce[index].qty),10)
-
 		if((role=='2'||role=='1') && datasouce[index].discount<8){
 			datasouce[index].discount=8
 			var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
@@ -233,19 +231,15 @@ class EditableTable extends React.Component {
 				datasouce[index].payPrice=editpayPrice
 			}
 		}
-
 		//判断折扣是否有小数点
 		if(String(datasouce[index].discount).indexOf(".")>-1){
 			datasouce[index].discount=NP.round(datasouce[index].discount,1)
 		}
-
 		this.props.dispatch({
 			type:'cashier/datasouce',
 			payload:datasouce
 		})
-
 	}
-
 	rowClassName=(record, index)=>{
 		if(index==this.props.themeindex){
 			return 'themebgcolor'
@@ -285,9 +279,7 @@ class EditableTable extends React.Component {
 			}
 		}
 	}
-
 	render() {
-		// const { dataSource } = this.state;
 		const columns = this.columns;
 		return (
 			<div className='bgf' ref="tableWrapper">
@@ -297,12 +289,10 @@ class EditableTable extends React.Component {
 					pagination={false}
 					scroll={{ y: this.state.windowHeight }}
 					onRowClick={this.rowclick.bind(this)}
-					rowClassName={this.rowClassName.bind(this)}
-				/>
+					rowClassName={this.rowClassName.bind(this)}/>
 			</div>
 		);
 	}
-
 }
 
 function mapStateToProps(state) {
