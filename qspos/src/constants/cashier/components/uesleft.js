@@ -129,6 +129,9 @@ class Operationls extends React.Component {
 			payload:{code:'qerp.pos.mb.card.find',values:values}
 		})
 	}
+	toggleEvent() {
+		
+	}
 	render(){
 		return(
 			<div>
@@ -163,11 +166,11 @@ class Operationls extends React.Component {
     			<div className='fl cashierbox'>
     				<div className='clearfix cashierbox_t posion'>
               <div className='fl'>
-								<span className='c74'>会员姓名</span>
-								<span className='c38 ml10'>{this.props.name}</span>
+								<span className='c74'>{this.props.name}</span>
+								<span className='c38 ml10'>{this.props.levelStr}</span>
 							</div>
               <div className='fr'>
-								<span className='themecolor level-margin-style'>{this.props.levelStr}</span>
+								<span className='themecolor level-margin-style' onClick={this.toggleEvent.bind(this)}>切换其他会员</span>
 								<span>{this.props.isBirthMonth=='true'?<span className='birthline'>
 								<span className='line'></span>生日</span>:null}</span>
 							</div>

@@ -14,17 +14,84 @@ import './PayModal.less';
 //引入打印
 
 class ValidataModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      phone:'',
+      phoneCode:'',
+      btnText:'获取验证码',
+      count:60,
+      isSend:true,
+      loading:false,
+    }
+  }
+  //倒计时
+  handleClick() {
+    let timer = setInterval(() => {
+      let count = this.data.count;
+      count-=1;
+      if(count<1) {
+        clearInterval(timer);
+        this.setState({
+          isSend:true,
+          count:60,
+          btnText:'重新获取'
+        });
+      } else {
+        this.setState({
+          isSend:false,
+          count,
+          btnText:`${count}秒后重发`
+        })
+      }
+    },1000)
+  }
+  //获取code
+  getPhoneCode() {
+    this.setState({ loading: true })
+    GetServerData('qerp.web.qpos.od.pay.code',{phoneNo:this.state.phone})
+    .then((res) => {
+      if(res.code == '200') {
+        this.handleClick()
+      }
+      this.setState({ loading: false })
+    })
+  }
   onChange(e) {
     const target = e.nativeEvent.target;
     const type = target.getAttribute('data-type');
     const value = target.value;
+    let disabled;
     if(type == 'phone') {
       this.props.changePhone(value);
+      this.setState({
+        phone:value,
+        isSend:!value,
+        disabled:this.state.phoneCode!=''&&value
+      })
     } else {
       this.props.changePhoneCode(value);
+      this.setState({
+        phoneCode:value,
+        disabled:this.state.phone&&value
+      })
     }
   }
+  //提交
+  onOk() {
+    //校验验证码是否有效
+    GetServerData('qerp.web.qpos.od.pay.codevalid',{
+      phoneNo:this.state.phone,
+      messagecode:this.state.phoneCode
+    })
+    .then((res) => {
+      if(res.code == '200') {
+        this.props.onSubmit()
+      }
+    })
+  }
   render() {
+    const { phone, btnText, disabled, isSend, loading } = this.state;
     return(
       <Modal
         title="会员使用会员卡/积分支付需进行手机验证"
@@ -39,20 +106,29 @@ class ValidataModal extends React.Component {
               <Input
                 data-type="phone"
                 type="number"
-                onChange={this.onChange}
+                onChange={this.onChange.bind(this)}
                 placeholder="请输入手机号"/>
-                <span className="get-code-btn">获取验证码</span>
+                <Button
+                  loading={loading}
+                  disabled={isSend}
+                  className="get-code-btn"
+                  onClick={this.getPhoneCode.bind(this)}>{btnText}</Button>
             </div>
             <div className="row">
               <Input
                 data-type="code"
                 type="number"
-                onChange={this.onChange}
+                onChange={this.onChange.bind(this)}
                 placeholder="请输入4位数字验证码"/>
             </div>
             <div className="row btn-list">
               <Button className="cancel-btn" onClick={this.props.onCancel}>取消</Button>
-              <Button type="primary" className="sure-btn" onClick={this.props.onOk}>提交</Button>
+              <Button
+                loading={this.props.loading}
+                disabled={!disabled}
+                type="primary"
+                className="sure-btn"
+                onClick={this.onOk.bind(this)}>提交</Button>
             </div>
           </div>
       </Modal>
@@ -70,7 +146,9 @@ class PayModal extends React.Component {
           waringfirst:false,
           visible: false,
           backmoney:'0.00',
-          validateVisible:true
+          validateVisible:false,
+          validatePhoneCode:'',
+          loading:false
       }
     }
     componentDidMount(){
@@ -583,19 +661,25 @@ class PayModal extends React.Component {
     }
     //处理结算逻辑
     hindpayclick=()=>{
+      let isValidateArr = [];
       if(!this.firstclick){ return }
       const { amountlist } =this.props;//支付方式
       amountlist.map((el,index) => {
         if(el.type == '5' || el.type == '6') {
-          this.setState({ validateVisible:true });
-          this.props.dispatch({
-            type:'cashier/payvisible',
-            payload:false
-          })
-        } else {
-          this.goPay()
+          isValidateArr.push(el)
         }
+        return el;
       })
+      //会员，积分弹框，其他直接结算
+      if(isValidateArr.length>0) {
+        this.setState({ validateVisible:true });
+        this.props.dispatch({
+          type:'cashier/payvisible',
+          payload:false
+        })
+      } else {
+        this.goPay()
+      }
     }
     //去结算
     goPay() {
@@ -652,7 +736,6 @@ class PayModal extends React.Component {
               orderDetails:datasouce,
               orderPay:orderPay
           };
-
       this.payApi(values);
     }
     //调用结算接口
@@ -1136,7 +1219,6 @@ class PayModal extends React.Component {
       })
     }
     changePhone(value) {
-      console.log(value)
       this.setState({
         validatePhone:value
       })
@@ -1284,9 +1366,10 @@ class PayModal extends React.Component {
         	    </div>
           </Modal>
           <ValidataModal
+            loading={this.state.loading}
             changePhoneCode={this.changePhoneCode.bind(this)}
             changePhone={this.changePhone.bind(this)}
-            onOk={this.goPay.bind(this)}
+            onSubmit={this.goPay.bind(this)}
             onCancel={this.onCancel.bind(this)}
             visible={this.state.validateVisible}/>
         </div>
