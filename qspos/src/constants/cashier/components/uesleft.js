@@ -41,7 +41,7 @@ class Operationls extends React.Component {
 			onBlur:true,
 			cardNoMobile:'',
 			name:'',
-			levelStr:'',
+			// levelStr:'',
 			integertotalamount:null,
 			checked:false,
 			cardNo:'',
@@ -86,13 +86,13 @@ class Operationls extends React.Component {
 	//会员卡号onchange
 	cardNoMobilechange=(e)=>{
 		var cardNoMobile=e.target.value.replace(/\s+/g,"");
-		const name=null
-		const levelStr=null
-		const memberpoint=null
-		const memberamount=null
-		const cardNo=null
-		const mbCardId=null
-		const isBirthMonth=null
+		// const name=null
+		// const levelStr=null
+		// const memberpoint=null
+		// const memberamount=null
+		// const cardNo=null
+		// const mbCardId=null
+		// const isBirthMonth=null
 		const ismember=false
 		this.props.dispatch({
 			type:'cashier/cardNoMobile',
@@ -100,7 +100,7 @@ class Operationls extends React.Component {
 		})
 		this.props.dispatch({
 			type:'cashier/memberlist',
-			payload:{name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember}
+			payload:{ismember,memberinfo:{isLocalShop:true}}
 		})
 	}
 	//条码框键盘事件
@@ -169,7 +169,7 @@ class Operationls extends React.Component {
 		let values={cardNoMobile:this.props.cardNoMobile}
 		this.props.dispatch({
 			type:'cashier/memberinfo',
-			payload:{code:'qerp.pos.mb.card.find',values:values}
+			payload:values
 		})
 	}
 	//切换会员
@@ -201,8 +201,9 @@ class Operationls extends React.Component {
 	}
 	//充值
 	showModal = () => {
+		const { memberinfo } =this.props;
 		//判断有没有填写会员信息
-		if(this.props.mbCardId==null || undefined || ''){
+		if(memberinfo.mbCardId==null || undefined || ''){
 				message.warning('请输入正确的会员卡号')
 		}else{
 				const uservalues={"urUserId":null}
@@ -244,7 +245,12 @@ class Operationls extends React.Component {
 		}else{
 				return
 		}
-		let values={mbCardId:this.props.mbCardId,amount:this.props.reamount,type:this.props.rechargetype}
+		const { memberinfo } = this.props;
+		let values={
+			mbCardId:memberinfo.mbCardId,
+			amount:this.props.reamount,
+			type:this.props.rechargetype
+		}
 		GetServerData('qerp.pos.mb.card.charge',values)
 		.then((json) => {
 				if(json.code=='0'){
@@ -355,11 +361,16 @@ class Operationls extends React.Component {
 		}
 	}
 	payhindClick=()=>{
-		if(!this.props.reamount || Number(this.props.reamount)<=0){
+		const { memberinfo, reamount, rechargetype } = this.props;
+		if(!reamount || Number(reamount)<=0){
 				message.warning('金额有误')
 				return
 		}
-		let values={mbCardId:this.props.mbCardId,amount:this.props.reamount,type:this.props.rechargetype}
+		let values={
+			mbCardId:memberinfo.mbCardId,
+			amount:reamount,
+			type:rechargetype
+		}
 		if(values.type=='1'){
 				values.type='7'
 		}
@@ -400,7 +411,39 @@ class Operationls extends React.Component {
 					payload:recheckPrint
 			})
 	}
+	addonBeforeLabel() {
+		let {rechargetype} = this.props;
+		let title;
+		switch(rechargetype) {
+			case '1':
+				title = '微信';
+				break;
+			case '2':
+				title = '支付宝';
+				break;
+			case '3':
+				title = '银联';
+				break;
+			case '4':
+				title = '现金';
+				break;
+			default:
+				title = null;
+		}
+		return <Btnbrfore title={title}/>
+	}
+	addonAfterLabel() {
+		let { rechargetype } = this.props;
+		const openWechat=sessionStorage.getItem("openWechat")
+		const openAlipay=sessionStorage.getItem("openAlipay");
+		if((rechargetype=='1' && openWechat=='1')||(rechargetype=='2' && openAlipay=='1')) {
+			return <Btnpay hindClicks={this.payhindClick.bind(this)}/>
+		} else {
+			return null;
+		}
+	}
 	render(){
+		const { memberinfo } =this.props;
 		const { dataSource } =this.state;
     const openWechat=sessionStorage.getItem("openWechat")
     const openAlipay=sessionStorage.getItem("openAlipay")
@@ -437,34 +480,46 @@ class Operationls extends React.Component {
     			<div className='fl cashierbox'>
     				<div className='clearfix cashierbox_t posion'>
               <div className='fl'>
-								<span className='c74'>{this.props.name}</span>
-								<span className='level-str'>{this.props.levelStr}</span>
-								<span className='member-source'>{this.props.levelStr}</span>
+								<span className='c74 member-name'>{memberinfo.name}</span>
+								{memberinfo.levelStr&&<span className='level-str'>{memberinfo.levelStr}</span>}
+								{
+									!memberinfo.isLocalShop&&<span className='member-source'>异店</span>
+								}
 							</div>
               <div className='fr'>
-								<span className='themecolor level-margin-style' onClick={this.toggleEvent.bind(this)}>切换其他会员>></span>
-								<span>{this.props.isBirthMonth=='true'?<span className='birthline'>
-								<span className='line'></span>生日</span>:null}</span>
+								{
+									memberinfo.isMoreShop =='true'&&<span
+										className='themecolor level-margin-style'
+										onClick={this.toggleEvent.bind(this)}>切换其他会员>></span>
+								}
+								<span>
+									{
+										memberinfo.isBirthMonth=='true'?<span className='birthline'>
+										<span className='line'></span>生日</span>
+										:
+										null
+									}
+							</span>
 							</div>
             </div>
     				<div className='clearfix posion cashierbox_b'>
   						<div className='fl tc mt10 memberinfobox1 memberinfoboxlist' >
-                <div className='c74 clearfix'>
-									<p className='fl'>余额</p>
+                <div className='c74'>
+									<span className='fl'>余额</span>
 									<span onClick={this.showModal} className='themecolor'>充值</span>
 								</div>
-                <p className='c38 p2'>{this.props.memberamount}</p>
+                <p className='c38 p2'>{memberinfo.amount}</p>
               </div>
               <div className='fr tc mt10 memberinfobox2 memberinfoboxlist'>
                 <p className='c74 p1'>本次积分</p>
-                <p className='c38 p2'>{this.props.mbCardId?this.props.thispoint:null}</p>
+                <p className='c38 p2'>{memberinfo.mbCardId?this.props.thispoint:null}</p>
               </div>
     					<div className='w tc mt10 memberinfobox3 memberinfoboxlist'>
               	<p className='c74'>剩余积分</p>
-              	<p className='c38 p2'>{this.props.memberpoint}</p>
+              	<p className='c38 p2'>{memberinfo.point}</p>
               </div>
-              <div className='lines lines1'></div>
-              <div className='lines lines2'></div>
+              {/* <div className='lines lines1'></div>
+              <div className='lines lines2'></div> */}
   					</div>
   				</div>
   			</div>
@@ -497,15 +552,15 @@ class Operationls extends React.Component {
               <div className='fl'>
                 <div className='rechargepays-list clearfix'>
                   <div className='fl listl'>会员姓名</div>
-                  <div className='fr listr'>{this.props.name}</div>
+                  <div className='fr listr'>{memberinfo.name}</div>
                 </div>
                 <div className='rechargepays-list'>
                   <div className='fl listl'>会员卡号</div>
-                  <div className='fr listr'>{this.props.cardNo}</div>
+                  <div className='fr listr'>{memberinfo.cardNo}</div>
                 </div>
                 <div className='rechargepays-list'>
                   <div className='fl listl'>账户余额</div>
-                  <div className='fr listr'>{this.props.amount}</div>
+                  <div className='fr listr'>{memberinfo.amount}</div>
                 </div>
               </div>
               <div className='fr'>
@@ -522,8 +577,8 @@ class Operationls extends React.Component {
                     onChange={this.reamount.bind(this)}
                     onBlur={this.reamountblue.bind(this)}
                     ref={(node)=>{this.input=node}}
-                    addonBefore={<Btnbrfore title={this.props.rechargetype=='1'?'微信':(this.props.rechargetype=='2'?'支付宝':(this.props.rechargetype=='3'?'银联':(this.props.rechargetype=='4'?'现金':null)))}/>}
-                    addonAfter={(this.props.rechargetype=='1' && openWechat=='1') ||(this.props.rechargetype=='2' && openAlipay=='1') ?<Btnpay hindClicks={this.payhindClick.bind(this)}/>:null}
+                    addonBefore={this.addonBeforeLabel()}
+                    addonAfter={this.addonAfterLabel()}
                     autoFocus/>
                 </div>
               </div>
@@ -548,13 +603,13 @@ Operationls.contextTypes= {
 
 function mapStateToProps(state) {
 	 const {
-					 name,
-					 levelStr,
-					 memberpoint,
-					 memberamount,
-					 cardNo,
-					 mbCardId,
-					 isBirthMonth,
+					//  name,
+					//  levelStr,
+					//  memberpoint,
+					//  memberamount,
+					//  cardNo,
+					//  mbCardId,
+					//  isBirthMonth,
 					 ismember,
 					 thispoint,
 					 barcode,
@@ -568,15 +623,17 @@ function mapStateToProps(state) {
 					 typeclick2,
 					 typeclick3,
 					 typeclick4,
-					 cardNoMobile} = state.cashier;
+					 cardNoMobile,
+					 memberinfo
+				 } = state.cashier;
 	return {
-						name,
-						levelStr,
-						memberpoint,
-						memberamount,
-						cardNo,
-						mbCardId,
-						isBirthMonth,
+						// name,
+						// levelStr,
+						// memberpoint,
+						// memberamount,
+						// cardNo,
+						// mbCardId,
+						// isBirthMonth,
 						ismember,
 						thispoint,
 						barcode,
@@ -591,6 +648,7 @@ function mapStateToProps(state) {
 						typeclick2,
 						typeclick3,
 						typeclick4,
+						memberinfo
 					};
 }
 

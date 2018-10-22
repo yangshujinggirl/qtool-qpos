@@ -21,25 +21,25 @@ class ValidataModal extends React.Component {
       phoneCode:'',
       btnText:'获取验证码',
       count:60,
-      isSend:true,
+      isSend:false,
       loading:false,
     }
   }
   //倒计时
   handleClick() {
     let timer = setInterval(() => {
-      let count = this.data.count;
+      let count = this.state.count;
+      this.setState({ isSend:true })
       count-=1;
       if(count<1) {
         clearInterval(timer);
         this.setState({
-          isSend:true,
+          isSend:false,
           count:60,
           btnText:'重新获取'
         });
       } else {
         this.setState({
-          isSend:false,
           count,
           btnText:`${count}秒后重发`
         })
@@ -51,7 +51,7 @@ class ValidataModal extends React.Component {
     this.setState({ loading: true })
     GetServerData('qerp.web.qpos.od.pay.code',{phoneNo:this.state.phone})
     .then((res) => {
-      if(res.code == '200') {
+      if(res.code == '0') {
         this.handleClick()
       }
       this.setState({ loading: false })
@@ -85,7 +85,7 @@ class ValidataModal extends React.Component {
       messagecode:this.state.phoneCode
     })
     .then((res) => {
-      if(res.code == '200') {
+      if(res.code == '0') {
         this.props.onSubmit()
       }
     })
@@ -166,7 +166,7 @@ class PayModal extends React.Component {
       const uservalues={"urUserId":null}
       GetServerData('qerp.pos.ur.user.info',uservalues)
       .then((json) => {
-        const { ismember, paytotolamount } =this.props;
+        const { ismember, paytotolamount, memberinfo } =this.props;
           if(json.code=='0'){
               sessionStorage.setItem('openWechat',json.urUser.shop.openWechat);
               sessionStorage.setItem('openAlipay',json.urUser.shop.openAlipay);
@@ -206,7 +206,7 @@ class PayModal extends React.Component {
                   payload:cutAmount
               })
               if(ismember){
-                  const values={mbCardId:this.props.mbCardId}
+                  const values={mbCardId:memberinfo.mbCardId}
                   GetServerData('qerp.pos.mb.card.info',values)
                   .then((json) => {
                       if(json.code=='0'){
@@ -663,26 +663,7 @@ class PayModal extends React.Component {
     hindpayclick=()=>{
       let isValidateArr = [];
       if(!this.firstclick){ return }
-      const { amountlist } =this.props;//支付方式
-      amountlist.map((el,index) => {
-        if(el.type == '5' || el.type == '6') {
-          isValidateArr.push(el)
-        }
-        return el;
-      })
-      //会员，积分弹框，其他直接结算
-      if(isValidateArr.length>0) {
-        this.setState({ validateVisible:true });
-        this.props.dispatch({
-          type:'cashier/payvisible',
-          payload:false
-        })
-      } else {
-        this.goPay()
-      }
-    }
-    //去结算
-    goPay() {
+      // this.goPay()
       let { backmoney } =this.state;
       let { paytotolamount, group, amountlist } =this.props;
       var totols=0;//支付金额
@@ -712,7 +693,7 @@ class PayModal extends React.Component {
       }
       const {
               ismember,
-              mbCardId,
+              memberinfo,
               totolamount,
               thispoint,
               totolnumber,
@@ -724,7 +705,7 @@ class PayModal extends React.Component {
           return;
       }
       let values={
-              mbCard:{ mbCardId:ismember?mbCardId:null },
+              mbCard:{ mbCardId:ismember?memberinfo.mbCardId:null },
               odOrder:{
                   amount:totolamount,
                   orderPoint:thispoint,
@@ -738,6 +719,63 @@ class PayModal extends React.Component {
           };
       this.payApi(values);
     }
+    //去结算
+    // goPay() {
+    //   let { backmoney } =this.state;
+    //   let { paytotolamount, group, amountlist } =this.props;
+    //   var totols=0;//支付金额
+    //   var orderPay=[];//支付方式
+    //   if(group){
+    //     if(amountlist.length>1){
+    //       totols=NP.plus(amountlist[0].value,amountlist[1].value);
+    //       amountlist.map((el,index) => {
+    //         if(el.value!='0.00'){
+    //             orderPay.push({
+    //                 amount:el.value,
+    //                 type:el.type,
+    //             })
+    //         }
+    //         return el;
+    //       })
+    //     }else{
+    //         message.error('金额有误，不能支付')
+    //         return
+    //     }
+    //   }else{
+    //       totols=amountlist[0].value
+    //       orderPay=[{
+    //           amount:amountlist[0].value,
+    //           type:amountlist[0].type
+    //       }]
+    //   }
+    //   const {
+    //           ismember,
+    //           memberinfo,
+    //           totolamount,
+    //           thispoint,
+    //           totolnumber,
+    //           datasouce,
+    //           cutAmount
+    //         } = this.props;
+    //   if(totols != paytotolamount && backmoney !='0.00'){
+    //       message.error('金额有误，不能支付')
+    //       return;
+    //   }
+    //   let values={
+    //           mbCard:{ mbCardId:ismember?memberinfo.mbCardId:null },
+    //           odOrder:{
+    //               amount:totolamount,
+    //               orderPoint:thispoint,
+    //               payAmount:paytotolamount,
+    //               qty:totolnumber,
+    //               skuQty:datasouce.length,
+    //               cutAmount:cutAmount,
+    //           },
+    //           orderDetails:datasouce,
+    //           orderPay:orderPay
+    //       };
+    //   this.payApi(values);
+    // }
     //调用结算接口
     payApi=(values)=>{
         this.firstclick=false
@@ -745,7 +783,7 @@ class PayModal extends React.Component {
             result.then((res) => {
                 return res;
             }).then((json) => {
-                if(json.code=='0'){
+              if(json.code=='0'){
                     this.firstclick=true;
                     const orderAll = json;
                     const odOrderIds=json.odOrderId
@@ -754,10 +792,19 @@ class PayModal extends React.Component {
                     this.handleOk()
                     message.success('收银成功',1)
                     printSaleOrder(checkPrint,odOrderIds)
-                }else{
+              }else{
+                //是否校验弹框
+                  if(json.code == 'I_1031') {
+                    this.setState({ validateVisible:true });
+                    this.props.dispatch({
+                      type:'cashier/payvisible',
+                      payload:false
+                    })
+                  } else {
                     message.error(json.message)
                     this.firstclick=true
-                }
+                  }
+              }
         })
     }
     //单独输入框失去焦点
@@ -1369,7 +1416,7 @@ class PayModal extends React.Component {
             loading={this.state.loading}
             changePhoneCode={this.changePhoneCode.bind(this)}
             changePhone={this.changePhone.bind(this)}
-            onSubmit={this.goPay.bind(this)}
+            onSubmit={this.hindpayclick.bind(this)}
             onCancel={this.onCancel.bind(this)}
             visible={this.state.validateVisible}/>
         </div>
@@ -1397,7 +1444,8 @@ function mapStateToProps(state) {
             group,
             amount,
             point,
-            cutAmount
+            cutAmount,
+            memberinfo
           }=state.cashier
     return {
             payvisible,
@@ -1414,7 +1462,8 @@ function mapStateToProps(state) {
             group,
             amount,
             point,
-            cutAmount
+            cutAmount,
+            memberinfo
           };
 }
 export default connect(mapStateToProps)(PayModal);

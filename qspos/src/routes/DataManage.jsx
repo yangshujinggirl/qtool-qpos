@@ -21,6 +21,8 @@ import ProfitReport from '../constants/dataManage/profitReport';
 import InoutReport from '../constants/dataManage/inoutReport';
 
 import OnroadGoodsForm from '../constants/dataManage/onroad'
+//积分报表
+import IntegralStatements from '../constants/dataManage/IntegralStatements'
 const TabPane = Tabs.TabPane;
 
 class DataManage extends React.Component {
@@ -48,48 +50,51 @@ class DataManage extends React.Component {
                 {
                     role != 3
                     ?
-                    <Tabs type="card" tabBarStyle={{height:'54px'}} 
+                    <Tabs type="card" tabBarStyle={{height:'54px'}}
                             defaultActiveKey={this.props.initKey=="4"?"4":"1"}
                             onTabClick={this.tabChange.bind(this)}>
                         <TabPane tab="每日对账单" key="1">
-                           {this.state.key == 1 && <DailyBill/>} 
+                           {this.state.key == 1 && <DailyBill/>}
                         </TabPane>
                         <TabPane tab="热销商品" key="2">
-                            {this.state.key == 2 && <HotSellGoods/>} 
+                            {this.state.key == 2 && <HotSellGoods/>}
                         </TabPane>
                         <TabPane tab="店员销售" key="3">
-                            {this.state.key == 3 && <ClerkSale/>} 
+                            {this.state.key == 3 && <ClerkSale/>}
                         </TabPane>
                         <TabPane tab="收货报表" key="4">
-                            {this.state.key == 4 && <ReceiptReport/>} 
+                            {this.state.key == 4 && <ReceiptReport/>}
                         </TabPane>
                         <TabPane tab="利润报表" key="5">
-                            {this.state.key == 5 && <ProfitReport/>} 
+                            {this.state.key == 5 && <ProfitReport/>}
                         </TabPane>
                         <TabPane tab="在途商品" key="11">
-                            {this.state.key == 11 && <OnroadGoodsForm/>} 
+                            {this.state.key == 11 && <OnroadGoodsForm/>}
                         </TabPane>
 
                         <TabPane tab="进销存报表" key="6">
-                            {this.state.key == 6 && <InoutReport/>} 
+                            {this.state.key == 6 && <InoutReport/>}
+                        </TabPane>
+                        <TabPane tab="积分报表" key="7">
+                            {this.state.key == 7 && <IntegralStatements/>}
                         </TabPane>
                     </Tabs>
                     :
-                    <Tabs type="card" tabBarStyle={{height:'54px'}} 
+                    <Tabs type="card" tabBarStyle={{height:'54px'}}
                             defaultActiveKey={this.props.initKey=="4"?"4":"1"}
                             onTabClick={this.tabChange.bind(this)}>
                         <TabPane tab="每日对账单" key="1">
-                           {this.state.key == 1 && <DailyBill/>} 
+                           {this.state.key == 1 && <DailyBill/>}
                         </TabPane>
                         <TabPane tab="热销商品" key="2">
-                            {this.state.key == 2 && <HotSellGoods/>} 
+                            {this.state.key == 2 && <HotSellGoods/>}
                         </TabPane>
                         <TabPane tab="店员销售" key="3">
-                            {this.state.key == 3 && <ClerkSale/>} 
+                            {this.state.key == 3 && <ClerkSale/>}
                         </TabPane>
                     </Tabs>
                 }
-                
+
                 </div>
             </div>
         );
