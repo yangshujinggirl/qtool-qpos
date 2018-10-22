@@ -503,23 +503,22 @@ class Operationls extends React.Component {
 							</div>
             </div>
     				<div className='clearfix posion cashierbox_b'>
-  						<div className='fl tc mt10 memberinfobox1 memberinfoboxlist' >
-                <div className='c74'>
-									<span className='fl'>余额</span>
-									<span onClick={this.showModal} className='themecolor'>充值</span>
+  						<div className='item-label' >
+                <div className='c74 top-action'>
+									<span>余额</span>
+									<span onClick={this.showModal} className='themecolor' style={{'cursor':'pointer'}}>充值</span>
+									<span className="lines"></span>
 								</div>
                 <p className='c38 p2'>{memberinfo.amount}</p>
               </div>
-              <div className='fr tc mt10 memberinfobox2 memberinfoboxlist'>
-                <p className='c74 p1'>本次积分</p>
+              <div className='item-label'>
+                <p className='c74 top-action'>本次积分<span className="lines"></span></p>
                 <p className='c38 p2'>{memberinfo.mbCardId?this.props.thispoint:null}</p>
               </div>
-    					<div className='w tc mt10 memberinfobox3 memberinfoboxlist'>
-              	<p className='c74'>剩余积分</p>
+    					<div className='item-label'>
+              	<div className='c74'>剩余积分</div>
               	<p className='c38 p2'>{memberinfo.point}</p>
               </div>
-              {/* <div className='lines lines1'></div>
-              <div className='lines lines2'></div> */}
   					</div>
   				</div>
   			</div>

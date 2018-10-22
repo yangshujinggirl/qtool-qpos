@@ -34,16 +34,20 @@ let widthFlag = true;
 import './Sell.less'
 //切换tag
 class Tags extends React.Component {
-    render() {
-        return (
-            <div className='h100'>
-                <Tabs type="card">
-		    	     <TabPane tab="销售订单" key="1"><Sellorder qposStSaleOrders={this.props.qposStSaleOrders} dispatch={this.props.dispatch} total={this.props.total}/></TabPane>
-		    	     {/* <TabPane tab="店员销售" key="2"><Sellclerk dispatch={this.props.dispatch}/></TabPane> */}
- 			    </Tabs>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className='h100'>
+      <Tabs type="card">
+        <TabPane tab="销售订单" key="1">
+          <Sellorder
+            qposStSaleOrders={this.props.qposStSaleOrders}
+            dispatch={this.props.dispatch} 
+            total={this.props.total}/>
+        </TabPane>
+      </Tabs>
+      </div>
+    )
+  }
 }
 //搜索组件
 class Searchcompon extends React.Component {
@@ -67,25 +71,16 @@ class Searchcompon extends React.Component {
             startTime:dateString[0],
             endTime:dateString[1]
         });
-        // function(){
-        //     this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
-        // }
     }
     handleChange=(value)=>{
         this.setState({
             selectvalue:value
         });
-        // ,function(){
-        //     this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
-        // }
     }
     handleChangeSource=(value)=>{
         this.setState({
             source:value
         });
-        // ,function(){
-        //     this.props.dispatch({ type: 'sell/fetch', payload: {code:'qerp.web.qpos.st.sale.order.query',values:{keywords:this.state.inpurvalue,type:this.state.selectvalue,startTime:this.state.startTime,endTime:this.state.endTime,limit:limitSize,currentPage:this.state.page} }})
-        // }
     }
     revisemessage=(messages)=>{
         this.setState({
@@ -109,8 +104,6 @@ class Searchcompon extends React.Component {
           }
         })
     }
-
-
     pagechange=()=>{
         let limitSize = this.props.pageSizeShow;
         this.props.dispatch({
@@ -136,7 +129,6 @@ class Searchcompon extends React.Component {
             this.pagechange()
         })
     }
-
     pagefresh = (currentPage,pagesize) =>{
         this.props.dispatch({
                 type:'sell/fetch',
@@ -154,9 +146,6 @@ class Searchcompon extends React.Component {
                 }
         })
     }
-
-
-
     render(){
         return(
             <div className='clearfix searchqery'>
@@ -195,7 +184,6 @@ class Searchcompon extends React.Component {
         )
     }
 }
-
 //tap tit
 function Slidetitle({item}) {
     return (
@@ -205,7 +193,6 @@ function Slidetitle({item}) {
         </div>
   );
 }
-
 //tap count C端销售
 class SlidecountCD extends React.Component {
 
@@ -306,7 +293,6 @@ class SlidecountCD extends React.Component {
 }
 //tap count 销售
 class Slidecountsell extends React.Component {
-
     rePrint = () =>{
         //判断是否打印
         const result=GetServerData('qerp.pos.sy.config.info');
@@ -314,16 +300,11 @@ class Slidecountsell extends React.Component {
            return res;
          }).then((json) => {
                 if(json.code == "0"){
-                //   if(json.config.submitPrint=='1'){
-                     //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
-                        // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,true)
                         getSaleOrderInfo(this.props.saleOrderAll,"80","1");
                      }else{
                         getSaleOrderInfo(this.props.saleOrderAll,"58","1");
-                        // GetLodop(this.props.orderId,'odOrder',this.props.odOrder.orderNo,false)
                      }
-                //   }
                 }else{
                     message.warning('打印失败')
                 }
@@ -403,7 +384,18 @@ class Slidecountsell extends React.Component {
                                         </li>
                                     :
                                         <li style={{borderBottom:'0'}}>
-                                            <div className="sellinfo-row"><div><span>会员姓名</span>：{this.props.mbCard1.name} </div><div><span>会员电话</span>：{this.props.mbCard1.mobile} </div><div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div></div>
+                                            <div className="sellinfo-row">
+                                              <div>
+                                                <span>会员姓名</span>：{this.props.mbCard1.name}
+                                                {this.props.mbCard1.isLocalShop=='异店'?
+                                                  <span>'异店'</span>
+                                                  :
+                                                  ''
+                                                }
+                                              </div>
+                                              <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
+                                              <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
+                                            </div>
                                             <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
                                             <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
                                         </li>
@@ -428,7 +420,6 @@ class Slidecountsell extends React.Component {
 }
 //tap count 退货
 class Slidecountback extends React.Component {
-
     rePrint = () =>{
         //判断是否打印
         const result=GetServerData('qerp.pos.sy.config.info');
@@ -436,16 +427,11 @@ class Slidecountback extends React.Component {
            return res;
          }).then((json) => {
                 if(json.code == "0"){
-                //   if(json.config.submitPrint=='1'){
-                     //判断是打印大的还是小的
                      if(json.config.paperSize=='80'){
                         getReturnOrderInfo(this.props.returnOrderAll,"80","1");
-                        // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,true)
                      }else{
                         getReturnOrderInfo(this.props.returnOrderAll,"58","1");
-                        // GetLodop(this.props.orderId,'odReturn',this.props.odReturn.returnNo,false)
                      }
-                //   }
                 }else{
                     message.warning('打印失败')
                 }
@@ -496,23 +482,17 @@ class Slidecountback extends React.Component {
 }
 //tap count 充值
 class Slidecountcz extends React.Component {
-
     rePrint = () =>{
         const result=GetServerData('qerp.pos.sy.config.info')
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code == "0"){
-                // if(json.config.rechargePrint=='1'){
-                    //判断是打印大的还是小的
                     if(json.config.paperSize=='80'){
                         getRechargeOrderInfo(this.props.rechargeOrderAll,"80","1");
-                        // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,true)
                     }else{
                         getRechargeOrderInfo(this.props.rechargeOrderAll,"58","1");
-                        // GetLodop(this.props.orderId,'mbCardMoneyCharge',this.props.cardMoneyChargeInfo.chargeNo,false)
                     }
-                // }
             }else{
                 message.warning('打印失败')
             }
@@ -964,7 +944,6 @@ class Perdontime extends React.Component {
             )
     }
 }
-
 //销售详细数据table
 class EditableTable extends React.Component {
     constructor(props) {
@@ -1051,8 +1030,6 @@ class EditableTable extends React.Component {
 
 
 }
-
-
 //销售订单count
 class Sellorder extends React.Component {
     state = {
@@ -1072,120 +1049,112 @@ class Sellorder extends React.Component {
     }
 
     render(){
-        return (
-            <div className="salePage-style">
-               <Searchcompon dispatch={this.props.dispatch} pageSizeShow={this.state.pagesize} ref='search'/>
-               <Ordertap qposStSaleOrders={this.props.qposStSaleOrders}
-                         total={this.props.total}
-                         revisemessages={this.revisemessages.bind(this)}
-                         pagefresh={this.pagefresh.bind(this)}
-                         ref='Ordertap'/>
-            </div>
-        )
+      return (
+          <div className="salePage-style">
+             <Searchcompon dispatch={this.props.dispatch} pageSizeShow={this.state.pagesize} ref='search'/>
+             <Ordertap
+               qposStSaleOrders={this.props.qposStSaleOrders}
+               total={this.props.total}
+               revisemessages={this.revisemessages.bind(this)}
+               pagefresh={this.pagefresh.bind(this)}
+               ref='Ordertap'/>
+          </div>
+      )
     }
 
 }
 
 //店员销售count
 class Sellclerk extends React.Component {
-    state={
-        userSales:[],
-        totalUserSale:{
-        nickname:'',
-        amount:null,
-             icAmount:null,
-             orderQty:null,
-             wechatAmount:null,
-             alipayAmount:null,
-             unionpayAmount:null,
-             cashAmount:null,
-             cardChargeAmount:null,
-             cardConsumeAmount:null,
-             pointAmount:null,
-             refundAmount:null,
-             key:-2
-        },
-        setsouce:[]
-    }
-    initdataspuce=(values)=>{
-         const result=GetServerData('qerp.web.qpos.st.user.sale.query',values)
-                result.then((res) => {
-                  return res;
-                }).then((json) => {
-                    if(json.code=='0'){
-                            const userSales=json.userSales
-                            const totalUserSale=json.totalUserSale
-                            totalUserSale.nickname='合计'
-                            const setsouce=[]
-                            for(var i=0;i<userSales.length;i++){
-                                setsouce.push(userSales[i])
-                            }
-                            setsouce.push(totalUserSale)
-                        this.setState({
-                            userSales:json.userSales,
-                            totalUserSale:totalUserSale,
-                            setsouce:setsouce
-                        })
-                    }else{
-                        message.error(json.message);
-                    }
-                })
+  state={
+      userSales:[],
+      totalUserSale:{
+      nickname:'',
+      amount:null,
+           icAmount:null,
+           orderQty:null,
+           wechatAmount:null,
+           alipayAmount:null,
+           unionpayAmount:null,
+           cashAmount:null,
+           cardChargeAmount:null,
+           cardConsumeAmount:null,
+           pointAmount:null,
+           refundAmount:null,
+           key:-2
+      },
+      setsouce:[]
+  }
+  initdataspuce=(values)=>{
+       const result=GetServerData('qerp.web.qpos.st.user.sale.query',values)
+              result.then((res) => {
+                return res;
+              }).then((json) => {
+                  if(json.code=='0'){
+                          const userSales=json.userSales
+                          const totalUserSale=json.totalUserSale
+                          totalUserSale.nickname='合计'
+                          const setsouce=[]
+                          for(var i=0;i<userSales.length;i++){
+                              setsouce.push(userSales[i])
+                          }
+                          setsouce.push(totalUserSale)
+                      this.setState({
+                          userSales:json.userSales,
+                          totalUserSale:totalUserSale,
+                          setsouce:setsouce
+                      })
+                  }else{
+                      message.error(json.message);
+                  }
+              })
 
-    }
-    render(){
-        return(
-            <div className='chartandtable-wrapper'>
-                <div className='persontime time-banner-style'><Perdontime dispatch={this.props.dispatch} initdataspuce={this.initdataspuce.bind(this)}/></div>
-                <div className="chart-container-style" style={{padding:'0 30px'}}>
-                    <div style={tit}>销售数据</div>
-                    <div className='clearfix'style={{width:'100%'}}>
-                        <div className='fl'><Echartsaxis userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/></div>
-                        <div className='fl' style={{width:'2px',height:'200px',background:'#E7E8EC',margin:'40px 25px'}}></div>
-                        <div className='fl'><EchartsPie userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/></div>
-                    </div>
-                    <div style={tit}>详细数据</div>
-                    <EditableTable userSales={this.state.userSales} totalUserSale={this.state.totalUserSale} setsouce={this.state.setsouce}/>
-                </div>
-            </div>
-        )
-    }
-    componentDidMount(){
-         let d= new Date()
-         d.setDate(d.getDate()-1)
-         let dy=d.getFullYear() //年
-         var dm=("0" + (d.getMonth() + 1)).slice(-2);
-         var dd=("0"+d.getDate()).slice(-2);
-         let a=dy+'-'+dm+'-'+dd
-        let values={
-            dateStart:a,
-            dateEnd:a
-        }
-        this.initdataspuce(values)
-    }
-
+  }
+  componentDidMount(){
+       let d= new Date()
+       d.setDate(d.getDate()-1)
+       let dy=d.getFullYear() //年
+       var dm=("0" + (d.getMonth() + 1)).slice(-2);
+       var dd=("0"+d.getDate()).slice(-2);
+       let a=dy+'-'+dm+'-'+dd
+      let values={
+          dateStart:a,
+          dateEnd:a
+      }
+      this.initdataspuce(values)
+  }
+  render(){
+      return(
+          <div className='chartandtable-wrapper'>
+              <div className='persontime time-banner-style'><Perdontime dispatch={this.props.dispatch} initdataspuce={this.initdataspuce.bind(this)}/></div>
+              <div className="chart-container-style" style={{padding:'0 30px'}}>
+                  <div style={tit}>销售数据</div>
+                  <div className='clearfix'style={{width:'100%'}}>
+                      <div className='fl'><Echartsaxis userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/></div>
+                      <div className='fl' style={{width:'2px',height:'200px',background:'#E7E8EC',margin:'40px 25px'}}></div>
+                      <div className='fl'><EchartsPie userSales={this.state.userSales} totalUserSale={this.state.totalUserSale}/></div>
+                  </div>
+                  <div style={tit}>详细数据</div>
+                  <EditableTable userSales={this.state.userSales} totalUserSale={this.state.totalUserSale} setsouce={this.state.setsouce}/>
+              </div>
+          </div>
+      )
+  }
 }
 
 function Sell({qposStSaleOrders,dispatch,total}) {
   return (
     <div>
     	<Header type={false} color={true}/>
-    	<div className='counters'><Tags qposStSaleOrders={qposStSaleOrders} dispatch={dispatch} total={total}/></div>
+    	<div className='counters'>
+        <Tags
+          qposStSaleOrders={qposStSaleOrders}
+          dispatch={dispatch}
+          total={total}/>
+      </div>
     </div>
   );
 }
-// class Sell extends React.Component {
-//   constructor(props) {
-//
-//   }
-//   render() {
-//     return (
-//       <div>
-//       	<Header type={false} color={true}/>
-//       	<div className='counters'><Tags qposStSaleOrders={qposStSaleOrders} dispatch={dispatch} total={total}/></div>
-//       </div>
-//     );
-//   }
-// }
 
 function mapStateToProps(state) {
     const {qposStSaleOrders,total} = state.sell;

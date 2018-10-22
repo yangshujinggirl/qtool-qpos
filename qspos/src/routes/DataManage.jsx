@@ -46,7 +46,7 @@ class DataManage extends React.Component {
         return (
             <div>
                 <Header type={false} color={true}/>
-                <div className='counters data-manage'>
+                <div className='counters data-manage data-lists-pages'>
                 {
                     role != 3
                     ?

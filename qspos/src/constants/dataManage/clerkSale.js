@@ -24,27 +24,13 @@ class ClerkSaleForm extends React.Component {
         super(props);
         this.state={
             userSales:[],
-            totalUserSale:{
-                // nickname:'',
-                // amount:null,
-                // icAmount:null,
-                // orderQty:null,
-                // wechatAmount:null,
-                // alipayAmount:null,
-                // unionpayAmount:null,
-                // cashAmount:null,
-                // cardChargeAmount:null,
-                // cardConsumeAmount:null,
-                // pointAmount:null,
-                // refundAmount:null,
-                // key:-2
-            },
+            totalUserSale:{},
             setsouce:[],
             startDate:'',
             endDate:''
         };
         this.amount = <Tooltip placement="top" title='销售订单金额-退款订单金额'>
-                        销售额&nbsp;<Icon type="exclamation-circle-o" />
+                        净销售额&nbsp;<Icon type="exclamation-circle-o" />
                       </Tooltip>;
         this.icAmount = <Tooltip placement="top" title='微信+支付宝+现金+银联'>
                             净收款&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;

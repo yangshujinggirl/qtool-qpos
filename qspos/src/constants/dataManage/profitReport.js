@@ -31,48 +31,51 @@ class ProfitReportForm extends React.Component {
             windowHeight:''
         };
         this.columns = [{
-            title: '商品条码',
-            dataIndex: 'barcode',
-        },{
-            title: '商品名称',
-            dataIndex: 'name',
-        },{
-            title: '商品分类',
-            dataIndex: 'pdCategory1',
-        },{
-            title: '规格',
-            dataIndex: 'displayName',
-        },{
-            title: '销售单均价',
-            dataIndex: 'saleSinglePrice',
-        },{
-            title: '销售数量',
-            dataIndex: 'qty',
-        },{
-            title: '销售额',
-            dataIndex: 'amount',
-        },{
-            title: '商品成本',
-            dataIndex: 'pdCostAmount',
-        },{
-            title: '销售成本',
-            dataIndex: 'sumCostAmount',
-        },{
-            title: '销售毛利额',
-            dataIndex: 'saleProfitAmount',
-        },{
-            title: '销售毛利率',
-            dataIndex: 'saleProfitRate',
-        },{
-            title: '损益数量',
-            dataIndex: 'adjustQty',
-        },{
-            title: '损益成本',
-            dataIndex: 'adjustCostAmount',
-        },{
-            title: '商品毛利额',
-            dataIndex: 'pdProfit',
-        }];
+              title: '商品条码',
+              dataIndex: 'barcode',
+          },{
+              title: '商品名称',
+              dataIndex: 'name',
+          },{
+              title: '商品分类',
+              dataIndex: 'pdCategory1',
+          },{
+              title: '规格',
+              dataIndex: 'displayName',
+          },{
+              title: '销售单均价',
+              dataIndex: 'saleSinglePrice',
+          },{
+              title: '净销售数量',
+              dataIndex: 'qty',
+          },{
+              title: '净销售额',
+              dataIndex: 'amount',
+          },{
+              title: '商品成本',
+              dataIndex: 'pdCostAmount',
+          },{
+              title: '净销售成本',
+              dataIndex: 'sumCostAmount',
+          },{
+              title: '净销售毛利额',
+              dataIndex: 'saleProfitAmount',
+          },{
+              title: '净销售毛利率',
+              dataIndex: 'saleProfitRate',
+          },{
+              title: '调出数量',
+              dataIndex: 'pdExchangeQty',
+          },{
+              title: '调出总额',
+              dataIndex: 'pdExchangeAmount',
+          },{
+              title: '调出成本',
+              dataIndex: 'pdExchangePrice',
+          },{
+              title: '商品毛利额',
+              dataIndex: 'pdProfit',
+          }];
     }
 
     dateChange = (date, dateString) =>{
@@ -132,8 +135,8 @@ class ProfitReportForm extends React.Component {
                     currentPage:Number(json.currentPage),
                     limit:Number(json.limit)
                 })
-            }else{  
-                message.error(json.message); 
+            }else{
+                message.error(json.message);
             }
         })
     }
@@ -208,7 +211,7 @@ class ProfitReportForm extends React.Component {
                                     </p>
                                     <span className="explain-span">
                                         <Tooltip title="时间段内商品销售结算金额总和">
-                                            销售额&nbsp;<Icon type="exclamation-circle-o"/>
+                                            净销售额&nbsp;<Icon type="exclamation-circle-o"/>
                                         </Tooltip>
                                     </span>
                                 </div>
@@ -221,7 +224,7 @@ class ProfitReportForm extends React.Component {
                                     </p>
                                     <span className="explain-span">
                                         <Tooltip title="商品成本x销售数量">
-                                            销售成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                            净销售成本&nbsp;<Icon type="exclamation-circle-o"/>
                                         </Tooltip>
                                     </span>
                                 </div>
@@ -249,7 +252,7 @@ class ProfitReportForm extends React.Component {
                                     </p>
                                     <span className="explain-span">
                                         <Tooltip title="销售额-销售成本">
-                                            销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
+                                            净销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
                                         </Tooltip>
                                     </span>
                                 </div>
@@ -262,7 +265,7 @@ class ProfitReportForm extends React.Component {
                         label="订单时间"
                         labelCol={{ span: 5 }}
                         wrapperCol={{span: 10}}>
-                            <MonthPicker 
+                            <MonthPicker
                             allowClear={false}
                             value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
                             format={dateFormat}
@@ -283,8 +286,8 @@ class ProfitReportForm extends React.Component {
                             <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
                         </div>
                     </Form>
-                    <CommonTable 
-                        columns={this.columns} 
+                    <CommonTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         pagination={false}
                         total={20}
@@ -295,13 +298,13 @@ class ProfitReportForm extends React.Component {
                         />
                 </div>
                 <div className="footer-pagefixed">
-                    <Pagination 
-                        total={this.state.total} 
+                    <Pagination
+                        total={this.state.total}
                         current={this.state.currentPage+1}
                         pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
-                        onChange={this.pageChange} 
+                        showSizeChanger
+                        onShowSizeChange={this.onShowSizeChange}
+                        onChange={this.pageChange}
                         pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
                 </div>

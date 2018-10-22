@@ -6,10 +6,41 @@ import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
+import './inoutReport.less';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker,MonthPicker } = DatePicker;
 const dateFormat = 'YYYY-MM';
+
+const OtherCost = ({visible, onCancel, data}) => (
+  <Modal
+    className="other-cost-modal"
+    title="其他成本明细"
+    visible={visible}
+    onCancel={()=>onCancel()}
+    footer={null}>
+    <div className="main-content">
+      <Table
+        className="other-table"
+        bordered
+        dataSource={data}
+        pagination={false}>
+        <Table.Column dataIndex="returnSum" title="退货总成本"></Table.Column>
+        <Table.Column dataIndex="adjustSum" title="损益总成本"></Table.Column>
+        <Table.Column dataIndex="pdExchangeSum" title="调出总成本"></Table.Column>
+        <Table.Column dataIndex="otherSum" title="总计"></Table.Column>
+      </Table>
+      <div className="tips-list">
+        <p className="label total-label">字段说明：</p>
+        <p className="label">退货总成本：所有商品退货成本总和</p>
+        <p className="label">损益总成本：所有商品损益成本总和</p>
+        <p className="label">调出总成本：所有商品调出成本总和</p>
+        <p className="label total-label">总计：退货总成本+损益总成本-调出总成本</p>
+      </div>
+    </div>
+  </Modal>
+)
 
 //进销存报表
 class InOutReportForm extends React.Component {
@@ -28,77 +59,80 @@ class InOutReportForm extends React.Component {
             rpDate:'',
             name:'',
             windowHeight:'',
-            loading:false
+            loading:false,
+            visible:false,
+            rpInventoryHeaderVo:[]//其他成本
         };
         this.columns = [{
-            title: '商品条码',
-            dataIndex: 'barcode',
-        },{
-            title: '商品名称',
-            dataIndex: 'pdSpuName',
-        },{
-            title: '商品分类',
-            dataIndex: 'pdCategory1',
-        },{
-            title: '规格',
-            dataIndex: 'displayName',
-        },{
-            title: '期初库存数量',
-            dataIndex: 'qty',
-        },{
-            title: '期初库存成本',
-            dataIndex: 'invAmount',
-        },{
-            title: '收货数量',
-            dataIndex: 'recQty',
-        },{
-            title: '收货成本',
-            dataIndex: 'recAmount',
-        },{
-            title: '销售数量',
-            dataIndex: 'posQty',
-        },{
-            title: '销售成本',
-            dataIndex: 'sumCostAmount',
-        },{
-            title: '退货数量',
-            dataIndex: 'returnQty',
-        },{
-            title: '退货成本',
-            dataIndex: 'returnSumAmount',
-        },{
-            title: '损益数量',
-            dataIndex: 'adjustQty',
-        },{
-            title: '损益成本',
-            dataIndex: 'adjustCostAmount',
-        },{
-            title: '盘点损益数',
-            dataIndex: 'checkQty',
-        },{
-            title: '盘点损益成本',
-            dataIndex: 'checkAmount',
-        },{
-            title: '调出数量',
-            dataIndex: 'pdExchangeQty',
-        },{
-            title: '调出成本',
-            dataIndex: 'pdExchangeAmount',
-        },{
-            title: '期末库存数量',
-            dataIndex: 'finalQty',
-        },{
-            title: '期末库存成本',
-            dataIndex: 'finalInvAmount',
-        }];
+              title: '商品条码',
+              dataIndex: 'barcode',
+          },{
+              title: '商品名称',
+              dataIndex: 'pdSpuName',
+          },{
+              title: '商品分类',
+              dataIndex: 'pdCategory1',
+          },{
+              title: '规格',
+              dataIndex: 'displayName',
+          },{
+              title: '期初库存数量',
+              dataIndex: 'qty',
+          },{
+              title: '期初库存成本',
+              dataIndex: 'invAmount',
+          },{
+              title: '收货数量',
+              dataIndex: 'recQty',
+          },{
+              title: '收货成本',
+              dataIndex: 'recAmount',
+          },{
+              title: '销售数量',
+              dataIndex: 'posQty',
+          },{
+              title: '销售成本',
+              dataIndex: 'sumCostAmount',
+          },{
+              title: '退货数量',
+              dataIndex: 'returnQty',
+          },{
+              title: '退货成本',
+              dataIndex: 'returnSumAmount',
+          },{
+              title: '损益数量',
+              dataIndex: 'adjustQty',
+          },{
+              title: '损益成本',
+              dataIndex: 'adjustCostAmount',
+          },{
+              title: '盘点损益数',
+              dataIndex: 'checkQty',
+          },{
+              title: '盘点损益成本',
+              dataIndex: 'checkAmount',
+          },{
+              title: '调出数量',
+              dataIndex: 'pdExchangeQty',
+          },{
+              title: '调出成本',
+              dataIndex: 'pdExchangeAmount',
+          },{
+              title: '期末库存数量',
+              dataIndex: 'finalQty',
+          },{
+              title: '期末库存成本',
+              dataIndex: 'finalInvAmount',
+          }];
     }
-
+    componentDidMount(){
+      this.getNowFormatDate();
+    }
     dateChange = (date, dateString) =>{
         this.setState({
             rpDate:dateString
         });
     }
-
     //表格的方法
     pageChange=(page,pageSize)=>{
         const self = this;
@@ -129,7 +163,6 @@ class InOutReportForm extends React.Component {
             self.getServerData(data);
         })
     }
-
     //获取数据
     getServerData = (values) =>{
         this.setState({
@@ -156,20 +189,20 @@ class InOutReportForm extends React.Component {
                         receiptAmountSum:receiptAmountSum,//#String 收货总成本
                         saleAmountSum:saleAmountSum,//#String 销售总成本
                         adjustPdCheckAmountSum:adjustPdCheckAmountSum,//#String 损益总成本
-    
+
                         dataSource:dataList,
                         total:Number(json.total),
                         currentPage:Number(json.currentPage),
                         limit:Number(json.limit),
                         loading:false
                     });
-                }else{  
+                }else{
                     this.setState({
                         loading:false
                     },function(){
-                        message.error(json.message); 
-                    })  
-                   
+                        message.error(json.message);
+                    })
+
                 }
             })
 
@@ -177,9 +210,8 @@ class InOutReportForm extends React.Component {
         })
 
 
-       
-    }
 
+    }
     handleSubmit = (e) =>{
         e.preventDefault();
         const self = this;
@@ -197,7 +229,6 @@ class InOutReportForm extends React.Component {
             })
         })
     }
-
     //导出数据
     exportList = () =>{
         let data = {
@@ -210,12 +241,11 @@ class InOutReportForm extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
 
-            }else{  
-                message.error(json.message); 
+            }else{
+                message.error(json.message);
             }
         })
     }
-
     //获取当前时间
     getNowFormatDate = () =>{
         const self = this;
@@ -243,140 +273,158 @@ class InOutReportForm extends React.Component {
             self.getServerData(values);
         })
     }
-
+    //显示Modal
+    showModal() {
+      this.setState({ visible:true })
+    }
+    onCancel() {
+      this.setState({ visible:false })
+    }
     render() {
+        const { visible, rpInventoryHeaderVo } =this.state;
         const { getFieldDecorator } = this.props.form;
         return (
-            <div className="daily-bill border-top-style">
-                <div className="scroll-wrapper">
-                    {/* 数据展示部分 */}
-                    <div className="top-data inout-data">
-                        <ul>
-                            <li>
-                                <div>
-                                    <p style={{color:"#806EC6",marginBottom:'0'}}><i>¥</i>
-                                    {this.state.finalInvAmountSum&&this.state.finalInvAmountSum!="0"?this.state.finalInvAmountSum.split('.')[0]:"0"}
-                                    <span>.{this.state.finalInvAmountSum&&this.state.finalInvAmountSum!="0"?this.state.finalInvAmountSum.split('.')[1]:"00"}</span>
-                                    </p>
-                                    <span className="explain-span">
-                                        <Tooltip title="期初库存总成本+进货总成本-销售总成本-损益总成本">
-                                            期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                        </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <p style={{color:"#F4A314",marginBottom:'0'}}><i>¥</i>
-                                    {this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[0]:"0"}
-                                    <span>.{this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[1]:"00"}</span>
-                                    </p>
-                                    <span className="explain-span">
-                                        <Tooltip title="期初库存总数量x期初商品移动总成本">
-                                            期初库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                        </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <p style={{color:"#0D89C8",marginBottom:'0'}}><i>¥</i>
-                                    {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[0]:"0"}
-                                    <span>. {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[1]:"00"}</span>
-                                    </p>
-                                    <span className="explain-span">
-                                        <Tooltip title="收货总数量x收货商品移动总成本">
-                                            收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                        </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <p style={{color:"#51C193",marginBottom:'0'}}><i>¥</i>
-                                    {this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[0]:"0"}
-                                    <span>.{this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[1]:"00"}</span>
-                                    </p>
-                                    <span className="explain-span">
-                                        <Tooltip title="销售总数量x销售商品移动总成本">
-                                            销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                        </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <p style={{color:"#F24343",marginBottom:'0'}}><i>¥</i>
-                                    {this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?this.state.adjustPdCheckAmountSum.split('.')[0]:"0"}
-                                    <span>.{this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?this.state.adjustPdCheckAmountSum.split('.')[1]:"00"}</span>
-                                    </p>
-                                    <span className="explain-span">
-                                    <Tooltip title="损益总数量x损益商品移动总成本">
-                                        损益成本&nbsp;<Icon type="exclamation-circle-o"/>
+          <div className="daily-bill border-top-style">
+            <div className="scroll-wrapper">
+                {/* 数据展示部分 */}
+                <div className="top-data inout-data">
+                    <ul>
+                        <li>
+                            <div>
+                                <p style={{color:"#806EC6",marginBottom:'0'}}><i>¥</i>
+                                {this.state.finalInvAmountSum&&this.state.finalInvAmountSum!="0"?this.state.finalInvAmountSum.split('.')[0]:"0"}
+                                <span>.{this.state.finalInvAmountSum&&this.state.finalInvAmountSum!="0"?this.state.finalInvAmountSum.split('.')[1]:"00"}</span>
+                                </p>
+                                <span className="explain-span">
+                                    <Tooltip title="期初库存总成本+进货总成本-销售总成本-损益总成本">
+                                        期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    {/*搜索部分 */}
-                    <Form className="search-form inout-form">
-                        <FormItem
-                        label="订单时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                            <MonthPicker 
-                             allowClear={false}
-                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
-                            format={dateFormat}
-                            onChange={this.dateChange.bind(this)}/>
-                        </FormItem>
-                        <FormItem
-                        label="商品名称"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                        {getFieldDecorator('name')(
-                            <Input  autoComplete="off" placeholder="请输入商品名称"/>
-                        )}
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                        </FormItem>
-                        {/* <div className="export-div">
-                            <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
-                        </div> */}
-                    </Form>
-                    <CommonTable 
-                        scroll={'130%'}
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource}
-                        pagination={false}
-                        total={20}
-                        current={1}
-                        pageSize={10}
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
-                        loading={this.state.loading}
-                        />
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p style={{color:"#F4A314",marginBottom:'0'}}><i>¥</i>
+                                {this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[0]:"0"}
+                                <span>.{this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[1]:"00"}</span>
+                                </p>
+                                <span className="explain-span">
+                                    <Tooltip title="期初库存总数量x期初商品移动总成本">
+                                        期初库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p style={{color:"#0D89C8",marginBottom:'0'}}><i>¥</i>
+                                {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[0]:"0"}
+                                <span>. {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[1]:"00"}</span>
+                                </p>
+                                <span className="explain-span">
+                                    <Tooltip title="收货总数量x收货商品移动总成本">
+                                        收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p style={{color:"#51C193",marginBottom:'0'}}><i>¥</i>
+                                {this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[0]:"0"}
+                                <span>.{this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[1]:"00"}</span>
+                                </p>
+                                <span className="explain-span">
+                                    <Tooltip title="销售总数量x销售商品移动总成本">
+                                        销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <p style={{color:"#F24343",marginBottom:'0',cursor:'pointer'}} onClick={this.showModal.bind(this)}>
+                                  <i>¥</i>
+                                  {
+                                    this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?
+                                    this.state.adjustPdCheckAmountSum.split('.')[0]
+                                    :"0"
+                                  }
+                                  <span>.
+                                    {
+                                      this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?
+                                      this.state.adjustPdCheckAmountSum.split('.')[1]
+                                      :
+                                      "00"
+                                    }
+                                  </span>
+                                </p>
+                                <span className="explain-span">
+                                <Tooltip title="退货总成本+损益总成本-调出总成本">
+                                    其他成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                </Tooltip>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-                <div className="footer-pagefixed">
-                    <Pagination 
-                        total={this.state.total} 
-                        current={this.state.currentPage+1}
-                        pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
-                        onChange={this.pageChange} 
-                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
-                        />
-                </div>
+                {/*搜索部分 */}
+                <Form className="search-form inout-form">
+                    <FormItem
+                    label="订单时间"
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{span: 10}}>
+                        <MonthPicker
+                         allowClear={false}
+                        value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
+                        format={dateFormat}
+                        onChange={this.dateChange.bind(this)}/>
+                    </FormItem>
+                    <FormItem
+                    label="商品名称"
+                    labelCol={{ span: 5 }}
+                    wrapperCol={{span: 10}}>
+                    {getFieldDecorator('name')(
+                        <Input  autoComplete="off" placeholder="请输入商品名称"/>
+                    )}
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                    </FormItem>
+                    {/* <div className="export-div">
+                        <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+                    </div> */}
+                </Form>
+                <CommonTable
+                    scroll={'130%'}
+                    columns={this.columns}
+                    dataSource={this.state.dataSource}
+                    pagination={false}
+                    total={20}
+                    current={1}
+                    pageSize={10}
+                    onShowSizeChange={this.onShowSizeChange}
+                    pageChange={this.pageChange}
+                    loading={this.state.loading}
+                    />
             </div>
+            <div className="footer-pagefixed">
+                <Pagination
+                    total={this.state.total}
+                    current={this.state.currentPage+1}
+                    pageSize={this.state.limit}
+                    showSizeChanger
+                    onShowSizeChange={this.onShowSizeChange}
+                    onChange={this.pageChange}
+                    pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                    />
+            </div>
+            <OtherCost
+              data={rpInventoryHeaderVo}
+              visible={visible}
+              onCancel={this.onCancel.bind(this)}/>
+          </div>
         );
-    }
-
-    componentDidMount(){
-        this.getNowFormatDate();
-        // this.getServerData();
     }
 }
 

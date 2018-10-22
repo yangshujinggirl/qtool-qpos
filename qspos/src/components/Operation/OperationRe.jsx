@@ -17,9 +17,9 @@ class Operationls extends React.Component { //左边输入订单号组件
 		integertotalamount:null,
 		checked:true,
 		isBirthMonth:false,//是否生日
-        cardNo:'',//会员卡号
-        mbCardId:null,//会员卡id
-        ismbCard:false //是否是会员
+    cardNo:'',//会员卡号
+    mbCardId:null,//会员卡id
+    ismbCard:false //是否是会员
 	}
     //会员id
 	clearingdata=(integertotalamount,ismbCard)=>{
@@ -96,12 +96,10 @@ class Operationls extends React.Component { //左边输入订单号组件
                 	point:json.mbCardInfo.point,
                 	amount:json.mbCardInfo.amount,
                 	isBirthMonth:json.mbCardInfo.isBirthMonth,
-                    cardNo:json.mbCardInfo.cardNo,
-                    mbCardId:json.mbCardInfo.mbCardId
+                  cardNo:json.mbCardInfo.cardNo,
+                  mbCardId:json.mbCardInfo.mbCardId
                 },function(){
                     this.props.revisedata({type:11,point:this.state.point,amount:this.state.amount})
-
-
                 })
             }else{
                 message.warning(json.message)
@@ -127,8 +125,7 @@ class Operationls extends React.Component { //左边输入订单号组件
 			cardNoMobile:e.target.value
 		})
 	}
-
-    initdatal=()=>{
+  initdatal=()=>{
         this.setState({
             barcode:'',
             onBlur:true,
@@ -144,8 +141,6 @@ class Operationls extends React.Component { //左边输入订单号组件
             mbCardId:null
         })
     }
-
-
 	render(){
 		return(
   		<div>
@@ -178,10 +173,14 @@ class Operationls extends React.Component { //左边输入订单号组件
 	    			<div className='fl cashierbox'>
 	    				<div className='clearfix cashierbox_t'>
                   <div className='fl'>
-										<span className='c74'>会员姓名</span>
 										<span className='c38 ml10'>{this.state.name}</span>
+										{
+											this.state.levelStr&&
+											<span className='themecolor level-str'>{this.state.levelStr}</span>
+										}
+										<span className='member-source'>异店</span>
 									</div>
-                  <div className='fr'>
+                  {/* <div className='fr'>
 										<span className='themecolor'>{this.state.levelStr}</span>
 										<span>
 											{this.state.isBirthMonth=='true'
@@ -189,10 +188,10 @@ class Operationls extends React.Component { //左边输入订单号组件
 												:null
 											}
 										</span>
-									</div>
+									</div> */}
               </div>
 	    				<div className='clearfix f14 posion cashierbox_b'>
-	    					<div className='fl tc mt10 memberinfobox1 memberinfoboxlist'>
+	    					{/* <div className='fl tc mt10 memberinfobox1 memberinfoboxlist'>
                     <p className='c74 clearfix w100 tc'>
                         <div className='fl tc w100'>余额</div>
                     </p>
@@ -205,10 +204,24 @@ class Operationls extends React.Component { //左边输入订单号组件
 	    					<div className='w tc mt10 memberinfobox3 memberinfoboxlist'>
                     <p className='c74'>剩余积分</p>
                     <p className='c38'>{this.state.point}</p>
-                </div>
-    				    <div className='lines lines1'></div>
-                    <div className='lines lines2'></div>
-                </div>
+                </div> */}
+								<div className='item-label' >
+	                <div className='c74 top-action'>
+										<span>余额</span>
+										<span className="lines"></span>
+									</div>
+	                <p className='c38 p2'>{this.state.amount}</p>
+	              </div>
+
+	    					<div className='item-label'>
+	              	<div className='c74'>剩余积分</div>
+	              	<p className='c38 p2'>{this.state.point}</p>
+	              </div>
+								<div className='item-label'>
+	                <div className='c74 top-action'>本次积分<span className="lines"></span></div>
+	                <p className='c38 p2'>{this.state.integertotalamount}</p>
+	              </div>
+              </div>
 	    			</div>
 	    		</div>
     		</div>
@@ -229,7 +242,6 @@ class Operationr extends React.Component {  //右边点击结算组件
 		totalamount:0,
 	}
 	clearingdata=(messages,totalamount)=>{
-		console.log(messages)
 		this.setState({
 			quantity:messages, //总数
 			totalamount:totalamount, //总价钱
