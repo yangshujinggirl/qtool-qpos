@@ -79,10 +79,12 @@ class ValidataModal extends React.Component {
   }
   //提交
   onOk() {
+    const { mbCardId } =this.props;
     //校验验证码是否有效
     GetServerData('qerp.web.qpos.od.pay.codevalid',{
       phoneNo:this.state.phone,
-      messagecode:this.state.phoneCode
+      messagecode:this.state.phoneCode,
+      mbCardId
     })
     .then((res) => {
       if(res.code == '0') {
@@ -327,6 +329,7 @@ class PayModal extends React.Component {
     handleOk = (e) => {
         this.setState({
             visible: false,
+            validateVisible:false
         },function(){
             const payvisible=false
             this.props.dispatch({
@@ -719,63 +722,6 @@ class PayModal extends React.Component {
           };
       this.payApi(values);
     }
-    //去结算
-    // goPay() {
-    //   let { backmoney } =this.state;
-    //   let { paytotolamount, group, amountlist } =this.props;
-    //   var totols=0;//支付金额
-    //   var orderPay=[];//支付方式
-    //   if(group){
-    //     if(amountlist.length>1){
-    //       totols=NP.plus(amountlist[0].value,amountlist[1].value);
-    //       amountlist.map((el,index) => {
-    //         if(el.value!='0.00'){
-    //             orderPay.push({
-    //                 amount:el.value,
-    //                 type:el.type,
-    //             })
-    //         }
-    //         return el;
-    //       })
-    //     }else{
-    //         message.error('金额有误，不能支付')
-    //         return
-    //     }
-    //   }else{
-    //       totols=amountlist[0].value
-    //       orderPay=[{
-    //           amount:amountlist[0].value,
-    //           type:amountlist[0].type
-    //       }]
-    //   }
-    //   const {
-    //           ismember,
-    //           memberinfo,
-    //           totolamount,
-    //           thispoint,
-    //           totolnumber,
-    //           datasouce,
-    //           cutAmount
-    //         } = this.props;
-    //   if(totols != paytotolamount && backmoney !='0.00'){
-    //       message.error('金额有误，不能支付')
-    //       return;
-    //   }
-    //   let values={
-    //           mbCard:{ mbCardId:ismember?memberinfo.mbCardId:null },
-    //           odOrder:{
-    //               amount:totolamount,
-    //               orderPoint:thispoint,
-    //               payAmount:paytotolamount,
-    //               qty:totolnumber,
-    //               skuQty:datasouce.length,
-    //               cutAmount:cutAmount,
-    //           },
-    //           orderDetails:datasouce,
-    //           orderPay:orderPay
-    //       };
-    //   this.payApi(values);
-    // }
     //调用结算接口
     payApi=(values)=>{
         this.firstclick=false
@@ -802,8 +748,8 @@ class PayModal extends React.Component {
                     })
                   } else {
                     message.error(json.message)
-                    this.firstclick=true
                   }
+                  this.firstclick=true;
               }
         })
     }
@@ -1413,6 +1359,7 @@ class PayModal extends React.Component {
         	    </div>
           </Modal>
           <ValidataModal
+            mbCardId={this.props.memberinfo.mbCardId}
             loading={this.state.loading}
             changePhoneCode={this.changePhoneCode.bind(this)}
             changePhone={this.changePhone.bind(this)}
