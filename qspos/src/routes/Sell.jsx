@@ -41,7 +41,7 @@ class Tags extends React.Component {
         <TabPane tab="销售订单" key="1">
           <Sellorder
             qposStSaleOrders={this.props.qposStSaleOrders}
-            dispatch={this.props.dispatch} 
+            dispatch={this.props.dispatch}
             total={this.props.total}/>
         </TabPane>
       </Tabs>
@@ -216,7 +216,6 @@ class SlidecountCD extends React.Component {
 
     render(){
       const { mbCardCd, odOrderCd, orderDetailsCd, orOrderPayCd } =this.props;
-      console.log(orOrderPayCd)
         return(
                 <div className="sellinfolist-wrapper">
                   {
@@ -260,7 +259,10 @@ class SlidecountCD extends React.Component {
                           {
                             mbCardCd&&
                             <div className="sellinfo-row">
-                              <div><span>会员姓名</span>：{mbCardCd&&mbCardCd.name} </div>
+                              <div>
+                                <span>会员姓名</span>：{mbCardCd&&mbCardCd.name}
+                                { mbCardCd.isLocalShopStr=='异店'&&<span className="local-shop">{mbCardCd.isLocalShopStr}</span> }
+                              </div>
                               <div><span>会员电话</span>：{mbCardCd&&mbCardCd.mobile} </div>
                               <div><span>本次积分</span>：{odOrderCd.orderPoint}</div>
                             </div>
@@ -377,28 +379,32 @@ class Slidecountsell extends React.Component {
                                 (
                                     this.props.orOrderPay.length>1
                                     ?
-                                        <li style={{borderBottom:'0'}}>
-                                            <div className="sellinfo-row"><div><span>会员姓名</span>：{this.props.mbCard1.name} </div><div><span>会员电话</span>：{this.props.mbCard1.mobile} </div><div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div></div>
-                                            <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                            <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}，<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
-                                        </li>
+                                    <li style={{borderBottom:'0'}}>
+                                        <div className="sellinfo-row">
+                                          <div><span>会员姓名</span>：{this.props.mbCard1.name} { this.props.mbCard1.isLocalShopStr=='异店'&&<span className="local-shop">{this.props.mbCard1.isLocalShopStr}</span> }</div>
+                                          <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
+                                          <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
+                                        </div>
+                                        <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
+                                        <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}，<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
+                                    </li>
                                     :
-                                        <li style={{borderBottom:'0'}}>
-                                            <div className="sellinfo-row">
-                                              <div>
-                                                <span>会员姓名</span>：{this.props.mbCard1.name}
-                                                {this.props.mbCard1.isLocalShop=='异店'?
-                                                  <span>'异店'</span>
-                                                  :
-                                                  ''
-                                                }
-                                              </div>
-                                              <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
-                                              <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
-                                            </div>
-                                            <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                            <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
-                                        </li>
+                                    <li style={{borderBottom:'0'}}>
+                                        <div className="sellinfo-row">
+                                          <div>
+                                            <span>会员姓名</span>：{this.props.mbCard1.name}
+                                            {this.props.mbCard1.isLocalShop=='异店'?
+                                              <span>'异店'</span>
+                                              :
+                                              ''
+                                            }
+                                          </div>
+                                          <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
+                                          <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
+                                        </div>
+                                        <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
+                                        <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
+                                    </li>
                                 )
                             :
                                 <li style={{borderBottom:'0'}}>

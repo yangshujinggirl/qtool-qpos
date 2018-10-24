@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
 import { Link } from 'dva/router';
+import NP from 'number-precision';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
 import moment from 'moment';
@@ -61,7 +62,8 @@ class InOutReportForm extends React.Component {
             windowHeight:'',
             loading:false,
             visible:false,
-            rpInventoryHeaderVo:[]//其他成本
+            rpInventoryHeaderVo:[],//其他成本
+            others:{}
         };
         this.columns = [{
               title: '商品条码',
@@ -163,15 +165,24 @@ class InOutReportForm extends React.Component {
             self.getServerData(data);
         })
     }
+    formatData(value) {
+      value = String(value);
+      // others.otherSum.split('.')[0]
+      if(value.indexOf('.')!=-1) {
+        value = value.split('.');
+        return value;
+      } else {
+        value = [value,'00'];
+        return value;
+      }
+    }
     //获取数据
     getServerData = (values) =>{
         this.setState({
             loading:true
         },function(){
-            const result=GetServerData('qerp.qpos.rp.inventory.page',values)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
+            GetServerData('qerp.qpos.rp.inventory.page',values)
+            .then((json) => {
                 if(json.code=='0'){
                     let dataList = [];
                     dataList = json.inventorys;
@@ -182,6 +193,10 @@ class InOutReportForm extends React.Component {
                     let adjustPdCheckAmountSum = json.adjustPdCheckAmountSum;
                     for(let i=0;i<dataList.length;i++){
                         dataList[i].key = i+1;
+                    };
+                    let others = json.rpInventoryHeaderVo;
+                    for(let key in others) {
+                      others[key]= NP.round(others[key], 2)
                     };
                     this.setState({
                         finalInvAmountSum:finalInvAmountSum,//#String 期末库存总成本
@@ -194,7 +209,9 @@ class InOutReportForm extends React.Component {
                         total:Number(json.total),
                         currentPage:Number(json.currentPage),
                         limit:Number(json.limit),
-                        loading:false
+                        loading:false,
+                        others,
+                        rpInventoryHeaderVo:[others]
                     });
                 }else{
                     this.setState({
@@ -208,9 +225,6 @@ class InOutReportForm extends React.Component {
 
 
         })
-
-
-
     }
     handleSubmit = (e) =>{
         e.preventDefault();
@@ -263,7 +277,7 @@ class InOutReportForm extends React.Component {
         var currentdate = year + seperator1 + month;
         this.setState({
             rpDate:currentdate
-        },function(){
+        },()=>{
             let values = {
                 currentPage:0,
                 limit:10,
@@ -281,7 +295,7 @@ class InOutReportForm extends React.Component {
       this.setState({ visible:false })
     }
     render() {
-        const { visible, rpInventoryHeaderVo } =this.state;
+        const { visible, others, rpInventoryHeaderVo } =this.state;
         const { getFieldDecorator } = this.props.form;
         return (
           <div className="daily-bill border-top-style">
@@ -342,29 +356,24 @@ class InOutReportForm extends React.Component {
                             </div>
                         </li>
                         <li>
-                            <div>
-                                <p style={{color:"#F24343",marginBottom:'0',cursor:'pointer'}} onClick={this.showModal.bind(this)}>
-                                  <i>¥</i>
-                                  {
-                                    this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?
-                                    this.state.adjustPdCheckAmountSum.split('.')[0]
-                                    :"0"
-                                  }
-                                  <span>.
-                                    {
-                                      this.state.adjustPdCheckAmountSum&&this.state.adjustPdCheckAmountSum!="0"?
-                                      this.state.adjustPdCheckAmountSum.split('.')[1]
-                                      :
-                                      "00"
-                                    }
-                                  </span>
-                                </p>
-                                <span className="explain-span">
-                                <Tooltip title="退货总成本+损益总成本-调出总成本">
-                                    其他成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                </Tooltip>
-                                </span>
-                            </div>
+                          <div>
+                            <p style={{color:"#F24343",marginBottom:'0',cursor:'pointer'}} onClick={this.showModal.bind(this)}>
+                              <i>¥</i>
+                              {
+                                others.otherSum&&this.formatData(others.otherSum)[0]
+                              }
+                              <span>.
+                                {
+                                  others.otherSum&&this.formatData(others.otherSum)[1]
+                                }
+                              </span>
+                            </p>
+                            <span className="explain-span">
+                            <Tooltip title="退货总成本+损益总成本-调出总成本">
+                              其他成本&nbsp;<Icon type="exclamation-circle-o"/>
+                            </Tooltip>
+                            </span>
+                          </div>
                         </li>
                     </ul>
                 </div>

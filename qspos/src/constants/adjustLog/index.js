@@ -8,6 +8,8 @@ import {GetExportData} from '../../services/services';
 import moment from 'moment';
 import {timeForMats} from '../../utils/commonFc';
 import '../../style/adjustLog.css'
+import './index.less';
+
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -29,33 +31,54 @@ class AdjustLogIndexForm extends React.Component {
         };
         this._isMounted = false;
         this.columns = [{
-            title: '商品损益单号',
-            dataIndex: 'adjustNo',
-            width:'12%',
-            render: (text, record, index) => {
-                return (
-                    <Link to={{pathname:'/adjustLog/info',query:{id:record.adjustId,adjustNo:record.adjustNo,qty:record.qty,typeStr:record.typeStr,operater:record.operater,operateTime:record.operateTime,remark:record.remark}}}>{text}</Link>
-                )
+              title: '商品损益单号',
+              dataIndex: 'adjustNo',
+              width:'12%',
+              render: (text, record, index) => {
+                  return (
+                      <Link to={{pathname:'/adjustLog/info',query:{id:record.adjustId,adjustNo:record.adjustNo,qty:record.qty,typeStr:record.typeStr,operater:record.operater,operateTime:record.operateTime,remark:record.remark}}}>{text}</Link>
+                  )
+              }
+          },{
+              title: '损益数量',
+              dataIndex: 'qty',
+              width:'12%',
+          },{
+              title: '损益类型',
+              dataIndex: 'typeStr',
+              width:'12%',
+          },{
+              title: '创建人',
+              dataIndex: 'operater',
+              width:'8%',
+          },{
+              title: '损益时间',
+              dataIndex: 'operateTime',
+              width:'8%',
+          }];
+    }
+    componentDidMount(){
+        this._isMounted = true;
+        if(this._isMounted){
+            if(document.body.offsetWidth>800){
+                this.setState({
+                   windowHeight:document.body.offsetHeight-300,
+                 });
+            }else{
+                this.setState({
+                    windowHeight:document.body.offsetHeight-270,
+                });
             }
-        },{
-            title: '损益数量',
-            dataIndex: 'qty',
-            width:'12%',
-        },{
-            title: '损益类型',
-            dataIndex: 'typeStr',
-            width:'12%',
-        },{
-            title: '创建人',
-            dataIndex: 'operater',
-            width:'8%',
-        },{
-            title: '损益时间',
-            dataIndex: 'operateTime',
-            width:'8%',
-        }];
+            window.addEventListener('resize',this.windowResize.bind(this));
+        }
+        //获取当前时间
+        this.getNowFormatDate();
     }
 
+    componentWillUnmount(){
+        this._isMounted = false;
+        window.removeEventListener('resize', this.windowResize.bind(this));
+    }
     dateChange = (date, dateString) =>{
         this.setState({
             adjustTimeST:dateString[0],
@@ -109,7 +132,6 @@ class AdjustLogIndexForm extends React.Component {
             })
         })
     }
-
     //导出数据
     exportList = () =>{
         let data = {
@@ -120,15 +142,13 @@ class AdjustLogIndexForm extends React.Component {
         }
         const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
-
-
     rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
     	}else{
       		return 'table_white'
     	}
-      }
+    }
 
 
 
@@ -196,10 +216,14 @@ class AdjustLogIndexForm extends React.Component {
                                 )}
                         </FormItem>
                         <FormItem className='fr'>
-                            <Button type="primary" onClick={this.handleSearch.bind(this)} size='large' className='adjust-formsearch-btn'>搜索</Button>
-                            {/* <div className="export-div">  className="export-btn"*/}
-                                {/* <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button> */}
-                            {/* </div> */}
+                            <Button
+                              type="primary"
+                              onClick={this.handleSearch.bind(this)}
+                              size='large'
+                              className='adjust-formsearch-btn'>搜索</Button>
+                            <div className="export-div">
+                                <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button>
+                            </div>
                         </FormItem>
                         <FormItem className='fr search-con-input'>
                         {getFieldDecorator('keywords')(
@@ -235,28 +259,7 @@ class AdjustLogIndexForm extends React.Component {
 
 
 
-    componentDidMount(){
-        this._isMounted = true;
-        if(this._isMounted){
-            if(document.body.offsetWidth>800){
-                this.setState({
-                   windowHeight:document.body.offsetHeight-300,
-                 });
-            }else{
-                this.setState({
-                    windowHeight:document.body.offsetHeight-270,
-                });
-            }
-            window.addEventListener('resize',this.windowResize.bind(this));
-        }
-        //获取当前时间
-        this.getNowFormatDate();
-    }
 
-    componentWillUnmount(){
-        this._isMounted = false;
-        window.removeEventListener('resize', this.windowResize.bind(this));
-    }
 }
 
 

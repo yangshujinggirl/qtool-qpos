@@ -71,7 +71,7 @@ class ProfitReportForm extends React.Component {
               dataIndex: 'pdExchangeAmount',
           },{
               title: '调出成本',
-              dataIndex: 'pdExchangePrice',
+              dataIndex: 'pdExchangeCostAmount',
           },{
               title: '商品毛利额',
               dataIndex: 'pdProfit',

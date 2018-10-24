@@ -137,7 +137,6 @@ class PayModal extends React.Component {
       }
     }
     showModal=(type,data) => {
-      debugger
       switch(type) {
         case 1:
           this.formDataTypeOne(type,data);

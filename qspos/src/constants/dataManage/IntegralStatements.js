@@ -79,6 +79,9 @@ class SearchForm extends React.Component {
           <FormItem>
               <Button type="primary" icon="search" onClick={this.search.bind(this)}>搜索</Button>
           </FormItem>
+          <div className="export-div">
+              <Button className="export-btn" onClick={this.props.exportList}>导出数据</Button>
+          </div>
         </Form>
       </div>
     )
@@ -96,7 +99,7 @@ class IntegralStatements extends React.Component {
       limit:10,
       orderST:'',
       orderET:'',
-      pointType:1
+      pointType:0
     }
   }
   componentDidMount() {
@@ -124,6 +127,20 @@ class IntegralStatements extends React.Component {
   upDatePointType(value) {
     this.setState({
         pointType:value,
+    })
+  }
+  exportList() {
+    const { pointType, orderST, orderET} =this.state;
+    let params = {
+      pointType,
+      orderST,
+      orderET
+    }
+    GetServerData('qerp.qpos.rp.mbcard.point.export',params)
+    .then((res) => {
+      console.log(res)
+    },(err) => {
+
     })
   }
   getList(currentPage, limit ) {
@@ -202,6 +219,7 @@ class IntegralStatements extends React.Component {
         <SearchFilter
           orderST={orderST}
           orderET={orderET}
+          exportList={this.exportList.bind(this)}
           upDatePointType={this.upDatePointType.bind(this)}
           upDateDateTime={this.upDateDateTime.bind(this)}
           handleSearch={this.getList.bind(this)}/>

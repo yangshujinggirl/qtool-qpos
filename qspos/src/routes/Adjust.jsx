@@ -15,8 +15,21 @@ class MyUpload extends React.Component {
   state = {
     fileList: []
   }
+  beforeUpload(file) {
+    const isSize = file.size / 1024 / 1024 < 1;
+    let fileName = file.name;
+    let fileType = fileName.split('.')[1];
+    if(fileType!='xls'&&fileType!='xlsx'&&fileType!='csv') {
+      message.error('请上传正确的文件类型');
+      return false;
+    }else {
+      if (!isSize) {
+        message.error('导入文件不得大于1M');
+        return false;
+      }
+    }
+  }
   handleChange = (info) => {
-        this.props.setLoding(1)
         let fileList = info.fileList;
         fileList = fileList.slice(-2);
         fileList = fileList.filter((file) => {
@@ -25,19 +38,18 @@ class MyUpload extends React.Component {
                   let pdAdjustDetails = file.response.pdAdjustDetails;
                     let patternTest=/^-?[1-9]\d*$/;
                   for(let i=0;i<pdAdjustDetails.length;i++){
-                      if(pdAdjustDetails[i].adjustQty && patternTest.test(pdAdjustDetails[i].adjustQty) &&  pdAdjustDetails[i].adjustQty>0){
-                            pdAdjustDetails[i].key=i+1;
-                            pdAdjustDetails[i].adjustAmount = (Number(pdAdjustDetails[i].adjustQty)*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
-                      }else{
-                            pdAdjustDetails[i].key=i+1;
-                            // pdAdjustDetails[i].adjustAmount = (0*parseFloat(pdAdjustDetails[i].toBPrice)).toFixed(2);
-                            pdAdjustDetails[i].adjustAmount = (Number(pdAdjustDetails[i].adjustQty)*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
-                      }
+                    if(pdAdjustDetails[i].adjustQty && patternTest.test(pdAdjustDetails[i].adjustQty) &&  pdAdjustDetails[i].adjustQty>0){
+                      pdAdjustDetails[i].key=i+1;
+                      pdAdjustDetails[i].adjustAmount = (Number(pdAdjustDetails[i].adjustQty)*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
+                    }else{
+                      pdAdjustDetails[i].key=i+1;
+                      pdAdjustDetails[i].adjustAmount = (Number(pdAdjustDetails[i].adjustQty)*parseFloat(pdAdjustDetails[i].averageRecPrice)).toFixed(2);
+                    }
                   }
-
-                    const Setdate=this.props.Setdate
-                    Setdate(pdAdjustDetails,file.response.total)
-                    this.props.setLoding(0)
+                  const Setdate=this.props.Setdate;
+                  this.props.setLoding(1)
+                  Setdate(pdAdjustDetails,file.response.total)
+                  this.props.setLoding(0)
                 }else{
                     message.error(file.response.message);
                     this.props.setLoding(0)
@@ -48,18 +60,19 @@ class MyUpload extends React.Component {
             return true;
         });
         this.setState({ fileList });
-    }
-    render() {
-        const props = {
-            action: '/erpQposRest/qposrest.htm?code=qerp.pos.pd.adjust.import',
-            onChange: this.handleChange,
-            name:'mfile'
-        };
-        return (
-            <Upload {...props} fileList={this.state.fileList}>
-                <Buttonico text='导入损益商品'/>
-            </Upload>
-        );
+  }
+  render() {
+    const props = {
+        action: '/erpQposRest/qposrest.htm?code=qerp.pos.pd.adjust.import',
+        onChange: this.handleChange,
+        name:'mfile',
+        beforeUpload:this.beforeUpload
+    };
+    return (
+        <Upload {...props} fileList={this.state.fileList} >
+            <Buttonico text='导入损益商品'/>
+        </Upload>
+    );
   }
 }
 

@@ -29,31 +29,31 @@ class AdjustLogIndexForm extends React.Component {
         };
         this._isMounted = false;
         this.columns = [{
-            title: '商品盘点单号',
-            dataIndex: 'checkNo',
-            width:'12%',
-            render: (text, record, index) => {
-                return (
-                    <Link to={{pathname:'/inventorydiffLog/info',query:{id:record.checkId,checkNo:record.checkNo,skuSum:record.skuSum,qty:record.qty,operater:record.operater,operateTime:record.operateTime}}}>{text}</Link>
-                )
-            }
-        },{
-            title: '盘点SKU数量',
-            dataIndex: 'skuSum',
-            width:'12%',
-        },{
-            title: '盘点商品数量',
-            dataIndex: 'qty',
-            width:'12%',
-        },{
-            title: '创建人',
-            dataIndex: 'operater',
-            width:'8%',
-        },{
-            title: '创建时间',
-            dataIndex: 'operateTime',
-            width:'8%',
-        }];
+              title: '商品盘点单号',
+              dataIndex: 'checkNo',
+              width:'12%',
+              render: (text, record, index) => {
+                  return (
+                      <Link to={{pathname:'/inventorydiffLog/info',query:{id:record.checkId,checkNo:record.checkNo,skuSum:record.skuSum,qty:record.qty,operater:record.operater,operateTime:record.operateTime}}}>{text}</Link>
+                  )
+              }
+          },{
+              title: '盘点SKU数量',
+              dataIndex: 'skuSum',
+              width:'12%',
+          },{
+              title: '盘点商品数量',
+              dataIndex: 'qty',
+              width:'12%',
+          },{
+              title: '创建人',
+              dataIndex: 'operater',
+              width:'8%',
+          },{
+              title: '创建时间',
+              dataIndex: 'operateTime',
+              width:'8%',
+          }];
     }
 
     dateChange = (date, dateString) =>{
@@ -80,7 +80,10 @@ class AdjustLogIndexForm extends React.Component {
             this.handleSearch()
         })
     }
-
+    onChangeWords =(e)=> {
+      let target =e.nativeEvent.target;
+      this.setState({ keywords: target.value })
+    }
     handleSearch = (e) =>{
         const self = this;
         this.props.form.validateFields((err, values) => {
@@ -88,11 +91,8 @@ class AdjustLogIndexForm extends React.Component {
             values.checkTimeET=this.state.checkTimeET
             values.limit=this.state.limit;
             values.currentPage=this.state.currentPage
-
-            const result=GetServerData('qerp.pos.pd.check.query',values)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
+            GetServerData('qerp.pos.pd.check.query',values)
+            .then((json) => {
                 if(json.code=='0'){
                     const checkNos = json.checkNos;
                     for(let i=0;i<checkNos.length;i++){
@@ -110,19 +110,16 @@ class AdjustLogIndexForm extends React.Component {
             })
         })
     }
-
     //导出数据
     exportList = () =>{
         let data = {
             checkTimeST :this.state.checkTimeST,
             checkTimeET:this.state.checkTimeET,
-            name:this.state.name,
+            keywords:this.state.keywords,
             type:1
         }
-        const result=GetExportData('qerp.qpos.pd.adjust.export',data);
+        const result=GetExportData('qerp.pos.pd.check.export',data);
     }
-
-
     rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
@@ -180,9 +177,14 @@ class AdjustLogIndexForm extends React.Component {
 
                         <FormItem className='fr'>
                             <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+                            <div className="export-div">
+                                <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button>
+                            </div>
                         </FormItem>
                         <FormItem className='fr search-con-input'>
-                        {getFieldDecorator('keywords')(
+                        {getFieldDecorator('keywords',{
+                          onChange:this.onChangeWords
+                        })(
                             <Input  autoComplete="off" placeholder="请输入商品名称/条码/单号"/>
                         )}
                         </FormItem>

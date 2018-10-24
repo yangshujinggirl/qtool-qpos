@@ -21,6 +21,20 @@ class MyUpload extends React.Component {
     state = {
         fileList: []
     }
+    beforeUpload(file) {
+      const isSize = file.size / 1024 / 1024 < 1;
+      let fileName = file.name;
+      let fileType = fileName.split('.')[1];
+      if(fileType!='xls'&&fileType!='xlsx'&&fileType!='csv') {
+        message.error('请上传正确的文件类型');
+        return false;
+      }else {
+        if (!isSize) {
+          message.error('导入文件不得大于1M');
+          return false;
+        }
+      }
+    }
     handleChange = (info) => {
         let fileList = info.fileList;
         fileList = fileList.slice(-1);
@@ -29,7 +43,6 @@ class MyUpload extends React.Component {
               if(file.response.code=='0'){
                   const pdCheckId=file.response.pdCheckId
                   this.props.onChange('upload',{pdCheckId})
-
               }else{
                   message.warning(file.response.message);
               }
@@ -44,7 +57,8 @@ class MyUpload extends React.Component {
         const props = {
             action: '/erpQposRest/qposrest.htm?code=qerp.pos.pd.check.import',
             onChange: this.handleChange,
-            name:'mfile'
+            name:'mfile',
+            beforeUpload:this.beforeUpload
         };
     return (
         <Upload {...props} fileList={this.state.fileList}>

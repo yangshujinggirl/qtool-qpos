@@ -46,7 +46,8 @@ class Operationls extends React.Component {
 			checked:false,
 			cardNo:'',
 			mbCardId:null,
-	    isBirthMonth:false
+	    isBirthMonth:false,
+			dataSource:[]
 		}
 		this.rowSelection={
 			onChange:this.checkChange,
@@ -174,10 +175,9 @@ class Operationls extends React.Component {
 	}
 	//切换会员
 	toggleEvent() {
-		this.setState({ visible:true })
 		GetServerData('qerp.pos.mb.card.switch',{mobile:this.props.cardNoMobile})
 		.then((res) => {
-			if(res.code == '200') {
+			if(res.code == '0') {
 				this.setState({ dataSource:res.iQposMbCards, visible:true });
 			}
 		},(error) => {
@@ -188,16 +188,15 @@ class Operationls extends React.Component {
 		this.setState({ visible:false })
 	}
 	//选择会员
-	checkChange(selectedRowKeys, selectedRows) {
-		let cardNoMobile = selectedRows[0].key;
-		GetServerData('qerp.pos.mb.card.find',{ cardNoMobile })
-		.then((res) => {
-			if(res.code == '200') {
-				this.setState({ visible: false })
+	checkChange=(selectedRowKeys, selectedRows)=> {
+		let cardNoMobile = selectedRows[0].cardNo;
+		this.props.dispatch({
+			type:'cashier/memberinfo',
+			payload:{
+				cardNoMobile
 			}
-		},(error) => {
-			console.log(error)
 		})
+		this.setState({ visible: false })
 	}
 	//充值
 	showModal = () => {
@@ -446,7 +445,7 @@ class Operationls extends React.Component {
 		const { memberinfo } =this.props;
 		const { dataSource } =this.state;
     const openWechat=sessionStorage.getItem("openWechat")
-    const openAlipay=sessionStorage.getItem("openAlipay")
+    const openAlipay=sessionStorage.getItem("openAlipay");
 		return(
 			<div className="uesleft-components-wrap">
 				<div className='clearfix mt30'>
@@ -483,36 +482,41 @@ class Operationls extends React.Component {
 								<span className='c74 member-name'>{memberinfo.name}</span>
 								{memberinfo.levelStr&&<span className='level-str'>{memberinfo.levelStr}</span>}
 								{
-									!memberinfo.isLocalShop&&<span className='member-source'>异店</span>
+									memberinfo.isLocalShop =='false'&&<span className='member-source'>异店</span>
 								}
 							</div>
               <div className='fr'>
 								{
 									memberinfo.isMoreShop =='true'&&<span
-										className='themecolor level-margin-style'
+										className='themecolor toggle-btn'
 										onClick={this.toggleEvent.bind(this)}>切换其他会员>></span>
 								}
-								<span>
+								{/* <span>
 									{
 										memberinfo.isBirthMonth=='true'?<span className='birthline'>
 										<span className='line'></span>生日</span>
 										:
 										null
 									}
-							</span>
+							</span> */}
 							</div>
             </div>
     				<div className='clearfix posion cashierbox_b'>
   						<div className='item-label' >
                 <div className='c74 top-action'>
 									<span>余额</span>
-									<span onClick={this.showModal} className='themecolor' style={{'cursor':'pointer'}}>充值</span>
+									{
+										memberinfo.isLocalShop =='true'&&
+										<span onClick={this.showModal} className='themecolor' style={{'cursor':'pointer','marginLeft':'4px'}}>充值</span>
+									}
 									<span className="lines"></span>
 								</div>
                 <p className='c38 p2'>{memberinfo.amount}</p>
               </div>
               <div className='item-label'>
-                <p className='c74 top-action'>本次积分<span className="lines"></span></p>
+                <p className='c74 top-action'>
+									本次积分<span className="lines"></span>
+								</p>
                 <p className='c38 p2'>{memberinfo.mbCardId?this.props.thispoint:null}</p>
               </div>
     					<div className='item-label'>
@@ -530,9 +534,9 @@ class Operationls extends React.Component {
 	        closable={true}
 	        className="toggle-modal-wrap"
 	        footer={null}>
-					<div>
-						切换会员
+					<div className="main-content">
 						<Table
+							className="member-table"
 							bordered
 							pagination={false}
 							rowSelection={this.rowSelection}

@@ -19,19 +19,34 @@ class MyUpload extends React.Component {
     state = {
         fileList: []
     }
+    beforeUpload(file) {
+      debugger
+      const isSize = file.size / 1024 / 1024 < 1;
+      let fileName = file.name;
+      let fileType = fileName.split('.')[1];
+      if(fileType!='xls'&&fileType!='xlsx'&&fileType!='csv') {
+        message.error('请上传正确的文件类型');
+        return false;
+      }else {
+        if (!isSize) {
+          message.error('导入文件不得大于1M');
+          return false;
+        }
+      }
+    }
     handleChange = (info) => {
-        this.props.setLoding(1)
+      debugger
         let fileList = info.fileList;
         fileList = fileList.slice(-1);
         fileList = fileList.filter((file) => {
             if (file.response) {
                 if(file.response.code=='0'){
+                  this.props.setLoding(1)
                     const pdCheckId=file.response.pdCheckId
                     let values={pdCheckId:pdCheckId,limit:100000,currentPage:0}
                     this.setdatas(values)
-
-                }else{
                     this.props.setLoding(0)
+                }else{
                     message.warning(file.response.message);
                 }
                 return file.response.status === 'success';
@@ -40,7 +55,6 @@ class MyUpload extends React.Component {
         });
         this.setState({ fileList });
     }
-
     //根据id请求数据
     setdatas=(messages)=>{
         const result=GetServerData('qerp.pos.pd.check.info',messages)
@@ -61,18 +75,18 @@ class MyUpload extends React.Component {
             }
         })
     }
-
     render() {
-        const props = {
-            action: '/erpQposRest/qposrest.htm?code=qerp.pos.pd.check.import',
-            onChange: this.handleChange,
-            name:'mfile'
-        };
-    return (
+      const props = {
+                action: '/erpQposRest/qposrest.htm?code=qerp.pos.pd.check.import',
+                onChange: this.handleChange,
+                name:'mfile',
+                beforeUpload:this.beforeUpload
+            };
+      return (
         <Upload {...props} fileList={this.state.fileList}>
             <Buttonico text='导入盘点结果'/>
         </Upload>
-    );
+      );
   }
 }
 
@@ -163,6 +177,7 @@ class Searchcomponent extends React.Component {
       }
     }
     render(){
+      console.log('222222222222')
         return(
             <div className='clearfix mb10 inventory-index-title'>
 	      		<div className='fl clearfix'>

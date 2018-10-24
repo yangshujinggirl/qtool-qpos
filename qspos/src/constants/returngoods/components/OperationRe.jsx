@@ -193,11 +193,14 @@ class Operationls extends React.Component { //左边输入订单号组件
 	              </div>
 
 	    					<div className='item-label'>
-	              	<div className='c74'>剩余积分</div>
+	              	<div className='c74 top-action'>
+										<span>剩余积分</span>
+										<span className="lines"></span>
+									</div>
 	              	<p className='c38 p2'>{mbCardInfo.point}</p>
 	              </div>
 								<div className='item-label'>
-	                <div className='c74 top-action'>本次积分<span className="lines"></span></div>
+	                <div className='c74 top-action'>本次积分</div>
 	                <p className='c38 p2'>{this.state.integertotalamount}</p>
 	              </div>
               </div>
@@ -240,10 +243,10 @@ class OperationRe extends React.Component {
 		const focustap=this.refs.cashier.focustap
 		focustap()
 	}
-	// clearingdatas=(messages,totalamount)=>{
-	// 	// const clearingdatas=this.refs.operationr.clearingdata
-	// 	this.clearingdata(messages,totalamount)
-	// }
+	clearingdatas=(messages,totalamount)=>{
+		// const clearingdatas=this.refs.operationr.clearingdata
+		this.clearingdata(messages,totalamount)
+	}
 	//接收会员信息
 	clearingdatasl=(integertotalamount,ismbCard)=>{
 		const clearingdatas=this.refs.cashier.clearingdata

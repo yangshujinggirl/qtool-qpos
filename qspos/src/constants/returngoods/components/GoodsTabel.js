@@ -9,98 +9,100 @@ const inputwidth={
   border:'1px solid #E7E8EC',
   background: '#FFF',textAlign:'center'
 }
-
 class EditableTable extends React.Component {
     constructor(props) {
         super(props);
         this.columns = [{
-            title: '选择',
-            width:'10%',
-            dataIndex: 'check',
-            render:(text, record, index)=>{
-              return (
-                <Checkbox
-                  onChange={this.checkonChange.bind(this,record,index)}
-                  checked={this.state.dataSource[index].check} />
-              )
-            }
+              title: '选择',
+              width:'10%',
+              dataIndex: 'check',
+              render:(text, record, index)=>{
+                  return (
+                      <Checkbox onChange={this.checkonChange.bind(this,record,index)} checked={this.state.dataSource[index].check}></Checkbox>
+                  )
+              }
           },{
-            title: '商品条码',
-            width:'10%',
-            dataIndex: 'code'
+              title: '商品条码',
+              width:'10%',
+              dataIndex: 'code'
           }, {
-            title: '商品名称',
-            width:'20%',
-            dataIndex: 'name'
+              title: '商品名称',
+              width:'20%',
+              dataIndex: 'name'
           },{
-            title: '规格',
-            width:'10%',
-            dataIndex: 'displayName'
+              title: '规格',
+              width:'10%',
+              dataIndex: 'displayName'
           },{
-            title: '零售价',
-            width:'10%',
-            dataIndex: 'price'
+              title: '零售价',
+              width:'10%',
+              dataIndex: 'price'
           },{
-            title: '可退数量',
-            width:'10%',
-            dataIndex: 'canReturnQty'
+              title: '可退数量',
+              width:'10%',
+              dataIndex: 'canReturnQty'
           },{
-            title: '数量',
-            width:'10%',
-            dataIndex: 'newQty',
-            render: (text, record, index) => {
-                return (
-                  this.state.dataSource.length > 0?
-                      (
-                        <Input style={inputwidth}
-                          autoComplete="off"
-                          onKeyDown={this.onKeydown.bind(this)}
-                          value={this.state.dataSource[index].qty}
-                          onBlur={this.qtyblur.bind(this,index)}
-                          onChange={this.qtyonchange.bind(this,index)}/>
-                      )
-                  : null
-                )
+              title: '数量',
+              width:'10%',
+              dataIndex: 'newQty',
+              render: (text, record, index) => {
+                  return (
+                      this.state.dataSource.length > 0
+                      ?
+                          (
+                              <Input style={inputwidth}
+                              autoComplete="off"
+                                  onKeyDown={this.onKeydown.bind(this)}
+                                  value={this.state.dataSource[index].qty}
+                                  onBlur={this.qtyblur.bind(this,index)}
+                                  onChange={this.qtyonchange.bind(this,index)}/>
+                          )
+                      : null
+                  )
               }
           },{
-            title: '折扣',
-            dataIndex: 'discount',
-            width:'10%',
-            render: (text, record, index) => {
-                return (
-                  this.state.dataSource.length > 0?
-                      (
-                        <Input style={inputwidth}
-                          autoComplete="off"
-                          onKeyDown={this.onKeydown.bind(this)}
-                          value={this.state.dataSource[index].discount}
-                          onChange={this.discountonchange.bind(this,index)}
-                          onBlur={this.discountblur.bind(this,index)}/>
-                      )
-                  : null
-                )
+              title: '折扣',
+              dataIndex: 'discount',
+              width:'10%',
+              render: (text, record, index) => {
+                  return (
+                      this.state.dataSource.length > 0
+                      ?
+                          (
+                              <Input style={inputwidth}
+                              autoComplete="off"
+                                  onKeyDown={this.onKeydown.bind(this)}
+                                  value={this.state.dataSource[index].discount}
+                                  onChange={this.discountonchange.bind(this,index)}
+                                  onBlur={this.discountblur.bind(this,index)}
+                              />
+                          )
+                      : null
+                  )
               }
           },{
-            title: '折后价',
-            dataIndex: 'payPrice',
-            width:'10%',
-            render: (text, record, index) => {
-                return (
-                  this.state.dataSource.length > 0?
-                    (
-                      <Input style={inputwidth}
-                        autoComplete="off"
-                        onKeyDown={this.onKeydown.bind(this)}
-                        value={this.state.dataSource[index].payPrice}
-                        onChange={this.payPriceonchange.bind(this,index)}
-                        onBlur={this.payPriceblur.bind(this,index)}/>
-                    )
-                  : null
-                )
+              title: '折后价',
+              dataIndex: 'payPrice',
+              width:'10%',
+              render: (text, record, index) => {
+                  return (
+                      this.state.dataSource.length > 0
+                      ?
+                          (
+                              <Input style={inputwidth}
+                              autoComplete="off"
+                                  onKeyDown={this.onKeydown.bind(this)}
+                                  value={this.state.dataSource[index].payPrice}
+                                  onChange={this.payPriceonchange.bind(this,index)}
+                                  onBlur={this.payPriceblur.bind(this,index)}
+                              />
+                          )
+                      : null
+                  )
               }
           }];
         this.state = {
-            dataSource: this.props.dataSource,//所有的table数据
+            dataSource: [],//所有的table数据
             count: 1,
             index:0,
             quantity:0,//数量
@@ -113,75 +115,67 @@ class EditableTable extends React.Component {
             selectedRowKeys:[]
         };
     }
-    componentWillReceiveProps(props) {
-      this.setState({
-        dataSource:props.dataSource
-      })
-    }
     componentDidMount(){
       if(document.body.offsetWidth>800){
-           this.setState({
-              windowHeight:document.body.offsetHeight-495,
-            });
-       }else{
-          this.setState({
-            windowHeight:document.body.offsetHeight-295,
+        this.setState({
+          windowHeight:document.body.offsetHeight-495,
         });
-       }
-       window.addEventListener('resize', this.windowResize);
+      }else{
+        this.setState({
+          windowHeight:document.body.offsetHeight-295,
+        });
+      }
+      window.addEventListener('resize', this.windowResize);
     }
     componentWillUnmount(){
      window.removeEventListener('resize', this.windowResize);
     }
-    //勾选复选框;
     checkonChange=(record,index,e)=>{
-        const changedataSource=this.state.dataSource;
-        changedataSource[index].check=e.target.checked;
+        const changedataSource=this.state.dataSource
+        changedataSource[index].check=e.target.checked
         this.setState({
             dataSource:changedataSource
+        },function(){
+            var isdataSource=[]
+            for(var i=0;i<this.state.dataSource.length;i++){
+                if(this.state.dataSource[i].check){
+                    isdataSource.push(this.state.dataSource[i])
+                }
+            }
+            //光标移动
+            this.props.focuser()
+            this.setState({
+                isdataSource:isdataSource
+            },function(){
+                this.props.revisedata({type:6,data:isdataSource})
+                this.uptotaldata()
+            })
         })
-        let isdataSource=[];
-        changedataSource.map((el,index) => {
-          if(el.check){
-            isdataSource.push(el)
-          }
-          return el;
-        })
-        // for(var i=0;i<this.state.dataSource.length;i++){
-        //     if(this.state.dataSource[i].check){
-        //         isdataSource.push(this.state.dataSource[i])
-        //     }
-        // }
-        //光标移动
-        this.props.focuser()
-        this.setState({ isdataSource:isdataSource });
-        this.props.revisedata({ type:6, data:isdataSource })
-        this.uptotaldata()
     }
     clearselect=()=>{
-      const datasoucess=this.state.dataSource
-      for(var i=0;i<datasoucess.length;i++){
-          datasoucess[i].check=false
-      }
-      this.setState({
-          dataSource:datasoucess
-      })
+        const datasoucess=this.state.dataSource
+        for(var i=0;i<datasoucess.length;i++){
+            datasoucess[i].check=false
+        }
+        this.setState({
+            dataSource:datasoucess
+        })
     }
     // 初始化
     reinitdata=()=>{
-      this.setState({
-        dataSource: [],
-        count: 1,
-        index:0,
-        quantity:0,//数量
-        totalamount:0,//总金额
-        integertotalamount:0,//总金额取整,
-        selectedRows:[],
-        ismbCard:false,
-        windowHeight:''
-      },()=>{
-          this.clearselect()
-      })
+        this.setState({
+            dataSource: [],
+            count: 1,
+            index:0,
+            quantity:0,//数量
+            totalamount:0,//总金额
+            integertotalamount:0,//总金额取整,
+            selectedRows:[],
+            ismbCard:false,
+            windowHeight:''
+        },function(){
+            this.clearselect()
+        })
     }
     //数据更新到操作区函数
     uptotaldata=()=>{
@@ -203,32 +197,31 @@ class EditableTable extends React.Component {
       this.setState({
           totalamount:totalamount
       })
-
     }
     //空格结算
     jiesuan=()=>{
-       const { isdataSource, ismbCard, totalamount }=this.state;
-       const { showModal } = this.props;
-       if(isdataSource.length>0){
-          if(ismbCard){
-            //是会员
-            // const showModal=this.props.showModal
-            let data={
-                totolamount:totalamount
-             }
-            showModal(8,data)
-          }else{
-            // const showModal=this.props.showModal
-            //不是会员
-             let data={
-                totolamount:totalamount
-             }
-             showModal(7,data)
-          }
-
-       }else{
-          message.warning('退货数量为0，不能退货')
-       }
+         const isdataSource=this.state.isdataSource
+         console.log(this.state)
+         console.log(isdataSource)
+         if(isdataSource.length>0){
+                if(this.state.ismbCard&&this.state.mbCard.isLocalShop=='true'){
+                    //是会员
+                    const showModal=this.props.showModal
+                    let data={
+                        totolamount:this.state.totalamount
+                     }
+                    showModal(8,data)
+                }else{
+                    const showModal=this.props.showModal
+                    //不是会员
+                     let data={
+                        totolamount:this.state.totalamount
+                     }
+                     showModal(7,data)
+                }
+         }else{
+            message.warning('退货数量为0，不能退货')
+         }
     }
     qtyonchange=(index,e)=>{
         var str=e.target.value.replace(/\s+/g,"");
@@ -241,50 +234,51 @@ class EditableTable extends React.Component {
     qtyblur=(index)=>{
         var r = /^\+?[1-9][0-9]*$/;
         let changedataSource=this.state.dataSource
+        console.log(changedataSource)
         if(Number(changedataSource[index].qty)<=Number(changedataSource[index].canReturnQty)){
             if(r.test(Number(changedataSource[index].qty))){
               //如果是正整数
               changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
-              this.setState({
-                  dataSource:changedataSource
-              },()=>{
-                this.uptotaldata()
-                if(this.state.ismbCard){
-                  this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                }else{
-                  this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                }
-              })
+                this.setState({
+                    dataSource:changedataSource
+                },function(){
+                  this.uptotaldata()
+                  if(this.state.ismbCard){
+                    this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+                  }else{
+                    this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+                  }
+                })
             }else{
-              //如果非整数
-              changedataSource[index].qty=1
-              changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
-              this.setState({
-                dataSource:changedataSource
-              },()=>{
-                this.uptotaldata()
-                if(this.state.ismbCard){
-                  this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                }else{
-                  this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                }
-              })
-              message.warning('数量只能是大于等于0的整数')
+                //如果非整数
+                changedataSource[index].qty=1
+                changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+                    this.setState({
+                        dataSource:changedataSource
+                    },function(){
+                            this.uptotaldata()
+                            if(this.state.ismbCard){
+                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+                            }else{
+                                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+                            }
+                })
+                    message.warning('数量只能是大于等于0的整数')
             }
         }else{
-          changedataSource[index].qty=changedataSource[index].canReturnQty
-          changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
-          this.setState({
-            dataSource:changedataSource
-          },()=>{
-            this.uptotaldata()
-            if(this.state.ismbCard){
-              this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-            }else{
-              this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-            }
-          })
-          message.warning('退货数量不可大于可退数量')
+            changedataSource[index].qty=changedataSource[index].canReturnQty
+            changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+            this.setState({
+                dataSource:changedataSource
+            },function(){
+              this.uptotaldata()
+              if(this.state.ismbCard){
+                          this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+              }else{
+                          this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+              }
+            })
+            message.warning('退货数量不可大于可退数量')
         }
     }
     discountonchange=(index,e)=>{
@@ -303,11 +297,12 @@ class EditableTable extends React.Component {
     			dataSource:changedataSource
     		},function(){
     			this.uptotaldata()
-          if(this.state.ismbCard){
-            this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-          }else{
-            this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-          }
+                if(this.state.ismbCard){
+                        console.log(this.state.isdataSource)
+                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+                }else{
+                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+                }
     		})
     	}else{
     		changedataSource[index].discount=0
@@ -330,6 +325,7 @@ class EditableTable extends React.Component {
     }
     payPriceblur=(index)=>{
     	let changedataSource=this.state.dataSource
+        console.log(changedataSource)
         if(parseFloat(changedataSource[index].payPrice)<0){
             changedataSource[index].payPrice=0
         }
@@ -337,13 +333,13 @@ class EditableTable extends React.Component {
     	changedataSource[index].payPrice=parseFloat(changedataSource[index].payPrice).toFixed(2)
     		this.setState({
     			dataSource:changedataSource
-    		},()=>{
+    		},function(){
     			this.uptotaldata()
-          if(this.state.ismbCard){
-            this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-          }else{
-            this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-          }
+                if(this.state.ismbCard){
+                    this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+                }else{
+                    this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+                }
     		})
     }
     rowClassName=(record, index)=>{
@@ -393,26 +389,35 @@ class EditableTable extends React.Component {
    //可操作区计算公式,a为零售价，b为数量，c为折扣，d为折后价
    //折扣计算
     discount=(a,b,d)=>{
-      var dx10=this.accMuls(d,10)
-      var discountdata=this.accDiv(dx10,a)
-      var discountda=this.accDiv(discountdata,b) //计算原始数据
-      //目标四舍五入保留一位小数
-      var strcount=discountda.toFixed(1)+'5'//取小数后两位字符串
-      var numbercount=parseFloat(strcount)
-      var count;
-      if(discountda-numbercount>0 || discountda-numbercount==0){
-          count=parseFloat(discountda.toFixed(1))+0.1
-      }else{
-          count=parseFloat(discountda.toFixed(1))
-      }
-      return count
-    }
+        var dx10=this.accMuls(d,10)
+        var discountdata=this.accDiv(dx10,a)
+        var discountda=this.accDiv(discountdata,b) //计算原始数据
+        //目标四舍五入保留一位小数
+        var strcount=discountda.toFixed(1)+'5'//取小数后两位字符串
+        var numbercount=parseFloat(strcount)
+        var count;
+        if(discountda-numbercount>0 || discountda-numbercount==0){
+            count=parseFloat(discountda.toFixed(1))+0.1
+        }else{
+            count=parseFloat(discountda.toFixed(1))
+        }
+        return count
+   }
    //折后价计算
     payPrice=(a,b,c)=>{
         var payPricedatas=this.accMul(a,b,c)//实际结果却10
         var payPricedata=this.accDiv(payPricedatas,10) //实际结果
         var payPriceda=parseFloat(payPricedata.toFixed(2))//取小数后两位
         var payPrice;
+        // if(payPricedata-payPriceda>0){
+        //     payPrice=NP.plus(payPriceda, 0.01);
+        //     console.log(payPrice)
+        //     payPrice=payPrice.toFixed(2)
+        // }else{
+        //     payPrice=payPriceda
+        //     console.log(payPrice)
+        //     payPrice=payPrice.toFixed(2)
+        // }
         payPrice=payPriceda
         payPrice=payPrice.toFixed(2)
         return payPrice
@@ -467,7 +472,51 @@ class EditableTable extends React.Component {
         r2=Number(arg2.toString().replace(".",""))
         return (r1/r2)*Math.pow(10,t2-t1);
     }
-
+    //根据订单号请求订单信息及会员id
+    barcodesetdatasoce=(messages)=>{
+        let datasouces=this.state.dataSource
+        const result=GetServerData('qerp.web.qpos.od.return.query',messages)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                	const odOrderDetails=json.odOrderDetails
+                	for(var i=0;i<odOrderDetails.length;i++){
+                		odOrderDetails[i].key=i;
+                    odOrderDetails[i].qty=odOrderDetails[i].canReturnQty//把订单数量更改为可退数量
+                    odOrderDetails[i].inventory=odOrderDetails[i].qty
+            		// odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
+                    odOrderDetails[i].check=false
+                	}
+                    if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
+                        this.setState({
+                            dataSource:odOrderDetails,
+                            mbCard:null,
+                            ismbCard:false
+                        },function(){
+                            //传递会员卡信息到展示数据
+                            this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
+                            //置空结算数据
+                            this.props.clearingdata('0','0')
+                            //传递会员卡信息到pay
+                            this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
+                        })
+                    }else{
+                        this.setState({
+                            dataSource:odOrderDetails,
+                            mbCard:json.mbCard,
+                            ismbCard:true
+                        },function(){
+                            this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
+                            this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
+                        })
+                    }
+                    this.props.getAmountDetail(json.order)
+                }else{
+                    message.warning(json.message)
+                }
+            })
+    }
     windowResize = () =>{
         if(!this.refs.tableWrapper){
             return
@@ -500,6 +549,7 @@ class EditableTable extends React.Component {
         </div>
     );
   }
+
 }
 
 export default EditableTable;

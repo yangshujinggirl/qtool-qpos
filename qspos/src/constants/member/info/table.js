@@ -20,6 +20,12 @@ class EditableTable extends React.Component {
             width:'12%',
             dataIndex: 'orderNo'
         }, {
+            title: '消费门店',
+            width:'8%',
+            render:(record)=> {
+              return record.isLocalShop=='true'?'本地':'异地'
+            }
+        },{
             title: '结算金额',
             width:'8%',
             dataIndex: 'amount'
@@ -61,19 +67,19 @@ class EditableTable extends React.Component {
             return 'table_white'
         }
     }
-    
+
     pageChange=(page,pageSize)=>{
         this.setState({
             currentPage:page
         },function(){
             const current=Number(page)-1;
             this.props.dispatch({
-               type: 'memberinfo/fetchList', 
+               type: 'memberinfo/fetchList',
                payload: {code:'qerp.qpos.mb.card.detail.page',values:{mbCardId:this.props.mbCardId,limit:this.state.pageSize,currentPage:current} }
             })
         });
     }
-    
+
     //pageSize 变化的回调
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
@@ -81,15 +87,15 @@ class EditableTable extends React.Component {
             currentPage:1
         },function(){
             this.props.dispatch({
-                type: 'memberinfo/fetchList', 
+                type: 'memberinfo/fetchList',
                 payload: {code:'qerp.qpos.mb.card.detail.page',values:{mbCardId:this.props.mbCardId,limit:pageSize,currentPage:0} }
              })
 
         })
-        
+
     }
 
-    
+
 
     windowResize = () =>{
         if(!this.refs.tableWrapper){
@@ -105,18 +111,18 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         return (
             <div className='member-style memberinfo-style' ref="tableWrapper">
-               <Table 
-                    bordered 
-                    dataSource={this.props.details} 
-                    columns={columns} 
-                    rowClassName={this.rowClassName.bind(this)} 
+               <Table
+                    bordered
+                    dataSource={this.props.details}
+                    columns={columns}
+                    rowClassName={this.rowClassName.bind(this)}
                     pagination={{'total':Number(this.props.total),current:this.state.currentPage,
                     limit:this.props.limit,
                     pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
                     onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}}
                     scroll={{y:this.state.windowHeight}}
                     title={title}
-                   
+
                />
             </div>
         )
@@ -137,7 +143,7 @@ class EditableTable extends React.Component {
             window.addEventListener('resize', this.windowResize);
         }
     }
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
@@ -150,4 +156,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(EditableTable);
-

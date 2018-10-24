@@ -6,18 +6,32 @@ class MyUpload extends React.Component {
     state = {
       fileList: [],
     }
+    beforeUpload(file) {
+      const isSize = file.size / 1024 / 1024 < 1;
+      let fileName = file.name;
+      let fileType = fileName.split('.')[1];
+      if(fileType!='xls'&&fileType!='xlsx'&&fileType!='csv') {
+        message.error('请上传正确的文件类型');
+        return false;
+      }else {
+        if (!isSize) {
+          message.error('导入文件不得大于1M');
+          return false;
+        }
+      }
+    }
     handleChange = (info) => {
-      this.props.setLoding(1)
       var fileList = info.fileList;
       fileList = fileList.slice(-1);
       fileList = fileList.filter((file) => {
         if (file.response) {
+          this.props.setLoding(1)
           if(file.response.code=='0'){
-            this.props.setLoding(0)
             //得到数据，把数据抛出
             const data=file.response.pdSpu
             const total=data.length
-            this.props.Setdate(data,total)
+            this.props.Setdate(data,total);
+            this.props.setLoding(0)
           }else{
             this.props.setLoding(0)
             fileList=[]
@@ -35,7 +49,8 @@ class MyUpload extends React.Component {
             onChange: this.handleChange,
             multiple: false,
             showUploadList:false,
-            name:'mfile'
+            name:'mfile',
+            beforeUpload:this.beforeUpload
         };
         return (
             <Upload {...props} fileList={this.state.fileList}>

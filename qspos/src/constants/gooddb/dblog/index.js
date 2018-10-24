@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,AutoComplete} from 'antd';
 import { Link } from 'dva/router';
 import {GetServerData} from '../../../services/services';
+import {GetExportData} from '../../../services/services';
 import moment from 'moment';
 import {timeForMats} from '../../../utils/commonFc';
 import DbTextModal from './model'
@@ -30,51 +31,52 @@ class AdjustLogIndexForm extends React.Component {
             modelRemark:'',
             exchangeId:'',
             shopId:'',
+            keywords:''
         };
         this._isMounted = false;
         this.columns = [{
-            title: '商品调拨单号',
-            dataIndex: 'exchangeNo',
+              title: '商品调拨单号',
+              dataIndex: 'exchangeNo',
+              width:'12%',
+              render: (text, record, index) => {
+                  return (
+                      <Link to={{pathname:`/dblog/info`,query:{exchangeNo:record.exchangeNo,exchangeId:record.qposPdExchangeId}}}>{text}</Link>
+                  )
+              }
+          },{
+            title: '需求门店',
+            dataIndex: 'inShopName',
             width:'12%',
-            render: (text, record, index) => {
-                return (
-                    <Link to={{pathname:`/dblog/info`,query:{exchangeNo:record.exchangeNo,exchangeId:record.qposPdExchangeId}}}>{text}</Link>
-                )
-            }
-        },{
-          title: '需求门店',
-          dataIndex: 'inShopName',
-          width:'12%',
-        },{
-            title: '调拨商品数量',
-            dataIndex: 'qtySum',
-            width:'8%',
-        },{
-            title: '调拨总价',
-            dataIndex: 'amountSum',
-            width:'8%',
-        },{
-            title: '调拨状态',
-            dataIndex: 'statusStr',
-            width:'8%',
-        },{
-            title: '创建时间',
-            dataIndex: 'createTime',
+          },{
+              title: '调拨商品数量',
+              dataIndex: 'qtySum',
+              width:'8%',
+          },{
+              title: '调拨总价',
+              dataIndex: 'amountSum',
+              width:'8%',
+          },{
+              title: '调拨状态',
+              dataIndex: 'statusStr',
+              width:'8%',
+          },{
+              title: '创建时间',
+              dataIndex: 'createTime',
+              width:'12%',
+          },{
+            title: '门店收货完成时间',
+            dataIndex: 'receiveTime',
             width:'12%',
-        },{
-          title: '门店收货完成时间',
-          dataIndex: 'receiveTime',
-          width:'12%',
-        },{
-          title: '操作',
-          dataIndex: 'operate',
-          width:'5%',
-          render:(text,record)=>{
-            if(record.status === '10'){
-              return <Link onClick={this.showModal.bind(this,record.qposPdExchangeId)}>撤销</Link>
+          },{
+            title: '操作',
+            dataIndex: 'operate',
+            width:'5%',
+            render:(text,record)=>{
+              if(record.status === '10'){
+                return <Link onClick={this.showModal.bind(this,record.qposPdExchangeId)}>撤销</Link>
+              }
             }
-          }
-      }];
+        }];
     }
 
     dateChange = (date, dateString) =>{
@@ -165,14 +167,13 @@ class AdjustLogIndexForm extends React.Component {
         visible:false
       })
     }
-
     rowClassName=(record, index)=>{
     	if (index % 2) {
       		return 'table_gray'
     	}else{
       		return 'table_white'
     	}
-      }
+    }
 
     //获取当前时间
     getNowFormatDate = () =>{
@@ -234,6 +235,24 @@ class AdjustLogIndexForm extends React.Component {
         }
       })
     }
+    onChangeSelect =(e)=> {
+      this.setState({ status: e})
+    }
+    onChangeWords =(e)=> {
+      let target =e.nativeEvent.target;
+      this.setState({ keywords: target.value })
+    }
+    exportList = () =>{
+      const { shopId, keywords, status, exchangeTimeStart, exchangeTimeEnd } =this.state;
+        let data = {
+            exchangeTimeStart,
+            exchangeTimeEnd,
+            keywords,
+            status,
+            inShopId:shopId
+        }
+        const result=GetExportData('qerp.pos.pd.exchange.export',data);
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -253,10 +272,10 @@ class AdjustLogIndexForm extends React.Component {
                                 format={dateFormat}
                                 onChange={this.dateChange.bind(this)} />
                         </FormItem>
-                        <FormItem 
-                            label='需求门店' 
-                            labelCol={{ span: 5 }} 
-                            
+                        <FormItem
+                            label='需求门店'
+                            labelCol={{ span: 5 }}
+
                             wrapperCol={{span: 10}}>
                           {getFieldDecorator('inShopId')(
                             <AutoComplete
@@ -272,7 +291,9 @@ class AdjustLogIndexForm extends React.Component {
                             className='db-sp-auto'
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
-                                {getFieldDecorator('status')(
+                                {getFieldDecorator('status',{
+                                  onChange:this.onChangeSelect
+                                })(
                                    <Select size='large' style={{marginRight:"10px"}} allowClear={true}>
                                         <Option value="10">待收货</Option>
                                         <Option value="20">收货中</Option>
@@ -282,14 +303,18 @@ class AdjustLogIndexForm extends React.Component {
                                 )}
                         </FormItem>
                         <FormItem className='fl search-con-input'>
-                        {getFieldDecorator('keywords')(
+                        {getFieldDecorator('keywords',{
+                          onChange:this.onChangeWords
+                        })(
                             <Input  autoComplete="off" placeholder="请输入商品名称/条码/单号"/>
                         )}
                         </FormItem>
                         <FormItem className='fl'>
                             <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+                            <div className="export-div">
+                                <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button>
+                            </div>
                         </FormItem>
-                        
                     </Form>
                 </div>
                 <div className="table-wrapper add-norecord-img" ref="tableWrapper">

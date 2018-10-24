@@ -283,7 +283,8 @@ class EditableTable extends React.Component {
 		const columns = this.columns;
 		return (
 			<div className='bgf' ref="tableWrapper">
-				<Table bordered
+				<Table
+					bordered
 					dataSource={this.props.datasouce}
 					columns={columns}
 					pagination={false}

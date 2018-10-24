@@ -100,8 +100,28 @@ export default {
         const typeclick2=false
         const typeclick3=false
         const typeclick4=false
-        const rechargetype=1
-        return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile,amountlist,paytypelisy,group,cutAmount,point,amount,rechargevisible,reamount,typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
+        const rechargetype=1;
+        const memberinfo = {isLocalShop:true};
+        return {...state,
+          datasouce,totolnumber,
+          totolamount,thispoint,onbule,
+          name,levelStr,memberpoint,
+          memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,
+          paytotolamount,
+          themeindex,barcode,
+          cardNoMobile,
+          amountlist,paytypelisy,
+          group,cutAmount,
+          point,
+          amount,
+          rechargevisible,
+          reamount,
+          typeclick1,
+          typeclick2,
+          typeclick3,typeclick4,
+          rechargetype,
+          memberinfo
+        }
        },
 	    datasouce(state, { payload: datasouce}) {
           var totolnumber=0
