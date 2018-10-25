@@ -251,7 +251,7 @@ class AdjustLogIndexForm extends React.Component {
             status,
             inShopId:shopId
         }
-        const result=GetExportData('qerp.pos.pd.exchange.export',data);
+        const result=GetExportData('qerp.pos.pd.exchange.detail.export',data);
     }
     render() {
         const { getFieldDecorator } = this.props.form;

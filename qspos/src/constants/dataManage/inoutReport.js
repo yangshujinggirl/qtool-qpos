@@ -107,13 +107,13 @@ class InOutReportForm extends React.Component {
           },{
               title: '损益成本',
               dataIndex: 'adjustCostAmount',
-          },{
+          },/*{
               title: '盘点损益数',
               dataIndex: 'checkQty',
           },{
               title: '盘点损益成本',
               dataIndex: 'checkAmount',
-          },{
+          },*/{
               title: '调出数量',
               dataIndex: 'pdExchangeQty',
           },{
