@@ -6,6 +6,7 @@ import {
 import moment from 'moment';
 import {timeForMats} from '../../utils/commonFc';
 import {GetServerData} from '../../services/services';
+import {GetExportData} from '../../services/services';
 import './IntegralStatements.less';
 
 const FormItem = Form.Item;
@@ -136,7 +137,7 @@ class IntegralStatements extends React.Component {
       orderST,
       orderET
     }
-    GetServerData('qerp.qpos.rp.mbcard.point.export',params)
+    GetExportData('qerp.qpos.rp.mbcard.point.export',params)
     .then((res) => {
       console.log(res)
     },(err) => {
