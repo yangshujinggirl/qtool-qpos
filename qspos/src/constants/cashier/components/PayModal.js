@@ -23,18 +23,19 @@ class ValidataModal extends React.Component {
       count:60,
       isSend:false,
       loading:false,
+      disabled:false
     }
   }
   //倒计时
   handleClick() {
     let timer = setInterval(() => {
       let count = this.state.count;
-      this.setState({ isSend:true })
+      this.setState({ isSend:false })
       count-=1;
       if(count<1) {
         clearInterval(timer);
         this.setState({
-          isSend:false,
+          isSend:true,
           count:60,
           btnText:'重新获取'
         });
@@ -48,6 +49,9 @@ class ValidataModal extends React.Component {
   }
   //获取code
   getPhoneCode() {
+    if(!this.validatePhone()) {
+      return false;
+    }
     this.setState({ loading: true })
     GetServerData('qerp.web.qpos.od.pay.code',{phoneNo:this.state.phone})
     .then((res) => {
@@ -66,7 +70,7 @@ class ValidataModal extends React.Component {
       this.props.changePhone(value);
       this.setState({
         phone:value,
-        isSend:!value,
+        isSend:!!value,
         disabled:this.state.phoneCode!=''&&value
       })
     } else {
@@ -79,24 +83,48 @@ class ValidataModal extends React.Component {
   }
   //提交
   onOk() {
-    const { mbCardId } =this.props;
-    //校验验证码是否有效
-    GetServerData('qerp.web.qpos.od.pay.codevalid',{
-      phoneNo:this.state.phone,
-      messagecode:this.state.phoneCode,
-      mbCardId
-    })
-    .then((res) => {
-      if(res.code == '0') {
-        this.props.onSubmit()
-      }
-    })
+    if(this.validatePhone()&&this.validateCode()) {
+      return false;
+      const { mbCardId } =this.props;
+      //校验验证码是否有效
+      GetServerData('qerp.web.qpos.od.pay.codevalid',{
+        phoneNo:this.state.phone,
+        messagecode:this.state.phoneCode,
+        mbCardId
+      })
+      .then((res) => {
+        if(res.code == '0') {
+          this.props.onSubmit()
+        }
+      })
+    }
+  }
+  validatePhone() {
+    let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
+    const { phone } =this.state;
+    if(!regMb.test(phone)) {
+      message.error('请输入正确的手机号')
+      return false;
+    } else {
+      return true
+    }
+  }
+  validateCode(value) {
+    let regCode = /^\d{4}$/;
+    const { phoneCode } =this.state;
+    if(!regCode.test(phoneCode)) {
+      message.error('请输入正确的验证码')
+      return false
+    } else {
+      return true
+    }
   }
   render() {
     const { phone, btnText, disabled, isSend, loading } = this.state;
     return(
       <Modal
         title="会员使用会员卡/积分支付需进行手机验证"
+        // visible={true}
         visible={this.props.visible}
         onCancel={this.props.onCancel}
         width={420}
@@ -108,11 +136,12 @@ class ValidataModal extends React.Component {
               <Input
                 data-type="phone"
                 type="number"
+                maxLength={11}
                 onChange={this.onChange.bind(this)}
                 placeholder="请输入手机号"/>
                 <Button
                   loading={loading}
-                  disabled={isSend}
+                  disabled={!isSend}
                   className="get-code-btn"
                   onClick={this.getPhoneCode.bind(this)}>{btnText}</Button>
             </div>
@@ -120,6 +149,7 @@ class ValidataModal extends React.Component {
               <Input
                 data-type="code"
                 type="number"
+                maxLength={4}
                 onChange={this.onChange.bind(this)}
                 placeholder="请输入4位数字验证码"/>
             </div>

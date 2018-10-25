@@ -23,7 +23,7 @@ class EditableTable extends React.Component {
             title: '消费门店',
             width:'8%',
             render:(record)=> {
-              return record.isLocalShop=='true'?'本地':'异地'
+              return record.isLocalShop=='true'?'本店':'异店'
             }
         },{
             title: '结算金额',
