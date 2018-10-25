@@ -85,7 +85,6 @@ class ValidataModal extends React.Component {
   //提交
   onOk() {
     if(this.validatePhone()&&this.validateCode()) {
-      return false;
       const { mbCardId } =this.props;
       //校验验证码是否有效
       GetServerData('qerp.web.qpos.od.pay.codevalid',{
