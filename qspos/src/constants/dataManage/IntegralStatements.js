@@ -185,6 +185,17 @@ class IntegralStatements extends React.Component {
         return 'table_white'
     }
   }
+  formatData(value) {
+    value = String(value);
+    // others.otherSum.split('.')[0]
+    if(value.indexOf('.')!=-1) {
+      value = value.split('.');
+      return value;
+    } else {
+      value = [value,'00'];
+      return value;
+    }
+  }
   render() {
     let { totalData, list, currentPage, total, limit, orderST, orderET } = this.state;
     return(
@@ -192,7 +203,12 @@ class IntegralStatements extends React.Component {
         <div className="total-data-action">
           <div className="data-list">
             <div className="item-wrap">
-              <p className="nums">￥<span className="big-size">{totalData.allocatePoints}</span></p>
+              <p className="nums">
+                ￥<span className="big-size">{totalData.allocatePoints&&this.formatData(totalData.allocatePoints)[0]}</span>.
+                {
+                  totalData.allocatePoints&&this.formatData(totalData.allocatePoints)[1]
+                }
+              </p>
               <p className="label">
                 <Tooltip title="门店消费赠送总积分 - 门店退货扣减总积分">
                     发放积分数&nbsp;<Icon type="exclamation-circle-o"/>
@@ -200,7 +216,12 @@ class IntegralStatements extends React.Component {
               </p>
             </div>
             <div className="item-wrap">
-              <p className="nums">￥<span className="big-size">{totalData.deductPoints}</span></p>
+              <p className="nums">
+                ￥<span className="big-size">{totalData.deductPoints&&this.formatData(totalData.deductPoints)[0]}</span>.
+                {
+                  totalData.deductPoints&&this.formatData(totalData.deductPoints)[1]
+                }
+              </p>
               <p className="label">
                 <Tooltip title="门店积分抵值总数">
                     抵扣积分数&nbsp;<Icon type="exclamation-circle-o"/>
@@ -208,7 +229,12 @@ class IntegralStatements extends React.Component {
               </p>
             </div>
             <div className="item-wrap">
-              <p className="nums">￥<span className="big-size">{totalData.toDeductTotalPoints}</span></p>
+              <p className="nums">
+                ￥<span className="big-size">{totalData.toDeductTotalPoints&&this.formatData(totalData.toDeductTotalPoints)[0]}</span>.
+                {
+                  totalData.toDeductTotalPoints&&this.formatData(totalData.toDeductTotalPoints)[1]
+                }
+              </p>
               <p className="label">
                 <Tooltip title="门店待抵扣积分总数=门店消费赠送总积分+门店退货扣减总积分+门店积分抵值总数">
                   积分池待抵扣总积分&nbsp;<Icon type="exclamation-circle-o"/>
