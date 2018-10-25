@@ -246,6 +246,7 @@ class PayModal extends React.Component {
                         this.setState({
                             waringfirst:false
                         },()=>{
+                        const { mbCardInfo } =json;
                           const point=json.mbCardInfo.point
                           const amount=json.mbCardInfo.amount
                           const payvisible=true
@@ -268,7 +269,7 @@ class PayModal extends React.Component {
                                 //禁用
                                 paytypelisy[5].disabled=true
                             }
-                            if(parseFloat(this.props.amount)>0){
+                            if(parseFloat(this.props.amount)>0&&mbCardInfo.isLocalShop=='true'){
                                 //会员卡选中为默认支付方式，不禁用
                                 paytypelisy[4].check=true
                                 //判断会员卡总额和总消费金额
