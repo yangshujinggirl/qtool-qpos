@@ -30,8 +30,8 @@ const columns = [{
 			key: 'name',
 	},{
 			title:'可用积分',
-			dataIndex: 'level',
-			key: 'level',
+			dataIndex: 'point',
+			key: 'point',
 	}]
 class Operationls extends React.Component {
 	constructor(props) {
