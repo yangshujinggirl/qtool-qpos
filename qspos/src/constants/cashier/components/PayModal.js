@@ -29,6 +29,7 @@ class ValidataModal extends React.Component {
   //倒计时
   handleClick() {
     let timer = setInterval(() => {
+      console.log('000000')
       let count = this.state.count;
       this.setState({ isSend:false })
       count-=1;
