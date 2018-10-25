@@ -216,82 +216,80 @@ class SlidecountCD extends React.Component {
 
     render(){
       const { mbCardCd, odOrderCd, orderDetailsCd, orOrderPayCd } =this.props;
-        return(
-                <div className="sellinfolist-wrapper">
-                  {
-                    odOrderCd&&
-                    <ul className='sellinfolist'>
-                      {
-                        odOrderCd&&<li>
-                                    <div className="sellinfo-row">
-                                      <div>
-                                        <span>销售订单</span>：{odOrderCd.orderNo}
-                                      </div>
-                                      <div>
-                                        <span>订单来源</span>：APP
-                                      </div>
-                                    </div>
-                                    <div className="sellinfo-row">
-                                      <div>
-                                        <span>销售时间</span>：{odOrderCd.createTime}
-                                      </div>
-                                      <div>
-                                        <span>销售员</span>：{odOrderCd.nickname}
-                                      </div>
-                                    </div>
-                                </li>
-                      }
-                        <li>
-                          {
-
-                            orderDetailsCd&&orderDetailsCd.length>0&&orderDetailsCd.map((item,index)=>{
-                                return(
-                                    <div key={index}>
-                                        <div className="sellinfo-row"><div><span>商品名称</span>：{item.name} </div></div>
-                                        <div className="sellinfo-row"><div><span>商品条码</span>：{item.code}</div> <div><span>规格</span>：{item.displayName}</div></div>
-                                        <div className="sellinfo-row"><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price}</div><div><span>折后价</span>：{item.payPrice}</div><div><span>折扣</span>：{item.discount}</div></div>
-                                    </div>
-                                    )
-                            })
-                          }
-                        </li>
-                        <li style={{borderBottom:'0'}}>
-                          {
-                            mbCardCd&&
-                            <div className="sellinfo-row">
-                              <div>
-                                <span>会员姓名</span>：{mbCardCd&&mbCardCd.name}
-                                { mbCardCd.isLocalShopStr=='异店'&&<span className="local-shop">{mbCardCd.isLocalShopStr}</span> }
-                              </div>
-                              <div><span>会员电话</span>：{mbCardCd&&mbCardCd.mobile} </div>
-                              <div><span>本次积分</span>：{odOrderCd.orderPoint}</div>
-                            </div>
-                          }
-                            <div className="sellinfo-row">
-                              <div><span>折扣优惠</span>：0.00</div>
-                              <div><span>抹零优惠</span>：0.00</div>
-                            </div>
-                            <div className="sellinfo-row">
-                              <div>
-                                <span>结算收银</span>：
-                                {odOrderCd.amount}
-                                {
-                                  orOrderPayCd.length>0&&
-                                  <span>「用户APP支付：<span>{orOrderPayCd[0].amount}，</span>Qtools补贴：{orOrderPayCd[1].amount}」</span>
-                                }
-                              </div>
-                            </div>
-                        </li>
-                    </ul>
-                  }
-
-                    <div className="re-print" onClick={this.rePrint.bind(this)}>
-                        <img src={require("../images/icon_rePrint@2x.png")} alt=""/>
+      return(
+        <div className="sellinfolist-wrapper">
+          {
+            odOrderCd&&
+            <ul className='sellinfolist'>
+              {
+                odOrderCd&&
+                <li>
+                  <div className="sellinfo-row">
+                    <div>
+                      <span>销售订单</span>：{odOrderCd.orderNo}
                     </div>
-                </div>
-            )
+                    <div>
+                      <span>订单来源</span>：APP
+                    </div>
+                  </div>
+                  <div className="sellinfo-row">
+                    <div>
+                      <span>销售时间</span>：{odOrderCd.createTime}
+                    </div>
+                    <div>
+                      <span>销售员</span>：{odOrderCd.nickname}
+                    </div>
+                  </div>
+                </li>
+              }
+              <li>
+                {
+                  orderDetailsCd&&orderDetailsCd.length>0&&orderDetailsCd.map((item,index)=>{
+                    return(
+                        <div key={index}>
+                            <div className="sellinfo-row"><div><span>商品名称</span>：{item.name} </div></div>
+                            <div className="sellinfo-row"><div><span>商品条码</span>：{item.code}</div> <div><span>规格</span>：{item.displayName}</div></div>
+                            <div className="sellinfo-row"><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price}</div><div><span>折后价</span>：{item.payPrice}</div><div><span>折扣</span>：{item.discount}</div></div>
+                        </div>
+                        )
+                  })
+                }
+              </li>
+              <li style={{borderBottom:'0'}}>
+                {
+                  mbCardCd&&
+                  <div className="sellinfo-row">
+                    <div>
+                      <span>会员姓名</span>：{mbCardCd&&mbCardCd.name}
+                      { mbCardCd.isLocalShopStr=='异店'&&<span className="local-shop">{mbCardCd.isLocalShopStr}</span> }
+                    </div>
+                    <div><span>会员电话</span>：{mbCardCd&&mbCardCd.mobile} </div>
+                    <div><span>本次积分</span>：{odOrderCd.orderPoint}</div>
+                  </div>
+                }
+                  <div className="sellinfo-row">
+                    <div><span>折扣优惠</span>：0.00</div>
+                    <div><span>抹零优惠</span>：0.00</div>
+                  </div>
+                  <div className="sellinfo-row">
+                    <div>
+                      <span>结算收银</span>：
+                      {odOrderCd.amount}
+                      {
+                        orOrderPayCd.length>0&&
+                        <span>「用户APP支付：<span>{orOrderPayCd[0].amount}，</span>Qtools补贴：{orOrderPayCd[1].amount}」</span>
+                      }
+                    </div>
+                  </div>
+              </li>
+            </ul>
+          }
+          <div className="re-print" onClick={this.rePrint.bind(this)}>
+              <img src={require("../images/icon_rePrint@2x.png")} alt=""/>
+          </div>
+        </div>
+      )
     }
-
 }
 //tap count 销售
 class Slidecountsell extends React.Component {
@@ -314,115 +312,121 @@ class Slidecountsell extends React.Component {
     }
 
     render(){
-        return(
-                <div className="sellinfolist-wrapper">
-                    <ul className='sellinfolist'>
-                        <li className="sellinfo-item">
-                            <div className="sellinfo-row">
-                              <div>
-                                <span>销售订单</span>：{this.props.odOrder.orderNo}
-                              </div>
-                              <div>
-                                <span>订单来源：</span>POS
-                              </div>
-                            </div>
-                            <div className="sellinfo-row">
-                              <div><span>销售时间</span>：{this.props.odOrder.saleTime}</div>
-                              <div><span>销售员</span>：{this.props.odOrder.nickname}</div>
-                            </div>
-                        </li>
-                        <li>
-                            {
-
-                                this.props.orderDetails.map((item,index)=>{
-                                  return(
-                                    <div key={index}>
-                                        <div className="sellinfo-row"><div><span>商品名称</span>：{item.name} </div></div>
-                                        <div className="sellinfo-row"><div><span>商品条码</span>：{item.code}</div> <div><span>规格</span>：{item.displayName}</div></div>
-                                        <div className="sellinfo-row"><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price}</div><div><span>折后价</span>：{item.payPrice}</div><div><span>折扣</span>：{item.discount}</div></div>
-                                    </div>
-                                  )
-                                })
-
-                            }
-                        </li>
-                        {
-
-                            this.props.mbCard1==null || undefined || ''
-                            ?
-                                (
-                                    this.props.orOrderPay.length>0
-                                ?
-                                    (
-                                        this.props.orOrderPay.length>1
-                                        ?
-                                        <li style={{borderBottom:'0'}}>
-                                            <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                            <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
-                                        </li>
-                                        :
-                                        <li style={{borderBottom:'0'}}>
-                                            <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                            <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
-                                        </li>
-                                    )
-                                :
-                                    <li style={{borderBottom:'0'}}>
-                                      <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                      <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}</div></div>
-                                    </li>
-                                )
-                            :
-                            (
-                                this.props.orOrderPay.length>0
-                            ?
-                                (
-                                    this.props.orOrderPay.length>1
-                                    ?
-                                    <li style={{borderBottom:'0'}}>
-                                        <div className="sellinfo-row">
-                                          <div><span>会员姓名</span>：{this.props.mbCard1.name} { this.props.mbCard1.isLocalShopStr=='异店'&&<span className="local-shop">{this.props.mbCard1.isLocalShopStr}</span> }</div>
-                                          <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
-                                          <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
-                                        </div>
-                                        <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                        <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}，<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
-                                    </li>
-                                    :
-                                    <li style={{borderBottom:'0'}}>
-                                        <div className="sellinfo-row">
-                                          <div>
-                                            <span>会员姓名</span>：{this.props.mbCard1.name}
-                                            {this.props.mbCard1.isLocalShop=='异店'?
-                                              <span>'异店'</span>
-                                              :
-                                              ''
-                                            }
-                                          </div>
-                                          <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
-                                          <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
-                                        </div>
-                                        <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                        <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
-                                    </li>
-                                )
-                            :
-                                <li style={{borderBottom:'0'}}>
-                                  <div className="sellinfo-row"><div><span>会员姓名</span>：{this.props.mbCard1.name} </div><div><span>会员电话</span>：{this.props.mbCard1.mobile} </div><div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div></div>
-                                  <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
-                                  <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}</div></div>
-                                </li>
-                                )
-
-                        }
-                    </ul>
-                    <div className="re-print" onClick={this.rePrint.bind(this)}>
-                        <img src={require("../images/icon_rePrint@2x.png")} alt=""/>
-                    </div>
+      console.log(this.props.mbCard1.isLocalShopStr=='异店')
+    return(
+        <div className="sellinfolist-wrapper">
+          <ul className='sellinfolist'>
+            <li className="sellinfo-item">
+              <div className="sellinfo-row">
+                <div>
+                  <span>销售订单</span>：{this.props.odOrder.orderNo}
                 </div>
-            )
+                <div>
+                  <span>订单来源：</span>POS
+                </div>
+              </div>
+              <div className="sellinfo-row">
+                <div><span>销售时间</span>：{this.props.odOrder.saleTime}</div>
+                <div><span>销售员</span>：{this.props.odOrder.nickname}</div>
+              </div>
+            </li>
+            <li>
+              {
+                this.props.orderDetails.map((item,index)=>{
+                  return(
+                    <div key={index}>
+                        <div className="sellinfo-row"><div><span>商品名称</span>：{item.name} </div></div>
+                        <div className="sellinfo-row"><div><span>商品条码</span>：{item.code}</div> <div><span>规格</span>：{item.displayName}</div></div>
+                        <div className="sellinfo-row"><div><span>数量</span>：{item.qty} </div><div><span>零售价</span>：{item.price}</div><div><span>折后价</span>：{item.payPrice}</div><div><span>折扣</span>：{item.discount}</div></div>
+                    </div>
+                  )
+                })
+              }
+            </li>
+            {
+              this.props.mbCard1==null || undefined || ''?
+              (
+                this.props.orOrderPay.length>0?
+                (
+                  this.props.orOrderPay.length>1?
+                  <li style={{borderBottom:'0'}}>
+                      <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
+                      <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
+                  </li>
+                  :
+                  <li style={{borderBottom:'0'}}>
+                      <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
+                      <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
+                  </li>
+                )
+                :
+                <li style={{borderBottom:'0'}}>
+                  <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
+                  <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}</div></div>
+                </li>
+              )
+              :
+              (
+                this.props.orOrderPay.length>0?
+                (
+                  this.props.orOrderPay.length>1?
+                  <li style={{borderBottom:'0'}}>
+                      <div className="sellinfo-row">
+                        <div>
+                          <span>会员姓名</span>：{this.props.mbCard1.name}
+                          {
+                            this.props.mbCard1.isLocalShopStr=='异店'&&<span className="local-shop">{this.props.mbCard1.isLocalShopStr}</span>
+                          }
+                        </div>
+                        <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
+                        <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
+                      </div>
+                      <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
+                      <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}，<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
+                  </li>
+                  :
+                  <li style={{borderBottom:'0'}}>
+                      <div className="sellinfo-row">
+                        <div>
+                          <span>会员姓名</span>：{this.props.mbCard1.name}
+                          {
+                            this.props.mbCard1.isLocalShopStr=='异店'&&
+                            <span className="local-shop">{this.props.mbCard1.isLocalShopStr}</span>
+                          }
+                        </div>
+                        <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
+                        <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
+                      </div>
+                      <div className="sellinfo-row"><div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div><div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
+                      <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
+                  </li>
+                )
+                :
+                <li style={{borderBottom:'0'}}>
+                  <div className="sellinfo-row">
+                    <div>
+                      <span>会员姓名</span>：{this.props.mbCard1.name}
+                      { this.props.mbCard1.isLocalShopStr=='异店'&&<span className="local-shop">{this.props.mbCard1.isLocalShopStr}</span> }
+                    </div>
+                    <div><span>会员电话</span>：{this.props.mbCard1.mobile} </div>
+                    <div><span>本次积分</span>：{this.props.odOrder.orderPoint}</div>
+                  </div>
+                  <div className="sellinfo-row">
+                    <div><span>折扣优惠</span>：{this.props.odOrder.discountAmount} </div>
+                    <div><span>抹零优惠</span>：{this.props.odOrder.cutAmount}</div></div>
+                  <div className="sellinfo-row">
+                    <div><span>结算收银</span>：{this.props.odOrder.payAmount}</div>
+                  </div>
+                </li>
+              )
+            }
+          </ul>
+          <div className="re-print" onClick={this.rePrint.bind(this)}>
+            <img src={require("../images/icon_rePrint@2x.png")} alt=""/>
+          </div>
+        </div>
+      )
     }
-
 }
 //tap count 退货
 class Slidecountback extends React.Component {

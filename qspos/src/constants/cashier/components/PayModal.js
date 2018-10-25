@@ -23,13 +23,13 @@ class ValidataModal extends React.Component {
       count:60,
       isSend:false,
       loading:false,
-      disabled:false
+      disabled:false,
+      isEnter:false
     }
   }
   //倒计时
   handleClick() {
     let timer = setInterval(() => {
-      console.log('000000')
       let count = this.state.count;
       this.setState({ isSend:false })
       count-=1;
@@ -38,12 +38,14 @@ class ValidataModal extends React.Component {
         this.setState({
           isSend:true,
           count:60,
-          btnText:'重新获取'
+          btnText:'重新获取',
+          isEnter:false
         });
       } else {
         this.setState({
           count,
-          btnText:`${count}秒后重发`
+          btnText:`${count}秒后重发`,
+          isEnter:true
         })
       }
     },1000)
@@ -95,6 +97,8 @@ class ValidataModal extends React.Component {
       .then((res) => {
         if(res.code == '0') {
           this.props.onSubmit()
+        } else {
+          message.error(res.message)
         }
       })
     }
@@ -119,8 +123,21 @@ class ValidataModal extends React.Component {
       return true
     }
   }
+  //tab键聚焦验证码表单
+  onKeyUp=(e)=>{
+		if(e.keyCode==9){
+      const Valuemember=ReactDOM.findDOMNode(this.refs.phoneCode);
+  		Valuemember.focus()
+		}
+	}
+  //阻止默认事件
+	onKeydown=(e)=>{
+		if(e.keyCode==9){
+			e.preventDefault()
+		}
+	}
   render() {
-    const { phone, btnText, disabled, isSend, loading } = this.state;
+    const { phone, btnText, disabled, isSend, loading, isEnter } = this.state;
     return(
       <Modal
         title="会员使用会员卡/积分支付需进行手机验证"
@@ -135,20 +152,25 @@ class ValidataModal extends React.Component {
             <div className="row">
               <Input
                 data-type="phone"
-                type="number"
+                type="text"
+                disabled={isEnter}
                 maxLength={11}
+                onKeyUp={this.onKeyUp.bind(this)}
+                onKeyDown={this.onKeydown.bind(this)}
                 onChange={this.onChange.bind(this)}
                 placeholder="请输入手机号"/>
-                <Button
-                  loading={loading}
-                  disabled={!isSend}
-                  className="get-code-btn"
-                  onClick={this.getPhoneCode.bind(this)}>{btnText}</Button>
+                <div className="get-code-btn">
+                  <Button
+                    loading={loading}
+                    disabled={!isSend}
+                    onClick={this.getPhoneCode.bind(this)}>{btnText}</Button>
+                </div>
             </div>
             <div className="row">
               <Input
                 data-type="code"
-                type="number"
+                type="text"
+                ref='phoneCode'
                 maxLength={4}
                 onChange={this.onChange.bind(this)}
                 placeholder="请输入4位数字验证码"/>
