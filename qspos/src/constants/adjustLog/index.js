@@ -27,7 +27,8 @@ class AdjustLogIndexForm extends React.Component {
             adjustTimeST:"",
             adjustTimeET:"",
             visible:false,
-            windowHeight:''
+            windowHeight:'',
+            keywords:''
         };
         this._isMounted = false;
         this.columns = [{
@@ -111,10 +112,8 @@ class AdjustLogIndexForm extends React.Component {
             values.adjustTimeET=this.state.adjustTimeET
             values.limit=this.state.limit;
             values.currentPage=this.state.currentPage
-            const result=GetServerData('qerp.pos.pd.adjust.query',values)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
+            GetServerData('qerp.pos.pd.adjust.query',values)
+            .then((json) => {
                 if(json.code=='0'){
                     const adjustNos = json.adjustNos;
                     for(let i=0;i<adjustNos.length;i++){
@@ -132,13 +131,21 @@ class AdjustLogIndexForm extends React.Component {
             })
         })
     }
+    onChangeWords =(e)=> {
+      let target =e.nativeEvent.target;
+      this.setState({ keywords: target.value })
+    }
+    onChangeSelect =(e)=> {
+      this.setState({ type: e })
+    }
     //导出数据
     exportList = () =>{
+      const { adjustTimeST, adjustTimeET, name, type } =this.state;
         let data = {
-            adjustTimeST:this.state.adjustTimeST,
-            adjustTimeET:this.state.adjustTimeET,
-            name:this.state.name,
-            type:1
+            adjustTimeST,
+            adjustTimeET,
+            name,
+            type
         }
         const result=GetExportData('qerp.qpos.pd.adjust.export',data);
     }
@@ -149,9 +156,6 @@ class AdjustLogIndexForm extends React.Component {
       		return 'table_white'
     	}
     }
-
-
-
     //获取当前时间
     getNowFormatDate = () =>{
         let startRpDate=timeForMats(30).t2;
@@ -204,7 +208,9 @@ class AdjustLogIndexForm extends React.Component {
                             className='adjustlog-select-log'
                             labelCol={{ span: 5 }}
                             wrapperCol={{span: 10}}>
-                                {getFieldDecorator('type')(
+                                {getFieldDecorator('type',{
+                                  onChange:this.onChangeSelect
+                                })(
                                    <Select size='large' style={{marginRight:"10px"}} allowClear={true}
                                         placeholder="请选择损益类型">
                                             <Option value="1">商品丢失损坏</Option>
@@ -226,7 +232,9 @@ class AdjustLogIndexForm extends React.Component {
                             </div>
                         </FormItem>
                         <FormItem className='fr search-con-input'>
-                        {getFieldDecorator('keywords')(
+                        {getFieldDecorator('keywords',{
+                          onChange:this.onChangeWords
+                        })(
                             <Input  autoComplete="off" placeholder="请输入商品名称/条码/单号"/>
                         )}
                         </FormItem>

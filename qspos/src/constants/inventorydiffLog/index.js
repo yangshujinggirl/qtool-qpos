@@ -116,7 +116,6 @@ class AdjustLogIndexForm extends React.Component {
             checkTimeST :this.state.checkTimeST,
             checkTimeET:this.state.checkTimeET,
             keywords:this.state.keywords,
-            type:1
         }
         const result=GetExportData('qerp.pos.pd.check.export',data);
     }
