@@ -144,7 +144,7 @@ class ValidataModal extends React.Component {
         // visible={true}
         visible={this.props.visible}
         onCancel={this.props.onCancel}
-        width={420}
+        width={400}
         closable={true}
         className="validate-modal-wrap"
         footer={null}>
@@ -414,14 +414,16 @@ class PayModal extends React.Component {
     }
     //组合支付
     connectclick=()=>{
-        const group=this.props.group
-        const groups=this.props.group?false:true
+        const { memberinfo, paytotolamount, point } =this.props;
+        const group=this.props.group;
+        const groups=this.props.group?false:true;
+        let amountlist = [];//更改支付方式
+        const paytypelisy=this.props.paytypelisy //按钮list
         this.props.dispatch({
             type:'cashier/groups',
             payload:groups
         })
         if(!groups){
-            const paytypelisy=this.props.paytypelisy //按钮list
             for(var i=0;i<paytypelisy.length;i++){
                 paytypelisy[i].check=false
             }
@@ -432,6 +434,30 @@ class PayModal extends React.Component {
             setTimeout(()=>{
                 this.listclick(0)
             },1)
+        } else {
+          //异地会员默认选中积分支付
+          if(memberinfo.isLocalShop == 'false'&&point>0) {
+            for(var i=0;i<paytypelisy.length;i++){
+                paytypelisy[i].check=false;
+                paytypelisy[5].check=true;
+            }
+            amountlist.push({
+              name:'积分',
+              value:paytotolamount,
+              type:'6'
+            })
+            this.props.dispatch({
+                type:'cashier/amountlist',
+                payload:amountlist
+            })
+            this.props.dispatch({
+                type:'cashier/paytypelisy',
+                payload:paytypelisy
+            })
+            setTimeout(()=>{
+                this.listclick(5)
+            },1)
+          }
         }
     }
     //权重处理方法
