@@ -47,7 +47,8 @@ class Operationls extends React.Component {
 			cardNo:'',
 			mbCardId:null,
 	    isBirthMonth:false,
-			dataSource:[]
+			dataSource:[],
+			isPhone:false,
 		}
 		this.rowSelection={
 			onChange:this.checkChange,
@@ -167,11 +168,24 @@ class Operationls extends React.Component {
 	}
 	// 根据会员号或手机号查询会员信息
 	searchmemberinfo=()=>{
-		let values={cardNoMobile:this.props.cardNoMobile}
+		const { cardNoMobile } =this.props;
+		this.checkIsPhone(cardNoMobile,'input')
 		this.props.dispatch({
 			type:'cashier/memberinfo',
-			payload:values
+			payload:{cardNoMobile}
 		})
+	}
+	//判断是会员手机号还会员卡号
+	checkIsPhone(value,type) {
+		let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
+		let isPhone;
+		//手机号&&表单输入
+		if(!regMb.test(value)&&type=='input') {
+			isPhone = false;
+		} else {
+			isPhone = true;
+		}
+		this.setState({ isPhone })
 	}
 	//切换会员
 	toggleEvent() {
@@ -190,6 +204,7 @@ class Operationls extends React.Component {
 	//选择会员
 	checkChange=(selectedRowKeys, selectedRows)=> {
 		let cardNoMobile = selectedRows[0].cardNo;
+		this.checkIsPhone(cardNoMobile,'cardNo')
 		this.props.dispatch({
 			type:'cashier/memberinfo',
 			payload:{
@@ -443,7 +458,7 @@ class Operationls extends React.Component {
 	}
 	render(){
 		const { memberinfo } =this.props;
-		const { dataSource } =this.state;
+		const { dataSource, isPhone } =this.state;
     const openWechat=sessionStorage.getItem("openWechat")
     const openAlipay=sessionStorage.getItem("openAlipay");
 		return(
@@ -487,7 +502,7 @@ class Operationls extends React.Component {
 							</div>
               <div className='fr'>
 								{
-									memberinfo.isMoreShop =='true'&&<span
+									isPhone&&memberinfo.isMoreShop =='true'&&<span
 										className='themecolor toggle-btn'
 										onClick={this.toggleEvent.bind(this)}>切换其他会员>></span>
 								}

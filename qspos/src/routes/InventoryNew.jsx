@@ -25,7 +25,7 @@ class MyUpload extends React.Component {
       const isSize = file.size / 1024 / 1024 < 1;
       let fileName = file.name;
       let fileType = fileName.split('.')[1];
-      if(fileType!='xls'&&fileType!='xlsx'&&fileType!='csv') {
+      if(fileType!='xls'&&fileType!='xlsx') {
         message.error('请上传正确的文件类型');
         return false;
       }else {
