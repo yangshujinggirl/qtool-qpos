@@ -345,7 +345,7 @@ class InOutReportForm extends React.Component {
                         </li>
                         <li>
                             <div>
-                                <p style={{color:"#51C193",marginBottom:'0'}}><i>¥</i>
+                                <p style={{color:"#FB6349",marginBottom:'0'}}><i>¥</i>
                                 {this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[0]:"0"}
                                 <span>.{this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[1]:"00"}</span>
                                 </p>
@@ -357,8 +357,8 @@ class InOutReportForm extends React.Component {
                             </div>
                         </li>
                         <li>
-                          <div>
-                            <p style={{color:"#51C193",marginBottom:'0',cursor:'pointer'}} onClick={this.showModal.bind(this)}>
+                          <div onClick={this.showModal.bind(this)} style={{cursor:'pointer'}}>
+                            <p style={{color:"#51C193",marginBottom:'0',cursor:'pointer'}} >
                               <i>¥</i>
                               {
                                 others.otherSum&&this.formatData(others.otherSum)[0]
@@ -370,8 +370,8 @@ class InOutReportForm extends React.Component {
                               </span>
                             </p>
                             <span className="explain-span">
-                            <Tooltip title="退货总成本 + 损益总成本 - 调出总成本">
-                              其他成本&nbsp;<Icon type="exclamation-circle-o"/>
+                            <Tooltip>
+                              <span style={{color:"#51C193"}}>其他成本>></span>
                             </Tooltip>
                             </span>
                           </div>
