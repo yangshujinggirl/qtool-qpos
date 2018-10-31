@@ -49,11 +49,9 @@ class Operationls extends React.Component {
 	    isBirthMonth:false,
 			dataSource:[],
 			isPhone:false,
+			selectedRowKeys:[]
 		}
-		this.rowSelection={
-			onChange:this.checkChange,
-			type:'radio'
-		}
+
 		this.firstclick=true
 	}
 	componentDidMount(){
@@ -192,7 +190,11 @@ class Operationls extends React.Component {
 		GetServerData('qerp.pos.mb.card.switch',{mobile:this.props.cardNoMobile})
 		.then((res) => {
 			if(res.code == '0') {
-				this.setState({ dataSource:res.iQposMbCards, visible:true });
+				res.iQposMbCards&&res.iQposMbCards.map((el,index) => (el.key = index))
+				let selectedRowKeys = res.iQposMbCards.findIndex((value, index, arr) => {
+					return value.cardNo == this.props.memberinfo.cardNo
+				})
+				this.setState({ dataSource:res.iQposMbCards, visible:true, selectedRowKeys:[selectedRowKeys] });
 			}
 		},(error) => {
 			console.log(error)
@@ -461,6 +463,13 @@ class Operationls extends React.Component {
 		const { dataSource, isPhone } =this.state;
     const openWechat=sessionStorage.getItem("openWechat")
     const openAlipay=sessionStorage.getItem("openAlipay");
+
+		const rowSelection={
+			onChange:this.checkChange,
+			type:'radio',
+			selectedRowKeys:this.state.selectedRowKeys
+		};
+		console.log(rowSelection);
 		return(
 			<div className="uesleft-components-wrap">
 				<div className='clearfix mt30'>
@@ -554,7 +563,7 @@ class Operationls extends React.Component {
 							className="member-table"
 							bordered
 							pagination={false}
-							rowSelection={this.rowSelection}
+							rowSelection={rowSelection}
 							dataSource={dataSource}
 							columns={columns}/>
 					</div>
