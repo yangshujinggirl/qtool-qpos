@@ -198,6 +198,7 @@ class InOutReportForm extends React.Component {
                     for(let key in others) {
                       others[key]= NP.round(others[key], 2)
                     };
+                    others.key = 0;
                     this.setState({
                         finalInvAmountSum:finalInvAmountSum,//#String 期末库存总成本
                         invAmountSum:invAmountSum,//#String 期初库存总成本
@@ -357,7 +358,7 @@ class InOutReportForm extends React.Component {
                         </li>
                         <li>
                           <div>
-                            <p style={{color:"#F24343",marginBottom:'0',cursor:'pointer'}} onClick={this.showModal.bind(this)}>
+                            <p style={{color:"#51C193",marginBottom:'0',cursor:'pointer'}} onClick={this.showModal.bind(this)}>
                               <i>¥</i>
                               {
                                 others.otherSum&&this.formatData(others.otherSum)[0]
