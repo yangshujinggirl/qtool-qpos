@@ -270,16 +270,17 @@ class Operationls extends React.Component {
 		GetServerData('qerp.pos.mb.card.charge',values)
 		.then((json) => {
 				if(json.code=='0'){
-						const rechargevisible=false
-						this.props.dispatch({
-								type:'cashier/rechargevisible',
-								payload:rechargevisible
-						})
 						const reamount=null
 						this.props.dispatch({
 								type:'cashier/reamount',
 								payload:reamount
 						})
+						const rechargevisible=false
+						this.props.dispatch({
+								type:'cashier/rechargevisible',
+								payload:rechargevisible
+						})
+
 						setTimeout(()=>{
 								this.firstclick=true
 								this.searchmemberinfo()
@@ -300,6 +301,12 @@ class Operationls extends React.Component {
 			GetLodop(id,type,orderNo,size)
 	}
 	handleCancel = (e) => {
+		//清除表单历史数据
+			const reamount=null
+			this.props.dispatch({
+					type:'cashier/reamount',
+					payload:reamount
+			})
 			const rechargevisible=false
 			this.props.dispatch({
 					type:'cashier/rechargevisible',
@@ -469,7 +476,6 @@ class Operationls extends React.Component {
 			type:'radio',
 			selectedRowKeys:this.state.selectedRowKeys
 		};
-		console.log(rowSelection);
 		return(
 			<div className="uesleft-components-wrap">
 				<div className='clearfix mt30'>
