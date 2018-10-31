@@ -475,7 +475,17 @@ class Slidecountback extends React.Component {
                         </li>
                         :
                         <li style={{borderBottom:'0'}}>
-                            <div className="sellinfo-row"><div><span>会员姓名</span>：{this.props.mbCard3.name} </div><div><span>会员电话</span>：{this.props.mbCard3.mobile} </div><div><span>扣除积分</span>：{this.props.odReturn.returnPoint}</div></div>
+                            <div className="sellinfo-row">
+                              <div>
+                                <span>会员姓名</span>：{this.props.mbCard3.name}
+                                {
+                                  this.props.mbCard3.isLocalShopStr=='异店'&&
+                                  <span className="local-shop">{this.props.mbCard3.isLocalShopStr}</span>
+                                }
+                               </div>
+                              <div><span>会员电话</span>：{this.props.mbCard3.mobile} </div>
+                              <div><span>扣除积分</span>：{this.props.odReturn.returnPoint}</div>
+                            </div>
                             <div className="sellinfo-row"><div><span>结算退款</span>：{this.props.odReturn.refundAmount}「<span>{this.props.odReturn.typeStr}</span>」</div></div>
                         </li>
 
