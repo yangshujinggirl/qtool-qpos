@@ -446,7 +446,7 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 /*收银*/
 .cashier{width: 45%;height: 40px;margin-left: 2%;}
 .cashier .ant-switch{width: 100%;height: 40px;line-height: 40px;background: #fff;border: 1px solid #E7E8EC;}
-.cashier .ant-switch span{color: #35bab0;margin-left: 70%;line-height: 39px;}
+.cashier .ant-switch span{width: 20%;color: #35bab0;margin-left: 77%;line-height: 39px; font-weight: bold; text-align: center;}
 .cashier .ant-switch:after{top:1px;background:#35bab0;width: 36px;height: 36px;border:2px solid #fff;box-shadow: 0 0 20px 0 rgba(116,119,127,0.30);}
 
 /* 充值 */
@@ -475,8 +475,8 @@ span.ant-radio + *{font-size: 16px;color: #74777F;}
 /*退货*/
 .returngood{width: 45%;height: 40px;margin-left: 2%;}
 .returngood .ant-switch{width: 100%;height: 40px;line-height: 40px;background: #fff;border: 1px solid #FB6349;}
-.returngood .ant-switch span{color: #FB6349;line-height: 39px;}
-.returngood .ant-switch:after{top:11px;background:#FB6349;top:1px;width: 36px;height: 36px;border:2px solid #fff;box-shadow: 0 0 20px 0 rgba(116,119,127,0.30);left: 95%;}
+.returngood .ant-switch span{ width: 20%;color: #FB6349;line-height: 39px; margin-left: 3%; text-align: center; font-weight: bold;}
+.returngood .ant-switch:after{top:11px;background:#FB6349;top:1px;width: 36px;height: 36px;border:2px solid #fff;box-shadow: 0 0 20px 0 rgba(116,119,127,0.30);left: auto;right: 1px;}
 .returngoodtable .ant-table-bordered .ant-table-thead > tr > th:first-child{width: 5%;}
 .returngoodtable .ant-table-bordered .ant-table-tbody > tr > td:first-child{width: 5%;}
 

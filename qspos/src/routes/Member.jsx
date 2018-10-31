@@ -9,6 +9,7 @@ import {Messagesuccess} from '../components/Method/Method';
 import {GetServerData} from '../services/services';
 import {Gettime} from '../services/data';
 import '../style/member.css';
+import './Member.less';
 //css
 const btn={position:'absolute',right:'0','top':'0'}
 const inputwidth={width:'340px',height:'40px'}
@@ -37,7 +38,7 @@ const RadioGroup = Radio.Group;
 const batrhdata=Gettime()
 
 //pop弹窗
-class Modelform extends Component { 
+class Modelform extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -96,7 +97,7 @@ class Modelform extends Component {
                 })
                 if(babydatatattu){
                     if(this.props.type==false){
-                        const {mbCardId} = this.props.record; 
+                        const {mbCardId} = this.props.record;
                         values.mbCardId=mbCardId
                     }
                     let valuesdata={mbCardInfo:values}
@@ -134,11 +135,11 @@ class Modelform extends Component {
                 }else{
                     message.warning('生日信息不全')
                 }
-            } 
-        
+            }
+
         })
     }
-    
+
     receivebabydata=(dataSource)=>{
         this.babydatasouces=dataSource
     }
@@ -166,12 +167,12 @@ class Modelform extends Component {
         const { name, mobile, cardNo,level,mbCardId,amount,point} = this.props.record;
         const mbCardBirths=this.state.mbCardBirths
         return (
-            <div>
+            <div className="member-list-pages">
                 <div style={this.props.type?widthmeth:textcoloe} onClick={this.showModal.bind(this)}>
                     {this.props.text}
                 </div>
                 <Modal
-                    className="member-width-style"
+                    className="member-width-style member-modal-wrap"
                     title={this.props.texts}
                     visible={this.state.visible}
                     onOk={this.hideModal}
@@ -182,15 +183,19 @@ class Modelform extends Component {
                     closable={false}
                     width={500}
                     footer={[
-                        <div className='fl tc' style={type?footleft:footlefts} key='back' onClick={this.handleCancel.bind(this)}>取消</div>,
-                        <div className='fr tc' style={type?footright:footrights} key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
-                        <div style={footcen} key='line'></div>
-                    ]}
-                >
-                    <Form className='formdis'>
+                        <div
+                          className='fl tc btn-common'
+                          key='back'
+                          onClick={this.handleCancel.bind(this)}>
+                          取消
+                          <div key='line' className="lines"></div>
+                        </div>,
+                        <div className='fr tc btn-common' key='submit' onClick={this.handleOk.bind(this)}>确定</div>,
+                    ]}>
+                    <Form className='formdis member-form-wrap'>
                         {
                             this.props.type?null:
-                            <FormItem 
+                            <FormItem
                             label="会员卡号"
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 16 }}
@@ -199,13 +204,13 @@ class Modelform extends Component {
                                 initialValue: cardNo,
                                 rules: [{ required: true, message: '请输入1-5位会员姓名' }],
                             })(
-                                
+
                                 <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off" disabled/>
                             )}
                             </FormItem>
 
                         }
-                        <FormItem 
+                        <FormItem
                             label="会员姓名"
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 16 }}
@@ -214,11 +219,11 @@ class Modelform extends Component {
                                 initialValue: name,
                                 rules: [{ required: true, message: '请输入1-5位会员姓名' }],
                             })(
-                                
+
                                 <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off"/>
                             )}
                         </FormItem>
-                        <FormItem 
+                        <FormItem
                             label="会员电话"
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 16 }}
@@ -230,23 +235,23 @@ class Modelform extends Component {
                                 <Input placeholder="请输入11位手机号" className='inputwidth' autoComplete="off" />
                             )}
                         </FormItem>
-                        
-                        <FormItem 
+
+                        <FormItem
                             label="宝宝生日"
                             labelCol={{ span: 5 }}
                             wrapperCol={{ span: 16 }}
                             className='listform'
                             >
-                                <EditableTablebaby 
-                                    dispatch={this.props.dispatch} 
-                                    mbCardBirths={mbCardBirths} 
-                                    mbCardId={this.props.mbCardId} 
-                                    receivebabydata={this.receivebabydata.bind(this)} 
+                                <EditableTablebaby
+                                    dispatch={this.props.dispatch}
+                                    mbCardBirths={mbCardBirths}
+                                    mbCardId={this.props.mbCardId}
+                                    receivebabydata={this.receivebabydata.bind(this)}
                                     type={this.props.type}
                                     {...getFieldProps('ref')}
                                 />
                         </FormItem>
-                        <FormItem  
+                        <FormItem
                         labelCol={{ span: 5 }}
                         wrapperCol={{ span: 16 }}
                         label="会员级别"
@@ -264,10 +269,10 @@ class Modelform extends Component {
                         </FormItem>
                         {
                             this.props.type
-                            ? 
+                            ?
                                 null
                             :
-                                <FormItem  
+                                <FormItem
                                 label="账户金额"
                                 labelCol={{ span: 5 }}
                                 wrapperCol={{ span: 16 }}
@@ -285,7 +290,7 @@ class Modelform extends Component {
                             ?
                                 null
                             :
-                                <FormItem  
+                                <FormItem
                                 label="会员积分"
                                 labelCol={{ span: 5 }}
                                 wrapperCol={{ span: 16 }}
@@ -297,9 +302,9 @@ class Modelform extends Component {
                                         <Input className='inputwidth teinput' disabled  autoComplete="off"/>
                                     )}
                                 </FormItem>
-                           
+
                          }
-                    </Form>   
+                    </Form>
                 </Modal>
                 <Modal
                     closable={false}
@@ -316,7 +321,7 @@ class Modelform extends Component {
             </div>
         );
     }
-    
+
 }
 
 const Modelforms=Form.create()(Modelform);
@@ -383,11 +388,11 @@ class EditableTablebaby extends React.Component {
         }],
         count: 2,
         type:1,
-        checked:true,    
+        checked:true,
     };
   }
- 
-    
+
+
     handleAdd = () => {
         if(this.state.dataSource.length>5 || this.state.dataSource.length==5){
             message.warning('宝宝生日最多可以添加5条')
@@ -462,7 +467,7 @@ class EditableTablebaby extends React.Component {
         ds[index].day=value
         this.setState({
             dataSource:ds,
-          
+
         },function(){
             this.props.receivebabydata(this.state.dataSource)
         })
@@ -521,10 +526,10 @@ class EditableTablebaby extends React.Component {
                                 },function(){
                                     this.props.receivebabydata(this.state.dataSource)
                                 })
-                        
+
                         }
 
-                    }else{  
+                    }else{
                         this.props.receivebabydata(this.state.dataSource)
                     }
                 })
@@ -555,12 +560,12 @@ class EditableTablebaby extends React.Component {
     return (
       <div className='clearfix birthday' style={{width:'340px'}}>
         <div className='fl babytablesbox'>
-            <Table 
-                bordered 
-                dataSource={this.state.dataSource} 
-                columns={columns} 
-                pagination={false} 
-                showHeader={false} 
+            <Table
+                bordered
+                dataSource={this.state.dataSource}
+                columns={columns}
+                pagination={false}
+                showHeader={false}
                 bordered={false}
                 className='babytables'
             />
@@ -570,10 +575,10 @@ class EditableTablebaby extends React.Component {
                 <Icon type="plus-circle-o" />
             </div>
             <div className='fl' style={{width:'54px',height:'40ox',lineHeight:'36px'}}>
-                <Switch 
-                    checkedChildren="公历" 
-                    unCheckedChildren="农历" 
-                    onChange={this.SwitchChange.bind(this)} 
+                <Switch
+                    checkedChildren="公历"
+                    unCheckedChildren="农历"
+                    onChange={this.SwitchChange.bind(this)}
                     checked={this.state.checked}
                 />
             </div>
@@ -632,12 +637,12 @@ class EditableTable extends React.Component {
                 return (
                     this.props.mbCards.length > 0 ?
                     (
-                        <Modelforms  
-                            record={record} 
-                            text='修改' 
-                            width='450' 
-                            dispatch={this.props.dispatch} 
-                            type={false}  
+                        <Modelforms
+                            record={record}
+                            text='修改'
+                            width='450'
+                            dispatch={this.props.dispatch}
+                            type={false}
                             mbCardId={record.mbCardId}
                             initPageCurrent={this.initPageCurrent.bind(this)}
                             amount={record.amount}
@@ -680,17 +685,17 @@ class EditableTable extends React.Component {
             this.props.pagefresh(current,this.state.pageSize)
         });
     }
-    
+
     //pageSize 变化的回调
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
             pageSize:pageSize,
             currentPage:1
         },function(){
-             localStorage.setItem("pageSize", pageSize); 
+             localStorage.setItem("pageSize", pageSize);
             this.props.pagefresh(0,pageSize)
         })
-        
+
     }
 
     //初始化页码
@@ -714,8 +719,8 @@ class EditableTable extends React.Component {
         const columns = this.columns;
         return (
             <div className='member-style' ref="tableWrapper">
-               <Table bordered dataSource={this.props.mbCards} columns={columns} 
-                        rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}  
+               <Table bordered dataSource={this.props.mbCards} columns={columns}
+                        rowClassName={this.rowClassName.bind(this)} loding={this.props.loding}
                         pagination={{'total':Number(this.props.total),current:this.state.currentPage,
                         pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
                         onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}}
@@ -731,10 +736,10 @@ class EditableTable extends React.Component {
             this.setState({
                 windowHeight:document.body.offsetHeight-300
               });
-             window.addEventListener('resize', this.windowResize);  
+             window.addEventListener('resize', this.windowResize);
         }
     }
-    componentWillUnmount(){   
+    componentWillUnmount(){
         this._isMounted = false;
         window.removeEventListener('resize', this.windowResize);
     }
@@ -753,9 +758,9 @@ class Searchcomponent extends React.Component{
     hindsearch=()=>{
         this.props.initPageCurrent(1);
         let limitSize = localStorage.getItem('pageSize');
-        this.props.dispatch({ 
-            type: 'member/fetch', 
-            payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:limitSize,currentPage:0}} 
+        this.props.dispatch({
+            type: 'member/fetch',
+            payload: {code:'qerp.pos.mb.card.query',values:{keywords:this.state.searchvalue,limit:limitSize,currentPage:0}}
         });
     }
 
@@ -775,22 +780,22 @@ class Searchcomponent extends React.Component{
         return (
             <div className='clearfix mb10'>
                 <div className='fl'>
-                    <Modelforms 
-                        record={{level:'3'}} 
-                        texts='新增会员' 
-                        text='新增会员' 
-                        dispatch={this.props.dispatch} 
+                    <Modelforms
+                        record={{level:'3'}}
+                        texts='新增会员'
+                        text='新增会员'
+                        dispatch={this.props.dispatch}
                         initPageCurrent={this.initPageCurrent.bind(this)}
                         type={true}/>
                 </div>
                 <div className='fr'>
-                    <Searchinput 
-                        text='请输入会员姓名、手机、会员卡号' 
-                        revisemessage={this.revisemessage.bind(this)} 
+                    <Searchinput
+                        text='请输入会员姓名、手机、会员卡号'
+                        revisemessage={this.revisemessage.bind(this)}
                         hindsearch={this.hindsearch.bind(this)}
                     />
                 </div>
-            </div>  
+            </div>
         );
     }
 
@@ -821,10 +826,10 @@ class Member extends React.Component{
                                  ref="search"/>
             </div>
             <div className='counters goods-counters'>
-                <EditableTable mbCards={this.props.mbCards} 
-                                dispatch={this.props.dispatch} 
-                                loding={this.props.loding} 
-                                total={this.props.total} 
+                <EditableTable mbCards={this.props.mbCards}
+                                dispatch={this.props.dispatch}
+                                loding={this.props.loding}
+                                total={this.props.total}
                                 pagefresh={this.pagefresh.bind(this)}
                                 current={this.props.current}
                                 ref='memberTable'/>

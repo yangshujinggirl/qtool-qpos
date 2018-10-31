@@ -2,7 +2,7 @@ import React from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 class BarChart extends React.Component{
-    getOption = () => { 
+    getOption = () => {
         const userSalesd=this.props.userSales
         const totalUserSale=this.props.totalUserSale
         var datarow=[]
@@ -13,10 +13,10 @@ class BarChart extends React.Component{
             datarow.push(userSalesd[i].name)
             dataclum.push(userSalesd[i].saleAmount)
         }
-        
+
         return ({
             title: {
-                subtext: '销售额：'+totalUserSale.saleAmountTotal,
+                subtext: '净销售额：'+totalUserSale.saleAmountTotal,
                 left: 'left'
             },
             color: ['#3398DB'],

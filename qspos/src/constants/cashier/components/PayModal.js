@@ -12,7 +12,7 @@ import Btnbrforepay from './btnbeforepay';
 
 import './PayModal.less';
 //引入打印
-
+let timer;
 class ValidataModal extends React.Component {
   constructor(props) {
     super(props);
@@ -21,15 +21,14 @@ class ValidataModal extends React.Component {
       phoneCode:'',
       btnText:'获取验证码',
       count:60,
-      isSend:false,
+      isSend:true,
       loading:false,
       disabled:false,
-      isEnter:false
     }
   }
   //倒计时
   handleClick() {
-    let timer = setInterval(() => {
+    timer = setInterval(() => {
       let count = this.state.count;
       this.setState({ isSend:false })
       count-=1;
@@ -39,63 +38,55 @@ class ValidataModal extends React.Component {
           isSend:true,
           count:60,
           btnText:'重新获取',
-          isEnter:false
         });
       } else {
         this.setState({
           count,
           btnText:`${count}秒后重发`,
-          isEnter:true
         })
       }
     },1000)
   }
   //获取code
   getPhoneCode() {
-    if(!this.validatePhone()) {
-      return false;
-    }
-    this.setState({ loading: true })
-    GetServerData('qerp.web.qpos.od.pay.code',{phoneNo:this.state.phone})
+    this.setState({ loading: true });
+    let params = {
+          phoneNo:this.props.memberinfo.mobile,
+          mbCardId:this.props.memberinfo.mbCardId
+        }
+    GetServerData('qerp.web.qpos.od.pay.code',params)
     .then((res) => {
       if(res.code == '0') {
         this.handleClick()
+      } else {
+        message.error(res.message)
       }
       this.setState({ loading: false })
     })
   }
   onChange(e) {
     const target = e.nativeEvent.target;
-    const type = target.getAttribute('data-type');
     const value = target.value;
     let disabled;
-    if(type == 'phone') {
-      this.props.changePhone(value);
-      this.setState({
-        phone:value,
-        isSend:!!value,
-        disabled:this.state.phoneCode!=''&&value
-      })
-    } else {
-      this.props.changePhoneCode(value);
-      this.setState({
-        phoneCode:value,
-        disabled:this.state.phone&&value
-      })
-    }
+    this.props.changePhoneCode(value);
+    this.setState({
+      phoneCode:value,
+      disabled:!!value
+    })
   }
   //提交
   onOk() {
-    if(this.validatePhone()&&this.validateCode()) {
-      const { mbCardId } =this.props;
+    if(this.validateCode()) {
+      const { memberinfo } =this.props.memberinfo;
       //校验验证码是否有效
       GetServerData('qerp.web.qpos.od.pay.codevalid',{
-        phoneNo:this.state.phone,
+        phoneNo:memberinfo.mobile,
         messagecode:this.state.phoneCode,
-        mbCardId
+        mbCardId:memberinfo.mbCardId
       })
       .then((res) => {
         if(res.code == '0') {
+          this.resetForm()
           this.props.onSubmit()
         } else {
           message.error(res.message)
@@ -103,16 +94,16 @@ class ValidataModal extends React.Component {
       })
     }
   }
-  validatePhone() {
-    let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
-    const { phone } =this.state;
-    if(!regMb.test(phone)) {
-      message.error('请输入正确的手机号')
-      return false;
-    } else {
-      return true
-    }
-  }
+  // validatePhone() {
+  //   let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
+  //   const { phone } =this.props;
+  //   if(!regMb.test(phone)) {
+  //     message.error('请输入正确的手机号')
+  //     return false;
+  //   } else {
+  //     return true
+  //   }
+  // }
   validateCode(value) {
     let regCode = /^\d{4}$/;
     const { phoneCode } =this.state;
@@ -136,28 +127,45 @@ class ValidataModal extends React.Component {
 			e.preventDefault()
 		}
 	}
+  resetForm() {
+    const phoneCode = ReactDOM.findDOMNode(this.refs.phoneCode);
+    phoneCode.value = '';
+    clearInterval(timer);
+    this.setState({
+      phoneCode:'',
+      isSend:true,
+      count:60,
+      btnText:'获取验证码',
+    })
+  }
+  onCancel() {
+    this.resetForm();
+    this.props.onCancel()
+  }
   render() {
-    const { phone, btnText, disabled, isSend, loading, isEnter } = this.state;
+    const { phone, btnText, disabled, isSend, loading } = this.state;
+    const { memberinfo } =this.props;
     return(
       <Modal
         title="会员使用会员卡/积分支付需进行手机验证"
         // visible={true}
         visible={this.props.visible}
-        onCancel={this.props.onCancel}
+        onCancel={()=>this.onCancel()}
         width={400}
-        closable={true}
+        closable={false}
         className="validate-modal-wrap"
         footer={null}>
           <div className='validate-modal-components'>
             <div className="row">
               <Input
-                data-type="phone"
+                ref="phone"
                 type="text"
-                disabled={isEnter}
+                autoComplete="off"
+                disabled={true}
                 maxLength={11}
+                value={memberinfo&&memberinfo.mobile}
                 onKeyUp={this.onKeyUp.bind(this)}
                 onKeyDown={this.onKeydown.bind(this)}
-                onChange={this.onChange.bind(this)}
                 placeholder="请输入手机号"/>
                 <div className="get-code-btn">
                   <Button
@@ -168,15 +176,15 @@ class ValidataModal extends React.Component {
             </div>
             <div className="row">
               <Input
-                data-type="code"
                 type="text"
                 ref='phoneCode'
+                autoComplete="off"
                 maxLength={4}
                 onChange={this.onChange.bind(this)}
                 placeholder="请输入4位数字验证码"/>
             </div>
             <div className="row btn-list">
-              <Button className="cancel-btn" onClick={this.props.onCancel}>取消</Button>
+              <Button className="cancel-btn" onClick={()=>this.onCancel()}>取消</Button>
               <Button
                 loading={this.props.loading}
                 disabled={!disabled}
@@ -1302,7 +1310,7 @@ class PayModal extends React.Component {
     }
     render() {
       const openWechat=sessionStorage.getItem("openWechat")
-      const openAlipay=sessionStorage.getItem("openAlipay")
+      const openAlipay=sessionStorage.getItem("openAlipay");
       return (
         <div>
           <Modal
@@ -1438,7 +1446,7 @@ class PayModal extends React.Component {
         	    </div>
           </Modal>
           <ValidataModal
-            mbCardId={this.props.memberinfo.mbCardId}
+            memberinfo={this.props.memberinfo}
             loading={this.state.loading}
             changePhoneCode={this.changePhoneCode.bind(this)}
             changePhone={this.changePhone.bind(this)}

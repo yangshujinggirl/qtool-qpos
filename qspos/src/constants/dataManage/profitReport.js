@@ -64,13 +64,13 @@ class ProfitReportForm extends React.Component {
               title: '净销售毛利率',
               dataIndex: 'saleProfitRate',
           },{
-              title: '调出数量',
+              title: '调拨数量',
               dataIndex: 'pdExchangeQty',
           },{
-              title: '调出总额',
+              title: '调拨总额',
               dataIndex: 'pdExchangeAmount',
           },{
-              title: '调出成本',
+              title: '调拨成本',
               dataIndex: 'pdExchangeCostAmount',
           },{
               title: '商品毛利额',

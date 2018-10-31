@@ -189,7 +189,7 @@ class Operationls extends React.Component { //左边输入订单号组件
 										<span>余额</span>
 										<span className="lines"></span>
 									</div>
-	                <p className='c38 p2'>{mbCardInfo.amount}</p>
+	                <p className='c38 label-num'>{mbCardInfo.amount}</p>
 	              </div>
 
 	    					<div className='item-label'>
@@ -197,11 +197,11 @@ class Operationls extends React.Component { //左边输入订单号组件
 										<span>剩余积分</span>
 										<span className="lines"></span>
 									</div>
-	              	<p className='c38 p2'>{mbCardInfo.point}</p>
+	              	<p className='c38 label-num'>{mbCardInfo.point}</p>
 	              </div>
 								<div className='item-label'>
 	                <div className='c74 top-action'>本次积分</div>
-	                <p className='c38 p2'>{this.state.integertotalamount}</p>
+	                <p className='c38 label-num'>{this.state.integertotalamount}</p>
 	              </div>
               </div>
 	    			</div>

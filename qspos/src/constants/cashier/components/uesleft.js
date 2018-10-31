@@ -504,7 +504,7 @@ class Operationls extends React.Component {
 								{
 									isPhone&&memberinfo.isMoreShop =='true'&&<span
 										className='themecolor toggle-btn'
-										onClick={this.toggleEvent.bind(this)}>切换其他会员>></span>
+										onClick={this.toggleEvent.bind(this)}>切换会员>></span>
 								}
 								{/* <span>
 									{
@@ -522,21 +522,21 @@ class Operationls extends React.Component {
 									<span>余额</span>
 									{
 										memberinfo.isLocalShop =='true'&&
-										<span onClick={this.showModal} className='themecolor' style={{'cursor':'pointer','marginLeft':'4px'}}>充值</span>
+										<span onClick={this.showModal} className='themecolor recharge' style={{'cursor':'pointer','marginLeft':'4px'}}>充值</span>
 									}
 									<span className="lines"></span>
 								</div>
-                <p className='c38 p2'>{memberinfo.amount}</p>
+                <p className='c38  label-num'>{memberinfo.amount}</p>
               </div>
               <div className='item-label'>
                 <p className='c74 top-action'>
 									本次积分<span className="lines"></span>
 								</p>
-                <p className='c38 p2'>{memberinfo.mbCardId?this.props.thispoint:null}</p>
+                <p className='c38  label-num'>{memberinfo.mbCardId?this.props.thispoint:null}</p>
               </div>
     					<div className='item-label'>
               	<div className='c74'>剩余积分</div>
-              	<p className='c38 p2'>{memberinfo.point}</p>
+              	<p className='c38  label-num'>{memberinfo.point}</p>
               </div>
   					</div>
   				</div>
