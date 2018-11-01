@@ -404,7 +404,13 @@ class PayModal extends React.Component {
         this.setState({
         visible: false,
         },function(){
-            const payvisible=false
+          const { amountlist, paytotolamount, totolamount } = this.props;
+          //关闭弹框时，重置实际支付金额为应付金额
+          this.props.dispatch({
+              type:'cashier/paytotolamount',
+              payload:totolamount
+          })
+            const payvisible=false;
             this.props.dispatch({
                 type:'cashier/payvisible',
                 payload:payvisible
@@ -1311,6 +1317,7 @@ class PayModal extends React.Component {
     render() {
       const openWechat=sessionStorage.getItem("openWechat")
       const openAlipay=sessionStorage.getItem("openAlipay");
+      console.log(this.props)
       return (
         <div>
           <Modal

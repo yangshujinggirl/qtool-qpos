@@ -153,7 +153,7 @@ class Cashierindex extends React.Component {
     takeout=()=>{
       const datasouce=this.props.datasouce
       sessionStorage.setItem('olddatasouce',JSON.stringify(datasouce));
-      this.initdata()
+      this.resetData()
     }
     //取单
     takein=()=>{
