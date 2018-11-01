@@ -1254,9 +1254,10 @@ class PayModal extends React.Component {
         }
 
         if(totols==this.props.paytotolamount && backmoney=='0.00'){
-            const amountlist=this.props.amountlist
+            const amountlist=this.props.amountlist;
+            const { mbCardId } =this.props.memberinfo;
             let values={
-                    mbCard:{mbCardId:this.props.ismember?this.props.mbCardId:null},
+                    mbCard:{mbCardId:this.props.ismember?mbCardId:null},
                     odOrder:{
                         amount:this.props.totolamount,
                         orderPoint:this.props.thispoint,
