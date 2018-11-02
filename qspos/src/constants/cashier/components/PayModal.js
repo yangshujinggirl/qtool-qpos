@@ -24,7 +24,8 @@ class PayModal extends React.Component {
           backmoney:'0.00',
           validateVisible:false,
           validatePhoneCode:'',
-          loading:false//弹框确定按钮Loading
+          loading:false,//弹框确定按钮Loading
+          scanType:false,
       }
     }
     componentDidMount(){
@@ -571,6 +572,7 @@ class PayModal extends React.Component {
     }
     //处理结算逻辑
     hindpayclick=()=>{
+      this.setState({ scanType:false });
       let isValidateArr = [];
       if(!this.firstclick){ return }
       // this.goPay()
@@ -623,7 +625,6 @@ class PayModal extends React.Component {
                   qty:totolnumber,
                   skuQty:datasouce.length,
                   cutAmount:cutAmount,
-                  scanType:0//扫码支付标识传给后台
               },
               orderDetails:datasouce,
               orderPay:orderPay
@@ -1030,6 +1031,7 @@ class PayModal extends React.Component {
     }
     //扫码按钮点击
     onhindClicks=()=>{
+      debugger
         const backmoney=this.state.backmoney
         const group=this.props.group
         const amountlist=this.props.amountlist
@@ -1082,7 +1084,6 @@ class PayModal extends React.Component {
                         qty:this.props.totolnumber,
                         skuQty:this.props.datasouce.length,
                         cutAmount:this.props.cutAmount,
-                        scanType:1//扫码支付标识传给后台
                     },
                     orderDetails:this.props.datasouce,
                     orderPay:orderPay
@@ -1094,6 +1095,7 @@ class PayModal extends React.Component {
     }
     //扫码支付
     btnSaoPay=(values)=>{
+      this.setState({ scanType:true });
       GetServerData('qerp.web.qpos.od.order.save',values)
       .then((json) => {
           if(json.code=='0'){
@@ -1104,7 +1106,15 @@ class PayModal extends React.Component {
               const amount=values.orderPay.length>1?values.orderPay[1].amount:values.orderPay[0].amount //支付金额
               this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});
           }else{
-              message.error(json.message)
+              if(json.code == 'I_1031') {
+                this.setState({ validateVisible:true });
+                this.props.dispatch({
+                  type:'cashier/payvisible',
+                  payload:false
+                })
+              } else {
+                message.error(json.message)
+              }
           }
 
       })
@@ -1132,6 +1142,13 @@ class PayModal extends React.Component {
       this.setState({
         validatePhoneCode:value
       })
+    }
+    onSubmit() {
+      if(this.state.scanType) {
+        this.onhindClicks()
+      } else {
+        this.hindpayclick()
+      }
     }
     render() {
       const openWechat=sessionStorage.getItem("openWechat")
@@ -1275,7 +1292,7 @@ class PayModal extends React.Component {
             loading={this.state.loading}
             changePhoneCode={this.changePhoneCode.bind(this)}
             changePhone={this.changePhone.bind(this)}
-            onSubmit={this.hindpayclick.bind(this)}
+            onSubmit={this.onSubmit.bind(this)}
             onCancel={this.onCancel.bind(this)}
             visible={this.state.validateVisible}/>
         </div>

@@ -7,7 +7,6 @@ import { Input ,Form,Spin,message,Button,Icon} from 'antd';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../services/services';
 import {printSaleOrder,printRechargeOrder} from '../components/Method/Method'
-import ValidataModal from '../constants/cashier/components/ValidataModal';
 
 
 const FormItem = Form.Item;
@@ -22,10 +21,6 @@ class Payamount extends React.Component{
             erronmsg:null,
             outTradeNo:this.props.location.state.orderNo,
             rechargeorderid:null,
-            visible:false,
-            validatePhone:'',
-            validatePhoneCode:'',
-            sureLoading:false
         }
     }
     codeSelect=()=>{
@@ -43,18 +38,8 @@ class Payamount extends React.Component{
             })
         }
     }
-    changePhone(value) {
-      this.setState({ validatePhone:value })
-    }
-    changePhoneCode(value) {
-      this.setState({  validatePhoneCode:value })
-    }
-    onCancel() {
-      this.setState({ visible:false })
-    }
     //结算
     payok=()=>{
-        this.setState({ sureLoading:true })
         this.codeSelect()
         const values={
             mbQposOdScanCode:{
@@ -116,14 +101,9 @@ class Payamount extends React.Component{
                     this.payerron(remark,outTradeNo)
                 }
             }else{
-                if(json.code == 'I_1031') {
-                  this.setState({ visible:true });
-                } else {
-                  this.setState({ loding:false });
-                  message.error(json.message);
-                }
+              this.setState({ loding:false });
+              message.error(json.message);
             }
-            this.setState({ sureLoading:false })
         })
     }
 
@@ -259,14 +239,6 @@ class Payamount extends React.Component{
                         </div>
                     </div>
                 </Spin>
-                <ValidataModal
-                  memberinfo={this.props.memberinfo}
-                  loading={this.state.sureLoading}
-                  changePhoneCode={this.changePhoneCode.bind(this)}
-                  changePhone={this.changePhone.bind(this)}
-                  onSubmit={this.payok.bind(this)}
-                  onCancel={this.onCancel.bind(this)}
-                  visible={this.state.visible}/>
             </div>
         );
     }
