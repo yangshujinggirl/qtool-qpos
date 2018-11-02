@@ -312,7 +312,6 @@ class Slidecountsell extends React.Component {
     }
 
     render(){
-      console.log(this.props.mbCard1.isLocalShopStr=='异店')
     return(
         <div className="sellinfolist-wrapper">
           <ul className='sellinfolist'>
