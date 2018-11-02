@@ -7,29 +7,30 @@ import { Input ,Form,Spin,message,Button,Icon} from 'antd';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../services/services';
 import {printSaleOrder,printRechargeOrder} from '../components/Method/Method'
-
+import ValidataModal from '../constants/cashier/components/ValidataModal';
 
 
 const FormItem = Form.Item;
 var myVar=0;
 
 class Payamount extends React.Component{
-    constructor(props, context) {  
-        super(props, context);  
+    constructor(props, context) {
+        super(props, context);
         this.state={
             code:null,
             loding:false,
             erronmsg:null,
             outTradeNo:this.props.location.state.orderNo,
-            rechargeorderid:null
+            rechargeorderid:null,
+            visible:false,
+            validatePhone:'',
+            validatePhoneCode:'',
+            sureLoading:false
         }
-    }  
-
-
-
+    }
     codeSelect=()=>{
-		ReactDOM.findDOMNode(this.refs.code).select()
-	}
+  		ReactDOM.findDOMNode(this.refs.code).select()
+  	}
     //回车事件
     hindonKeyUp=(e)=>{
         if(e.keyCode=='13'){
@@ -42,8 +43,18 @@ class Payamount extends React.Component{
             })
         }
     }
+    changePhone(value) {
+      this.setState({ validatePhone:value })
+    }
+    changePhoneCode(value) {
+      this.setState({  validatePhoneCode:value })
+    }
+    onCancel() {
+      this.setState({ visible:false })
+    }
     //结算
     payok=()=>{
+        this.setState({ sureLoading:true })
         this.codeSelect()
         const values={
             mbQposOdScanCode:{
@@ -55,14 +66,11 @@ class Payamount extends React.Component{
                 type:this.props.location.state.type
             }
         };
-
         this.setState({
             loding:true
         })
-        const result=GetServerData('qerp.web.qpos.od.scan.code',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
+        GetServerData('qerp.web.qpos.od.scan.code',values)
+        .then((json) => {
             if(json.code=='0'){
                 const data=json.mbQposOdScanCode
                 const tradeType=json.mbQposOdScanCode.tradeType
@@ -98,7 +106,7 @@ class Payamount extends React.Component{
 
 
 
-                    
+
                 }
                 if(status=='10'){
                     //每隔1s请求新的查询接口，直到返回成功或者失败，停止查询，在返回成功或者失败之前，页面是loding状态，
@@ -108,12 +116,14 @@ class Payamount extends React.Component{
                     this.payerron(remark,outTradeNo)
                 }
             }else{
-                this.setState({
-                    loding:false
-                },function(){
-                    message.error(json.message);
-                })
+                if(json.code == 'I_1031') {
+                  this.setState({ visible:true });
+                } else {
+                  this.setState({ loding:false });
+                  message.error(json.message);
+                }
             }
+            this.setState({ sureLoading:false })
         })
     }
 
@@ -155,7 +165,7 @@ class Payamount extends React.Component{
     payStateInfo=(data)=>{
         const values={
             mbQposOdScanCode:data
-            
+
         }
         const result=GetServerData('qerp.web.qpos.od.payment.status',values)
         result.then((res) => {
@@ -180,7 +190,7 @@ class Payamount extends React.Component{
 
 
 
-                    
+
                 }
                 if(json.mbQposOdScanCode.status=='30'){
                     clearInterval(myVar)
@@ -222,13 +232,13 @@ class Payamount extends React.Component{
                             <Form className='payamounts'>
                                 <FormItem
                                     label="支付金额::"
-                                    
+
                                 >
                                     <p className='scanpayamount'><span className='scanpayamount_text'>{this.props.location.state.amount}</span></p>
                                 </FormItem>
                                 <FormItem
                                     label="付款码::"
-                                    
+
                                 >
                                     <div className='wr'>
                                         <Input size="large"  onKeyUp={this.hindonKeyUp.bind(this)} onBlur={this.hindBlue.bind(this)} onChange={this.codeChange.bind(this)} ref='code'/>
@@ -245,10 +255,18 @@ class Payamount extends React.Component{
                                 <img src={require('../images/paya@2x.png')} className='w100 h100'/>
                             </div>
                             <p className='rmark'>请扫码顾客{this.props.location.state.type=='7'?'微信':'支付宝'}的付款码</p>
-                        
+
                         </div>
                     </div>
                 </Spin>
+                <ValidataModal
+                  memberinfo={this.props.memberinfo}
+                  loading={this.state.sureLoading}
+                  changePhoneCode={this.changePhoneCode.bind(this)}
+                  changePhone={this.changePhone.bind(this)}
+                  onSubmit={this.payok.bind(this)}
+                  onCancel={this.onCancel.bind(this)}
+                  visible={this.state.visible}/>
             </div>
         );
     }
@@ -274,8 +292,8 @@ Payamount.contextTypes= {
     router: React.PropTypes.object
 }
 function mapStateToProps(state) {
-    const {meth1,checkPrint,recheckPrint}=state.cashier
-    return {meth1,checkPrint,recheckPrint};
+    const {meth1,checkPrint,recheckPrint, memberinfo }=state.cashier
+    return {meth1,checkPrint,recheckPrint, memberinfo };
 }
 
 export default connect(mapStateToProps)(Payamount);
