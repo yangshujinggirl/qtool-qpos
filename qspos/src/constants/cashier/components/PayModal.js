@@ -809,6 +809,7 @@ class PayModal extends React.Component {
                   qty:totolnumber,
                   skuQty:datasouce.length,
                   cutAmount:cutAmount,
+                  scanType:0//扫码支付标识传给后台
               },
               orderDetails:datasouce,
               orderPay:orderPay
@@ -1265,6 +1266,7 @@ class PayModal extends React.Component {
                         qty:this.props.totolnumber,
                         skuQty:this.props.datasouce.length,
                         cutAmount:this.props.cutAmount,
+                        scanType:1//扫码支付标识传给后台
                     },
                     orderDetails:this.props.datasouce,
                     orderPay:orderPay
