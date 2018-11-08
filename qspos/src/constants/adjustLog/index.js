@@ -140,11 +140,11 @@ class AdjustLogIndexForm extends React.Component {
     }
     //导出数据
     exportList = () =>{
-      const { adjustTimeST, adjustTimeET, name, type } =this.state;
+      const { adjustTimeST, adjustTimeET, keywords, type } =this.state;
         let data = {
             adjustTimeST,
             adjustTimeET,
-            name,
+            name:keywords,
             type
         }
         const result=GetExportData('qerp.qpos.pd.adjust.export',data);
