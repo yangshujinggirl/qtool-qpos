@@ -1,0 +1,85 @@
+.puted-order-list-modal{
+  .ant-modal-body {
+    padding: 20px 30px 30px;
+  }
+  .ant-modal-header {
+    border-color: #E7E8EC;
+  }
+  .main-content-body {
+    .con-title {
+      font-family: PingFangSC-Regular;
+      font-size: 22px;
+      color: #D7636B;
+    }
+    .card-list {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .card-item {
+      width: 354px;
+      margin-bottom: 40px;
+      cursor: pointer;
+    }
+    .top-action {
+      font-size: 22px;
+      color: #384162;
+      border: 1px solid #35BAB0;
+      box-shadow: 0 0 10px 0 rgba(0,0,0,0.10);
+      border-radius: 4px;
+      padding: 29px 0;
+      position: relative;
+      .icon {
+        width: 60px;
+        height: 60px;
+        background: url('../../../images/cashier_icon0.png') no-repeat left;
+        position: absolute;
+        left: -1px;
+        top: -1px;
+      }
+      .number {
+        position: absolute;
+        left: 8px;
+        top: 8px;
+        color: #fff;
+        font-size: 22px;
+        font-family: Roboto-Regular;
+      }
+      .inner-con {
+        display: inline-block;
+        text-align: center;
+        p {
+          margin:0
+        }
+      }
+      .part-l,.part-r{
+        display: inline-block;
+        vertical-align: middle;
+        .field {
+          font-size: 30px;
+        }
+      }
+      .part-l {
+        width: 38%;
+        border-right: 1px solid #979797;
+        padding-left: 60px;
+        box-sizing: border-box;
+      }
+      .part-r {
+        width: 62%;
+        padding-left: 30px;
+        box-sizing: border-box;
+      }
+    }
+    .bottom-action {
+      padding-top: 20px;
+      text-align: center;
+      font-family: PingFangSC-Regular;
+      font-size: 18px;
+      color: #333333;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+    }
+  }
+}

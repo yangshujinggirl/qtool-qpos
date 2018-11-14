@@ -10,23 +10,3 @@ class Cashier extends React.Component {
     }
 }
 export default Cashier;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

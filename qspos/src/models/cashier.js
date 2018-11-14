@@ -298,23 +298,9 @@ export default {
         const result=yield call(GetServerData,'qerp.pos.mb.card.find',values);
         if(result.code=='0'){
             const { mbCardInfo } = result;
-            // const name=result.mbCardInfo.name
-            // const levelStr=result.mbCardInfo.levelStr
-            // const memberpoint=result.mbCardInfo.point
-            // const memberamount=result.mbCardInfo.amount
-            // const cardNo=result.mbCardInfo.cardNo
-            // const mbCardId=result.mbCardInfo.mbCardId
-            // const isBirthMonth=result.mbCardInfo.isBirthMonth
             const ismember=true
             const focustap = yield select(state => state.cashier.meths.focustap);
             focustap()
-            // yield put({
-            //     type: 'memberlist',
-            //     payload:{
-            //       name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,
-            //       memberinfo:mbCardInfo
-            //     }
-            // });
             yield put({
                 type: 'memberlist',
                 payload:{
