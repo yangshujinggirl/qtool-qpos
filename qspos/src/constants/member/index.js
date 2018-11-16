@@ -193,6 +193,7 @@ class Member extends React.Component{
          <div className='clearfix mb10'>
            <div className='fl'>
                <span className="handle-add-btn" onClick={()=>this.onOperateClick()}>新增会员</span>
+               <Link to='/memberBirth' className="handle-add-btn look-btn">查看会员生日</Link>
            </div>
            <div className='fr'>
              <Searchinput

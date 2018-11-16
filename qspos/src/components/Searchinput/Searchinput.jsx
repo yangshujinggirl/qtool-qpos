@@ -3,14 +3,14 @@ import {Input,Icon} from 'antd';
 
 class Searchinput extends React.Component {
 	state={
-		values:''
+		value:''
 	}
 	hindchange=(e)=>{
+		let value = e.target.value;
 		this.setState({
-			values:e.target.value
-		},function(){
-			const revisemessage=this.props.revisemessage
-			revisemessage(this.state.values)
+			value
+		},()=>{
+			this.props.revisemessage(value)
 		})
 	}
 	hindsearch=()=>{
@@ -19,8 +19,15 @@ class Searchinput extends React.Component {
     render(){
         return(
            <div className='clearfix'>
-        		<Input  autoComplete="off" placeholder={this.props.text} className='fl f14 searchinput'  onChange={this.hindchange.bind(this)} value={this.state.values} />
-        		<div className='fl tc f14 fff point searchinputbtn' onClick={this.hindsearch.bind(this)}>搜索</div>
+        		<Input
+							autoComplete="off"
+							placeholder={this.props.text}
+							className='fl f14 searchinput'
+							onChange={this.hindchange.bind(this)}
+							value={this.state.value} />
+        		<div
+							className='fl tc f14 fff point searchinputbtn'
+							onClick={this.hindsearch.bind(this)}>搜索</div>
     		</div>
         )
     }

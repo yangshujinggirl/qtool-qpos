@@ -1,6 +1,6 @@
 import React ,{ Component } from 'react';
 import { Pagination } from 'antd';
-import './index.css';
+import './index.less';
 
 class Qpagination extends Component {
   constructor(props) {

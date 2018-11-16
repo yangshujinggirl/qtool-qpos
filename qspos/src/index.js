@@ -29,6 +29,7 @@ app.model(require("./models/member"));
 app.model(require("./models/table"));
 app.model(require("./models/account"));
 app.model(require("./models/dataManage"));
+app.model(require("./models/memberBirth"));
 // 4. Router
 app.router(require('./router'));
 

@@ -27,39 +27,36 @@ import Gooddb from './constants/gooddb/index'
 import DbLogIndex from './routes/dblog'
 import Dbloginfo from './routes/dbinfolog'
 import Inventoryloginfo from './routes/inventorydiffloginfo'
+import MemberBirth from './routes/MemberBirth';
 
 
 function RouterConfig({ history }) {
   return (
 		<LocaleProvider locale={zhCN}>
     <Router history={history}>
-      	<Route path='/' component={IndexPage} />
-      	<Route path='/cashier' component={Cashier} />
-      	<Route path="/account" component={Account} />
-      	<Route path="/member" component={Member} />
-      	<Route path="/receivegoods" component={Receivegoods} />
-      	<Route path="/goods" component={Goods} />
-      	<Route path="/sell" component={Sell} />
-      	<Route path="/returngoods" component={Returngoods} />
-      	<Route path="/inventory" component={Inventory} />
-      	<Route path="/adjust" component={Adjust} />
-      	<Route path="/inventorydiff" component={Inventorydiff} />
-      	<Route path="/dataManage" component={DataManage}/>
-      	<Route path="/member/info" component={Memberinfo} />
-      	<Route path="/dataManage/receiptDetail" component={ReceiptDetail}/>
-      	<Route path="/adjustLog" component={AdjustLog}/>
-      	<Route path="/inventorydiffLog" component={InventorydiffLog}/>
-		<Route path="/pay" component={Payamount}/>
-		<Route path="/adjustLog/info" component={Adjustloginfo}/>
-		<Route path="/gooddb" component={Gooddb}/>
-
-		<Route path="/dblog" component={DbLogIndex}/>
-		<Route path="/dblog/info" component={Dbloginfo}/>
-		<Route path="/inventorydiffLog/info" component={Inventoryloginfo}/>
-
-
-
-
+      <Route path='/' component={IndexPage} />
+      <Route path='/cashier' component={Cashier} />
+      <Route path="/account" component={Account} />
+      <Route path="/member" component={Member} />
+      <Route path="/receivegoods" component={Receivegoods} />
+      <Route path="/goods" component={Goods} />
+      <Route path="/sell" component={Sell} />
+      <Route path="/returngoods" component={Returngoods} />
+      <Route path="/inventory" component={Inventory} />
+      <Route path="/adjust" component={Adjust} />
+      <Route path="/inventorydiff" component={Inventorydiff} />
+      <Route path="/dataManage" component={DataManage}/>
+      <Route path="/member/info" component={Memberinfo} />
+      <Route path="/dataManage/receiptDetail" component={ReceiptDetail}/>
+      <Route path="/adjustLog" component={AdjustLog}/>
+      <Route path="/inventorydiffLog" component={InventorydiffLog}/>
+      <Route path="/pay" component={Payamount}/>
+      <Route path="/adjustLog/info" component={Adjustloginfo}/>
+      <Route path="/gooddb" component={Gooddb}/>
+      <Route path="/dblog" component={DbLogIndex}/>
+      <Route path="/dblog/info" component={Dbloginfo}/>
+      <Route path="/inventorydiffLog/info" component={Inventoryloginfo}/>
+      <Route path="/memberBirth" component={MemberBirth}/>
     </Router>
 		</LocaleProvider>
   );

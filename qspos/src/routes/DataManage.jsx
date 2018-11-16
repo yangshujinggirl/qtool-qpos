@@ -22,7 +22,9 @@ import InoutReport from '../constants/dataManage/inoutReport';
 
 import OnroadGoodsForm from '../constants/dataManage/onroad'
 //积分报表
-import IntegralStatements from '../constants/dataManage/IntegralStatements'
+import IntegralStatements from '../constants/dataManage/IntegralStatements';
+import FreightDetail from '../constants/dataManage/FreightDetail';
+
 const TabPane = Tabs.TabPane;
 
 class DataManage extends React.Component {
@@ -77,6 +79,9 @@ class DataManage extends React.Component {
                         </TabPane>
                         <TabPane tab="积分报表" key="7">
                             {this.state.key == 7 && <IntegralStatements/>}
+                        </TabPane>
+                        <TabPane tab="配送费明细" key="8">
+                            {this.state.key == 8 && <FreightDetail/>}
                         </TabPane>
                     </Tabs>
                     :

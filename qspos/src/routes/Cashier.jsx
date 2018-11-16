@@ -5,7 +5,7 @@ import Cashierindex from '../constants/cashier/index';
 class Cashier extends React.Component {
     render() {
         return(
-            <Cashierindex/>
+            <Cashierindex {...this.props}/>
         )
     }
 }

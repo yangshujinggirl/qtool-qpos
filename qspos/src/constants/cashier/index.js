@@ -59,6 +59,7 @@ class Cashierindex extends React.Component {
       };
     }
     componentDidMount(){
+			console.log('12222222222')
       this.getAllOrderListApi()//获取挂单列表数据
       this.props.dispatch({
           type:'dataManage/initKey',
@@ -120,27 +121,6 @@ class Cashierindex extends React.Component {
     }
     //获取所有挂单
     getAllOrderListApi() {
-      let testArr = [{
-            putNo:'1',
-            putAmount:'8',
-            putPrice:'3000',
-            putMessage:'12345xxxxxx'
-          },{
-            putNo:'2',
-            putAmount:'18',
-            putPrice:'3000',
-            putMessage:'12345xxxxxx'
-          },{
-            putNo:'3',
-            putAmount:'10',
-            putPrice:'3000',
-            putMessage:'12345xxxxxx'
-          },{
-            putNo:'4',
-            putAmount:'86',
-            putPrice:'3000',
-            putMessage:'12345xxxxxx'
-          }];
       GetServerData('qerp.web.qpos.od.order.takeall')
       .then((res) => {
         const { code, putOrders, message } =res;
@@ -196,12 +176,12 @@ class Cashierindex extends React.Component {
     getOrderApi(orderNo) {
       GetServerData('qerp.web.qpos.od.order.take',{ putNo: orderNo })
       .then((res) => {
-        const { code, message, putOder } =res;
+        const { code, message, putOrder } =res;
         if(code !== '0') {
           message.error(message);
           return;
         }
-        let { mbCardInfo, putAmount, putPrice, putProducts } =putOder;
+        let { mbCardInfo, putAmount, putPrice, putProducts } =putOrder;
         this.props.dispatch({
           type:'cashier/memberlist',
           payload:{
@@ -235,8 +215,11 @@ class Cashierindex extends React.Component {
       .then((res) => {
         const { code, putOrders } =res;
         if(code == '0') {
-          typeof func == 'function' && func()
-          this.context.router.push('/cashier')
+          typeof func == 'function' && func();
+					// console.log()
+          // this.context.router.push('/cashier')
+					// this.props.history.push('/cashier')
+					location.reload()
         }
       })
     }
@@ -397,6 +380,7 @@ class Cashierindex extends React.Component {
     }
 
     render() {
+			console.log(this.props)
       const { datasouce } =this.props;
       const { visibleOne, visibleTwo, currentOrderNo, allOrderList } =this.state;
       return(
