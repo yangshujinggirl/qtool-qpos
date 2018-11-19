@@ -69,7 +69,9 @@ class DailyBillForm extends React.Component {
               amount:'',
               orderSum:'',
               rechargeAmount:''
-          }
+          },
+          type:'',
+          source:0
       };
 
   }
@@ -90,7 +92,6 @@ class DailyBillForm extends React.Component {
       },()=>{
           let data = {
               currentPage:this.state.currentPage,
-              type:this.state.type!="-1"?this.state.type:""
           }
           self.getServerData(data);
       });
@@ -111,24 +112,25 @@ class DailyBillForm extends React.Component {
   handleSubmit = (e) =>{
       e.preventDefault();
       this.props.form.validateFields((err, values) => {
-          this.setState({
-              type:values.type == '-1'?'':values.type,
-              source:values.source
-          })
-          values.type == '-1'?'':values.type;
-          this.getServerData(values);
+          this.getServerData();
       })
+  }
+  changeType=(value)=> {
+    this.setState({ type: value == '-1'?'':value })
+  }
+  changeSource=(value)=> {
+    this.setState({ source: value })
   }
   //获取数据
   getServerData = (values) =>{
-    const { limit, startDate, endDate } =this.state;
+    const { limit, startDate, endDate, type, source } =this.state;
     let params = {
           currentPage:0,
           limit,
           startDate,
           endDate,
-          type:'',
-          source:0
+          type,
+          source
     }
     if(values) {
       params = { ...params, ...values};
@@ -284,7 +286,8 @@ class DailyBillForm extends React.Component {
             labelCol={{ span: 5 }}
             wrapperCol={{span: 10}}>
               {getFieldDecorator('type', {
-                  initialValue:"-1"
+                  initialValue:"-1",
+                  onChange:this.changeType
               })(
                   <Select>
                     <Option value="-1">全部分类</Option>
@@ -299,7 +302,8 @@ class DailyBillForm extends React.Component {
             labelCol={{ span: 5 }}
             wrapperCol={{span: 10}}>
               {getFieldDecorator('source', {
-                    initialValue:0
+                    initialValue:0,
+                    onChange:this.changeSource
                 })(
                     <Select>
                       <Option key={0} value={0}>全部</Option>
