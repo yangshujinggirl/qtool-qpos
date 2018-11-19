@@ -267,8 +267,8 @@ class SlidecountCD extends React.Component {
                   <div className="sellinfo-row">
                     <div>
                       <span>商品总额：</span>{orOrderPayCd.payAmount}「
-                      <span>折扣优惠</span>：{orOrderPayCd.discountAmount}，
-                      <span>抹零优惠</span>：{orOrderPayCd.cutAmount}」
+                      <span>折扣优惠</span>：{orOrderPayCd.memberDiscount}，
+                      <span>抹零优惠</span>：0.00」
                     </div>
                     <div>
                       <span>配送费用：</span>{orOrderPayCd.deliveryCost}<span>「{orOrderPayCd.deliveryType}」</span>
@@ -286,22 +286,22 @@ class SlidecountCD extends React.Component {
                   </div>
               </li>
               {
-                odOrderCd.deliveryType!='1'&&
+                odOrderCd.deliveryType!=1&&
                 <li>
                   <div className="sellinfo-row">
                     <div>
-                      <span>订单序号</span>：{odOrderCd.orderNo}
+                      <span>订单序号</span>：{odOrderCd.orderNum}
                     </div>
                     <div>
-                      <span>收件人</span>：APP
+                      <span>收件人</span>：{odOrderCd.receiver}
                     </div>
                     <div>
-                      <span>电话</span>：APP
+                      <span>电话</span>：{odOrderCd.phoneNo}
                     </div>
                   </div>
                   <div className="sellinfo-row">
                     <div>
-                      <span>地址</span>：上海市长宁区天山西路1718号上海时尚园3号楼3层Qtools
+                      <span>地址</span>：{odOrderCd.address}
                     </div>
                   </div>
                 </li>
@@ -381,7 +381,7 @@ class Slidecountsell extends React.Component {
                         <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                       </div>
                       <div>
-                        <span>配送费用：</span>0
+                        <span>配送费用：</span>0.00
                       </div>
                     </div>
                     <div className="sellinfo-row">
@@ -432,7 +432,7 @@ class Slidecountsell extends React.Component {
                       <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                     </div>
                     <div>
-                      <span>配送费用：</span>0
+                      <span>配送费用：</span>0.00
                     </div>
                   </div>
                   <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}</div></div>
@@ -465,7 +465,7 @@ class Slidecountsell extends React.Component {
                           <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                         </div>
                         <div>
-                          <span>配送费用：</span>0
+                          <span>配送费用：</span>0.00
                         </div>
                       </div>
                       <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}，<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
@@ -494,7 +494,7 @@ class Slidecountsell extends React.Component {
                           <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                         </div>
                         <div>
-                          <span>配送费用：</span>0
+                          <span>配送费用：</span>0.00
                         </div>
                       </div>
                       <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
@@ -521,7 +521,7 @@ class Slidecountsell extends React.Component {
                       <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                     </div>
                     <div>
-                      <span>配送费用：</span>0
+                      <span>配送费用：</span>0.00
                     </div>
                   </div>
                   <div className="sellinfo-row">

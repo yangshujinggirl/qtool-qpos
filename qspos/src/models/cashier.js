@@ -13,13 +13,13 @@ export default {
         thispoint:null,//本次积分
         onbule:false,
         meths:{},
-        name:null,
-        levelStr:null,
-        memberpoint:null,
-        memberamount:null,
-        cardNo:null,
-        mbCardId:null,
-        isBirthMonth:null,
+        // name:null,
+        // levelStr:null,
+        // memberpoint:null,
+        // memberamount:null,
+        // cardNo:null,
+        // mbCardId:null,
+        // isBirthMonth:null,
         ismember:false,
         payvisible:false,
         meth1:{},
@@ -30,32 +30,32 @@ export default {
         checkPrint:false,
         recheckPrint:false,
         //支付弹窗数据转移
-          amountlist:[{   //左边栏展示数组
-              name:'微信',
-              value:null,
-              type:'1'
-          }],
-          paytypelisy:[  //右边按钮区展示数组
-              {name:'微信',check:false,disabled:false,type:'1'},
-              {name:'支付宝',check:false,disabled:false,type:'2'},
-              {name:'银联',check:false,disabled:false,type:'3'},
-              {name:'现金',check:false,disabled:false,type:'4'},
-              {name:'会员卡',check:false,disabled:false,type:'5'},
-              {name:'积分',check:false,disabled:false,type:'6'}
-          ],
-          group:false,
-          cutAmount:'0',
-          point:null,
-          amount:null,
-          //充值数据迁移
-          rechargevisible:false,
-          reamount:null,
-          typeclick1:true,
-          typeclick2:false,
-          typeclick3:false,
-          typeclick4:false,
-          rechargetype:1,
-          memberinfo:{isLocalShop:true}
+        amountlist:[{   //左边栏展示数组
+            name:'微信',
+            value:null,
+            type:'1'
+        }],
+        paytypelisy:[  //右边按钮区展示数组
+            {name:'微信',check:false,disabled:false,type:'1'},
+            {name:'支付宝',check:false,disabled:false,type:'2'},
+            {name:'银联',check:false,disabled:false,type:'3'},
+            {name:'现金',check:false,disabled:false,type:'4'},
+            {name:'会员卡',check:false,disabled:false,type:'5'},
+            {name:'积分',check:false,disabled:false,type:'6'}
+        ],
+        group:false,
+        cutAmount:'0',
+        point:null,
+        amount:null,
+        //充值数据迁移
+        rechargevisible:false,
+        reamount:null,
+        typeclick1:true,
+        typeclick2:false,
+        typeclick3:false,
+        typeclick4:false,
+        rechargetype:1,
+        memberinfo:{isLocalShop:true}
   },
   reducers: {
       initstate(state, { payload: {}}) {
@@ -64,13 +64,6 @@ export default {
         const totolamount='0'
         const thispoint=null
         const onbule=false
-        const name=null
-        const levelStr=null
-        const memberpoint=null
-        const memberamount=null
-        const cardNo=null
-        const mbCardId=null
-        const isBirthMonth=null
         const ismember=false
         const payvisible=false
         const paytotolamount='0.00'
@@ -105,22 +98,15 @@ export default {
         return {...state,
           datasouce,totolnumber,
           totolamount,thispoint,onbule,
-          name,levelStr,memberpoint,
-          memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,
-          paytotolamount,
-          themeindex,barcode,
-          cardNoMobile,
+          ismember,payvisible,paytotolamount,
+          themeindex,barcode,cardNoMobile,
           amountlist,paytypelisy,
           group,cutAmount,
-          point,
-          amount,
-          rechargevisible,
-          reamount,
-          typeclick1,
-          typeclick2,
+          point,amount,
+          rechargevisible,reamount,
+          typeclick1,typeclick2,
           typeclick3,typeclick4,
-          rechargetype,
-          memberinfo
+          rechargetype,memberinfo
         }
        },
 	    datasouce(state, { payload: datasouce}) {
@@ -180,9 +166,6 @@ export default {
       meth1(state, { payload: meth1}) {
           return {...state,meth1}
       },
-      // memberlist(state, { payload: {name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember, memberinfo}}) {
-      //     return {...state,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,memberinfo}
-      // },
       memberlist(state, { payload: {ismember, memberinfo}}) {
           return {...state,ismember,memberinfo}
       },

@@ -86,13 +86,6 @@ class Operationls extends React.Component {
 	//会员卡号onchange
 	cardNoMobilechange=(e)=>{
 		var cardNoMobile=e.target.value.replace(/\s+/g,"");
-		// const name=null
-		// const levelStr=null
-		// const memberpoint=null
-		// const memberamount=null
-		// const cardNo=null
-		// const mbCardId=null
-		// const isBirthMonth=null
 		const ismember=false
 		this.props.dispatch({
 			type:'cashier/cardNoMobile',

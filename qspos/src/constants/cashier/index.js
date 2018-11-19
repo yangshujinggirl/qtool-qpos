@@ -59,7 +59,6 @@ class Cashierindex extends React.Component {
       };
     }
     componentDidMount(){
-			console.log('12222222222')
       this.getAllOrderListApi()//获取挂单列表数据
       this.props.dispatch({
           type:'dataManage/initKey',
@@ -134,16 +133,8 @@ class Cashierindex extends React.Component {
       })
     }
     //挂单
-    // takeout=()=>{
-    //   const datasouce=this.props.datasouce
-    //   sessionStorage.setItem('olddatasouce',JSON.stringify(datasouce));
-    //   this.resetData()
-    // }
-    //挂单
     takeout=()=>{
       let { fixedNum, allOrderList } = this.state;
-      // let allOrderList = [{putNo:'1'},{putNo:'2'},{putNo:'3'},{putNo:'4'}];
-      // let allOrderList = [{putNo:1},{putNo:2},{putNo:3},{putNo:4},{putNo:5}];
       let currentNum=[];
       if(allOrderList.length==5) {
         message.error('挂单位已满，无法挂单');
@@ -182,14 +173,19 @@ class Cashierindex extends React.Component {
           return;
         }
         let { mbCardInfo, putAmount, putPrice, putProducts } =putOrder;
-        this.props.dispatch({
+				this.getAllOrderListApi();//更新挂单列表
+				this.props.dispatch({//更新会员手机号到页面
+					type:'cashier/cardNoMobile',
+					payload:mbCardInfo.mobile
+				})
+        this.props.dispatch({//更新会员信息
           type:'cashier/memberlist',
           payload:{
             ismember:true,
             memberinfo:mbCardInfo
           }
         })
-        this.props.dispatch({
+        this.props.dispatch({//更新订单信息
           type:'cashier/datasouce',
           payload:putProducts
         })
@@ -202,13 +198,12 @@ class Cashierindex extends React.Component {
     putOrderApi(value,func) {
       const { currentOrderNo } = this.state;
       const { datasouce, totolamount, totolnumber, memberinfo } =this.props;
-      const { isLocalShop, ...mbCardInfo } = memberinfo;
       const params = {
               putNo:currentOrderNo,
               putAmount:totolnumber,
               putPrice:totolamount,
               putMessage:value,
-              mbCardInfo,
+              mbCardInfo:memberinfo,
               putProducts:datasouce
             }
       GetServerData('qerp.web.qpos.od.order.put',{ putOrder: params })
@@ -216,10 +211,10 @@ class Cashierindex extends React.Component {
         const { code, putOrders } =res;
         if(code == '0') {
           typeof func == 'function' && func();
-					// console.log()
           // this.context.router.push('/cashier')
-					// this.props.history.push('/cashier')
-					location.reload()
+					// location.reload()
+					this.resetData();
+					this.getAllOrderListApi();//更新挂单列表
         }
       })
     }
@@ -229,17 +224,6 @@ class Cashierindex extends React.Component {
     onCancelTwo() {
       this.setState({ visibleTwo: false })
     }
-    // //取单
-    // takein=()=>{
-    //   if(sessionStorage.olddatasouce){
-    //     let datasouce=eval('('+sessionStorage.olddatasouce+')')
-    //     this.props.dispatch({
-    //         type:'cashier/datasouce',
-    //         payload:datasouce
-    //     })
-    //   }
-    // }
-
     //整单折扣值价格重置
     takezhe=(value)=>{
       var dis=value
@@ -380,7 +364,6 @@ class Cashierindex extends React.Component {
     }
 
     render() {
-			console.log(this.props)
       const { datasouce } =this.props;
       const { visibleOne, visibleTwo, currentOrderNo, allOrderList } =this.state;
       return(
