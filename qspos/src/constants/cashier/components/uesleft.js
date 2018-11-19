@@ -48,7 +48,7 @@ class Operationls extends React.Component {
 			mbCardId:null,
 	    isBirthMonth:false,
 			dataSource:[],
-			isPhone:false,
+			// isPhone:false,
 			selectedRowKeys:[]
 		}
 
@@ -160,7 +160,7 @@ class Operationls extends React.Component {
 	// 根据会员号或手机号查询会员信息
 	searchmemberinfo=()=>{
 		const { cardNoMobile } =this.props;
-		this.checkIsPhone(cardNoMobile,'input')
+		// this.checkIsPhone(cardNoMobile,'input')
 		this.props.dispatch({
 			type:'cashier/memberinfo',
 			payload:{cardNoMobile}
@@ -199,7 +199,7 @@ class Operationls extends React.Component {
 	//选择会员
 	checkChange=(selectedRowKeys, selectedRows)=> {
 		let cardNoMobile = selectedRows[0].cardNo;
-		this.checkIsPhone(cardNoMobile,'cardNo')
+		// this.checkIsPhone(cardNoMobile,'cardNo')
 		this.props.dispatch({
 			type:'cashier/memberinfo',
 			payload:{
@@ -510,7 +510,7 @@ class Operationls extends React.Component {
 							</div>
               <div className='fr'>
 								{
-									isPhone&&memberinfo.isMoreShop =='true'&&<span
+									memberinfo.isMoreShop =='true'&&<span
 										className='themecolor toggle-btn'
 										onClick={this.toggleEvent.bind(this)}>切换会员>></span>
 								}
