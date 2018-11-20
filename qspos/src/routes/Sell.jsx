@@ -212,6 +212,7 @@ class SlidecountCD extends React.Component {
     }
     render(){
       const { mbCardCd, odOrderCd, orderDetailsCd, orOrderPayCd } =this.props;
+      console.log(orOrderPayCd)
       return(
         <div className="sellinfolist-wrapper">
           {
@@ -266,8 +267,8 @@ class SlidecountCD extends React.Component {
                   </div> */}
                   <div className="sellinfo-row">
                     <div>
-                      <span>商品总额：</span>{orOrderPayCd.payAmount}「
-                      <span>折扣优惠</span>：{orOrderPayCd.memberDiscount}，
+                      <span>商品总额：</span>{odOrderCd.payAmount}「
+                      <span>折扣优惠</span>：{odOrderCd.memberDiscount}，
                       <span>抹零优惠</span>：0.00」
                     </div>
                     <div>

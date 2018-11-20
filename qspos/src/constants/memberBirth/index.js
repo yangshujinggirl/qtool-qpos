@@ -122,13 +122,19 @@ class MemberBirth extends Component {
   }
   render() {
     const { fields } =this.state;
-    const { dataSource, data } =this.props.memberBirth;
+    const { dataSource, data, mbinfo } =this.props.memberBirth;
     return (
       <div className="member-birthday-pages">
         <Header type={false} color={true}/>
         <div className="main-content">
           <div className='top-action clearfix'>
-            <p className="part-l">当前日期：8月20日<span className="lit-date">（农历7月18日）</span></p>
+            <p className="part-l">
+              当前日期：
+              {
+                mbinfo.currentDate&&(moment(mbinfo.currentDate).format('YYYY-MM-DD'))
+              }
+            <span className="lit-date">（{mbinfo.cuCalDate}）</span>
+          </p>
             <div className="part-r">
               <FilterForm
                 {...fields}

@@ -13,8 +13,8 @@ export default {
     mbinfo:{}
   },
   reducers: {
-    getDataSource(state, { payload: { dataSource, data }}) {
-      return { ...state, dataSource, data }
+    getDataSource(state, { payload: { dataSource, data, mbinfo}}) {
+      return { ...state, dataSource, data, mbinfo }
     }
   },
   effects:{

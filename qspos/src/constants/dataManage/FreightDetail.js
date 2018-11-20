@@ -4,6 +4,9 @@ import {
   Input, Icon,Row, Col,
   Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
 import moment from 'moment';
+import Qpagination from '../../components/Qpagination';
+import Qtable from '../../components/Qtable';
+
 import {timeForMats} from '../../utils/commonFc';
 import {GetServerData} from '../../services/services';
 import {GetExportData} from '../../services/services';
@@ -43,7 +46,7 @@ class SearchForm extends React.Component {
           <FormItem label="订单时间" labelCol={{ span: 5 }} wrapperCol={{span: 12}}>
             {
               getFieldDecorator('orderTime',{
-                initialValue:[moment(startDate, dateFormat), moment(startDate, dateFormat)],
+                initialValue:[moment(startDate, dateFormat), moment(endDate, dateFormat)],
                 onChange:(date,dateString)=>upDateDateTime(date,dateString)
               })(
                 <RangePicker />
@@ -125,6 +128,8 @@ class FreightDetail extends React.Component {
       const { limit, total, currentPage, listDeliveryFeeVos,  rpDeliveryFeeHead } =res;
       this.setState({
         total:Number(total),
+        currentPage:Number(currentPage),
+        limit:Number(currentPage),
         totalData:rpDeliveryFeeHead,
         list:listDeliveryFeeVos
       })
@@ -149,6 +154,8 @@ class FreightDetail extends React.Component {
   }
   render() {
     let { totalData, list, currentPage, total, limit, startDate, endDate } = this.state;
+    const data = { total, limit, currentPage };
+    console.log(startDate,endDate)
     return(
       <div className="freight-detail-pages">
         <SearchFilter
@@ -161,23 +168,16 @@ class FreightDetail extends React.Component {
           共<span className="num">{totalData.totalOrders}</span>单，
           配送费用<span className="num">{totalData.totalExpressAmount}</span>元
         </div>
-        <Table
-          bordered
-          dataSource={list}
-          pagination={false}
-          columns={columns}
-          rowClassName={this.rowClassName.bind(this)}/>
+          <Qtable
+            columns={columns}
+            dataSource={list}/>
           {
             list.length>0&&
-            <Pagination
-              className="point-pages"
-              showSizeChanger
-              onShowSizeChange={this.onShowSizeChange.bind(this)}
-              onChange={this.changePage.bind(this)}
-              pageSizeOptions={['10','12','15','17','20','50','100','200']}
-              current={currentPage+1}
-              pageSize={limit}
-              total={total} />
+              <Qpagination
+                sizeOptions="2"
+                onShowSizeChange={this.onShowSizeChange.bind(this)}
+                onChange={this.changePage.bind(this)}
+                data={data}/>
           }
       </div>
     )
