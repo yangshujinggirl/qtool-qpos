@@ -12,6 +12,7 @@ import {GetLodop} from '../components/Method/Print';
 import {getSaleOrderInfo, getCDSaleOrderInfo} from '../components/Method/Print';
 import {getReturnOrderInfo} from '../components/Method/Print';
 import {getRechargeOrderInfo} from '../components/Method/Print';
+import './Sell.less'
 // css
 const slideinfo={width:'300px',height:'75px',marginLeft:'30px',borderBottom: '1px solid #d8d8d8',overflow:'hidden'}
 const slideinfos={fontSize: '12px',color: ' #74777F',marginTop:'10px'}
@@ -31,7 +32,12 @@ const netreceipts=<Tooltip placement="top" title={netreceiptstext}>净收款&nbs
 const tabStyle = {width:'330px',height:'450px'}
 const tabStyleTwo = {width:'330px',height:'330px'}
 let widthFlag = true;
-import './Sell.less'
+
+const deliveryMap={
+  1:'门店自提',
+  2:'同城配送',
+  3:'快递邮寄',
+}
 //切换tag
 class Tags extends React.Component {
   render() {
@@ -201,6 +207,7 @@ class SlidecountCD extends React.Component {
       .then((json) => {
           if(json.code == "0"){
              if(json.config.paperSize=='80'){
+               console.log(this.props.saleCdAll)
                 getCDSaleOrderInfo(this.props.saleCdAll,"80","1");
              }else{
                 getCDSaleOrderInfo(this.props.saleCdAll,"58","1");
@@ -212,7 +219,6 @@ class SlidecountCD extends React.Component {
     }
     render(){
       const { mbCardCd, odOrderCd, orderDetailsCd, orOrderPayCd } =this.props;
-      console.log(orOrderPayCd)
       return(
         <div className="sellinfolist-wrapper">
           {
@@ -267,18 +273,18 @@ class SlidecountCD extends React.Component {
                   </div> */}
                   <div className="sellinfo-row">
                     <div>
-                      <span>商品总额：</span>{odOrderCd.payAmount}「
+                      <span>商品总额：</span>{odOrderCd.amount}「
                       <span>折扣优惠</span>：{odOrderCd.memberDiscount}，
                       <span>抹零优惠</span>：0.00」
                     </div>
                     <div>
-                      <span>配送费用：</span>{orOrderPayCd.deliveryCost}<span>「{orOrderPayCd.deliveryType}」</span>
+                      <span>配送费用：</span>{odOrderCd.deliveryCost}<span>「{deliveryMap[odOrderCd.deliveryType]}」</span>
                     </div>
                   </div>
                   <div className="sellinfo-row">
                     <div>
                       <span>结算收银</span>：
-                      {odOrderCd.amount}
+                      {odOrderCd.payAmount}
                       {
                         orOrderPayCd.length>0&&
                         <span>「用户APP支付：<span>{orOrderPayCd[0].amount}，</span>Qtools补贴：{orOrderPayCd[1].amount}」</span>
@@ -377,7 +383,7 @@ class Slidecountsell extends React.Component {
                     </div> */}
                     <div className="sellinfo-row">
                       <div>
-                        <span>商品总额：</span>{this.props.odOrder.payAmount}「
+                        <span>商品总额：</span>{this.props.odOrder.amount}「
                         <span>折扣优惠</span>：{this.props.odOrder.discountAmount}，
                         <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                       </div>
@@ -404,7 +410,7 @@ class Slidecountsell extends React.Component {
                       </div> */}
                       <div className="sellinfo-row">
                         <div>
-                          <span>商品总额：</span>{this.props.odOrder.payAmount}「
+                          <span>商品总额：</span>{this.props.odOrder.amount}「
                           <span>折扣优惠</span>：{this.props.odOrder.discountAmount}，
                           <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                         </div>
@@ -428,7 +434,7 @@ class Slidecountsell extends React.Component {
                   </div> */}
                   <div className="sellinfo-row">
                     <div>
-                      <span>商品总额：</span>{this.props.odOrder.payAmount}「
+                      <span>商品总额：</span>{this.props.odOrder.amount}「
                       <span>折扣优惠</span>：{this.props.odOrder.discountAmount}，
                       <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                     </div>
@@ -461,7 +467,7 @@ class Slidecountsell extends React.Component {
                       </div> */}
                       <div className="sellinfo-row">
                         <div>
-                          <span>商品总额：</span>{this.props.odOrder.payAmount}「
+                          <span>商品总额：</span>{this.props.odOrder.amount}「
                           <span>折扣优惠</span>：{this.props.odOrder.discountAmount}，
                           <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                         </div>
@@ -490,7 +496,7 @@ class Slidecountsell extends React.Component {
                       </div> */}
                       <div className="sellinfo-row">
                         <div>
-                          <span>商品总额：</span>{this.props.odOrder.payAmount}「
+                          <span>商品总额：</span>{this.props.odOrder.amount}「
                           <span>折扣优惠</span>：{this.props.odOrder.discountAmount}，
                           <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                         </div>
@@ -517,7 +523,7 @@ class Slidecountsell extends React.Component {
                   </div> */}
                   <div className="sellinfo-row">
                     <div>
-                      <span>商品总额：</span>{this.props.odOrder.payAmount}「
+                      <span>商品总额：</span>{this.props.odOrder.amount}「
                       <span>折扣优惠</span>：{this.props.odOrder.discountAmount}，
                       <span>抹零优惠</span>：{this.props.odOrder.cutAmount}」
                     </div>

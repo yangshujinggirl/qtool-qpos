@@ -90,7 +90,7 @@ class FreightDetail extends React.Component {
           startDate:startRpDate,
           endDate:endRpDate
       },()=> {
-        this.getList(this.state.currentPage,this.state.limit)
+        this.getList()
       })
   }
   //更新时间
@@ -102,34 +102,32 @@ class FreightDetail extends React.Component {
   }
 
   exportList() {
-    const { startDate, endDate} =this.state;
+    const { startDate, endDate, currentPage,limit} =this.state;
     let params = {
       startDate,
-      endDate
+      endDate,
+      currentPage,
+      limit
     }
     GetExportData('qerp.pos.app.deliveryfee.export',params)
-    .then((res) => {
-      console.log(res)
-    },(err) => {
-
-    })
   }
-  getList(currentPage, limit ) {
-    let { startDate, endDate } = this.state;
+  getList() {
+    let { startDate, endDate, currentPage, limit } = this.state;
     let params = {
           startDate,
           endDate,
           currentPage,
           limit
         }
-    this.setState({ limit:limit, currentPage:currentPage });
     GetServerData('qerp.pos.app.deliveryFee.query',params)
     .then((res) => {
-      const { limit, total, currentPage, listDeliveryFeeVos,  rpDeliveryFeeHead } =res;
+      let { limit, total, currentPage, listDeliveryFeeVos,  rpDeliveryFeeHead } =res;
+      listDeliveryFeeVos = listDeliveryFeeVos?listDeliveryFeeVos:[];
+      listDeliveryFeeVos.length>0&&listDeliveryFeeVos.map((el,index) =>el.key= index);
       this.setState({
         total:Number(total),
         currentPage:Number(currentPage),
-        limit:Number(currentPage),
+        limit:Number(limit),
         totalData:rpDeliveryFeeHead,
         list:listDeliveryFeeVos
       })
@@ -137,13 +135,21 @@ class FreightDetail extends React.Component {
       console.log(err)
     })
   }
-  onShowSizeChange(current, pageSize) {
-    current--;
-    this.getList(current, pageSize);
+  onShowSizeChange(values) {
+    this.setState({
+      limit:values.limit,
+      currentPage:values.currentPage
+     },()=> {
+      this.getList();
+    });
   }
   changePage(page, pageSize) {
     page--;
-    this.getList(page, pageSize);
+    this.setState({
+      currentPage:page
+     },()=> {
+      this.getList();
+    });
   }
   rowClassName=(record, index)=>{
     if (index % 2) {
@@ -155,7 +161,6 @@ class FreightDetail extends React.Component {
   render() {
     let { totalData, list, currentPage, total, limit, startDate, endDate } = this.state;
     const data = { total, limit, currentPage };
-    console.log(startDate,endDate)
     return(
       <div className="freight-detail-pages">
         <SearchFilter
