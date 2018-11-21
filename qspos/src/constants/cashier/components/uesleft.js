@@ -48,7 +48,6 @@ class Operationls extends React.Component {
 			mbCardId:null,
 	    isBirthMonth:false,
 			dataSource:[],
-			// isPhone:false,
 			selectedRowKeys:[]
 		}
 
@@ -160,7 +159,7 @@ class Operationls extends React.Component {
 	// 根据会员号或手机号查询会员信息
 	searchmemberinfo=()=>{
 		const { cardNoMobile } =this.props;
-		// this.checkIsPhone(cardNoMobile,'input')
+		this.props.checkIsPhone(cardNoMobile,'input')
 		this.props.dispatch({
 			type:'cashier/memberinfo',
 			payload:{cardNoMobile}
@@ -195,18 +194,6 @@ class Operationls extends React.Component {
 	}
 	onCancel() {
 		this.setState({ visible:false })
-	}
-	//选择会员
-	checkChange=(selectedRowKeys, selectedRows)=> {
-		let cardNoMobile = selectedRows[0].cardNo;
-		// this.checkIsPhone(cardNoMobile,'cardNo')
-		this.props.dispatch({
-			type:'cashier/memberinfo',
-			payload:{
-				cardNoMobile
-			}
-		})
-		this.setState({ visible: false })
 	}
 	//充值
 	showModal = () => {
@@ -459,8 +446,8 @@ class Operationls extends React.Component {
 		}
 	}
 	render(){
-		const { memberinfo } =this.props;
-		const { dataSource, isPhone } =this.state;
+		const { memberinfo, isPhone } =this.props;
+		const { dataSource } =this.state;
     const openWechat=sessionStorage.getItem("openWechat")
     const openAlipay=sessionStorage.getItem("openAlipay");
 
@@ -510,7 +497,7 @@ class Operationls extends React.Component {
 							</div>
               <div className='fr'>
 								{
-									memberinfo.isMoreShop =='true'&&<span
+									isPhone&&memberinfo.isMoreShop =='true'&&<span
 										className='themecolor toggle-btn'
 										onClick={this.toggleEvent.bind(this)}>切换会员>></span>
 								}
@@ -529,8 +516,11 @@ class Operationls extends React.Component {
                 <div className='c74 top-action'>
 									<span>余额</span>
 									{
-										memberinfo.isLocalShop =='true'&&
-										<span onClick={this.showModal} className='themecolor recharge' style={{'cursor':'pointer','marginLeft':'4px'}}>充值</span>
+										memberinfo.mbCardId&&memberinfo.isLocalShop =='true'&&
+										<span
+											onClick={this.showModal}
+											className='themecolor recharge'
+											style={{'cursor':'pointer','marginLeft':'4px'}}>充值</span>
 									}
 									<span className="lines"></span>
 								</div>
@@ -629,13 +619,6 @@ Operationls.contextTypes= {
 
 function mapStateToProps(state) {
 	 const {
-					//  name,
-					//  levelStr,
-					//  memberpoint,
-					//  memberamount,
-					//  cardNo,
-					//  mbCardId,
-					//  isBirthMonth,
 					 ismember,
 					 thispoint,
 					 barcode,
@@ -653,13 +636,6 @@ function mapStateToProps(state) {
 					 memberinfo
 				 } = state.cashier;
 	return {
-						// name,
-						// levelStr,
-						// memberpoint,
-						// memberamount,
-						// cardNo,
-						// mbCardId,
-						// isBirthMonth,
 						ismember,
 						thispoint,
 						barcode,

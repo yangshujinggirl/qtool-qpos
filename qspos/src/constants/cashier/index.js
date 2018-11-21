@@ -11,7 +11,7 @@ import {GetServerData} from '../../services/services';
 import { dataedit } from '../../utils/commonFc';
 import EntryOrdersModal from './components/EntryOrdersModal';
 import PutedOrderListModal from './components/PutedOrderListModal';
-
+import OperationlLeft from './components/uesleft'
 import './index.less';
 const FormItem = Form.Item;
 
@@ -55,7 +55,8 @@ class Cashierindex extends React.Component {
         visibleOne:false,
         visibleTwo:false,
         allOrderList:[],
-        fixedNum:['1','2','3','4','5']
+        fixedNum:['1','2','3','4','5'],
+				isPhone:false
       };
     }
     componentDidMount(){
@@ -173,6 +174,7 @@ class Cashierindex extends React.Component {
           return;
         }
         let { mbCardInfo, putAmount, putPrice, putProducts } =putOrder;
+				this.setState({ isPhone: JSON.parse(mbCardInfo.isMoreShop)})//查询多会员状态
 				this.getAllOrderListApi();//更新挂单列表
 				this.props.dispatch({//更新会员手机号到页面
 					type:'cashier/cardNoMobile',
@@ -181,7 +183,7 @@ class Cashierindex extends React.Component {
         this.props.dispatch({//更新会员信息
           type:'cashier/memberlist',
           payload:{
-            ismember:true,
+            ismember:mbCardInfo.mbCardId?true:false,
             memberinfo:mbCardInfo
           }
         })
@@ -362,10 +364,46 @@ class Cashierindex extends React.Component {
       })
       this.props.meths.focustap()
     }
-
+		//判断是会员手机号还会员卡号
+		checkIsPhone(value,type) {
+			let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
+			let isPhone;
+			//手机号&&表单输入
+			if(!regMb.test(value)&&type=='input') {
+				isPhone = false;
+			} else {
+				isPhone = true;
+			}
+			this.setState({ isPhone })
+		}
+		//结算按钮事件
+		hindclick=()=>{
+	    if(Number(this.props.totolnumber)>0 && parseFloat(this.props.totolamount)>0){
+		    GetServerData('qerp.pos.sy.config.info')
+		    .then((json) => {
+			    if(json.code == "0"){
+			        if(json.config.submitPrint=='1'){
+		            this.props.dispatch({
+		              type:'cashier/changeCheckPrint',
+		              payload:true
+		            })
+			        }else{
+		            this.props.dispatch({
+		              type:'cashier/changeCheckPrint',
+		              payload:false
+		            })
+			        }
+			    }
+		    })
+	      this.props.meth1.initModel()
+	    }else{
+	      message.error('数量为0，不能结算')
+	      return
+	    }
+		}
     render() {
       const { datasouce } =this.props;
-      const { visibleOne, visibleTwo, currentOrderNo, allOrderList } =this.state;
+      const { visibleOne, visibleTwo, currentOrderNo, allOrderList, isPhone } =this.state;
       return(
         <div className="cashier-wrap-pages">
           <Header type={true} color={true}/>
@@ -396,12 +434,33 @@ class Cashierindex extends React.Component {
       					onCancel={this.handleCancel}
       					hindPress={this.hindPress}/>
       			</div>
+						{/*扫码,结算区*/}
             <div className='mt20'>
-              <Operationcaster
-                color={true}
-                type={false}
-                index={true}
-                userplace='1'/>
+							<div className='count clearfix'>
+								<div className='opera'>
+				  				<div className='operationl fl'>
+								     <OperationlLeft
+											 checkIsPhone={this.checkIsPhone.bind(this)}
+											 isPhone={isPhone}/>
+				  				</div>
+				  				<div className='operationr fr'>
+										<div className='operationcon'>
+							        <div className='fl list1' onClick={this.hindclick.bind(this)}>
+							          <div className='con1'>结算</div>
+							          <div className='con2'>「空格键」</div>
+							        </div>
+							        <div className='fl list2'>
+							          <div className='con1'>数量</div>
+							          <div className='con2'>{this.props.totolnumber}</div>
+							        </div>
+							        <div className='fl list3'>
+							          <div className='con1'>金额</div>
+							          <div className='con2'>{this.props.totolamount}</div>
+							        </div>
+							      </div>
+				          </div>
+				  			</div>
+				  		</div>
             </div>
           </div>
           <PayModal ref='pay' initdata={this.resetData.bind(this)}/>
