@@ -213,8 +213,6 @@ class Cashierindex extends React.Component {
         const { code, putOrders } =res;
         if(code == '0') {
           typeof func == 'function' && func();
-          // this.context.router.push('/cashier')
-					// location.reload()
 					this.resetData();
 					this.getAllOrderListApi();//更新挂单列表
         }
@@ -428,11 +426,6 @@ class Cashierindex extends React.Component {
       				<div className='btn fr' onClick={this.takeout.bind(this)}>
                 <Button className='handle-btn' disabled={datasouce.length>0?false:true}>挂单F2</Button>
               </div>
-      				<CollectionCreateForm
-      					ref={(form) => this.form = form}
-      					visible={this.state.visible}
-      					onCancel={this.handleCancel}
-      					hindPress={this.hindPress}/>
       			</div>
 						{/*扫码,结算区*/}
             <div className='mt20'>
@@ -474,6 +467,11 @@ class Cashierindex extends React.Component {
             getOrder={this.getOrderApi.bind(this)}
             onCancel={()=>this.onCancelTwo()}
             visible={visibleTwo}/>
+					<CollectionCreateForm
+						ref={(form) => this.form = form}
+						visible={this.state.visible}
+						onCancel={this.handleCancel}
+						hindPress={this.hindPress}/>
         </div>
       )
     }
