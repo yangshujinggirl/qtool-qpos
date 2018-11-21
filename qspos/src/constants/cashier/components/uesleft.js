@@ -165,17 +165,17 @@ class Operationls extends React.Component {
 			payload:{cardNoMobile}
 		})
 	}
-	//判断是会员手机号还会员卡号
-	checkIsPhone(value,type) {
-		let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
-		let isPhone;
-		//手机号&&表单输入
-		if(!regMb.test(value)&&type=='input') {
-			isPhone = false;
-		} else {
-			isPhone = true;
-		}
-		this.setState({ isPhone })
+	//选择会员
+	checkChange=(selectedRowKeys, selectedRows)=> {
+		let cardNoMobile = selectedRows[0].cardNo;
+		this.props.checkIsPhone(cardNoMobile,'cardNo')
+		this.props.dispatch({
+			type:'cashier/memberinfo',
+			payload:{
+				cardNoMobile
+			}
+		})
+		this.setState({ visible: false })
 	}
 	//切换会员
 	toggleEvent() {
