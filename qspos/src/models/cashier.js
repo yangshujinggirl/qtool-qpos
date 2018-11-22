@@ -13,13 +13,6 @@ export default {
         thispoint:null,//本次积分
         onbule:false,
         meths:{},
-        // name:null,
-        // levelStr:null,
-        // memberpoint:null,
-        // memberamount:null,
-        // cardNo:null,
-        // mbCardId:null,
-        // isBirthMonth:null,
         ismember:false,
         payvisible:false,
         meth1:{},
@@ -212,6 +205,7 @@ export default {
   },
   effects: {
     *barfetch({ payload: {code,values} }, { call, put ,select}) {
+        yield put({type: 'spinLoad/setLoading',payload:true});
         const result=yield call(GetServerData,code,values);
         if(result.code=='0'){
             const initdatasouce = yield select(state => state.cashier.datasouce);
@@ -273,11 +267,14 @@ export default {
                 }
             }
             yield put({type: 'datasouce',payload:datasouce});
+
         }else{
              message.error(result.message);
         }
+        yield put({type: 'spinLoad/setLoading',payload:false});
     },
     *memberinfo({ payload: values }, { call, put,select }) {
+        yield put({type: 'spinLoad/setLoading',payload:true});
         const result=yield call(GetServerData,'qerp.pos.mb.card.find',values);
         if(result.code=='0'){
             const { mbCardInfo } = result;
@@ -295,6 +292,7 @@ export default {
         }else{
              message.error(result.message);
         }
+        yield put({type: 'spinLoad/setLoading',payload:false});
     },
     *fetch2({ payload: {code,values} }, { call, put }) {
         const result=yield call(GetServerData,code,values);
