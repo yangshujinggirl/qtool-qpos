@@ -1893,7 +1893,7 @@ function printCDSaleOrder(message,printCount){
 	var printName = saleInfoAll.printName;
 	// var shopName = message.odOrder
 	var orderNo = saleInfoAll.odOrder.orderNo;
-	var saleTime = saleInfoAll.odOrder.saleTime;
+	var saleTime = saleInfoAll.odOrder.createTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
 	var payType="「 App支付"+" 」";
