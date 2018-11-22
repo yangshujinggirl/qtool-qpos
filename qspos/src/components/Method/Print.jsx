@@ -2092,7 +2092,7 @@ function printCDSaleOrderSmall(message,printCount){
   var payType="「 App支付"+" 」"
 
 	var orderNo = saleInfoAll.odOrder.orderNo;
-	var saleTime = saleInfoAll.odOrder.saleTime;
+	var saleTime = saleInfoAll.odOrder.createTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
   var actuallyPay=saleInfoAll.orOrderPay[0].amount;//实付
