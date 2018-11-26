@@ -48,7 +48,8 @@ class Operationls extends React.Component {
 			mbCardId:null,
 	    isBirthMonth:false,
 			dataSource:[],
-			selectedRowKeys:[]
+			selectedRowKeys:[],
+			loading:false
 		}
 
 		this.firstclick=true
@@ -242,6 +243,7 @@ class Operationls extends React.Component {
 				return
 		}
 		const { memberinfo } = this.props;
+		this.setState({ loading: true })
 		let values={
 			mbCardId:memberinfo.mbCardId,
 			amount:this.props.reamount,
@@ -274,6 +276,7 @@ class Operationls extends React.Component {
 						message.warning(json.message)
 						this.firstclick=true
 				}
+				this.setState({ loading: false })
 		})
 	}
 		//打印
@@ -447,7 +450,7 @@ class Operationls extends React.Component {
 	}
 	render(){
 		const { memberinfo, isPhone } =this.props;
-		const { dataSource } =this.state;
+		const { dataSource, loading } =this.state;
     const openWechat=sessionStorage.getItem("openWechat")
     const openAlipay=sessionStorage.getItem("openAlipay");
 
@@ -558,7 +561,7 @@ class Operationls extends React.Component {
 					</div>
 				</Modal>
 				<Modal
-          className='rechargepays'
+          className='rechargepays recharge-modal'
           visible={this.props.rechargevisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
@@ -600,9 +603,15 @@ class Operationls extends React.Component {
               </div>
             </div>
             <div>
-              <div className='tc rechargeok' onClick={this.handleOk.bind(this)}>
+              {/* <div className='tc rechargeok' onClick={this.handleOk.bind(this)}>
                   确定
-              </div>
+              </div> */}
+							<Button
+								loading={loading}
+								className='tc rechargeok'
+								onClick={this.handleOk.bind(this)}>
+									确定
+							</Button>
               <div style={{textAlign:"center",marginTop:"10px"}}>
                 <Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.recheckPrint}>打印小票</Checkbox>
               </div>

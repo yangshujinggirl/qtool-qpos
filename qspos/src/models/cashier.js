@@ -202,6 +202,25 @@ export default {
       typeclicks(state, { payload: {typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}}) {
           return {...state,typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
       },
+      //初始化结算弹框
+      resetPayModal(state) {
+        const amountlist=[{
+            name:'微信',
+            value:null,
+            type:'1'
+        }]
+        const paytypelisy=[
+            {name:'微信',check:false,disabled:false,type:'1'},
+            {name:'支付宝',check:false,disabled:false,type:'2'},
+            {name:'银联',check:false,disabled:false,type:'3'},
+            {name:'现金',check:false,disabled:false,type:'4'},
+            {name:'会员卡',check:false,disabled:false,type:'5'},
+            {name:'积分',check:false,disabled:false,type:'6'}
+        ]
+        const group=false;
+        const cutAmount='0';
+        return {...state, amountlist, paytypelisy, group, cutAmount }
+      }
   },
   effects: {
     *barfetch({ payload: {code,values} }, { call, put ,select}) {

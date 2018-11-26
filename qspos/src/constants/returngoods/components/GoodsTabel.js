@@ -102,18 +102,25 @@ class EditableTable extends React.Component {
               }
           }];
         this.state = {
-            dataSource: [],//所有的table数据
+            dataSource: this.props.dataSource,//所有的table数据
             count: 1,
             index:0,
             quantity:0,//数量
             totalamount:0,//总金额
             integertotalamount:0,//总金额取整,
             selectedRows:[],
-            ismbCard:false,
+            ismbCard:this.props.ismbCard,
             isdataSource:[],//选中的table数据
-            mbCard:null,
+            mbCard:this.props.mbCard,
             selectedRowKeys:[]
         };
+    }
+    componentWillReceiveProps(props) {
+      this.setState({
+        dataSource: props.dataSource,
+        ismbCard: props.ismbCard,
+        mbCard: props.mbCard,
+      })
     }
     componentDidMount(){
       if(document.body.offsetWidth>800){
@@ -472,51 +479,51 @@ class EditableTable extends React.Component {
         r2=Number(arg2.toString().replace(".",""))
         return (r1/r2)*Math.pow(10,t2-t1);
     }
-    //根据订单号请求订单信息及会员id
-    barcodesetdatasoce=(messages)=>{
-        let datasouces=this.state.dataSource
-        const result=GetServerData('qerp.web.qpos.od.return.query',messages)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
-                if(json.code=='0'){
-                	const odOrderDetails=json.odOrderDetails
-                	for(var i=0;i<odOrderDetails.length;i++){
-                		odOrderDetails[i].key=i;
-                    odOrderDetails[i].qty=odOrderDetails[i].canReturnQty//把订单数量更改为可退数量
-                    odOrderDetails[i].inventory=odOrderDetails[i].qty
-            		// odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
-                    odOrderDetails[i].check=false
-                	}
-                    if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
-                        this.setState({
-                            dataSource:odOrderDetails,
-                            mbCard:null,
-                            ismbCard:false
-                        },function(){
-                            //传递会员卡信息到展示数据
-                            this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
-                            //置空结算数据
-                            this.props.clearingdata('0','0')
-                            //传递会员卡信息到pay
-                            this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
-                        })
-                    }else{
-                        this.setState({
-                            dataSource:odOrderDetails,
-                            mbCard:json.mbCard,
-                            ismbCard:true
-                        },function(){
-                            this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
-                            this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
-                        })
-                    }
-                    this.props.getAmountDetail(json.order)
-                }else{
-                    message.warning(json.message)
-                }
-            })
-    }
+    // //根据订单号请求订单信息及会员id
+    // barcodesetdatasoce=(messages)=>{
+    //     let datasouces=this.state.dataSource
+    //     const result=GetServerData('qerp.web.qpos.od.return.query',messages)
+    //         result.then((res) => {
+    //             return res;
+    //         }).then((json) => {
+    //             if(json.code=='0'){
+    //             	const odOrderDetails=json.odOrderDetails
+    //             	for(var i=0;i<odOrderDetails.length;i++){
+    //             		odOrderDetails[i].key=i;
+    //                 odOrderDetails[i].qty=odOrderDetails[i].canReturnQty//把订单数量更改为可退数量
+    //                 odOrderDetails[i].inventory=odOrderDetails[i].qty
+    //         		// odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
+    //                 odOrderDetails[i].check=false
+    //             	}
+    //                 if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
+    //                     this.setState({
+    //                         dataSource:odOrderDetails,
+    //                         mbCard:null,
+    //                         ismbCard:false
+    //                     },function(){
+    //                         //传递会员卡信息到展示数据
+    //                         this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
+    //                         //置空结算数据
+    //                         this.props.clearingdata('0','0')
+    //                         //传递会员卡信息到pay
+    //                         this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
+    //                     })
+    //                 }else{
+    //                     this.setState({
+    //                         dataSource:odOrderDetails,
+    //                         mbCard:json.mbCard,
+    //                         ismbCard:true
+    //                     },function(){
+    //                         this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
+    //                         this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
+    //                     })
+    //                 }
+    //                 this.props.getAmountDetail(json.order)
+    //             }else{
+    //                 message.warning(json.message)
+    //             }
+    //         })
+    // }
     windowResize = () =>{
         if(!this.refs.tableWrapper){
             return
@@ -544,8 +551,7 @@ class EditableTable extends React.Component {
                 scroll={{ y: this.state.windowHeight }}
                 onRowClick={this.rowclick.bind(this)}
                 rowClassName={this.rowClassName.bind(this)}
-                className='returngoodtable'
-            />
+                className='returngoodtable'/>
         </div>
     );
   }
