@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, Modal } from 'antd';
 import {GetServerData} from '../services/services';
 
 //css
@@ -93,16 +93,66 @@ const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 
 //index
 class IndexPage extends React.Component {
-    render() {
-        return (
-            <div className='loginindex'>
-                <div className='login'>
-                    <Logo/>
-                    <div className='login-form'><WrappedNormalLoginForm/></div>
-                </div>
-            </div>
-        )
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible:false
     }
+  }
+  componentDidMount() {
+    this.getUserAgent()
+  }
+  handleCancel() {
+    this.setState({ visible: false})
+  }
+  goChrome() {
+    window.open('https://www.google.cn/chrome/')
+  }
+  goFireFox() {
+    window.open('http://www.firefox.com.cn/')
+  }
+  getUserAgent() {
+    let userAgent = window.navigator.userAgent;
+    let isChrome = userAgent.indexOf('Chrome')>-1;
+    let isFirefox = userAgent.indexOf('Firefox')>-1;
+    if(isChrome||isFirefox) {
+
+    } else {
+      this.setState({ visible: true})
+    }
+  }
+  render() {
+    return (
+      <div className='loginindex'>
+        <div className='login'>
+          <Logo/>
+          <div className='login-form'><WrappedNormalLoginForm/></div>
+        </div>
+        <Modal
+          className="judge-userAgent-modal"
+          footer={null}
+          closable
+          onCancel={()=>this.handleCancel()}
+          onOk={()=>this.handleCancel()}
+          visible={this.state.visible}
+          title="提示">
+          <div className="main-content">
+            <p className="text-tips">
+              此浏览器未与QPOS适配，部分功能可能无法使用，为保证使用体验，建议使用以下浏览器：
+            </p>
+            <div className="lists-wrap">
+              <div className="item-wrap">
+                <img src={require("../images/icon_chrome.png")} className="icon-pic" onClick={this.goChrome}></img>
+              </div>
+              <div className="item-wrap">
+                <img src={require("../images/icon_firefox.png")} className="icon-pic" onClick={this.goFireFox}></img>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    )
+  }
 }
 
 export default IndexPage;

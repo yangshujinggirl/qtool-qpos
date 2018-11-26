@@ -73,12 +73,6 @@ class MemberBirth extends Component {
   constructor(props) {
     super(props);
     this.state={
-      dataSource:[],
-      data:{
-        limit:15,
-        currentPage:0,
-        total:0
-      },
       fields: {
          keyWords:'',
          backDate:''

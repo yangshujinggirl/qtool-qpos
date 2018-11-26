@@ -119,8 +119,20 @@ class FreightDetail extends React.Component {
           currentPage,
           limit
         }
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:true
+        })
     GetServerData('qerp.pos.app.deliveryFee.query',params)
     .then((res) => {
+      if(res.code != '0') {
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:false
+        })
+        message.error(res.message);
+        return;
+      }
       let { limit, total, currentPage, listDeliveryFeeVos,  rpDeliveryFeeHead } =res;
       listDeliveryFeeVos = listDeliveryFeeVos?listDeliveryFeeVos:[];
       listDeliveryFeeVos.length>0&&listDeliveryFeeVos.map((el,index) =>el.key= index);
@@ -130,6 +142,10 @@ class FreightDetail extends React.Component {
         limit:Number(limit),
         totalData:rpDeliveryFeeHead,
         list:listDeliveryFeeVos
+      })
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:false
       })
     },(err) => {
       console.log(err)

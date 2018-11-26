@@ -6,7 +6,7 @@ import Searchinput from '../../components/Searchinput/Searchinput';
 import { GetServerData } from '../../services/services';
 import { Gettime } from '../../services/data';
 import Header from '../../components/header/Header';
-import AddEditModal from './components/AddEditModal0';
+import AddEditModal from './components/AddEditModal';
 import Qpagination from '../../components/Qpagination';
 import Qtable from '../../components/Qtable';
 import '../../style/member.css';
@@ -68,7 +68,8 @@ class Member extends React.Component{
         mbCardBirths:[{key:-1,type:1}]
       },
       visibleSure:false,
-      cardNo:''
+      cardNo:'',
+      loading:false
     }
   }
   componentDidMount() {
@@ -142,6 +143,7 @@ class Member extends React.Component{
     if(this.state.mbCardId) {
       value.mbCardId=this.state.mbCardId;
     }
+    this.setState({ loading:true })
     GetServerData('qerp.pos.mb.card.save',{ mbCardInfo: value })
     .then((json) => {
       if(json.code=='0'){
@@ -153,7 +155,7 @@ class Member extends React.Component{
         }else{
           message.success('会员信息修改成功',1)
         }
-        typeof func == 'function' && func();
+        typeof func == 'function' && func();//回调
         this.props.dispatch({
            type:'member/fetch',
            payload: {limit:10}
@@ -161,6 +163,7 @@ class Member extends React.Component{
       }else{
         message.error(json.message);
       }
+      this.setState({ loading:false })
     })
   }
   //关闭弹框
@@ -171,7 +174,8 @@ class Member extends React.Component{
         type:1,
         checked:true,
         mbCardBirths:[{key:-1,type:1}]
-      }
+      },
+      mbCardId:null
     });
   }
   //新建成功确认
@@ -183,7 +187,7 @@ class Member extends React.Component{
     this.setState({ visibleSure: false });
   }
   render(){
-    const { visible, mbCardInfo, mbCardId, visibleSure, cardNo } =this.state;
+    const { visible, mbCardInfo, mbCardId, visibleSure, cardNo, loading } =this.state;
     const { mbCards, data } =this.props;
     let texts = mbCardId?'修改会员':'新增会员';
     return (
@@ -215,6 +219,7 @@ class Member extends React.Component{
             data={data}/>
         </div>
         <AddEditModal
+          loading={loading}
           visible={visible}
           data={mbCardInfo}
           texts={texts}

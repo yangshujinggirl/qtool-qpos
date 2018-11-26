@@ -2,8 +2,7 @@ import { Button, Modal, Form, Input } from 'antd';
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
-const AdjustTextForm =({visible, onCancel, onCreate,form:{getFieldDecorator,validateFields}}) => {
-
+const AdjustTextForm =({loading,visible, onCancel, onCreate,form:{getFieldDecorator,validateFields}}) => {
     function handleOk(e){
       e.preventDefault();
       validateFields((err, values) => {
@@ -12,7 +11,7 @@ const AdjustTextForm =({visible, onCancel, onCreate,form:{getFieldDecorator,vali
         }
       })
     }
-    
+
     return (
       <Modal
         visible={visible}
@@ -21,7 +20,10 @@ const AdjustTextForm =({visible, onCancel, onCreate,form:{getFieldDecorator,vali
         onCancel={onCancel}
         onOk={handleOk}
         className="adjust-text-modal"
-      >
+        footer={<div>
+          <Button onClick={onCancel} >取消</Button>
+          <Button type="primary" onClick={handleOk} loading={loading}>确定</Button>
+        </div>}>
         <Form layout="vertical">
           <FormItem label='撤销商品调拨的原因'>
             {getFieldDecorator('cancelRemark',{

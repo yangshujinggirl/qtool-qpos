@@ -19,6 +19,7 @@ export default {
   },
   effects:{
     *fetchList({ payload: values }, { call, put, select }) {
+      yield put({type: 'spinLoad/setLoading',payload:true});
       const fixedLimit = yield select(state => state.memberBirth.data.limit);
       if(!values.limit) {
         values.limit = fixedLimit;
@@ -40,7 +41,10 @@ export default {
             mbinfo:{ cuCalDate, currentDate }
           }
         })
+      } else {
+        message.error(result.message);
       }
+      yield put({type: 'spinLoad/setLoading',payload:false});
     }
   }
 }

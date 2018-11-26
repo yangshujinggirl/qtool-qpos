@@ -129,162 +129,6 @@ const Searchcomponent=({...props})=> {
   )
 }
 
-class EditableTable extends React.Component {
-  	constructor(props) {
-    	super(props);
-    	this.columns = [{
-        		title: '商品条码',
-              width:'15%',
-        		dataIndex: 'barcode'
-      	},{
-              title: '商品名称',
-              dataIndex: 'name'
-          },{
-              title: '规格',
-              width:'15%',
-              dataIndex: 'displayName'
-          },{
-              title: '库存数量',
-              width:'10%',
-              dataIndex: 'inventory',
-          },{
-              title: '可用库存数',
-              width:'10%',
-              dataIndex: 'qtyLeft',
-          },{
-              title: 'APP占用',
-              width:'10%',
-              dataIndex: 'qtyAppAllocated',
-          },{
-        		title: '零售价',
-              width:'12%',
-        		dataIndex: 'toCPrice',
-        	},{
-              title: '成本价',
-              width:'12%',
-              dataIndex: 'averageRecPrice',
-          }];
-      this.columnsClerk = [{
-              title: '商品条码',
-              width:'15%',
-              dataIndex: 'barcode'
-          },{
-              title: '商品名称',
-              dataIndex: 'name'
-          },{
-              title: '规格',
-              width:'15%',
-              dataIndex: 'displayName'
-          },{
-              title: '库存数量',
-              width:'10%',
-              dataIndex: 'inventory',
-          },{
-              title: '可用库存数',
-              width:'10%',
-              dataIndex: 'qtyLeft',
-          },{
-              title: 'APP占用',
-              width:'10%',
-              dataIndex: 'qtyAppAllocated',
-          },{
-              title: '零售价',
-              width:'12%',
-              dataIndex: 'toCPrice',
-          }];
-	    this.state = {
-	      	dataSource: [],
-	      	count: 2,
-          pageSize:10,
-          windowHeight:'',
-          _isMounted:false,
-          currentPage:1
-	    };
-  	}
-
-  	rowClassName=(record, index)=>{
-    	if (index % 2) {
-      		return 'table_gray'
-    	}else{
-      		return 'table_white'
-    	}
-  	}
-    pageChange=(page,pageSize)=>{
-        this.setState({
-            currentPage:page
-        },function(){
-            const current=Number(page)-1;
-            this.props.pagefresh(current,this.state.pageSize)
-        });
-    }
-    onShowSizeChange=(current, pageSize)=>{
-        this.setState({
-            pageSize:pageSize,
-            current:current,
-            currentPage:1
-        },function(){
-            this.props.pagefresh(0,pageSize)
-        })
-
-    }
-
-    windowResize = () =>{
-        if(!this.refs.tableWrapper){
-            return
-        }else{
-            if(document.body.offsetWidth>800){
-                this.setState({
-                   windowHeight:document.body.offsetHeight-300,
-                 });
-            }else{
-                this.setState({
-                    windowHeight:document.body.offsetHeight-270,
-                });
-            }
-        }
-    }
-
-
-  	render() {
-    	const { dataSource } = this.state;
-        const columns = this.columns;
-        let role=sessionStorage.getItem('role');
-    	return (
-      		<div className='bgf-goods-style good-contrl-table' ref="tableWrapper">
-        		<Table bordered dataSource={this.props.pdSpus} columns={role=='3'?this.columnsClerk:this.columns}
-                rowClassName={this.rowClassName.bind(this)}
-                pagination={
-                             {'total':Number(this.props.total),current:this.state.currentPage,pageSize:this.state.pageSize,showSizeChanger:true,onShowSizeChange:this.onShowSizeChange,
-                               onChange:this.pageChange,pageSizeOptions:['10','12','15','17','20','50','100','200']}
-                         }
-                className='goods'
-                scroll={{y:this.state.windowHeight}}
-                />
-      		</div>
-    	);
-  	}
-
-    componentDidMount(){
-        this._isMounted = true;
-        if( this._isMounted){
-            if(document.body.offsetWidth>800){
-                this.setState({
-                   windowHeight:document.body.offsetHeight-300,
-                 });
-            }else{
-               this.setState({
-                 windowHeight:document.body.offsetHeight-270,
-             });
-            }
-            window.addEventListener('resize', this.windowResize);
-        }
-    }
-    componentWillUnmount(){
-        this._isMounted = false;
-        window.removeEventListener('resize', this.windowResize);
-    }
-}
-
 class Goods extends React.Component {
   state={
       inputvalue:'',
@@ -296,6 +140,10 @@ class Goods extends React.Component {
   componentDidMount() {
     this.props.dispatch({
       type:'goods/fetch',
+      payload:{}
+    })
+    this.props.dispatch({
+      type:'goods/pdCategorieslist',
       payload:{}
     })
   }
@@ -345,11 +193,17 @@ class Goods extends React.Component {
       };
       const result=GetExportData('qerp.pos.pd.spu.export',data);
   }
-  changePageSize() {
-
+  changePage(currentPage,pageSize) {
+    this.props.dispatch({
+      type:'goods/fetch',
+      payload:{currentPage}
+    })
   }
-  changePage() {
-
+  changePageSize(values) {
+    this.props.dispatch({
+      type:'goods/fetch',
+      payload:values
+    })
   }
   render() {
     const { data, pdSpus, pdCategories } =this.props;
@@ -376,7 +230,7 @@ class Goods extends React.Component {
           {
             pdSpus.length>0&&
             <Qpagination
-              sizeOptions="2"
+              sizeOptions="1"
               onShowSizeChange={this.changePageSize.bind(this)}
               onChange={this.changePage.bind(this)}
               data={data}/>

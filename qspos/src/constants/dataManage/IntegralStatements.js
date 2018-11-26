@@ -151,8 +151,20 @@ class IntegralStatements extends React.Component {
           currentPage,
           limit
         }
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:true
+        })
     GetServerData('qerp.qpos.rp.mbcard.point.page',params)
     .then((res) => {
+      if(res.code != '0') {
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:false
+        })
+        message.error(res.message);
+        return
+      }
       let { limit, total, currentPage, rpMbcardPoints, deductPoints, toDeductTotalPoints, allocatePoints } =res;
       rpMbcardPoints = rpMbcardPoints?rpMbcardPoints:[];
       rpMbcardPoints.length>0&&rpMbcardPoints.map((el,index) => el.key = index);
@@ -166,6 +178,10 @@ class IntegralStatements extends React.Component {
           allocatePoints
         },
         list:rpMbcardPoints
+      })
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:false
       })
     },(err) => {
       console.log(err)
@@ -252,26 +268,11 @@ class IntegralStatements extends React.Component {
           upDatePointType={this.upDatePointType.bind(this)}
           upDateDateTime={this.upDateDateTime.bind(this)}
           handleSearch={this.getList.bind(this)}/>
-        {/* <Table
-          bordered
-          dataSource={list}
-          pagination={false}
-          columns={columns}
-          rowClassName={this.rowClassName.bind(this)}/> */}
           <Qtable
             columns={columns}
             dataSource={list}/>
           {
             list.length>0&&
-            // <Pagination
-            //   className="point-pages"
-            //   showSizeChanger
-            //   onShowSizeChange={this.onShowSizeChange.bind(this)}
-            //   onChange={this.changePage.bind(this)}
-            //   pageSizeOptions={['10','12','15','17','20','50','100','200']}
-            //   current={currentPage+1}
-            //   pageSize={limit}
-            //   total={total} />
               <Qpagination
                 sizeOptions="2"
                 onShowSizeChange={this.onShowSizeChange.bind(this)}

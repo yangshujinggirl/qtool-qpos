@@ -10,7 +10,7 @@ export default {
   	    pdCategories:[],
         data:{
           total:0,
-          limit:16,
+          limit:15,
           currentPage:0
         }
     },
@@ -26,9 +26,11 @@ export default {
     },
     effects: {
 	    *fetch({ payload: values }, { call, put, select }) {
+          yield put({type: 'spinLoad/setLoading',payload:true});
+          const fixedLimit = yield select(state => state.goods.data.limit);
           let code ='qerp.pos.pd.spu.query';
           if(!values.limit) {
-            values.limit = 16;
+            values.limit = fixedLimit;
           }
           const result=yield call(GetServerData,code,values);
           if(result.code=='0'){
@@ -50,8 +52,10 @@ export default {
           }else{
                message.error(result.message);
           }
+          yield put({type: 'spinLoad/setLoading',payload:false});
       },
-      *pdCategorieslist({ payload: {code,values} }, { call, put }) {
+      *pdCategorieslist({ payload: values }, { call, put }) {
+        const code = 'qerp.pos.pd.category.list';
           const result=yield call(GetServerData,code,values);
           if(result.code=='0'){
               let {pdCategories}=result

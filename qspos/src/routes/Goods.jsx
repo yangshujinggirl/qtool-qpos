@@ -5,11 +5,6 @@ import '../style/goodsManage.css';
 import GoodsIndex from '../constants/goods/index.js';
 
 class Goods extends React.Component {
-    pagefresh=(currentPage,pagesize)=>{
-        const pagefreshs=this.refs.search.pagefresh
-        pagefreshs(currentPage,pagesize)
-    }
-
     render() {
         return (
             <div className="common-pages-wrap">
@@ -19,9 +14,6 @@ class Goods extends React.Component {
             </div>
         );
     }
-
-
-
 }
 
 function mapStateToProps(state){

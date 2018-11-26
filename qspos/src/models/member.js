@@ -25,6 +25,7 @@ export default {
     },
     effects: {
         *fetch({ payload: values }, { call, put, select }) {
+            yield put({type: 'spinLoad/setLoading',payload:true});
             const limit = yield select(state => state.member.data.limit);
             if(!values.limit) {
               values.limit = limit;
@@ -54,6 +55,7 @@ export default {
             }else{
                 message.error(result.message);
             }
+            yield put({type: 'spinLoad/setLoading',payload:false});
         }
     },
 };
