@@ -154,7 +154,6 @@ class Cashierindex extends React.Component {
           currentNum.push(value)
         }
       })
-			console.log(this.props)
       this.setState({ visibleOne: true, currentOrderNo:currentNum[0], isKeySpace: false })
     }
     //取单
@@ -234,17 +233,30 @@ class Cashierindex extends React.Component {
     takezhe=(value)=>{
       var dis=value
       let role=sessionStorage.getItem('role');
-      if(dis<8) {
-        switch(role) {
-          case '1':
-          case '2':
-          dis = 8;
-          break;
-        case '3':
-          dis = 9;
-          break;
-        }
-      }
+      // if(dis<6) {
+      //   switch(role) {
+      //     case '1':
+      //     case '2':
+      //     dis = 6;
+      //     break;
+      //   case '3':
+      //     dis = 9;
+      //     break;
+      //   }
+      // }
+			switch(role) {
+				case '1':
+				case '2':
+				if(dis<=6) {
+					dis = 6;
+				}
+				break;
+			case '3':
+				if(dis<=9) {
+					dis = 9;
+				}
+				break;
+			}
      const datasouce=this.props.datasouce.splice(0)
      for(var i=0;i<datasouce.length;i++){
         datasouce[i].discount=dis
@@ -412,7 +424,6 @@ class Cashierindex extends React.Component {
     render() {
       const { datasouce, memberinfo } =this.props;
       const { visible, visibleOne, visibleTwo, currentOrderNo, allOrderList, isPhone, loading } =this.state;
-			console.log(visible)
       return(
         <div className="cashier-wrap-pages">
           <Header type={true} color={true}/>
