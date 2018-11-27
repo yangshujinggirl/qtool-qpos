@@ -4,190 +4,23 @@ import { Link } from 'dva/router';
 import {GetServerData} from '../../../services/services';
 import {Gettime} from '../../../services/data';
 import './AddEditModal.less';
-
+import BabyBirth from './BabyBirth';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const batrhdata=Gettime()
 
-//宝宝生日table
-class EditableTablebaby extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        dataSource: this.props.mbCardBirths,
-        count: 2,
-        type:this.props.type,
-        checked:this.props.checked,
-    };
-    this.columns = [{
-        title: 'year',
-        dataIndex: 'year',
-        render: (text, record, index) => (
-          <div>
-            <Select
-              style={{ width: 78 }}
-              onChange={(value)=>this.dateChange(index,value,'year')}
-              value={this.state.dataSource[index].year}>
-              {
-                batrhdata.year.map((item,index)=>{
-                    return (<Option  key={index} value={item}>{item}</Option>)
-                })
-              }
-            </Select>
-            <span  className="textplace">年</span>
-          </div>
-        ),
-      }, {
-        title: 'month',
-        dataIndex: 'month',
-        width: '30%',
-        render: (text, record, index) => (
-          <div>
-            <Select
-              style={{ width: 62 }}
-              onChange={(value)=>this.dateChange(index,value,'month')}
-              value={this.state.dataSource[index].month}>
-              {
-                batrhdata.month.map((item,index)=>{
-                    return (<Option  key={index} value={item}>{item}</Option>)
-                })
-              }
-            </Select>
-            <span className="textplace">月</span>
-          </div>
-        )
-      }, {
-        title: 'day',
-        dataIndex: 'day',
-        width: '30%',
-        render: (text, record, index) => (
-           <div>
-            <Select
-              style={{ width: 62 }}
-              onChange={(value)=>this.dateChange(index,value,'day')}
-              value={this.state.dataSource[index].day}>
-              {
-                batrhdata.day.map((item,index)=>{
-                    return (<Option  key={index} value={item}>{item}</Option>)
-                })
-              }
-            </Select>
-            <span className="textplace">日</span>
-          </div>
-        )
-      }];
-  }
-  componentWillReceiveProps(props) {
-    this.setState({
-      dataSource: props.mbCardBirths,
-      type: props.type,
-      checked: props.checked
-    })
-  }
-  //增加
-  handleAdd = () => {
-    const { count, dataSource } = this.state;
-    if(dataSource.length>5 || dataSource.length==5){
-        message.warning('宝宝生日最多可以添加5条',1)
-        return
-    }
-    const newData = {
-            key: count,
-            year:'',
-            month:'',
-            day:'',
-            type:this.state.type
-        };
-    this.setState({
-        dataSource: [...dataSource, newData],
-        count: count+1,
-    },()=>{
-        this.props.receivebabydata(this.state.dataSource)
-    });
-  }
-  //公历切换
-  SwitchChange=(checked)=>{
-    var ds=this.state.dataSource;
-    let type;
-    if(checked){
-      ds.map((el,index) => el.type = 1);
-      type = 1;
-    }else{
-      ds.map((el,index) => el.type = 2);
-      type = 2;
-    }
-    this.setState({
-      dataSource:ds,
-      type,
-      checked:checked
-    },()=>{
-      this.props.receivebabydata(this.state.dataSource)
-    })
-  }
-  //日期change事件，值回填
-  dateChange(index,value,type) {
-    let ds=this.state.dataSource;
-    if(type == 'year') {
-      ds[index].year=value
-    } else if(type == 'month') {
-      ds[index].month=value
-    } else if(type == 'day') {
-      ds[index].day=value
-    }
-    this.setState({
-        dataSource:ds,
-    })
-    this.props.receivebabydata(ds)
-  }
-  render() {
-    const { dataSource, checked } = this.state;
-    const columns = this.columns;
-    return (
-      <div className='clearfix birthday' style={{width:'340px'}}>
-        <div className='fl babytablesbox'>
-          <Table
-            bordered
-            dataSource={this.state.dataSource}
-            columns={columns}
-            pagination={false}
-            showHeader={false}
-            bordered={false}
-            className='babytables'/>
-        </div>
-        <div className='fl clearfix' style={{width:'86px'}}>
-          <div
-            onClick={this.handleAdd}
-            className='fl mr8 ml8 themecolor '
-            style={{height:'40px',lineHeight:'40px'}}>
-            <Icon type="plus-circle-o" />
-          </div>
-          <div className='fl' style={{width:'54px',height:'40ox',lineHeight:'36px'}}>
-            <Switch
-              checkedChildren="公历"
-              unCheckedChildren="农历"
-              onChange={this.SwitchChange.bind(this)}
-              checked={checked}/>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+
 
 class Modelform extends Component {
   constructor(props) {
     super(props);
-    this.babydatasouces=[]
-  }
-  MemberonChange = (e) => {
-    this.props.form.setFieldsValue({
-      role: e.target.value,
-    });
+    this.babydatasouces=[];
   }
   //取消
   handleCancel = () => {
+    this.babydatasouces=[]
     this.props.handleCancel()
     this.props.form.resetFields()
   }
@@ -195,23 +28,37 @@ class Modelform extends Component {
   handleOk = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        values.mbCardBirths=this.babydatasouces;
-        var babydatatattu=values.mbCardBirths.every(function(item,index){
-          return  (item.year==null && item.month===null && item.day===null) || (item.year!=null && item.month!=null && item.day!=null)
+        let babeBirthList = this.props.data.mbCardBirths
+        babeBirthList.map((el,index) => {
+          if(el.year==null && el.month==null && el.day==null) {
+            this.babydatasouces.splice(index,1);
+          }
         })
-        if(babydatatattu){
-          this.props.handleOk(values,this.handleCancel)
+        let validData = babeBirthList;
+        var isFull=validData.every(function(item,index){
+          return  (item.year!='' && item.month!='' && item.day!='')&&(item.year!=null && item.month!=null && item.day!=null);
+        })
+        validData = validData.filter((item) => {
+          return (item.year!='' && item.month!='' && item.day!='')
+        })
+        if(isFull){
+          if(validData&&validData.length>0) {
+            values.mbCardBirths=validData;
+          }
+          this.props.handleOk(values,this.handleCancel);
         }else{
-          message.warning('生日信息不全')
+          message.warning('生日信息不全');
         }
       }
     })
   }
-  receivebabydata=(dataSource)=>{
-    this.babydatasouces=dataSource
+
+  receivebabydata=(checked,dataSource)=>{
+    this.babydatasouces=dataSource;
+    this.props.upDateDetail({mbCardBirths:dataSource,checked})
   }
   render() {
-    const { getFieldDecorator,getFieldInstance,getFieldProps } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     const { name, mobile, cardNo, level, amount, point, mbCardBirths, type, checked} = this.props.data;
     return (
       <div className="member-list-pages">
@@ -279,9 +126,9 @@ class Modelform extends Component {
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 16 }}
                 className='listform'>
-                    <EditableTablebaby
-                      dispatch={this.props.dispatch}
-                      mbCardBirths={mbCardBirths}
+                    <BabyBirth
+                      form={this.props.form}
+                      dataSource={mbCardBirths}
                       mbCardId={this.props.mbCardId}
                       type={type}
                       checked={checked}
@@ -295,7 +142,7 @@ class Modelform extends Component {
                   {getFieldDecorator('level', {
                       initialValue: Number(level)
                   })(
-                      <RadioGroup onChange={this.MemberonChange.bind(this)}>
+                      <RadioGroup>
                           <Radio value={1}>金卡</Radio>
                           <Radio value={2}>银卡</Radio>
                           <Radio value={3}>普卡</Radio>

@@ -152,7 +152,7 @@ class PayModal extends React.Component {
                       payload:groups
                   })
                   this.setState({
-                      waringfirst,
+                      waringfirsts,
                       text:texts,
                       backmoney:-NP.minus(paytotolamount, amountlist[0].value)
                   })
@@ -647,6 +647,7 @@ class PayModal extends React.Component {
               }else{
                 //是否校验弹框
                   if(json.code == 'I_1031') {
+                    this.props.setSpace(false);//非结算弹框时，不可空格结算;
                     this.setState({ validateVisible:true });
                     this.props.dispatch({
                       type:'cashier/payvisible',
@@ -1103,6 +1104,7 @@ class PayModal extends React.Component {
               this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});
           }else{
               if(json.code == 'I_1031') {
+                this.props.setSpace(false);//非结算弹框时，不可空格结算;
                 this.setState({ validateVisible:true });
                 this.props.dispatch({
                   type:'cashier/payvisible',
@@ -1125,6 +1127,7 @@ class PayModal extends React.Component {
     }
     //关闭校验弹框
     onCancel() {
+      this.props.setSpace(true);//非结算弹框时，不可空格结算;
       this.setState({
         validateVisible:false,
       })

@@ -176,7 +176,8 @@ class Operationls extends React.Component {
 				cardNoMobile
 			}
 		})
-		this.setState({ visible: false })
+		this.setState({ visible: false });
+		this.props.setSpace(true);//非结算弹框时，不可空格结算;
 	}
 	//切换会员
 	toggleEvent() {
@@ -187,13 +188,19 @@ class Operationls extends React.Component {
 				let selectedRowKeys = res.iQposMbCards.findIndex((value, index, arr) => {
 					return value.cardNo == this.props.memberinfo.cardNo
 				})
-				this.setState({ dataSource:res.iQposMbCards, visible:true, selectedRowKeys:[selectedRowKeys] });
+				this.props.setSpace(false);//非结算弹框时，不可空格结算;
+				this.setState({
+					dataSource:res.iQposMbCards,
+					visible:true,
+					selectedRowKeys:[selectedRowKeys]
+				});
 			}
 		},(error) => {
 			console.log(error)
 		})
 	}
 	onCancel() {
+		this.props.setSpace(true);//非结算弹框时，不可空格结算;
 		this.setState({ visible:false })
 	}
 	//充值

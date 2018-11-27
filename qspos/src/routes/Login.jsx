@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Modal } from 'antd';
 import {GetServerData} from '../services/services';
-
+import './Login.less'
 //css
 const f13={
     fontSize:'13px'
@@ -116,7 +116,7 @@ class IndexPage extends React.Component {
     let isChrome = userAgent.indexOf('Chrome')>-1;
     let isFirefox = userAgent.indexOf('Firefox')>-1;
     if(isChrome||isFirefox) {
-
+      alert(isChrome||isFirefox)
     } else {
       this.setState({ visible: true})
     }

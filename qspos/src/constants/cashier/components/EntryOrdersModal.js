@@ -8,15 +8,22 @@ const FormItem = Form.Item;
 
 class EntryOrdersModal extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      remarkValue:this.props.remark?(`会员姓名：${this.props.remark}`):''
+    }
+  }
+  componentWillReceiveProps(props) {
+    this.setState({
+      remarkValue:props.remark?(`会员姓名：${props.remark}`):''
+    })
   }
   onOk(e) {
+    this.props.onOk(this.state.remarkValue,this.onCancel);
+  }
+  changeEvent =(e)=> {
     let value = e.nativeEvent.target.value;
-    if(e.keyCode==13){
-      this.props.onOk(value,this.onCancel);
-    } else {
-      e.preventDefault()
-    }
+    this.setState({ remarkValue: value });
   }
   onCancel=()=> {
     const remarkInput = ReactDOM.findDOMNode(this.refs.remarkInput);
@@ -24,7 +31,14 @@ class EntryOrdersModal extends React.Component {
     this.props.onCancel()
   }
   render() {
-    const { visible, onCancel, currentOrderNo, totolnumber, totolamount } =this.props;
+    const {
+      visible,
+      onCancel,
+      currentOrderNo,
+      totolnumber,
+      totolamount,
+      loading } =this.props;
+    let { remarkValue } =this.state;
     return(
       <Modal
         title="挂单"
@@ -32,7 +46,12 @@ class EntryOrdersModal extends React.Component {
         onOk={this.onCancel}
         onCancel={this.onCancel}
         visible={visible}
-        footer={null}
+        footer={
+          <div className="handle-btn-list">
+            <Button onClick={this.onCancel} >取消</Button>
+            <Button type="primary" onClick={()=>this.onOk()} loading={loading}>确定</Button>
+          </div>
+        }
         width={454}
         className="entry-orders-modal">
         <div className="main-content-body">
@@ -56,13 +75,16 @@ class EntryOrdersModal extends React.Component {
           <div className="bottom-action">
             <span className="label">挂单备注：</span>
             <Input
+              key={currentOrderNo}
               ref="remarkInput"
               id="forbid-space"
               className="inputs"
               type="text"
               maxLength={20}
               autoComplete='off'
-              placeholder="可输入20字内挂单备注" onKeyUp={(e)=>this.onOk(e)}/>
+              value={remarkValue}
+              onChange={this.changeEvent}
+              placeholder="可输入20字内挂单备注"/>
           </div>
         </div>
       </Modal>

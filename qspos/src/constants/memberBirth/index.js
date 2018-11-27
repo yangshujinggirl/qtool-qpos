@@ -15,7 +15,7 @@ const Option = Select.Option;
 const formatDate=(value)=> {
   value = moment(value).format('MM-DD');
   let newVal = value.split('-');
-  newVal = `${newVal[0]}月${newVal[1]}`;
+  newVal = `${newVal[0]}月${newVal[1]}日`;
   return newVal;
 }
 
@@ -35,7 +35,7 @@ const columns=[{
     key: 'backDate',
     render:(text,record,index)=> {
       return <span
-              className={(record.backDate=="今天"||record.backDate=="明天"||record.backDate=="3天")?'latest-birth':''}>
+              className={record.backDays<3?'latest-birth':''}>
               {record.backDate}
             </span>
     }

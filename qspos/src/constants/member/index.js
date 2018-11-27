@@ -63,7 +63,6 @@ class Member extends React.Component{
       visible:false,
       mbCardId:null,
       mbCardInfo:{
-        type:1,
         checked:true,
         mbCardBirths:[{key:-1,type:1}]
       },
@@ -77,6 +76,11 @@ class Member extends React.Component{
       type:'member/fetch',
       payload:{}
     })
+  }
+  upDateDetail(value) {
+    let { mbCardInfo } =this.state;
+    mbCardInfo = {...mbCardInfo,...value};
+    this.setState({ mbCardInfo });
   }
   //修改
   onOperateClick(record) {
@@ -93,10 +97,8 @@ class Member extends React.Component{
             if(mbCardInfo&&mbCardInfo.mbCardBirths.length>0){
               const barthType=mbCardInfo.mbCardBirths[0].type;
               mbCardInfo.mbCardBirths.map((el,index) => el.key = index);
-              mbCardInfo.type = barthType;
               mbCardInfo.checked = barthType == 1?true:false;
             }else{
-              mbCardInfo.type = 1;
               mbCardInfo.checked = true;
               mbCardInfo.mbCardBirths=[{key:-1,type:1}]
             }
@@ -171,7 +173,6 @@ class Member extends React.Component{
     this.setState({
       visible: false,
       mbCardInfo:{
-        type:1,
         checked:true,
         mbCardBirths:[{key:-1,type:1}]
       },
@@ -223,6 +224,7 @@ class Member extends React.Component{
           visible={visible}
           data={mbCardInfo}
           texts={texts}
+          upDateDetail={this.upDateDetail.bind(this)}
           mbCardId={mbCardId}
           handleOk={this.handleOk.bind(this)}
           handleCancel={this.handleCancel.bind(this)}

@@ -56,7 +56,9 @@ class Cashierindex extends React.Component {
         visibleTwo:false,
         allOrderList:[],
         fixedNum:['1','2','3','4','5'],
-				isPhone:false
+				isPhone:false,
+				loading: false,//挂单按钮loading
+				isKeySpace:true//是否可以空格结算
       };
     }
     componentDidMount(){
@@ -88,13 +90,13 @@ class Cashierindex extends React.Component {
     }
     //显示折扣弹框
     showModal = () => {
-  		this.setState({ visible: true });
+  		this.setState({ visible: true, isKeySpace:false });
   	}
     //关闭折扣弹框
   	handleCancel = () => {
   		const form = this.form;
   		form.resetFields()
-  		this.setState({ visible: false });
+  		this.setState({ visible: false, isKeySpace:true });
   	}
     //输入折扣enter键
   	hindPress=(e)=>{
@@ -152,7 +154,8 @@ class Cashierindex extends React.Component {
           currentNum.push(value)
         }
       })
-      this.setState({ visibleOne: true, currentOrderNo:currentNum[0] })
+			console.log(this.props)
+      this.setState({ visibleOne: true, currentOrderNo:currentNum[0], isKeySpace: false })
     }
     //取单
     takein=()=>{
@@ -161,7 +164,7 @@ class Cashierindex extends React.Component {
         let putNo = allOrderList[0].putNo;
         this.getOrderApi(putNo);
       } else {
-        this.setState({ visibleTwo: true })
+        this.setState({ visibleTwo: true, isKeySpace: false })
       }
     }
     //取单
@@ -191,7 +194,7 @@ class Cashierindex extends React.Component {
           type:'cashier/datasouce',
           payload:putProducts
         })
-        this.setState({ visibleTwo: false });
+        this.setState({ visibleTwo: false, isKeySpace:true });
       },(err) => {
         message.error('message')
       })
@@ -208,21 +211,24 @@ class Cashierindex extends React.Component {
               mbCardInfo:memberinfo,
               putProducts:datasouce
             }
+						this.setState({ loading: true });
       GetServerData('qerp.web.qpos.od.order.put',{ putOrder: params })
       .then((res) => {
         const { code, putOrders } =res;
         if(code == '0') {
+					message.success(`挂单成功，挂单号：0${currentOrderNo}`);
           typeof func == 'function' && func();
 					this.resetData();
 					this.getAllOrderListApi();//更新挂单列表
         }
+				this.setState({ loading: false });
       })
     }
     onCancelOne() {
-      this.setState({ visibleOne: false })
+      this.setState({ visibleOne: false, isKeySpace:true })
     }
     onCancelTwo() {
-      this.setState({ visibleTwo: false })
+      this.setState({ visibleTwo: false, isKeySpace:true })
     }
     //整单折扣值价格重置
     takezhe=(value)=>{
@@ -260,8 +266,8 @@ class Cashierindex extends React.Component {
       let code = e.keyCode;
       switch(code) {
         case 32:
-          //输入挂单备注时禁止结算事件
-          if(e.target.id != 'forbid-space') {
+          //结算事件
+          if(this.state.isKeySpace) {
             this.clearingEvent();
           }
           break;
@@ -399,9 +405,14 @@ class Cashierindex extends React.Component {
 	      return
 	    }
 		}
+		//是否可以空格结算
+		setSpace=(value)=> {
+			this.setState({ isKeySpace: value })
+		}
     render() {
-      const { datasouce } =this.props;
-      const { visibleOne, visibleTwo, currentOrderNo, allOrderList, isPhone } =this.state;
+      const { datasouce, memberinfo } =this.props;
+      const { visible, visibleOne, visibleTwo, currentOrderNo, allOrderList, isPhone, loading } =this.state;
+			console.log(visible)
       return(
         <div className="cashier-wrap-pages">
           <Header type={true} color={true}/>
@@ -433,6 +444,7 @@ class Cashierindex extends React.Component {
 								<div className='opera'>
 				  				<div className='operationl fl'>
 								     <OperationlLeft
+											 setSpace={this.setSpace}
 											 checkIsPhone={this.checkIsPhone.bind(this)}
 											 isPhone={isPhone}/>
 				  				</div>
@@ -456,8 +468,13 @@ class Cashierindex extends React.Component {
 				  		</div>
             </div>
           </div>
-          <PayModal ref='pay' initdata={this.resetData.bind(this)}/>
+          <PayModal
+						ref='pay'
+						setSpace={this.setSpace}
+						initdata={this.resetData.bind(this)}/>
           <EntryOrdersModal
+						remark={memberinfo.name}
+						loading={loading}
             currentOrderNo={currentOrderNo}
             onOk={this.putOrderApi.bind(this)}
             onCancel={()=>this.onCancelOne()}
@@ -469,7 +486,7 @@ class Cashierindex extends React.Component {
             visible={visibleTwo}/>
 					<CollectionCreateForm
 						ref={(form) => this.form = form}
-						visible={this.state.visible}
+						visible={visible}
 						onCancel={this.handleCancel}
 						hindPress={this.hindPress}/>
         </div>

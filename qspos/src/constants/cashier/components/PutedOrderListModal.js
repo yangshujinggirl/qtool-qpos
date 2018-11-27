@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,message,Modal,Form} from 'antd';
@@ -45,6 +46,7 @@ class PutedOrderListModal extends React.Component {
                   <div className="bottom-action">
                     {el.putMessage}
                   </div>
+                  <span className="put-time">挂单时间：{moment(el.putTime).format('h:mm')}</span>
                 </li>
               ))
             }
