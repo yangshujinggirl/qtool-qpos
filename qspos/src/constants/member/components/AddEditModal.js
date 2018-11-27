@@ -32,8 +32,9 @@ class Modelform extends Component {
         babeBirthList.map((el,index) => {
           if(el.year==null && el.month==null && el.day==null) {
             this.babydatasouces.splice(index,1);
-          }
+          };
         })
+        babeBirthList&&babeBirthList.map((el,index) => el.key=index)
         let validData = babeBirthList;
         var isFull=validData.every(function(item,index){
           return  (item.year!='' && item.month!='' && item.day!='')&&(item.year!=null && item.month!=null && item.day!=null);
