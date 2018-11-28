@@ -115,11 +115,30 @@ class IndexPage extends React.Component {
     let userAgent = window.navigator.userAgent;
     let isChrome = userAgent.indexOf('Chrome')>-1;
     let isFirefox = userAgent.indexOf('Firefox')>-1;
-    if(isChrome||isFirefox) {
-      alert(isChrome||isFirefox)
+    let is360 = this.checkChrome("type", "application/vnd.chromium.remoting-viewer");
+    if(isChrome) {
+      if(is360) {
+        this.setState({ visible: true})
+      }
+    } else if(isFirefox) {
+
     } else {
       this.setState({ visible: true})
     }
+    // if(isChrome||isFirefox) {
+    //   alert(userAgent)
+    // } else {
+    //   this.setState({ visible: true})
+    // }
+  }
+  checkChrome(option, value) {
+    var mimeTypes = navigator.mimeTypes;
+    for (var mt in mimeTypes) {
+      if (mimeTypes[mt][option] == value) {
+        return true;
+      }
+    }
+    return false;
   }
   render() {
     return (

@@ -35,7 +35,7 @@ const columns=[{
     key: 'backDate',
     render:(text,record,index)=> {
       return <span
-              className={record.backDays<3?'latest-birth':''}>
+              className={record.backDays<=3?'latest-birth':''}>
               {record.backDate}
             </span>
     }
