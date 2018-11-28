@@ -125,11 +125,6 @@ class IndexPage extends React.Component {
     } else {
       this.setState({ visible: true})
     }
-    // if(isChrome||isFirefox) {
-    //   alert(userAgent)
-    // } else {
-    //   this.setState({ visible: true})
-    // }
   }
   checkChrome(option, value) {
     var mimeTypes = navigator.mimeTypes;

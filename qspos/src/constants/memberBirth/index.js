@@ -119,7 +119,7 @@ class MemberBirth extends Component {
     const { dataSource, data, mbinfo } =this.props.memberBirth;
     return (
       <div className="member-birthday-pages">
-        <Header type={false} color={true}/>
+        <Header type={false} color={true} linkRoute="member"/>
         <div className="main-content">
           <div className='top-action clearfix'>
             <p className="part-l">
