@@ -76,7 +76,6 @@ class EditableTablebaby extends React.Component {
   }
   //增加
   handleAdd = () => {
-    debugger
     let { dataSource } =this.props;
     let count = dataSource.length;
     if(dataSource.length>5 || dataSource.length==5){

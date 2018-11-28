@@ -28,10 +28,10 @@ class Modelform extends Component {
   handleOk = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let babeBirthList = this.props.data.mbCardBirths
+        let babeBirthList = JSON.parse(JSON.stringify(this.props.data.mbCardBirths));
         babeBirthList.map((el,index) => {
           if(el.year==null && el.month==null && el.day==null) {
-            this.babydatasouces.splice(index,1);
+            babeBirthList.splice(index,1);
           };
         })
         babeBirthList&&babeBirthList.map((el,index) => el.key=index)
