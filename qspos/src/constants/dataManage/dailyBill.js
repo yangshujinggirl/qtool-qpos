@@ -228,7 +228,7 @@ class DailyBillForm extends React.Component {
                 </p>
                 <span className="explain-span">
                   <Tooltip title="销售订单金额-退款订单金额">
-                    净销售额&nbsp;<Icon type="exclamation-circle-o"/>
+                    销售额&nbsp;<Icon type="exclamation-circle-o"/>
                   </Tooltip>
                 </span>
               </div>

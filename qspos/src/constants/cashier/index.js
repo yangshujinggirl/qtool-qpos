@@ -79,7 +79,7 @@ class Cashierindex extends React.Component {
     //条码表单聚焦
     inputclick=()=>{
       var x = document.activeElement.tagName;
-      if(x=='BODY'){
+      if(x=='BODY'&&this.props.location.pathname=='/cashier'){
           this.props.meths.focustap()
       }
     }
@@ -233,17 +233,6 @@ class Cashierindex extends React.Component {
     takezhe=(value)=>{
       var dis=value
       let role=sessionStorage.getItem('role');
-      // if(dis<6) {
-      //   switch(role) {
-      //     case '1':
-      //     case '2':
-      //     dis = 6;
-      //     break;
-      //   case '3':
-      //     dis = 9;
-      //     break;
-      //   }
-      // }
 			switch(role) {
 				case '1':
 				case '2':

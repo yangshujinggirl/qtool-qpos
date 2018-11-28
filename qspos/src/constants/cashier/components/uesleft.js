@@ -121,8 +121,10 @@ class Operationls extends React.Component {
 	}
 	//条码获取焦点
 	focustap=()=>{
+		console.log(this.refs.barcodeRefs)
 		const ValueorderNoses=ReactDOM.findDOMNode(this.refs.barcodeRefs)
-		 ValueorderNoses.focus()
+		// const ValueorderNoses=this.refs.barcodeRefs.input
+		ValueorderNoses.focus()
 		const onBlur=false
 		this.props.dispatch({
 			type:'cashier/onbule',
