@@ -34,7 +34,7 @@ class NormalForm extends Component {
         <div className="form-wrap">
           <FormItem label="生日倒计时">
             {getFieldDecorator('backDays')(
-              <Select>
+              <Select allowClear>
                 <Option value={7} key={7}>7天内</Option>
                 <Option value={15} key={15}>15天内</Option>
                 <Option value={30} key={30}>30天内</Option>
