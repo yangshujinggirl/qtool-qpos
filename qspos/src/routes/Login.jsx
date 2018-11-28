@@ -121,34 +121,7 @@ class IndexPage extends React.Component {
       this.setState({ visible: true})
     }
   }
-  // getUserAgent() {
-  //   let userAgent = window.navigator.userAgent;
-  //   let isChrome = userAgent.indexOf('Chrome')>-1;
-  //   let isFirefox = userAgent.indexOf('Firefox')>-1;
-  //   let isEdge = userAgent.indexOf('Edge')>-1;
-  //   let is360 = this.checkChrome("type", "application/vnd.chromium.remoting-viewer");
-  //   alert(userAgent)
-  //   if(isChrome) {
-  //     if(is360) {//
-  //       this.setState({ visible: true})
-  //     } else if(isEdge) {
-  //       this.setState({ visible: true})
-  //     }
-  //   } else if(isFirefox) {
-  //
-  //   } else {
-  //     this.setState({ visible: true})
-  //   }
-  // }
-  // checkChrome(option, value) {
-  //   var mimeTypes = navigator.mimeTypes;
-  //   for (var mt in mimeTypes) {
-  //     if (mimeTypes[mt][option] == value) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
+
   render() {
     return (
       <div className='loginindex'>
