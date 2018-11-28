@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Icon, Input, Button, Modal } from 'antd';
 import {GetServerData} from '../services/services';
+import Browser from '../utils/browser';
 import './Login.less'
 //css
 const f13={
@@ -112,29 +113,42 @@ class IndexPage extends React.Component {
     window.open('http://www.firefox.com.cn/')
   }
   getUserAgent() {
-    let userAgent = window.navigator.userAgent;
-    let isChrome = userAgent.indexOf('Chrome')>-1;
-    let isFirefox = userAgent.indexOf('Firefox')>-1;
-    let is360 = this.checkChrome("type", "application/vnd.chromium.remoting-viewer");
-    if(isChrome) {
-      if(is360) {
-        this.setState({ visible: true})
-      }
-    } else if(isFirefox) {
+    const browserObj = new Browser();
+    let browserName = browserObj.browser;
+    if(browserName == 'Chrome' || browserName == 'Firefox') {
 
     } else {
       this.setState({ visible: true})
     }
   }
-  checkChrome(option, value) {
-    var mimeTypes = navigator.mimeTypes;
-    for (var mt in mimeTypes) {
-      if (mimeTypes[mt][option] == value) {
-        return true;
-      }
-    }
-    return false;
-  }
+  // getUserAgent() {
+  //   let userAgent = window.navigator.userAgent;
+  //   let isChrome = userAgent.indexOf('Chrome')>-1;
+  //   let isFirefox = userAgent.indexOf('Firefox')>-1;
+  //   let isEdge = userAgent.indexOf('Edge')>-1;
+  //   let is360 = this.checkChrome("type", "application/vnd.chromium.remoting-viewer");
+  //   alert(userAgent)
+  //   if(isChrome) {
+  //     if(is360) {//
+  //       this.setState({ visible: true})
+  //     } else if(isEdge) {
+  //       this.setState({ visible: true})
+  //     }
+  //   } else if(isFirefox) {
+  //
+  //   } else {
+  //     this.setState({ visible: true})
+  //   }
+  // }
+  // checkChrome(option, value) {
+  //   var mimeTypes = navigator.mimeTypes;
+  //   for (var mt in mimeTypes) {
+  //     if (mimeTypes[mt][option] == value) {
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
   render() {
     return (
       <div className='loginindex'>
