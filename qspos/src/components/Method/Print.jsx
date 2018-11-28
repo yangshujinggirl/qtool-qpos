@@ -1645,7 +1645,9 @@ function printSaleOrder(message,printCount){
 		posiTopNum = posiTopNum+18
 	}
 	//折扣优惠
-	if(discountAmount&&discountAmount!=0){
+	if(discountAmount&&discountAmount<0){
+    discountAmount = discountAmount.split('-');
+    discountAmount = discountAmount[1]
 		LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"折扣优惠");
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
@@ -1860,7 +1862,9 @@ function printSaleOrderSmall(message,printCount){
 		posiTopNum = posiTopNum+15;
 	}
   //折扣优惠
-  if(discountAmount&&discountAmount!=0){
+  if(discountAmount&&discountAmount<0){
+    discountAmount = discountAmount.split('-');
+    discountAmount = discountAmount[1]
     LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"折扣优惠");
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
