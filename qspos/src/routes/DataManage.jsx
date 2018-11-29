@@ -53,6 +53,7 @@ class DataManage extends React.Component {
     }
     render() {
       const role = sessionStorage.getItem('role');
+      const isOpenApp = sessionStorage.getItem('openApp');
       return (
         <div className="common-pages-wrap">
           <Spin tip='加载中，请稍后...'  spinning={this.props.spinLoad.loading}>
@@ -91,9 +92,12 @@ class DataManage extends React.Component {
                     <TabPane tab="积分报表" key="7">
                         {this.state.key == 7 && <IntegralStatements {...this.props}/>}
                     </TabPane>
-                    <TabPane tab="配送费明细" key="8">
-                        {this.state.key == 8 && <FreightDetail {...this.props}/>}
-                    </TabPane>
+                    {isOpenApp == 1&&
+                      <TabPane tab="配送费明细" key="8">
+                          {this.state.key == 8 && <FreightDetail {...this.props}/>}
+                      </TabPane>
+                    }
+
                 </Tabs>
                 :
                 <Tabs
