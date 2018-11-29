@@ -135,26 +135,34 @@ class DailyBillForm extends React.Component {
     if(values) {
       params = { ...params, ...values};
     }
+    this.props.dispatch({
+      type:'spinLoad/setLoading',
+      payload:true
+    })
     GetServerData('qerp.pos.rp.day.account.page',params)
     .then((json) => {
-        if(json.code=='0'){
-            let rpDayAccount =json.rpDayAccount;
-            let dataList = json.rpDayAccounts;
-            if(dataList.length){
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                }
-            }
-            this.setState({
-                rpDayAccount:rpDayAccount,
-                dataSource:dataList,
-                total:Number(json.total),
-                currentPage:Number(json.currentPage),
-                limit:Number(json.limit)
-            })
-        }else{
-            message.error(json.message);
-        }
+      if(json.code=='0'){
+          let rpDayAccount =json.rpDayAccount;
+          let dataList = json.rpDayAccounts;
+          if(dataList.length){
+              for(let i=0;i<dataList.length;i++){
+                  dataList[i].key = i+1;
+              }
+          }
+          this.setState({
+              rpDayAccount:rpDayAccount,
+              dataSource:dataList,
+              total:Number(json.total),
+              currentPage:Number(json.currentPage),
+              limit:Number(json.limit)
+          })
+      }else{
+          message.error(json.message);
+      }
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:false
+      })
     })
   }
   //获取当前时间

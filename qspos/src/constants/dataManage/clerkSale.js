@@ -138,6 +138,10 @@ class ClerkSaleForm extends React.Component {
           startDate,
           endDate
         }
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:true
+        })
     GetServerData('qerp.pos.rp.day.users.list',values)
     .then((json) => {
         if(json.code=='0'){
@@ -173,6 +177,10 @@ class ClerkSaleForm extends React.Component {
         }else{
             message.error(json.message);
         }
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:false
+        })
     })
   }
   dataChange = (dates,dateStrings) =>{

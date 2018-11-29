@@ -68,25 +68,31 @@ class ReceiptReportForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        const result=GetServerData('qerp.qpos.order.receiveRep',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                let dataList = json.pdOrderVos;
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                }
-                this.setState({
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                })
-            }else{
-                message.error(json.message);
-            }
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:true
+      })
+      GetServerData('qerp.qpos.order.receiveRep',values)
+      .then((json) => {
+        if(json.code=='0'){
+          let dataList = json.pdOrderVos;
+          for(let i=0;i<dataList.length;i++){
+            dataList[i].key = i+1;
+          }
+          this.setState({
+            dataSource:dataList,
+            total:Number(json.total),
+            currentPage:Number(json.currentPage),
+            limit:Number(json.limit)
+          })
+        }else{
+          message.error(json.message);
+        }
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:false
         })
+      })
     }
 
 
@@ -291,4 +297,3 @@ ReceiptReportForm.contextTypes= {
 const ReceiptReport = Form.create()(ReceiptReportForm);
 
 export default connect(mapStateToProps)(ReceiptReport);
-

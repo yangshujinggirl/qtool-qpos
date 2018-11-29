@@ -114,6 +114,10 @@ class ProfitReportForm extends React.Component {
       if(values) {
         params={ ...params, ...values}
       }
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:true
+      })
       GetServerData('qerp.pos.rp.profit.page',params)
       .then((json) => {
         if(json.code=='0'){
@@ -133,6 +137,10 @@ class ProfitReportForm extends React.Component {
         }else{
             message.error(json.message);
         }
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:false
+        })
       })
     }
     dateChange = (date, dateString) =>{
