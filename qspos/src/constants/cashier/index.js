@@ -291,7 +291,7 @@ class Cashierindex extends React.Component {
           //结算事件
           if(this.state.isKeySpace) {
             this.clearingEvent();
-						e.preventDefault()
+						e.preventDefault()//解决space键触发其他弹框事件
           }
           break;
         case 9:
