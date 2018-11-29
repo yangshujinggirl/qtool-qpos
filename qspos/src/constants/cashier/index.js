@@ -1,17 +1,18 @@
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,message,Modal,Form} from 'antd';
 import NP from 'number-precision'
-import Operationcaster from './components/Operationcaster.jsx';
-import Header from '../../components/header/Header';
-import EditableTable from './components/table';
-import PayModal from './components/PayModal';
 import {GetServerData} from '../../services/services';
 import { dataedit } from '../../utils/commonFc';
+import Header from '../../components/header/Header';
 import EntryOrdersModal from './components/EntryOrdersModal';
 import PutedOrderListModal from './components/PutedOrderListModal';
-import OperationlLeft from './components/uesleft'
+import OperationlLeft from './components/uesleft';
+import Operationcaster from './components/Operationcaster.jsx';
+import EditableTable from './components/table';
+import PayModal from './components/PayModal';
 import './index.less';
 const FormItem = Form.Item;
 
@@ -60,6 +61,7 @@ class Cashierindex extends React.Component {
 				loading: false,//挂单按钮loading
 				isKeySpace:true//是否可以空格结算
       };
+			this.barcodeRefs=null;//条码框真实dom
     }
     componentDidMount(){
       this.getAllOrderListApi()//获取挂单列表数据
@@ -76,11 +78,30 @@ class Cashierindex extends React.Component {
       window.removeEventListener('keydown', this.handleokents,true);
       window.addEventListener('keyup', this.handleokent,true);
     }
+		//获取条码框真实dom;
+		setDom(value) {
+			this.barcodeRefs = value;
+			this.focustap()
+		}
+		//条码框聚焦
+		focustap=()=>{
+			if(!this.barcodeRefs) {
+				return;
+			}
+			const ValueorderNoses=ReactDOM.findDOMNode(this.barcodeRefs)
+			// const ValueorderNoses=this.refs.barcodeRefs.input
+			ValueorderNoses.focus()
+			this.props.dispatch({
+				type:'cashier/onbule',
+				payload:false
+			})
+		}
     //条码表单聚焦
     inputclick=()=>{
       var x = document.activeElement.tagName;
       if(x=='BODY'&&this.props.location.pathname=='/cashier'){
-          this.props.meths.focustap()
+          // this.props.meths.focustap()
+					this.focustap()
       }
     }
     handleokents=(e)=>{
@@ -270,11 +291,13 @@ class Cashierindex extends React.Component {
           //结算事件
           if(this.state.isKeySpace) {
             this.clearingEvent();
+						e.preventDefault()
           }
           break;
         case 9:
           if(!this.props.onBlur) {
-            this.props.meths.focustap()
+            // this.props.meths.focustap()
+            this.focustap()
           }
           break;
         case 113:
@@ -324,7 +347,8 @@ class Cashierindex extends React.Component {
     }
     //结算事件
     clearingEvent() {
-      this.props.meths.focustap();
+      // this.props.meths.focustap();
+      this.focustap();
       const visible=this.props.payvisible;
       if(visible){//结算按钮
         this.props.meth1.hindpayclick()
@@ -367,7 +391,8 @@ class Cashierindex extends React.Component {
         type:'cashier/initstate',
         payload:{}
       })
-      this.props.meths.focustap()
+      // this.props.meths.focustap();
+      this.focustap();
     }
 		//判断是会员手机号还会员卡号
 		checkIsPhone(value,type) {
@@ -444,6 +469,7 @@ class Cashierindex extends React.Component {
 								<div className='opera'>
 				  				<div className='operationl fl'>
 								     <OperationlLeft
+											 setDom={(value)=>this.setDom(value)}
 											 setSpace={this.setSpace}
 											 checkIsPhone={this.checkIsPhone.bind(this)}
 											 isPhone={isPhone}/>

@@ -55,13 +55,14 @@ class Operationls extends React.Component {
 		this.firstclick=true
 	}
 	componentDidMount(){
-		this.focustap()
-		this.props.dispatch({
-			type:'cashier/meths',
-			payload:{
-				focustap:this.focustap
-			}
-		})
+		this.props.setDom(this.refs.barcodeRefs)
+		// this.focustap()
+		// this.props.dispatch({
+		// 	type:'cashier/meths',
+		// 	payload:{
+		// 		focustap:this.focustap
+		// 	}
+		// })
 	}
 	componentDidUpdate(){
    if(this.input){
@@ -120,26 +121,29 @@ class Operationls extends React.Component {
 		})
 	}
 	//条码获取焦点
-	focustap=()=>{
-		console.log(this.refs.barcodeRefs)
-		const ValueorderNoses=ReactDOM.findDOMNode(this.refs.barcodeRefs)
-		// const ValueorderNoses=this.refs.barcodeRefs.input
-		ValueorderNoses.focus()
-		const onBlur=false
-		this.props.dispatch({
-			type:'cashier/onbule',
-			payload:onBlur
-		})
-	}
+	// focustap=()=>{
+	// 	if(!this.refs.barcodeRefs) {
+	// 		return;
+	// 	}
+	// 	const ValueorderNoses=ReactDOM.findDOMNode(this.refs.barcodeRefs)
+	// 	// const ValueorderNoses=this.refs.barcodeRefs.input
+	// 	ValueorderNoses.focus()
+	// 	this.props.dispatch({
+	// 		type:'cashier/onbule',
+	// 		payload:false
+	// 	})
+	// }
 	//会员获取焦点
 	focustapmember=()=>{
+		if(!this.refs.memberRefs) {
+			return;
+		}
 		const Valuemember=ReactDOM.findDOMNode(this.refs.memberRefs)
 		Valuemember.focus()
-		const onBlur=true
-		 this.props.dispatch({
-			 type:'cashier/onbule',
-			 payload:onBlur
-		 })
+		this.props.dispatch({
+		 type:'cashier/onbule',
+		 payload:true
+		})
 	}
 	//跳转到退货
 	hindchange=(e)=>{
