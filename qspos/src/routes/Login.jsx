@@ -137,8 +137,8 @@ class IndexPage extends React.Component {
           closable
           onCancel={()=>this.handleCancel()}
           onOk={()=>this.handleCancel()}
-          // visible={this.state.visible}
-          visible={true}
+          visible={this.state.visible}
+          // visible={true}
           title="提示">
           <div className="main-content">
             <p className="text-tips">
