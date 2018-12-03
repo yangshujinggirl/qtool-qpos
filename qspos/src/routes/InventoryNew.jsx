@@ -51,13 +51,14 @@ class MyUpload extends React.Component {
                   message.warning(file.response.message);
               }
               return file.response.status === 'success';
+              this.props.dispatch({
+                type:'spinLoad/setLoading',
+                payload:false
+              })
           }
           return true;
         });
-        this.props.dispatch({
-          type:'spinLoad/setLoading',
-          payload:false
-        })
+
         this.setState({ fileList });
     }
 
