@@ -1924,12 +1924,12 @@ function printCDSaleOrder(message,printCount){
 	var printName = saleInfoAll.printName;
 	// var shopName = message.odOrder
 	var orderNo = saleInfoAll.odOrder.orderNo;
-	var saleTime = saleInfoAll.odOrder.saleTime;
+	var saleTime = saleInfoAll.odOrder.createTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
 	var payType="「 App支付"+" 」";
   var actuallyPay=saleInfoAll.orOrderPay[0].amount;//实付
-  var discountAmount = saleInfoAll.odOrder.discountAmount?saleInfoAll.odOrder.discountAmount:0;//添加折扣优惠
+  var discountAmount = saleInfoAll.odOrder.memberDiscount?Number(saleInfoAll.odOrder.memberDiscount):0;//添加折扣优惠
   var deliveryType = saleInfoAll.odOrder.deliveryType;//配送方式1自提，2同城配送，3：快递
   var coupon = 0;//优惠券
   if(saleInfoAll.orOrderPay.length>1) {
@@ -2104,7 +2104,7 @@ function printCDSaleOrder(message,printCount){
 		posiTopNum = posiTopNum+18;
 	}
   //折扣优惠
-  if(discountAmount){
+  if(discountAmount>0){
     LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"折扣优惠");
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
@@ -2195,11 +2195,11 @@ function printCDSaleOrderSmall(message,printCount){
   var payType="「 App支付"+" 」"
 
 	var orderNo = saleInfoAll.odOrder.orderNo;
-	var saleTime = saleInfoAll.odOrder.saleTime;
+	var saleTime = saleInfoAll.odOrder.createTime;
 	var totalPay = saleInfoAll.odOrder.payAmount;
 	var totalqty = saleInfoAll.odOrder.qty;
   var actuallyPay=saleInfoAll.orOrderPay[0].amount;//实付
-  var discountAmount = saleInfoAll.odOrder.discountAmount?saleInfoAll.odOrder.discountAmount:0;//添加折扣优惠
+  var discountAmount = saleInfoAll.odOrder.memberDiscount?Number(saleInfoAll.odOrder.memberDiscount):0;//添加折扣优惠
   var deliveryType = saleInfoAll.odOrder.deliveryType;//配送方式：1自提，2同城配送，3：快递
   var coupon = 0;//优惠券
   if(saleInfoAll.orOrderPay.length>1) {
@@ -2380,7 +2380,7 @@ function printCDSaleOrderSmall(message,printCount){
 		posiTopNum = posiTopNum+15;
 	}
   //折扣优惠
-  if(discountAmount){
+  if(discountAmount>0){
     LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"折扣优惠");
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
