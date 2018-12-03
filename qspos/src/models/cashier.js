@@ -298,8 +298,8 @@ export default {
         if(result.code=='0'){
             const { mbCardInfo } = result;
             const ismember=true
-            const focustap = yield select(state => state.cashier.meths.focustap);
-            focustap()
+            // const focustap = yield select(state => state.cashier.meths.focustap);
+            // focustap()
             yield put({
                 type: 'memberlist',
                 payload:{
