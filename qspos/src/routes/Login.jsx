@@ -130,13 +130,15 @@ class IndexPage extends React.Component {
           <div className='login-form'><WrappedNormalLoginForm/></div>
         </div>
         <Modal
+          style={{ top: '50%',transform: "translateY(-50%)" }}
           centered
           className="judge-userAgent-modal"
           footer={null}
           closable
           onCancel={()=>this.handleCancel()}
           onOk={()=>this.handleCancel()}
-          visible={this.state.visible}
+          // visible={this.state.visible}
+          visible={true}
           title="提示">
           <div className="main-content">
             <p className="text-tips">
