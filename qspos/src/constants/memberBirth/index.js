@@ -75,14 +75,14 @@ class MemberBirth extends Component {
     this.state={
       fields: {
          keyWords:'',
-         backDate:''
+         backDays:7
        },
     }
   }
   componentDidMount() {
     this.props.dispatch({
       type:'memberBirth/fetchList',
-      payload:{}
+      payload:{...this.state.fields}
     })
   }
   //双向绑定表单
@@ -117,6 +117,7 @@ class MemberBirth extends Component {
   render() {
     const { fields } =this.state;
     const { dataSource, data, mbinfo } =this.props.memberBirth;
+    console.log(fields)
     return (
       <div className="member-birthday-pages">
         <Header type={false} color={true} linkRoute="member"/>

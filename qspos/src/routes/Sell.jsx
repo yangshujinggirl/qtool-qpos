@@ -395,7 +395,7 @@ class Slidecountsell extends React.Component {
                       <div>
                         <span>结算收银</span>：{this.props.odOrder.payAmount}「
                         <span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}
-                        <span>{this.props.orOrderPay[1].typeStr}</span>
+                        <span>{this.props.orOrderPay[1].typeStr}</span>：
                         {this.props.orOrderPay[1].amount}」
                       </div>
                     </div>
@@ -475,7 +475,11 @@ class Slidecountsell extends React.Component {
                           <span>配送费用：</span>0.00
                         </div>
                       </div>
-                      <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}，<span>{this.props.orOrderPay[1].typeStr}</span>{this.props.orOrderPay[1].amount}」</div></div>
+                      <div className="sellinfo-row">
+                        <div>
+                          <span>结算收银</span>：{this.props.odOrder.payAmount}
+                          「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}，
+                          <span>{this.props.orOrderPay[1].typeStr}</span>：{this.props.orOrderPay[1].amount}」</div></div>
                   </li>
                   :
                   <li style={{borderBottom:'0'}}>
@@ -504,7 +508,12 @@ class Slidecountsell extends React.Component {
                           <span>配送费用：</span>0.00
                         </div>
                       </div>
-                      <div className="sellinfo-row"><div><span>结算收银</span>：{this.props.odOrder.payAmount}「<span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」</div></div>
+                      <div className="sellinfo-row">
+                        <div>
+                          <span>结算收银</span>：{this.props.odOrder.payAmount}「
+                          <span>{this.props.orOrderPay[0].typeStr}</span>：{this.props.orOrderPay[0].amount}」
+                        </div>
+                      </div>
                   </li>
                 )
                 :

@@ -33,7 +33,9 @@ class NormalForm extends Component {
       <Form className="qpos-conditon-form">
         <div className="form-wrap">
           <FormItem label="生日倒计时">
-            {getFieldDecorator('backDays')(
+            {getFieldDecorator('backDays',{
+              initialValue:7
+            })(
               <Select allowClear>
                 <Option value={7} key={7}>7天内</Option>
                 <Option value={15} key={15}>15天内</Option>

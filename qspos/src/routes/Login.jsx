@@ -130,6 +130,7 @@ class IndexPage extends React.Component {
           <div className='login-form'><WrappedNormalLoginForm/></div>
         </div>
         <Modal
+          centered
           className="judge-userAgent-modal"
           footer={null}
           closable

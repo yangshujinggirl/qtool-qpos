@@ -10,6 +10,7 @@ class EntryOrdersModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      isDefault:true,
       remarkValue:this.props.remark?(`会员姓名：${this.props.remark}`):''
     }
   }
@@ -30,6 +31,14 @@ class EntryOrdersModal extends React.Component {
     remarkInput.value = '';
     this.props.onCancel()
   }
+  changeFontStyle =(e)=> {
+    const target = e.nativeEvent.target;
+    if(target.value == target.placeholder) {
+      this.setState({ isDefault: true })
+    } else {
+      this.setState({ isDefault: false })
+    }
+  }
   render() {
     const {
       visible,
@@ -38,7 +47,7 @@ class EntryOrdersModal extends React.Component {
       totolnumber,
       totolamount,
       loading } =this.props;
-    let { remarkValue } =this.state;
+    let { remarkValue, isDefault } =this.state;
     return(
       <Modal
         title="挂单"
@@ -75,10 +84,12 @@ class EntryOrdersModal extends React.Component {
           <div className="bottom-action">
             <span className="label">挂单备注：</span>
             <Input
+              onFocus={this.changeFontStyle}
+              onBlur={this.changeFontStyle}
               key={currentOrderNo}
               ref="remarkInput"
               id="forbid-space"
-              className="inputs"
+              className={`${isDefault?'inputs':'valColor inputs'}`}
               type="text"
               maxLength={20}
               autoComplete='off'
