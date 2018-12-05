@@ -52,7 +52,9 @@ export default {
 
 	},
 	effects: {
-		*orderfetch({ payload: {code,values} }, { call, put ,select}) {
+		*orderfetch({ payload: {values} }, { call, put ,select}) {
+			yield put({type: 'spinLoad/setLoading',payload:true});
+			const code = 'qerp.pos.pd.phorder.info';
 			const result=yield call(GetServerData,code,values);
 			if(result.code=='0'){
 				const datasouce=result.pdOrderDetails
@@ -65,9 +67,12 @@ export default {
 				yield put({type: 'datasouce',payload:{datasouce,pdOrderId}});
 			}else{
 				message.error(result.message);
-			}   
+			}
+			yield put({type: 'spinLoad/setLoading',payload:false});
 		},
-		*payok({ payload: {code,values} }, { call, put ,select}) {
+		*payok({ payload: {values} }, { call, put ,select}) {
+			yield put({type: 'spinLoad/setLoading',payload:true});
+			const code = 'qerp.pos.pd.order.receive';
 			const result=yield call(GetServerData,code,values);
 			if(result.code=='0'){
 				message.success('收货成功');
@@ -78,8 +83,8 @@ export default {
 				const isfetchover=true
 				yield put({type: 'isfetchover',payload:isfetchover});
 				message.error(result.message);
-
-			}   
+			}
+			yield put({type: 'spinLoad/setLoading',payload:false});
 		},
 	},
 	subscriptions: {},

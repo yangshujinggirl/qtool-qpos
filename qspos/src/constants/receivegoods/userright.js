@@ -3,15 +3,12 @@ import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Switch,Modal} from 'antd';
 
 class Operationr extends React.Component {
-	hindClick=()=>{
-		this.props.payok()
-	}
 	render() {
 		const color=this.props.color
 		const type=this.props.type
 		return(
     		<div className={color?'operationcon':'operationconbg'}>
-      			<div className='fl list1' onClick={this.hindClick.bind(this)}>
+      			<div className='fl list1' onClick={this.props.payok.bind(this)}>
       				<div className='con1'>收货</div>
       				<div className='con2'>「空格键」</div>
       			</div>

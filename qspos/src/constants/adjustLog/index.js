@@ -107,6 +107,10 @@ class AdjustLogIndexForm extends React.Component {
 
     handleSearch = (e) =>{
         const self = this;
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:true
+        })
         this.props.form.validateFields((err, values) => {
             values.adjustTimeST=this.state.adjustTimeST
             values.adjustTimeET=this.state.adjustTimeET
@@ -128,6 +132,10 @@ class AdjustLogIndexForm extends React.Component {
                 }else{
                     message.error(json.message);
                 }
+                this.props.dispatch({
+                  type:'spinLoad/setLoading',
+                  payload:false
+                })
             })
         })
     }
@@ -163,7 +171,7 @@ class AdjustLogIndexForm extends React.Component {
         this.setState({
             adjustTimeST:startRpDate,
             adjustTimeET:endRpDate
-        },function(){
+        },()=>{
             this.handleSearch();
         })
     }

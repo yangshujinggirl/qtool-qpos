@@ -9,47 +9,53 @@ export default {
     state: {
         mbCards:[],
         loding:true,
-        total:0
+        data:{
+          total:0,
+          currentPage:0,
+          limit:10
+        }
     },
     reducers: {
-        memberlist(state, { payload: {mbCards,total}}) {
-            return {...state,mbCards,total}
+        memberlist(state, { payload: { mbCards, data}}) {
+            return {...state, mbCards, data}
         },
         loding(state, { payload: loding}) {
             return {...state,loding}
         },
     },
     effects: {
-        *fetch({ payload: {code,values} }, { call, put }) {
-            const result=yield call(GetServerData,code,values);
+        *fetch({ payload: values }, { call, put, select }) {
+            yield put({type: 'spinLoad/setLoading',payload:true});
+            const limit = yield select(state => state.member.data.limit);
+            if(!values.limit) {
+              values.limit = limit;
+            }
+            const result=yield call(GetServerData,'qerp.pos.mb.card.query',values);
             if(result.code=='0'){
                 const loding=false
-                let {mbCards,total}=result
-                console.log(mbCards)
-                console.log(total)
+                let { mbCards, total, currentPage, limit }=result
                 for(var i=0;i<mbCards.length;i++){
                     mbCards[i].key=i
                 }
-                yield put({   
+                yield put({
                     type: 'memberlist',
-                    payload:{mbCards,total}
+                    payload:{
+                      mbCards,
+                      data:{
+                        total,
+                        currentPage,
+                        limit
+                      }
+                    }
                 });
-                yield put({   
+                yield put({
                     type: 'loding',
                     payload:loding
                 });
             }else{
                 message.error(result.message);
-            }   
+            }
+            yield put({type: 'spinLoad/setLoading',payload:false});
         }
-    },
-    subscriptions: {
-        setup({ dispatch, history }) {
-            return history.listen(({ pathname, query }) => {
-                if (pathname === '/member') {
-                     dispatch({ type: 'fetch', payload: {code:'qerp.pos.mb.card.query',values:{keywords:'',limit:localStorage.getItem("pageSize")==null?10:Number(localStorage.getItem("pageSize")),currentPage:0}} });
-                }
-            });
-        },
     },
 };

@@ -14,19 +14,21 @@ export default {
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put }) {
+          yield put({type: 'spinLoad/setLoading',payload:true});
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
                 let {users}=result
                 for(var i=0;i<users.length;i++){
                     users[i].key=i
                 }
-                yield put({   
+                yield put({
                     type: 'accountlist',
                     payload:users
                 });
             }else{
                 message.error(result.message);
-            }   
+            }
+            yield put({type: 'spinLoad/setLoading',payload:false});  
         },
         *save({ payload: {code,values,type,meth} }, { call, put }) {
             console.log(meth)
@@ -37,21 +39,21 @@ export default {
             if(result.code=='0'){
                 if(type){
                     hidemodel()
-                    Messagesuccess('新建账号成功',4,yield put({   
+                    Messagesuccess('新建账号成功',4,yield put({
                         type: 'fetch',
                         payload: {code:'qerp.pos.ur.user.query'}
                     }))
                 }else{
                     hidemodel()
-                    Messagesuccess('账号修改成功',4,yield put({   
+                    Messagesuccess('账号修改成功',4,yield put({
                         type: 'fetch',
                         payload: {code:'qerp.pos.ur.user.query'}
                     }))
                 }
             }else{
                 message.error(result.message);
-            }   
-        },  
+            }
+        },
     },
     subscriptions: {
         setup({ dispatch, history }) {

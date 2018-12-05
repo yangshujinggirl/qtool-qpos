@@ -7,6 +7,9 @@ import moment from 'moment';
 import {timeForMats} from '../../utils/commonFc';
 import {GetServerData} from '../../services/services';
 import {GetExportData} from '../../services/services';
+import Qpagination from '../../components/Qpagination';
+import Qtable from '../../components/Qtable';
+
 import './IntegralStatements.less';
 
 const FormItem = Form.Item;
@@ -114,7 +117,7 @@ class IntegralStatements extends React.Component {
           orderST:startRpDate,
           orderET:endRpDate
       },()=> {
-        this.getList(this.state.currentPage,this.state.limit)
+        this.getList()
       })
   }
   //更新时间
@@ -138,14 +141,9 @@ class IntegralStatements extends React.Component {
       orderET
     }
     GetExportData('qerp.qpos.rp.mbcard.point.export',params)
-    .then((res) => {
-      console.log(res)
-    },(err) => {
-
-    })
   }
-  getList(currentPage, limit ) {
-    let { pointType, orderST, orderET } = this.state;
+  getList() {
+    let { pointType, orderST, orderET, currentPage, limit } = this.state;
     let params = {
           pointType:pointType||0,
           orderST,
@@ -153,12 +151,27 @@ class IntegralStatements extends React.Component {
           currentPage,
           limit
         }
-    this.setState({ limit:limit, currentPage:currentPage });
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:true
+        })
     GetServerData('qerp.qpos.rp.mbcard.point.page',params)
     .then((res) => {
-      const { limit, total, currentPage, rpMbcardPoints, deductPoints, toDeductTotalPoints, allocatePoints } =res;
+      if(res.code != '0') {
+        this.props.dispatch({
+          type:'spinLoad/setLoading',
+          payload:false
+        })
+        message.error(res.message);
+        return
+      }
+      let { limit, total, currentPage, rpMbcardPoints, deductPoints, toDeductTotalPoints, allocatePoints } =res;
+      rpMbcardPoints = rpMbcardPoints?rpMbcardPoints:[];
+      rpMbcardPoints.length>0&&rpMbcardPoints.map((el,index) => el.key = index);
       this.setState({
         total:Number(total),
+        currentPage:Number(currentPage),
+        limit:Number(limit),
         totalData:{
           deductPoints,
           toDeductTotalPoints,
@@ -166,17 +179,30 @@ class IntegralStatements extends React.Component {
         },
         list:rpMbcardPoints
       })
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:false
+      })
     },(err) => {
       console.log(err)
     })
   }
-  onShowSizeChange(current, pageSize) {
-    current--;
-    this.getList(current, pageSize);
+  onShowSizeChange(values) {
+    this.setState({
+      limit:values.limit,
+      currentPage:values.currentPage
+     },()=>{
+      this.getList();
+    });
+
   }
   changePage(page, pageSize) {
     page--;
-    this.getList(page, pageSize);
+    this.setState({
+      currentPage:page
+     },()=>{
+      this.getList();
+    });
   }
   rowClassName=(record, index)=>{
     if (index % 2) {
@@ -198,6 +224,7 @@ class IntegralStatements extends React.Component {
   }
   render() {
     let { totalData, list, currentPage, total, limit, orderST, orderET } = this.state;
+    const data={ currentPage, total, limit };
     return(
       <div className="integral-statements-pages">
         <div className="total-data-action">
@@ -241,23 +268,16 @@ class IntegralStatements extends React.Component {
           upDatePointType={this.upDatePointType.bind(this)}
           upDateDateTime={this.upDateDateTime.bind(this)}
           handleSearch={this.getList.bind(this)}/>
-        <Table
-          bordered
-          dataSource={list}
-          pagination={false}
-          columns={columns}
-          rowClassName={this.rowClassName.bind(this)}/>
+          <Qtable
+            columns={columns}
+            dataSource={list}/>
           {
             list.length>0&&
-            <Pagination
-              className="point-pages"
-              showSizeChanger
-              onShowSizeChange={this.onShowSizeChange.bind(this)}
-              onChange={this.changePage.bind(this)}
-              pageSizeOptions={['10','12','15','17','20','50','100','200']}
-              current={currentPage+1}
-              pageSize={limit}
-              total={total} />
+              <Qpagination
+                sizeOptions="2"
+                onShowSizeChange={this.onShowSizeChange.bind(this)}
+                onChange={this.changePage.bind(this)}
+                data={data}/>
           }
       </div>
     )

@@ -23,20 +23,25 @@ class MyUpload extends React.Component {
     handleChange = (info) => {
       var fileList = info.fileList;
       fileList = fileList.slice(-1);
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:true
+      })
       fileList = fileList.filter((file) => {
         if (file.response) {
-          this.props.setLoding(1)
           if(file.response.code=='0'){
             //得到数据，把数据抛出
             const data=file.response.pdSpu
             const total=data.length
             this.props.Setdate(data,total);
-            this.props.setLoding(0)
           }else{
-            this.props.setLoding(0)
             fileList=[]
             message.error(file.response.message);
           }
+          this.props.dispatch({
+            type:'spinLoad/setLoading',
+            payload:false
+          })
           return file.response.status === 'success';
         }
         return true;

@@ -58,7 +58,7 @@ class Btncashier extends React.Component {
 				if (!err) {
 					const values=e.target.value
 					this.props.takezhe(values)
-					this.handleCreate()
+					this.handleCancel()
 				}
 			});
 		}

@@ -170,8 +170,8 @@ class EditableTable extends React.Component {
 		const datasouce=this.props.datasouce.splice(0)
 		let role=sessionStorage.getItem('role');
 		datasouce[index].discount=values
-		if((role=='2'||role=='1') && values<8){
-			datasouce[index].discount=8
+		if((role=='2'||role=='1') && values<6){
+			datasouce[index].discount=6
 		}
 		if((role=='3') && values<9){
 			datasouce[index].discount=9

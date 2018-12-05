@@ -16,6 +16,7 @@ class Searchcomponent extends React.Component {
       dataSourcemessage: [],
       visible: false,
       type: null,
+      loading:false
     }
   }
     //下载
@@ -32,37 +33,40 @@ class Searchcomponent extends React.Component {
         inputvalue:messages
       })
     }
-
     //搜索
     hindSearch=()=>{
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:true
+      })
         const values={keywords:this.state.inputvalue,limit:100000,currentPage:0}
-        const result=GetServerData('qerp.pos.pd.spu.query',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
+        GetServerData('qerp.pos.pd.spu.query',values)
+        .then((json) => {
             if(json.code=='0'){
-                let pdSpus=json.pdSpus
-                let total=json.total
-                this.setState({
-                    pdSpus:pdSpus,
-                    total:total
-                },function(){
-                    for(var i=0;i<pdSpus.length;i++){
-                        pdSpus[i].key=i
-                    }
-                    this.props.setdayasouce(pdSpus,this.state.total)
-                })
+              let pdSpus=json.pdSpus
+              let total=json.total
+              this.setState({
+                  pdSpus:pdSpus,
+                  total:total
+              },function(){
+                for(var i=0;i<pdSpus.length;i++){
+                    pdSpus[i].key=i
+                }
+                this.props.setdayasouce(pdSpus,this.state.total)
+              })
             }else{
                 message.error(json.message);
             }
+            this.props.dispatch({
+              type:'spinLoad/setLoading',
+              payload:false
+            })
         })
     }
-
     //ref
     saveFormRef = (form) => {
         this.form = form;
     }
-
     //关闭弹窗
     hideModal = () => {
         const form = this.form;
@@ -70,7 +74,6 @@ class Searchcomponent extends React.Component {
             form.resetFields();
         });
     }
-
     //打开弹窗
     showModal = () => {
       let total = 0
@@ -120,164 +123,151 @@ class Searchcomponent extends React.Component {
     }
 
     submitListInfo = () => {
-        const form = this.form;
-        form.validateFields((err, values) => {
-            if (err) {
-                return;
+      const form = this.form;
+      form.validateFields((err, values) => {
+        if (err) {
+            return;
+        }
+        this.setState({ loading: true });
+        const newdata = []
+        const olddata = this.props.datasouce
+        for(let i=0;i<olddata.length;i++){
+          if(olddata[i].exchangeQty != null && olddata[i].exchangePrice != null){
+            let data = {
+              pdSpuId : olddata[i].pdSpuId,
+              pdSkuId : olddata[i].pdSkuId,
+              qty : olddata[i].exchangeQty,
+              price : olddata[i].exchangePrice
             }
-            const newdata = []
-            const olddata = this.props.datasouce
-            for(let i=0;i<olddata.length;i++){
-              if(olddata[i].exchangeQty != null && olddata[i].exchangePrice != null){
-                let data = {
-                  pdSpuId : olddata[i].pdSpuId,
-                  pdSkuId : olddata[i].pdSkuId,
-                  qty : olddata[i].exchangeQty,
-                  price : olddata[i].exchangePrice
-                }
-                newdata.push(data)
-              }
-            }
-            let payload = {
-                inShopId:this.props.inShopId,
-                details:newdata,
-                confirmRemark:values.remark
-            }
-            const result=GetServerData('qerp.qpos.pd.exchange.save',payload);
-            result.then((res) => {
-                return res;
-            }).then((json) => {
-                if(json.code=='0'){
-					message.success('调拨成功',3,this.callback());
-					this.printDborder(json.exchangeNo)
-                    form.resetFields();
-                    this.setState({ visible: false });
-                }else{
-                    message.error(json.message);
-                }
-            })
-        });
-    }
+            newdata.push(data)
+          }
+        }
+        let payload = {
+            inShopId:this.props.inShopId,
+            details:newdata,
+            confirmRemark:values.remark
+        }
+        GetServerData('qerp.qpos.pd.exchange.save',payload)
+        .then((json) => {
+          if(json.code=='0'){
+            this.setState({ loading: false, visible: false });
+  					this.printDborder(json.exchangeNo)
+            form.resetFields();
+            message.success('调拨成功',3,this.callback());
+          }else{
+            this.setState({ loading: false });
+            message.error(json.message);
+          }
 
+        })
+      });
+    }
     //打印方法
     printDborder=(exchangNo)=>{
-		console.log('diao da yin fang fa')
-		const printdata={}
-		const values={
-			exchangNo:exchangNo
-		}
-		const result=GetServerData('qerp.pos.pd.exchange.query',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				printdata.exchangeNos=json.exchangeNos
+  		const printdata={}
+  		const values={
+  			exchangNo:exchangNo
+  		}
+  		GetServerData('qerp.pos.pd.exchange.query',values)
+  		.then((json) => {
+  			if(json.code=='0'){
+  				printdata.exchangeNos=json.exchangeNos
 
-				const value={
-					qposPdExchangeId:json.exchangeNos[0].qposPdExchangeId
-				}
-				const result=GetServerData('qerp.qpos.pd.exchange.detail.info',value);
-				result.then((res) => {
-					return res;
-				}).then((json) => {
-					if(json.code=='0'){
-						printdata.pdInfo=json.pdInfo
-						//请求打印的份数
-						const result=GetServerData('qerp.pos.sy.config.info')
-						result.then((res) => {
-							   return res;
-						}).then((json) => {
-								   console.log(json);
-								   if(json.code == "0"){
-									const allocationPrint=json.config.allocationPrint  //是否可以打印  1是  0否
-									const allocationPrintNum = json.config.allocationPrintNum  //打印份数
-									const paperSize=json.config.paperSize  //打印纸张大小
-									if(allocationPrint=='1'){
-										if(paperSize=='80'){
-											getDbOrderInfo(printdata,'80',allocationPrintNum)
-										}else{
-											getDbOrderInfo(printdata,'58',allocationPrintNum)
-										}
-									}
-
-								
-							   }
-						 })
-						
-		
-		
-		
-		
-		
-					}else{
-						message.error(json.message);
-					}
-				})
+  				const value={
+  					qposPdExchangeId:json.exchangeNos[0].qposPdExchangeId
+  				}
+  				const result=GetServerData('qerp.qpos.pd.exchange.detail.info',value);
+  				result.then((res) => {
+  					return res;
+  				}).then((json) => {
+  					if(json.code=='0'){
+  						printdata.pdInfo=json.pdInfo
+  						//请求打印的份数
+  						const result=GetServerData('qerp.pos.sy.config.info')
+  						result.then((res) => {
+  							   return res;
+  						}).then((json) => {
+  								   console.log(json);
+  								   if(json.code == "0"){
+  									const allocationPrint=json.config.allocationPrint  //是否可以打印  1是  0否
+  									const allocationPrintNum = json.config.allocationPrintNum  //打印份数
+  									const paperSize=json.config.paperSize  //打印纸张大小
+  									if(allocationPrint=='1'){
+  										if(paperSize=='80'){
+  											getDbOrderInfo(printdata,'80',allocationPrintNum)
+  										}else{
+  											getDbOrderInfo(printdata,'58',allocationPrintNum)
+  										}
+  									}
 
 
-
-
-			}else{
-				message.error(json.message);
-			}
-		})
+  							   }
+  						 })
 
 
 
 
 
 
+  					}else{
+  						message.error(json.message);
+  					}
+  				})
 
 
 
 
-		
-
-
-
-
-
-
-
-
-		
-
-
-
+  			}else{
+  				message.error(json.message);
+  			}
+  		})
     }
-
-
-
-
     //跳转
     callback=()=>{
 		this.context.router.push('/goods');
     }
-
     render(){
-        return(
-            <div className='clearfix mb10 adjust-v15-style'>
-	      		<div className='fl clearfix'>
-	      			<div className='fl btn ml20sd-model' onClick={this.download.bind(this)}><Buttonico text='下载调拨模板'/></div>
-	      			<div className='fl btn ml20 ml20sd ml20sd-model'><MyUpload Setdate={this.setdayasouceas.bind(this)} setLoding={this.props.setLoding}/></div>
-              <div className='fl btn ml20 ml20sd ml20sd-model'><Link to='/dblog'><Buttonico text='商品调拨日志'/></Link></div>
-	      		</div>
-      			<div className='fr clearfix ml20sd-model'>
-              <div className='fl'><Searchinput text='请输入商品条码、商品名称' revisemessage={this.revisemessage.bind(this)} hindsearch={this.hindSearch.bind(this,0)}/></div>
-          			<div className='searchselect clearfix fl'>
-                  <div className='fl ml20 cancel-btn-style ml20sd'><Link to='/goods'><Buttonico text='取消调拨'/></Link></div>
-                  <div className='fl ml20 cancel-btn-style ml20sd' onClick={this.showModal.bind(this)}><Buttonico text='确认调拨'/></div>
-                  <DbTextModal
-                            ref={this.saveFormRef}
-                            visible={this.state.visible}
-                            onCancel={this.hideModal}
-                            onCreate={this.submitListInfo}
-                            type={this.state.type}
-                        />
-                </div>
-     			</div>
+      const { loading } =this.state;
+      return(
+        <div className='clearfix mb10 adjust-v15-style'>
+      		<div className='fl clearfix'>
+      			<div className='fl btn ml20sd-model' onClick={this.download.bind(this)}>
+              <Buttonico text='下载调拨模板'/>
+            </div>
+      			<div className='fl btn ml20 ml20sd ml20sd-model'>
+              <MyUpload
+                dispatch={this.props.dispatch}
+                Setdate={this.setdayasouceas.bind(this)}/>
+            </div>
+            <div className='fl btn ml20 ml20sd ml20sd-model'>
+              <Link to='/dblog'><Buttonico text='商品调拨日志'/></Link>
+            </div>
+      		</div>
+    			<div className='fr clearfix ml20sd-model'>
+            <div className='fl'>
+              <Searchinput
+                text='请输入商品条码、商品名称'
+                revisemessage={this.revisemessage.bind(this)}
+                hindsearch={this.hindSearch.bind(this,0)}/>
+            </div>
+      			<div className='searchselect clearfix fl'>
+              <div className='fl ml20 cancel-btn-style ml20sd'>
+                <Link to='/goods'><Buttonico text='取消调拨'/></Link>
+              </div>
+              <div className='fl ml20 cancel-btn-style ml20sd' onClick={this.showModal.bind(this)}>
+                <Buttonico text='确认调拨'/>
+              </div>
+              <DbTextModal
+                loading={loading}
+                ref={this.saveFormRef}
+                visible={this.state.visible}
+                onCancel={this.hideModal}
+                onCreate={this.submitListInfo}
+                type={this.state.type}/>
+            </div>
+		      </div>
     		</div>
-        )
+      )
     }
 }
 

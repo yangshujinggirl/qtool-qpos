@@ -48,20 +48,21 @@ class Operationls extends React.Component {
 			mbCardId:null,
 	    isBirthMonth:false,
 			dataSource:[],
-			isPhone:false,
-			selectedRowKeys:[]
+			selectedRowKeys:[],
+			loading:false
 		}
 
 		this.firstclick=true
 	}
 	componentDidMount(){
-		this.focustap()
-		this.props.dispatch({
-			type:'cashier/meths',
-			payload:{
-				focustap:this.focustap
-			}
-		})
+		this.props.setDom(this.refs.barcodeRefs)
+		// this.focustap()
+		// this.props.dispatch({
+		// 	type:'cashier/meths',
+		// 	payload:{
+		// 		focustap:this.focustap
+		// 	}
+		// })
 	}
 	componentDidUpdate(){
    if(this.input){
@@ -86,13 +87,6 @@ class Operationls extends React.Component {
 	//会员卡号onchange
 	cardNoMobilechange=(e)=>{
 		var cardNoMobile=e.target.value.replace(/\s+/g,"");
-		// const name=null
-		// const levelStr=null
-		// const memberpoint=null
-		// const memberamount=null
-		// const cardNo=null
-		// const mbCardId=null
-		// const isBirthMonth=null
 		const ismember=false
 		this.props.dispatch({
 			type:'cashier/cardNoMobile',
@@ -127,24 +121,29 @@ class Operationls extends React.Component {
 		})
 	}
 	//条码获取焦点
-	focustap=()=>{
-		const ValueorderNoses=ReactDOM.findDOMNode(this.refs.barcodeRefs)
-		 ValueorderNoses.focus()
-		const onBlur=false
-		this.props.dispatch({
-			type:'cashier/onbule',
-			payload:onBlur
-		})
-	}
+	// focustap=()=>{
+	// 	if(!this.refs.barcodeRefs) {
+	// 		return;
+	// 	}
+	// 	const ValueorderNoses=ReactDOM.findDOMNode(this.refs.barcodeRefs)
+	// 	// const ValueorderNoses=this.refs.barcodeRefs.input
+	// 	ValueorderNoses.focus()
+	// 	this.props.dispatch({
+	// 		type:'cashier/onbule',
+	// 		payload:false
+	// 	})
+	// }
 	//会员获取焦点
 	focustapmember=()=>{
+		if(!this.refs.memberRefs) {
+			return;
+		}
 		const Valuemember=ReactDOM.findDOMNode(this.refs.memberRefs)
 		Valuemember.focus()
-		const onBlur=true
-		 this.props.dispatch({
-			 type:'cashier/onbule',
-			 payload:onBlur
-		 })
+		this.props.dispatch({
+		 type:'cashier/onbule',
+		 payload:true
+		})
 	}
 	//跳转到退货
 	hindchange=(e)=>{
@@ -159,7 +158,8 @@ class Operationls extends React.Component {
 	//会员框键盘事件
 	memberHindonKeyUp=(e)=>{
 		if(e.keyCode==9){
-			this.focustap()
+			// this.focustap();
+			this.props.setDom(this.refs.barcodeRefs)
 		}else if(e.keyCode==13){
 			this.searchmemberinfo()
 		}
@@ -167,23 +167,25 @@ class Operationls extends React.Component {
 	// 根据会员号或手机号查询会员信息
 	searchmemberinfo=()=>{
 		const { cardNoMobile } =this.props;
-		this.checkIsPhone(cardNoMobile,'input')
+		this.props.checkIsPhone(cardNoMobile,'input')
 		this.props.dispatch({
 			type:'cashier/memberinfo',
 			payload:{cardNoMobile}
-		})
+		});
+		this.props.setDom(this.refs.barcodeRefs)
 	}
-	//判断是会员手机号还会员卡号
-	checkIsPhone(value,type) {
-		let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
-		let isPhone;
-		//手机号&&表单输入
-		if(!regMb.test(value)&&type=='input') {
-			isPhone = false;
-		} else {
-			isPhone = true;
-		}
-		this.setState({ isPhone })
+	//选择会员
+	checkChange=(selectedRowKeys, selectedRows)=> {
+		let cardNoMobile = selectedRows[0].cardNo;
+		this.props.checkIsPhone(cardNoMobile,'cardNo')
+		this.props.dispatch({
+			type:'cashier/memberinfo',
+			payload:{
+				cardNoMobile
+			}
+		})
+		this.setState({ visible: false });
+		this.props.setSpace(true);//非结算弹框时，不可空格结算;
 	}
 	//切换会员
 	toggleEvent() {
@@ -194,26 +196,20 @@ class Operationls extends React.Component {
 				let selectedRowKeys = res.iQposMbCards.findIndex((value, index, arr) => {
 					return value.cardNo == this.props.memberinfo.cardNo
 				})
-				this.setState({ dataSource:res.iQposMbCards, visible:true, selectedRowKeys:[selectedRowKeys] });
+				this.props.setSpace(false);//非结算弹框时，不可空格结算;
+				this.setState({
+					dataSource:res.iQposMbCards,
+					visible:true,
+					selectedRowKeys:[selectedRowKeys]
+				});
 			}
 		},(error) => {
 			console.log(error)
 		})
 	}
 	onCancel() {
+		this.props.setSpace(true);//非结算弹框时，不可空格结算;
 		this.setState({ visible:false })
-	}
-	//选择会员
-	checkChange=(selectedRowKeys, selectedRows)=> {
-		let cardNoMobile = selectedRows[0].cardNo;
-		this.checkIsPhone(cardNoMobile,'cardNo')
-		this.props.dispatch({
-			type:'cashier/memberinfo',
-			payload:{
-				cardNoMobile
-			}
-		})
-		this.setState({ visible: false })
 	}
 	//充值
 	showModal = () => {
@@ -262,6 +258,7 @@ class Operationls extends React.Component {
 				return
 		}
 		const { memberinfo } = this.props;
+		this.setState({ loading: true })
 		let values={
 			mbCardId:memberinfo.mbCardId,
 			amount:this.props.reamount,
@@ -294,6 +291,7 @@ class Operationls extends React.Component {
 						message.warning(json.message)
 						this.firstclick=true
 				}
+				this.setState({ loading: false })
 		})
 	}
 		//打印
@@ -466,8 +464,8 @@ class Operationls extends React.Component {
 		}
 	}
 	render(){
-		const { memberinfo } =this.props;
-		const { dataSource, isPhone } =this.state;
+		const { memberinfo, isPhone } =this.props;
+		const { dataSource, loading } =this.state;
     const openWechat=sessionStorage.getItem("openWechat")
     const openAlipay=sessionStorage.getItem("openAlipay");
 
@@ -536,8 +534,11 @@ class Operationls extends React.Component {
                 <div className='c74 top-action'>
 									<span>余额</span>
 									{
-										memberinfo.isLocalShop =='true'&&
-										<span onClick={this.showModal} className='themecolor recharge' style={{'cursor':'pointer','marginLeft':'4px'}}>充值</span>
+										memberinfo.mbCardId&&memberinfo.isLocalShop =='true'&&
+										<span
+											onClick={this.showModal}
+											className='themecolor recharge'
+											style={{'cursor':'pointer','marginLeft':'4px'}}>充值</span>
 									}
 									<span className="lines"></span>
 								</div>
@@ -575,7 +576,7 @@ class Operationls extends React.Component {
 					</div>
 				</Modal>
 				<Modal
-          className='rechargepays'
+          className='rechargepays recharge-modal'
           visible={this.props.rechargevisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
@@ -617,9 +618,15 @@ class Operationls extends React.Component {
               </div>
             </div>
             <div>
-              <div className='tc rechargeok' onClick={this.handleOk.bind(this)}>
+              {/* <div className='tc rechargeok' onClick={this.handleOk.bind(this)}>
                   确定
-              </div>
+              </div> */}
+							<Button
+								loading={loading}
+								className='tc rechargeok'
+								onClick={this.handleOk.bind(this)}>
+									确定
+							</Button>
               <div style={{textAlign:"center",marginTop:"10px"}}>
                 <Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.recheckPrint}>打印小票</Checkbox>
               </div>
@@ -636,13 +643,6 @@ Operationls.contextTypes= {
 
 function mapStateToProps(state) {
 	 const {
-					//  name,
-					//  levelStr,
-					//  memberpoint,
-					//  memberamount,
-					//  cardNo,
-					//  mbCardId,
-					//  isBirthMonth,
 					 ismember,
 					 thispoint,
 					 barcode,
@@ -660,13 +660,6 @@ function mapStateToProps(state) {
 					 memberinfo
 				 } = state.cashier;
 	return {
-						// name,
-						// levelStr,
-						// memberpoint,
-						// memberamount,
-						// cardNo,
-						// mbCardId,
-						// isBirthMonth,
 						ismember,
 						thispoint,
 						barcode,

@@ -128,7 +128,11 @@ class AdjustLogIndexForm extends React.Component {
       values.exchangeTimeEnd=this.state.exchangeTimeEnd
       values.inShopId = this.state.shopId
       values.limit=this.state.limit;
-      values.currentPage=this.state.currentPage
+      values.currentPage=this.state.currentPage;
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:true
+      })
       GetServerData('qerp.pos.pd.exchange.query',values)
       .then((json) => {
           if(json.code=='0'){
@@ -145,6 +149,10 @@ class AdjustLogIndexForm extends React.Component {
           }else{
               message.error(json.message);
           }
+          this.props.dispatch({
+            type:'spinLoad/setLoading',
+            payload:false
+          })
       })
     })
   }
@@ -159,6 +167,7 @@ class AdjustLogIndexForm extends React.Component {
       qposPdExchangeId:this.state.exchangeId,
       cancelRemark:values.cancelRemark
     }
+    this.setState({ loading:true })
     GetServerData('qerp.qpos.pd.exchange.cancel',payload)
     .then((json) => {
       if(json.code=='0'){
@@ -170,6 +179,7 @@ class AdjustLogIndexForm extends React.Component {
       }else{
         message.error(json.message);
       }
+      this.setState({ loading:false })
     })
   }
   handleCancel=()=>{
@@ -258,66 +268,67 @@ class AdjustLogIndexForm extends React.Component {
       const result=GetExportData('qerp.pos.pd.exchange.detail.export',data);
   }
   render() {
+    const { loading } =this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="adjust-index  dblog-search">
         <div className="form-wrapper">
-            <Form className="search-form">
-                <FormItem
-                    className='search-con-data1'
-                    label="调拨时间"
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{span: 10}}>
-                    <RangePicker
-                      value={this.state.exchangeTimeStart?
-                            [moment(this.state.exchangeTimeStart, dateFormat), moment(this.state.exchangeTimeEnd, dateFormat)]
-                            :null
-                          }
-                      format={dateFormat}
-                      onChange={this.dateChange.bind(this)} />
-                </FormItem>
-                <FormItem
-                    label='需求门店'
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{span: 10}}>
-                    { getFieldDecorator('inShopId')(
-                      <AutoComplete
-                        dataSource={this.state.dataSources}
-                        onSelect={this.onSelect.bind(this)}
-                        onSearch={this.handleShopSearch.bind(this)}
-                        placeholder='请输入调入门店名称'/>
-                    )}
-                </FormItem>
-                <FormItem
-                  label="调拨状态"
-                  className='db-sp-auto'
-                  labelCol={{ span: 5 }}
-                  wrapperCol={{span: 10}}>
-                    { getFieldDecorator('status',{
-                      onChange:this.onChangeSelect
-                      })(
-                         <Select size='large' style={{marginRight:"10px"}} allowClear={true}>
-                            <Option value="10">待收货</Option>
-                            <Option value="20">收货中</Option>
-                            <Option value="30">已收货</Option>
-                            <Option value="40">已撤销</Option>
-                          </Select>
-                    )}
-                </FormItem>
-                <FormItem className="fr">
-                  <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
-                  <div className="export-div">
-                      <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button>
-                  </div>
-                </FormItem>
-                <FormItem className='search-con-input fr'>
-                  {getFieldDecorator('keywords',{
-                      onChange:this.onChangeWords
-                    })(
-                        <Input  autoComplete="off" placeholder="请输入商品名称/条码/单号"/>
-                  )}
-                </FormItem>
-            </Form>
+          <Form className="search-form">
+            <FormItem
+              className='search-con-data1'
+              label="调拨时间"
+              labelCol={{ span: 5 }}
+              wrapperCol={{span: 10}}>
+                <RangePicker
+                  value={this.state.exchangeTimeStart?
+                        [moment(this.state.exchangeTimeStart, dateFormat), moment(this.state.exchangeTimeEnd, dateFormat)]
+                        :null
+                      }
+                  format={dateFormat}
+                  onChange={this.dateChange.bind(this)} />
+            </FormItem>
+            <FormItem
+                label='需求门店'
+                labelCol={{ span: 5 }}
+                wrapperCol={{span: 10}}>
+                { getFieldDecorator('inShopId')(
+                  <AutoComplete
+                    dataSource={this.state.dataSources}
+                    onSelect={this.onSelect.bind(this)}
+                    onSearch={this.handleShopSearch.bind(this)}
+                    placeholder='请输入调入门店名称'/>
+                )}
+            </FormItem>
+            <FormItem
+              label="调拨状态"
+              className='db-sp-auto'
+              labelCol={{ span: 5 }}
+              wrapperCol={{span: 10}}>
+                { getFieldDecorator('status',{
+                  onChange:this.onChangeSelect
+                  })(
+                     <Select size='large' style={{marginRight:"10px"}} allowClear={true}>
+                        <Option value="10">待收货</Option>
+                        <Option value="20">收货中</Option>
+                        <Option value="30">已收货</Option>
+                        <Option value="40">已撤销</Option>
+                      </Select>
+                )}
+            </FormItem>
+            <FormItem className="fr">
+              <Button type="primary" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+              <div className="export-div">
+                  <Button type="primary" onClick={this.exportList.bind(this)} size='large'>导出数据</Button>
+              </div>
+            </FormItem>
+            <FormItem className='search-con-input fr'>
+              {getFieldDecorator('keywords',{
+                  onChange:this.onChangeWords
+                })(
+                    <Input  autoComplete="off" placeholder="请输入商品名称/条码/单号"/>
+              )}
+            </FormItem>
+          </Form>
         </div>
         <div className="table-wrapper add-norecord-img" ref="tableWrapper">
           <Table
@@ -339,10 +350,12 @@ class AdjustLogIndexForm extends React.Component {
         {
           this.state.visible ?
           <DbTextModal
+            loading={loading}
             onCreate={this.handleOk.bind(this)}
             onCancel={this.handleCancel.bind(this)}
             visible={this.state.visible}/>
-          : ''
+          :
+          ''
         }
       </div>
     );

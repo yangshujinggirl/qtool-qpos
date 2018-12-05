@@ -86,16 +86,6 @@ class ValidataModal extends React.Component {
       })
     }
   }
-  // validatePhone() {
-  //   let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
-  //   const { phone } =this.props;
-  //   if(!regMb.test(phone)) {
-  //     message.error('请输入正确的手机号')
-  //     return false;
-  //   } else {
-  //     return true
-  //   }
-  // }
   validateCode(value) {
     let regCode = /^\d{4}$/;
     const { phoneCode } =this.state;
