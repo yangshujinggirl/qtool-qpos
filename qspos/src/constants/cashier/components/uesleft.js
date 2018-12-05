@@ -158,7 +158,8 @@ class Operationls extends React.Component {
 	//会员框键盘事件
 	memberHindonKeyUp=(e)=>{
 		if(e.keyCode==9){
-			this.focustap()
+			// this.focustap();
+			this.props.setDom(this.refs.barcodeRefs)
 		}else if(e.keyCode==13){
 			this.searchmemberinfo()
 		}
@@ -170,7 +171,8 @@ class Operationls extends React.Component {
 		this.props.dispatch({
 			type:'cashier/memberinfo',
 			payload:{cardNoMobile}
-		})
+		});
+		this.props.setDom(this.refs.barcodeRefs)
 	}
 	//选择会员
 	checkChange=(selectedRowKeys, selectedRows)=> {
