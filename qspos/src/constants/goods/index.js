@@ -193,7 +193,8 @@ class Goods extends React.Component {
       };
       const result=GetExportData('qerp.pos.pd.spu.export',data);
   }
-  changePage(currentPage,pageSize) {
+  changePage(currentPage) {
+    currentPage--
     const { limit, inputvalue, selectvalue } =this.state;
     let params = {
           keywords:inputvalue,
