@@ -254,13 +254,15 @@ export default {
                     }
                     datasouce.unshift(objects)
                 }else{
-                    message.error('商品库存不足')
+                    message.error('商品库存不足');
+                    yield put({type: 'spinLoad/setLoading',payload:false});
                     return
                 }
             }else{
                 //存在,库存判断是否大于0
                 if(Number(datasouce[i].qty)==Number(datasouce[i].inventory)){
-                    message.error('商品库存不足')
+                    message.error('商品库存不足');
+                    yield put({type: 'spinLoad/setLoading',payload:false});
                     return
                 }else{
                     datasouce[i].qty=String(Number(datasouce[i].qty)+1)
@@ -281,7 +283,6 @@ export default {
                         datasouce[i].payPrice=editpayPrice
                     }
                     const str=datasouce.splice(i,1); //删除当前
-                    console.log(str)
                     datasouce.unshift(str[0]); //把这个元素添加到开头
                 }
             }
