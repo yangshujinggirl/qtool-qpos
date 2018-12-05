@@ -194,21 +194,36 @@ class Goods extends React.Component {
       const result=GetExportData('qerp.pos.pd.spu.export',data);
   }
   changePage(currentPage,pageSize) {
+    const { limit, inputvalue, selectvalue } =this.state;
+    let params = {
+          keywords:inputvalue,
+          pdCategoryId:selectvalue,
+          limit,
+          currentPage
+        }
     this.props.dispatch({
       type:'goods/fetch',
-      payload:{currentPage}
-    })
+      payload:params
+    });
+    this.setState({ currentPage })
   }
   changePageSize(values) {
+    const { inputvalue, selectvalue } =this.state;
+    let params = {
+          keywords:inputvalue,
+          pdCategoryId:selectvalue,
+          limit:values.limit,
+          currentPage:values.currentPage
+        }
     this.props.dispatch({
       type:'goods/fetch',
-      payload:values
-    })
+      payload:params
+    });
+    this.setState({ currentPage:values.currentPage,limit:values.limit })
   }
   render() {
     const { data, pdSpus, pdCategories } =this.props;
     let role=sessionStorage.getItem('role');
-    console.log(role)
     return (
       <div className="goods-manage goods-manage-pages">
         <Header type={false} color={true}/>

@@ -92,10 +92,10 @@ class Operationls extends React.Component {
 			type:'cashier/cardNoMobile',
 			payload:cardNoMobile
 		})
-		this.props.dispatch({
-			type:'cashier/memberlist',
-			payload:{ismember,memberinfo:{isLocalShop:true}}
-		})
+		// this.props.dispatch({
+		// 	type:'cashier/memberlist',
+		// 	payload:{ismember,memberinfo:{isLocalShop:true}}
+		// })
 	}
 	//条码框键盘事件
 	HindonKeyUp=(e)=>{
