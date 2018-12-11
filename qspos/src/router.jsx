@@ -11,7 +11,7 @@ import Returngoods from "./routes/Returngoods";
 import Inventory from "./routes/InventoryNew";
 import Adjust from "./routes/Adjust";
 import Inventorydiff from "./routes/Inventorydiff";
-
+import OrderManage from './routes/OrderManage';
 //新增数据管理
 import DataManage from "./routes/DataManage";
 import ReceiptDetail from "./routes/ReceiptDetail"
@@ -40,7 +40,7 @@ function RouterConfig({ history }) {
       <Route path="/member" component={Member} />
       <Route path="/receivegoods" component={Receivegoods} />
       <Route path="/goods" component={Goods} />
-      <Route path="/sell" component={Sell} />
+      <Route path="/sell" component={OrderManage} />
       <Route path="/returngoods" component={Returngoods} />
       <Route path="/inventory" component={Inventory} />
       <Route path="/adjust" component={Adjust} />

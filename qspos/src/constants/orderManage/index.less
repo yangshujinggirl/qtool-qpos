@@ -1,0 +1,42 @@
+.order-manage-content-wrap {
+  .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content {
+    background: #F4F4F4;
+  }
+  .main-content-action {
+    padding: 20px 0;
+    margin-bottom: 20px;
+    background: #fff;
+  }
+  .list-detail-action {
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    align-items:flex-start;
+    border-top: 1px solid #E7E8EC;
+    margin-bottom: 20px;
+    .part-l {
+      width: 330px;
+      flex-shrink:0;
+      border-right: 1px solid #E7E8EC;
+      box-sizing: border-box;
+    }
+    .part-r {
+      width: 100%;
+      padding: 20px 30px;
+      box-sizing: border-box;
+      position: relative;
+      .detail-info-wrap {
+        width: 100%;
+        border: 1px solid #E7E8EC;
+      }
+      .go-print {
+        cursor: pointer;
+        width: 220px;
+        height: 106px;
+        background:url('../../images/orderManage/order_print.png');
+        position: absolute;
+        right: 0;
+        top:50%;
+      }
+    }
+  }
+}
