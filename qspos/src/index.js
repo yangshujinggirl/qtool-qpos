@@ -32,6 +32,7 @@ app.model(require("./models/dataManage"));
 app.model(require("./models/memberBirth"));
 app.model(require("./models/spin"));
 app.model(require("./models/orderManage"));
+app.model(require("./models/dataManage/dailyCheck"));
 // 4. Router
 app.router(require('./router'));
 

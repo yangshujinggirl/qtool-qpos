@@ -6,9 +6,10 @@ import {Buttonico} from '../components/Button/Button';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message, Spin} from 'antd';
 import { Link } from 'dva/router';
 import '../style/dataManage.css';
-
+import './DataManage.less';
 //每日对账单
 import DailyBill from '../constants/dataManage/dailyBill';
+import DailyStatement from '../constants/dataManage/DailyStatement';
 //热销商品
 import HotSellGoods from '../constants/dataManage/hotSellGoods';
 //店员销售
@@ -68,7 +69,7 @@ class DataManage extends React.Component {
                   defaultActiveKey={this.props.initKey=="4"?"4":"1"}
                   onTabClick={this.tabChange.bind(this)}>
                     <TabPane tab="每日对账单" key="1">
-                       {this.state.key == 1 && <DailyBill/>}
+                       {this.state.key == 1 && <DailyStatement/>}
                     </TabPane>
                     <TabPane tab="热销商品" key="2">
                         {this.state.key == 2 && <HotSellGoods/>}
