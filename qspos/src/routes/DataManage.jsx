@@ -8,14 +8,15 @@ import { Link } from 'dva/router';
 import '../style/dataManage.css';
 import './DataManage.less';
 //每日对账单
-import DailyBill from '../constants/dataManage/dailyBill';
+// import DailyBill from '../constants/dataManage/dailyBill';
 import DailyStatement from '../constants/dataManage/DailyStatement';
 //热销商品
 import HotSellGoods from '../constants/dataManage/hotSellGoods';
 //店员销售
 import ClerkSale from '../constants/dataManage/clerkSale';
 //收货报表
-import ReceiptReport from '../constants/dataManage/receiptReport';
+// import ReceiptReport from '../constants/dataManage/receiptReport';
+import ChargeBackList from '../constants/dataManage/ChargeBackList';
 //利润报表
 import ProfitReport from '../constants/dataManage/profitReport';
 //进销存报表
@@ -77,8 +78,8 @@ class DataManage extends React.Component {
                     <TabPane tab="店员销售" key="3">
                         {this.state.key == 3 && <ClerkSale/>}
                     </TabPane>
-                    <TabPane tab="收货报表" key="4">
-                        {this.state.key == 4 && <ReceiptReport/>}
+                    <TabPane tab="收/退货报表" key="4">
+                        {this.state.key == 4 && <ChargeBackList/>}
                     </TabPane>
                     <TabPane tab="利润报表" key="5">
                         {this.state.key == 5 && <ProfitReport/>}

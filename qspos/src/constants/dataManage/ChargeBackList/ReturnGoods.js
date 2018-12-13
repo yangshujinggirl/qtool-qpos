@@ -4,27 +4,11 @@ import moment from 'moment';
 import { connect } from 'dva';
 import Qpagination from '../../../components/Qpagination';
 import Qtable from '../../../components/Qtable';
-import FilterForm from './components/FilterForm';
-import './SaleCheck.less';
+import ReturnFilterForm from './components/ReturnFilterForm';
+import {　ReturnColumns　} from './columns';
+import './ReceiveGoods.less';
 
-const columns = [{
-      title: '订单号',
-      dataIndex: 'orderNo',
-  },{
-      title: '业务类型',
-      dataIndex: 'amount',
-  },{
-      title: '订单分类',
-      dataIndex: 'saleAmount',
-  },{
-      title: '分成金额',
-      dataIndex: 'wechatAmount',
-  },{
-      title: '订单完成时间',
-      dataIndex: 'scanWechatAmount',
-  }];
-
-class SaleCheck extends Component {
+class ReturnGoods extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -103,7 +87,7 @@ class SaleCheck extends Component {
     return(
       <div className="sale-check-components-wrap">
         <div className="middle-action">
-          <FilterForm
+          <ReturnFilterForm
             {...fields}
             startDate={startDate}
             endDate={endDate}
@@ -112,7 +96,7 @@ class SaleCheck extends Component {
         </div>
         <div className="bottom-action">
           <Qtable
-            columns={columns}
+            columns={ReturnColumns}
             dataSource={saleDataList}/>
           {
             saleDataList.length>0&&
@@ -131,4 +115,4 @@ function mapStateToProps(state) {
     const { dailyCheck } = state;
     return { dailyCheck };
 }
-export default connect(mapStateToProps)(SaleCheck);
+export default connect(mapStateToProps)(ReturnGoods);
