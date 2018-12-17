@@ -48,7 +48,7 @@ function RouterConfig({ history }) {
       <Route path="/inventorydiff" component={Inventorydiff} />
       <Route path="/dataManage" component={DataManage}/>
       <Route path="/member/info" component={Memberinfo} />
-      <Route path="/dataManage/receiptDetail/:id" component={ReceviceDetail}/>
+      <Route path="/chargeBack/:type/:id" component={ReceviceDetail}/>
       <Route path="/adjustLog" component={AdjustLog}/>
       <Route path="/inventorydiffLog" component={InventorydiffLog}/>
       <Route path="/pay" component={Payamount}/>

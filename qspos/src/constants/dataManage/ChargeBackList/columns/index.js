@@ -37,7 +37,7 @@ const ReturnDetailColumns = [{
           dataIndex: 'pdSkuType',
       },{
           title: '退货数量',
-          dataIndex: 'price',
+          dataIndex: 'qty',
       }];
 const ReceiveColumns = [{
       title: '订单号',
@@ -52,6 +52,9 @@ const ReceiveColumns = [{
       title: '已收商品数量',
       dataIndex: 'receiveQty',
   },{
+      title: '订单类型',
+      dataIndex: 'type',
+  },{
       title: '订单状态',
       dataIndex: 'statusStr',
   },{
@@ -62,20 +65,26 @@ const ReceiveColumns = [{
       dataIndex: 'operateTime',
   }];
 const ReturnColumns = [{
-      title: '订单号',
-      dataIndex: 'orderNo',
+      title: '退货单号',
+      dataIndex: 'asnNo',
+      render:(text,record) => {
+        return <span style={{color: "rgb(53, 186, 176)",cursor: "pointer"}} onClick={record.onOperateClick}>{record.asnNo}</span>
+      }
   },{
-      title: '业务类型',
-      dataIndex: 'amount',
+      title: '关联门店订单',
+      dataIndex: 'spOrderNo',
   },{
-      title: '订单分类',
-      dataIndex: 'saleAmount',
+      title: '退货商品总数',
+      dataIndex: 'qtySum',
   },{
-      title: '分成金额',
-      dataIndex: 'wechatAmount',
+      title: '订单状态',
+      dataIndex: 'statusStr',
   },{
-      title: '订单完成时间',
-      dataIndex: 'scanWechatAmount',
+      title: '退货时间',
+      dataIndex: 'createTime',
+  },{
+      title: '退货完成时间',
+      dataIndex: 'updateTime',
   }];
 
 export default {

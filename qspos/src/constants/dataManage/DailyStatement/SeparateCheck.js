@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Tooltip, Icon } from 'antd';
 import moment from 'moment';
 import { connect } from 'dva';
+import {GetExportData} from '../../../services/services';
 import Qpagination from '../../../components/Qpagination';
 import Qtable from '../../../components/Qtable';
-import FilterForm from './components/FilterForm';
+import SeparFilterForm from './components/SeparFilterForm';
 import './SaleCheck.less';
 
 const columns = [{
@@ -12,16 +13,16 @@ const columns = [{
       dataIndex: 'orderNo',
   },{
       title: '业务类型',
-      dataIndex: 'amount',
+      dataIndex: 'orderType',
   },{
       title: '订单分类',
-      dataIndex: 'saleAmount',
+      dataIndex: 'shareType',
   },{
       title: '分成金额',
-      dataIndex: 'wechatAmount',
+      dataIndex: 'shareProfitAmount',
   },{
       title: '订单完成时间',
-      dataIndex: 'scanWechatAmount',
+      dataIndex: 'createTime',
   }];
 
 class SaleCheck extends Component {
@@ -30,26 +31,28 @@ class SaleCheck extends Component {
     this.state = {
       fields:{
         createrTime:'',
-        type:'',
-        source:0
+        orderType:0,
+        shareType:0
       },
-      startDate:'',
-      endDate:''
+      createtimeST:'',
+      createtimeET:''
     }
   }
   componentDidMount() {
-    console.log('componentDidMount')
     this.initPage()
   }
   initPage() {
     const now = moment();
-    // console.log(now)
-    const endDate = now.format("YYYY-MM-DD");
-    const startDate = now.subtract(1, "months").format("YYYY-MM-DD");
-    this.setState({ startDate, endDate });
+    const createtimeET = now.format("YYYY-MM-DD");
+    const createtimeST = now.subtract(1, "months").format("YYYY-MM-DD");
+    this.setState({
+      createtimeST,
+      createtimeET,
+      fields:{...this.state.fields,createrTime:[createtimeST,createtimeET]}
+     });
     this.props.dispatch({
-      type:'dailyCheck/fetchSaleList',
-      payload:{ startDate, endDate ,...this.state.fields}
+      type:'dailyCheck/fetchSeparateList',
+      payload:{ createtimeST, createtimeET ,...this.state.fields}
     })
   }
   //双向绑定表单
@@ -60,7 +63,7 @@ class SaleCheck extends Component {
   }
   searchData=(values)=> {
     this.props.dispatch({
-      type:'dailyCheck/fetchSaleList',
+      type:'dailyCheck/fetchSeparateList',
       payload: values
     });
   }
@@ -73,7 +76,7 @@ class SaleCheck extends Component {
     let { fields } = this.state;
     paramsObj ={...paramsObj,...fields}
     this.props.dispatch({
-      type:'dailyCheck/fetchSaleList',
+      type:'dailyCheck/fetchSeparateList',
       payload: paramsObj
     });
   }
@@ -82,40 +85,43 @@ class SaleCheck extends Component {
     const { fields } = this.state;
     values = {...values,...fields}
     this.props.dispatch({
-      type:'dailyCheck/fetchSaleList',
+      type:'dailyCheck/fetchSeparateList',
       payload: values
     });
   }
-  formatData(value) {
-    value = String(value);
-    // others.otherSum.split('.')[0]
-    if(value.indexOf('.')!=-1) {
-      value = value.split('.');
-      return value;
-    } else {
-      value = [value,'00'];
-      return value;
+  //导出数据
+  exportData = () =>{
+    let { createrTime, ...params} =this.state.fields;
+    if(createrTime&&createrTime.length>0) {
+      params.createtimeST = moment(createrTime[0]).format('YYYY-MM-DD');
+      params.createtimeET = moment(createrTime[1]).format('YYYY-MM-DD');
     }
+    const res= GetExportData('qerp.pos.rp.share.profit.export',params)
   }
   render() {
-    const { saleDataList, data } =this.props.dailyCheck;
-    const { fields, startDate, endDate } =this.state;
+    const { separateList, separateData, data } =this.props.dailyCheck;
+    const { fields, createtimeST, createtimeET } =this.state;
     return(
       <div className="sale-check-components-wrap">
         <div className="middle-action">
-          <FilterForm
+          <SeparFilterForm
             {...fields}
-            startDate={startDate}
-            endDate={endDate}
+            startDate={createtimeST}
+            endDate={createtimeET}
             onValuesChange={this.handleFormChange}
-            submit={this.searchData}/>
+            submit={this.searchData}
+            exportData={this.exportData}/>
+          <div className="total-data">
+            共<span className="num">{separateData.orderNum}</span>单，合计分成
+            <span className="num">{separateData.shareProfitSumAmount}</span>元
+          </div>
         </div>
         <div className="bottom-action">
           <Qtable
             columns={columns}
-            dataSource={saleDataList}/>
+            dataSource={separateList}/>
           {
-            saleDataList.length>0&&
+            separateList.length>0&&
             <Qpagination
               sizeOptions="2"
               onShowSizeChange={this.changePageSize}

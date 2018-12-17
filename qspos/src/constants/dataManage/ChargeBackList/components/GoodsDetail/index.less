@@ -1,15 +1,32 @@
 .charg-back-detial-pages {
-  padding:0 20px;
+  padding:0 20px 40px;
   background: #fff;
+  p{
+    margin: 0;
+  }
   .row {
-    // margin-bottom: 20px;
     font-size: 14px;
     .row-title {
-      // line-height: 60px;
       font-size: 16px;
       color: #333;
-      padding: 50px 0 10px;
+      padding-top: 50px;
+      padding-bottom: 10px;
       border-bottom: 1px solid #e7e8ec;
+      &.noline-row {
+        border-bottom: none;
+      }
+    }
+    .search-action {
+      padding-top: 20px;
+    }
+    .row-diy {
+      line-height: 30px;
+      padding-top: 20px;
+    }
+  }
+  .qtools-condition-form {
+    .ant-form-item-label {
+      width: 120px;
     }
   }
 }

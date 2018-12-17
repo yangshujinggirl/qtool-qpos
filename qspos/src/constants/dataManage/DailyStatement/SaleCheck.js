@@ -113,7 +113,6 @@ class SaleCheck extends Component {
   //导出数据
   exportData = () =>{
     let { createrTime, ...params} =this.state.fields;
-    debugger
     if(createrTime&&createrTime.length>0) {
       params.startDate = moment(createrTime[0]).format('YYYY-MM-DD');
       params.endDate = moment(createrTime[1]).format('YYYY-MM-DD');
@@ -132,9 +131,8 @@ class SaleCheck extends Component {
     }
   }
   render() {
-    const { saleDataList, saleTotalData, data } =this.props.dailyCheck;
+    const { saleList, saleTotalData, data } =this.props.dailyCheck;
     const { fields, startDate, endDate } =this.state;
-    console.log(this.state.fields)
     return(
       <div className="sale-check-components-wrap">
         <div className="total-data-action">
@@ -196,9 +194,9 @@ class SaleCheck extends Component {
         <div className="bottom-action">
           <Qtable
             columns={columns}
-            dataSource={saleDataList}/>
+            dataSource={saleList}/>
           {
-            saleDataList.length>0&&
+            saleList.length>0&&
             <Qpagination
               sizeOptions="2"
               onShowSizeChange={this.changePageSize}

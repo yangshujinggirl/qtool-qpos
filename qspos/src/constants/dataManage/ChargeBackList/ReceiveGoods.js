@@ -15,8 +15,8 @@ class ReceiveGoods extends Component {
     this.state = {
       fields:{
         createrTime:'',
-        type:'',
-        source:0
+        type:0,
+        status:'-1'
       },
       operateStart:'',
       operateEnd:''
@@ -51,7 +51,7 @@ class ReceiveGoods extends Component {
         payload: "4"
     })
     sessionStorage.setItem('chargeBackDetail',JSON.stringify(value))
-    this.context.router.push(`/dataManage/receiptDetail/${value.pdOrderId}`);
+    this.context.router.push(`/chargeBack/receive/${value.pdOrderId}`);
   }
   searchData=(values)=> {
     this.props.dispatch({
@@ -81,21 +81,11 @@ class ReceiveGoods extends Component {
       payload: values
     });
   }
-  //导出数据
-  exportData = () =>{
-    let { createrTime, ...params} =this.state.fields;
-    debugger
-    if(createrTime&&createrTime.length>0) {
-      params.operateStart = moment(createrTime[0]).format('YYYY-MM-DD');
-      params.operateEnd = moment(createrTime[1]).format('YYYY-MM-DD');
-    }
-    const res= GetExportData('qerp.qpos.rp.day.account.export',params)
-  }
   render() {
     const { receiveList, data } =this.props.chargeBackList;
     const { fields, operateStart, operateEnd } =this.state;
     return(
-      <div className="sale-check-components-wrap">
+      <div className="receive-goods-components-wrap">
         <div className="middle-action">
           <ReceFilterForm
             {...fields}
