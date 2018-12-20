@@ -194,30 +194,32 @@ class Member extends React.Component{
     return (
       <div className="member-list-pages">
         <Header type={false} color={true}/>
-        <div className='search-component'>
-         <div className='clearfix mb10'>
-           <div className='fl'>
-               <span className="handle-add-btn" onClick={()=>this.onOperateClick()}>新增会员</span>
-               <Link to='/memberBirth' className="handle-add-btn look-btn">查看会员生日</Link>
+        <div className="member-content-action">
+          <div className='search-component'>
+           <div className='clearfix mb10'>
+             <div className='fl'>
+                 <span className="handle-add-btn" onClick={()=>this.onOperateClick()}>新增会员</span>
+                 <Link to='/memberBirth' className="handle-add-btn look-btn">查看会员生日</Link>
+             </div>
+             <div className='fr'>
+               <Searchinput
+                 text='请输入会员姓名、手机、会员卡号'
+                 revisemessage={this.revisemessage.bind(this)}
+                 hindsearch={this.hindsearch.bind(this)}/>
+             </div>
            </div>
-           <div className='fr'>
-             <Searchinput
-               text='请输入会员姓名、手机、会员卡号'
-               revisemessage={this.revisemessage.bind(this)}
-               hindsearch={this.hindsearch.bind(this)}/>
-           </div>
-         </div>
-        </div>
-        <div className='counters goods-counters'>
-          <Qtable
-            columns={columns}
-            dataSource={mbCards}
-            onOperateClick={this.onOperateClick.bind(this)}/>
-          <Qpagination
-            sizeOptions="2"
-            onShowSizeChange={this.changePageSize.bind(this)}
-            onChange={this.changePage.bind(this)}
-            data={data}/>
+          </div>
+          <div className='counters goods-counters'>
+            <Qtable
+              columns={columns}
+              dataSource={mbCards}
+              onOperateClick={this.onOperateClick.bind(this)}/>
+            <Qpagination
+              sizeOptions="2"
+              onShowSizeChange={this.changePageSize.bind(this)}
+              onChange={this.changePage.bind(this)}
+              data={data}/>
+          </div>
         </div>
         <AddEditModal
           loading={loading}
