@@ -6,29 +6,29 @@ const OrderColumns = [{
     dataIndex: 'name',
   },{
     title: '规格',
-    dataIndex: 'gg',
+    dataIndex: 'displayName',
   },{
     title: '销售数量',
-    dataIndex: 'num',
+    dataIndex: 'qty',
   },{
     title: '零售价（元/个）',
     dataIndex: 'price',
   },{
     title: '折扣',
-    dataIndex: 'dis',
+    dataIndex: 'discount',
   },{
     title: '折后总价（元）',
-    dataIndex: 'total',
+    dataIndex: 'payPrice',
   }]
 const RechargeColumns = [{
     title: '充值前余额',
-    dataIndex: 'code',
+    dataIndex: 'beforeAmount',
   },{
     title: '充值金额',
-    dataIndex: 'name',
+    dataIndex: 'amount',
   },{
     title: '充值后余额',
-    dataIndex: 'gg',
+    dataIndex: 'afterAmount',
   }]
 
 export default {OrderColumns,RechargeColumns};

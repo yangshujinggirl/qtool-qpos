@@ -25,7 +25,6 @@ class NormalForm extends Component {
   }
 
   handleSubmit = (e) => {
-    console.log(e)
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       this.props.submit && this.props.submit(values)
@@ -59,7 +58,7 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <div className="search-form-wrap">
             <FormItem label='订单时间'>
-               {getFieldDecorator('code')(
+               {getFieldDecorator('time')(
                  <RangePicker showTime/>
                )}
              </FormItem>
@@ -67,7 +66,7 @@ class NormalForm extends Component {
                type!='2'&&
                <FormItem label='订单分类'>
                   {getFieldDecorator('type')(
-                    <Select allowClear={true} placeholder="请选择订单分类">
+                    <Select placeholder="请选择订单分类">
                       <Option value={0} key={0}>全部</Option>
                       <Option value={1} key={1}>销售订单</Option>
                       <Option value={2} key={2}>充值订单</Option>
@@ -79,7 +78,7 @@ class NormalForm extends Component {
              {
                (type=='0'||type=='2')&&
                <FormItem label='订单状态'>
-                  {getFieldDecorator('infoStatus')(
+                  {getFieldDecorator('orderStatus')(
                     <Select allowClear={true} placeholder="请选择订单状态">
                       <Option value={0} key={0}>全部</Option>
                       <Option value={1} key={1}>已接单</Option>
@@ -94,7 +93,7 @@ class NormalForm extends Component {
              {
                type=='2'&&
                <FormItem label='配送方式：'>
-                  {getFieldDecorator('types')(
+                  {getFieldDecorator('deliverType')(
                     <Select allowClear={true} placeholder="请选择配送方式">
                       <Option value={0} key={0}>全部</Option>
                       <Option value={1} key={1}>门店自提</Option>
@@ -106,7 +105,7 @@ class NormalForm extends Component {
              }
             <FormItem label=''>
                <QsearchInput
-                name="codebar"
+                name="keywords"
                 form={this.props.form}
                 placeholder="请输入商品条码、名称、订单号"
                 handleSearch={this.handleSubmit}/>

@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import Header from '../../components/header/Header';
 import SearchinputTwo from '../../components/Searchinput/searchTwo';
 import {Buttonico} from '../../components/Button/Button';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
+import { Table, Popover, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
 import { Link } from 'dva/router';
 import {GetServerData} from '../../services/services';
 import {GetExportData} from '../../services/services';
@@ -31,9 +31,25 @@ const columns = [{
         width:'10%',
         dataIndex: 'qtyLeft',
     },{
-        title: 'APP占用',
+        title: '占用库存数',
         width:'10%',
         dataIndex: 'qtyAppAllocated',
+        render:(text,record)=>{
+          let content=(
+            <div className="inventory-popover-content">
+              <p>APP占用</p>
+              <p>退货占用</p>
+              <p>收银占用</p>
+            </div>
+          )
+          if(record.qtyAppAllocated>0) {
+            return <Popover content={content} placement="rightTop">
+                    <span style={{cursor:'pointer',color:'#35bab0'}}>{record.qtyAppAllocated}</span>
+                  </Popover >
+          } else {
+            return record.qtyAppAllocated
+          }
+        }
     },{
       title: '零售价',
         width:'12%',

@@ -1,7 +1,11 @@
 import React , { Component } from 'react';
-import Qpagination from '../../../../components/Qpagination';
+import { Pagination } from 'antd';
+import Qpagination from '../Qpagination';
 import { connect } from 'dva';
-
+import {
+  BusinessTypeMap,
+  OrderStatusMap
+} from '../MapData';
 import './index.less';
 
 class ListMod extends Component {
@@ -18,6 +22,7 @@ class ListMod extends Component {
       payload:{
         outId:e.outId,
         type:e.type,
+        businessType:e.businessType
       }
     })
   }
@@ -33,12 +38,12 @@ class ListMod extends Component {
               <div className={`item-order ${ currentKey == index?'isChecked':''}`} key={index} onClick={()=>this.changeEvent(ele,index)}>
                 <div className="item-wrap">
                   <div className="flex-wrap">
-                    <p className="order-no">XS001177883001</p>
-                    <p>08/07 11:53</p>
+                    <p className="order-no">{ele.outNo}</p>
+                    <p>{ele.createTime}</p>
                   </div>
                   <div className="flex-wrap">
-                    <p>门店APP / 来宾 / 已接单</p>
-                    <p className="money-num">120000.00元</p>
+                    <p>{BusinessTypeMap[ele.businessType]} / {ele.levelStr} / {OrderStatusMap[ele.orderStatus]}</p>
+                    <p className="money-num">{ele.amount}元</p>
                   </div>
                 </div>
                 <span className="arrow-icon"></span>
@@ -53,6 +58,7 @@ class ListMod extends Component {
             onShowSizeChange={changePageSize}
             onChange={changePage}
             data={data}/>
+          // <Pagination current={Number(data.currentPage)} defaultPageSize={10} total={Number(data.total)} onChange={changePage}/>
         }
       </div>
     )

@@ -2,7 +2,8 @@ import React , { Component } from 'react';
 import { connect } from 'dva';
 import { Tabs } from 'antd';
 import ListMod from './components/ListMod';
-import { PosDetailMod, AppDetailMod, ReturnSalesMod, RechargeDetailMod } from './components/DetialMod';
+// import { PosDetailMod, AppDetailMod, ReturnSalesMod, RechargeDetailMod } from './components/DetialMod';
+import DetailMod from './components/DetailMod';
 import FilterForm from './components/FilterForm';
 //引入打印
 import {
@@ -37,7 +38,7 @@ class OrderManage extends Component {
     super(props);
     this.state={
       fields: {},
-      type:'0'
+      tabKey:'1',//tab切换KEY,对应source
     }
   }
   componentDidMount() {
@@ -45,13 +46,13 @@ class OrderManage extends Component {
   }
   initPage() {
     let fields={};
-    const { type } =this.state;
-    switch(type) {
+    const { tabKey } =this.state;
+    switch(tabKey) {
       case '0':
         fields = {
           time:'',
-          orderType:'',
-          status:'',
+          type:'',
+          orderStatus:'',
           keywords:''
         };
         break;
@@ -60,23 +61,32 @@ class OrderManage extends Component {
       case '4':
         fields = {
           time:'',
-          orderType:'',
+          type:'',
           keywords:''
         };
         break;
       case '2':
         fields = {
           time:'',
-          status:'',
-          delveype:'',
+          orderStatus:'',
+          deliverType:'',
           keywords:''
         };
         break;
     }
     this.setState({ fields });
+    this.fetchlist()
+  }
+  fetchlist(values) {
+    const { tabKey } =this.state;
+    values = {
+      ...values,
+      source:tabKey,
+    };
+    values.type = values.type?values.type:0;
     this.props.dispatch({
       type:'orderManage/fetchList',
-      payload:{source:0,type:0}
+      payload:values
     })
   }
   //双向绑定表单
@@ -86,16 +96,12 @@ class OrderManage extends Component {
     }));
   }
   changeTab=(value)=> {
-    this.setState({type:value},()=>{
+    this.setState({ tabKey: value},()=>{
       this.initPage()
     })
   }
   searchData=(values)=> {
-    console.log(values)
-    this.props.dispatch({
-      type:'orderManage/fetchList',
-      payload: values
-    });
+    this.fetchlist(values)
   }
   //分页
   changePage = (currentPage) => {
@@ -105,20 +111,13 @@ class OrderManage extends Component {
     }
     const { fields } = this.state;
     paramsObj ={...paramsObj,...fields}
-    this.props.dispatch({
-      type:'orderManage/fetchList',
-      payload: paramsObj
-    });
+    this.fetchlist(paramsObj)
   }
   //修改pageSize
   changePageSize =(values)=> {
-    console.log(values)
     const { fields } = this.state;
     values = {...values,...fields}
-    this.props.dispatch({
-      type:'orderManage/fetchList',
-      payload: values
-    });
+    this.fetchlist(values)
   }
   goPrint=()=> {
     const { detailInfo } = this.props.orderManage.detailInfo;
@@ -154,7 +153,11 @@ class OrderManage extends Component {
     const { fields } =this.state;
     return(
       <div className="order-manage-content-wrap">
-        <Tabs onChange={this.changeTab} type="card" className="common-tabs-wrap">
+        <Tabs
+          defaultActiveKey={this.state.tabKey}
+          onChange={this.changeTab}
+          type="card"
+          className="common-tabs-wrap">
           {
             TabsDataSource.map((el,index) => (
               <TabPane tab={el.title} key={el.key}>
@@ -172,12 +175,7 @@ class OrderManage extends Component {
                         type={el.key}/>
                     </div>
                     <div className="part-r">
-                      {
-                        el.key == '0'?
-                        <RechargeDetailMod  type={el.key}/>
-                        :
-                        <AppDetailMod type={el.key}/>
-                      }
+                      <DetailMod/>
                       <div className="go-print" onClick={this.goPrint}></div>
                     </div>
                   </div>
