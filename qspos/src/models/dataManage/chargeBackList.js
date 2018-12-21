@@ -15,9 +15,13 @@ export default {
     },
     detailInfo:{
       list:[],
-    }
+    },
+    tabKey:'1'
   },
   reducers:{
+    setTabKey(state, { payload: tabKey }) {
+      return { ...state, tabKey }
+    },
     getReceiveList(state, { payload: {receiveList, data } }) {
       return { ...state, receiveList, data }
     },
@@ -45,8 +49,8 @@ export default {
       if(!params.limit) {
         params = {...params,...{ limit: fixedLimit}}
       }
-      if(params.type == 0) {//订单分类，全部传空，呵呵无语
-        params.type =''
+      if(params.status == '0') {//订单状态，全部传空
+        params.status =''
       }
       if(createrTime&&createrTime.length>0) {
         params.operateStart = moment(createrTime[0]).format('YYYY-MM-DD');
@@ -94,7 +98,7 @@ export default {
       if(result.code == '0') {
         const { asns, limit, total, currentPage } =result;
         const list = asns?asns:[];
-        list.map((ele,index) => ele.key = ele.pdOrderId)
+        list.map((ele,index) => ele.key = ele.wsAsnId)
         yield put({
           type:'getReturnList',
           payload:{
@@ -158,7 +162,7 @@ export default {
       if(result.code == '0') {
         const {　details, limit, currentPage, total } = result;
         let list = details?details:[];
-        list.length>0&&list.map((el,index) =>el.key = el.pdOrderDetailId)
+        list.length>0&&list.map((el,index) =>el.key = index)
         yield put({
           type:"getDetailInfo",
           payload:{

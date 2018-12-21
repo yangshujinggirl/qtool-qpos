@@ -45,10 +45,10 @@ class NormalForm extends Component {
              </FormItem>
              <FormItem label='订单状态'>
                 {getFieldDecorator('status',{
-                  initialValue:'-1'
+                  initialValue:'0'
                 })(
                   <Select placeholder="请选择订单状态">
-                      <Option value="-1" key="-1">全部</Option>
+                      <Option value="0" key="0">全部</Option>
                       <Option value="10" key="10">待收货</Option>
                       <Option value="20" key="20">收货中</Option>
                       <Option value="30" key="30">已收货</Option>

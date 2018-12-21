@@ -37,9 +37,9 @@ const columns = [{
         render:(text,record)=>{
           let content=(
             <div className="inventory-popover-content">
-              <p>APP占用</p>
-              <p>退货占用</p>
-              <p>收银占用</p>
+              <p>APP占用：{record.qtyAppAllocated}</p>
+              <p>退货占用：{record.qtyReturn}</p>
+              <p>收银占用：{record.qtyScanAllocated}</p>
             </div>
           )
           if(record.qtyAppAllocated>0) {
@@ -79,9 +79,25 @@ const columnsClerk = [{
         width:'10%',
         dataIndex: 'qtyLeft',
     },{
-        title: 'APP占用',
+        title: '占用库存数',
         width:'10%',
         dataIndex: 'qtyAppAllocated',
+        render:(text,record)=>{
+          let content=(
+            <div className="inventory-popover-content">
+              <p>APP占用：{record.qtyAppAllocated}</p>
+              <p>退货占用：{record.qtyReturn}</p>
+              <p>收银占用：{record.qtyScanAllocated}</p>
+            </div>
+          )
+          if(record.qtyAppAllocated>0) {
+            return <Popover content={content} placement="rightTop">
+                    <span style={{cursor:'pointer',color:'#35bab0'}}>{record.qtyAppAllocated}</span>
+                  </Popover >
+          } else {
+            return record.qtyAppAllocated
+          }
+        }
     },{
         title: '零售价',
         width:'12%',

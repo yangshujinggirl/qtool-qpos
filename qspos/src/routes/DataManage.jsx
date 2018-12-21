@@ -79,7 +79,7 @@ class DataManage extends React.Component {
                         {this.state.key == 3 && <ClerkSale/>}
                     </TabPane>
                     <TabPane tab="收/退货报表" key="4">
-                        {this.state.key == 4 && <ChargeBackList/>}
+                        {this.state.key == 4 && <ChargeBackList {...this.props}/>}
                     </TabPane>
                     <TabPane tab="利润报表" key="5">
                         {this.state.key == 5 && <ProfitReport/>}

@@ -16,7 +16,7 @@ class ReceiveGoods extends Component {
       fields:{
         createrTime:'',
         type:0,
-        status:'-1'
+        status:'0'
       },
       operateStart:'',
       operateEnd:''
@@ -46,9 +46,14 @@ class ReceiveGoods extends Component {
     }));
   }
   handleEvent=(value)=> {
+    //去详情时设置tabkey
     this.props.dispatch({
         type:'dataManage/initKey',
         payload: "4"
+    })
+    this.props.dispatch({
+        type:'chargeBackList/setTabKey',
+        payload: "1"
     })
     sessionStorage.setItem('chargeBackDetail',JSON.stringify(value))
     this.context.router.push(`/chargeBack/receive/${value.pdOrderId}`);

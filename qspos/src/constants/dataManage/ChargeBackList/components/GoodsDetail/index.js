@@ -25,10 +25,10 @@ const ReturnGoodsDetail=({...props})=>{
             订单状态：{totalData.statusStr}
           </Col>
           <Col span={6}>
-            退货时间：{totalData.statusStr}
+            退货时间：{totalData.createTime}
           </Col>
           <Col span={6}>
-            退货完成时间：{totalData.statusStr}
+            退货完成时间：{totalData.updateTime}
           </Col>
         </Row>
       </div>
@@ -131,7 +131,7 @@ class GoodsDetail extends Component {
                   已收商品数量：{totalData.receiveQty}
                 </Col>
                 <Col span={6}>
-                  订单类型：{totalData.statusStr}
+                  订单类型：{totalData.typeStr}
                 </Col>
                 <Col span={6}>
                   订单状态：{totalData.statusStr}
@@ -161,6 +161,7 @@ class GoodsDetail extends Component {
           </div>
           :
           <ReturnGoodsDetail
+            data={data}
             totalData={totalData}
             detailInfo={detailInfo}
             changePage={this.changePage}

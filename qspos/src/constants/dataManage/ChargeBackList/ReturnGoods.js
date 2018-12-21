@@ -46,8 +46,12 @@ class ReturnGoods extends Component {
         type:'dataManage/initKey',
         payload: "4"
     })
+    this.props.dispatch({
+        type:'chargeBackList/setTabKey',
+        payload: "2"
+    })
     sessionStorage.setItem('chargeBackDetail',JSON.stringify(value))
-    this.context.router.push(`/chargeBack/return/${value.pdOrderId}`);
+    this.context.router.push(`/chargeBack/return/${value.wsAsnId}`);
   }
   searchData=(values)=> {
     this.props.dispatch({
@@ -107,6 +111,9 @@ class ReturnGoods extends Component {
       </div>
     )
   }
+}
+ReturnGoods.contextTypes= {
+    router: React.PropTypes.object
 }
 function mapStateToProps(state) {
     const { chargeBackList } = state;

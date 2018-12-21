@@ -31,7 +31,7 @@ const ReturnDetailColumns = [{
           dataIndex: 'pdBarcode',
       },{
           title: '商品名称',
-          dataIndex: 'pdSpuName',
+          dataIndex: 'pdName',
       },{
           title: '商品规格',
           dataIndex: 'pdSkuType',
@@ -53,7 +53,7 @@ const ReceiveColumns = [{
       dataIndex: 'receiveQty',
   },{
       title: '订单类型',
-      dataIndex: 'type',
+      dataIndex: 'typeStr',
   },{
       title: '订单状态',
       dataIndex: 'statusStr',

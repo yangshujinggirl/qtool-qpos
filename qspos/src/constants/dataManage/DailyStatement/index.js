@@ -14,12 +14,11 @@ class DailyStatement extends Component {
     }
   }
   callback=(key)=> {
-    console.log(key);
     this.setState({ key })
   }
   render() {
     return(
-      <div className="daily-statement-pages">
+      <div className="two-level-component-pages daily-statement-pages">
         <Tabs defaultActiveKey={this.state.key} onChange={this.callback}>
           <TabPane tab="门店销售对账" key="1">
             {this.state.key=='1'&&<SaleCheck />}
