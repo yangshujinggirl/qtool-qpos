@@ -26,7 +26,6 @@ class ReturnGoods extends Component {
   }
   initPage() {
     const now = moment();
-    // console.log(now)
     const createTimeET = now.format("YYYY-MM-DD");
     const createTimeST = now.subtract(1, "months").format("YYYY-MM-DD");
     this.setState({ createTimeST, createTimeET });
@@ -46,10 +45,7 @@ class ReturnGoods extends Component {
         type:'dataManage/initKey',
         payload: "4"
     })
-    this.props.dispatch({
-        type:'chargeBackList/setTabKey',
-        payload: "2"
-    })
+    this.props.backUrl(1);
     sessionStorage.setItem('chargeBackDetail',JSON.stringify(value))
     this.context.router.push(`/chargeBack/return/${value.wsAsnId}`);
   }

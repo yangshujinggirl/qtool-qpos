@@ -10,13 +10,24 @@ const TabPane = Tabs.TabPane;
 class ChargeBackList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tabKey:'1'
-    }
+    this.backUrl=0;
   }
   componentWillUnmount() {
-    console.log(this.props)
-    console.log('222222222222')
+    this.setKey()
+  }
+  setKey() {
+    let tabKey;
+    console.log(this.backUrl)
+    if(this.backUrl) {
+      tabKey = '1';
+    } else {
+      tabKey = '0';
+    }
+    console.log(tabKey)
+    this.props.dispatch({
+      type:'chargeBackList/setTabKey',
+      payload: tabKey
+    })
   }
   callback=(key)=> {
     this.props.dispatch({
@@ -24,16 +35,19 @@ class ChargeBackList extends Component {
       payload:key
     })
   }
+  getBackUrl=(val)=>{
+    this.backUrl=val;
+  }
   render() {
     const { tabKey } =this.props.chargeBackList;
     return(
       <div className="two-level-component-pages charge-backList-pages">
         <Tabs defaultActiveKey={tabKey} onChange={this.callback}>
-          <TabPane tab="收货列表" key="1">
-            {tabKey=='1'&&<ReceiveGoods />}
+          <TabPane tab="收货列表" key="0">
+            {tabKey=='0'&&<ReceiveGoods backUrl={this.getBackUrl}/>}
           </TabPane>
-          <TabPane tab="退货列表" key="2">
-            {tabKey=='2'&&<ReturnGoods />}
+          <TabPane tab="退货列表" key="1">
+            {tabKey=='1'&&<ReturnGoods backUrl={this.getBackUrl}/>}
           </TabPane>
         </Tabs>
       </div>

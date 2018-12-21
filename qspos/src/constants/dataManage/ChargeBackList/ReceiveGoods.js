@@ -51,10 +51,7 @@ class ReceiveGoods extends Component {
         type:'dataManage/initKey',
         payload: "4"
     })
-    this.props.dispatch({
-        type:'chargeBackList/setTabKey',
-        payload: "1"
-    })
+    this.props.backUrl(0);
     sessionStorage.setItem('chargeBackDetail',JSON.stringify(value))
     this.context.router.push(`/chargeBack/receive/${value.pdOrderId}`);
   }

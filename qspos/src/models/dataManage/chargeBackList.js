@@ -16,7 +16,7 @@ export default {
     detailInfo:{
       list:[],
     },
-    tabKey:'1'
+    tabKey:'0'
   },
   reducers:{
     setTabKey(state, { payload: tabKey }) {
