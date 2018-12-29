@@ -83,7 +83,8 @@ function getLodop(oOBJECT,oEMBED){
 
     if(isOpenApp == '1') {
       footerContent = {
-        scanText:'下载Qtools官方APP 畅领600元红包大礼',
+        // scanText:'下载Qtools官方APP 畅领600元红包大礼',
+        scanText:'扫码下载Qtools官方APP',
         tipsTextOne:'时尚潮妈购物新姿势',
         tipsTextTwo:'发现好物  |  随时下单  |  到店体验',
         serverText:'官方服务热线：400-7766-999',
