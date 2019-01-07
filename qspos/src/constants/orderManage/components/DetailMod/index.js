@@ -238,6 +238,9 @@ function AppDetailMod({detailInfo}) {
 //仓库，保税销售订单
 function OtherDetailMod({detailInfo}) {
   const { odOrder, orderDetails, mbCard } =detailInfo;
+  if(!odOrder) {
+    return <span>暂无数据</span>
+  }
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
@@ -311,20 +314,21 @@ function OtherDetailMod({detailInfo}) {
 }
 //退货订单
 function ReturnSalesMod({detailInfo}) {
-  const { odReturn, returnOrderDetails } =detailInfo;
+  const { odReturn, returnOrderDetails, mbCard } =detailInfo;
+  returnOrderDetails&&returnOrderDetails.map((el,index) =>el.key = index)
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
         <Row wrap>
           <Col {...colans3} className="row">退货单号：<span className="field">{odReturn.returnNo}</span></Col>
-          <Col {...colans3} className="row">退货时间：<span className="field">{odReturn.updateTime}</span></Col>
+          <Col {...colans3} className="row">退货时间：<span className="field">{odReturn.createTime}</span></Col>
           {/*仓库，保税订单没有退货员*/}
-          <Col {...colans3} className="row">退货员：<span className="field">{odReturn.creator}</span></Col>
+          <Col {...colans3} className="row">退货员：<span className="field">{odReturn.nickname}</span></Col>
           <Col {...colans3} className="row">
-            关联订单：<span className="field">{odReturn.orderNo}<span className="remark">「{BusinessTypeMap[1]}」</span></span>
+            关联订单：<span className="field">{odReturn.orderNo}<span className="remark">「{BusinessTypeMap[odReturn.businessType]}」</span></span>
           </Col>
-          <Col {...colans3} className="row">业务类型：<span className="field">{BusinessTypeMap[1]}</span></Col>
-          <Col {...colans3} className="row">订单状态：<span className="field">{OrderStatusMap[1]}</span></Col>
+          <Col {...colans3} className="row">业务类型：<span className="field">{BusinessTypeMap[odReturn.businessType]}</span></Col>
+          <Col {...colans3} className="row">订单状态：<span className="field">{OrderStatusMap[odReturn.orderStatus]}</span></Col>
         </Row>
       </Card>
       <Card title="商品信息">
@@ -339,7 +343,7 @@ function ReturnSalesMod({detailInfo}) {
       <Card title="结算信息">
         <Row wrap>
           <Col span={24} className="row">
-            实退总价：<span className="field">{odReturn.retreatTotalAmount}</span>
+            实退总价：<span className="field">{odReturn.realRefundTotalAmount}</span>
           </Col>
           <Col span={24} className="row return-goods">
             结算退款：<span className="field">{odReturn.billingRefundAmount}</span>「{odReturn.refundType}」
@@ -361,15 +365,16 @@ function ReturnSalesMod({detailInfo}) {
 }
 
 function DetailMod({ orderManage }) {
-  if(!orderManage.detailInfo.type) {
+  const { orderType, businessType } =orderManage.detailInfo;
+  if(!orderType) {
     return <span></span>;
   }
-  const { type, businessType } =orderManage.detailInfo;
+  console.log(orderManage.detailInfo)
   // let businessType=1;
   let Mod;
   //businessType 1：pos,2:app,3:仓库，4：保税
-  //type:1:销售，2：退货，3：充值
-  switch(type) {
+  //type:1:销售，2充值，3退货
+  switch(orderType) {
     case "1":
       if(businessType == '1') {
         Mod = PosDetailMod;

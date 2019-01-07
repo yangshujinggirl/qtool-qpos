@@ -56,7 +56,8 @@ export default {
             payload:{
               outId:list[0].outId,
               type:list[0].type,
-              businessType:list[0].businessType
+              businessType:list[0].businessType,
+              orderType:list[0].orderType
             }
           })
         }
@@ -77,12 +78,14 @@ export default {
       yield put({type: 'spinLoad/setLoading',payload:false});
     },
     *fetchDetail( { payload: values }, { call, put, select }) {
-      let { businessType, ...params } =values;
+      yield put({ type:'getDetail',payload:{ detailInfo:{}} });
+      let { businessType, orderType, ...params } =values;
       yield put({type: 'spinLoad/setLoading',payload:true});
       const code = 'qerp.web.qpos.st.sale.order.detail';
       let result=yield call(GetServerData,code,params);
       if(result.code == '0') {
-        result = {...result,type:values.type, businessType}//type:销售订单，退货订单，充值订单
+        result = {...result, orderType, businessType}//type:销售订单，退货订单，充值订单
+        console.log(result)
         yield put({
           type:'getDetail',
           payload:{

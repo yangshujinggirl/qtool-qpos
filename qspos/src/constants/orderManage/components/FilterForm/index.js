@@ -63,13 +63,25 @@ class NormalForm extends Component {
                )}
              </FormItem>
              {
-               type!='2'&&
+               (type=='1'||type=='0')&&
                <FormItem label='订单分类'>
                   {getFieldDecorator('type')(
                     <Select placeholder="请选择订单分类">
                       <Option value={0} key={0}>全部</Option>
                       <Option value={1} key={1}>销售订单</Option>
                       <Option value={2} key={2}>充值订单</Option>
+                      <Option value={3} key={3}>退货订单</Option>
+                    </Select>
+                  )}
+                </FormItem>
+             }
+             {
+               (type=='3'||type=='4')&&
+               <FormItem label='订单分类'>
+                  {getFieldDecorator('type')(
+                    <Select placeholder="请选择订单分类">
+                      <Option value={0} key={0}>全部</Option>
+                      <Option value={1} key={1}>销售订单</Option>
                       <Option value={3} key={3}>退货订单</Option>
                     </Select>
                   )}

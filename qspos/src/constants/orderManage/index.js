@@ -38,7 +38,7 @@ class OrderManage extends Component {
     super(props);
     this.state={
       fields: {},
-      tabKey:'1',//tab切换KEY,对应source
+      tabKey:'0',//tab切换KEY,对应source
     }
   }
   componentDidMount() {
