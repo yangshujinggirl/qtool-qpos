@@ -130,7 +130,8 @@ class HotSellGoodsForm extends React.Component {
   }
   exportList = () =>{
       let data = this.state.searchvalue
-      const result=GetExportData('qerp.qpos.rp.day.account.export',data);
+      // const result=GetExportData('qerp.qpos.rp.day.account.export',data);
+      const result=GetExportData('qerp.qpos.pd.unreceived.export',data);
   }
   windowResize = () =>{
       if(!this.refs.tableWrapper){

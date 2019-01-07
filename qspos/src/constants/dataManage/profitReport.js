@@ -184,7 +184,8 @@ class ProfitReportForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
+            // rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
+            rpDate:this.state.rpDate?this.state.rpDate:"",
             name:this.state.name
         }
         const result=GetExportData('qerp.pos.rp.profit.export',data);
