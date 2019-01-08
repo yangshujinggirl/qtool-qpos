@@ -344,9 +344,13 @@ function ReturnSalesMod({detailInfo}) {
         <Row wrap>
           <Col span={24} className="row">
             实退总价：<span className="field">{odReturn.realRefundTotalAmount}</span>
+            {
+              odReturn.businessType=='1'&&
+              <span>「退货总价：{odReturn.refundTotalAmount}，抹零金额：{odReturn.cutAmount}」</span>
+            }
           </Col>
           <Col span={24} className="row return-goods">
-            结算退款：<span className="field">{odReturn.billingRefundAmount}</span>「{odReturn.refundType}」
+            结算退款：<span className="field">{odReturn.billingRefundAmount}</span>「{odReturn.typeStr}」
           </Col>
         </Row>
       </Card>
