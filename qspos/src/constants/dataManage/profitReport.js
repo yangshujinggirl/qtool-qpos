@@ -104,12 +104,13 @@ class ProfitReportForm extends React.Component {
     }
     //获取数据
     getServerData = (values) =>{
+      const { limit, rpDate, source ,name } =this.state;
       let params = {
         currentPage:0,
-        limit:10,
-        rpDate:this.state.rpDate,
-        source:this.state.source,
-        name:this.state.name
+        limit:limit,
+        rpDate:rpDate,
+        source:source,
+        name:name
       }
       if(values) {
         params={ ...params, ...values}
