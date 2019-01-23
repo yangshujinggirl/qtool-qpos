@@ -1,6 +1,6 @@
 import React , { Component } from 'react';
 import { connect } from 'dva';
-import { Tabs } from 'antd';
+import { Tabs, message } from 'antd';
 import ListMod from './components/ListMod';
 // import { PosDetailMod, AppDetailMod, ReturnSalesMod, RechargeDetailMod } from './components/DetialMod';
 import DetailMod from './components/DetailMod';
@@ -61,21 +61,21 @@ class OrderManage extends Component {
       case '4':
         fields = {
           time:'',
-          type:'',
+          type:0,
           keywords:''
         };
         break;
       case '2':
         fields = {
           time:'',
-          orderStatus:'',
-          deliverType:'',
+          orderStatus:0,
+          deliveryType:0,
           keywords:''
         };
         break;
     }
     this.setState({ fields });
-    this.fetchlist()
+    this.fetchlist(fields)
   }
   fetchlist(values) {
     const { tabKey } =this.state;
@@ -83,7 +83,7 @@ class OrderManage extends Component {
       ...values,
       source:tabKey,
     };
-    values.type = values.type?values.type:0;
+    // values.type = values.type?values.type:0;
     this.props.dispatch({
       type:'orderManage/fetchList',
       payload:values
@@ -120,18 +120,12 @@ class OrderManage extends Component {
     this.fetchlist(values)
   }
   goPrint=()=> {
-    const { detailInfo } = this.props.orderManage.detailInfo;
-    const orderType = detailInfo.orderType;
-    let printMethod;
-    let size;
-    switch(orderType) {
-      case '1':
-        getSaleOrderInfo(detailInfo);
-        break;
-      case '2':
-        getCDSaleOrderInfo(detailInfo);
-        break;
+    const { detailInfo } = this.props.orderManage;
+    if(detailInfo.orderCategory=='1'&&detailInfo.odOrder.orderStatus=='4') {
+      message.warning('订单已关闭，无法打印小票');
+      return;
     }
+    let size;
     this.props.dispatch({type: 'spinLoad/setLoading',payload:true})
     GetServerData('qerp.pos.sy.config.info')
     .then((res) => {
@@ -142,15 +136,34 @@ class OrderManage extends Component {
         } else {
           size = '58';
         }
-        printMethod(detailInfo,size,"1");
+        this.handlePrint(detailInfo,size);
       } else {
         message.warning('打印失败')
       }
       this.props.dispatch({type: 'spinLoad/setLoading',payload:false})
     })
   }
+  handlePrint(detailInfo,size) {
+    const { orderCategory, businessType } =detailInfo;
+    switch(orderCategory) {
+      case '1':
+        if(businessType == '1') {
+          getSaleOrderInfo(detailInfo,size,"1")
+        } else{
+          getCDSaleOrderInfo(detailInfo,size,"1")
+        }
+        break;
+      case '2':
+        getRechargeOrderInfo(detailInfo,size,"1")
+        break;
+      case '3':
+        getReturnOrderInfo(detailInfo,size,"1")
+        break;
+    }
+  }
   render() {
-    const { fields } =this.state;
+    const { fields, tabKey } =this.state;
+    const { dataList } =this.props.orderManage;
     return(
       <div className="order-manage-content-wrap">
         <Tabs
@@ -167,18 +180,26 @@ class OrderManage extends Component {
                     onValuesChange={this.handleFormChange}
                     submit={this.searchData}
                     type={el.key}/>
-                  <div className="list-detail-action">
-                    <div className="part-l">
-                      <ListMod
-                        changePage={this.changePage}
-                        changePageSize={this.changePageSize}
-                        type={el.key}/>
+                  {
+                    dataList.length>0?
+                    <div className="list-detail-action">
+                      <div className="part-l">
+                        <ListMod
+                          changePage={this.changePage}
+                          changePageSize={this.changePageSize}
+                          type={el.key}/>
+                      </div>
+                      <div className="part-r">
+                        <DetailMod/>
+                        {
+                          (tabKey!='3'||tabKey!='4')&&
+                          <div className="go-print" onClick={this.goPrint}></div>
+                        }
+                      </div>
                     </div>
-                    <div className="part-r">
-                      <DetailMod/>
-                      <div className="go-print" onClick={this.goPrint}></div>
-                    </div>
-                  </div>
+                    :
+                    <div className="no-data-list">暂无订单</div>
+                  }
                 </div>
               </TabPane>
             ))

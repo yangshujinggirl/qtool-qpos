@@ -65,8 +65,10 @@ class NormalForm extends Component {
              {
                (type=='1'||type=='0')&&
                <FormItem label='订单分类'>
-                  {getFieldDecorator('type')(
-                    <Select placeholder="请选择订单分类">
+                  {getFieldDecorator('type',{
+                    initialValue:0
+                  })(
+                    <Select placeholder="请选择订单分类" allowClear={false}>
                       <Option value={0} key={0}>全部</Option>
                       <Option value={1} key={1}>销售订单</Option>
                       <Option value={2} key={2}>充值订单</Option>
@@ -78,8 +80,10 @@ class NormalForm extends Component {
              {
                (type=='3'||type=='4')&&
                <FormItem label='订单分类'>
-                  {getFieldDecorator('type')(
-                    <Select placeholder="请选择订单分类">
+                  {getFieldDecorator('type',{
+                    initialValue:0
+                  })(
+                    <Select placeholder="请选择订单分类" allowClear={false}>
                       <Option value={0} key={0}>全部</Option>
                       <Option value={1} key={1}>销售订单</Option>
                       <Option value={3} key={3}>退货订单</Option>
@@ -90,8 +94,10 @@ class NormalForm extends Component {
              {
                (type=='0'||type=='2')&&
                <FormItem label='订单状态'>
-                  {getFieldDecorator('orderStatus')(
-                    <Select allowClear={true} placeholder="请选择订单状态">
+                  {getFieldDecorator('orderStatus',{
+                    initialValue:0
+                  })(
+                    <Select allowClear={false} placeholder="请选择订单状态">
                       <Option value={0} key={0}>全部</Option>
                       <Option value={1} key={1}>已接单</Option>
                       <Option value={2} key={2}>进行中</Option>
@@ -105,8 +111,10 @@ class NormalForm extends Component {
              {
                type=='2'&&
                <FormItem label='配送方式：'>
-                  {getFieldDecorator('deliverType')(
-                    <Select allowClear={true} placeholder="请选择配送方式">
+                  {getFieldDecorator('deliveryType',{
+                    initialValue:0
+                  })(
+                    <Select allowClear={false} placeholder="请选择配送方式">
                       <Option value={0} key={0}>全部</Option>
                       <Option value={1} key={1}>门店自提</Option>
                       <Option value={2} key={2}>同城配送</Option>

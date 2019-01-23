@@ -57,7 +57,7 @@ export default {
               outId:list[0].outId,
               type:list[0].type,
               businessType:list[0].businessType,
-              orderType:list[0].orderType
+              orderCategory:list[0].orderClassification
             }
           })
         }
@@ -79,13 +79,12 @@ export default {
     },
     *fetchDetail( { payload: values }, { call, put, select }) {
       yield put({ type:'getDetail',payload:{ detailInfo:{}} });
-      let { businessType, orderType, ...params } =values;
+      let { orderCategory, businessType, ...params } =values;
       yield put({type: 'spinLoad/setLoading',payload:true});
       const code = 'qerp.web.qpos.st.sale.order.detail';
       let result=yield call(GetServerData,code,params);
       if(result.code == '0') {
-        result = {...result, orderType, businessType}//type:销售订单，退货订单，充值订单
-        console.log(result)
+        result = {...result, orderCategory, businessType }//orderCategory:销售订单，退货订单，充值订单
         yield put({
           type:'getDetail',
           payload:{

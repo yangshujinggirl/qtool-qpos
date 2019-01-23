@@ -40,7 +40,8 @@ effects: {
 					text:cardInfo.amount
 				},{
 					lable:'消费总额',
-					text:cardInfo.amountSum
+					text:cardInfo.amountSum,
+					tips:'该会员已完成销售单的商品销售总额-所有退货单的商品退货总额'
 				},{
 					lable:'手机号码',
 					text:cardInfo.mobile
@@ -51,8 +52,9 @@ effects: {
 					lable:'会员积分',
 					text:cardInfo.point
 				},{
-					lable:'消费次数',
-					text:cardInfo.timeSum
+					lable:'消费总次数',
+					text:cardInfo.timeSum,
+					tips:'该会员所有已完成销售单总数'
 				}
 			]
 
@@ -63,7 +65,7 @@ effects: {
 							lable:'宝宝生日',
 							text:cardInfo.birthday[i].date+'['+cardInfo.birthday[i].typeStr+']'
 						})
-					
+
 				}else{
 					cardInfo2.push({
 						lable:'宝宝生日'+(i+1),
@@ -71,7 +73,8 @@ effects: {
 					})
 				}
 			}
-			const cardInfolist=cardInfo1.concat(cardInfo2);
+			let cardInfolist=cardInfo1.concat(cardInfo2);
+			cardInfolist.map((el,index) =>el.key=index);
 			yield put({type: 'titleInfo',payload:{cardInfolist,mbCardId}});
 		}
 	},
@@ -81,7 +84,8 @@ effects: {
 			const details=result.details;
 			const limit=result.limit;
 			const total=result.total;
-			const currentPage=result.currentPage
+			const currentPage=result.currentPage;
+			details.map((el,index) =>el.key = index);
 			yield put({type: 'infolist',payload:{details,limit,total,currentPage}});
 
 		}

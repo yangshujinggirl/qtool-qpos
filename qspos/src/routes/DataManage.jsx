@@ -108,7 +108,7 @@ class DataManage extends React.Component {
                   defaultActiveKey={this.props.initKey=="4"?"4":"1"}
                   onTabClick={this.tabChange.bind(this)}>
                     <TabPane tab="每日对账单" key="1">
-                       {this.state.key == 1 && <DailyBill/>}
+                       {this.state.key == 1 && <DailyStatement/>}
                     </TabPane>
                     <TabPane tab="热销商品" key="2">
                         {this.state.key == 2 && <HotSellGoods/>}

@@ -11,8 +11,14 @@ const OrderStatusMap={
   4:"已关闭",
   5:"已退货"
 }
+const DeliveryMap={
+  1:"门店自提",
+  2:"同城配送",
+  3:"门店邮寄",
+}
 
 export default {
   BusinessTypeMap,
-  OrderStatusMap
+  OrderStatusMap,
+  DeliveryMap
 }

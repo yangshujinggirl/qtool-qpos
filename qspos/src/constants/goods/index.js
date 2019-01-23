@@ -38,7 +38,7 @@ const columns = [{
           let content=(
             <div className="inventory-popover-content">
               <p>APP占用：{record.qtyAppAllocated}</p>
-              <p>退货占用：{record.qtyReturn}</p>
+              <p>退货占用：{record.qtyReturnAllocated}</p>
               <p>收银占用：{record.qtyScanAllocated}</p>
             </div>
           )

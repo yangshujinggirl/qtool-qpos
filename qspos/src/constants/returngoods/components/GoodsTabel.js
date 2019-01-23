@@ -35,15 +35,19 @@ class EditableTable extends React.Component {
               dataIndex: 'displayName'
           },{
               title: '零售价',
-              width:'10%',
+              width:'8%',
               dataIndex: 'price'
           },{
-              title: '可退数量',
+              title: '可退价',
               width:'10%',
+              dataIndex: 'canReturnPrice'
+          },{
+              title: '可退数量',
+              width:'8%',
               dataIndex: 'canReturnQty'
           },{
-              title: '数量',
-              width:'10%',
+              title: '退货数量',
+              width:'8%',
               dataIndex: 'newQty',
               render: (text, record, index) => {
                   return (
@@ -63,7 +67,7 @@ class EditableTable extends React.Component {
           },{
               title: '折扣',
               dataIndex: 'discount',
-              width:'10%',
+              width:'6%',
               render: (text, record, index) => {
                   return (
                       this.state.dataSource.length > 0

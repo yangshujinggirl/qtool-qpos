@@ -23,7 +23,7 @@ class ListMod extends Component {
         outId:e.outId,
         type:e.type,
         businessType:e.businessType,
-        orderType:e.orderType
+        orderCategory:e.orderClassification
       }
     })
   }

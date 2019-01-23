@@ -30,6 +30,10 @@ class EditableTable extends React.Component {
             width:'8%',
             dataIndex: 'amount'
         },{
+            title: '销售额',
+            width:'8%',
+            dataIndex: 'salesAmount'
+        },{
             title: '本次积分',
             width:'8%',
             dataIndex: 'point'
@@ -46,7 +50,7 @@ class EditableTable extends React.Component {
             width:'8%',
             dataIndex: 'cardConsume'
         },{
-            title: '优惠金额',
+            title: '折扣优惠',
             width:'8%',
             dataIndex: 'discountMoney'
         },{
