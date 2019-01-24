@@ -219,7 +219,7 @@ class ClerkSaleForm extends React.Component {
                 )}
             </FormItem>
             <FormItem
-              label="订单来源"
+              label="业务类型"
               labelCol={{ span: 5 }}
               wrapperCol={{span: 10}}>
                 {getFieldDecorator('source', {
@@ -228,8 +228,8 @@ class ClerkSaleForm extends React.Component {
                   })(
                       <Select>
                         <Option key={0} value={0}>全部</Option>
-                        <Option key={1} value={1}>POS</Option>
-                        <Option key={2} value={2}>APP</Option>
+                        <Option key={1} value={1}>门店POS订单</Option>
+                        <Option key={2} value={2}>门店APP订单</Option>
                       </Select>
                 )}
             </FormItem>

@@ -34,7 +34,6 @@ export default {
   },
   effects:{
     *fetchSaleList( { payload: values }, { call, put, select }) {
-      yield put({type: 'resetData',payload:{} });
       const code = 'qerp.pos.rp.day.account.page';
       const fixedLimit = yield select(state => state.dailyCheck.data.limit);
       let { createrTime, ...params } =values;

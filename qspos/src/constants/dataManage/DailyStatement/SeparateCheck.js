@@ -50,6 +50,10 @@ class SaleCheck extends Component {
       createtimeET,
       fields:{...this.state.fields,createrTime:[createtimeST,createtimeET]}
      });
+     this.props.dispatch({
+       type:'dailyCheck/resetData',
+       payload:{}
+     })
     this.props.dispatch({
       type:'dailyCheck/fetchSeparateList',
       payload:{ createtimeST, createtimeET ,...this.state.fields}

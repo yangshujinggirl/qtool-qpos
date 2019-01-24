@@ -60,7 +60,7 @@ class DataManage extends React.Component {
         <div className="common-pages-wrap">
           <Spin tip='加载中，请稍后...'  spinning={this.props.spinLoad.loading}>
             <Header type={false} color={true}/>
-            <div className='counters data-manage data-lists-pages'>
+            <div className='data-manage data-lists-pages data-center-pages'>
               {
                 role != 3
                 ?
@@ -99,7 +99,6 @@ class DataManage extends React.Component {
                           {this.state.key == 8 && <FreightDetail {...this.props}/>}
                       </TabPane>
                     }
-
                 </Tabs>
                 :
                 <Tabs

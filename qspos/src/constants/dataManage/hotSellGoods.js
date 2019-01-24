@@ -39,6 +39,16 @@ class HotSellGoodsForm extends React.Component {
           title: '规格',
           dataIndex: 'displayName',
       },{
+          title: '门店在售',
+          dataIndex: 'onSale',
+          render:(record,index)=> {
+            return <span>
+              {
+                record.onSale?'是':'否'
+              }
+            </span>
+          }
+      },{
           title: '销售数量',
           dataIndex: 'qty',
       },{

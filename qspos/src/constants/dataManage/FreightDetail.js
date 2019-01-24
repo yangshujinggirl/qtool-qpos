@@ -26,7 +26,7 @@ const columns = [{
     dataIndex: 'actualExpressAmount',
     key: 'actualExpressAmount',
   }, {
-    title: '订单时间',
+    title: '订单完成时间',
     dataIndex: 'orderCreateTime',
     key: 'orderCreateTime',
   }];
