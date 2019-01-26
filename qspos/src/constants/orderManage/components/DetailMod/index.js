@@ -274,9 +274,6 @@ function AppDetailMod({detailInfo}) {
 //仓库，保税销售订单
 function OtherDetailMod({detailInfo}) {
   const { odOrder, orderDetails, mbCard } =detailInfo;
-  if(!odOrder) {
-    return <span>暂无数据</span>
-  }
   const brandPro=()=>{
     let mod;
     if(odOrder.businessType != '3') {
@@ -390,7 +387,6 @@ function ReturnSalesMod({detailInfo}) {
           columns={OrderColumns}
           dataSource={returnOrderDetails}
           bordered/>
-          {/* 已关闭状态<span>此订单商品已全部取消发货</span> */}
       </Card>
       <Card title="结算信息">
         <Row wrap>
@@ -401,9 +397,17 @@ function ReturnSalesMod({detailInfo}) {
               <span>「退货总价：{odReturn.refundTotalAmount}，抹零金额：{odReturn.cutAmount}」</span>
             }
           </Col>
-          <Col span={24} className="row return-goods">
-            结算退款：<span className="field">{odReturn.billingRefundAmount}</span>「{odReturn.typeStr}」
-          </Col>
+          {
+            (odReturn.businessType=='1'||odReturn.businessType!='2')?
+            <Col span={24} className="row return-goods">
+              结算退款：<span className="field">{odReturn.billingRefundAmount}</span>
+              「{odReturn.businessType=='1'?odReturn.typeStr:'APP支付'}」
+            </Col>
+            :
+            <Col span={24} className="row return-goods">
+              分成扣减：<span className="field">{odReturn.deductionAmount}</span>
+            </Col>
+          }
         </Row>
       </Card>
       {
