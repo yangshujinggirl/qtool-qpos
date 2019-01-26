@@ -6,6 +6,7 @@ import { Link } from 'dva/router'
 import {GetServerData} from '../../../services/services';
 
 function Cardlist({ cardlist }) {
+  console.log(cardlist)
   return (
     <div className='mbindocard'>
      <Card title="会员基本信息">
@@ -16,12 +17,12 @@ function Cardlist({ cardlist }) {
                 <div className='cardlist_item' key={index}>
                   <label>{item.lable}：</label>
                   <Tooltip title={item.tips}>
-                      <span>{item.text}&nbsp;<Icon type="exclamation-circle-o"/></span>
+                      <span>{item.text?item.text:0}&nbsp;<Icon type="exclamation-circle-o"/></span>
                   </Tooltip>
                 </div>
                 :
                 <div className='cardlist_item' key={index}>
-                  <label>{item.lable}：</label><span>{item.text}</span>
+                  <label>{item.lable}：</label><span>{item.text?item.text:0}</span>
                 </div>
               ))
             }

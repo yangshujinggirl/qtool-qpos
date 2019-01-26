@@ -7,6 +7,7 @@ import {GetExportData} from '../../services/services';
 import CommonTable from './commonTable';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
+import './onroad.less'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -173,16 +174,11 @@ class HotSellGoodsForm extends React.Component {
                           pagination={false}
                           total={this.state.total}
                           current={this.state.currentPage}
-                          // pageSize={10}
-                          // onShowSizeChange={this.onShowSizeChange}
-                          // pageChange={this.pageChange}
                           locale={true}
-                          // scroll={{y:this.state.windowHeight}}
-                          // scrolly={this.state.windowHeight}
                           />
                   </div>
               </div>
-              <div className="footer-pagefixed">
+              <div className="pagination-wrap">
                   <Pagination
                       total={this.state.total}
                       current={this.state.currentPage+1}
