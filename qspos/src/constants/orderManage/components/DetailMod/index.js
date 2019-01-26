@@ -155,7 +155,7 @@ function PosDetailMod({detailInfo}) {
 //App销售订单
 function AppDetailMod({detailInfo}) {
   const { odOrder, orderDetails, orOrderPay, mbCard } =detailInfo;
-  const brandPro=(odOrder)=>{
+  const brandPro=()=>{
     let mod;
     switch(odOrder.deliveryType) {
       case '2'://同城配送
@@ -230,7 +230,7 @@ function AppDetailMod({detailInfo}) {
           </Col>
           <Col {...colans} className="row">
             配送费：<span className="field">{odOrder.deliveryCost}</span>
-            {brandPro(odOrder)}
+            { brandPro() }
           </Col>
           <Col span={24} className="row return-goods">
             结算收银：<span className="field">{odOrder.payAmount}</span>
@@ -277,7 +277,7 @@ function OtherDetailMod({detailInfo}) {
   if(!odOrder) {
     return <span>暂无数据</span>
   }
-  const brandPro=(odOrder)=>{
+  const brandPro=()=>{
     let mod;
     if(odOrder.businessType != '3') {
       mod = <labe></labe>
@@ -331,7 +331,7 @@ function OtherDetailMod({detailInfo}) {
             <Col span={12}>
               配送费差价：<span className="field">{odOrder.deliverPayDifference}</span>
               {
-                brandPro(odOrder)
+                brandPro()
               }
             </Col>
           </Col>
