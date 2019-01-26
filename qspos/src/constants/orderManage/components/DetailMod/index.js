@@ -155,6 +155,30 @@ function PosDetailMod({detailInfo}) {
 //App销售订单
 function AppDetailMod({detailInfo}) {
   const { odOrder, orderDetails, orOrderPay, mbCard } =detailInfo;
+  const brandPro=(odOrder)=>{
+    let mod;
+    switch(odOrder.deliveryType) {
+      case '2'://同城配送
+        if(odOrder.skusType=='2') {
+          mod = <label>「品牌直供，免配送费」</label>
+        } else {
+          mod = <labe></labe>
+        }
+      break;
+      case '3'://门店邮寄
+        if(odOrder.skusType=='2') {
+          mod = <label>「品牌直供，免配送费」</label>
+        } else if(odOrder.expressType == '3'){
+          mod = <label>「用户到付」</label>
+        } else {
+          mod = <labe></labe>
+        }
+        break;
+      default:
+        mod = <labe></labe>
+    }
+    return mod;
+  }
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
@@ -206,6 +230,7 @@ function AppDetailMod({detailInfo}) {
           </Col>
           <Col {...colans} className="row">
             配送费：<span className="field">{odOrder.deliveryCost}</span>
+            {brandPro(odOrder)}
           </Col>
           <Col span={24} className="row return-goods">
             结算收银：<span className="field">{odOrder.payAmount}</span>
@@ -252,6 +277,20 @@ function OtherDetailMod({detailInfo}) {
   if(!odOrder) {
     return <span>暂无数据</span>
   }
+  const brandPro=(odOrder)=>{
+    let mod;
+    if(odOrder.businessType != '3') {
+      mod = <labe></labe>
+    };
+    if(odOrder.skusType=='2') {
+      mod = <label>「品牌直供，免配送费」</label>
+    } else if(odOrder.expressType == '3'){
+      mod = <label>「用户到付」</label>
+    } else {
+      mod = <label>「用户支付配送费：{odOrder.userActualDeliveryFee}，订单实际配送费：{odOrder.orderActualDeliveryFee}」</label>
+    }
+    return mod;
+  }
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
@@ -291,7 +330,9 @@ function OtherDetailMod({detailInfo}) {
             <Col span={8}>销售利润：<span className="field">{odOrder.totalAmount}</span></Col>
             <Col span={12}>
               配送费差价：<span className="field">{odOrder.deliverPayDifference}</span>
-              「用户支付配送费：{odOrder.userActualDeliveryFee}，订单实际配送费：{odOrder.orderActualDeliveryFee}」
+              {
+                brandPro(odOrder)
+              }
             </Col>
           </Col>
           <Col span={24} className="row return-goods">

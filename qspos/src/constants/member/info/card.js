@@ -6,7 +6,6 @@ import { Link } from 'dva/router'
 import {GetServerData} from '../../../services/services';
 
 function Cardlist({ cardlist }) {
-  console.log(cardlist)
   return (
     <div className='mbindocard'>
      <Card title="会员基本信息">
