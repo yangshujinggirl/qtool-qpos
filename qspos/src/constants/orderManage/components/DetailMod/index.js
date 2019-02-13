@@ -130,7 +130,7 @@ function PosDetailMod({detailInfo}) {
             <span className="field">{odOrder.totalAmount}</span>
             「{
               orOrderPay.map((el,index) =>(
-                <span key={index}>{el.typeStr}：{el.amount}，</span>
+                <span key={index}>{el.typeStr}：{el.amount}{(index==0&&orOrderPay.length>1)&&<span>，</span>}</span>
               ))
             }」
           </Col>
@@ -236,7 +236,7 @@ function AppDetailMod({detailInfo}) {
             结算收银：<span className="field">{odOrder.payAmount}</span>
             「{
               orOrderPay.map((el,index)=>(
-                <span>{el.typeStr}：{el.amount}，</span>
+                <span>{el.typeStr}：{el.amount}{(index==0&&orOrderPay.length>1)&&<span>，</span>}</span>
               ))
             }」
           </Col>

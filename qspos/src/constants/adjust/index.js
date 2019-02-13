@@ -181,11 +181,11 @@ class Searchcomponent extends React.Component {
   //确定损益
   submitListInfo = () => {
     const form = this.form;
-    this.setState({ loading:true })
     form.validateFields((err, values) => {
       if (err) {
           return;
       }
+      this.setState({ loading:true })
       let data = {};
       data.type=values.type
       data.remark = values.remark;
