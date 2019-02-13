@@ -17,14 +17,6 @@ class Qpagination extends Component {
     }
     this.props.onShowSizeChange&&this.props.onShowSizeChange(params)
   }
-  // initPageSize() {
-  //   const { sizeOptions } =this.state;
-  //   if(sizeOptions == '1') {
-  //     return ['15','30','50','100','200','500']
-  //   } else {
-  //     return ['10','12','15','17','20','50','100','200']
-  //   }
-  // }
 
   render() {
     let { total, limit, currentPage } = this.props.data;
@@ -35,13 +27,10 @@ class Qpagination extends Component {
     return(
       <div className="order-manage-components">
         <Pagination
-          // showSizeChanger
           total={total}
           pageSize={limit}
           current={currentPage}
-          // pageSizeOptions={this.initPageSize()}
           onChange={this.props.onChange}
-          // onShowSizeChange={this.onShowSizeChange.bind(this)}
           hideOnSinglePage={false}/>
       </div>
     )
