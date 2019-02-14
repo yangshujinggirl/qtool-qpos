@@ -116,7 +116,7 @@ class OrderManage extends Component {
   //修改pageSize
   changePageSize =(values)=> {
     const { fields } = this.state;
-    values = {...values,...fields}
+    values = {...{limit:values},...fields}
     this.fetchlist(values)
   }
   goPrint=()=> {
