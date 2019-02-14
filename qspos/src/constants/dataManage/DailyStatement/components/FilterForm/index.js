@@ -44,7 +44,7 @@ class NormalForm extends Component {
                )}
              </FormItem>
              <FormItem label='业务类型'>
-                {getFieldDecorator('source',{
+                {getFieldDecorator('orderType',{
                   initialValue:0
                 })(
                   <Select placeholder="请选择业务类型">

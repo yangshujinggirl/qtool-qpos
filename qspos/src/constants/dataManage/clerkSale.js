@@ -104,7 +104,7 @@ class ClerkSaleForm extends React.Component {
       setsouce:[],
       startDate:'',
       endDate:'',
-      source:0
+      orderType:0
     };
   }
   componentDidMount(){
@@ -132,9 +132,9 @@ class ClerkSaleForm extends React.Component {
     this.initdataspuce();
   }
   initdataspuce=()=>{
-    const { source, startDate, endDate } =this.state;
+    const { orderType, startDate, endDate } =this.state;
     let values = {
-          source,
+          orderType,
           startDate,
           endDate
         }
@@ -190,7 +190,7 @@ class ClerkSaleForm extends React.Component {
       })
   }
   changeSource=(value)=> {
-    this.setState({ source: value })
+    this.setState({ orderType: value })
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -222,7 +222,7 @@ class ClerkSaleForm extends React.Component {
               label="业务类型"
               labelCol={{ span: 5 }}
               wrapperCol={{span: 10}}>
-                {getFieldDecorator('source', {
+                {getFieldDecorator('orderType', {
                       initialValue:0,
                       onChange:this.changeSource
                   })(
