@@ -53,7 +53,7 @@ class SaleCheck extends Component {
       fields:{
         createrTime:'',
         type:'',
-        orderType:0
+        orderType:7
       },
       startDate:'',
       endDate:''

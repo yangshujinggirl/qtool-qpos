@@ -45,12 +45,12 @@ class NormalForm extends Component {
              </FormItem>
              <FormItem label='业务类型'>
                 {getFieldDecorator('orderType',{
-                  initialValue:0
+                  initialValue:7
                 })(
                   <Select placeholder="请选择业务类型">
-                    <Option value={0} key={0}>全部</Option>
-                    <Option value={1} key={1}>门店POS订单</Option>
-                    <Option value={2} key={2}>门店APP订单</Option>
+                    <Option value={7} key={7}>全部</Option>
+                    <Option value={0} key={0}>门店POS订单</Option>
+                    <Option value={6} key={6}>门店APP订单</Option>
                   </Select>
                 )}
               </FormItem>
