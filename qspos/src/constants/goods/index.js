@@ -33,7 +33,7 @@ const columns = [{
     },{
         title: '占用库存数',
         width:'10%',
-        dataIndex: 'qtyAppAllocated',
+        dataIndex: 'qtyAllocated',
         render:(text,record)=>{
           let content=(
             <div className="inventory-popover-content">
@@ -44,10 +44,10 @@ const columns = [{
           )
           if(record.qtyAppAllocated>0) {
             return <Popover content={content} placement="rightTop">
-                    <span style={{cursor:'pointer',color:'#35bab0'}}>{record.qtyAppAllocated}</span>
+                    <span style={{cursor:'pointer',color:'#35bab0'}}>{record.qtyAllocated}</span>
                   </Popover >
           } else {
-            return record.qtyAppAllocated
+            return record.qtyAllocated
           }
         }
     },{
