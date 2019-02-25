@@ -293,9 +293,9 @@ function OtherDetailMod({detailInfo}) {
       <Card title="订单信息">
         <Row wrap>
           <Col {...colans} className="row">销售单号：<span className="field">{odOrder.orderNo}</span></Col>
-          <Col {...colans} className="row">接单时间：<span className="field">{odOrder.saleTime}</span></Col>
+          <Col {...colans} className="row">销售时间：<span className="field">{odOrder.saleTime}</span></Col>
           <Col {...colans} className="row">业务类型：<span className="field">门店APP订单</span></Col>
-          <Col {...colans} className="row">订单状态：<span className="field">{OrderStatusMap[1]}</span></Col>
+          <Col {...colans} className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></Col>
           {
             odOrder.returnOrderNo&&
             <Col span={24} className="row return-goods">
@@ -324,7 +324,7 @@ function OtherDetailMod({detailInfo}) {
             「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
           </Col>
           <Col span={24} className="row return-goods">
-            <Col span={8}>销售利润：<span className="field">{odOrder.totalAmount}</span></Col>
+            <Col span={8}>销售利润：<span className="field">{odOrder.salesProfit}</span></Col>
             <Col span={12}>
               配送费差价：<span className="field">{odOrder.deliverPayDifference}</span>
               {

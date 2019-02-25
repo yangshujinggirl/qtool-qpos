@@ -56,6 +56,7 @@ export default {
             payload:{
               outId:list[0].outId,
               type:list[0].type,
+              appType:list[0].appType,
               businessType:list[0].businessType,
               orderCategory:list[0].orderClassification
             }

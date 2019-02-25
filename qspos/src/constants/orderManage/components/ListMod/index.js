@@ -22,6 +22,7 @@ class ListMod extends Component {
       payload:{
         outId:e.outId,
         type:e.type,
+        appType:e.appType,
         businessType:e.businessType,
         orderCategory:e.orderClassification
       }
