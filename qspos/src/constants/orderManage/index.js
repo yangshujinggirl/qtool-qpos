@@ -192,7 +192,7 @@ class OrderManage extends Component {
                       <div className="part-r">
                         <DetailMod/>
                         {
-                          (tabKey!='3'||tabKey!='4')&&
+                          (tabKey=='1'||tabKey=='2')&&
                           <div className="go-print" onClick={this.goPrint}></div>
                         }
                       </div>

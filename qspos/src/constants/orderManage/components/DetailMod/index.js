@@ -130,7 +130,9 @@ function PosDetailMod({detailInfo}) {
             <span className="field">{odOrder.totalAmount}</span>
             「{
               orOrderPay.map((el,index) =>(
-                <span key={index}>{el.typeStr}：{el.amount}{(index==0&&orOrderPay.length>1)&&<span>，</span>}</span>
+                <span key={index}>
+                  {el.typeStr}：{el.amount}{(index==0&&orOrderPay.length>1)&&<span>，</span>}
+                </span>
               ))
             }」
           </Col>
@@ -155,6 +157,7 @@ function PosDetailMod({detailInfo}) {
 //App销售订单
 function AppDetailMod({detailInfo}) {
   const { odOrder, orderDetails, orOrderPay, mbCard } =detailInfo;
+  orderDetails.length>0&&orderDetails.map((el,index) =>el.key = el.code)
   const brandPro=()=>{
     let mod;
     switch(odOrder.deliveryType) {
@@ -202,7 +205,7 @@ function AppDetailMod({detailInfo}) {
               此订单退货{odOrder.returnQty}次，退货单号：
               {
                 odOrder.returnOrderNo.map((el,index)=>(
-                  <span className="field">{el}</span>
+                  <span className="field" key={index}>{el}</span>
                 ))
               }
             </Col>
@@ -236,7 +239,7 @@ function AppDetailMod({detailInfo}) {
             结算收银：<span className="field">{odOrder.payAmount}</span>
             「{
               orOrderPay.map((el,index)=>(
-                <span>{el.typeStr}：{el.amount}{(index==0&&orOrderPay.length>1)&&<span>，</span>}</span>
+                <span key={index}>{el.typeStr}：{el.amount}{(index==0&&orOrderPay.length>1)&&<span>，</span>}</span>
               ))
             }」
           </Col>
@@ -274,6 +277,7 @@ function AppDetailMod({detailInfo}) {
 //仓库，保税销售订单
 function OtherDetailMod({detailInfo}) {
   const { odOrder, orderDetails, mbCard } =detailInfo;
+  orderDetails.length>0&&orderDetails.map((el,index) => el.key = el.code)
   const brandPro=()=>{
     let mod;
     if(odOrder.businessType != '3') {
@@ -302,7 +306,7 @@ function OtherDetailMod({detailInfo}) {
               此订单退货{odOrder.returnQty}次，退货单号：
               {
                 odOrder.returnOrderNo.map((el,index)=> (
-                  <span className="field">{el}，</span>
+                  <span className="field" key={index}>{el}，</span>
                 ))
               }
             </Col>
