@@ -127,7 +127,7 @@ function PosDetailMod({detailInfo}) {
             「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}，抹零优惠：{odOrder.cutAmount}」
           </Col>
           <Col span={24} className="row return-goods">结算收银：
-            <span className="field">{odOrder.totalAmount}</span>
+            <span className="field">{odOrder.amount}</span>
             「{
               orOrderPay.map((el,index) =>(
                 <span key={index}>
@@ -147,7 +147,7 @@ function PosDetailMod({detailInfo}) {
               {mbCard.isLocalShopStr=='异店'&&<span className="vip-label">{mbCard.isLocalShopStr}</span>}
             </Col>
             <Col {...colans} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-            <Col {...colans} className="row">本次积分：<span className="field">{odOrder.orderPoint}</span></Col>
+            <Col {...colans} className="row">本次积分：<span className="field">{mbCard.point}</span></Col>
           </Row>
         </Card>
       }
@@ -251,7 +251,7 @@ function AppDetailMod({detailInfo}) {
           <Row wrap>
             <Col {...colans} className="row">会员姓名：<span className="field">{mbCard.name}</span></Col>
             <Col {...colans} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-            <Col {...colans} className="row">本次积分：<span className="field">{odOrder.orderPoint}</span></Col>
+            <Col {...colans} className="row">本次积分：<span className="field">{mbCard.point}</span></Col>
           </Row>
         </Card>
       }
@@ -347,7 +347,7 @@ function OtherDetailMod({detailInfo}) {
           <Row wrap>
             <Col {...colans} className="row">会员姓名：<span className="field">{mbCard.name}</span></Col>
             <Col {...colans} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-            <Col {...colans} className="row">本次积分：<span className="field">{odOrder.orderPoint}</span></Col>
+            <Col {...colans} className="row">本次积分：<span className="field">{mbCard.point}</span></Col>
           </Row>
         </Card>
       }
@@ -402,7 +402,7 @@ function ReturnSalesMod({detailInfo}) {
             }
           </Col>
           {
-            (odReturn.businessType=='1'||odReturn.businessType!='2')?
+            (odReturn.businessType=='1'||odReturn.businessType=='2')?
             <Col span={24} className="row return-goods">
               结算退款：<span className="field">{odReturn.billingRefundAmount}</span>
               「{odReturn.businessType=='1'?odReturn.typeStr:'APP支付'}」
@@ -420,7 +420,7 @@ function ReturnSalesMod({detailInfo}) {
           <Row wrap>
             <Col {...colans} className="row">会员姓名：<span className="field">{mbCard.name}</span></Col>
             <Col {...colans} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-            <Col {...colans} className="row">扣减积分：<span className="field">{odReturn.returnPoint}</span></Col>
+            <Col {...colans} className="row">扣减积分：<span className="field">{mbCard.point}</span></Col>
           </Row>
         </Card>
       }
@@ -451,6 +451,9 @@ function DetailMod({ orderManage }) {
       break;
     case "3":
       Mod = ReturnSalesMod;
+      break;
+    default:
+      Mod = <span>业务类型错误</span>
       break;
   }
   return <Mod detailInfo={orderManage.detailInfo}/>

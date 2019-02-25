@@ -163,7 +163,7 @@ class OrderManage extends Component {
   }
   render() {
     const { fields, tabKey } =this.state;
-    const { dataList } =this.props.orderManage;
+    const { dataList, detailInfo } =this.props.orderManage;
     return(
       <div className="order-manage-content-wrap">
         <Tabs
@@ -192,7 +192,7 @@ class OrderManage extends Component {
                       <div className="part-r">
                         <DetailMod/>
                         {
-                          (tabKey=='1'||tabKey=='2')&&
+                          (detailInfo.businessType=='1'||detailInfo.businessType=='2')&&
                           <div className="go-print" onClick={this.goPrint}></div>
                         }
                       </div>
