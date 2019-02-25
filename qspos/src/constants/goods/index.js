@@ -42,7 +42,7 @@ const columns = [{
               <p>收银占用：{record.qtyScanAllocated}</p>
             </div>
           )
-          if(record.qtyAppAllocated>0) {
+          if(record.qtyAllocated>0) {
             return <Popover content={content} placement="rightTop">
                     <span style={{cursor:'pointer',color:'#35bab0'}}>{record.qtyAllocated}</span>
                   </Popover >

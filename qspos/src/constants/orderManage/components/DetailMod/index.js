@@ -127,7 +127,7 @@ function PosDetailMod({detailInfo}) {
             「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}，抹零优惠：{odOrder.cutAmount}」
           </Col>
           <Col span={24} className="row return-goods">结算收银：
-            <span className="field">{odOrder.amount}</span>
+            <span className="field">{odOrder.totalAmount}</span>
             「{
               orOrderPay.map((el,index) =>(
                 <span key={index}>
