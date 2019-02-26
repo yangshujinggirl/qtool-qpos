@@ -312,8 +312,6 @@ class EditableTable extends React.Component {
         } else {
           changedataSource[index].payPrice= payPrice;
         }
-
-        console.log(changedataSource)
     		this.setState({
     			dataSource:changedataSource
     		},()=>{
