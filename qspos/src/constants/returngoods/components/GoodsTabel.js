@@ -301,19 +301,34 @@ class EditableTable extends React.Component {
         })
     }
     discountblur=(index)=>{
+      const { ismbCard, isdataSource, mbCard } =this.state;
     	let changedataSource=this.state.dataSource
     	if(changedataSource[index].discount>0 || changedataSource[index].discount==0){
-    		changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+        let payPrice = this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount);
+        let itemCanReturnAmount = this.accMuls(changedataSource[index].canReturnPrice,changedataSource[index].canReturnQty);
+        if(payPrice>itemCanReturnAmount) {
+          changedataSource[index].discount= this.discount(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].payPrice)
+          message.error('折后价不得大于可退总价')
+        } else {
+          changedataSource[index].payPrice= payPrice;
+        }
+
+        console.log(changedataSource)
     		this.setState({
     			dataSource:changedataSource
-    		},function(){
+    		},()=>{
     			this.uptotaldata()
-                if(this.state.ismbCard){
-                        console.log(this.state.isdataSource)
-                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                }else{
-                        this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                }
+          if(ismbCard){
+            this.props.revisedata({type:6,data:isdataSource,mbCardId:mbCard.mbCardId})
+          }else{
+            this.props.revisedata({type:6,data:isdataSource,mbCardId: null})
+          }
+          // if(this.state.ismbCard){
+          //   console.log(this.state.isdataSource)
+          //   this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+          // }else{
+          //   this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+          // }
     		})
     	}else{
     		changedataSource[index].discount=0
@@ -413,22 +428,13 @@ class EditableTable extends React.Component {
             count=parseFloat(discountda.toFixed(1))
         }
         return count
-   }
+    }
    //折后价计算
     payPrice=(a,b,c)=>{
         var payPricedatas=this.accMul(a,b,c)//实际结果却10
         var payPricedata=this.accDiv(payPricedatas,10) //实际结果
         var payPriceda=parseFloat(payPricedata.toFixed(2))//取小数后两位
         var payPrice;
-        // if(payPricedata-payPriceda>0){
-        //     payPrice=NP.plus(payPriceda, 0.01);
-        //     console.log(payPrice)
-        //     payPrice=payPrice.toFixed(2)
-        // }else{
-        //     payPrice=payPriceda
-        //     console.log(payPrice)
-        //     payPrice=payPrice.toFixed(2)
-        // }
         payPrice=payPriceda
         payPrice=payPrice.toFixed(2)
         return payPrice
@@ -483,51 +489,6 @@ class EditableTable extends React.Component {
         r2=Number(arg2.toString().replace(".",""))
         return (r1/r2)*Math.pow(10,t2-t1);
     }
-    // //根据订单号请求订单信息及会员id
-    // barcodesetdatasoce=(messages)=>{
-    //     let datasouces=this.state.dataSource
-    //     const result=GetServerData('qerp.web.qpos.od.return.query',messages)
-    //         result.then((res) => {
-    //             return res;
-    //         }).then((json) => {
-    //             if(json.code=='0'){
-    //             	const odOrderDetails=json.odOrderDetails
-    //             	for(var i=0;i<odOrderDetails.length;i++){
-    //             		odOrderDetails[i].key=i;
-    //                 odOrderDetails[i].qty=odOrderDetails[i].canReturnQty//把订单数量更改为可退数量
-    //                 odOrderDetails[i].inventory=odOrderDetails[i].qty
-    //         		// odOrderDetails[i].payPrice=this.payPrice(odOrderDetails[i].price,odOrderDetails[i].qty,odOrderDetails[i].discount)
-    //                 odOrderDetails[i].check=false
-    //             	}
-    //                 if(json.mbCard==null || json.mbCard==undefined || json.mbCard=={} || json.mbCard==''){
-    //                     this.setState({
-    //                         dataSource:odOrderDetails,
-    //                         mbCard:null,
-    //                         ismbCard:false
-    //                     },function(){
-    //                         //传递会员卡信息到展示数据
-    //                         this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
-    //                         //置空结算数据
-    //                         this.props.clearingdata('0','0')
-    //                         //传递会员卡信息到pay
-    //                         this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
-    //                     })
-    //                 }else{
-    //                     this.setState({
-    //                         dataSource:odOrderDetails,
-    //                         mbCard:json.mbCard,
-    //                         ismbCard:true
-    //                     },function(){
-    //                         this.props.clearingdatal(this.state.mbCard,this.state.ismbCard)
-    //                         this.props.revisedata({type:10,data:this.state.dataSource,mbCard:this.state.mbCard,ismbCard:this.state.ismbCard,odOrderNo:messages.odOrderNo})
-    //                     })
-    //                 }
-    //                 this.props.getAmountDetail(json.order)
-    //             }else{
-    //                 message.warning(json.message)
-    //             }
-    //         })
-    // }
     windowResize = () =>{
         if(!this.refs.tableWrapper){
             return
