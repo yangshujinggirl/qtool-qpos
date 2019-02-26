@@ -352,7 +352,7 @@ class EditableTable extends React.Component {
       let itemCanReturnAmount = this.accMuls(changedataSource[index].canReturnPrice,changedataSource[index].canReturnQty);
       let payPrice = parseFloat(changedataSource[index].payPrice);
       if(payPrice<0){
-        changedataSource[index].payPrice=0
+        payPrice=0
       } else if(payPrice>itemCanReturnAmount) {
         message.error('折后价不得大于可退总价');
         payPrice = this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount);
