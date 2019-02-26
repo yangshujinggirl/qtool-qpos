@@ -348,23 +348,29 @@ class EditableTable extends React.Component {
         })
     }
     payPriceblur=(index)=>{
-    	let changedataSource=this.state.dataSource
-        console.log(changedataSource)
-        if(parseFloat(changedataSource[index].payPrice)<0){
-            changedataSource[index].payPrice=0
-        }
-    	changedataSource[index].discount=this.discount(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].payPrice)
-    	changedataSource[index].payPrice=parseFloat(changedataSource[index].payPrice).toFixed(2)
-    		this.setState({
-    			dataSource:changedataSource
-    		},function(){
-    			this.uptotaldata()
-                if(this.state.ismbCard){
-                    this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
-                }else{
-                    this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
-                }
-    		})
+    	let changedataSource=this.state.dataSource;
+      let itemCanReturnAmount = this.accMuls(changedataSource[index].canReturnPrice,changedataSource[index].canReturnQty);
+      let payPrice = parseFloat(changedataSource[index].payPrice);
+      if(payPrice<0){
+        changedataSource[index].payPrice=0
+      } else if(payPrice>itemCanReturnAmount) {
+        message.error('折后价不得大于可退总价');
+        payPrice = this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount);
+      } else {
+        payPrice = payPrice.toFixed(2)
+      }
+      changedataSource[index].payPrice = payPrice;
+      changedataSource[index].discount=this.discount(changedataSource[index].price,changedataSource[index].qty,payPrice);
+  		this.setState({
+  			dataSource:changedataSource
+  		},function(){
+  			this.uptotaldata()
+              if(this.state.ismbCard){
+                  this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+              }else{
+                  this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+              }
+  		})
     }
     rowClassName=(record, index)=>{
         if(index==this.state.index){
