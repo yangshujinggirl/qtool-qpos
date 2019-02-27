@@ -8,15 +8,29 @@ import Qtable from '../../../components/Qtable';
 import SeparFilterForm from './components/SeparFilterForm';
 import './SaleCheck.less';
 
+const shareTypeMap={
+  "1":"销售订单",
+  "2":"退货订单"
+}
+const orderTypeMap={
+  "4":"仓库直邮订单",
+  "5":"保税订单"
+}
 const columns = [{
       title: '订单号',
       dataIndex: 'orderNo',
   },{
       title: '业务类型',
       dataIndex: 'orderType',
+      render:(text,record,index) => {
+        return orderTypeMap[record.orderType]
+      }
   },{
       title: '订单分类',
       dataIndex: 'shareType',
+      render:(text,record,index) => {
+        return shareTypeMap[record.shareType]
+      }
   },{
       title: '分成金额',
       dataIndex: 'shareProfitAmount',
