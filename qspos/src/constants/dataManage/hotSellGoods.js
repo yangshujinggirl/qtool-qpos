@@ -41,10 +41,10 @@ class HotSellGoodsForm extends React.Component {
       },{
           title: '门店在售',
           dataIndex: 'onSale',
-          render:(record,index)=> {
+          render:(text,record,index)=> {
             return <span>
               {
-                record.onSale?'是':'否'
+                record.onSale=='1'?'是':'否'
               }
             </span>
           }
