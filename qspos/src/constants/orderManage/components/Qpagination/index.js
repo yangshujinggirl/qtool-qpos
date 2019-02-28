@@ -32,6 +32,7 @@ class Qpagination extends Component {
         <Pagination
           simple
           total={total}
+          pageSize={Number(limit)}
           current={currentPage}
           onChange={this.props.onChange}
           hideOnSinglePage={false}/>

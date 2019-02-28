@@ -104,10 +104,11 @@ class OrderManage extends Component {
     this.fetchlist(values)
   }
   //分页
-  changePage = (currentPage) => {
+  changePage = (currentPage, pageSize) => {
     currentPage--;
     let paramsObj = {
       currentPage,
+      limit:pageSize
     }
     const { fields } = this.state;
     paramsObj ={...paramsObj,...fields}
