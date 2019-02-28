@@ -45,7 +45,13 @@ class ListMod extends Component {
                   </div>
                   <div className="flex-wrap">
                     <p>{BusinessTypeMap[ele.businessType]} / {ele.levelStr} / {OrderStatusMap[ele.orderStatus]}</p>
-                    <p className="money-num">{ele.amount}元</p>
+                    <p className="money-num">
+                      {ele.amount}元
+                      {
+                        ele.isdiscount == '1'&&
+                        <span className="discount-icon">折</span>
+                      }
+                    </p>
                   </div>
                 </div>
                 <span className="arrow-icon"></span>
@@ -60,7 +66,6 @@ class ListMod extends Component {
             onShowSizeChange={changePageSize}
             onChange={changePage}
             data={data}/>
-          // <Pagination current={Number(data.currentPage)} defaultPageSize={10} total={Number(data.total)} onChange={changePage}/>
         }
       </div>
     )
