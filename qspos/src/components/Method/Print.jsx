@@ -1095,14 +1095,14 @@ function printReturnOrder(message,printCount){
 	var printName = returnInfoAll.printName;
 	var orderNo = returnInfoAll.odReturn.returnNo;
 	var saleTime = returnInfoAll.odReturn.createTime;
-	var totalPay = returnInfoAll.odReturn.refundAmount;//退款合计
+	var totalPay = returnInfoAll.odReturn.amount;//退款合计
 	var totalqty = returnInfoAll.odReturn.qty;//
   var cutAmount = returnInfoAll.odReturn.cutAmount?returnInfoAll.odReturn.cutAmount:0;
-	var stTotalPay = totalPay-cutAmount;//实退金额
+	var stTotalPay = returnInfoAll.odReturn.realRefundTotalAmount;//实退金额
 	var payType="「 "+returnInfoAll.odReturn.typeStr +"」";
 
 	//扣除积分
-	var returnPoint = returnInfoAll.odReturn.returnPoint;
+	var returnPoint = returnInfoAll.mbCard.point;
   let posiTopNum = 0;
   var titleFz = 10;
   var contentFz = 8;
@@ -1198,7 +1198,7 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","20mm",20,stTotalPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","20mm",20,totalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1223,7 +1223,7 @@ function printReturnOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,totalPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,stTotalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1290,13 +1290,14 @@ function printReturnOrderSmall(message,printCount){
 	var printName = returnInfoAll.printName;
 	var orderNo = returnInfoAll.odReturn.returnNo;
 	var saleTime = returnInfoAll.odReturn.createTime;
-	var totalPay = returnInfoAll.odReturn.refundAmount;//退款合计
+	var totalPay = returnInfoAll.odReturn.amount;//退款合计
 	var totalqty = returnInfoAll.odReturn.qty;
   var cutAmount = returnInfoAll.odReturn.cutAmount?returnInfoAll.odReturn.cutAmount:0;
-	var stTotalPay = totalPay-cutAmount;//实退金额
+	// var stTotalPay = totalPay-cutAmount;//实退金额
+	var stTotalPay = returnInfoAll.odReturn.realRefundTotalAmount;//实退金额
 	var payType="「 "+returnInfoAll.odReturn.typeStr +" 」"
 	//扣除积分
-	var returnPoint = returnInfoAll.odReturn.returnPoint;
+	var returnPoint = returnInfoAll.mbCard.point;
   let posiTopNum = 0;
   var titleFz = 8;
   var contentFz = 7;
@@ -1391,7 +1392,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,stTotalPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,totalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1416,7 +1417,7 @@ function printReturnOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"15mm","33mm",20,totalPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"15mm","33mm",20,stTotalPay);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1639,7 +1640,7 @@ function printSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,odOrder.orderPoint);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,saleInfoAll.mbCard.point);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -1857,7 +1858,7 @@ function printSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"15mm","33mm",20,odOrder.orderPoint);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"15mm","33mm",20,saleInfoAll.mbCard.point);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -2101,7 +2102,7 @@ function printCDSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","49mm",20,odOrder.orderPoint);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","49mm",20,saleInfoAll.mbCard.point);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -2379,7 +2380,7 @@ function printCDSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","28mm",20,odOrder.orderPoint);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","28mm",20,saleInfoAll.mbCard.point);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
