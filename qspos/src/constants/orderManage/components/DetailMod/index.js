@@ -104,7 +104,9 @@ function PosDetailMod({detailInfo}) {
               此订单退货{odOrder.returnQty}次，退货单号：
               {
                 odOrder.returnOrderNo.map((el,index) =>(
-                  <span className="field" key={index}>{el}</span>
+                  <span className="field" key={index}>
+                    {el}{((odOrder.returnOrderNo.length-1)!=index&&odOrder.returnOrderNo.length>1)&&<span>，</span>}
+                  </span>
                 ))
               }
             </Col>
@@ -205,7 +207,9 @@ function AppDetailMod({detailInfo}) {
               此订单退货{odOrder.returnQty}次，退货单号：
               {
                 odOrder.returnOrderNo.map((el,index)=>(
-                  <span className="field" key={index}>{el}</span>
+                  <span className="field" key={index}>
+                    {el}{((odOrder.returnOrderNo.length-1)!=index&&odOrder.returnOrderNo.length>1)&&<span>，</span>}
+                  </span>
                 ))
               }
             </Col>
@@ -298,7 +302,7 @@ function OtherDetailMod({detailInfo}) {
         <Row wrap>
           <Col {...colans} className="row">销售单号：<span className="field">{odOrder.orderNo}</span></Col>
           <Col {...colans} className="row">销售时间：<span className="field">{odOrder.saleTime}</span></Col>
-          <Col {...colans} className="row">业务类型：<span className="field">门店APP订单</span></Col>
+          <Col {...colans} className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></Col>
           <Col {...colans} className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></Col>
           {
             odOrder.returnOrderNo&&

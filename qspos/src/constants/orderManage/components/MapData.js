@@ -1,8 +1,8 @@
 const BusinessTypeMap={
-  1:'门店POS',
-  2:'门店APP',
-  3:'仓库直邮',
-  4:'保税',
+  1:'门店POS订单',
+  2:'门店APP订单',
+  3:'仓库直邮订单',
+  4:'保税订单',
 }
 const OrderStatusMap={
   1:"已接单",
