@@ -1,7 +1,7 @@
 import React , { Componet } from 'react';
 import { connect } from 'dva';
 import { Card,Row, Col, Table  } from 'antd';
-import { RechargeColumns, OrderColumns } from '../columns';
+import { RechargeColumns, OrderColumns, ReturnOdColumns } from '../columns';
 import {
   BusinessTypeMap,
   OrderStatusMap,
@@ -392,7 +392,7 @@ function ReturnSalesMod({detailInfo}) {
         <Table
           className="goods-table"
           pagination={false}
-          columns={OrderColumns}
+          columns={ReturnOdColumns}
           dataSource={returnOrderDetails}
           bordered/>
       </Card>
