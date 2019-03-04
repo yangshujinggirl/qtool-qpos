@@ -22,7 +22,7 @@ import PieChart from './PiechartTest';
 const amount = <Tooltip placement="top" title='销售订单金额-退款订单金额'>
                 净销售额&nbsp;<Icon type="exclamation-circle-o" />
               </Tooltip>;
-const icAmount = <Tooltip placement="top" title='微信+支付宝+现金+银联'>
+const icAmount = <Tooltip placement="top" title='微信转账+微信扫码+支付宝转账+支付宝扫码+APP支付+现金+银联'>
                     净收款&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
 const wechatAmount = <Tooltip placement="top" title='微信消费+微信充值-微信退款'>
                     微信转帐&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
