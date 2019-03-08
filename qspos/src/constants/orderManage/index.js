@@ -2,7 +2,6 @@ import React , { Component } from 'react';
 import { connect } from 'dva';
 import { Tabs, message } from 'antd';
 import ListMod from './components/ListMod';
-// import { PosDetailMod, AppDetailMod, ReturnSalesMod, RechargeDetailMod } from './components/DetialMod';
 import DetailMod from './components/DetailMod';
 import FilterForm from './components/FilterForm';
 //引入打印
@@ -16,7 +15,7 @@ import { GetServerData } from '../../services/services';
 import './index.less';
 
 const TabPane = Tabs.TabPane;
-const TabsDataSource =[{
+const TabsDataSourceApp =[{
           title:'全部订单',
           key:'0'
         },{
@@ -31,6 +30,20 @@ const TabsDataSource =[{
         },{
           title:'保税订单',
           key:'4'
+        }]
+const TabsDataSource =[{
+          title:'全部订单',
+          key:'0'
+        }]
+const TabsDataSourceWorkers =[{
+          title:'全部订单',
+          key:'0'
+        },{
+          title:'门店pos订单',
+          key:'1'
+        },{
+          title:'门店APP订单',
+          key:'2'
         }]
 
 class OrderManage extends Component {
@@ -165,6 +178,15 @@ class OrderManage extends Component {
   render() {
     const { fields, tabKey } =this.state;
     const { dataList, detailInfo } =this.props.orderManage;
+    let role = sessionStorage.getItem('role');
+    let openApp = sessionStorage.getItem('openApp');
+    let tabsData;
+    //c端app是否开通
+    if(openApp==1) {//店员权限3不显不保税仓库。
+      tabsData = role==3?TabsDataSourceWorkers:TabsDataSourceApp;
+    } else {
+      tabsData = TabsDataSource;
+    }
     return(
       <div className="order-manage-content-wrap">
         <Tabs
@@ -173,7 +195,7 @@ class OrderManage extends Component {
           type="card"
           className="common-tabs-wrap">
           {
-            TabsDataSource.map((el,index) => (
+            tabsData.map((el,index) => (
               <TabPane tab={el.title} key={el.key}>
                 <div className="main-content-action">
                   <FilterForm
