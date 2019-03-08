@@ -89,7 +89,6 @@ function RechargeDetailMod({detailInfo}) {
 function PosDetailMod({detailInfo}) {
   let { odOrder, orderDetails, orOrderPay, mbCard } =detailInfo;
   orderDetails.length>0&&orderDetails.map((el,index) => el.key = `${el.pdSpuId}_${el.pdSkuId}_${index}`);
-  console.log(orderDetails)
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
@@ -161,7 +160,6 @@ function PosDetailMod({detailInfo}) {
 function AppDetailMod({detailInfo}) {
   const { odOrder, orderDetails, orOrderPay, mbCard } =detailInfo;
   orderDetails.length>0&&orderDetails.map((el,index) => el.key = `${el.pdSpuId}_${el.pdSkuId}_${index}`);
-  console.log(orderDetails)
   const brandPro=()=>{
     let mod;
     switch(odOrder.deliveryType) {
@@ -284,7 +282,6 @@ function AppDetailMod({detailInfo}) {
 function OtherDetailMod({detailInfo}) {
   const { odOrder, orderDetails, mbCard } =detailInfo;
   orderDetails.length>0&&orderDetails.map((el,index) => el.key = `${el.pdSpuId}_${el.pdSkuId}_${index}`);
-  console.log(orderDetails)
   const brandPro=()=>{
     let mod;
     if(odOrder.businessType != '3') {
