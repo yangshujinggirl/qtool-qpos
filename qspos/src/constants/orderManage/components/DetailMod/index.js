@@ -52,13 +52,13 @@ function RechargeDetailMod({detailInfo}) {
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
-        <Row wrap>
-          <Col {...colans3} className="row">充值单号：<span className="field">{cardMoneyChargeInfo.chargeNo}</span></Col>
-          <Col {...colans3} className="row">充值时间：<span className="field">{cardMoneyChargeInfo.createTime}</span></Col>
-          <Col {...colans3} className="row">收银员：<span className="field">{cardMoneyChargeInfo.nickname}</span></Col>
-          <Col {...colans3} className="row">业务类型：<span className="field">{BusinessTypeMap[businessType]}</span></Col>
-          <Col {...colans3} className="row">订单状态：<span className="field">已完成</span></Col>
-        </Row>
+        <div className="row-wrap">
+          <div className="row">充值单号：<span className="field">{cardMoneyChargeInfo.chargeNo}</span></div>
+          <div className="row">充值时间：<span className="field">{cardMoneyChargeInfo.createTime}</span></div>
+          <div className="row">收银员：<span className="field">{cardMoneyChargeInfo.nickname}</span></div>
+          <div className="row">业务类型：<span className="field">{BusinessTypeMap[businessType]}</span></div>
+          <div className="row">订单状态：<span className="field">已完成</span></div>
+        </div>
       </Card>
       <Card title="充值信息">
         <Table
@@ -69,18 +69,18 @@ function RechargeDetailMod({detailInfo}) {
           bordered/>
       </Card>
       <Card title="结算信息">
-        <Row wrap>
-          <Col span={24} className="row">
+        <div className="row-wrap">
+          <div className="row">
             结算收银：<span className="field">{cardMoneyChargeInfo.amount}</span>「{cardMoneyChargeInfo.typeStr}」
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Card>
       <Card title="会员信息">
-        <Row wrap>
-          <Col {...colans3} className="row">会员姓名：<span className="field">{mbCard.name}</span></Col>
-          <Col {...colans3} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-          <Col {...colans3} className="row">会员等级：<span className="field">{mbCard.levelStr}</span></Col>
-        </Row>
+        <div className="row-wrap">
+          <div className="row" className="row">会员姓名：<span className="field">{mbCard.name}</span></div>
+          <div className="row" className="row">会员手机号：<span className="field">{mbCard.mobile}</span></div>
+          <div className="row" className="row">会员等级：<span className="field">{mbCard.levelStr}</span></div>
+        </div>
       </Card>
     </div>
   )
@@ -92,15 +92,15 @@ function PosDetailMod({detailInfo}) {
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
-        <Row wrap>
-          <Col {...colans} className="row">销售订单：<span className="field">{odOrder.orderNo}</span></Col>
-          <Col {...colans} className="row">销售时间：<span className="field">{odOrder.saleTime}</span></Col>
-          <Col {...colans} className="row">收银员：<span className="field">{odOrder.nickname}</span></Col>
-          <Col {...colans} className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></Col>
-          <Col {...colans} className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></Col>
+        <div className="row-wrap">
+          <div className="row" className="row">销售订单：<span className="field">{odOrder.orderNo}</span></div>
+          <div className="row" className="row">销售时间：<span className="field">{odOrder.saleTime}</span></div>
+          <div className="row" className="row">收银员：<span className="field">{odOrder.nickname}</span></div>
+          <div className="row" className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></div>
+          <div className="row" className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></div>
           {
             odOrder.returnOrderNo&&
-            <Col span={24} className="row return-goods">
+            <div className="row return-goods">
               此订单退货{odOrder.returnQty}次，退货单号：
               {
                 odOrder.returnOrderNo.map((el,index) =>(
@@ -109,9 +109,9 @@ function PosDetailMod({detailInfo}) {
                   </span>
                 ))
               }
-            </Col>
+            </div>
           }
-        </Row>
+        </div>
       </Card>
       <Card title="商品信息">
         <Table
@@ -122,13 +122,13 @@ function PosDetailMod({detailInfo}) {
           bordered/>
       </Card>
       <Card title="结算信息">
-        <Row wrap>
-          <Col {...colans2} className="row">
+        <div>
+          <div className="row">
             商品总价：
             <span className="field">{odOrder.totalAmount}</span>
             「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}，抹零优惠：{odOrder.cutAmount}」
-          </Col>
-          <Col span={24} className="row return-goods">结算收银：
+          </div>
+          <div className="row return-goods">结算收银：
             <span className="field">{odOrder.totalAmount}</span>
             「{
               orOrderPay.map((el,index) =>(
@@ -137,20 +137,20 @@ function PosDetailMod({detailInfo}) {
                 </span>
               ))
             }」
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Card>
       {
         mbCard&&
         <Card title="会员信息">
-          <Row wrap>
-            <Col {...colans} className="row">
+          <div className="row-wrap">
+            <div className="row">
               会员姓名：<span className="field">{mbCard.name}</span>
               {mbCard.isLocalShopStr=='异店'&&<span className="vip-label">{mbCard.isLocalShopStr}</span>}
-            </Col>
-            <Col {...colans} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-            <Col {...colans} className="row">本次积分：<span className="field">{mbCard.point}</span></Col>
-          </Row>
+            </div>
+            <div className="row">会员手机号：<span className="field">{mbCard.mobile}</span></div>
+            <div className="row">本次积分：<span className="field">{mbCard.point}</span></div>
+          </div>
         </Card>
       }
     </div>
@@ -187,23 +187,23 @@ function AppDetailMod({detailInfo}) {
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
-        <Row wrap>
-          <Col {...colans} className="row">销售单号：<span className="field">{odOrder.orderNo}</span></Col>
-          <Col {...colans} className="row">接单时间：<span className="field">{odOrder.createTime}</span></Col>
-          <Col {...colans} className="row">接单员：<span className="field">{odOrder.nickname}</span></Col>
-          <Col {...colans} className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></Col>
-          <Col {...colans} className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></Col>
-          <Col {...colans} className="row">配送方式：<span className="field">{DeliveryMap[odOrder.deliveryType]}</span></Col>
-          <Col {...colans} className="row">订单金额：<span className="field">{odOrder.amount}</span></Col>
-          <Col {...colans} className="row">退款金额：<span className="field">{odOrder.refundAmount}</span></Col>
-          <Col {...colans} className="row">实际订单金额：<span className="field">{odOrder.actualOrderAmount}</span></Col>
+        <div className="row-wrap">
+          <div className="row">销售单号：<span className="field">{odOrder.orderNo}</span></div>
+          <div className="row">接单时间：<span className="field">{odOrder.createTime}</span></div>
+          <div className="row">接单员：<span className="field">{odOrder.nickname}</span></div>
+          <div className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></div>
+          <div className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></div>
+          <div className="row">配送方式：<span className="field">{DeliveryMap[odOrder.deliveryType]}</span></div>
+          <div className="row">订单金额：<span className="field">{odOrder.amount}</span></div>
+          <div className="row">退款金额：<span className="field">{odOrder.refundAmount}</span></div>
+          <div className="row">实际订单金额：<span className="field">{odOrder.actualOrderAmount}</span></div>
           {
             odOrder.orderStatus=='3'&&
-            <Col {...colans} className="row">完成时间：<span className="field">{odOrder.completeTime}</span></Col>
+            <div className="row">完成时间：<span className="field">{odOrder.completeTime}</span></div>
           }
           {
             odOrder.returnOrderNo&&
-            <Col span={24} className="row return-goods">
+            <div className="row return-goods">
               此订单退货{odOrder.returnQty}次，退货单号：
               {
                 odOrder.returnOrderNo.map((el,index)=>(
@@ -212,9 +212,9 @@ function AppDetailMod({detailInfo}) {
                   </span>
                 ))
               }
-            </Col>
+            </div>
           }
-        </Row>
+        </div>
       </Card>
       <Card title="商品信息">
           {
@@ -230,49 +230,51 @@ function AppDetailMod({detailInfo}) {
           }
       </Card>
       <Card title="结算信息">
-        <Row wrap>
-          <Col {...colans2} className="row">
-            商品总价：<span className="field">{odOrder.totalAmount}</span>
-            「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
-          </Col>
-          <Col {...colans} className="row">
-            配送费：<span className="field">{odOrder.deliveryCost}</span>
-            { brandPro() }
-          </Col>
-          <Col span={24} className="row return-goods">
+        <div>
+          <div className="row-wrap">
+            <div className="row">
+              商品总价：<span className="field">{odOrder.totalAmount}</span>
+              「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
+            </div>
+            <div className="row">
+              配送费：<span className="field">{odOrder.deliveryCost}</span>
+              { brandPro() }
+            </div>
+          </div>
+          <div className="row return-goods">
             结算收银：<span className="field">{odOrder.payAmount}</span>
             「{
               orOrderPay.map((el,index)=>(
                 <span key={index}>{el.typeStr}：{el.amount}{(index==0&&orOrderPay.length>1)&&<span>，</span>}</span>
               ))
             }」
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Card>
       {
         mbCard&&
         <Card title="会员信息">
-          <Row wrap>
-            <Col {...colans} className="row">会员姓名：<span className="field">{mbCard.name}</span></Col>
-            <Col {...colans} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-            <Col {...colans} className="row">本次积分：<span className="field">{mbCard.point}</span></Col>
-          </Row>
+          <div className="row-wrap">
+            <div className="row">会员姓名：<span className="field">{mbCard.name}</span></div>
+            <div className="row">会员手机号：<span className="field">{mbCard.mobile}</span></div>
+            <div className="row">本次积分：<span className="field">{mbCard.point}</span></div>
+          </div>
         </Card>
       }
       {/*同城配送,门店邮寄 配送信息*/}
       {
         odOrder.deliveryType!=1&&
         <Card title="配送信息">
-          <Row wrap>
-            <Col {...colans3} className="row">配送序号：<span className="field">{odOrder.orderNum}</span></Col>
-            <Col {...colans3} className="row">收件人：<span className="field">{odOrder.receiver}</span></Col>
-            <Col {...colans3} className="row">收件人电话：<span className="field">{odOrder.phoneNo}</span></Col>
-            <Col {...colans3} className="row">收件地址：
-              <span className="field address-wrap">
-                <span className="address">{odOrder.address}</span>
+          <div className="row-wrap">
+            <div className="row">配送序号：<span className="field">{odOrder.orderNum}</span></div>
+            <div className="row">收件人：<span className="field">{odOrder.receiver}</span></div>
+            <div className="row">收件人电话：<span className="field">{odOrder.phoneNo}</span></div>
+            <div className="row">收件地址：
+              <span className="field">
+                {odOrder.address}
               </span>
-              </Col>
-          </Row>
+            </div>
+          </div>
         </Card>
       }
     </div>
@@ -299,23 +301,25 @@ function OtherDetailMod({detailInfo}) {
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
-        <Row wrap>
-          <Col {...colans} className="row">销售单号：<span className="field">{odOrder.orderNo}</span></Col>
-          <Col {...colans} className="row">销售时间：<span className="field">{odOrder.saleTime}</span></Col>
-          <Col {...colans} className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></Col>
-          <Col {...colans} className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></Col>
+        <div className="row-wrap">
+          <div className="row">销售单号：<span className="field">{odOrder.orderNo}</span></div>
+          <div className="row">销售时间：<span className="field">{odOrder.saleTime}</span></div>
+          <div className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></div>
+          <div className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></div>
           {
             odOrder.returnOrderNo&&
-            <Col span={24} className="row return-goods">
+            <div className="row return-goods">
               此订单退货{odOrder.returnQty}次，退货单号：
               {
                 odOrder.returnOrderNo.map((el,index)=> (
-                  <span className="field" key={index}>{el}，</span>
+                  <span className="field" key={index}>
+                    {el}{((odOrder.returnOrderNo.length-1)!=index&&odOrder.returnOrderNo.length>1)&&<span>，</span>}
+                  </span>
                 ))
               }
-            </Col>
+            </div>
           }
-        </Row>
+        </div>
       </Card>
       <Card title="商品信息">
         <Table
@@ -326,45 +330,45 @@ function OtherDetailMod({detailInfo}) {
           bordered/>
       </Card>
       <Card title="结算信息">
-        <Row wrap>
-          <Col {...colans2} className="row">
+        <div>
+          <div className="row">
             商品总价：<span className="field">{odOrder.totalAmount}</span>
             「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
-          </Col>
-          <Col span={24} className="row return-goods">
-            <Col span={8}>销售利润：<span className="field">{odOrder.salesProfit}</span></Col>
-            <Col span={12}>
+          </div>
+          <div className="row-wrap return-goods">
+            <div className="row">销售利润：<span className="field">{odOrder.salesProfit}</span></div>
+            <div className="row">
               配送费差价：<span className="field">{odOrder.deliverPayDifference}</span>
               {
                 brandPro()
               }
-            </Col>
-          </Col>
-          <Col span={24} className="row return-goods">
+            </div>
+          </div>
+          <div className="row return-goods">
             结算分成：<span className="field">{odOrder.billingSplit}</span>
-          </Col>
-        </Row>
+        </div>
+      </div>
       </Card>
       {
         mbCard&&
         <Card title="会员信息">
-          <Row wrap>
-            <Col {...colans} className="row">会员姓名：<span className="field">{mbCard.name}</span></Col>
-            <Col {...colans} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-            <Col {...colans} className="row">本次积分：<span className="field">{mbCard.point}</span></Col>
-          </Row>
+          <div className="row-wrap">
+            <div className="row">会员姓名：<span className="field">{mbCard.name}</span></div>
+            <div className="row">会员手机号：<span className="field">{mbCard.mobile}</span></div>
+            <div className="row">本次积分：<span className="field">{mbCard.point}</span></div>
+          </div>
         </Card>
       }
       <Card title="配送信息">
-        <Row wrap>
-          <Col {...colans3} className="row">收件人：<span className="field">{odOrder.receiver}</span></Col>
-          <Col {...colans3} className="row">收件人电话：<span className="field">{odOrder.phoneNo}</span></Col>
-          <Col {...colans3} className="row">收件地址：
-            <span className="field address-wrap">
-              <span className="address">{odOrder.address}</span>
+        <div className="row-wrap">
+          <div className="row">收件人：<span className="field">{odOrder.receiver}</span></div>
+          <div className="row">收件人电话：<span className="field">{odOrder.phoneNo}</span></div>
+          <div className="row">收件地址：
+            <span className="field">
+              {odOrder.address}
             </span>
-            </Col>
-        </Row>
+          </div>
+        </div>
       </Card>
     </div>
   )
@@ -376,17 +380,17 @@ function ReturnSalesMod({detailInfo}) {
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
-        <Row wrap>
-          <Col {...colans3} className="row">退货单号：<span className="field">{odReturn.returnNo}</span></Col>
-          <Col {...colans3} className="row">退货时间：<span className="field">{odReturn.createTime}</span></Col>
+        <div className="row-wrap">
+          <div className="row">退货单号：<span className="field">{odReturn.returnNo}</span></div>
+          <div className="row">退货时间：<span className="field">{odReturn.createTime}</span></div>
           {/*仓库，保税订单没有退货员*/}
-          <Col {...colans3} className="row">退货员：<span className="field">{odReturn.nickname}</span></Col>
-          <Col {...colans3} className="row">
+          <div className="row">退货员：<span className="field">{odReturn.nickname}</span></div>
+          <div className="row">
             关联订单：<span className="field">{odReturn.orderNo}<span className="remark">「{BusinessTypeMap[odReturn.businessType]}」</span></span>
-          </Col>
-          <Col {...colans3} className="row">业务类型：<span className="field">{BusinessTypeMap[odReturn.businessType]}</span></Col>
-          <Col {...colans3} className="row">订单状态：<span className="field">{OrderStatusMap[odReturn.orderStatus]}</span></Col>
-        </Row>
+        </div>
+          <div className="row">业务类型：<span className="field">{BusinessTypeMap[odReturn.businessType]}</span></div>
+          <div className="row">订单状态：<span className="field">{OrderStatusMap[odReturn.orderStatus]}</span></div>
+        </div>
       </Card>
       <Card title="商品信息">
         <Table
@@ -397,35 +401,35 @@ function ReturnSalesMod({detailInfo}) {
           bordered/>
       </Card>
       <Card title="结算信息">
-        <Row wrap>
-          <Col span={24} className="row">
+        <div>
+          <div className="row">
             实退总价：<span className="field">{odReturn.realRefundTotalAmount}</span>
             {
               odReturn.businessType=='1'&&
               <span>「退货总价：{odReturn.refundTotalAmount}，抹零金额：{odReturn.cutAmount}」</span>
             }
-          </Col>
+          </div>
           {
             (odReturn.businessType=='1'||odReturn.businessType=='2')?
-            <Col span={24} className="row return-goods">
+            <div className="row return-goods">
               结算退款：<span className="field">{odReturn.billingRefundAmount}</span>
               「{odReturn.businessType=='1'?odReturn.typeStr:'APP支付'}」
-            </Col>
+            </div>
             :
-            <Col span={24} className="row return-goods">
+            <div className="row return-goods">
               分成扣减：<span className="field">{odReturn.deductionAmount}</span>
-            </Col>
+            </div>
           }
-        </Row>
+        </div>
       </Card>
       {
         mbCard&&
         <Card title="会员信息">
-          <Row wrap>
-            <Col {...colans} className="row">会员姓名：<span className="field">{mbCard.name}</span></Col>
-            <Col {...colans} className="row">会员手机号：<span className="field">{mbCard.mobile}</span></Col>
-            <Col {...colans} className="row">扣减积分：<span className="field">{mbCard.point}</span></Col>
-          </Row>
+          <div className="row-wrap">
+            <div className="row">会员姓名：<span className="field">{mbCard.name}</span></div>
+            <div className="row">会员手机号：<span className="field">{mbCard.mobile}</span></div>
+            <div className="row">扣减积分：<span className="field">{mbCard.point}</span></div>
+          </div>
         </Card>
       }
     </div>
@@ -435,7 +439,7 @@ function ReturnSalesMod({detailInfo}) {
 function DetailMod({ orderManage }) {
   const { orderCategory, businessType } =orderManage.detailInfo;
   if(!orderCategory) {
-    return <span></span>;
+    return <span>业务类型错误</span>;
   }
   let Mod;
   //businessType 1：pos,2:app,3:仓库，4：保税
