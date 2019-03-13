@@ -22,7 +22,7 @@ import PieChart from './PiechartTest';
 const amount = <Tooltip placement="top" title='销售订单金额-退款订单金额'>
                 净销售额&nbsp;<Icon type="exclamation-circle-o" />
               </Tooltip>;
-const icAmount = <Tooltip placement="top" title='微信+支付宝+现金+银联'>
+const icAmount = <Tooltip placement="top" title='微信转账+微信扫码+支付宝转账+支付宝扫码+APP支付+现金+银联'>
                     净收款&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
 const wechatAmount = <Tooltip placement="top" title='微信消费+微信充值-微信退款'>
                     微信转帐&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
@@ -104,7 +104,7 @@ class ClerkSaleForm extends React.Component {
       setsouce:[],
       startDate:'',
       endDate:'',
-      source:0
+      orderType:7
     };
   }
   componentDidMount(){
@@ -132,9 +132,9 @@ class ClerkSaleForm extends React.Component {
     this.initdataspuce();
   }
   initdataspuce=()=>{
-    const { source, startDate, endDate } =this.state;
+    const { orderType, startDate, endDate } =this.state;
     let values = {
-          source,
+          orderType,
           startDate,
           endDate
         }
@@ -190,7 +190,7 @@ class ClerkSaleForm extends React.Component {
       })
   }
   changeSource=(value)=> {
-    this.setState({ source: value })
+    this.setState({ orderType: value })
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -219,17 +219,17 @@ class ClerkSaleForm extends React.Component {
                 )}
             </FormItem>
             <FormItem
-              label="订单来源"
+              label="业务类型"
               labelCol={{ span: 5 }}
               wrapperCol={{span: 10}}>
-                {getFieldDecorator('source', {
-                      initialValue:0,
+                {getFieldDecorator('orderType', {
+                      initialValue:7,
                       onChange:this.changeSource
                   })(
                       <Select>
-                        <Option key={0} value={0}>全部</Option>
-                        <Option key={1} value={1}>POS</Option>
-                        <Option key={2} value={2}>APP</Option>
+                        <Option key={7} value={7}>全部</Option>
+                        <Option key={0} value={0}>门店POS订单</Option>
+                        <Option key={6} value={6}>门店APP订单</Option>
                       </Select>
                 )}
             </FormItem>

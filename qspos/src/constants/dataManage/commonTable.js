@@ -23,13 +23,14 @@ class CommonTable extends React.Component {
     pageChange=(page,pageSize)=>{
         this.props.pageChange(page,pageSize)
     }
-    
+
     render() {
+      console.log(this.props.pagination)
         return (
-            <Table 
-                bordered 
-                columns={this.props.columns} 
-                dataSource={this.props.dataSource} 
+            <Table
+                bordered
+                columns={this.props.columns}
+                dataSource={this.props.dataSource}
                 rowClassName={this.rowClassName.bind(this)}
                 scroll={this.props.scroll?{ x:this.props.scroll,y:this.props.scrolly}:{ x:false}}
                 pagination={

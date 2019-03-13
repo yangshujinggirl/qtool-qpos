@@ -15,7 +15,8 @@ class Returngoods extends React.Component {
         checkPrint:false,
         dataSource:[],
         mbCard:null,
-        ismbCard:false
+        ismbCard:false,
+        orderInfo:{}
     }
     //根据订单号请求订单信息及会员id
     barcodesetdatasoce=(messages)=>{
@@ -37,6 +38,7 @@ class Returngoods extends React.Component {
             this.setState({
                 dataSource:odOrderDetails,
                 mbCard:json.mbCard,
+                orderInfo:json.order,
                 ismbCard:json.mbCard?true:false
             },()=>{
                 this.clearingdatal(this.state.mbCard,this.state.ismbCard);
@@ -214,7 +216,7 @@ class Returngoods extends React.Component {
       })
     }
     render() {
-      const { amountDetail, dataSource, mbCard, ismbCard } =this.state;
+      const { amountDetail, orderInfo, dataSource, mbCard, ismbCard } =this.state;
         return(
             <div className="return-goods-pages">
                <Header type={false} color={false}/>
@@ -256,6 +258,7 @@ class Returngoods extends React.Component {
                         cashrevisetabledatasouce={this.barcodesetdatasoce.bind(this)}
                         userplace='1'
                         ref='opera'
+                        orderInfo={orderInfo}
                         setonblue={this.setonblue.bind(this)}
                         revisedata={this.revisedata.bind(this)}
                         showpops={this.showpops.bind(this)}/>

@@ -90,6 +90,7 @@ class Operationls extends React.Component { //左边输入订单号组件
     GetServerData('qerp.pos.mb.card.find',values)
     .then((json) => {
 				const { mbCardInfo } =json;
+				console.log(json)
         if(json.code=='0'){
           this.setState({
           	name:mbCardInfo.name,
@@ -145,6 +146,7 @@ class Operationls extends React.Component { //左边输入订单号组件
     }
 	render(){
 		const { mbCardInfo } =this.state;
+		const { orderInfo } =this.props;
 		return(
   		<div>
 				<div className='clearfix mt30'>
@@ -172,6 +174,9 @@ class Operationls extends React.Component { //左边输入订单号组件
 								unCheckedChildren="对外售卖"
 								onChange={this.hindchange.bind(this)}
 								checked={this.state.checked}/>
+								{
+									orderInfo.messageInfo&&<div className="order-message">{orderInfo.messageInfo}</div>
+								}
 						</div>
 	    			<div className='fl cashierbox'>
 	    				<div className='clearfix cashierbox_t'>
@@ -268,7 +273,7 @@ class OperationRe extends React.Component {
 	  this.props.showpops()
 	}
 	render() {
-		const { color } =this.props;
+		const { color, orderInfo } =this.props;
 		return(
 			<div className='count clearfix'>
 				<div className='opera'>
@@ -277,6 +282,7 @@ class OperationRe extends React.Component {
 	                tabledataset={this.props.tabledataset}
 	                cashrevisetabledatasouce={this.props.cashrevisetabledatasouce}
 	                ref='cashier'
+									orderInfo={orderInfo}
 	                setonblue={this.props.setonblue}
 	                revisedata={this.props.revisedata}/>
 	    				</div>

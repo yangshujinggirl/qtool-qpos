@@ -7,8 +7,7 @@ import {GetExportData} from '../../services/services';
 import CommonTable from './commonTable';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
-import './onroad.less';
-
+import './onroad.less'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -151,45 +150,46 @@ class HotSellGoodsForm extends React.Component {
       }
   }
   render() {
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <div className="onroad onroad-wrap">
-        <div className="scroll-wrapper">
-          {/*搜索部分 */}
-          <Form className="search-form onroad-con">
-              <FormItem>
-                  {getFieldDecorator('nameOrCode')(
-                      <Input autoComplete="off" placeholder="请输入商品名称/条码"/>
-                  )}
-              </FormItem>
-              <FormItem className='onroad_btn'>
-                  <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-              </FormItem>
-              <div className="export-div">
-              <   Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+      const { getFieldDecorator } = this.props.form;
+      return (
+          <div className="onroad">
+              <div className="scroll-wrapper">
+                  {/*搜索部分 */}
+                  <Form className="search-form onroad-con">
+                      <FormItem>
+                          {getFieldDecorator('nameOrCode')(
+                              <Input autoComplete="off" placeholder="请输入商品名称/条码"/>
+                          )}
+                      </FormItem>
+                      <FormItem className='onroad_btn'>
+                          <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                      </FormItem>
+                      <div className="export-div">
+                      <   Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+                      </div>
+                  </Form>
+                  <div className="hotSell-wrapper add-norecord-img">
+                      <CommonTable
+                          columns={this.columns}
+                          dataSource={this.state.dataSource}
+                          pagination={false}
+                          total={this.state.total}
+                          current={this.state.currentPage}
+                          locale={true}
+                          />
+                  </div>
               </div>
-          </Form>
-          <div className="hotSell-wrapper add-norecord-img">
-              <CommonTable
-                  columns={this.columns}
-                  dataSource={this.state.dataSource}
-                  pagination={false}
-                  total={this.state.total}
-                  current={this.state.currentPage}
-                  locale={true}
-                  />
-          </div>
-        </div>
-        <div className="pagination-wrap">
-          <Pagination
-            total={this.state.total}
-            current={this.state.currentPage+1}
-            pageSize={this.state.limit}
-            showSizeChanger
-            onShowSizeChange={this.onShowSizeChange}
-            onChange={this.pageChange}
-            pageSizeOptions={['10','12','15','17','20','50','100','200']}/>
-        </div>
+              <div className="pagination-wrap">
+                  <Pagination
+                      total={this.state.total}
+                      current={this.state.currentPage+1}
+                      pageSize={this.state.limit}
+                      showSizeChanger
+                      onShowSizeChange={this.onShowSizeChange}
+                      onChange={this.pageChange}
+                       pageSizeOptions={['10','12','15','17','20','50','100','200']}
+                      />
+              </div>
       </div>
     );
   }

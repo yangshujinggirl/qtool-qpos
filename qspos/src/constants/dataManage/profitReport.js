@@ -76,7 +76,7 @@ class ProfitReportForm extends React.Component {
           rpDate:'',
           name:'',
           windowHeight:'',
-          source:0
+          orderType:7
       };
     }
     componentDidMount(){
@@ -107,10 +107,10 @@ class ProfitReportForm extends React.Component {
       const { limit, rpDate, source ,name } =this.state;
       let params = {
         currentPage:0,
-        limit:limit,
-        rpDate:rpDate,
-        source:source,
-        name:name
+        limit:10,
+        rpDate:this.state.rpDate,
+        orderType:this.state.orderType,
+        name:this.state.name
       }
       if(values) {
         params={ ...params, ...values}
@@ -185,16 +185,15 @@ class ProfitReportForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            // rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
-            rpDate:this.state.rpDate?this.state.rpDate:"",
+            rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
             name:this.state.name,
-            source:this.state.source
+            orderType:this.state.orderType,
         }
         const result=GetExportData('qerp.pos.rp.profit.export',data);
     }
     //获取当前时间
     changeSource=(value)=> {
-      this.setState({ source: value })
+      this.setState({ orderType: value })
     }
     changeName=(e)=> {
       let value = e.nativeEvent.target.value;
@@ -286,17 +285,17 @@ class ProfitReportForm extends React.Component {
                   )}
               </FormItem>
               <FormItem
-                label="订单来源"
+                label="业务类型"
                 labelCol={{ span: 5 }}
                 wrapperCol={{span: 10}}>
-                  {getFieldDecorator('source', {
-                        initialValue:0,
+                  {getFieldDecorator('orderType', {
+                        initialValue:7,
                         onChange:this.changeSource
                     })(
                         <Select>
-                          <Option key={0} value={0}>全部</Option>
-                          <Option key={1} value={1}>POS</Option>
-                          <Option key={2} value={2}>APP</Option>
+                          <Option key={7} value={7}>全部</Option>
+                          <Option key={0} value={0}>门店POS</Option>
+                          <Option key={6} value={6}>门店APP</Option>
                         </Select>
                   )}
               </FormItem>
@@ -319,7 +318,7 @@ class ProfitReportForm extends React.Component {
           </div>
           {
             this.state.dataSource.length>0&&
-            <div className="footer-pagefixed">
+            <div style={{'padding':'20px 0'}}>
               <Pagination
                 total={this.state.total}
                 current={this.state.currentPage+1}

@@ -1,8 +1,8 @@
 /* 每日对账单 */
 
-.data-lists-pages {
+/*.data-lists-pages {
   overflow: inherit;
-}
+}*/
 .data-lists-pages .ant-tabs {
   overflow: inherit;
 }

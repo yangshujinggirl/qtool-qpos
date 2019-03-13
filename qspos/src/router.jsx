@@ -11,7 +11,7 @@ import Returngoods from "./routes/Returngoods";
 import Inventory from "./routes/InventoryNew";
 import Adjust from "./routes/Adjust";
 import Inventorydiff from "./routes/Inventorydiff";
-
+import OrderManage from './routes/OrderManage';
 //新增数据管理
 import DataManage from "./routes/DataManage";
 import ReceiptDetail from "./routes/ReceiptDetail"
@@ -29,6 +29,7 @@ import Dbloginfo from './routes/dbinfolog'
 import Inventoryloginfo from './routes/inventorydiffloginfo'
 import MemberBirth from './routes/MemberBirth';
 
+import ReceviceDetail from './constants/dataManage/ChargeBackList/GoodsDetail';//收货详情
 
 function RouterConfig({ history }) {
   return (
@@ -40,14 +41,14 @@ function RouterConfig({ history }) {
       <Route path="/member" component={Member} />
       <Route path="/receivegoods" component={Receivegoods} />
       <Route path="/goods" component={Goods} />
-      <Route path="/sell" component={Sell} />
+      <Route path="/sell" component={OrderManage} />
       <Route path="/returngoods" component={Returngoods} />
       <Route path="/inventory" component={Inventory} />
       <Route path="/adjust" component={Adjust} />
       <Route path="/inventorydiff" component={Inventorydiff} />
       <Route path="/dataManage" component={DataManage}/>
       <Route path="/member/info" component={Memberinfo} />
-      <Route path="/dataManage/receiptDetail" component={ReceiptDetail}/>
+      <Route path="/chargeBack/:type/:id" component={ReceviceDetail}/>
       <Route path="/adjustLog" component={AdjustLog}/>
       <Route path="/inventorydiffLog" component={InventorydiffLog}/>
       <Route path="/pay" component={Payamount}/>
