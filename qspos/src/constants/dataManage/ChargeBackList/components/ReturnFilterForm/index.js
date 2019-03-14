@@ -40,7 +40,7 @@ class NormalForm extends Component {
                  {getFieldDecorator('createrTime',{
                    initialValue:[moment(startDate,'YYYY-MM-DD'),moment(endDate,'YYYY-MM-DD')]
                  })(
-                   <RangePicker showTime allowClear={false}/>
+                   <RangePicker showTime allowClear={true}/>
                  )}
                </FormItem>
                <FormItem label='订单状态'>

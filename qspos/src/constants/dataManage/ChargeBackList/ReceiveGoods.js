@@ -33,11 +33,13 @@ class ReceiveGoods extends Component {
       operateStart,
       operateEnd,
       fields:{...this.state.fields,createrTime:[operateStart,operateEnd]}
+    },()=> {
+      this.props.dispatch({
+        type:'chargeBackList/fetchReceiveList',
+        payload:this.state.fields
+      })
     });
-    this.props.dispatch({
-      type:'chargeBackList/fetchReceiveList',
-      payload:{ operateStart, operateEnd ,...this.state.fields}
-    })
+
   }
   //双向绑定表单
   handleFormChange = (changedFields) => {

@@ -34,6 +34,7 @@ class Returngoods extends React.Component {
               odOrderDetails[i].qty=odOrderDetails[i].canReturnQty//把订单数量更改为可退数量
               odOrderDetails[i].inventory=odOrderDetails[i].qty
               odOrderDetails[i].check=false
+              odOrderDetails[i].odAmount=odOrderDetails[i].payPrice;
           	}
             this.setState({
                 dataSource:odOrderDetails,

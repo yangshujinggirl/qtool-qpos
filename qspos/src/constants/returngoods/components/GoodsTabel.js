@@ -246,10 +246,11 @@ class EditableTable extends React.Component {
         var r = /^\+?[1-9][0-9]*$/;
         let changedataSource=this.state.dataSource
         console.log(changedataSource)
-        if(Number(changedataSource[index].qty)<=Number(changedataSource[index].canReturnQty)){
+        if(Number(changedataSource[index].qty) < Number(changedataSource[index].canReturnQty)){
             if(r.test(Number(changedataSource[index].qty))){
               //如果是正整数
-              changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+              // changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+              changedataSource[index].payPrice=this.accMuls(changedataSource[index].canReturnPrice,changedataSource[index].qty)
                 this.setState({
                     dataSource:changedataSource
                 },function(){
@@ -263,7 +264,8 @@ class EditableTable extends React.Component {
             }else{
                 //如果非整数
                 changedataSource[index].qty=1
-                changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+                // changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
+                changedataSource[index].payPrice=this.accMuls(changedataSource[index].canReturnPrice,changedataSource[index].qty)
                     this.setState({
                         dataSource:changedataSource
                     },function(){
@@ -276,7 +278,24 @@ class EditableTable extends React.Component {
                 })
                     message.warning('数量只能是大于等于0的整数')
             }
-        }else{
+        }else if(Number(changedataSource[index].qty) == Number(changedataSource[index].canReturnQty)){
+          let totalPrice = changedataSource[index].odAmount;
+          let returnQty = changedataSource[index].returnQty;//已退数量
+          let canPrice = changedataSource[index].canReturnPrice;//可退价
+          let returnedAmount = this.accMuls(returnQty,canPrice);
+          let shouldRePrice = Number(totalPrice)-Number(returnedAmount);
+          changedataSource[index].payPrice = shouldRePrice;
+          this.setState({
+              dataSource:changedataSource
+          },function(){
+            this.uptotaldata()
+            if(this.state.ismbCard){
+              this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId:this.state.mbCard.mbCardId})
+            }else{
+              this.props.revisedata({type:6,data:this.state.isdataSource,mbCardId: null})
+            }
+          })
+        } else {
             changedataSource[index].qty=changedataSource[index].canReturnQty
             changedataSource[index].payPrice=this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount)
             this.setState({
@@ -302,7 +321,7 @@ class EditableTable extends React.Component {
     }
     discountblur=(index)=>{
       const { ismbCard, isdataSource, mbCard } =this.state;
-    	let changedataSource=this.state.dataSource
+    	let changedataSource=this.state.dataSource;
     	if(changedataSource[index].discount>0 || changedataSource[index].discount==0){
         let payPrice = this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount);
         let itemCanReturnAmount = this.accMuls(changedataSource[index].canReturnPrice,changedataSource[index].canReturnQty);
@@ -355,7 +374,8 @@ class EditableTable extends React.Component {
         payPrice=0
       } else if(payPrice>itemCanReturnAmount) {
         message.error('折后价不得大于可退总价');
-        payPrice = this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount);
+        // payPrice = this.payPrice(changedataSource[index].price,changedataSource[index].qty,changedataSource[index].discount);
+        payPrice = this.payPriceSpecil(changedataSource,index);
       } else {
         payPrice = payPrice.toFixed(2)
       }
@@ -442,6 +462,16 @@ class EditableTable extends React.Component {
         payPrice=payPriceda
         payPrice=payPrice.toFixed(2)
         return payPrice
+    }
+    //可退数量与输入数量相等时
+    payPriceSpecil=(changedataSource,index)=> {
+      let payPrice;
+      if(Number(changedataSource[index].qty) < Number(changedataSource[index].canReturnQty)) {
+        payPrice = this.accMuls(changedataSource[index].canReturnPrice,changedataSource[index].qty);
+      } else {
+        payPrice = changedataSource[index].odAmount;
+      }
+      return payPrice;
     }
     rowclick=(record,index,event)=>{
         this.rowClassName(record,index)
