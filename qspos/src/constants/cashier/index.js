@@ -2,25 +2,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,message,Modal,Form} from 'antd';
-import NP from 'number-precision'
+import { Table, Row, Col, Select, Input, Icon, Button, Popconfirm ,message,Modal,Form} from 'antd';
+import NP from 'number-precision';
 import {GetServerData} from '../../services/services';
 import { dataedit } from '../../utils/commonFc';
-import Header from '../../components/header/Header';
+import Header from '../../components/Qheader';
 import EntryOrdersModal from './components/EntryOrdersModal';
 import PutedOrderListModal from './components/PutedOrderListModal';
-import OperationlLeft from './components/uesleft';
-import Operationcaster from './components/Operationcaster.jsx';
-import EditableTable from './components/table';
+import OperationlLeft from './components/OperationlLeft';
+
+import EditableTable from './components/EditableTable';
 import PayModal from './components/PayModal';
 import './index.less';
+
 const FormItem = Form.Item;
+const Option =  Select.Option;
 
 const CollectionCreateForm = Form.create()((props) => {
 	const { visible, onCancel, form ,hindPress} = props;
 	const { getFieldDecorator } = form;
 	return (
 		<Modal
+			title="整单折扣"
 			visible={visible}
 			okText="Create"
 			onCancel={onCancel}
@@ -28,21 +31,22 @@ const CollectionCreateForm = Form.create()((props) => {
 			footer={null}
 			closable={false}
 			width={430}
-			className='popmodel discount-modal'>
-			<Form layout="inline">
-			<FormItem label="请输入折扣数">
-				{
-					getFieldDecorator('title', {
-						rules: [{
-							required: true,
-							message: '请输入最多一位小数的折扣数',
-							pattern:/^([1-9][0-9]*)+(.[0-9]{1,1})?$/ }]
-					})(
-						<Input  autoComplete="off" style={{width:'200px'}} onKeyUp={hindPress}/>
-					)
-				}
-			</FormItem>
-			</Form>
+			className='popmodel cashier-discount-modal'>
+				<Form layout="inline">
+					<Row><Col span={24}>整单折扣仅对非活动商品生效</Col></Row>
+					<FormItem label="请输入折扣数:">
+							{
+								getFieldDecorator('title', {
+									rules: [{
+										required: true,
+										message: '请输入最多一位小数的折扣数',
+										pattern:/^([1-9][0-9]*)+(.[0-9]{1,1})?$/ }]
+								})(
+									<Input  autoComplete="off" style={{width:'200px'}} onKeyUp={hindPress}/>
+								)
+							}
+						</FormItem>
+				</Form>
 		</Modal>
 	);
 });
@@ -141,6 +145,14 @@ class Cashierindex extends React.Component {
           type:'cashier/datasouce',
           payload:datasouce
       })
+			//重置活动列表
+			this.props.dispatch({
+				type:'cashier/getActivityList',
+				payload:{
+					currentActivityList:[],
+					selectActivityId:'all'
+				}
+			})
     }
     //获取所有挂单
     getAllOrderListApi() {
@@ -252,8 +264,8 @@ class Cashierindex extends React.Component {
     }
     //整单折扣值价格重置
     takezhe=(value)=>{
-      var dis=value
-      let role=sessionStorage.getItem('role');
+	    var dis=value
+	    let role=sessionStorage.getItem('role');
 			switch(role) {
 				case '1':
 				case '2':
@@ -267,17 +279,21 @@ class Cashierindex extends React.Component {
 				}
 				break;
 			}
-     const datasouce=this.props.datasouce.splice(0)
-     for(var i=0;i<datasouce.length;i++){
-        datasouce[i].discount=dis
-        var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
-        const editpayPrice =dataedit(zeropayPrice)
-        if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-          datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01));
-        }else{
-          datasouce[i].payPrice=editpayPrice
-        }
-     }
+			let datasouce=this.props.datasouce.splice(0);
+
+			for(var i=0;i<datasouce.length;i++){
+				if(!datasouce[i].isJoin) {
+					datasouce[i].discount=dis;
+					var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
+					const editpayPrice =dataedit(zeropayPrice)
+					if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+					  datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01));
+					}else{
+					  datasouce[i].payPrice=editpayPrice
+					}
+				}
+			}
+
      this.props.dispatch({
           type:'cashier/datasouce',
           payload:datasouce
@@ -435,9 +451,17 @@ class Cashierindex extends React.Component {
 		setSpace=(value)=> {
 			this.setState({ isKeySpace: value })
 		}
+		//选择活动
+		activitySelect =(value, option)=> {
+			this.props.dispatch({
+				type:'cashier/selectActivity',
+				payload:value
+			})
+		}
     render() {
-      const { datasouce, memberinfo } =this.props;
+      const { datasouce, memberinfo, currentActivityList, selectActivityId } =this.props;
       const { visible, visibleOne, visibleTwo, currentOrderNo, allOrderList, isPhone, loading } =this.state;
+
       return(
         <div className="cashier-wrap-pages">
           <Header type={true} color={true}/>
@@ -449,6 +473,23 @@ class Cashierindex extends React.Component {
       				<div className='btn fr ml20'>
       					<Button  onClick={()=>this.showModal()} className='handle-btn'>整单折扣</Button>
       				</div>
+							{
+								currentActivityList&&currentActivityList.length>0&&
+								<div className='fl activity-part'>
+									<label className="label-name">该商品正在参与促销活动，点击右侧选框可切换活动：</label>
+									<Select
+										className="activity-list-select"
+										value={selectActivityId}
+										onSelect={this.activitySelect}>
+										{
+											currentActivityList.map((el,index) => (
+												<Option value={el.activityId} key={el.activityId}>{el.name}</Option>
+											))
+										}
+										<Option value='all' key='all'>不参与活动</Option>
+									</Select>
+	      				</div>
+							}
       				<div className='btn fr ml20' onClick={this.rowonDelete.bind(this)}>
                 <Button className='handle-btn'>移除商品F4</Button>
               </div>
@@ -474,7 +515,7 @@ class Cashierindex extends React.Component {
 											 checkIsPhone={this.checkIsPhone.bind(this)}
 											 isPhone={isPhone}/>
 				  				</div>
-				  				<div className='operationr fr'>
+									<div className='operationr fr'>
 										<div className='operationcon'>
 							        <div className='fl list1' onClick={this.hindclick.bind(this)}>
 							          <div className='con1'>结算</div>
@@ -489,8 +530,8 @@ class Cashierindex extends React.Component {
 							          <div className='con2'>{this.props.totolamount}</div>
 							        </div>
 							      </div>
-				          </div>
-				  			</div>
+									</div>
+								</div>
 				  		</div>
             </div>
           </div>
@@ -522,6 +563,8 @@ class Cashierindex extends React.Component {
 
 function mapStateToProps(state) {
     const {
+			selectActivityId,
+						currentActivityList,
             datasouce,
             meths,
             onBlur,
@@ -533,6 +576,8 @@ function mapStateToProps(state) {
             checkPrint,
             memberinfo}=state.cashier
     return {
+			selectActivityId,
+			currentActivityList,
             datasouce,
             meths,
             onBlur,

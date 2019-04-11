@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import Header from '../../components/header/Header';
+import Header from '../../components/Qheader';
 import Searchinput from '../../components/Searchinput/Searchinput';
 import {LocalizedModal,Buttonico} from '../../components/Button/Button';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Spin} from 'antd';

@@ -30,6 +30,8 @@ import Inventoryloginfo from './routes/inventorydiffloginfo'
 import MemberBirth from './routes/MemberBirth';
 
 import ReceviceDetail from './constants/dataManage/ChargeBackList/GoodsDetail';//收货详情
+import ActivityManage from './constants/activityManage';//活动列表
+import ActivityInfo from './constants/activityManage/activityInfo';//活动详情
 
 function RouterConfig({ history }) {
   return (
@@ -41,6 +43,8 @@ function RouterConfig({ history }) {
       <Route path="/member" component={Member} />
       <Route path="/receivegoods" component={Receivegoods} />
       <Route path="/goods" component={Goods} />
+      <Route path="/activityManage" component={ActivityManage} />
+      <Route path="/activityInfo/:id" component={ActivityInfo} />
       <Route path="/sell" component={OrderManage} />
       <Route path="/returngoods" component={Returngoods} />
       <Route path="/inventory" component={Inventory} />

@@ -48,7 +48,9 @@ export default {
         typeclick3:false,
         typeclick4:false,
         rechargetype:1,
-        memberinfo:{isLocalShop:true}
+        memberinfo:{isLocalShop:true},
+        currentActivityList:[],//活动列表
+        selectActivityId:'all'
   },
   reducers: {
       initstate(state, { payload: {}}) {
@@ -88,6 +90,7 @@ export default {
         const typeclick4=false
         const rechargetype=1;
         const memberinfo = {isLocalShop:true};
+        const currentActivityList = [];
         return {...state,
           datasouce,totolnumber,
           totolamount,thispoint,onbule,
@@ -99,9 +102,38 @@ export default {
           rechargevisible,reamount,
           typeclick1,typeclick2,
           typeclick3,typeclick4,
-          rechargetype,memberinfo
+          rechargetype,memberinfo,currentActivityList
         }
        },
+      selectActivity(state, { payload: activityId}) {
+        const currentActivityList = state.currentActivityList;
+        let datasouce = state.datasouce;
+        let currentActivityItem;//当前选中的活动
+        const barcode = currentActivityList[0].barcode;//当前活动商品;
+        if(activityId !== 'all') {
+          currentActivityItem = currentActivityList.find((value, index, arr) => {
+            return value.activityId == activityId;
+          })
+        }
+        datasouce.map((el,idx) => {
+          if(el.barcode == barcode) {
+            el.activityId = activityId;
+            if(currentActivityItem) {
+              el.activityName = currentActivityItem.name;
+              el.isJoin = true;
+            } else {
+              el.activityName = '';
+              el.isJoin = false;
+            }
+          }
+          return el;
+        })
+        datasouce = [...datasouce]
+        return {...state, datasouce, selectActivityId: activityId }
+      },
+      getActivityList(state, { payload: { currentActivityList, selectActivityId} }){
+        return {...state,currentActivityList, selectActivityId}
+      },
 	    datasouce(state, { payload: datasouce}) {
           var totolnumber=0
           var totolamount=0
@@ -227,67 +259,95 @@ export default {
         yield put({type: 'spinLoad/setLoading',payload:true});
         const result=yield call(GetServerData,code,values);
         if(result.code=='0'){
-            const initdatasouce = yield select(state => state.cashier.datasouce);
-            const datasouce=initdatasouce.slice(0)
-            const i=isInArray(datasouce,result.pdSpu.barcode)
-            if(i==='-1'){
-                //不存在，判断库存
-                if(Number(result.pdSpu.inventory)>0){
-                    const objects=result.pdSpu
-                    objects.qty='1'
-                    objects.discount='10'
-                    var zeropayPrice=String(NP.divide(NP.times(objects.toCPrice, objects.qty,objects.discount),10)); //计算值
-                    //判断是否有小数点，及小数点时候有两位，当不满足时候补零
-                    var xsd=zeropayPrice.toString().split(".");
-                    if(xsd.length==1){
-                        zeropayPrice=zeropayPrice.toString()+".00";
-                    }
-                    if(xsd.length>1 && xsd[1].length<2){
-                        zeropayPrice=zeropayPrice.toString()+"0";
-                    }
+          const initdatasouce = yield select(state => state.cashier.datasouce);
+          const datasouce=initdatasouce.slice(0)
+          const i=isInArray(datasouce,result.pdSpu.barcode);
+          let { activityId, spActivities } = result.pdSpu;
+          let selectActivityId = activityId;//默认活动id
+          let currentActivityList = spActivities;//活动列表
+          let isJoin = false;//是否参加活动
+          if(currentActivityList&&currentActivityList.length>0) {
+            currentActivityList.map((el,index) => el.barcode = result.pdSpu.barcode);
+            isJoin = true;
+          }
+          result.pdSpu.isJoin = isJoin;
+          if(i==='-1'){
+              //不存在，判断库存
+              if(Number(result.pdSpu.inventory)>0){
+                  const objects=result.pdSpu
+                  objects.qty='1'
+                  objects.discount='10'
+                  var zeropayPrice=String(NP.divide(NP.times(objects.toCPrice, objects.qty,objects.discount),10)); //计算值
+                  //判断是否有小数点，及小数点时候有两位，当不满足时候补零
+                  var xsd=zeropayPrice.toString().split(".");
+                  if(xsd.length==1){
+                      zeropayPrice=zeropayPrice.toString()+".00";
+                  }
+                  if(xsd.length>1 && xsd[1].length<2){
+                      zeropayPrice=zeropayPrice.toString()+"0";
+                  }
 
-                    const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
-                    if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-                        objects.payPrice=String(NP.plus(editpayPrice, 0.01))
-                    }else{
-                        objects.payPrice=editpayPrice
-                    }
-                    datasouce.unshift(objects)
-                }else{
-                    message.error('商品库存不足');
-                    yield put({type: 'spinLoad/setLoading',payload:false});
-                    return
-                }
-            }else{
-                //存在,库存判断是否大于0
-                if(Number(datasouce[i].qty)==Number(datasouce[i].inventory)){
-                    message.error('商品库存不足');
-                    yield put({type: 'spinLoad/setLoading',payload:false});
-                    return
-                }else{
-                    datasouce[i].qty=String(Number(datasouce[i].qty)+1)
-                    var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
-                    //判断是否有小数点，及小数点时候有两位，当不满足时候补零
-                    var xsd=zeropayPrice.toString().split(".");
-                    if(xsd.length==1){
-                        zeropayPrice=zeropayPrice.toString()+".00";
-                    }
-                    if(xsd.length>1 && xsd[1].length<2){
-                        zeropayPrice=zeropayPrice.toString()+"0";
-                    }
-                    const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
-                    if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-                        datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01));
+                  const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+                  if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+                      objects.payPrice=String(NP.plus(editpayPrice, 0.01))
+                  }else{
+                      objects.payPrice=editpayPrice
+                  }
+                  datasouce.unshift(objects)
+              }else{
+                  message.error('商品库存不足');
+                  yield put({type: 'spinLoad/setLoading',payload:false});
+                  return
+              }
+          }else{
+              //存在,库存判断是否大于0
+              if(Number(datasouce[i].qty)==Number(datasouce[i].inventory)){
+                  message.error('商品库存不足');
+                  yield put({type: 'spinLoad/setLoading',payload:false});
+                  return
+              }/*else{
+                  datasouce[i].qty=String(Number(datasouce[i].qty)+1)
+                  var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
+                  //判断是否有小数点，及小数点时候有两位，当不满足时候补零
+                  var xsd=zeropayPrice.toString().split(".");
+                  if(xsd.length==1){
+                      zeropayPrice=zeropayPrice.toString()+".00";
+                  }
+                  if(xsd.length>1 && xsd[1].length<2){
+                      zeropayPrice=zeropayPrice.toString()+"0";
+                  }
+                  const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+                  if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+                      datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01));
 
-                    }else{
-                        datasouce[i].payPrice=editpayPrice
-                    }
-                    const str=datasouce.splice(i,1); //删除当前
-                    datasouce.unshift(str[0]); //把这个元素添加到开头
-                }
-            }
-            yield put({type: 'datasouce',payload:datasouce});
+                  }else{
+                      datasouce[i].payPrice=editpayPrice
+                  }
+                  const str=datasouce.splice(i,1); //删除当前
+                  datasouce.unshift(str[0]); //把这个元素添加到开头
+              }*/
+              datasouce[i].qty=String(Number(datasouce[i].qty)+1)
+              var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
+              //判断是否有小数点，及小数点时候有两位，当不满足时候补零
+              var xsd=zeropayPrice.toString().split(".");
+              if(xsd.length==1){
+                  zeropayPrice=zeropayPrice.toString()+".00";
+              }
+              if(xsd.length>1 && xsd[1].length<2){
+                  zeropayPrice=zeropayPrice.toString()+"0";
+              }
+              const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+              if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+                  datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01));
 
+              }else{
+                  datasouce[i].payPrice=editpayPrice
+              }
+              const str=datasouce.splice(i,1); //删除当前
+              datasouce.unshift(str[0]); //把这个元素添加到开头
+          }
+          yield put({type: 'datasouce',payload:datasouce});
+          yield put({type: 'getActivityList',payload:{ currentActivityList, selectActivityId }});
         }else{
              message.error(result.message);
         }

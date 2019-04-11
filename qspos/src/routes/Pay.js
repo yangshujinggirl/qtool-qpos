@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './Pay.css';
-import Header from '../components/header/Header';
+import Header from '../components/Qheader';
 import AntIcon from '../components/loding/payloding';
 import { Input ,Form,Spin,message,Button,Icon} from 'antd';
 import ReactDOM from 'react-dom';

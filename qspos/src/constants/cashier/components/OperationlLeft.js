@@ -14,14 +14,14 @@ import {
 	Radio,
 	Checkbox
 } from 'antd';
-import Modales from './model'
+import Modales from './Modales';
 import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
 import {printRechargeOrder} from '../../../components/Method/Method';
-import Btnpay from './btnpay'
-import Btnbrfore from './btnbefore'
-import './uesleft.less';
+import Btnpay from './Btnpay'
+import Btnbrfore from './Btnbrfore'
+import './OperationlLeft.less';
 
 
 const columns = [{

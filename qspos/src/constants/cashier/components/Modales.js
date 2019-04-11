@@ -3,8 +3,8 @@ import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
 import {printRechargeOrder} from '../../../components/Method/Method'
 import {getRechargeOrderInfo} from '../../../components/Method/Print';
-import Btnpay from './btnpay'
-import Btnbrfore from './btnbefore'
+import Btnpay from './Btnpay'
+import Btnbrfore from './Btnbrfore'
 import ReactDOM from 'react-dom';
 
 

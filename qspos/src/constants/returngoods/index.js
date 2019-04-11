@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,message,Checkbox} from 'antd';
-import Header from '../../components/header/Header';
+import Header from '../../components/Qheader';
 import PayModal from './components/PayModal';
 import NP from 'number-precision';
 import {GetServerData} from '../../services/services';

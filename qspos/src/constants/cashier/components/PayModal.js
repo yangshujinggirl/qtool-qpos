@@ -6,9 +6,9 @@ import { GetLodop, getSaleOrderInfo} from '../../../components/Method/Print'
 import {printSaleOrder} from '../../../components/Method/Method'
 import {dataedit} from '../../../utils/commonFc';
 import NP from 'number-precision'
-import Btnpay from './btnpay'
+import Btnpay from './Btnpay'
 import Scanbtn from '../../../components/Button/scanbtn';
-import Btnbrforepay from './btnbeforepay';
+import Btnbrforepay from './Btnbrforepay';
 import ValidataModal from './ValidataModal';
 
 

@@ -1,18 +1,33 @@
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,message} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,message, Popover} from 'antd';
 import NP from 'number-precision'
 import {GetServerData} from '../../../services/services';
 import {dataedit} from '../../../utils/commonFc';
 
-const inputwidth={width:'80%',height:'30px',border:'1px solid #E7E8EC',background: '#FFF',textAlign:'center'}
+import './EditableTable.less';
+
+const inputwidth={
+	width:'80%',
+	height:'30px',
+	border:'1px solid #E7E8EC',
+	background: '#FFF',
+	textAlign:'center'
+}
 
 class EditableTable extends React.Component {
 	constructor(props) {
 		super(props);
-		this.columns = [{
+		this.columns = [
+			{
 				title: '序号',
 				dataIndex: 'key',
-				width:'8%'
+				width:'8%',
+				render: (text, record, index) => {
+	        return <div className="td-wrap">
+	          {this.renderCol(record, text)}
+	          {record.isJoin&&<span className="activity-mark"></span>}
+	        </div>
+	      }
 			}, {
 				title: '商品条码',
 				width:'10%',
@@ -36,7 +51,9 @@ class EditableTable extends React.Component {
 				dataIndex: 'qty',
 				render: (text, record, index) => {
 					return (
-						<Input  autoComplete="off" style={inputwidth}
+						<Input
+							autoComplete="off"
+							style={inputwidth}
 							onKeyDown={this.onKeydown.bind(this)}
 							value={text}
 							onBlur={this.qtyblur.bind(this,index)}
@@ -48,14 +65,21 @@ class EditableTable extends React.Component {
 				width:'10%',
 				dataIndex: 'discount',
 				render: (text, record, index) => {
+					let value;
+					if(record.isJoin) {
+						value = record.activityDiscount
+					}else {
+						value = record.discount
+					}
 					return (
-						<Input style={inputwidth}
-						autoComplete="off"
+						<Input
+							disabled={record.isJoin}
+							style={inputwidth}
+							autoComplete="off"
 							onKeyDown={this.onKeydown.bind(this)}
-							value={text}
+							value={value}
 							onChange={this.discountonchange.bind(this,index)}
-							onBlur={this.discountblur.bind(this,index)}
-						/>
+							onBlur={this.discountblur.bind(this,index)}/>
 					)
 				}
 			},{
@@ -63,18 +87,24 @@ class EditableTable extends React.Component {
 				width:'10%',
 				dataIndex: 'payPrice',
 				render: (text, record, index) => {
+					let value;
+					if(record.isJoin) {
+						value = record.specialPrice
+					}else {
+						value = record.payPrice
+					}
 					return (
-						<Input style={inputwidth}
-						autoComplete="off"
+						<Input
+							disabled={record.isJoin}
+							style={inputwidth}
+							autoComplete="off"
 							onKeyDown={this.onKeydown.bind(this)}
-							value={text}
+							value={value}
 							onChange={this.payPriceonchange.bind(this,index)}
-							onBlur={this.payPriceblur.bind(this,index)}
-						/>
+							onBlur={this.payPriceblur.bind(this,index)}/>
 					)
 				}
 		}];
-		this._isMounted = false;
 		this.state = {
 			count: 1,
 			index:0,
@@ -85,24 +115,42 @@ class EditableTable extends React.Component {
 			nofirstent:false
 		};
 	}
+	componentWillUnmount(){
+		window.removeEventListener('resize', this.windowResize);
+	}
 	componentDidMount(){
-		this._isMounted = true;
-		if(this._isMounted){
-			if(document.body.offsetWidth>800){
-				this.setState({
-					windowHeight:document.body.offsetHeight-495,
-				});
-			}else{
-				this.setState({
-					windowHeight:document.body.offsetHeight-295,
-				});
-			}
-			window.addEventListener('resize', this.windowResize);
+		this.windowResize();
+		window.addEventListener('resize', this.windowResize);
+	}
+	//适配屏幕
+	windowResize = () =>{
+		if(!this.refs.tableWrapper){
+      return
+    }
+		if(document.body.offsetWidth>800){
+			this.setState({
+				windowHeight:document.body.offsetHeight-495,
+			});
+		}else{
+			this.setState({
+				windowHeight:document.body.offsetHeight-295,
+			});
 		}
 	}
-	componentWillUnmount(){
-		this._isMounted = false;
-		window.removeEventListener('resize', this.windowResize);
+	//列渲染
+	renderCol = (record, text) => {
+	  const popverContent = <span>{record.activityName}</span>;
+	  let Mod;
+	  if (record.isJoin) {
+	    Mod = <Popover content={popverContent} placement="bottom">
+	            <span className="pover-text">
+	              {text}
+	            </span>
+	          </Popover >
+	  } else {
+	    Mod = <span> { text }</span>;
+	  }
+	  return Mod;
 	}
 	//change事件
 	qtyonchange=(index,e)=>{
@@ -253,10 +301,19 @@ class EditableTable extends React.Component {
 	}
 	//行点击
 	rowclick=(record,index,event)=>{
-		const themeindex=index
+		console.log(record)
+		const themeindex=index;
 		this.props.dispatch({
 			type:'cashier/themeindex',
 			payload:themeindex
+		})
+		//重置活动列表
+		this.props.dispatch({
+			type:'cashier/getActivityList',
+			payload:{
+				currentActivityList:record.spActivities,
+				selectActivityId:record.activityId
+			}
 		})
 	}
 	onKeydown=(e)=>{
@@ -264,32 +321,21 @@ class EditableTable extends React.Component {
 			e.preventDefault()
 		}
 	}
-	windowResize = () =>{
-		if(!this.refs.tableWrapper){
-            return
-        }else{
-			if(document.body.offsetWidth>800){
-				this.setState({
-					windowHeight:document.body.offsetHeight-495,
-				});
-			}else{
-				this.setState({
-					windowHeight:document.body.offsetHeight-295,
-				});
-			}
-		}
-	}
 	render() {
 		const columns = this.columns;
 		return (
-			<div className='bgf' ref="tableWrapper">
+			<div className='bgf casher-goods-table' ref="tableWrapper">
 				<Table
 					bordered
 					dataSource={this.props.datasouce}
 					columns={columns}
 					pagination={false}
 					scroll={{ y: this.state.windowHeight }}
-					onRowClick={this.rowclick.bind(this)}
+					onRow={(record,index)=> {
+						return {
+							onClick:this.rowclick.bind(this,record,index)
+						}
+					}}
 					rowClassName={this.rowClassName.bind(this)}/>
 			</div>
 		);

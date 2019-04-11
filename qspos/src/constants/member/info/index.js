@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,Switch} from 'antd';
 import { Link } from 'dva/router'
-import Header from '../../../components/header/Header';
+import Header from '../../../components/Qheader';
 import Buttonico from '../../../components/Button/Button';
 import Searchinput from '../../../components/Searchinput/Searchinput';
 import {Messagesuccess} from '../../../components/Method/Method';

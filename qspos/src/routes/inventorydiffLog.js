@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'dva';
 import { Spin} from 'antd';
-import Header from '../components/header/Header';
+import Header from '../components/Qheader';
 import { Link } from 'dva/router'
 import InventorydiffLogIndex from '../constants/inventorydiffLog/index';
 import '../style/adjustLog.css';

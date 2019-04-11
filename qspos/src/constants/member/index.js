@@ -5,7 +5,7 @@ import { Link } from 'dva/router'
 import Searchinput from '../../components/Searchinput/Searchinput';
 import { GetServerData } from '../../services/services';
 import { Gettime } from '../../services/data';
-import Header from '../../components/header/Header';
+import Header from '../../components/Qheader';
 import AddEditModal from './components/AddEditModal';
 import Qpagination from '../../components/Qpagination';
 import Qtable from '../../components/Qtable';

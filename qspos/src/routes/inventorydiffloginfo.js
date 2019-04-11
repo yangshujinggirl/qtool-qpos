@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { connect } from 'dva';
-import Header from '../components/header/Header';
+import Header from '../components/Qheader';
 import { Link } from 'dva/router'
 import Inventoryloginfos from '../constants/inventorydiffLog/info';
 import '../style/adjustLog.css';

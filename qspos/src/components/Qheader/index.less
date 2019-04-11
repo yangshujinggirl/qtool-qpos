@@ -1,0 +1,272 @@
+.common-hearders-components {
+  position: absolute;
+  z-index: 5;
+  top:0;
+  width: 100%;
+  width: 100%;
+  padding: 0 30px 0;
+  height: 93px;
+  box-sizing: border-box;
+  background:#35BAB0;
+  &.returnWarn{
+    background:#FB6349;
+  }
+  p {
+    margin: 0;
+  }
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  .header-components-wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .header-part-l, {
+      height: 100%;
+    }
+    .head-screen {
+      height: 93px;
+      line-height: 93px;
+      text-align: center;
+      font-size: 30px;
+      color: #fff;
+    }
+  }
+  //退货
+  .return-header-part-l {
+    display: block;
+    width: 84px;
+    height: 30px;
+    margin-top: 30px;
+
+  }
+  //收银
+  .menu-content {
+    height: 100%;
+    display: flex;
+    .logo-pic {
+      padding-top: 18px;
+      flex-shrink: 0;
+      align-items: center;
+      img {
+        width: 184px;
+        height: 54px;
+      }
+    }
+    .nav-list {
+      height: 100%;
+      padding-left: 50px;
+      a {
+        display: block;
+      }
+      .item-nav {
+        width: 90px;
+        height: 100%;
+        float: left;
+        text-align: center;
+        font-size:10px;
+        padding-top: 18px;
+        box-sizing: border-box;
+        &:hover{
+          background: #38B3AA;
+          .nav-title {
+            color:#fff;
+          }
+          .nav-icon-member {
+            background: url(../../images/icon_member_hover.png) no-repeat center center;
+            background-size:cover;
+          }
+          .nav-icon-delivery {
+            background: url(../../images/icon_delivery_hover.png) no-repeat center center;
+            background-size:cover;
+          }
+          .nav-icon-goods {
+            background: url(../../images/icon_goods_hover.png) no-repeat center center;
+            background-size:cover;
+          }
+          .nav-icon-sell {
+            background: url(../../images/icon_sell_hover.png) no-repeat center center;
+            background-size:cover;
+          }
+          .nav-icon-dataManage {
+            background: url(../../images/icon_dataManage_hover.png) no-repeat center center;
+            background-size:cover;
+          }
+          .nav-icon-setting {
+            background: url(../../images/icon_setting_hover.png) no-repeat center center;
+            background-size:cover;
+          }
+        }
+      }
+      .nav-title {
+        color: #384162;
+      }
+      .nav-icon {
+        width: 40px;
+        height: 40px;
+        background: red;
+        display: inline-block;
+      }
+      .nav-icon-member {
+        background: url(../../images/icon_member.png) no-repeat center center;
+        background-size:cover;
+      }
+      .nav-icon-delivery {
+        background: url(../../images/icon_delivery.png) no-repeat center center;
+        background-size:cover;
+      }
+      .nav-icon-goods {
+        background: url(../../images/icon_goods.png) no-repeat center center;
+        background-size:cover;
+      }
+      .nav-icon-sell {
+        background: url(../../images/icon_sell.png) no-repeat center center;
+        background-size:cover;
+      }
+      .nav-icon-dataManage {
+        background: url(../../images/icon_dataManage.png) no-repeat center center;
+        background-size:cover;
+      }
+      .nav-icon-setting {
+        background: url(../../images/icon_setting.png) no-repeat center center;
+        background-size:cover;
+      }
+
+    }
+  }
+  .account-info {
+    display: flex;
+    font-size: 14px;
+    color: #fff;
+    align-items: center;
+    .line {
+      margin:0 10px 0;
+    }
+    .dropdown-nickname {
+      cursor: pointer;
+    }
+  }
+
+}
+//下拉框
+.dropdown-handle {
+  .menuitem{font-size:14px;color:#74777F}
+  .menuitem:hover{color:#35BAB0;}
+}
+
+//弹框
+.account-handle-modal {
+  .tools-title {
+    cursor: pointer;
+    .sale-key {
+      padding-right: 4px;
+    }
+  }
+  .ant-modal-header{
+    display: none;
+  }
+  .ant-modal-body{
+    padding:0;
+  }
+  .ant-modal-footer{
+    border-top:0;
+    width: 100%;
+    height: 60px;
+    margin:0 auto;
+    padding:0;
+    border-top:1px solid #F4F4F4;
+  }
+  .usershift_box{
+    width:100%;
+  }
+  .shift_bottom_list{
+    background: #fff;
+    padding-left: 20px;
+    padding-top: 10px;
+  }
+  .shift_bottom_list li{
+    width: 111px;
+    height:63px;
+    border:1px solid #F4F4F4;
+    box-shadow:0 0 11px 0 rgba(0,0,0,0.10);
+    text-align:center;
+    float:left;
+    background: #fff;
+    margin:10px 10px;
+    padding-top: 10px;
+  }
+  .usershift_count{
+    width:640px;
+  }
+  .usershift_count .pop_tits{
+    font-weight: lighter;
+  }
+  .usershift_count .pop_titsq{
+    margin-top:4px;
+  }
+  .usershift_counts{
+    width:100%;
+  }
+  .usershift_top{
+    height: 168px;
+    border-radius: 5px 5px 0 0;
+  }
+  .usershift_top_title{
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    height:60px;
+    line-height:60px;
+  }
+  .usershift_top_list{
+    width: 130px;
+    margin-top:24px;
+  }
+  .usershift_top_list_line1{width:2px;
+    height:30px;
+    background:rgba(255,255,255,0.3);
+    position:absolute;
+    left:220px;
+    top:35px;
+  }
+  .usershift_top_list_line2{
+    width:2px;
+    height:30px;
+    background:rgba(255,255,255,0.3);
+    position:absolute;
+    left:450px;
+    top:35px;
+  }
+  .usermodelfootbtn{
+    width:349px;
+    height:60px;
+    line-height:60px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .userloginlogo{width: 100%;
+    height: 168px;
+    background: #35BAB0;
+    overflow: hidden;
+    border-radius: 3px 3px 0 0;
+  }
+  .userloginlogobox{
+    width:210px;
+    height: 83px;
+    margin:0 auto;
+    margin-top: 43px;
+  }
+  .userloginformbutton{
+    width: 100%;
+    margin-top: 12px;
+  }
+  .userlogin_form{
+    max-width: 400px;
+    margin:0 auto;
+    margin-top:30px;
+  }
+  .userlogin_form .ant-input-disabled{
+    background: #fff;
+    color: rgba(0,0,0,1);
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import Header from '../components/header/Header';
+import Header from '../components/Qheader';
 import Searchinput from '../components/Searchinput/Searchinput';
 import EchartsPie from '../charts/EchartsPie';
 import Echartsaxis from '../charts/Echartsaxis';

@@ -6,7 +6,7 @@ import { connect } from 'dva';
 class Header extends React.Component{
 	render(){
 		return(
-				<div className={this.props.color?'headers':'headersno'}>
+				<div className={this.props.color?'headers common-hearders-components':'headersno common-hearders-components'}>
     				<div className='clearfix'>
       					<div className='fl'><Menu type={this.props.type} linkRoute={this.props.linkRoute} backinit={this.props.backinit}/></div>
       					<div className='fr'><Userinfo/></div>
@@ -17,7 +17,7 @@ class Header extends React.Component{
 	}
 	componentDidMount(){
         this.props.dispatch({
-            type: 'header/fetch', 
+            type: 'header/fetch',
             payload: {code:'qerp.pos.ur.user.info',values:{urUserId:null}}
         })
     }
@@ -26,7 +26,3 @@ function mapStateToProps(state) {
     return {};
 }
 export default connect(mapStateToProps)(Header);
-
-
-
-

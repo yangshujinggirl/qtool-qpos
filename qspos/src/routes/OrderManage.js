@@ -1,7 +1,7 @@
 import React , { Component } from 'react';
 import { Spin} from 'antd';
 import { connect } from 'dva';
-import Header from '../components/header/Header';
+import Header from '../components/Qheader';
 import OrderManageIndex from '../constants/orderManage/index';
 
 function OrderManage({ dispatch, spinLoad }) {

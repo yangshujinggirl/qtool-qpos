@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message, Spin} from 'antd';
-import Header from '../components/header/Header';
+import Header from '../components/Qheader';
 import Infomodel from '../components/Infomodel/Infomodel';
 import Buttonico from '../components/Button/Button';
 import {GetServerData} from '../services/services';

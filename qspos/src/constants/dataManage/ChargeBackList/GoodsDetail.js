@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Spin} from 'antd';
-import Header from '../../../components/header/Header';
+import Header from '../../../components/Qheader';
 import GoodsDetailIndex from './components/GoodsDetail/index';
 
 class GoodsDetail extends Component {

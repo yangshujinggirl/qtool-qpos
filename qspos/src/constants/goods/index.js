@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import Header from '../../components/header/Header';
+import Header from '../../components/Qheader';
 import SearchinputTwo from '../../components/Searchinput/searchTwo';
 import {Buttonico} from '../../components/Button/Button';
 import { Table, Popover, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select} from 'antd';
@@ -9,103 +9,13 @@ import {GetServerData} from '../../services/services';
 import {GetExportData} from '../../services/services';
 import Qpagination from '../../components/Qpagination';
 import Qtable from '../../components/Qtable';
+import { columnsClerk, columns } from './columns';
 import './index.less';
 
-const columns = [{
-      title: '商品条码',
-        width:'15%',
-      dataIndex: 'barcode'
-  },{
-        title: '商品名称',
-        dataIndex: 'name'
-    },{
-        title: '规格',
-        width:'15%',
-        dataIndex: 'displayName'
-    },{
-        title: '库存数量',
-        width:'10%',
-        dataIndex: 'inventory',
-    },{
-        title: '可用库存数',
-        width:'10%',
-        dataIndex: 'qtyLeft',
-    },{
-        title: '占用库存数',
-        width:'10%',
-        dataIndex: 'qtyAllocated',
-        render:(text,record)=>{
-          let content=(
-            <div className="inventory-popover-content">
-              <p>APP占用：{record.qtyAppAllocated}</p>
-              <p>退货占用：{record.qtyReturnAllocated}</p>
-              <p>收银占用：{record.qtyScanAllocated}</p>
-            </div>
-          )
-          if(record.qtyAllocated>0) {
-            return <Popover content={content} placement="rightTop">
-                    <span style={{cursor:'pointer',color:'#35bab0'}}>{record.qtyAllocated}</span>
-                  </Popover >
-          } else {
-            return record.qtyAllocated
-          }
-        }
-    },{
-      title: '零售价',
-        width:'12%',
-      dataIndex: 'toCPrice',
-    },{
-        title: '成本价',
-        width:'12%',
-        dataIndex: 'averageRecPrice',
-    }];
-const columnsClerk = [{
-        title: '商品条码',
-        width:'15%',
-        dataIndex: 'barcode'
-    },{
-        title: '商品名称',
-        dataIndex: 'name'
-    },{
-        title: '规格',
-        width:'15%',
-        dataIndex: 'displayName'
-    },{
-        title: '库存数量',
-        width:'10%',
-        dataIndex: 'inventory',
-    },{
-        title: '可用库存数',
-        width:'10%',
-        dataIndex: 'qtyLeft',
-    },{
-        title: '占用库存数',
-        width:'10%',
-        dataIndex: 'qtyAppAllocated',
-        render:(text,record)=>{
-          let content=(
-            <div className="inventory-popover-content">
-              <p>APP占用：{record.qtyAppAllocated}</p>
-              <p>退货占用：{record.qtyReturn}</p>
-              <p>收银占用：{record.qtyScanAllocated}</p>
-            </div>
-          )
-          if(record.qtyAppAllocated>0) {
-            return <Popover content={content} placement="rightTop">
-                    <span style={{cursor:'pointer',color:'#35bab0'}}>{record.qtyAppAllocated}</span>
-                  </Popover >
-          } else {
-            return record.qtyAppAllocated
-          }
-        }
-    },{
-        title: '零售价',
-        width:'12%',
-        dataIndex: 'toCPrice',
-    }];
+
 
 const Option = Select.Option;
-const Searchcomponent=({...props})=> {
+const Searchcomponent = ({ ...props }) => {
   const role = sessionStorage.getItem('role');
   return(
     <div className='clearfix mb10'>
@@ -256,7 +166,7 @@ class Goods extends React.Component {
   }
   render() {
     const { data, pdSpus, pdCategories } =this.props;
-    let role=sessionStorage.getItem('role');
+    const role = sessionStorage.getItem('role');
     return (
       <div className="goods-manage goods-manage-pages">
         <Header type={false} color={true}/>
@@ -267,11 +177,6 @@ class Goods extends React.Component {
             handleChange={this.handleChange.bind(this)}
             pdCategories={pdCategories}
             dispatch={this.props.dispatch}/>
-          {/* <div className='counters goods-counters'>
-            <Qtable
-              columns={role=='3'?columnsClerk:columns}
-              dataSource={this.props.pdSpus}/>
-          </div> */}
           <Qtable
             columns={role=='3'?columnsClerk:columns}
             dataSource={pdSpus}/>

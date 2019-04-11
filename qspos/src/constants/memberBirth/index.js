@@ -5,7 +5,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import Searchinput from '../../components/Searchinput/Searchinput';
 import Qpagination from '../../components/Qpagination';
 import Qtable from '../../components/Qtable';
-import Header from '../../components/header/Header';
+import Header from '../../components/Qheader';
 import { GetServerData } from '../../services/services';
 import FilterForm from './components/FilterForm';
 import './index.less'

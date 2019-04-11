@@ -2,7 +2,7 @@
 import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm,message } from 'antd';
 import Operation from './Operationsh.jsx';
-import Header from '../../components/header/Header';
+import Header from '../../components/Qheader';
 import EditableTable from './table';
 
 class Receivegoodsindex extends React.Component {

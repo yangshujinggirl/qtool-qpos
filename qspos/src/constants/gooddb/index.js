@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import Header from '../../components/header/Header';
+import Header from '../../components/Qheader';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,AutoComplete,Spin} from 'antd';
 import AntIcon from '../../components/loding/payloding';
 import {GetServerData} from '../../services/services';
