@@ -31,20 +31,39 @@ class EditableTable extends React.Component {
 			}, {
 				title: '商品条码',
 				width:'10%',
-				dataIndex: 'barcode'
-
+				dataIndex: 'barcode',
+				render: (text, record, index) => {
+	        return <div className="td-wrap">
+	          {this.renderCol(record, text)}
+	        </div>
+	      }
 			}, {
 				title: '商品名称',
 				width:'15%',
-				dataIndex: 'name'
+				dataIndex: 'name',
+				render: (text, record, index) => {
+	        return <div className="td-wrap">
+	          {this.renderCol(record, text)}
+	        </div>
+	      }
 			},{
 				title: '规格',
 				width:'10%',
-				dataIndex: 'displayName'
+				dataIndex: 'displayName',
+				render: (text, record, index) => {
+	        return <div className="td-wrap">
+	          {this.renderCol(record, text)}
+	        </div>
+	      }
 			},{
 				title: '零售价',
 				width:'10%',
-				dataIndex: 'toCPrice'
+				dataIndex: 'toCPrice',
+				render: (text, record, index) => {
+	        return <div className="td-wrap">
+	          {this.renderCol(record, text)}
+	        </div>
+	      }
 			},{
 				title: '数量',
 				width:'10%',
@@ -301,7 +320,6 @@ class EditableTable extends React.Component {
 	}
 	//行点击
 	rowclick=(record,index,event)=>{
-		console.log(record)
 		const themeindex=index;
 		this.props.dispatch({
 			type:'cashier/themeindex',

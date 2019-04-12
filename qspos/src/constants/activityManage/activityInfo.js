@@ -6,7 +6,7 @@ import Header from '../../components/Qheader';
 import QcardTable from '../../components/QcardTable';
 import Qpagination from '../../components/Qpagination';
 import Qtable from '../../components/Qtable';
-import { columnsInfo, activityTypeMap } from './columns';
+import { columnsInfo, activityTypeMap, statusMap } from './columns';
 import './activityInfo.less';
 
 class ActivityManageIndex extends Component {
@@ -53,8 +53,16 @@ class ActivityManageIndex extends Component {
                     <span>{totalInfo.activityName}</span>
                   </div>
                   <div className='label-item'>
+                    <label>活动时间：</label>
+                    <span>{totalInfo.activityStartT}〜{totalInfo.activityEndT}</span>
+                  </div>
+                  <div className='label-item'>
                     <label>活动类型：</label>
                     <span>{activityTypeMap[totalInfo.activityType]}</span>
+                  </div>
+                  <div className='label-item'>
+                    <label>活动状态：</label>
+                    <span>{statusMap[totalInfo.activityStatus]}</span>
                   </div>
                   <div className='label-item'>
                     <label>参与平台：</label>

@@ -225,7 +225,19 @@ class Cashierindex extends React.Component {
         this.props.dispatch({//更新订单信息
           type:'cashier/datasouce',
           payload:putProducts
-        })
+        });
+				//处理第一条订单参加活动的显示。---yangjing
+				let currentActivityList=[], selectActivityId='all';
+				putProducts.map((el,index) => {
+					if(el.spActivities&&el.spActivities.length>0&&index==0) {
+						selectActivityId = el.activityId;
+						currentActivityList = el.spActivities;
+					}
+				})
+				this.props.dispatch({
+          type:'cashier/getActivityList',
+          payload:{currentActivityList,selectActivityId}
+        });
         this.setState({ visibleTwo: false, isKeySpace:true });
       },(err) => {
         message.error('message')
@@ -282,7 +294,7 @@ class Cashierindex extends React.Component {
 			let datasouce=this.props.datasouce.splice(0);
 
 			for(var i=0;i<datasouce.length;i++){
-				if(!datasouce[i].isJoin) {
+				if(!datasouce[i].isJoin) {//活动商品不参与整单折扣；
 					datasouce[i].discount=dis;
 					var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
 					const editpayPrice =dataedit(zeropayPrice)

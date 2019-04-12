@@ -51,6 +51,9 @@ const columnsInfo = [{
   },{
     title: '规格',
     dataIndex: 'displayName',
+    render: (text, record, index) => {
+      return <span>{record.pdType1Val}{`${record.pdType2Val&&`/${record.pdType2Val}`}`}</span>
+    }
   },{
     title: '零售价',
     dataIndex: 'sailPrice',

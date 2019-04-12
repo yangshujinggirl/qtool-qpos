@@ -59,7 +59,7 @@ class ActivityManageIndex extends Component {
     return(
       <div className="ordere-manage-pages common-pages-wrap">
         <Spin tip='加载中，请稍后...'  spinning={this.props.spinLoad.loading}>
-          <Header type={false} color={true} title="1234"/>
+          <Header type={false} color={true} />
           <div className="common-main-contents-wrap">
             <FilterForm
               {...fields}

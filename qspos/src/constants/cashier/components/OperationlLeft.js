@@ -474,6 +474,7 @@ class Operationls extends React.Component {
 			type:'radio',
 			selectedRowKeys:this.state.selectedRowKeys
 		};
+
 		return(
 			<div className="uesleft-components-wrap">
 				<div className='clearfix mt30'>
@@ -509,6 +510,7 @@ class Operationls extends React.Component {
               <div className='fl'>
 								<span className='c74 member-name'>{memberinfo.name}</span>
 								{memberinfo.levelStr&&<span className='level-str'>{memberinfo.levelStr}</span>}
+								{memberinfo.isBirthMonth =='true'&&<span className='level-str'>生日月</span>}
 								{
 									memberinfo.isLocalShop =='false'&&<span className='member-source'>异店</span>
 								}
