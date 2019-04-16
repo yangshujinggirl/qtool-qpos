@@ -25,7 +25,7 @@ class EditableTable extends React.Component {
 				render: (text, record, index) => {
 	        return <div className="td-wrap">
 	          {this.renderCol(record, text)}
-	          {record.isJoin&&<span className="activity-mark"></span>}
+	          {record.isJoin=="1"&&<span className="activity-mark"></span>}
 	        </div>
 	      }
 			}, {
@@ -85,14 +85,14 @@ class EditableTable extends React.Component {
 				dataIndex: 'discount',
 				render: (text, record, index) => {
 					let value;
-					if(record.isJoin) {
+					if(record.isJoin=="1") {
 						value = record.activityDiscount
 					}else {
 						value = record.discount
 					}
 					return (
 						<Input
-							disabled={record.isJoin}
+							disabled={record.isJoin=="1"}
 							style={inputwidth}
 							autoComplete="off"
 							onKeyDown={this.onKeydown.bind(this)}
@@ -107,14 +107,14 @@ class EditableTable extends React.Component {
 				dataIndex: 'payPrice',
 				render: (text, record, index) => {
 					let value;
-					if(record.isJoin) {
+					if(record.isJoin=="1") {
 						value = record.specialPrice
 					}else {
 						value = record.payPrice
 					}
 					return (
 						<Input
-							disabled={record.isJoin}
+							disabled={record.isJoin=="1"}
 							style={inputwidth}
 							autoComplete="off"
 							onKeyDown={this.onKeydown.bind(this)}
@@ -160,7 +160,7 @@ class EditableTable extends React.Component {
 	renderCol = (record, text) => {
 	  const popverContent = <span>{record.activityName}</span>;
 	  let Mod;
-	  if (record.isJoin) {
+	  if (record.isJoin=="1") {
 	    Mod = <Popover content={popverContent} placement="bottom">
 	            <span className="pover-text">
 	              {text}
