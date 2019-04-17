@@ -110,7 +110,7 @@ export default {
         let datasouce = state.datasouce;
         let currentActivityItem;//当前选中的活动
         const barcode = currentActivityList[0].barcode;//当前活动商品;
-        if(activityId !== 'all') {
+        if(activityId !== "0") {
           currentActivityItem = currentActivityList.find((value, index, arr) => {
             return value.activityId == activityId;
           })

@@ -227,14 +227,13 @@ class Cashierindex extends React.Component {
           payload:putProducts
         });
 				//处理第一条订单参加活动的显示。---yangjing
-				let currentActivityList=[], selectActivityId='all';
+				let currentActivityList=[], selectActivityId="0";
 				putProducts.map((el,index) => {
 					if(el.spActivities&&el.spActivities.length>0&&index==0) {
 						selectActivityId = el.activityId;
 						currentActivityList = el.spActivities;
 					}
 				})
-				console.log(currentActivityList)
 				this.props.dispatch({
           type:'cashier/getActivityList',
           payload:{currentActivityList,selectActivityId}
@@ -494,7 +493,7 @@ class Cashierindex extends React.Component {
 										className="activity-list-select"
 										value={selectActivityId}
 										onSelect={this.activitySelect}>
-										<Option value='all' key='all'>不参与活动</Option>
+										<Option value="0" key="0">不参与活动</Option>
 										{
 											currentActivityList.map((el,index) => (
 												<Option value={el.activityId} key={el.activityId}>{el.name}</Option>
