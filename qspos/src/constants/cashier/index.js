@@ -294,7 +294,7 @@ class Cashierindex extends React.Component {
 			let datasouce=this.props.datasouce.splice(0);
 
 			for(var i=0;i<datasouce.length;i++){
-				if(!datasouce[i].isJoin) {//活动商品不参与整单折扣；
+				if(datasouce[i].isJoin=='0') {//活动商品不参与整单折扣；
 					datasouce[i].discount=dis;
 					var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
 					const editpayPrice =dataedit(zeropayPrice)
