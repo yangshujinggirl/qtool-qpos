@@ -21,6 +21,20 @@
   .level-str {
     color: #35BAB0;
   }
+  .birth-level {
+    position: relative;
+    padding-left: 22px;
+    &:before {
+      content:'';
+      width: 12px;
+      height: 12px;
+      background: url('../../../images/icon_brith.png') center;
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
   .member-source {
     color: #D7636B;
     border-color: #D7636B;

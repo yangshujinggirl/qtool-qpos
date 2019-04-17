@@ -243,6 +243,8 @@ class EditableTable extends React.Component {
         })
     }
     qtyblur=(index)=>{
+      //（1）退货数量 < 可退数量时，可退总价=退货数量*可退价；
+      //（2）退货数量 = 可退数量时，可退总价=销售单商品折后总价 - 商品可退价*商品已退货数量；
         var r = /^\+?[1-9][0-9]*$/;
         let changedataSource=this.state.dataSource
         console.log(changedataSource)
