@@ -126,7 +126,8 @@ export default {
             } else {
               el.activityName = '';
               el.isJoin = false;
-              el.payPrice = NP.times(el.toCPrice,el.qty)
+              el.discount = "10";
+              el.payPrice = NP.times(el.toCPrice,el.qty);
             }
           }
           return el;
