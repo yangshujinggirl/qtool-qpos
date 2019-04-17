@@ -121,18 +121,18 @@ export default {
             el.activityId = activityId;
             if(currentActivityItem) {
               el.activityName = currentActivityItem.name;
-              el.isJoin = true;
+              el.isJoin = "1";
               el.payPrice = NP.times(el.specialPrice,el.qty)
             } else {
               el.activityName = '';
-              el.isJoin = false;
+              el.isJoin = "0";
               el.discount = "10";
               el.payPrice = NP.times(el.toCPrice,el.qty);
             }
           }
           return el;
         })
-        datasouce = [...datasouce]
+        datasouce = [...datasouce];
         return {...state, datasouce, selectActivityId: activityId }
       },
       getActivityList(state, { payload: { currentActivityList, selectActivityId} }){

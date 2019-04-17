@@ -230,6 +230,9 @@ class Cashierindex extends React.Component {
 				let currentActivityList=[], selectActivityId='all';
 				putProducts.map((el,index) => {
 					if(el.spActivities&&el.spActivities.length>0&&index==0) {
+						el.spActivities.map((item,idx) => {
+							item.barcode = el.barcode;//联动父级code
+						})
 						selectActivityId = el.activityId;
 						currentActivityList = el.spActivities;
 					}
@@ -493,12 +496,12 @@ class Cashierindex extends React.Component {
 										className="activity-list-select"
 										value={selectActivityId}
 										onSelect={this.activitySelect}>
+										<Option value='all' key='all'>不参与活动</Option>
 										{
 											currentActivityList.map((el,index) => (
 												<Option value={el.activityId} key={el.activityId}>{el.name}</Option>
 											))
 										}
-										<Option value='all' key='all'>不参与活动</Option>
 									</Select>
 	      				</div>
 							}
