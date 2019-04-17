@@ -323,11 +323,17 @@ class EditableTable extends React.Component {
 			type:'cashier/themeindex',
 			payload:themeindex
 		})
+		let spActivities = record.spActivities;
+		if(spActivities&&spActivities.length>0) {
+			spActivities.map((item,idx)=>{
+				item.barcode = record.barcode;
+			})
+		}
 		//重置活动列表
 		this.props.dispatch({
 			type:'cashier/getActivityList',
 			payload:{
-				currentActivityList:record.spActivities,
+				currentActivityList:spActivities,
 				selectActivityId:record.activityId
 			}
 		})
