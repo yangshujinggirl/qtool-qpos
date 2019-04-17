@@ -1,10 +1,10 @@
 import { Link } from 'dva/router';
 
 const statusMap = {
-  "0":"全部",
-  "1":"未开始",
-  "2":"进行中",
-  "3":"已结束"
+  "0":"未开始",
+  "1":"进行中",
+  "2":"已结束",
+  "3":"已失效"
 }
 const activityTypeMap = {
   "0":"全部",

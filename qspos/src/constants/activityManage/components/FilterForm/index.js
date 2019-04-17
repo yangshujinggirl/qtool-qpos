@@ -48,10 +48,10 @@ class NormalForm extends Component {
              </FormItem>
              <FormItem label='活动状态'>
                 {getFieldDecorator('activityStatus',{
-                  initialValue:0
+                  initialValue:9
                 })(
                   <Select allowClear={false} placeholder="请选择订单状态">
-                    <Option value={0} key={0}>全部</Option>
+                    <Option value={9} key={9}>全部</Option>
                     <Option value={1} key={1}>未开始</Option>
                     <Option value={2} key={2}>进行中</Option>
                     <Option value={3} key={3}>已结束</Option>
