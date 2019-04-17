@@ -115,15 +115,18 @@ export default {
             return value.activityId == activityId;
           })
         }
+        //重新计算payPrice
         datasouce.map((el,idx) => {
           if(el.barcode == barcode) {
             el.activityId = activityId;
             if(currentActivityItem) {
               el.activityName = currentActivityItem.name;
               el.isJoin = true;
+              el.payPrice = NP.times(el.specialPrice,el.qty)
             } else {
               el.activityName = '';
               el.isJoin = false;
+              el.payPrice = NP.times(el.toCPrice,el.qty)
             }
           }
           return el;
@@ -135,11 +138,12 @@ export default {
         return {...state,currentActivityList, selectActivityId}
       },
 	    datasouce(state, { payload: datasouce}) {
+
           var totolnumber=0
           var totolamount=0
           var thispoint=0
           for(var i=0;i<datasouce.length;i++){
-              datasouce[i].key=String((Number(i)+1))
+              datasouce[i].key=String((Number(i)+1));
               totolnumber=NP.plus(totolnumber,datasouce[i].qty)
               totolamount=NP.plus(totolamount,datasouce[i].payPrice)
               thispoint=Math.round(totolamount)
@@ -276,8 +280,14 @@ export default {
               if(Number(result.pdSpu.inventory)>0){
                   const objects=result.pdSpu
                   objects.qty='1'
-                  objects.discount='10'
-                  var zeropayPrice=String(NP.divide(NP.times(objects.toCPrice, objects.qty,objects.discount),10)); //计算值
+                  objects.discount='10';
+                  //活动价；
+                  let currentPrice = objects.toCPrice;
+                  if(objects.isJoin=='1') {
+                    currentPrice = objects.specialPrice;
+                  }
+                  // var zeropayPrice=String(NP.divide(NP.times(objects.toCPrice, objects.qty,objects.discount),10)); //计算值
+                  var zeropayPrice=String(NP.divide(NP.times(currentPrice, objects.qty,objects.discount),10)); //计算值
                   //判断是否有小数点，及小数点时候有两位，当不满足时候补零
                   var xsd=zeropayPrice.toString().split(".");
                   if(xsd.length==1){
@@ -305,27 +315,7 @@ export default {
                   message.error('商品库存不足');
                   yield put({type: 'spinLoad/setLoading',payload:false});
                   return
-              }/*else{
-                  datasouce[i].qty=String(Number(datasouce[i].qty)+1)
-                  var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
-                  //判断是否有小数点，及小数点时候有两位，当不满足时候补零
-                  var xsd=zeropayPrice.toString().split(".");
-                  if(xsd.length==1){
-                      zeropayPrice=zeropayPrice.toString()+".00";
-                  }
-                  if(xsd.length>1 && xsd[1].length<2){
-                      zeropayPrice=zeropayPrice.toString()+"0";
-                  }
-                  const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
-                  if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-                      datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01));
-
-                  }else{
-                      datasouce[i].payPrice=editpayPrice
-                  }
-                  const str=datasouce.splice(i,1); //删除当前
-                  datasouce.unshift(str[0]); //把这个元素添加到开头
-              }*/
+              }
               datasouce[i].qty=String(Number(datasouce[i].qty)+1)
               var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
               //判断是否有小数点，及小数点时候有两位，当不满足时候补零

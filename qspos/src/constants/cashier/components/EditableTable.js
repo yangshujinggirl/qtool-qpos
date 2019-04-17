@@ -106,19 +106,19 @@ class EditableTable extends React.Component {
 				width:'10%',
 				dataIndex: 'payPrice',
 				render: (text, record, index) => {
-					let value;
-					if(record.isJoin=="1") {
-						value = record.specialPrice
-					}else {
-						value = record.payPrice
-					}
+					// let value;
+					// if(record.isJoin=="1") {
+					// 	value = record.specialPrice
+					// }else {
+					// 	value = record.payPrice
+					// }
 					return (
 						<Input
 							disabled={record.isJoin=="1"}
 							style={inputwidth}
 							autoComplete="off"
 							onKeyDown={this.onKeydown.bind(this)}
-							value={value}
+							value={text}
 							onChange={this.payPriceonchange.bind(this,index)}
 							onBlur={this.payPriceblur.bind(this,index)}/>
 					)
@@ -204,14 +204,22 @@ class EditableTable extends React.Component {
 		}else{
 			datasouce[index].qty=1
 			message.warning('数量只能输入大于0的数字')
+		};
+		//活动价；
+		let currentPrice = datasouce[index].toCPrice;
+		if(datasouce[index].isJoin=='1') {
+			currentPrice = datasouce[index].specialPrice;
 		}
-		var zeropayPrice=String(NP.divide(NP.times(datasouce[index].toCPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
-		const editpayPrice =dataedit(zeropayPrice)
+		var zeropayPrice=String(NP.divide(NP.times(currentPrice, datasouce[index].qty,datasouce[index].discount),10)); //计算值
+		const editpayPrice =dataedit(zeropayPrice);
+		const itemData = datasouce[index];
+
 		if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
 			datasouce[index].payPrice=String(NP.plus(editpayPrice, 0.01));
 		}else{
 			datasouce[index].payPrice=editpayPrice
 		}
+		console.log(datasouce)
 		this.props.dispatch({
 			type:'cashier/datasouce',
 			payload:datasouce
