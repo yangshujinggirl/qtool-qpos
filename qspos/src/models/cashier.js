@@ -105,41 +105,40 @@ export default {
           rechargetype,memberinfo,currentActivityList
         }
        },
-      selectActivity(state, { payload: activityId}) {
-        const currentActivityList = state.currentActivityList;
-        let datasouce = state.datasouce;
-        let currentActivityItem;//当前选中的活动
-        const barcode = currentActivityList[0].barcode;//当前活动商品;
-        if(activityId !== "0") {
-          currentActivityItem = currentActivityList.find((value, index, arr) => {
-            return value.activityId == activityId;
-          })
-        }
-        //重新计算payPrice
-        datasouce.map((el,idx) => {
-          if(el.barcode == barcode) {
-            el.activityId = activityId;
-            if(currentActivityItem) {
-              el.activityName = currentActivityItem.name;
-              el.isJoin = "1";
-              el.payPrice = NP.times(el.specialPrice,el.qty)
-            } else {
-              el.activityName = '';
-              el.isJoin = "0";
-              el.discount = "10";
-              el.payPrice = NP.times(el.toCPrice,el.qty);
-            }
-          }
-          return el;
-        })
-        datasouce = [...datasouce];
-        return {...state, datasouce, selectActivityId: activityId }
-      },
+      // selectActivity(state, { payload: activityId}) {
+      //   const currentActivityList = state.currentActivityList;
+      //   let datasouce = state.datasouce;
+      //   let currentActivityItem;//当前选中的活动
+      //   const barcode = currentActivityList[0].barcode;//当前活动商品;
+      //   if(activityId !== "0") {
+      //     currentActivityItem = currentActivityList.find((value, index, arr) => {
+      //       return value.activityId == activityId;
+      //     })
+      //   }
+      //   //重新计算payPrice
+      //   datasouce.map((el,idx) => {
+      //     if(el.barcode == barcode) {
+      //       el.activityId = activityId;
+      //       if(currentActivityItem) {
+      //         el.activityName = currentActivityItem.name;
+      //         el.isJoin = "1";
+      //         el.payPrice = NP.times(el.specialPrice,el.qty)
+      //       } else {
+      //         el.activityName = '';
+      //         el.isJoin = "0";
+      //         el.discount = "10";
+      //         el.payPrice = NP.times(el.toCPrice,el.qty);
+      //       }
+      //     }
+      //     return el;
+      //   })
+      //   datasouce = [...datasouce];
+      //   return {...state, datasouce, selectActivityId: activityId }
+      // },
       getActivityList(state, { payload: { currentActivityList, selectActivityId} }){
         return {...state,currentActivityList, selectActivityId}
       },
 	    datasouce(state, { payload: datasouce}) {
-
           var totolnumber=0
           var totolamount=0
           var thispoint=0

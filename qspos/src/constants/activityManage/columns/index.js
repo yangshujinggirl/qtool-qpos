@@ -34,7 +34,20 @@ const columns = [{
     title: '活动状态',
     dataIndex: 'activityStatus',
     render:(text,record,index) => {
-      return statusMap[record.activityStatus]
+      let statusCls;
+      switch(record.activityStatus) {
+        case "0":
+          statusCls = "will-status";
+          break;
+        case "1":
+          statusCls = "ing-status";
+          break;
+        case "2":
+        case "3":
+          statusCls = "over-status";
+          break;
+      }
+      return <span className={statusCls}>{statusMap[record.activityStatus]}</span>
     }
   },{
     title: '参与平台',

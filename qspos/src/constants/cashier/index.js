@@ -464,10 +464,40 @@ class Cashierindex extends React.Component {
 			this.setState({ isKeySpace: value })
 		}
 		//选择活动
-		activitySelect =(value, option)=> {
+		activitySelect =(activityId, option)=> {
+			let { currentActivityList, datasouce } =this.props;
+			let currentActivityItem;//当前选中的活动
+			const barcode = currentActivityList[0].barcode;//当前活动商品;
+			if(activityId !== "0") {
+				currentActivityItem = currentActivityList.find((value, index, arr) => {
+					return value.activityId == activityId;
+				})
+			}
+			//重新计算dataSource中的payPrice
+			datasouce.map((el,idx) => {
+				if(el.barcode == barcode) {
+					el.activityId = activityId;
+					if(currentActivityItem) {
+						el.activityName = currentActivityItem.name;
+						el.isJoin = "1";
+						el.payPrice = NP.times(el.specialPrice,el.qty)
+					} else {
+						el.activityName = '';
+						el.isJoin = "0";
+						el.discount = "10";
+						el.payPrice = NP.times(el.toCPrice,el.qty);
+					}
+				}
+				return el;
+			})
+			datasouce = [...datasouce];
 			this.props.dispatch({
-				type:'cashier/selectActivity',
-				payload:value
+				type:'cashier/datasouce',
+				payload:datasouce
+			})
+			this.props.dispatch({
+				type:'cashier/getActivityList',
+				payload:{ currentActivityList, selectActivityId: activityId }
 			})
 		}
     render() {

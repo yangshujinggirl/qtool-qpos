@@ -52,9 +52,10 @@ class NormalForm extends Component {
                 })(
                   <Select allowClear={false} placeholder="请选择订单状态">
                     <Option value={9} key={9}>全部</Option>
-                    <Option value={1} key={1}>未开始</Option>
-                    <Option value={2} key={2}>进行中</Option>
-                    <Option value={3} key={3}>已结束</Option>
+                    <Option value={0} key={0}>未开始</Option>
+                    <Option value={1} key={1}>进行中</Option>
+                    <Option value={2} key={2}>已结束</Option>
+                    <Option value={3} key={3}>已失效</Option>
                   </Select>
                 )}
             </FormItem>

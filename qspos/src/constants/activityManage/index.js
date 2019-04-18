@@ -14,7 +14,7 @@ class ActivityManageIndex extends Component {
     this.state={
       fields: {
         activityType:'',
-        activityStatus:0,
+        activityStatus:9,
         searchCondition:''
       },
     }
@@ -57,7 +57,7 @@ class ActivityManageIndex extends Component {
     const { fields } =this.state;
     const { dataSource, data } =this.props.activityManage;
     return(
-      <div className="ordere-manage-pages common-pages-wrap">
+      <div className="activity-manage-pages common-pages-wrap">
         <Spin tip='加载中，请稍后...'  spinning={this.props.spinLoad.loading}>
           <Header type={false} color={true} />
           <div className="common-main-contents-wrap">
