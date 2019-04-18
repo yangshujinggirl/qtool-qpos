@@ -518,7 +518,12 @@ class Cashierindex extends React.Component {
 							{
 								currentActivityList&&currentActivityList.length>0&&
 								<div className='fl activity-part'>
-									<label className="label-name">该商品正在参与促销活动，点击右侧选框可切换活动：</label>
+									{
+										selectActivityId=='0'?
+										<label className="label-name">该商品可参与促销活动，点击右侧选框可切换活动：</label>
+										:
+										<label className="label-name">该商品正在参与促销活动，点击右侧选框可切换活动：</label>
+									}
 									<Select
 										className="activity-list-select"
 										value={selectActivityId}
