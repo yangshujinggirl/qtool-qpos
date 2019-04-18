@@ -4,7 +4,7 @@ import React from 'react';
 const renderCol = (record, text) => {
   const popverContent = <span>{record.activityName}</span>;
   let Mod;
-  if (record.activityId) {
+  if ((record.activityPlat).indexOf('2') !== -1) {
     Mod = <Popover content={popverContent} placement="bottom">
             <span className="pover-text">
               {text}
@@ -22,12 +22,13 @@ const columns = [{
       render: (text, record, index) => {
         return <div className="td-wrap">
           {renderCol(record, text)}
-          {record.activityId&&<span className="activity-mark"></span>}
+          {(record.activityPlat).indexOf('2') !== -1&&<span className="activity-mark"></span>}
         </div>
       }
     }, {
       title: '商品名称',
       dataIndex: 'name',
+      width: '15%',
       render: (text, record, index) => {
         return renderCol(record, text)
       },
@@ -40,21 +41,21 @@ const columns = [{
       },
     }, {
       title: '库存数量',
-      width: '10%',
+      width: '8%',
       dataIndex: 'inventory',
       render: (text, record, index) => {
         return renderCol(record, text)
       },
     }, {
       title: '可用库存数',
-      width: '10%',
+      width: '8%',
       dataIndex: 'qtyLeft',
       render: (text, record, index) => {
         return renderCol(record, text)
       },
     }, {
       title: '占用库存数',
-      width: '10%',
+      width: '8%',
       dataIndex: 'qtyAllocated',
       render:(text, record) => {
         const content = (
@@ -104,6 +105,7 @@ const columnsClerk = [{
 }, {
   title: '商品名称',
   dataIndex: 'name',
+  width: '15%',
   render: (text, record, index) => {
     return renderCol(record, text)
   },
@@ -116,21 +118,21 @@ const columnsClerk = [{
   },
 }, {
   title: '库存数量',
-  width: '10%',
+  width: '8%',
   dataIndex: 'inventory',
   render: (text, record, index) => {
     return renderCol(record, text)
   },
 }, {
   title: '可用库存数',
-  width: '10%',
+  width: '8%',
   dataIndex: 'qtyLeft',
   render: (text, record, index) => {
     return renderCol(record, text)
   },
 }, {
   title: '占用库存数',
-  width: '10%',
+  width: '8%',
   dataIndex: 'qtyAppAllocated',
   render:(text,record)=>{
     const content = (
