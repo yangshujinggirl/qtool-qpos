@@ -40,8 +40,8 @@ class NormalForm extends Component {
                })(
                  <Select placeholder="请选择订单分类" allowClear={false}>
                    <Option value={0} key={0}>全部</Option>
-                   <Option value={1} key={1}>b端限时直降</Option>
-                   <Option value={2} key={2}>b端活动进价</Option>
+                   {/* <Option value={1} key={1}>b端限时直降</Option>
+                   <Option value={2} key={2}>b端活动进价</Option> */}
                    <Option value={3} key={3}>c端限时直降</Option>
                  </Select>
                )}
