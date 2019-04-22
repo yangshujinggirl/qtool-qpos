@@ -4,7 +4,7 @@ import React from 'react';
 const renderCol = (record, text) => {
   const popverContent = <span>{record.activityName}</span>;
   let Mod;
-  if ((record.activityPlat).indexOf('2') !== -1) {
+  if (record.activityId) {
     Mod = <Popover content={popverContent} placement="bottom">
             <span className="pover-text">
               {text}
@@ -22,7 +22,7 @@ const columns = [{
       render: (text, record, index) => {
         return <div className="td-wrap">
           {renderCol(record, text)}
-          {(record.activityPlat).indexOf('2') !== -1&&<span className="activity-mark"></span>}
+          {record.activityId&&<span className="activity-mark"></span>}
         </div>
       }
     }, {
