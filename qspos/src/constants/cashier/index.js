@@ -222,18 +222,24 @@ class Cashierindex extends React.Component {
             memberinfo:mbCardInfo
           }
         })
-        this.props.dispatch({//更新订单信息
-          type:'cashier/datasouce',
-          payload:putProducts
-        });
+				//处理取单数据
 				//处理第一条订单参加活动的显示。---yangjing
 				let currentActivityList=[], selectActivityId="0";
 				putProducts.map((el,index) => {
+					if(el.spActivities&&el.spActivities.length>0) {
+						el.isJoin = true;
+					} else {
+							el.isJoin = false;
+					}
 					if(el.spActivities&&el.spActivities.length>0&&index==0) {
 						selectActivityId = el.activityId;
 						currentActivityList = el.spActivities;
 					}
 				})
+				this.props.dispatch({//更新订单信息
+          type:'cashier/datasouce',
+          payload:putProducts
+        });
 				this.props.dispatch({
           type:'cashier/getActivityList',
           payload:{currentActivityList,selectActivityId}
