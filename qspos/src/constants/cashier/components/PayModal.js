@@ -116,7 +116,8 @@ class PayModal extends React.Component {
                       //会员卡选中为默认支付方式，不禁用
                       paytypelisy[4].check=true
                       //判断会员卡总额和总消费金额
-                      if(parseFloat(amount)>parseFloat(paytotolamount)){
+                      //解决线上会员卡余额==支付金额不能结算的bug。
+                      if(parseFloat(amount)>=parseFloat(paytotolamount)){
                         amountlist.push({
                           name:'会员卡',
                           value:paytotolamount,

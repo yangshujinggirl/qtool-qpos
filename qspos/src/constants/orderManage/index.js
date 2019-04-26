@@ -144,6 +144,7 @@ class OrderManage extends Component {
     GetServerData('qerp.pos.sy.config.info')
     .then((res) => {
       const { code, config } =res;
+      this.props.dispatch({type: 'spinLoad/setLoading',payload:false})
       if(code == '0') {
         if(config.paperSize=='80') {
           size = '80';
@@ -154,7 +155,6 @@ class OrderManage extends Component {
       } else {
         message.warning('打印失败')
       }
-      this.props.dispatch({type: 'spinLoad/setLoading',payload:false})
     })
   }
   handlePrint(detailInfo,size) {
