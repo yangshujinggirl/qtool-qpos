@@ -1,6 +1,29 @@
+import { Popover } from 'antd';
+
+const renderCol = (record, text) => {
+  const popverContent = <span>{record.activityName}</span>;
+  let Mod;
+  if (record.activityName&&record.activityName!='') {
+    Mod = <Popover content={popverContent} placement="bottom">
+            <span className="pover-text">
+              {text}
+            </span>
+          </Popover >
+  } else {
+    Mod = <span> { text }</span>;
+  }
+  return Mod;
+}
+
 const OrderColumns = [{
     title: '商品条码',
     dataIndex: 'code',
+    render:(text,record,index) => {
+      return <div className="td-wrap">
+        {renderCol(record, text)}
+        {record.activityName&&record.activityName!=''&&<span className="activity-mark"></span>}
+      </div>
+    }
   },{
     title: '商品名称',
     dataIndex: 'name',
