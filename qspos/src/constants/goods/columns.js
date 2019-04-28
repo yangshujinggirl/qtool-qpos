@@ -100,7 +100,10 @@ const columnsClerk = [{
   width: '15%',
   dataIndex: 'barcode',
   render: (text, record, index) => {
-    return renderCol(record, text)
+    return <div className="td-wrap">
+      {renderCol(record, text)}
+      {(record.isShowActivity== '1')&&<span className="activity-mark"></span>}
+    </div>
   },
 }, {
   title: '商品名称',
