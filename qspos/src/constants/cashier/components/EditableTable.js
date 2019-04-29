@@ -106,12 +106,6 @@ class EditableTable extends React.Component {
 				width:'10%',
 				dataIndex: 'payPrice',
 				render: (text, record, index) => {
-					// let value;
-					// if(record.isJoin=="1") {
-					// 	value = record.specialPrice
-					// }else {
-					// 	value = record.payPrice
-					// }
 					return (
 						<Input
 							disabled={record.isJoin=="1"}

@@ -226,11 +226,19 @@ class Cashierindex extends React.Component {
 				//处理第一条订单参加活动的显示。---yangjing
 				let currentActivityList=[], selectActivityId="0";
 				putProducts.map((el,index) => {
-					if(el.spActivities&&el.spActivities.length>0) {
-						el.isJoin = true;
+					//如果是活动商品,处理活动是否失效
+					if(el.isJoin=='1') {
+						if(el.spActivities&&el.spActivities.length>0) {
+							el.isJoin = "1";
+							el.payPrice = el.specialPrice;
+						} else {//,失效
+							el.isJoin = "0";
+							el.payPrice = NP.times(el.toCPrice,el.qty);
+						}
 					} else {
-							el.isJoin = false;
+						el.isJoin = "0";
 					}
+					//取单后的第一条数据是否是活动商品
 					if(el.spActivities&&el.spActivities.length>0&&index==0) {
 						selectActivityId = el.activityId;
 						currentActivityList = el.spActivities;
@@ -509,7 +517,7 @@ class Cashierindex extends React.Component {
     render() {
       const { datasouce, memberinfo, currentActivityList, selectActivityId } =this.props;
       const { visible, visibleOne, visibleTwo, currentOrderNo, allOrderList, isPhone, loading } =this.state;
-
+			console.log(datasouce)
       return(
         <div className="cashier-wrap-pages">
           <Header type={true} color={true}/>

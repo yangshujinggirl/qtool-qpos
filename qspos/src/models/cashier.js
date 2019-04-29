@@ -268,10 +268,11 @@ export default {
           const i=isInArray(datasouce,result.pdSpu.barcode);
           let { activityId, spActivities } = result.pdSpu;
           let selectActivityId = activityId;//默认活动id
-          let currentActivityList = spActivities;//活动列表
+          let currentActivityList;//活动列表
           let isJoin = "0";//是否参加活动
-          if(currentActivityList&&currentActivityList.length>0) {
-            currentActivityList.map((el,index) => el.barcode = result.pdSpu.barcode);
+          if(spActivities&&spActivities.length>0) {
+            spActivities.map((el,index) => el.barcode = result.pdSpu.barcode);
+            currentActivityList = spActivities;
             isJoin = "1";
           }
           result.pdSpu.isJoin = isJoin;
