@@ -162,5 +162,12 @@ const columnsClerk = [{
   render: (text, record, index) => {
     return renderCol(record, text)
   },
+},{
+  title: '活动价',
+  width: '12%',
+  dataIndex: 'specialPrice',
+  render: (text, record, index) => {
+    return renderCol(record, text)
+  },
 }];
 export default{ columnsClerk, columns }
