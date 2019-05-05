@@ -227,21 +227,20 @@ class Cashierindex extends React.Component {
 				let currentActivityList=[], selectActivityId="0";
 				putProducts.map((el,index) => {
 					//如果是活动商品,处理活动是否失效
-					if(el.isJoin=='1') {
-						if(el.spActivities&&el.spActivities.length>0) {
+					if(el.spActivities&&el.spActivities.length>0) {
+						if(el.isJoin=='1') {
 							el.isJoin = "1";
 							el.payPrice = el.specialPrice;
-						} else {//,失效
+						} else {
 							el.isJoin = "0";
-							el.payPrice = NP.times(el.toCPrice,el.qty);
 						}
-					} else {
+						if(index==0) {
+							selectActivityId = el.isJoin=='1'?el.activityId:'0';
+							currentActivityList = el.spActivities;
+						}
+					} else {//,失效
 						el.isJoin = "0";
-					}
-					//取单后的第一条数据是否是活动商品
-					if(el.spActivities&&el.spActivities.length>0&&index==0) {
-						selectActivityId = el.activityId;
-						currentActivityList = el.spActivities;
+						el.payPrice = NP.times(el.toCPrice,el.qty);
 					}
 				})
 				this.props.dispatch({//更新订单信息
