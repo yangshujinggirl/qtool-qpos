@@ -13,6 +13,9 @@ const Search = Input.Search;
 const Option = Select.Option;
 
 const formatDate=(value)=> {
+  if(!value) {
+    return ''
+  }
   value = moment(value).format('MM-DD');
   let newVal = value.split('-');
   newVal = `${newVal[0]}月${newVal[1]}日`;
