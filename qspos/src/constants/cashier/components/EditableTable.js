@@ -328,7 +328,7 @@ class EditableTable extends React.Component {
 			type:'cashier/getActivityList',
 			payload:{
 				currentActivityList:spActivities,
-				selectActivityId:record.activityId
+				selectActivityId:record.isJoin=='0'?'0':record.activityId
 			}
 		})
 	}
