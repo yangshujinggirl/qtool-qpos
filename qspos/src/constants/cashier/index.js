@@ -138,19 +138,36 @@ class Cashierindex extends React.Component {
   	}
     //移除商品
     rowonDelete=()=>{
-      const themeindex=this.props.themeindex
+      let themeindex=this.props.themeindex;
       const datasouce=this.props.datasouce.splice(0)
       datasouce.splice(themeindex, 1);
-      this.props.dispatch({
+			//移除后，第一条数据进行活动处理,重置选中行;
+			let currentActivityList = [],selectActivityId = '0';
+			let currentItem = datasouce[0];
+			if(themeindex == datasouce.length) {
+				themeindex = 0;
+				currentItem = datasouce[0]
+			} else {
+				currentItem = datasouce[themeindex]
+			}
+			if(datasouce.length>0) {
+				currentActivityList = currentItem.spActivities?currentItem.spActivities:[];
+				selectActivityId = currentItem.isJoin=='0'?'0':currentItem.activityId;
+			}
+			this.props.dispatch({
           type:'cashier/datasouce',
           payload:datasouce
-      })
+      });
+			this.props.dispatch({
+          type:'cashier/themeindex',
+          payload:themeindex
+      });
 			//重置活动列表
 			this.props.dispatch({
 				type:'cashier/getActivityList',
 				payload:{
-					currentActivityList:[],
-					selectActivityId:'all'
+					currentActivityList,
+					selectActivityId
 				}
 			})
     }
