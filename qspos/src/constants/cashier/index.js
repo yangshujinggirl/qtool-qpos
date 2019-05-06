@@ -516,7 +516,7 @@ class Cashierindex extends React.Component {
     render() {
       const { datasouce, memberinfo, currentActivityList, selectActivityId } =this.props;
       const { visible, visibleOne, visibleTwo, currentOrderNo, allOrderList, isPhone, loading } =this.state;
-			console.log(datasouce)
+
       return(
         <div className="cashier-wrap-pages">
           <Header type={true} color={true}/>
