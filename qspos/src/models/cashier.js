@@ -317,8 +317,14 @@ export default {
                   yield put({type: 'spinLoad/setLoading',payload:false});
                   return
               }
-              datasouce[i].qty=String(Number(datasouce[i].qty)+1)
-              var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
+              datasouce[i].qty=String(Number(datasouce[i].qty)+1);
+              //活动价；
+              let currentPrice = datasouce[i].toCPrice;
+              if(datasouce[i].isJoin=='1') {
+                currentPrice = datasouce[i].specialPrice;
+              }
+              // var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
+              var zeropayPrice=String(NP.divide(NP.times(currentPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
               //判断是否有小数点，及小数点时候有两位，当不满足时候补零
               var xsd=zeropayPrice.toString().split(".");
               if(xsd.length==1){
