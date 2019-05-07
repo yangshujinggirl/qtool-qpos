@@ -322,7 +322,7 @@ export default {
               let currentPrice = datasouce[i].toCPrice;
               if(datasouce[i].isJoin=='1') {
                 currentPrice = datasouce[i].specialPrice;
-              }else if(currentActivityList.length>0) {//有活动，但是不参与活动，活动id设置成0
+              }else if(currentActivityList&&currentActivityList.length>0) {//有活动，但是不参与活动，活动id设置成0
                 selectActivityId = '0';
               }
               // var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
