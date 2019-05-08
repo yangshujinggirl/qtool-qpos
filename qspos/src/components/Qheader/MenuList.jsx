@@ -6,16 +6,16 @@ const menusAdamin = [
         { icon: 'member', title: '会员管理', router: '/member' },
         { icon: 'delivery', title: '收货管理', router: '/receivegoods' },
         { icon: 'goods', title: '商品管理', router: '/goods' },
-        { icon: 'activity', title: '活动管理', router: '/activityManage' },
         { icon: 'sell', title: '订单管理', router: '/sell' },
+        { icon: 'activity', title: '活动管理', router: '/activityManage' },
         { icon: 'dataManage', title: '数据管理', router: '/dataManage' },
         { icon: 'setting', title: '账号设置', router: '/account' }]
 const menus = [
         { icon: 'member', title: '会员管理', router: '/member' },
         { icon: 'delivery', title: '收货管理', router: '/receivegoods' },
         { icon: 'goods', title: '商品管理', router: '/goods' },
-        { icon: 'sell', title: '活动管理', router: '/activityManage' },
         { icon: 'sell', title: '订单管理', router: '/sell' },
+        { icon: 'sell', title: '活动管理', router: '/activityManage' },
         { icon: 'dataManage', title: '数据管理', router: '/dataManage' }]
 
 function MenuSell({ urUser }) {

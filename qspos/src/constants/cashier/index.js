@@ -25,15 +25,16 @@ const CollectionCreateForm = Form.create()((props) => {
 		<Modal
 			title="整单折扣"
 			visible={visible}
-			okText="Create"
+			okText="确定"
 			onCancel={onCancel}
-			onOk={onCancel}
-			footer={null}
+			onOk={hindPress}
 			closable={false}
 			width={430}
 			className='popmodel cashier-discount-modal'>
 				<Form layout="inline">
-					<Row><Col span={24}>整单折扣仅对非活动商品生效</Col></Row>
+					<div className="tips-title">
+						整单折扣仅对非活动商品生效
+					</div>
 					<FormItem label="请输入折扣数:">
 							{
 								getFieldDecorator('title', {
@@ -42,7 +43,8 @@ const CollectionCreateForm = Form.create()((props) => {
 										message: '请输入最多一位小数的折扣数',
 										pattern:/^([1-9][0-9]*)+(.[0-9]{1,1})?$/ }]
 								})(
-									<Input  autoComplete="off" style={{width:'200px'}} onKeyUp={hindPress}/>
+									<Input  autoComplete="off" style={{width:'200px'}}/>
+									// <Input  autoComplete="off" style={{width:'200px'}} onKeyUp={hindPress}/>
 								)
 							}
 						</FormItem>
@@ -125,16 +127,23 @@ class Cashierindex extends React.Component {
   	}
     //输入折扣enter键
   	hindPress=(e)=>{
-  		if(e.keyCode==13){
-  			const form = this.form;
-  			form.validateFields((err, values) => {
-  				if (!err) {
-  					const values=e.target.value
-  					this.takezhe(values)
-  					this.handleCancel()
-  				}
-  			});
-  		}
+  		// if(e.keyCode==13){
+  		// 	const form = this.form;
+  		// 	form.validateFields((err, values) => {
+  		// 		if (!err) {
+  		// 			const values=e.target.value
+  		// 			this.takezhe(values)
+  		// 			this.handleCancel()
+  		// 		}
+  		// 	});
+  		// }
+			const form = this.form;
+			form.validateFields((err, values) => {
+				if (!err) {
+					this.takezhe(values.title)
+					this.handleCancel()
+				}
+			});
   	}
     //移除商品
     rowonDelete=()=>{
