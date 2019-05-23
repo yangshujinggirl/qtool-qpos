@@ -297,28 +297,28 @@ class Operationls extends React.Component {
 	typelist=(index)=>{
 		let typeclick1,typeclick2,typeclick3,typeclick4,rechargetype;
 		switch(index) {
-			case 1:
+			case 0:
 				typeclick1=true
 				typeclick2=false
 				typeclick3=false
 				typeclick4=false
 				rechargetype=1;
 				break;
-			case 2:
+			case 1:
 				typeclick1=false
 				typeclick2=true
 				typeclick3=false
 				typeclick4=false
 				rechargetype=2;
 				break;
-			case 3:
+			case 2:
 				typeclick1=false
 				typeclick2=false
 				typeclick3=true
 				typeclick4=false
 				rechargetype=3
 				break;
-			case 4:
+			case 3:
 				typeclick1=false
 				typeclick2=false
 				typeclick3=false
@@ -473,7 +473,20 @@ class Operationls extends React.Component {
 			type:'radio',
 			selectedRowKeys:this.state.selectedRowKeys
 		};
-
+		const payBtnList=[
+			{
+				typeclick:this.props.typeclick1,
+				type:'微信'
+			},{
+				typeclick:this.props.typeclick2,
+				type:'支付宝'
+			},{
+				typeclick:this.props.typeclick3,
+				type:'银联'
+			},{
+				typeclick:this.props.typeclick4,
+				type:'现金'
+			}]
 		return(
 			<div className="uesleft-components-wrap">
 				<div className='clearfix mt30'>
@@ -593,26 +606,16 @@ class Operationls extends React.Component {
               </div>
               <div className='fr'>
                 <ul className='rechargelist'>
-                  <li
-										onClick={this.typelist.bind(this,1)}
-										className={this.props.typeclick1?'rechargetype':'rechargetypeoff'}>
-										<Button>微信</Button>
-									</li>
-                  <li
-										onClick={this.typelist.bind(this,2)}
-										className={this.props.typeclick2?'rechargetype':'rechargetypeoff'}>
-										<Button>支付宝</Button>
-									</li>
-                  <li
-										onClick={this.typelist.bind(this,3)}
-										className={this.props.typeclick3?'rechargetype':'rechargetypeoff'}>
-										<Button>银联</Button>
-									</li>
-                  <li
-										onClick={this.typelist.bind(this,4)}
-										className={this.props.typeclick4?'rechargetype':'rechargetypeoff'}>
-										<Button>现金</Button>
-									</li>
+								{
+									payBtnList.map((el,index) => (
+										<li
+											key={index}
+											onClick={this.typelist.bind(this,index)}
+											className={el.typeclick?'rechargetype':'rechargetypeoff'}>
+											<Button>{el.type}</Button>
+										</li>
+									))
+								}
                 </ul>
                 <div className='rechargeover'>
                   <Input

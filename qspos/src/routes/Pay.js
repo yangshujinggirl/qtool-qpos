@@ -145,8 +145,7 @@ class Payamount extends React.Component{
     //支付状态查询接口
     payStateInfo=(data)=>{
         const values={
-            mbQposOdScanCode:{data,...{orderRemark:this.props.location.state.remark}}
-
+            mbQposOdScanCode:{...data,...{orderRemark:this.props.location.state.remark}}
         }
         const result=GetServerData('qerp.web.qpos.od.payment.status',values)
         result.then((res) => {
