@@ -364,7 +364,8 @@ class Operationls extends React.Component {
 		let values={
 			mbCardId:memberinfo.mbCardId,
 			amount:reamount,
-			type:rechargetype
+			type:rechargetype,
+			remark:this.state.remark
 		}
 		if(values.type=='1'){
 				values.type='7'
@@ -592,10 +593,26 @@ class Operationls extends React.Component {
               </div>
               <div className='fr'>
                 <ul className='rechargelist'>
-                  <li onClick={this.typelist.bind(this,1)} className={this.props.typeclick1?'rechargetype':'rechargetypeoff'}><Button>微信</Button></li>
-                  <li onClick={this.typelist.bind(this,2)} className={this.props.typeclick2?'rechargetype':'rechargetypeoff'}><Button>支付宝</Button></li>
-                  <li onClick={this.typelist.bind(this,3)} className={this.props.typeclick3?'rechargetype':'rechargetypeoff'}><Button>银联</Button></li>
-                  <li onClick={this.typelist.bind(this,4)} className={this.props.typeclick4?'rechargetype':'rechargetypeoff'}><Button>现金</Button></li>
+                  <li
+										onClick={this.typelist.bind(this,1)}
+										className={this.props.typeclick1?'rechargetype':'rechargetypeoff'}>
+										<Button>微信</Button>
+									</li>
+                  <li
+										onClick={this.typelist.bind(this,2)}
+										className={this.props.typeclick2?'rechargetype':'rechargetypeoff'}>
+										<Button>支付宝</Button>
+									</li>
+                  <li
+										onClick={this.typelist.bind(this,3)}
+										className={this.props.typeclick3?'rechargetype':'rechargetypeoff'}>
+										<Button>银联</Button>
+									</li>
+                  <li
+										onClick={this.typelist.bind(this,4)}
+										className={this.props.typeclick4?'rechargetype':'rechargetypeoff'}>
+										<Button>现金</Button>
+									</li>
                 </ul>
                 <div className='rechargeover'>
                   <Input

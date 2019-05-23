@@ -547,139 +547,125 @@ class PayModal extends React.Component {
     }
     //抹零
     nozeroclick=()=>{
-        const diffamount=NP.minus(this.props.paytotolamount, parseInt(this.props.paytotolamount))
-        if(diffamount>0){
-            const amountlist=this.props.amountlist.slice(0)
-            if(amountlist.length>1){
-                //抹第二个
-                var moer=NP.minus(amountlist[1].value, diffamount)
-                if(moer<0){
-                    amountlist[0].value=NP.plus(amountlist[0].value, moer)
-                    amountlist[1].value='0.00'
-                }else{
-                    amountlist[1].value=moer
-                }
-            }
-            if(amountlist.length==1){
-                amountlist[0].value=NP.minus(amountlist[0].value, diffamount)
-            }
-
-            const paytotolamount=dataedit(String(parseInt(this.props.paytotolamount)))
-            var backmoneyed=0
-            if(amountlist.length>1){
-                const danu=NP.minus(paytotolamount, amountlist[0].value,amountlist[1].value)
-                if(danu==0){
-                    backmoneyed='0.00'
-                }else{
-                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, amountlist[0].value,amountlist[1].value)))
-                }
-
-
-
-            }else{
-                const danu=NP.minus(paytotolamount, amountlist[0].value)
-                if(danu==0){
-                    backmoneyed='0.00'
-                }else{
-                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, amountlist[0].value)))
-                }
-
-            }
-
-            amountlist[0].value=dataedit(String(amountlist[0].value))
-            if(amountlist.length>1){
-                amountlist[1].value=dataedit(String(amountlist[1].value))
-            }
-
-
-            this.props.dispatch({
-                type:'cashier/paytotolamount',
-                payload:paytotolamount
-            })
-            this.props.dispatch({
-                type:'cashier/amountlist',
-                payload:amountlist
-            })
-            const cutAmount='1'
-            this.props.dispatch({
-                type:'cashier/cutAmount',
-                payload:cutAmount
-            })
-
-
-            this.setState({
-                backmoney:backmoneyed,
-            })
-
+      let { paytotolamount, amountlist } =this.props;
+      const diffamount=NP.minus(paytotolamount, parseInt(paytotolamount))
+      if(diffamount<=0) {
+        return;
+      }
+      amountlist = amountlist.slice(0)
+      if(amountlist.length>1){
+        //抹第二个
+        var moer=NP.minus(amountlist[1].value, diffamount)
+        if(moer<0){
+            amountlist[0].value=NP.plus(amountlist[0].value, moer)
+            amountlist[1].value='0.00'
+        }else{
+            amountlist[1].value=moer
         }
+      }
+      if(amountlist.length==1){
+          amountlist[0].value=NP.minus(amountlist[0].value, diffamount)
+      }
+      paytotolamount=dataedit(String(parseInt(paytotolamount)))
+      var backmoneyed=0
+      if(amountlist.length>1){
+          const danu=NP.minus(paytotolamount, amountlist[0].value,amountlist[1].value)
+          if(danu==0){
+              backmoneyed='0.00'
+          }else{
+              backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, amountlist[0].value,amountlist[1].value)))
+          }
+      }else{
+          const danu=NP.minus(paytotolamount, amountlist[0].value)
+          if(danu==0){
+              backmoneyed='0.00'
+          }else{
+              backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, amountlist[0].value)))
+          }
 
-
-
-
-
+      }
+      amountlist[0].value=dataedit(String(amountlist[0].value))
+      if(amountlist.length>1){
+          amountlist[1].value=dataedit(String(amountlist[1].value))
+      }
+      this.props.dispatch({
+          type:'cashier/paytotolamount',
+          payload:paytotolamount
+      })
+      this.props.dispatch({
+          type:'cashier/amountlist',
+          payload:amountlist
+      })
+      const cutAmount='1'
+      this.props.dispatch({
+          type:'cashier/cutAmount',
+          payload:cutAmount
+      })
+      this.setState({
+          backmoney:backmoneyed,
+      })
     }
     //扫码按钮点击
     onhindClicks=()=>{
-        const backmoney=this.state.backmoney
-        const group=this.props.group
-        const amountlist=this.props.amountlist
-        var totols=0;
-        var orderPay=[];
+      const backmoney=this.state.backmoney
+      const { group, amountlist, paytotolamount, memberinfo, ismember } =this.props;
+      var totols=0;
+      var orderPay=[];
 
-        if(amountlist.length>1){
-            if(Number(amountlist[1].value<=0)){
-                message.error('金额有误，不能支付')
-                return
-            }
-        }else{
-            if(Number(amountlist[0].value<=0)){
-                message.error('金额有误，不能支付')
-                return
-            }
-        }
-        if(group){
-            if(amountlist.length>1){
-                totols=NP.plus(amountlist[0].value,amountlist[1].value);
-                for(var i=0;i<amountlist.length;i++){
-                    if(amountlist[i].value!='0.00'){
-                        orderPay.push({
-                            amount:amountlist[i].value,
-                            type:amountlist[i].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[i].type)
-                        })
-                    }
-                }
-            }else{
-                message.error('金额有误，不能支付')
-                return
-            }
-        }else{
-            totols=amountlist[0].value
-            orderPay=[{
-                amount:amountlist[0].value,
-                type:amountlist[0].type=='1'?'7':(amountlist[0].type=='2'?'8':amountlist[0].type)
-            }]
-        }
-
-        if(totols==this.props.paytotolamount && backmoney=='0.00'){
-            const amountlist=this.props.amountlist;
-            const { mbCardId } =this.props.memberinfo;
-            let values={
-                    mbCard:{mbCardId:this.props.ismember?mbCardId:null},
-                    odOrder:{
-                        amount:this.props.totolamount,
-                        orderPoint:this.props.thispoint,
-                        payAmount:this.props.paytotolamount,
-                        qty:this.props.totolnumber,
-                        skuQty:this.props.datasouce.length,
-                        cutAmount:this.props.cutAmount,
-                    },
-                    orderDetails:this.props.datasouce,
-                    orderPay:orderPay
-                }
-                this.btnSaoPay(values)
-        }else{
-            message.error('金额有误，不能支付')
-        }
+      if(amountlist.length>1){
+          if(Number(amountlist[1].value<=0)){
+              message.error('金额有误，不能支付')
+              return
+          }
+      }else{
+          if(Number(amountlist[0].value<=0)){
+              message.error('金额有误，不能支付')
+              return
+          }
+      }
+      if(group){
+          if(amountlist.length>1){
+              totols=NP.plus(amountlist[0].value,amountlist[1].value);
+              for(var i=0;i<amountlist.length;i++){
+                  if(amountlist[i].value!='0.00'){
+                      orderPay.push({
+                          amount:amountlist[i].value,
+                          type:amountlist[i].type=='1'?'7':(amountlist[i].type=='2'?'8':amountlist[i].type)
+                      })
+                  }
+              }
+          }else{
+              message.error('金额有误，不能支付')
+              return
+          }
+      }else{
+          totols=amountlist[0].value
+          orderPay=[{
+              amount:amountlist[0].value,
+              type:amountlist[0].type=='1'?'7':(amountlist[0].type=='2'?'8':amountlist[0].type)
+          }]
+      }
+      if(totols==paytotolamount && backmoney=='0.00'){
+          const amountlist=amountlist;
+          const { mbCardId } =memberinfo;
+          let values={
+                  mbCard:{mbCardId:ismember?mbCardId:null},
+                  odOrder:{
+                      amount:this.props.totolamount,
+                      orderPoint:this.props.thispoint,
+                      payAmount:this.props.paytotolamount,
+                      qty:this.props.totolnumber,
+                      skuQty:this.props.datasouce.length,
+                      cutAmount:this.props.cutAmount,
+                      remark:this.state.remark
+                  },
+                  orderDetails:this.props.datasouce,
+                  orderPay:orderPay
+              }
+              this.btnSaoPay(values)
+      }else{
+          message.error('金额有误，不能支付')
+      }
     }
     //扫码支付
     btnSaoPay=(values)=>{
@@ -715,7 +701,6 @@ class PayModal extends React.Component {
                 message.error(json.message)
               }
           }
-
       })
     }
     //是否勾选打印小票

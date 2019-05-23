@@ -42,7 +42,7 @@ const data = [{
 }]
 //充值订单
 function RechargeDetailMod({detailInfo}) {
-  const { cardMoneyChargeInfo, mbCard, businessType } = detailInfo;
+  const { cardMoneyChargeInfo, mbCard, businessType, odOrder } = detailInfo;
   let rechargeList=[{
         beforeAmount:cardMoneyChargeInfo.beforeAmount,
         afterAmount:cardMoneyChargeInfo.afterAmount,
@@ -58,6 +58,10 @@ function RechargeDetailMod({detailInfo}) {
           <div className="row">收银员：<span className="field">{cardMoneyChargeInfo.nickname}</span></div>
           <div className="row">业务类型：<span className="field">{BusinessTypeMap[businessType]}</span></div>
           <div className="row">订单状态：<span className="field">已完成</span></div>
+          {
+            odOrder.businessType==1&&
+              <div className="row">订单备注：<span className="field">{odOrder.remark}</span></div>
+          }
         </div>
       </Card>
       <Card title="充值信息">
@@ -388,7 +392,7 @@ function ReturnSalesMod({detailInfo}) {
           <div className="row">退货员：<span className="field">{odReturn.nickname}</span></div>
           <div className="row">
             关联订单：<span className="field">{odReturn.orderNo}<span className="remark">「{BusinessTypeMap[odReturn.businessType]}」</span></span>
-        </div>
+          </div>
           <div className="row">业务类型：<span className="field">{BusinessTypeMap[odReturn.businessType]}</span></div>
           <div className="row">订单状态：<span className="field">{OrderStatusMap[odReturn.orderStatus]}</span></div>
         {
