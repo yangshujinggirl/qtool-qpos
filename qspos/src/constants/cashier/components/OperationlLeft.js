@@ -365,7 +365,7 @@ class Operationls extends React.Component {
 			mbCardId:memberinfo.mbCardId,
 			amount:reamount,
 			type:rechargetype,
-			remark:this.state.remark
+			orderRemark:this.state.remark
 		}
 		if(values.type=='1'){
 				values.type='7'
