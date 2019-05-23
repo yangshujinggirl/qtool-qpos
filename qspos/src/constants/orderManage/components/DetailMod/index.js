@@ -60,7 +60,7 @@ function RechargeDetailMod({detailInfo}) {
           <div className="row">订单状态：<span className="field">已完成</span></div>
           {
             odOrder.businessType==1&&
-              <div className="row">订单备注：<span className="field">{odOrder.remark}</span></div>
+              <div className="row">订单备注：<span className="field">{cardMoneyChargeInfo.remark}</span></div>
           }
         </div>
       </Card>
