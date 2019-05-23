@@ -15,6 +15,7 @@ class PayModal extends React.Component {
       this.lists=[]
       this.firstclick=true;
       this.state = {
+          remark:'',
           visible: false,
           group:true,//是否组合
           payfirst:{
@@ -139,24 +140,6 @@ class PayModal extends React.Component {
     }
     showModal=(type,data) => {
       switch(type) {
-        // case 1:
-        //   this.formDataTypeOne(type,data);
-        //   break;
-        // case 2:
-        //   this.formDataTypeTwo(type,data);
-        //   break;
-        // case 3:
-        //   this.formDataTypeThr(type,data);
-        //   break;
-        // case 4:
-        //   this.formDataTypeFour(type,data);
-        //   break;
-        // case 5:
-        //   this.formDataTypeFive(type,data);
-        //   break;
-        // case 6:
-        //   this.formDataTypeSix(type,data);
-        //   break;
         case 7:
           this.formDataTypeSeve(type,data);
           break;
@@ -165,164 +148,6 @@ class PayModal extends React.Component {
           break;
       }
     }
-    // formDataTypeOne(type,data) {
-    //   //先判断谁是被禁用的：index:5被禁用
-    //   const backmoney=this.backmoneymeth(data.totalamount,data.totalamount,0)
-    //   let listarrs=this.state.listarrs
-    //   listarrs[5].disabled=true
-    //   listarrs[5].style='listdis'
-    //   const payinput=this.state.paynext;
-    //   payinput.name='会员卡';
-    //   payinput.value=data.totalamount;
-    //   this.setState({
-    //       visible: true,
-    //       group:false,
-    //       paynext:payinput,
-    //       totolamount:data.totalamount,
-    //       backmoney:backmoney,
-    //       listarrs:listarrs,
-    //       type:1,
-    //       usetype:true,
-    //       warning:false,
-    //       text:'',
-    //       membermoney:data.memberinfo,
-    //       pointmoney:null
-    //
-    //   },()=>{
-    //       this.listclick(4)
-    //   });
-    // }
-    // formDataTypeTwo(type,data) {
-    //   this.lists=[-1]
-    //   const backmoney=this.backmoneymeth(data.totalamount,data.memberinfo,0)
-    //   let listarrs=this.state.listarrs
-    //   listarrs[5].disabled=true
-    //   listarrs[5].style='listdis'
-    //   const payinput=this.state.paynext
-    //   payinput.name='会员卡'
-    //   payinput.value=data.memberinfo
-    //   this.setState({
-    //       totolamount:data.totalamount,
-    //       visible: true,
-    //       group:true,
-    //       paynext:payinput,
-    //       backmoney:backmoney,
-    //       listarrs:listarrs,
-    //       type:2,
-    //       usetype:true,
-    //       warning:true,
-    //       text:'会员卡余额不足，请组合其他付款方式',
-    //       membermoney:data.memberinfo,
-    //       pointmoney:null
-    //     },()=>{
-    //       this.listclick(4)
-    //   })
-    // }
-    // formDataTypeThr(type,data) {
-    //   const backmoney=this.backmoneymeth(data.totalamount,data.totalamount,0)
-    //   let listarrs=this.state.listarrs
-    //   listarrs[4].disabled=true
-    //   listarrs[4].style='listdis'
-    //   const payinput=this.state.paynext
-    //   payinput.name='积分'
-    //   payinput.value=data.totalamount
-    //   this.setState({
-    //       visible: true,
-    //       group:false,
-    //       paynext:payinput,
-    //       totolamount:data.totalamount,
-    //       backmoney:backmoney,
-    //       listarrs:listarrs,
-    //       type:3,
-    //       usetype:true,
-    //       warning:false,
-    //       text:'',
-    //       membermoney:null,
-    //       pointmoney:data.integral
-    //   },()=>{
-    //       this.listclick(5)
-    //   });
-    // }
-    // formDataTypeFour(type,data) {
-    //   this.lists=[-1]
-    //   const backmoney=this.backmoneymeth(data.totalamount,data.integral,0)
-    //   let listarrs=this.state.listarrs
-    //   listarrs[4].disabled=true
-    //   listarrs[4].style='listdis'
-    //   const payinput=this.state.paynext
-    //   payinput.name='积分'
-    //   payinput.value=data.integral
-    //   this.setState({
-    //       totolamount:data.totalamount,
-    //       visible: true,
-    //       group:true,
-    //       paynext:payinput,
-    //       backmoney:backmoney,
-    //       listarrs:listarrs,
-    //       type:4,
-    //       usetype:true,
-    //       warning:true,
-    //       text:'积分低值余额不足，请组合其他付款方式',
-    //       membermoney:null,
-    //       pointmoney:data.integral
-    //   },function(){
-    //       this.listclick(5)
-    //   })
-    // }
-    // formDataTypeFive(type,data) {
-    //   this.lists=[-1]
-    //   //先判断谁是被禁用的：index:5被禁用
-    //   const backmoney=this.backmoneymeth(data,data,0)
-    //   console.log(backmoney)
-    //   let listarrs=this.state.listarrs
-    //   listarrs[5].disabled=true
-    //   listarrs[5].style='listdis'
-    //   listarrs[4].disabled=true
-    //   listarrs[4].style='listdis'
-    //   const payinput=this.state.paynext
-    //   payinput.name='微信'
-    //   payinput.value=data
-    //   this.setState({
-    //       visible: true,
-    //       group:false,
-    //       paynext:payinput,
-    //       totolamount:data,
-    //       backmoney:backmoney,
-    //       listarrs:listarrs,
-    //       type:5,
-    //       usetype:true,
-    //       warning:false,
-    //       text:'',
-    //       membermoney:null,
-    //       pointmoney:null
-    //   },function(){
-    //       this.listclick(0)
-    //   });
-    // }
-    // formDataTypeSix(type,data) {
-    //   //先判断谁是被禁用的
-    //   const backmoney=this.backmoneymeth(data.totolamount,data.totolamount,0)
-    //   let listarrs=this.state.listarrs
-    //   listarrs[5].disabled=true
-    //   listarrs[5].style='listdis'
-    //   const payinput=this.state.paynext
-    //   payinput.name='会员卡'
-    //   payinput.value=data.totolamount
-    //   this.setState({
-    //       visible: true,
-    //       group:false,
-    //       paynext:payinput,
-    //       totolamount:data.totolamount,
-    //       backmoney:backmoney,
-    //       listarrs:listarrs,
-    //       type:6,
-    //       usetype:false,
-    //       warning:false,
-    //       text:''
-    //   },function(){
-    //       this.listclick(4)
-    //   });
-    // }
     formDataTypeSeve(type,data) {
       const backmoney=this.backmoneymeth(data.totolamount,data.totolamount,0)
       let listarrs=this.state.listarrs
@@ -618,118 +443,6 @@ class PayModal extends React.Component {
         }
         return z
     }
-    // //结算
-    // hindpayclick=()=>{
-    //     if(!this.firstclick){
-    //         return;
-    //     }
-    //     this.firstclick=false;
-    //     //判断是收银结算还是退货结算
-    //     const usetype=this.state.usetype
-    //     if(usetype){
-    //         //判断能不能支付
-    //         // 1.如果支付金额小于总额，总额等于0，不能支付
-    //         // 2.支付方式没有选择，不能支付
-    //         //支付类型
-    //         const list=this.lists
-    //         var orderPay=[]
-    //         if(list==[] || list==[-1] || list=='' || list==null || list==undefined){
-    //             //不能结算
-    //             message.warning('支付数据有错误，不能支付');
-    //             this.firstclick=true
-    //         }else{
-    //             if(list[0]<0){
-    //                 if(parseFloat(this.state.paynext.value)< parseFloat(this.state.totolamount)){
-    //                     //不能支付
-    //                     message.warning('支付数据有错误，不能支付');
-    //                     this.firstclick=true
-    //                 }else{
-    //                     //可以支付
-    //                     let type=list[1]+1
-    //                     let amount=this.state.datatotalamount
-    //
-    //                     if(this.state.cutAmount==1){
-    //                         orderPay.push({amount:this.state.paynext.value,type:type})
-    //                     }else{
-    //                         orderPay.push({amount:amount,type:type})
-    //                     }
-    //                     //组合参数
-    //                     let values={
-    //                         mbCard:{mbCardId:this.state.datamember},
-    //                         odOrder:{
-    //                             amount:this.state.datatotalamount,
-    //                             orderPoint:this.state.datajifen,
-    //                             payAmount:this.state.paynext.value,
-    //                             qty:this.state.datanumber,
-    //                             skuQty:this.state.datadatasoucerlength,
-    //                             cutAmount:this.state.cutAmount,
-    //                         },
-    //                         orderDetails:this.state.datadatasoucer,
-    //                         orderPay:orderPay
-    //                     }
-    //                     //数据请求
-    //                     this.paying(values)
-    //                 }
-    //             }
-    //             if(list[0]>0 || list[0]==0){
-    //                 const totol=parseFloat(this.state.totolamount)
-    //                 if(totol< parseFloat(this.state.totolamount)){
-    //                     //不能支付
-    //                     message.warning('支付数据有错误，不能支付3');
-    //                 }else{
-    //                     //可以支付
-    //                     let type0=list[0]+1
-    //                     let type1=list[1]+1
-    //                     let type0value=this.state.payfirst.value
-    //                     let type1value=this.state.paysecond.value
-    //                     orderPay.push({
-    //                         amount:type0value,
-    //                         type:type0
-    //                       },{
-    //                         amount:type1value,
-    //                         type:type1
-    //                       })
-    //                     //组合参数
-    //                     let values={
-    //                         mbCard:{mbCardId:this.state.datamember},
-    //                         odOrder:{
-    //                             amount:this.state.datatotalamount,
-    //                             orderPoint:this.state.datajifen,
-    //                             payAmount:this.state.datatotalamount,
-    //                             qty:this.state.datanumber,
-    //                             skuQty:this.state.datadatasoucerlength,
-    //                             cutAmount:this.state.cutAmount
-    //                         },
-    //                         orderDetails:this.state.datadatasoucer,
-    //                         orderPay:orderPay
-    //                     }
-    //                     //数据请求
-    //                     this.paying(values)
-    //                 }
-    //             }
-    //         }
-    //     }else{
-    //         // 退货结算
-    //         //先判断什么条件能退货，然后是退货，最后是数据初始化
-    //         const list=this.lists
-    //         let type=list[1]+1
-    //         let values={
-    //             "odReturn":{
-    //                 "amount":this.state.totolamount,
-    //                 "orderNo":this.state.rebarcode,
-    //                 "qty":this.state.quantity,
-    //                 "refundAmount":this.state.paynext.value,
-    //                 "returnPoint":this.state.rejifen,
-    //                 "skuQty":this.state.quantity,
-    //                 "type":type,
-    //                  cutAmount:this.state.cutAmount
-    //             },
-    //             "odReturnDetails":this.state.redatasouce,
-    //             "qposMbCard":{"mbCardId":this.state.rembCardId}
-    //         }
-    //         this.repaying(values)
-    //     }
-    // }
     //结算
     hindpayclick=()=>{
         if(!this.firstclick){
@@ -754,46 +467,6 @@ class PayModal extends React.Component {
         }
         this.repaying(values)
     }
-    // //调用结算接口
-    // paying=(values)=>{
-    //   GetServerData('qerp.web.qpos.od.order.save',values)
-    //   .then((json) => {
-    //     if(json.code=='0'){
-    //       this.firstclick=true
-    //       const odOrderIds=json.odOrderId;
-    //       const orderNos=json.orderNo;
-    //       const orderAll = json;
-    //       this.handleOk()
-    //       this.props.initdata()
-    //       message.success('收银成功',1)
-    //       if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
-    //           if(this.props.checkPrint){
-    //               //判断打印小票的大小
-    //               const result=GetServerData('qerp.pos.sy.config.info')
-    //               result.then((res) => {
-    //                   return res;
-    //               }).then((json) => {
-    //                   if(json.code == "0"){
-    //                       //判断是打印大的还是小的
-    //                       if(json.config.paperSize=='80'){
-    //                           getSaleOrderInfo(orderAll,"80",json.config.submitPrintNum);
-    //                           // this.handprint(odOrderIds,'odOrder',orderNos,true)
-    //                       }else{
-    //                           getSaleOrderInfo(orderAll,"58",json.config.submitPrintNum);
-    //                           // this.handprint(odOrderIds,'odOrder',orderNos,false)
-    //                       }
-    //                   }else{
-    //                       message.warning('打印失败')
-    //                   }
-    //               })
-    //           }
-    //       }
-    //     }else{
-    //       message.error(json.message)
-    //       this.firstclick=true
-    //     }
-    //   })
-    // }
     //退货支付
     repaying=(values)=>{
       this.setState({ loading: true })
@@ -1131,8 +804,24 @@ class PayModal extends React.Component {
       	         	{
       	         		this.state.group && this.lists.length>1 && (this.lists[0]==0 || this.lists[0]>0)?
                     <div className='clearfix inputcenter'>
-          						<div className='payharflwl' ><Input  autoComplete="off" addonBefore={this.state.payfirst.name}  value={this.state.payfirst.value} onChange={this.payfirstchange.bind(this)} onBlur={this.payfirstonBlur.bind(this)} className='tr payinputsmodel'/></div>
-          						<div className='payharflwr'><Input  autoComplete="off" addonBefore={this.state.paysecond.name} value={this.state.paysecond.value} onChange={this.paysecondchange.bind(this)} onBlur={this.paysecondonBlur.bind(this)} className='tr payinputsmodel'/></div>
+          						<div className='payharflwl' >
+                        <Input
+                          autoComplete="off"
+                          addonBefore={this.state.payfirst.name}
+                          value={this.state.payfirst.value}
+                          onChange={this.payfirstchange.bind(this)}
+                          onBlur={this.payfirstonBlur.bind(this)}
+                          className='tr payinputsmodel'/>
+                      </div>
+          						<div className='payharflwr'>
+                        <Input
+                          autoComplete="off"
+                          addonBefore={this.state.paysecond.name}
+                          value={this.state.paysecond.value}
+                          onChange={this.paysecondchange.bind(this)}
+                          onBlur={this.paysecondonBlur.bind(this)}
+                          className='tr payinputsmodel'/>
+                      </div>
       	         		</div>
       	         		:
                     <div className='inputcenter'>
@@ -1146,15 +835,20 @@ class PayModal extends React.Component {
                          className='paylh tr payinputsmodel'/>
                      </div>
       	         	}
-               		<div>
-                    <Input
-                      autoComplete="off"
-                      addonBefore='找零'
-                      value={this.state.backmoney}
-                      onChange={this.backmoney.bind(this)}
-                      disabled
-                      className='paylh tr payinputsmodel'/>
-                  </div>
+                  <Input
+                    autoComplete="off"
+                    addonBefore='找零'
+                    value={this.state.backmoney}
+                    onChange={this.backmoney.bind(this)}
+                    disabled
+                    className='paylh tr payinputsmodel'/>
+                  <Input
+                    autoComplete="off"
+                    addonBefore='备注'
+                    value={this.state.backmoney}
+                    onChange={this.backmoney.bind(this)}
+                    disabled
+                    className='paylh tr payinputsmodel'/>
                		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>
                   <div className='payends'>
                     <Button

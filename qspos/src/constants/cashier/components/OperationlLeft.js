@@ -14,13 +14,13 @@ import {
 	Radio,
 	Checkbox
 } from 'antd';
-import Modales from './Modales';
+
 import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
 import {printRechargeOrder} from '../../../components/Method/Method';
-import Btnpay from './Btnpay'
-import Btnbrfore from './Btnbrfore'
+import Btnpay from './Btnpay';
+import Btnbrforepay from './Btnbrforepay';
 import './OperationlLeft.less';
 
 
@@ -49,26 +49,21 @@ class Operationls extends React.Component {
 	    isBirthMonth:false,
 			dataSource:[],
 			selectedRowKeys:[],
-			loading:false
+			loading:false,
+			remark:''
 		}
 
 		this.firstclick=true
 	}
 	componentDidMount(){
 		this.props.setDom(this.refs.barcodeRefs)
-		// this.focustap()
-		// this.props.dispatch({
-		// 	type:'cashier/meths',
-		// 	payload:{
-		// 		focustap:this.focustap
-		// 	}
-		// })
 	}
 	componentDidUpdate(){
-   if(this.input){
-       const ValueorderNoses = ReactDOM.findDOMNode(this.input.input)
-       ValueorderNoses.focus()
-   }
+		// debugger
+   // if(this.input){
+   //     const ValueorderNoses = ReactDOM.findDOMNode(this.input.input)
+   //     ValueorderNoses.focus()
+   // }
   }
 	//阻止默认事件
 	onKeydown=(e)=>{
@@ -120,19 +115,6 @@ class Operationls extends React.Component {
 			payload:{code:'qerp.pos.pd.spu.find',values:values}
 		})
 	}
-	//条码获取焦点
-	// focustap=()=>{
-	// 	if(!this.refs.barcodeRefs) {
-	// 		return;
-	// 	}
-	// 	const ValueorderNoses=ReactDOM.findDOMNode(this.refs.barcodeRefs)
-	// 	// const ValueorderNoses=this.refs.barcodeRefs.input
-	// 	ValueorderNoses.focus()
-	// 	this.props.dispatch({
-	// 		type:'cashier/onbule',
-	// 		payload:false
-	// 	})
-	// }
 	//会员获取焦点
 	focustapmember=()=>{
 		if(!this.refs.memberRefs) {
@@ -216,40 +198,40 @@ class Operationls extends React.Component {
 		const { memberinfo } =this.props;
 		//判断有没有填写会员信息
 		if(memberinfo.mbCardId==null || undefined || ''){
-				message.warning('请输入正确的会员卡号')
-		}else{
-				const uservalues={"urUserId":null}
-				GetServerData('qerp.pos.ur.user.info',uservalues)
-				.then((json) => {
-						if(json.code=='0'){
-								sessionStorage.setItem('openWechat',json.urUser.shop.openWechat);
-								sessionStorage.setItem('openAlipay',json.urUser.shop.openAlipay);
-								GetServerData('qerp.pos.sy.config.info')
-								.then((json) => {
-									if(json.code == "0"){
-											if(json.config.rechargePrint=='1'){
-													const recheckPrint=true
-													this.props.dispatch({
-															type:'cashier/rechangeCheckPrint',
-															payload:recheckPrint
-													})
-											}else{
-													const recheckPrint=false
-													this.props.dispatch({
-															type:'cashier/rechangeCheckPrint',
-															payload:recheckPrint
-													})
-											}
-									}
-								})
-								const rechargevisible=true
-								this.props.dispatch({
-										type:'cashier/rechargevisible',
-										payload:rechargevisible
-								})
-						}
-				})
+				message.warning('请输入正确的会员卡号');
+				return;
 		}
+		const uservalues={"urUserId":null}
+		GetServerData('qerp.pos.ur.user.info',uservalues)
+		.then((json) => {
+				if(json.code=='0'){
+						sessionStorage.setItem('openWechat',json.urUser.shop.openWechat);
+						sessionStorage.setItem('openAlipay',json.urUser.shop.openAlipay);
+						GetServerData('qerp.pos.sy.config.info')
+						.then((json) => {
+							if(json.code == "0"){
+									if(json.config.rechargePrint=='1'){
+											const recheckPrint=true
+											this.props.dispatch({
+													type:'cashier/rechangeCheckPrint',
+													payload:recheckPrint
+											})
+									}else{
+											const recheckPrint=false
+											this.props.dispatch({
+													type:'cashier/rechangeCheckPrint',
+													payload:recheckPrint
+											})
+									}
+							}
+						})
+						const rechargevisible=true
+						this.props.dispatch({
+								type:'cashier/rechargevisible',
+								payload:rechargevisible
+						})
+				}
+		})
 	}
 	handleOk = (e) => {
 		if(this.firstclick){
@@ -262,7 +244,8 @@ class Operationls extends React.Component {
 		let values={
 			mbCardId:memberinfo.mbCardId,
 			amount:this.props.reamount,
-			type:this.props.rechargetype
+			type:this.props.rechargetype,
+			remark:this.state.remark
 		}
 		GetServerData('qerp.pos.mb.card.charge',values)
 		.then((json) => {
@@ -312,50 +295,41 @@ class Operationls extends React.Component {
 			})
 	}
 	typelist=(index)=>{
-			if(index==1){
-					const typeclick1=true
-					const typeclick2=false
-					const typeclick3=false
-					const typeclick4=false
-					const rechargetype=1
-					this.props.dispatch({
-							type:'cashier/typeclicks',
-							payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
-					})
-			}
-			if(index==2){
-					const typeclick1=false
-					const typeclick2=true
-					const typeclick3=false
-					const typeclick4=false
-					const rechargetype=2
-					this.props.dispatch({
-							type:'cashier/typeclicks',
-							payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
-					})
-			}
-			if(index==3){
-					const typeclick1=false
-					const typeclick2=false
-					const typeclick3=true
-					const typeclick4=false
-					const rechargetype=3
-					this.props.dispatch({
-							type:'cashier/typeclicks',
-							payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
-					})
-			}
-			if(index==4){
-					const typeclick1=false
-					const typeclick2=false
-					const typeclick3=false
-					const typeclick4=true
-					const rechargetype=4
-					this.props.dispatch({
-							type:'cashier/typeclicks',
-							payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
-					})
-			}
+		let typeclick1,typeclick2,typeclick3,typeclick4,rechargetype;
+		switch(index) {
+			case 1:
+				typeclick1=true
+				typeclick2=false
+				typeclick3=false
+				typeclick4=false
+				rechargetype=1;
+				break;
+			case 2:
+				typeclick1=false
+				typeclick2=true
+				typeclick3=false
+				typeclick4=false
+				rechargetype=2;
+				break;
+			case 3:
+				typeclick1=false
+				typeclick2=false
+				typeclick3=true
+				typeclick4=false
+				rechargetype=3
+				break;
+			case 4:
+				typeclick1=false
+				typeclick2=false
+				typeclick3=false
+				typeclick4=true
+				rechargetype=4
+				break;
+		}
+		this.props.dispatch({
+				type:'cashier/typeclicks',
+				payload:{typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
+		})
 	}
 	reamount=(e)=>{
 		const reamount=e.target.value
@@ -417,11 +391,32 @@ class Operationls extends React.Component {
 								const consumeType='2' //充值订单
 								const type=values.type//支付类型
 								const amount=values.amount //支付金额
-								this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});
+								this.context.router.push({
+									pathname : '/pay',
+									state : {
+										orderId :odOrderId,
+										type:type,
+										amount:amount,
+										consumeType:
+										consumeType,
+										orderNo:orderNo,
+										remark:this.state.remark
+									}
+								});
 						})
 				}else{
 						message.warning(json.message)
-						this.context.router.push({ pathname : '/pay', state : {orderId :'100',type:'7',amount:'100',consumeType:'1',orderNo:'0898u'}});
+						this.context.router.push({
+							pathname : '/pay',
+							state : {
+								orderId :'100',
+								type:'7',
+								amount:'100',
+								consumeType:'1',
+								orderNo:'0898u',
+								remark:this.state.remark
+							}
+						});
 				}
 		})
 	}
@@ -451,7 +446,7 @@ class Operationls extends React.Component {
 			default:
 				title = null;
 		}
-		return <Btnbrfore title={title}/>
+		return <Btnbrforepay title={title}/>
 	}
 	addonAfterLabel() {
 		let { rechargetype } = this.props;
@@ -462,6 +457,9 @@ class Operationls extends React.Component {
 		} else {
 			return null;
 		}
+	}
+	handleRemark =(e)=> {
+		this.setState({ remark: e.target.value })
 	}
 	render(){
 		const { memberinfo, isPhone } =this.props;
@@ -522,14 +520,6 @@ class Operationls extends React.Component {
 										className='themecolor toggle-btn'
 										onClick={this.toggleEvent.bind(this)}>切换会员>></span>
 								}
-								{/* <span>
-									{
-										memberinfo.isBirthMonth=='true'?<span className='birthline'>
-										<span className='line'></span>生日</span>
-										:
-										null
-									}
-							</span> */}
 							</div>
             </div>
     				<div className='clearfix posion cashierbox_b'>
@@ -620,10 +610,18 @@ class Operationls extends React.Component {
                 </div>
               </div>
             </div>
+						<div className='rechargeover remark-wrap'>
+							<Input
+								autoComplete="off"
+								addonBefore={
+									<Btnbrforepay title='备注' dis={false}/>
+								}
+								placeholder="可输入20字订单备注"
+								maxLength={20}
+								className='tr'
+								onChange={this.handleRemark}/>
+						</div>
             <div>
-              {/* <div className='tc rechargeok' onClick={this.handleOk.bind(this)}>
-                  确定
-              </div> */}
 							<Button
 								loading={loading}
 								className='tc rechargeok'

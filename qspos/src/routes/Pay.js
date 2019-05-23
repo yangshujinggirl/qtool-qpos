@@ -48,7 +48,8 @@ class Payamount extends React.Component{
                 authCode:this.state.code,
                 tradeType:this.props.location.state.consumeType,
                 amount:this.props.location.state.amount,
-                type:this.props.location.state.type
+                type:this.props.location.state.type,
+                orderRemark:this.props.location.state.remark
             }
         };
         this.setState({
@@ -223,11 +224,11 @@ class Payamount extends React.Component{
                                     <div className='wr'>
                                         <Input size="large"  onKeyUp={this.hindonKeyUp.bind(this)} onBlur={this.hindBlue.bind(this)} onChange={this.codeChange.bind(this)} ref='code'/>
                                         <Button onClick={this.payok.bind(this)}>确定</Button>
-                                        <p className='erronremarks'>
+                                        <div className='erronremarks'>
                                             <div className='box'>
                                                 {this.state.erronmsg?<div><Icon type="exclamation-circle-o" /><span className='txtss'>{this.state.erronmsg}</span></div>:null}
                                             </div>
-                                        </p>
+                                        </div>
                                     </div>
                                 </FormItem>
                             </Form>

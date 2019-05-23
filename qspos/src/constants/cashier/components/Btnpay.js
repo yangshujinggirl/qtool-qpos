@@ -1,5 +1,5 @@
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Switch,Modal} from 'antd';
-import Modales from './Modales'
+
 import ReactDOM from 'react-dom';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';

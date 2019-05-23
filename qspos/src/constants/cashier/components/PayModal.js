@@ -10,6 +10,8 @@ import Btnpay from './Btnpay'
 import Scanbtn from '../../../components/Button/scanbtn';
 import Btnbrforepay from './Btnbrforepay';
 import ValidataModal from './ValidataModal';
+import './PayModal.less';
+
 
 
 class PayModal extends React.Component {
@@ -26,6 +28,7 @@ class PayModal extends React.Component {
           validatePhoneCode:'',
           loading:false,//弹框确定按钮Loading
           scanType:false,
+          remark:''
       }
     }
     componentDidMount(){
@@ -71,133 +74,74 @@ class PayModal extends React.Component {
     }
     //是否是会员时的弹框初始值
     isMemberInit() {
-      const { ismember, paytotolamount, memberinfo, paytypelisy, point, amount } =this.props;
+      let { ismember, paytotolamount, memberinfo, paytypelisy, point, amount } =this.props;
+      this.setState({ waringfirst:false });
+      let amountlist=[];
+      let group= false;
       if(ismember){
-        this.props.dispatch({
-          type:'spinLoad/setLoading',
-          payload:true
-        })
-        const values={mbCardId:memberinfo.mbCardId}
-        GetServerData('qerp.pos.mb.card.info',values)
-        .then((json) => {
-            if(json.code!='0'){
-              message.error(json.message);
-              this.props.dispatch({
-                type:'spinLoad/setLoading',
-                payload:false
-              })
-              return;
-            }
-            this.setState({
-                waringfirst:false
-              },()=>{
-                const { mbCardInfo } =json;
-                const point=mbCardInfo.point
-                const amount=mbCardInfo.amount
-                const payvisible=true
-                const amountlist=[]
-                var texts=null
-                var waringfirsts=false
-                var groups=false
-                this.props.dispatch({
-                    type:'cashier/amountpoint',
-                    payload:{amount,point}
-                })
-                this.props.dispatch({
-                    type:'cashier/payvisible',
-                    payload:payvisible
-                })
-                setTimeout(()=>{
-                    //判断积分是否禁用
-                  if(Number(point)<=0){
-                      paytypelisy[5].disabled=true//禁用
-                  }
-                  if(parseFloat(amount)>0&&mbCardInfo.isLocalShop=='true'){
-                      //会员卡选中为默认支付方式，不禁用
-                      paytypelisy[4].check=true
-                      //判断会员卡总额和总消费金额
-                      //解决线上会员卡余额==支付金额不能结算的bug。
-                      if(parseFloat(amount)>=parseFloat(paytotolamount)){
-                        amountlist.push({
-                          name:'会员卡',
-                          value:paytotolamount,
-                          type:'5'
-                        })
-                      }else{
-                        amountlist.push({
-                          name:'会员卡',
-                          value:amount,
-                          type:'5'
-                        })
-                        //报警告
-                        waringfirsts=true
-                        texts='会员卡余额不足，请选择组合支付'
-                        groups=true
-                      }
-                  }else{
-                    //默认选中微信，会员卡禁用
-                    paytypelisy[0].check=true
-                    paytypelisy[4].disabled=true
-                    amountlist.push({
-                      name:'微信',
-                      value:paytotolamount,
-                      type:'1'
-                    })
-                  }
-                  this.props.dispatch({
-                      type:'cashier/amountlist',
-                      payload:amountlist
-                  })
-                  this.props.dispatch({
-                      type:'cashier/groups',
-                      payload:groups
-                  })
-                  this.setState({
-                      waringfirsts,
-                      text:texts,
-                      backmoney:-NP.minus(paytotolamount, amountlist[0].value)
-                  })
-                },1)
-            })
-            this.props.dispatch({
-              type:'spinLoad/setLoading',
-              payload:false
-            })
-        })
-      }else{
-        //不是会员
-        this.setState({
-            waringfirst:false,
-            visible:true,
-        },()=>{
-            const payvisible=true
-            this.props.dispatch({
-                type:'cashier/payvisible',
-                payload:payvisible
-            })
-            const paytypelisy=this.props.paytypelisy
-            const amountlist=[]
-            paytypelisy[4].disabled=true
-            paytypelisy[5].disabled=true
-            paytypelisy[0].check=true
-            amountlist.push({
-                name:'微信',
-                value:this.props.paytotolamount,
-                type:'1'
-            })
-            this.props.dispatch({
-                type:'cashier/amountlist',
-                payload:amountlist
-            })
-            this.props.dispatch({
-                type:'cashier/paytypelisy',
-                payload:paytypelisy
-            })
-            this.setState({
-                backmoney:-NP.minus(this.props.paytotolamount, amountlist[0].value)
-            })
+        const { point, amount } = memberinfo;
+        let text=null;
+        let waringfirst=false;
+        //判断积分是否禁用
+        if(Number(point)<=0){
+            paytypelisy[5].disabled=true//禁用
+        }
+        if(parseFloat(amount)>0&&memberinfo.isLocalShop=='true'){//会员卡选中为默认支付方式
+          paytypelisy[4].check=true
+          //判断会员卡总额和总消费金额//解决线上会员卡余额==支付金额不能结算的bug。
+          let currentAmount;
+          if(parseFloat(amount)>=parseFloat(paytotolamount)){
+            currentAmount = paytotolamount;
+          }else{//组合支付
+            currentAmount = amount;
+            waringfirst=true
+            text='会员卡余额不足，请选择组合支付'
+            group=true
+          }
+          amountlist.push({
+            name:'会员卡',
+            value:currentAmount,
+            type:'5'
+          })
+        }else{//默认选中微信，会员卡禁用
+          paytypelisy[0].check=true
+          paytypelisy[4].disabled=true
+          amountlist.push({
+            name:'微信',
+            value:paytotolamount,
+            type:'1'
+          })
+        }
+        this.setState({ waringfirst, text })
+      }else{//不是会员
+        paytypelisy[4].disabled=true
+        paytypelisy[5].disabled=true
+        paytypelisy[0].check=true
+        amountlist.push({
+            name:'微信',
+            value:this.props.paytotolamount,
+            type:'1'
         })
       }
+      this.setState({
+          backmoney:-NP.minus(paytotolamount, amountlist[0].value)
+      })
+      this.props.dispatch({
+          type:'cashier/groups',
+          payload:group
+      })
+      this.props.dispatch({
+          type:'cashier/amountlist',
+          payload:amountlist
+      })
+      this.props.dispatch({
+          type:'cashier/paytypelisy',
+          payload:paytypelisy
+      })
+      this.props.dispatch({
+          type:'cashier/payvisible',
+          payload:true
+      })
     }
     handleOk = (e) => {
         this.setState({
@@ -316,263 +260,138 @@ class PayModal extends React.Component {
     }
     //点击不同支付方式
     listclick=(index)=>{
-        const paytypelisy=this.props.paytypelisy //按钮list
-        const amountlist=this.props.amountlist //左边栏数组
-        var newamountlist=[] //新的左边栏数组
-        var waringfirsts=false
-        var texts=null
-        const paytotolamount=this.props.paytotolamount//支付总额
-        const lastpayamount=NP.minus(paytotolamount, amountlist[0].value);  //剩余金额
-        if(!paytypelisy[index].check){
-            if(this.props.group){
-                const newarrlist=[]
-                newarrlist.push(amountlist[0])
-                newarrlist.push({
-                    name:paytypelisy[index].name,
-                    value:NP.minus(paytotolamount, newarrlist[0].value),
-                    type:paytypelisy[index].type
-                })
-                //权重处理方法
-                newamountlist=this.arrarow(newarrlist) //权重处理后的数组
-                //积分会员卡不同状态value处理
-                const i=this.isInArray(newamountlist,'5')
-                const j=this.isInArray(newamountlist,'6')
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员余额
-                if(i!='-1'){
-                    //存在会员
-                    if(j=='-1'){
-                        //不存在积分
-                        if(parseFloat(amount)>=parseFloat(paytotolamount)){
-                            newamountlist[i].value=paytotolamount
-                        }else{
-                            newamountlist[i].value=amount
-                        }
-                        if(i==0){
-                            newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value);
-                        }else{
-                            newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value);
-                        }
-
-                    }else{
-                        //存在积分
-                        if(parseFloat(amount)>=parseFloat(paytotolamount)){
-                            newamountlist[i].value=paytotolamount
-                            newamountlist[j].value=NP.minus(paytotolamount, newamountlist[i].value);
-
-                        }else{
-                            newamountlist[i].value=amount
-                            const diffjvalue=NP.minus(paytotolamount, newamountlist[i].value);  //剩余
-                            if(parseFloat(point)>=parseFloat(diffjvalue)){
-                                newamountlist[j].value=diffjvalue
-                            }else{
-                                newamountlist[j].value=point
-                                waringfirsts=true
-                                texts='积分不足'
-                            }
-                        }
-                    }
-                }else{
-                    //不存在会员
-                    if( j=='-1'){
-                        //不存在积分=不存在会员，不存在积分
-                        newamountlist[0].value=paytotolamount
-                    }else{
-                        //存在积分==不存在会员，存在积分
-                        if(parseFloat(point)>=parseFloat(paytotolamount)){
-                            newamountlist[j].value=paytotolamount
-                        }else{
-                            newamountlist[j].value=point
-                        }
-                        if(j==0){
-                            newamountlist[1].value=NP.minus(paytotolamount, newamountlist[0].value);
-                        }else{
-                            newamountlist[0].value=NP.minus(paytotolamount, newamountlist[1].value);
-                        }
-                    }
-                }
-
-
+      const { paytypelisy, amountlist, paytotolamount, group, memberinfo, ismember } =this.props;
+      let { point, amount } = memberinfo;
+      point = point&&NP.divide(point,100); //积分换算金额
+      let newamountlist=[] , waringfirst=false, texts=null;
+      if(!paytypelisy[index].check){
+        if(group){//组合支付
+          newamountlist.push(amountlist[0])
+          newamountlist.push({
+              name:paytypelisy[index].name,
+              value:NP.minus(paytotolamount, newamountlist[0].value),
+              type:paytypelisy[index].type
+          })
+          newamountlist=this.arrarow(newamountlist) //权重处理后的数组
+          const i=this.isInArray(newamountlist,'5')//会员
+          const j=this.isInArray(newamountlist,'6')//积分
+          let payOneVal,payTwoVal;
+          if(i!='-1'){//会员支付 i===0
+            if(parseFloat(amount)>=parseFloat(paytotolamount)){
+              payOneVal = paytotolamount
             }else{
-                //非组合支付
-                newamountlist.push({
-                    name:paytypelisy[index].name,
-                    value:paytotolamount,
-                    type:paytypelisy[index].type
-                })
-                const ismember=this.props.ismember
-                if(ismember){
-                    const point=NP.divide(this.props.point,100); //积分换算金额
-                    const amount=this.props.amount //会员余额
-                    if(newamountlist[0].type=='5'){
-                        if(parseFloat(amount)<parseFloat(paytotolamount)){
-                            newamountlist[0].value=amount
-                            waringfirsts=true
-                            texts='会员卡余额不足'
-                        }
-                    }
-                    if(newamountlist[0].type=='6'){
-                        if(parseFloat(point)<parseFloat(paytotolamount)){
-                            newamountlist[0].value=point
-                            waringfirsts=true
-                            texts='积分不足'
-                        }
-
-                    }
-                }
+              payOneVal = amount
             }
-
-
-            //格式化所有，然后找到左边栏数组中的type，更新右边展示
-            for(var i=0;i<paytypelisy.length;i++){
-                paytypelisy[i].check=false
+            if(j == '-1') {//无积分
+              payTwoVal = NP.minus(paytotolamount, payOneVal);
+            } else {//有积分
+              const diffjvalue=NP.minus(paytotolamount, payOneVal);
+              if(parseFloat(point)>=parseFloat(diffjvalue)){
+                payTwoVal= diffjvalue
+              }else{
+                payTwoVal=point
+                waringfirst=true
+                texts='积分不足'
+              }
             }
-            for(var i=0;i<paytypelisy.length;i++){
-                for(var j=0;j<newamountlist.length;j++){
-                    if(paytypelisy[i].type==newamountlist[j].type){
-                        paytypelisy[i].check=true
-                    }
-                }
-            }
-
-            // const backmoney='-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
-            newamountlist[0].value=dataedit(String(newamountlist[0].value))
-            if(newamountlist.length>1){
-                newamountlist[1].value=dataedit(String(newamountlist[1].value))
-            }
-
-            var backmoneyed=0
-            if(newamountlist.length>1){
-                const danu=NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)
-                if(danu==0){
-                    backmoneyed='0.00'
-                }else{
-                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)))
-                }
-
+          }else{//积分支付，j==0
+            if(parseFloat(point)>=parseFloat(paytotolamount)){
+              payOneVal=paytotolamount
             }else{
-                const danu=NP.minus(paytotolamount, newamountlist[0].value)
-                if(danu==0){
-                    backmoneyed='0.00'
-                }else{
-                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, newamountlist[0].value)))
-                }
-
+              payOneVal=point
             }
-
-
-            this.props.dispatch({
-                type:'cashier/newamountlist',
-                payload:newamountlist
-            })
-            this.props.dispatch({
-                type:'cashier/paytypelisy',
-                payload:paytypelisy
-            })
-            this.setState({
-                waringfirst:waringfirsts,
-                text:texts,
-                backmoney:backmoneyed
-            })
+            payTwoVal=NP.minus(paytotolamount, payOneVal);
+          }
+          newamountlist[0].value= payOneVal;
+          newamountlist[1].value= payTwoVal;
         }else{
-            //当组合支付情况下且是会员卡+积分情况下，处理
-            if(amountlist.length>1 && amountlist[0].type=='5' && amountlist[1].type=='6'){
-                if(index=='4'){
-                    //判断积分和总额，如果积分最大值大于总额，值为总额，否则为积分最大额
-                    const point=NP.divide(this.props.point,100); //积分换算金额
-                    const amount=this.props.amount //会员余额
-                    newamountlist.push(amountlist[1])
-
-                    if(parseFloat(point)<parseFloat(paytotolamount)){
-                        newamountlist[0].value=point
-                        waringfirsts=true
-                        texts='积分余额不足'
-                    }else{
-                        newamountlist[0].value=paytotolamount
-                        waringfirsts=false
-                        texts=''
-                    }
-                }else{
-                    //判断会员卡和总额，如果会员卡最大值大于总额，值为总额，否则为积分最大额
-                    const point=NP.divide(this.props.point,100); //积分换算金额
-                    const amount=this.props.amount //会员余额
-                    newamountlist.push(amountlist[0])
-                    if(parseFloat(amount)<parseFloat(paytotolamount)){
-                        newamountlist[0].value=amount
-                        waringfirsts=true
-                        texts='会员卡余额不足'
-                    }else{
-                        newamountlist[0].value=paytotolamount
-                        waringfirsts=false
-                        texts=''
-                    }
-                }
-
-            //格式化所有，然后找到左边栏数组中的type，更新右边展示
-            for(var i=0;i<paytypelisy.length;i++){
-                paytypelisy[i].check=false
+          newamountlist.push({
+              name:paytypelisy[index].name,
+              value:paytotolamount,
+              type:paytypelisy[index].type
+          })
+          if(ismember){
+            if((newamountlist[0].type=='5') && parseFloat(amount)<parseFloat(paytotolamount) ){
+              newamountlist[0].value=amount
+              waringfirst=true
+              texts='会员卡余额不足'
             }
-            for(var i=0;i<paytypelisy.length;i++){
-                for(var j=0;j<newamountlist.length;j++){
-                    if(paytypelisy[i].type==newamountlist[j].type){
-                        paytypelisy[i].check=true
-                    }
-                }
+            if((newamountlist[0].type=='6') && parseFloat(point)<parseFloat(paytotolamount) ){
+              newamountlist[0].value=point
+              waringfirst=true
+              texts='积分不足'
             }
-
-            // const backmoney='-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
-            newamountlist[0].value=dataedit(String(newamountlist[0].value))
-            if(newamountlist.length>1){
-                newamountlist[1].value=dataedit(String(newamountlist[1].value))
-            }
-
-            var backmoneyed=0
-            if(newamountlist.length>1){
-                const danu=NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)
-                if(danu==0){
-                    backmoneyed='0.00'
-                }else{
-                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)))
-                }
-
-            }else{
-                const danu=NP.minus(paytotolamount, newamountlist[0].value)
-                if(danu==0){
-                    backmoneyed='0.00'
-                }else{
-                    backmoneyed='-'+dataedit(String(NP.minus(paytotolamount, newamountlist[0].value)))
-                }
-
-            }
-
-
-            this.props.dispatch({
-                type:'cashier/newamountlist',
-                payload:newamountlist
-            })
-            this.props.dispatch({
-                type:'cashier/paytypelisy',
-                payload:paytypelisy
-            })
-            this.setState({
-                waringfirst:waringfirsts,
-                text:texts,
-                backmoney:backmoneyed
-            })
-
-
-            }
-
-
+          }
         }
-
+      }else{//当组合支付情况下且是会员卡+积分情况下，选中状态下，会员和积分卡可以切换check状态。
+        if(amountlist.length>1 && amountlist[0].type=='5' && amountlist[1].type=='6'){
+          if(index=='4'){//判断积分和总额，如果积分最大值大于总额，值为总额，否则为积分最大额
+            newamountlist.push(amountlist[1])
+            if(parseFloat(point)<parseFloat(paytotolamount)){
+              newamountlist[0].value=point
+              waringfirst=true
+              texts='积分余额不足'
+            }else{
+              newamountlist[0].value=paytotolamount
+              waringfirst=false
+              texts=''
+            }
+          }else{//判断会员卡和总额，如果会员卡最大值大于总额，值为总额，否则为积分最大额
+            newamountlist.push(amountlist[0])
+            if(parseFloat(amount)<parseFloat(paytotolamount)){
+              newamountlist[0].value=amount
+              waringfirst=true
+              texts='会员卡余额不足'
+            }else{
+              newamountlist[0].value=paytotolamount
+              waringfirst=false
+              texts=''
+            }
+          }
+        } else {
+          newamountlist = amountlist;
+        }
+      }
+      //格式化所有，然后找到左边栏数组中的type，更新右边展示
+      paytypelisy.map((el,index) => {
+        el.check = false;
+        newamountlist.map((item,idx) => {
+          item.value = dataedit(String(item.value))
+          if(el.type == item.type) {
+            el.check = true;
+          }
+        })
+      });
+      let backmoneyed=0, danu;
+      if(newamountlist.length>1){
+        danu=NP.minus(paytotolamount, newamountlist[0].value,newamountlist[1].value)
+      }else{
+        danu=NP.minus(paytotolamount, newamountlist[0].value)
+      }
+      if(danu==0){
+        backmoneyed='0.00'
+      }else{
+        backmoneyed='-'+dataedit(String(danu))
+      }
+      this.props.dispatch({
+          type:'cashier/newamountlist',
+          payload:newamountlist
+      })
+      this.props.dispatch({
+          type:'cashier/paytypelisy',
+          payload:paytypelisy
+      })
+      this.setState({
+          waringfirst,
+          text:texts,
+          backmoney:backmoneyed
+      })
     }
     //处理结算逻辑
     hindpayclick=()=>{
       this.setState({ scanType:false });
       let isValidateArr = [];
       if(!this.firstclick){ return }
-      // this.goPay()
       let { backmoney } =this.state;
       let { paytotolamount, group, amountlist } =this.props;
       var totols=0;//支付金额
@@ -601,12 +420,9 @@ class PayModal extends React.Component {
           }]
       }
       const {
-              ismember,
-              memberinfo,
-              totolamount,
-              thispoint,
-              totolnumber,
-              datasouce,
+              ismember,memberinfo,
+              totolamount,thispoint,
+              totolnumber,datasouce,
               cutAmount
             } = this.props;
       if(totols != paytotolamount && backmoney !='0.00'){
@@ -622,6 +438,7 @@ class PayModal extends React.Component {
                   qty:totolnumber,
                   skuQty:datasouce.length,
                   cutAmount:cutAmount,
+                  remark:this.state.remark
               },
               orderDetails:datasouce,
               orderPay:orderPay
@@ -662,292 +479,58 @@ class PayModal extends React.Component {
               this.setState({ loading:false })
         })
     }
-    //单独输入框失去焦点
-    hindonBlur=(e)=>{
-        const values=parseFloat(e.target.value)
-        const paytotolamount=this.props.paytotolamount
-        const amountlist=this.props.amountlist
-        if(parseFloat(values)>=parseFloat(paytotolamount)){
-            amountlist[0].value=paytotolamount
-            if(amountlist[0].type=='5'){
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员卡余额
-                amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-            }
-            if(amountlist[0].type=='6'){
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员卡余额
-                amountlist[0].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
-            }
-        }else{
-            amountlist[0].value=values
-            if(amountlist[0].type=='5'){
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员卡余额
-                amountlist[0].value=(parseFloat(amount)>=parseFloat(values))?values:amount
-            }
-            if(amountlist[0].type=='6'){
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员卡余额
-                amountlist[0].value=(parseFloat(point)>=parseFloat(values))?values:point
-            }
-
-        }
-        amountlist[0].value=dataedit(String(amountlist[0].value))
-        const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value)))
-        this.props.dispatch({
-            type:'cashier/amountlist',
-            payload:amountlist
-        })
-
-
-
-        this.setState({
-            backmoney:backmoney
-        })
-    }
-    hindonChange=(e)=>{
-      //只能输入最多两位数字
-      const values=e.target.value
-	    const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
-      const str=re.test(values)
-      if(str){
-          const amountlist=this.props.amountlist.slice(0)
-          amountlist[0].value=values
-          this.props.dispatch({
-              type:'cashier/amountlist',
-              payload:amountlist
-          })
-      }
-    }
+    //表单失焦事件
     payfirstonBlur=(e)=>{
-        const values=parseFloat(e.target.value)
-        const paytotolamount=this.props.paytotolamount
-        const amountlist=this.props.amountlist
-        if(parseFloat(values)>=parseFloat(paytotolamount)){
-            //大于总额
-            amountlist[0].value=paytotolamount
-            amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-            if(amountlist[0].type=='5'){
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员卡余额
-                amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-                if(amountlist[1].type=='6'){
-                    amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
-                }
-            }else{
-                //当前是积分
-                if(amountlist[0].type=='6'){
-                    const point=NP.divide(this.props.point,100); //积分换算金额
-                    const amount=this.props.amount //会员卡余额
-                    if(amountlist[1].type=='5'){
-                        amountlist[1].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    }else{
-                        amountlist[0].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
-                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    }
-                }else{
-                    //当前不是积分也不是会员卡
-                    amountlist[0].value=paytotolamount
-                    amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    if(amountlist[1].type=='5'){
-                        const point=NP.divide(this.props.point,100); //积分换算金额
-                        const amount=this.props.amount //会员卡余额
-                        amountlist[1].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    }
-                    if(amountlist[1].type=='6'){
-                        const point=NP.divide(this.props.point,100); //积分换算金额
-                        const amount=this.props.amount //会员卡余额
-                        amountlist[1].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
-                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    }
-                }
-
-            }
-
-        }else{
-            //小于总额
-            amountlist[0].value=values
-            amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-            //当前是会员卡
-            if(amountlist[0].type=='5'){
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员卡余额
-                amountlist[0].value=(parseFloat(amount)>=parseFloat(values))?values:amount
-                amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-                if(amountlist[1].type=='6'){
-                    amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
-                }
-
-            }else{
-                 //当前是积分
-                if(amountlist[0].type=='6'){
-                    const point=NP.divide(this.props.point,100); //积分换算金额
-                    const amount=this.props.amount //会员卡余额
-                    if(amountlist[1].type=='5'){
-                       amountlist[0].value=(parseFloat(point)>=parseFloat(values))?values:point
-                       amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    }else{
-                        amountlist[0].value=(parseFloat(point)>=parseFloat(values))?values:point
-                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    }
-                }else{
-                    //当前不是会员卡也不是积分
-                    amountlist[0].value=values
-                    amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    if(amountlist[1].type=='5'){
-                        const point=NP.divide(this.props.point,100); //积分换算金额
-                        const amount=this.props.amount //会员卡余额
-                        amountlist[0].value=values
-                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    }
-                    if(amountlist[1].type=='6'){
-                        const point=NP.divide(this.props.point,100); //积分换算金额
-                        const amount=this.props.amount //会员卡余额
-                        amountlist[0].value=values
-                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=parseFloat(point)?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    }
-                }
-            }
+      const values=parseFloat(e.target.value)
+      let { amountlist, paytotolamount, memberinfo } =this.props;
+      let { point, amount } = memberinfo;
+      point=point&&NP.divide(point,100); //积分换算金额
+      let payOneVal,payTwoVal;
+      let backmoney, dif;
+      if(parseFloat(values)>=parseFloat(paytotolamount)){//大于总额
+        payOneVal =paytotolamount;
+      }else{//小于总额
+        payOneVal =values;
+      }
+      if(amountlist[0].type=='5'){//当前是会员卡
+        payOneVal =(parseFloat(amount)>=parseFloat(payOneVal))?payOneVal:amount
+      }else if(amountlist[0].type=='6'){
+        payOneVal =(parseFloat(point)>=parseFloat(payOneVal))?payOneVal:point
+      }
+      dif = NP.minus(paytotolamount, payOneVal);
+      if(amountlist.length>1) {
+        payTwoVal =NP.minus(paytotolamount, payOneVal);
+        if(amountlist[1].type=='5' && payTwoVal >= parseFloat(amount)){
+          payTwoVal = amount;
+        } else if(amountlist[1].type=='6' && payTwoVal >= parseFloat(point)){
+          payTwoVal= point;
         }
-        const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
-        amountlist[0].value=dataedit(String(amountlist[0].value))
-        amountlist[1].value=dataedit(String(amountlist[1].value))
-
-        this.props.dispatch({
-            type:'cashier/amountlist',
-            payload:amountlist
-        })
-        this.setState({
-            backmoney:backmoney
-        })
+        amountlist[1].value = payTwoVal;
+        dif = NP.minus(paytotolamount, payOneVal, payTwoVal);
+      }
+      amountlist[0].value = payOneVal;
+      amountlist.map((el,index) => el.value = dataedit(String(el.value)));
+      if(dif == 0) {
+        backmoney = '0.00';
+      } else {
+        backmoney = '-'+dataedit(String(dif));
+      }
+      this.props.dispatch({
+        type:'cashier/amountlist',
+        payload:amountlist
+      })
+      this.setState({
+        backmoney:backmoney
+      })
     }
-    paysecondonBlur=(e)=>{
-        const values=parseFloat(e.target.value)
-        const paytotolamount=this.props.paytotolamount
-        const amountlist=this.props.amountlist
-        if(parseFloat(values)>=parseFloat(paytotolamount)){
-            //大于总额
-            amountlist[1].value=paytotolamount
-            amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-            if(amountlist[1].type=='5'){
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员卡余额
-                amountlist[1].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-                if(amountlist[0].type=='6'){
-                    amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
-                }
-            }else{
-                //当前是积分
-                if(amountlist[1].type=='6'){
-                    const point=NP.divide(this.props.point,100); //积分换算金额
-                    const amount=this.props.amount //会员卡余额
-                    if(amountlist[0].type=='5'){
-                        amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    }else{
-                        amountlist[1].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
-                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    }
-                }else{
-                    //当前不是积分也不是会员卡
-                    amountlist[1].value=paytotolamount
-                    amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    if(amountlist[0].type=='5'){
-                        const point=NP.divide(this.props.point,100); //积分换算金额
-                        const amount=this.props.amount //会员卡余额
-                        amountlist[0].value=(parseFloat(amount)>=parseFloat(paytotolamount))?paytotolamount:amount
-                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    }
-                    if(amountlist[0].type=='6'){
-                        const point=NP.divide(this.props.point,100); //积分换算金额
-                        const amount=this.props.amount //会员卡余额
-                        amountlist[0].value=(parseFloat(point)>=parseFloat(paytotolamount))?paytotolamount:point
-                        amountlist[1].value=NP.minus(this.props.paytotolamount, amountlist[0].value)
-                    }
-                }
-            }
-        }else{
-            //小于总额
-            amountlist[1].value=values
-            amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-            //当前是会员卡
-            if(amountlist[1].type=='5'){
-                const point=NP.divide(this.props.point,100); //积分换算金额
-                const amount=this.props.amount //会员卡余额
-                amountlist[1].value=(parseFloat(amount)>=parseFloat(values))?values:amount
-                amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-                if(amountlist[0].type=='6'){
-                    amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=point?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
-                }
-            }else{
-                 //当前是积分
-                if(amountlist[1].type=='6'){
-                    const point=NP.divide(this.props.point,100); //积分换算金额
-                    const amount=this.props.amount //会员卡余额
-                    if(amountlist[0].type=='5'){
-                        amountlist[1].value=(parseFloat(point)>=parseFloat(values))?values:point
-                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    }else{
-                        amountlist[1].value=(parseFloat(point)>=parseFloat(values))?values:point
-                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    }
-                }else{
-                    //当前不是会员卡也不是积分
-                    amountlist[1].value=values
-                    amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    if(amountlist[0].type=='5'){
-                        const point=NP.divide(this.props.point,100); //积分换算金额
-                        const amount=this.props.amount //会员卡余额
-                        amountlist[1].value=values
-                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(amount)?amount:NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    }
-                    if(amountlist[0].type=='6'){
-                        const point=NP.divide(this.props.point,100); //积分换算金额
-                        const amount=this.props.amount //会员卡余额
-                        amountlist[1].value=values
-                        amountlist[0].value=NP.minus(this.props.paytotolamount, amountlist[1].value)>=parseFloat(point)?point:NP.minus(this.props.paytotolamount, amountlist[1].value)
-                    }
-                }
-            }
-        }
-
-
-        const backmoney=NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)==0?'0.00':'-'+dataedit(String(NP.minus(this.props.paytotolamount, amountlist[0].value,amountlist[1].value)))
-        amountlist[0].value=dataedit(String(amountlist[0].value))
-        amountlist[1].value=dataedit(String(amountlist[1].value))
-        this.props.dispatch({
-            type:'cashier/amountlist',
-            payload:amountlist
-        })
-        this.setState({
-            backmoney:backmoney
-        })
-    }
-    payfirstonChange=(e)=>{
+    ////表单change事件
+    payfirstonChange=(e,index)=>{
         const values=e.target.value
 	      const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
         const str=re.test(values)
         if(str){
             const amountlist=this.props.amountlist.slice(0)
-            amountlist[0].value=values
-            this.props.dispatch({
-                type:'cashier/amountlist',
-                payload:amountlist
-            })
-        }
-    }
-    paysecondonChange=(e)=>{
-        const values=e.target.value
-	      const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
-        const str=re.test(values)
-        if(str){
-            const amountlist=this.props.amountlist.slice(0)
-            amountlist[1].value=values
+            amountlist[index].value=values
             this.props.dispatch({
                 type:'cashier/amountlist',
                 payload:amountlist
@@ -1102,7 +685,17 @@ class PayModal extends React.Component {
               const consumeType='1' //销售订单
               const type=values.orderPay.length>1?values.orderPay[1].type:values.orderPay[0].type//支付类型
               const amount=values.orderPay.length>1?values.orderPay[1].amount:values.orderPay[0].amount //支付金额
-              this.context.router.push({ pathname : '/pay', state : {orderId :odOrderId,type:type,amount:amount,consumeType:consumeType,orderNo:orderNo}});
+              this.context.router.push({
+                pathname : '/pay',
+                state : {
+                  orderId :odOrderId,
+                  type:type,
+                  amount:amount,
+                  consumeType:consumeType,
+                  orderNo:orderNo,
+                  remark:this.state.remark
+                }
+              });
           }else{
               if(json.code == 'I_1031') {
                 this.props.setSpace(false);//非结算弹框时，不可空格结算;
@@ -1125,6 +718,10 @@ class PayModal extends React.Component {
             type:'cashier/changeCheckPrint',
             payload:checkPrint
         })
+    }
+    handleRemark =(e)=> {
+      console.log(e.target.value)
+      this.setState({ remark: e.target.value })
     }
     //关闭校验弹框
     onCancel() {
@@ -1153,7 +750,9 @@ class PayModal extends React.Component {
     render() {
       const openWechat=sessionStorage.getItem("openWechat")
       const openAlipay=sessionStorage.getItem("openAlipay");
-      const { amountlist } =this.props;
+      const { amountlist, paytypelisy, group, cutAmount, paytotolamount } =this.props;
+      // let inputsSty = amountlist.length>1?'payharflwl':'inputcenter';
+      // console.log(this.state.remark)
       return (
         <div>
           <Modal
@@ -1164,188 +763,116 @@ class PayModal extends React.Component {
             width={924}
             closable={true}
             footer={null}
-            className={amountlist.length>1?'payzu':'pay'}>
+            className="payzu cashier-modal-wrap">
+            {/*className={amountlist.length>1?'payzu':'pay'}>*/}
               <div className='clearfix'>
                 <div className='fl paylw'>
                     <Input
                       autoComplete="off"
                       addonBefore={<Btnbrforepay title='总额' dis={true}/>}
-                      value={this.props.paytotolamount}
+                      value={paytotolamount}
                       disabled
-                      className='tr payinputsmodel'/>
+                      className='tr'/>
                     {
-                        amountlist.length>1?
-                        <div className='clearfix inputcenter'>
-                          <div className={
-                            (amountlist[0].type=='1' || amountlist[0].type=='2' || amountlist[0].type=='3')?'payharflwl inputcenterdis':'payharflwl inputcenteropen'
-                          }>
-                            <div>
-                              <Input
-                                autoComplete="off"
-                                addonBefore={
-                                  <Btnbrforepay
-                                    title={amountlist[0].name}
-                                    dis={(amountlist[0].type=='1' || amountlist[0].type=='2' || amountlist[0].type=='3')?true:false}/>
-                                  }
-                                value={amountlist[0].value}
-                                onBlur={this.payfirstonBlur.bind(this)}
-                                className='tr payinputsmodel'
-                                onChange={this.payfirstonChange.bind(this)}
-                                addonAfter={
-                                  (amountlist[0].type=='1' && openWechat=='1') ||(amountlist[0].type=='2' && openAlipay=='1') ?
-                                  <Btnpay hindClicks={this.onhindClicks.bind(this)}/>
-                                  :
-                                  null
-                                }
-                                disabled={(amountlist[0].type=='1' || amountlist[0].type=='2' || amountlist[0].type=='3')?true:false}/>
-                            </div>
-                          </div>
-                          <div
-                            className={
-                              (amountlist[1].type=='1' || amountlist[1].type=='2' || amountlist[1].type=='3')?
-                              'payharflwr inputcenterdis'
-                              :
-                              'payharflwr inputcenteropen'}>
+                      amountlist.map((el,index) => (
+                        <div className={
+                          (el.type=='1' || el.type=='2' || el.type=='3')?
+                          `inputcenterdis`
+                            :
+                          `inputcenteropen`} key={index}>
                             <Input
                               autoComplete="off"
                               addonBefore={
                                 <Btnbrforepay
-                                  title={amountlist[1].name}
-                                  dis={(amountlist[1].type=='1' || amountlist[1].type=='2' || amountlist[1].type=='3')?true:false}/>
+                                  title={el.name}
+                                  dis={(el.type=='1' || el.type=='2' || el.type=='3')?true:false}/>
                                 }
-                              value={amountlist[1].value}
-                              onBlur={this.paysecondonBlur.bind(this)}
-                              className='tr payinputsmodel'
-                              onChange={this.paysecondonChange.bind(this)}
+                              value={el.value}
+                              onBlur={this.payfirstonBlur.bind(this)}
+                              className='tr'
+                              onChange={(e)=>this.payfirstonChange(e,index)}
                               addonAfter={
-                                (amountlist[1].type=='1' && openWechat=='1') ||(amountlist[1].type=='2' && openAlipay=='1') ?
+                                (el.type=='1' && openWechat=='1') ||(el.type=='2' && openAlipay=='1') ?
                                 <Btnpay hindClicks={this.onhindClicks.bind(this)}/>
                                 :
                                 null
                               }
-                              disabled={(amountlist[1].type=='1' || amountlist[1].type=='2' || amountlist[1].type=='3')?true:false}/>
-                          </div>
+                              disabled={(el.type=='1' || el.type=='2' || el.type=='3')?true:false}/>
                         </div>
-                        :
-                        <div
-                          className={
-                            (amountlist[0].type=='1' || amountlist[0].type=='2' || amountlist[0].type=='3')?
-                            'inputcenter inputcenterdis'
-                            :
-                            'inputcenter inputcenteropen'}>
-                          <Input
-                            autoComplete="off"
-                            addonBefore={
-                              <Btnbrforepay
-                                title={amountlist[0].name}
-                                dis={(amountlist[0].type=='1' || amountlist[0].type=='2' || amountlist[0].type=='3')?true:false}/>
-                              }
-                            value={amountlist[0].value}
-                            ref='paymoneys'
-                            onBlur={this.hindonBlur.bind(this)}
-                            className={
-                              (amountlist[0].type=='1' || amountlist[0].type=='2' || amountlist[0].type=='3')?
-                              'tr payinputsmodel payinputsmodels'
-                              :
-                              'tr payinputsmodel'
-                            }
-                            disabled={(amountlist[0].type=='1' ||amountlist[0].type=='2' ||amountlist[0].type=='3')?true:false}
-                            onChange={this.hindonChange.bind(this)}
-                            addonAfter={
-                              (amountlist[0].type=='1' && openWechat=='1') ||(amountlist[0].type=='2' && openAlipay=='1') ?
-                              <Btnpay hindClicks={this.onhindClicks.bind(this)}/>
-                              :
-                              null
-                            }/>
-                        </div>
+                      ))
                     }
-                    <div>
-                      <Input
-                        autoComplete="off"
-                        addonBefore={
-                          <Btnbrforepay title='找零' dis={true}/>
-                        }
-                        value={this.state.backmoney}
-                        disabled
-                        className='tr payinputsmodel'/>
-                    </div>
+                    <Input
+                      autoComplete="off"
+                      addonBefore={
+                        <Btnbrforepay title='找零' dis={true}/>
+                      }
+                      value={this.state.backmoney}
+                      disabled
+                      className='tr'/>
                     <p className={this.state.waringfirst?'waring':'waringnone'}>{this.state.text}</p>
-                    {
-                      amountlist.length==1?
-                      <div className='payends'>
-                        <Button
-                          loading={this.state.loading}
-                          className='paylhs'
-                          onClick={this.hindpayclick.bind(this)}>
-                            结算<p className='iconk'>「空格键」</p>
-                        </Button>
-                      </div>
-                      :
-                      null
-                    }
-                    {
-                      amountlist.length==1?
-                      <div className='check_print'><Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox></div>
-                      :
-                      null
-                    }
                 </div>
                 <div className='fr fix-800-fr' style={{width:'274px'}}>
-                  <div>
-                    <ul className='clearfix' style={{paddingLeft:'0',marginBottom:'0'}}>
-                      {
-                        this.props.paytypelisy.map((item,index)=>{
-                          return(
-                            <li
-                              className='fl'
-                              onClick={this.listclick.bind(this,index)}
-                              key={index}
-                              className={item.disabled?'listdis':(item.check?'listoff':'list')}>
-                                <Button  disabled={item.disabled}>{item.name}</Button>
-                            </li>
-                          )
-                        })
-                      }
-                    </ul>
-                  </div>
-                  <div >
-                    <ul className='btnbg'>
-                      <li
-                        className='fl'
-                        onClick={this.connectclick.bind(this)}
-                        className={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?(amountlist.length>1?'listtdiszu':'listtdis'):(this.props.group?(amountlist.length>1?'listtoffzu':'listtoff'):(amountlist.length>1?'listtzu':'listt'))}>
-                        <Button disabled={this.props.paytypelisy[4].disabled==true && this.props.paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button>
-                      </li>
-                      <li
-                        className='fl'
-                        onClick={this.nozeroclick.bind(this)}
-                        className={amountlist.length>1?(this.props.cutAmount=='0'?'listtzu':'listtoffzu'):(this.props.cutAmount=='0'?'listt':'listtoff')}>
-                        <Button>抹零</Button>
-                      </li>
-                    </ul>
-                  </div>
+                  <ul className='clearfix payType-list-wrap' style={{marginBottom:'0'}}>
+                    {
+                      paytypelisy.map((item,index)=>{
+                        return(
+                          <li
+                            className='fl'
+                            onClick={this.listclick.bind(this,index)}
+                            key={index}
+                            className={item.disabled?'listdis':(item.check?'listoff':'list')}>
+                              <Button  disabled={item.disabled}>{item.name}</Button>
+                          </li>
+                        )
+                      })
+                    }
+                  </ul>
                 </div>
-                {
-                  amountlist.length>1?
-                  <div className='payends'>
-                    <Button
-                      className={amountlist.length>1?'paylhszu':'paylhs'}
-                      onClick={this.hindpayclick.bind(this)}>
-                      结算<p className='iconk'>「空格键」</p>
-                    </Button>
-                  </div>
-                  :
-                  null
-                }
-                {
-                  amountlist.length>1?
-                  <div className='check_print'>
-                    <Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox>
-                  </div>
-                  :
-                  null
-                }
-        	    </div>
+              </div>
+              <div className='clearfix row-two'>
+                <div className='fl paylw'>
+                  <Input
+                    autoComplete="off"
+                    addonBefore={
+                      <Btnbrforepay title='备注' dis={false}/>
+                    }
+                    placeholder="可输入20字订单备注"
+                    maxLength={20}
+                    className='tr special-remark'
+                    onChange={this.handleRemark}/>
+                </div>
+                <div className='fr fix-800-fr' style={{width:'274px'}}>
+                  <ul className='clearfix payType-list-wrap'>
+                    <li
+                      className='fl'
+                      onClick={this.connectclick.bind(this)}
+                      className={
+                        paytypelisy[4].disabled==true && paytypelisy[5].disabled==true?
+                        'listtdiszu'
+                        :
+                        (group?'listtoffzu':'listtzu')
+                      }>
+                      <Button disabled={paytypelisy[4].disabled==true && paytypelisy[5].disabled==true?true:false }>组合<br/>支付</Button>
+                    </li>
+                    <li
+                      className='fl'
+                      onClick={this.nozeroclick.bind(this)}
+                      className={cutAmount=='0'?'listtzu':'listtoffzu'}>
+                      <Button>抹零</Button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className='payends'>
+                <Button
+                  className='paylhszu'
+                  onClick={this.hindpayclick.bind(this)}>
+                  结算<p className='iconk'>「空格键」</p>
+                </Button>
+              </div>
+              <div className='check_print'>
+                <Checkbox onChange={this.choosePrint.bind(this)} checked={this.props.checkPrint}>打印小票</Checkbox>
+              </div>
           </Modal>
           <ValidataModal
             memberinfo={this.props.memberinfo}
