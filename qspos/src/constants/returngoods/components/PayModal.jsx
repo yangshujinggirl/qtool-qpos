@@ -7,7 +7,7 @@ import {GetServerData} from '../../../services/services';
 import {GetLodop} from '../../../components/Method/Print.jsx';
 import {getSaleOrderInfo} from '../../../components/Method/Print';
 import {getReturnOrderInfo} from '../../../components/Method/Print';
-
+import './PayModal.less';
 
 class PayModal extends React.Component {
     constructor(props) {
@@ -342,49 +342,40 @@ class PayModal extends React.Component {
         //非组合支付
         this.lists=[-1]
         this.lists.push(index)
-        console.log(this.lists)
         listarrs[this.lists[1]].style='listoff'
         const payinput=this.state.paynext
         const paysecond=this.state.paysecond
         payinput.name=listarrs[this.lists[1]].name
         payinput.value=this.state.totolamount
-        if(this.state.usetype){
-            if(payinput.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
-                payinput.value=this.state.membermoney
-            }
-            if(payinput.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
-                payinput.value=this.state.pointmoney
-            }
-            paysecond.name=listarrs[this.lists[1]].name
-            paysecond.value=this.state.paynext.value
-            if(paysecond.name=='会员卡' && parseFloat(this.state.membermoney)<parseFloat(this.state.totolamount)){
-                paysecond.value=this.state.membermoney
-            }
-            if(paysecond.name=='积分' && parseFloat(this.state.pointmoney)< parseFloat(this.state.totolamount)){
-                paysecond.value=this.state.pointmoney
-            }
-        }
         //计算找零
         const backmoney=this.backmoneymeth(this.state.totolamount,this.state.paynext.value,0)
-        if(this.state.waringfirst){
-            this.setState({
-                listarrs:listarrs,
-                paynext:payinput,
-                paysecond:paysecond,
-                warning:false,
-                backmoney:backmoney,
-                waringfirst:false
-            })
-        }else{
-            this.setState({
-                listarrs:listarrs,
-                paynext:payinput,
-                paysecond:paysecond,
-                warning:false,
-                backmoney:backmoney,
-                waringfirst:false
-            })
-        }
+        // if(this.state.waringfirst){
+        //     this.setState({
+        //         listarrs:listarrs,
+        //         paynext:payinput,
+        //         paysecond:paysecond,
+        //         warning:false,
+        //         backmoney:backmoney,
+        //         waringfirst:false
+        //     })
+        // }else{
+        //     this.setState({
+        //         listarrs:listarrs,
+        //         paynext:payinput,
+        //         paysecond:paysecond,
+        //         warning:false,
+        //         backmoney:backmoney,
+        //         waringfirst:false
+        //     })
+        // }
+        this.setState({
+            listarrs:listarrs,
+            paynext:payinput,
+            paysecond:paysecond,
+            warning:false,
+            backmoney:backmoney,
+            waringfirst:false
+        })
       }
     }
     connectclick=()=>{
@@ -460,7 +451,8 @@ class PayModal extends React.Component {
                 "returnPoint":this.state.rejifen,
                 "skuQty":this.state.quantity,
                 "type":type,
-                 cutAmount:this.state.cutAmount
+                 cutAmount:this.state.cutAmount,
+                 remark:this.state.remark
             },
             "odReturnDetails":this.state.redatasouce,
             "qposMbCard":{"mbCardId":this.state.rembCardId}
@@ -780,7 +772,11 @@ class PayModal extends React.Component {
         //调用父组件的方法
         this.props.changeCheckPrint(e.target.checked);
     }
+    handleRemark =(e)=> {
+      this.setState({ remark: e.target.value })
+    }
     render() {
+
       return (
         <div>
           <Modal
@@ -791,7 +787,8 @@ class PayModal extends React.Component {
             width={924}
             closable={true}
             footer={null}
-            className='pay check-box-style returnpay'>
+            className='pay check-box-style returnpay return-modal-wrap'>
+            <div>
               <div className='clearfix'>
               	<div className='fl paylw'>
                		<Input
@@ -842,67 +839,80 @@ class PayModal extends React.Component {
                     onChange={this.backmoney.bind(this)}
                     disabled
                     className='paylh tr payinputsmodel'/>
-                  <Input
-                    autoComplete="off"
-                    addonBefore='备注'
-                    value={this.state.backmoney}
-                    onChange={this.backmoney.bind(this)}
-                    disabled
-                    className='paylh tr payinputsmodel'/>
                		<p className={this.state.warning?'waring':'waringnone'}>{this.state.text}</p>
-                  <div className='payends'>
-                    <Button
-                      loading={this.state.loading}
-                      className='tc mt25 paylhs'
-                      onClick={this.hindpayclick.bind(this)}
-                      onKeyUp={this.hindpay.bind(this)}>
-                      结算<p className='iconk'>「空格键」</p>
-                    </Button>
-                    </div>
-                  <div style={{textAlign:"center"}}>
-                    <Checkbox
-                      onChange={this.choosePrint.bind(this)}
-                      checked={this.props.checkPrint}>
-                      打印小票
-                    </Checkbox>
-                  </div>
              	 	</div>
                 <div className='fr fix-800-fr' style={{width:'274px'}}>
-                  <div>
-                    <ul className='clearfix'>
-                      {
-                        this.state.listarrs.map((item,index)=>{
-                          return(
-                            <li
-                              className='fl'
-                              onClick={this.listclick.bind(this,index)}
-                              key={index}
-                              className={item.style}>
-                                <Button  disabled={item.disabled}>{item.name}</Button>
-                            </li>
-                          )
-                        })
-                      }
-                    </ul>
-                  </div>
-                  <div>
+                  <ul className='clearfix'>
+                    {
+                      this.state.listarrs.map((item,index)=>{
+                        return(
+                          <li
+                            className='fl'
+                            onClick={this.listclick.bind(this,index)}
+                            key={index}
+                            className={item.style}>
+                              <Button  disabled={item.disabled}>{item.name}</Button>
+                          </li>
+                        )
+                      })
+                    }
+                  </ul>
+                </div>
+            	</div>
+              <div className="pay-action">
+                <div className='clearfix'>
+                	<div className='fl paylw'>
+                    <div className="inputcenter  remark-input">
+                      <Input
+                        id="remarkInput"
+                        autoComplete="off"
+                        addonBefore='备注'
+                        placeholder="可输入20字订单备注"
+                        maxLength={20}
+                        onChange={this.handleRemark.bind(this)}
+                        className='tr payinputsmodel'/>
+                    </div>
+               	 	</div>
+                  <div className='fr fix-800-fr' style={{width:'274px'}}>
                     <ul className='btnbg'>
                       <li
                         className='fl'
                         onClick={this.connectclick.bind(this)}
-                        className={this.state.usetype?(this.state.group?'listtoff':'listt'):'listtdis'}>
+                        className={this.state.usetype?(this.state.group?'listtoff':'listt'):'listdis'}>
                         <Button disabled={!this.state.usetype}>组合<br/>支付</Button>
                       </li>
                       <li
                         className='fl'
                         onClick={this.nozeroclick.bind(this)}
-                        className={this.state.usetype?(this.state.cutAmount=='0'?'listt':'listtoff'):(this.state.cutAmount=='0'?'listnonezero':'listnonezeros')}>
+                        className={this.state.cutAmount=='0'?'list':'listoff'}>
+                        {/*className={
+                          this.state.usetype?
+                          (this.state.cutAmount=='0'?'listt':'listtoff')
+                            :
+                          (this.state.cutAmount=='0'?'listnonezero':'listnonezeros')}>*/}
                         <Button>抹零</Button>
                       </li>
                     </ul>
                   </div>
+              	</div>
+                <div className='payends'>
+                  <Button
+                    loading={this.state.loading}
+                    className='tc mt25 paylhs'
+                    onClick={this.hindpayclick.bind(this)}
+                    onKeyUp={this.hindpay.bind(this)}>
+                    结算<p className='iconk'>「空格键」</p>
+                  </Button>
                 </div>
-            	</div>
+                <div style={{textAlign:"center"}}>
+                  <Checkbox
+                    onChange={this.choosePrint.bind(this)}
+                    checked={this.props.checkPrint}>
+                    打印小票
+                  </Checkbox>
+                </div>
+              </div>
+            </div>
           </Modal>
         </div>
     );

@@ -480,18 +480,27 @@ class PayModal extends React.Component {
         })
     }
     //表单失焦事件
-    payfirstonBlur=(e)=>{
+    payfirstonBlur=(e,index)=>{
       const values=parseFloat(e.target.value)
       let { amountlist, paytotolamount, memberinfo } =this.props;
       let { point, amount } = memberinfo;
-      point=point&&NP.divide(point,100); //积分换算金额
       let payOneVal,payTwoVal;
       let backmoney, dif;
+      point=point&&NP.divide(point,100); //积分换算金额
+      //初始化amountList值；
       if(parseFloat(values)>=parseFloat(paytotolamount)){//大于总额
-        payOneVal =paytotolamount;
+        amountlist[index].value =paytotolamount;
       }else{//小于总额
-        payOneVal =values;
+        amountlist[index].value =values;
       }
+      if(amountlist.length>1) {
+        if(index == 1) {
+          amountlist[0].value = NP.minus(paytotolamount, amountlist[1].value);
+        } else {
+          amountlist[1].value = NP.minus(paytotolamount, amountlist[0].value);
+        }
+      }
+      payOneVal = amountlist[0].value;
       if(amountlist[0].type=='5'){//当前是会员卡
         payOneVal =(parseFloat(amount)>=parseFloat(payOneVal))?payOneVal:amount
       }else if(amountlist[0].type=='6'){
@@ -500,10 +509,9 @@ class PayModal extends React.Component {
       dif = NP.minus(paytotolamount, payOneVal);
       if(amountlist.length>1) {
         payTwoVal =NP.minus(paytotolamount, payOneVal);
-        if(amountlist[1].type=='5' && payTwoVal >= parseFloat(amount)){
-          payTwoVal = amount;
-        } else if(amountlist[1].type=='6' && payTwoVal >= parseFloat(point)){
+        if(amountlist[1].type=='6' && payTwoVal >= parseFloat(point)){
           payTwoVal= point;
+          payOneVal = NP.minus(paytotolamount, payTwoVal)
         }
         amountlist[1].value = payTwoVal;
         dif = NP.minus(paytotolamount, payOneVal, payTwoVal);
@@ -612,7 +620,6 @@ class PayModal extends React.Component {
     }
     //扫码按钮点击
     onhindClicks=()=>{
-      debugger
         const backmoney=this.state.backmoney
         const group=this.props.group
         const amountlist=this.props.amountlist
@@ -720,7 +727,6 @@ class PayModal extends React.Component {
         })
     }
     handleRemark =(e)=> {
-      console.log(e.target.value)
       this.setState({ remark: e.target.value })
     }
     //关闭校验弹框
@@ -752,7 +758,6 @@ class PayModal extends React.Component {
       const openAlipay=sessionStorage.getItem("openAlipay");
       const { amountlist, paytypelisy, group, cutAmount, paytotolamount } =this.props;
       // let inputsSty = amountlist.length>1?'payharflwl':'inputcenter';
-      // console.log(this.state.remark)
       return (
         <div>
           <Modal
@@ -788,7 +793,7 @@ class PayModal extends React.Component {
                                   dis={(el.type=='1' || el.type=='2' || el.type=='3')?true:false}/>
                                 }
                               value={el.value}
-                              onBlur={this.payfirstonBlur.bind(this)}
+                              onBlur={(e)=>this.payfirstonBlur(e,index)}
                               className='tr'
                               onChange={(e)=>this.payfirstonChange(e,index)}
                               addonAfter={
@@ -848,7 +853,7 @@ class PayModal extends React.Component {
                       onClick={this.connectclick.bind(this)}
                       className={
                         paytypelisy[4].disabled==true && paytypelisy[5].disabled==true?
-                        'listtdiszu'
+                        'listdis'
                         :
                         (group?'listtoffzu':'listtzu')
                       }>

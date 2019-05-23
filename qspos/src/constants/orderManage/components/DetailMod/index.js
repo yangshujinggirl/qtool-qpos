@@ -98,6 +98,7 @@ function PosDetailMod({detailInfo}) {
           <div className="row" className="row">收银员：<span className="field">{odOrder.nickname}</span></div>
           <div className="row" className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></div>
           <div className="row" className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></div>
+          <div className="row" className="row">订单备注：<span className="field">{odOrder.remark}</span></div>
           {
             odOrder.returnOrderNo&&
             <div className="row return-goods">
@@ -390,6 +391,10 @@ function ReturnSalesMod({detailInfo}) {
         </div>
           <div className="row">业务类型：<span className="field">{BusinessTypeMap[odReturn.businessType]}</span></div>
           <div className="row">订单状态：<span className="field">{OrderStatusMap[odReturn.orderStatus]}</span></div>
+        {
+          odReturn.businessType==1&&
+            <div className="row">订单备注：<span className="field">{odReturn.remark}</span></div>
+        }
         </div>
       </Card>
       <Card title="商品信息">

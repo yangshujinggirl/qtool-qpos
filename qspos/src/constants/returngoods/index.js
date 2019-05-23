@@ -75,34 +75,34 @@ class Returngoods extends React.Component {
         })
     }
     handleokent=(e)=>{
-        console.log(e.keyCode)
-        //空格
+        //XS10001905220017
         if(e.keyCode=='32'){
-            const visible=this.refs.pay.state.visible
-            if(visible){
-                //结算
-                const hindpayclick=this.refs.pay.hindpayclick
-                hindpayclick()
-            }else{
-                //判断系统默认选择是否打印
-                const result=GetServerData('qerp.pos.sy.config.info')
-                result.then((res) => {
-                   return res;
-                 }).then((json) => {
-                    if(json.code == "0"){
-                        if(json.config.submitPrint=='1'){
-                            this.setState({
-                                checkPrint:true
-                            })
-                        }else{
-                            this.setState({
-                                checkPrint:false
-                            })
-                        }
-                    }
-                })
-                //出弹窗
-                this.showpops()
+          if(e.target.id == 'remarkInput') {//备注change事件
+            return;
+          }
+          const visible=this.refs.pay.state.visible
+          if(visible){
+              //结算
+              const hindpayclick=this.refs.pay.hindpayclick
+              hindpayclick()
+          }else{
+              //判断系统默认选择是否打印
+              GetServerData('qerp.pos.sy.config.info')
+              .then((json) => {
+                  if(json.code == "0"){
+                      if(json.config.submitPrint=='1'){
+                          this.setState({
+                              checkPrint:true
+                          })
+                      }else{
+                          this.setState({
+                              checkPrint:false
+                          })
+                      }
+                  }
+              })
+              //出弹窗
+              this.showpops()
             }
         }
         // tap
@@ -110,15 +110,15 @@ class Returngoods extends React.Component {
            const focustap=this.refs.opera.focustap
             focustap()
         }
-        if(e.keyCode==81){
-            this.takeout()
-        }
-        if(e.keyCode==87){
-            this.takein()
-        }
-        if(e.keyCode==69){
-            this.rowonDelete()
-        }
+        // if(e.keyCode==81){//q键
+        //     this.takeout()
+        // }
+        // if(e.keyCode==87){//w键
+        //     this.takein()
+        // }
+        // if(e.keyCode==69){//e键
+        //     this.rowonDelete()
+        // }
          //上箭头
         if(e.keyCode==38){
             const onrowchange=this.refs.table.onrowchange
@@ -147,14 +147,14 @@ class Returngoods extends React.Component {
         const rowonDelete=this.refs.table.onDelete
         rowonDelete()
     }
-    takeout=()=>{
-        const takeout=this.refs.table.takeout
-        takeout()
-    }
-    takein=()=>{
-        const takein=this.refs.table.takein
-        takein()
-    }
+    // takeout=()=>{
+    //     const takeout=this.refs.table.takeout
+    //     takeout()
+    // }
+    // takein=()=>{
+    //     const takein=this.refs.table.takein
+    //     takein()
+    // }
     updateintegertotalamount=(messages)=>{
     	const updateintegertotalamount=this.refs.opera.updateintegertotalamount
     	updateintegertotalamount(messages)
