@@ -18,7 +18,7 @@
   },
  "proxy": {
     "/erpQposRest": {
-        "target": "http://v5.qpos.testin.qtoolsbaby.net:81",
+        "target": "http://v2.qpos.testin.qtoolsbaby.net:81",
         "secure": false,
         "changeOrigin": true
       }

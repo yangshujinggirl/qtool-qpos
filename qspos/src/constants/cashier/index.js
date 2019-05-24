@@ -127,16 +127,6 @@ class Cashierindex extends React.Component {
   	}
     //输入折扣enter键
   	hindPress=(e)=>{
-  		// if(e.keyCode==13){
-  		// 	const form = this.form;
-  		// 	form.validateFields((err, values) => {
-  		// 		if (!err) {
-  		// 			const values=e.target.value
-  		// 			this.takezhe(values)
-  		// 			this.handleCancel()
-  		// 		}
-  		// 	});
-  		// }
 			const form = this.form;
 			form.validateFields((err, values) => {
 				if (!err) {
@@ -271,6 +261,15 @@ class Cashierindex extends React.Component {
 						el.payPrice = zeropayPrice;
 					}
 				})
+				for(var i=0;i<putProducts.length;i++){
+					var zeropayPrice=String(NP.divide(NP.times(putProducts[i].toCPrice, putProducts[i].qty,putProducts[i].discount),10)); //计算值
+					const editpayPrice =dataedit(zeropayPrice)
+					if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+						putProducts[i].payPrice=String(NP.plus(editpayPrice, 0.01));
+					}else{
+						putProducts[i].payPrice=editpayPrice
+					}
+				}
 				this.props.dispatch({//更新订单信息
           type:'cashier/datasouce',
           payload:putProducts
@@ -416,7 +415,6 @@ class Cashierindex extends React.Component {
     }
     //结算事件
     clearingEvent() {
-      // this.props.meths.focustap();
       this.focustap();
       const visible=this.props.payvisible;
       if(visible){//结算按钮
@@ -460,7 +458,6 @@ class Cashierindex extends React.Component {
         type:'cashier/initstate',
         payload:{}
       })
-      // this.props.meths.focustap();
       this.focustap();
     }
 		//判断是会员手机号还会员卡号
