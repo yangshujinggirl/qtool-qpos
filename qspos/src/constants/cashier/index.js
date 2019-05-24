@@ -262,12 +262,14 @@ class Cashierindex extends React.Component {
 					}
 				})
 				for(var i=0;i<putProducts.length;i++){
-					var zeropayPrice=String(NP.divide(NP.times(putProducts[i].toCPrice, putProducts[i].qty,putProducts[i].discount),10)); //计算值
-					const editpayPrice =dataedit(zeropayPrice)
-					if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-						putProducts[i].payPrice=String(NP.plus(editpayPrice, 0.01));
-					}else{
-						putProducts[i].payPrice=editpayPrice
+					if(putProducts[i].isJoin=='0') {//活动商品不参与数据处理；
+						var zeropayPrice=String(NP.divide(NP.times(putProducts[i].toCPrice, putProducts[i].qty,putProducts[i].discount),10)); //计算值
+						const editpayPrice =dataedit(zeropayPrice)
+						if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+						  putProducts[i].payPrice=String(NP.plus(editpayPrice, 0.01));
+						}else{
+						  putProducts[i].payPrice=editpayPrice
+						}
 					}
 				}
 				this.props.dispatch({//更新订单信息
