@@ -274,7 +274,7 @@ class Operationls extends React.Component {
 						message.warning(json.message)
 						this.firstclick=true
 				}
-				this.setState({ loading: false })
+				this.setState({ loading: false, remark:'' })
 		})
 	}
 		//打印
@@ -282,6 +282,7 @@ class Operationls extends React.Component {
 			GetLodop(id,type,orderNo,size)
 	}
 	handleCancel = (e) => {
+		this.setState({ remark:'' })
 		//清除表单历史数据
 			const reamount=null
 			this.props.dispatch({
@@ -464,7 +465,7 @@ class Operationls extends React.Component {
 	}
 	render(){
 		const { memberinfo, isPhone } =this.props;
-		const { dataSource, loading } =this.state;
+		const { dataSource, loading, remark } =this.state;
     const openWechat=sessionStorage.getItem("openWechat")
     const openAlipay=sessionStorage.getItem("openAlipay");
 
@@ -638,7 +639,9 @@ class Operationls extends React.Component {
 								}
 								placeholder="可输入20字订单备注"
 								maxLength={20}
+								id="odRemarkInput"
 								className='tr'
+								value={remark}
 								onChange={this.handleRemark}/>
 						</div>
             <div>

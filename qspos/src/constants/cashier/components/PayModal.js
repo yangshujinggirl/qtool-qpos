@@ -146,6 +146,7 @@ class PayModal extends React.Component {
     handleOk = (e) => {
         this.setState({
             visible: false,
+            remark:'',
             validateVisible:false
         },function(){
             const payvisible=false
@@ -157,9 +158,10 @@ class PayModal extends React.Component {
         });
     }
     handleCancel = (e) => {
-        this.setState({
+      this.setState({
         visible: false,
-        },function(){
+        remark:''
+      },function(){
           const { amountlist, paytotolamount, totolamount } = this.props;
           //关闭弹框时，重置实际支付金额为应付金额
           this.props.dispatch({
@@ -171,6 +173,7 @@ class PayModal extends React.Component {
                 type:'cashier/payvisible',
                 payload:payvisible
             })
+
         });
     }
     //js判断是否在数组中
@@ -742,6 +745,7 @@ class PayModal extends React.Component {
       const openWechat=sessionStorage.getItem("openWechat")
       const openAlipay=sessionStorage.getItem("openAlipay");
       const { amountlist, paytypelisy, group, cutAmount, paytotolamount } =this.props;
+      const { remark } =this.state;
       // let inputsSty = amountlist.length>1?'payharflwl':'inputcenter';
       return (
         <div>
@@ -828,6 +832,9 @@ class PayModal extends React.Component {
                     }
                     placeholder="可输入20字订单备注"
                     maxLength={20}
+                    id="odRemarkInput"
+                    ref="odRemarkInput"
+                    value={remark}
                     className='tr special-remark'
                     onChange={this.handleRemark}/>
                 </div>

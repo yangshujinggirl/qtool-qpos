@@ -359,6 +359,9 @@ class Cashierindex extends React.Component {
       switch(code) {
         case 32:
           //结算事件
+					if(e.target.id == 'odRemarkInput') {//备注change事件
+            return;
+          }
           if(this.state.isKeySpace) {
             this.clearingEvent();
 						e.preventDefault()//解决space键触发其他弹框事件
