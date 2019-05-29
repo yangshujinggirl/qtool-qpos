@@ -225,6 +225,7 @@ class Operationls extends React.Component {
 									}
 							}
 						})
+						this.props.setSpace(false);//非结算弹框时，不可空格结算;
 						const rechargevisible=true
 						this.props.dispatch({
 								type:'cashier/rechargevisible',
