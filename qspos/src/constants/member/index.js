@@ -13,7 +13,39 @@ import '../../style/member.css';
 import './index.less';
 
 const RadioGroup = Radio.Group;
-const columns = [{
+let columns = [{
+      title: '会员姓名',
+      dataIndex: 'name',
+      width:'9%'
+  }, {
+      title: '会员电话',
+      width:'13%',
+      dataIndex: 'mobile'
+  }, {
+      title: '会员卡号',
+      width:'13%',
+      dataIndex: 'cardNo'
+  },{
+      title: '会员级别',
+      width:'13%',
+      dataIndex: 'levelStr'
+  },{
+      title: '账户余额',
+      width:'13%',
+      dataIndex: 'amount'
+  },{
+      title: '会员积分',
+      width:'13%',
+      dataIndex: 'point'
+  },{
+      title: '操作',
+      width:'13%',
+      dataIndex: 'operation',
+      render: (text, record, index) => {
+        return <span onClick={record.onOperateClick} className="handle-edit-btn">修改</span>
+      },
+  }];
+let roleColumns = [{
       title: '会员姓名',
       dataIndex: 'name',
       width:'9%'
@@ -45,14 +77,14 @@ const columns = [{
         return <span onClick={record.onOperateClick} className="handle-edit-btn">修改</span>
       },
   },{
-      title: '会员信息明细',
-      width:'13%',
-      dataIndex: 'mbmerinfo',
-      render: (text, record, index) => {
-          return (
-            <Link to={{pathname:'/member/info',query:{id:record.mbCardId}}}>查看</Link>
-          )
-      }
+    title: '会员信息明细',
+    width:'13%',
+    dataIndex: 'mbmerinfo',
+    render: (text, record, index) => {
+        return (
+          <Link to={{pathname:'/member/info',query:{id:record.mbCardId}}}>查看</Link>
+        )
+    }
   }];
 //主页面
 class Member extends React.Component{
@@ -189,8 +221,10 @@ class Member extends React.Component{
   }
   render(){
     const { visible, mbCardInfo, mbCardId, visibleSure, cardNo, loading } =this.state;
+    let role = sessionStorage.getItem('role');
     const { mbCards, data } =this.props;
     let texts = mbCardId?'修改会员':'新增会员';
+    const columnsThis = role==3?columns:roleColumns;
     return (
       <div className="member-list-pages">
         <Header type={false} color={true}/>
@@ -211,7 +245,7 @@ class Member extends React.Component{
           </div>
           <div className='counters goods-counters'>
             <Qtable
-              columns={columns}
+              columns={columnsThis}
               dataSource={mbCards}
               onOperateClick={this.onOperateClick.bind(this)}/>
             <Qpagination

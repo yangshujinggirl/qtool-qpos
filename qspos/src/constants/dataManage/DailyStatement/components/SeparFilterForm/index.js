@@ -33,6 +33,7 @@ class NormalForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { startDate, endDate } =this.props;
+    let role = sessionStorage.getItem('role');
     return(
         <Form className="qtools-condition-form">
           <div className="search-form-wrap">
@@ -43,17 +44,20 @@ class NormalForm extends Component {
                  <RangePicker showTime allowClear={false}/>
                )}
              </FormItem>
-             <FormItem label='业务类型'>
-                {getFieldDecorator('orderType',{
-                  initialValue:0
-                })(
-                  <Select placeholder="请选择业务类型">
-                    <Option value={0} key={0}>全部</Option>
-                    <Option value={4} key={4}>仓库直邮订单</Option>
-                    <Option value={5} key={5}>保税订单</Option>
-                  </Select>
-                )}
-              </FormItem>
+             {
+               role!=3&&
+               <FormItem label='业务类型'>
+                  {getFieldDecorator('orderType',{
+                    initialValue:0
+                  })(
+                    <Select placeholder="请选择业务类型">
+                      <Option value={0} key={0}>全部</Option>
+                      <Option value={4} key={4}>仓库直邮订单</Option>
+                      <Option value={5} key={5}>保税订单</Option>
+                    </Select>
+                  )}
+                </FormItem>
+             }
               <FormItem label='订单分类'>
                  {getFieldDecorator('shareType',{
                    initialValue:0

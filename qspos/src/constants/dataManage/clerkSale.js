@@ -93,6 +93,46 @@ const columns = [{
       title: refundAmount,
       dataIndex: 'returnAmount'
   }];
+const roleColumns = [{
+      title: '姓名',
+      dataIndex: 'name'
+  }, {
+      title:amount,
+      dataIndex: 'saleAmount'
+  }, {
+      title:icAmount,
+      dataIndex: 'cleanAmount'
+  },{
+      title: '订单数',
+      dataIndex: 'orderSum'
+  },{
+      title: wechatAmount,
+      dataIndex: 'wechatAmount'
+  },{
+      title: wechatAmounts,
+      dataIndex: 'scanWechatAmount'
+  },{
+      title: alipayAmount,
+      dataIndex: 'alipayAmount'
+  },{
+      title: alipayAmounts,
+      dataIndex: 'scanAlipayAmount'
+  },{
+      title: unionpayAmount,
+      dataIndex: 'unionpayAmount'
+  },{
+      title: cashAmount,
+      dataIndex: 'cashAmount'
+  },{
+      title: '会员消费',
+      dataIndex: 'cardConsumeAmount'
+  },{
+      title: '积分抵扣',
+      dataIndex: 'pointAmount'
+  },{
+      title: refundAmount,
+      dataIndex: 'returnAmount'
+  }];
 
 //店员销售
 class ClerkSaleForm extends React.Component {
@@ -200,6 +240,8 @@ class ClerkSaleForm extends React.Component {
     let dm=d.getMonth()+1//月
     let dd=d.getDate()//日
     let a=dy+'-'+dm+'-'+dd;
+    let role = sessionStorage.getItem('role');
+    let columnsThis = role==3?roleColumns:columns
     return (
       <div className="clerk-sale">
         <div className="clerk-sale-wrapper">
@@ -218,21 +260,24 @@ class ClerkSaleForm extends React.Component {
                       allowClear={false}/>
                 )}
             </FormItem>
-            <FormItem
-              label="业务类型"
-              labelCol={{ span: 5 }}
-              wrapperCol={{span: 10}}>
-                {getFieldDecorator('orderType', {
-                      initialValue:7,
-                      onChange:this.changeSource
-                  })(
-                      <Select>
-                        <Option key={7} value={7}>全部</Option>
-                        <Option key={0} value={0}>门店POS订单</Option>
-                        <Option key={6} value={6}>门店APP订单</Option>
-                      </Select>
-                )}
-            </FormItem>
+            {
+              role!=3&&
+              <FormItem
+                label="业务类型"
+                labelCol={{ span: 5 }}
+                wrapperCol={{span: 10}}>
+                  {getFieldDecorator('orderType', {
+                        initialValue:7,
+                        onChange:this.changeSource
+                    })(
+                        <Select>
+                          <Option key={7} value={7}>全部</Option>
+                          <Option key={0} value={0}>门店POS订单</Option>
+                          <Option key={6} value={6}>门店APP订单</Option>
+                        </Select>
+                  )}
+              </FormItem>
+            }
             <FormItem>
               <Button type="primary" icon="search" onClick={this.searchTable.bind(this)}>搜索</Button>
             </FormItem>
@@ -255,7 +300,7 @@ class ClerkSaleForm extends React.Component {
             </div>
             <div className="table-wrapper">
               <p style={{padding:"20px 0px",fontSize:"14px",color:" #384162"}}>详细数据</p>
-              <CommonTable columns={columns} dataSource={this.state.setsouce}  pagination={false}/>
+              <CommonTable columns={columnsThis} dataSource={this.state.setsouce}  pagination={false}/>
             </div>
           </div>
         </div>

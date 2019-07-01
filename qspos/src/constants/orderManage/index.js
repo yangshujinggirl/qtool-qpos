@@ -181,8 +181,9 @@ class OrderManage extends Component {
     let role = sessionStorage.getItem('role');
     let openApp = sessionStorage.getItem('openApp');
     let tabsData;
-    //c端app是否开通
-    if(openApp==1) {//店员权限3不显不保税仓库。
+    if(role == 3) {//店员权限3只展示全部订单
+      tabsData = TabsDataSource;
+    } else if(openApp==1) {//店员权限3不显不保税仓库。
       tabsData = role==3?TabsDataSourceWorkers:TabsDataSourceApp;
     } else {
       tabsData = TabsDataSource;

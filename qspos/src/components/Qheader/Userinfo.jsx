@@ -265,7 +265,10 @@ class Dropdownmenu extends React.Component {
                 <li><span className='f14 c74'>微信扫码</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.scanWechatAmount}</span></li>
                 <li><span className='f14 c74'>支付宝转账</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.alipayAmount}</span></li>
                 <li><span className='f14 c74'>支付宝扫码</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.scanAlipayAmount}</span></li>
-                <li><span className='f14 c74'>App支付</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.appPay}</span></li>
+                {
+                  role!='3'&&
+                  <li><span className='f14 c74'>App支付</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.appPay}</span></li>
+                }
                 <li><span className='f14 c74'>现金</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.cashAmount}</span></li>
                 <li><span className='f14 c74'>银联</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.unionpayAmount}</span></li>
                 <li><span className='f14 c74'>会员充值</span><br/><span className='f12 c74'>￥</span><span className='f20 c1A'>{userSales.cardChargeAmount}</span></li>

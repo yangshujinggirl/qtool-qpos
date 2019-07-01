@@ -15,6 +15,7 @@ var isOpenAliPay = '';//是否开通非常付宝
 var isOpenWechat = '';//是否开通微信
 var footerText;//页脚
 var codeUrl;//二维码
+var role;
 var footerContent = {
   scanText:'',
   serverText:'官方服务热线：400-7766-999',
@@ -80,6 +81,7 @@ if (needCLodop()) {
 function getLodop(oOBJECT,oEMBED){
 
     isOpenApp = sessionStorage.getItem('openApp');
+    role = sessionStorage.getItem('role');
 
     if(isOpenApp == '1') {
       footerContent = {
@@ -428,7 +430,7 @@ function printShiftInfo(userSales,urUser,printCount){
     })
     moneyInfo.splice(index,1)
   }
-  if(isOpenApp == 0) {
+  if(isOpenApp == 0||role=='3') {//店员权限不展示app支付记录
     let index = moneyInfo.findIndex(function(value, index, arr) {
       return value.key == '005';
     })
@@ -712,7 +714,7 @@ function printShiftInfoSmall(userSales,urUser,printCount){
     })
     moneyInfo.splice(index,1)
   }
-  if(isOpenApp == 0) {
+  if(isOpenApp == 0||role =='3') {
     let index = moneyInfo.findIndex(function(value, index, arr) {
       return value.key == '005';
     })

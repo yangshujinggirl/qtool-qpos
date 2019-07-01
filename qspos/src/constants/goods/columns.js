@@ -58,9 +58,12 @@ const columns = [{
       width: '8%',
       dataIndex: 'qtyAllocated',
       render:(text, record) => {
+        let role = sessionStorage.getItem('role');
         const content = (
           <div className="inventory-popover-content">
-            <p>APP占用：{record.qtyAppAllocated}</p>
+            { role!=3&&
+              <p>APP占用：{record.qtyAppAllocated}</p>
+            }
             <p>退货占用：{record.qtyReturnAllocated}</p>
             <p>收银占用：{record.qtyScanAllocated}</p>
           </div>
@@ -138,10 +141,13 @@ const columnsClerk = [{
   width: '8%',
   dataIndex: 'qtyAppAllocated',
   render:(text,record)=>{
+    let role = sessionStorage.getItem('role');
     const content = (
       <div className="inventory-popover-content">
-        <p>APP占用：{record.qtyAppAllocated}</p>
-        <p>退货占用：{record.qtyReturn}</p>
+        { role!=3&&
+          <p>APP占用：{record.qtyAppAllocated}</p>
+        }
+        <p>退货占用：{record.qtyReturnAllocated}</p>
         <p>收银占用：{record.qtyScanAllocated}</p>
       </div>
     )
