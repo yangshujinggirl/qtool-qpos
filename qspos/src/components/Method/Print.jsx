@@ -430,7 +430,7 @@ function printShiftInfo(userSales,urUser,printCount){
     })
     moneyInfo.splice(index,1)
   }
-  if(isOpenApp == 0||role=='3') {//店员权限不展示app支付记录
+  if(isOpenApp == 0||role==3) {//店员权限不展示app支付记录
     let index = moneyInfo.findIndex(function(value, index, arr) {
       return value.key == '005';
     })
@@ -714,7 +714,7 @@ function printShiftInfoSmall(userSales,urUser,printCount){
     })
     moneyInfo.splice(index,1)
   }
-  if(isOpenApp == 0||role =='3') {
+  if(isOpenApp == 0||role ==3) {
     let index = moneyInfo.findIndex(function(value, index, arr) {
       return value.key == '005';
     })
