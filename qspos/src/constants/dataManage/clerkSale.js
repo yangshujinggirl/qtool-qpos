@@ -93,46 +93,46 @@ const columns = [{
       title: refundAmount,
       dataIndex: 'returnAmount'
   }];
-const roleColumns = [{
-      title: '姓名',
-      dataIndex: 'name'
-  }, {
-      title:amount,
-      dataIndex: 'saleAmount'
-  }, {
-      title:icAmount,
-      dataIndex: 'cleanAmount'
-  },{
-      title: '订单数',
-      dataIndex: 'orderSum'
-  },{
-      title: wechatAmount,
-      dataIndex: 'wechatAmount'
-  },{
-      title: wechatAmounts,
-      dataIndex: 'scanWechatAmount'
-  },{
-      title: alipayAmount,
-      dataIndex: 'alipayAmount'
-  },{
-      title: alipayAmounts,
-      dataIndex: 'scanAlipayAmount'
-  },{
-      title: unionpayAmount,
-      dataIndex: 'unionpayAmount'
-  },{
-      title: cashAmount,
-      dataIndex: 'cashAmount'
-  },{
-      title: '会员消费',
-      dataIndex: 'cardConsumeAmount'
-  },{
-      title: '积分抵扣',
-      dataIndex: 'pointAmount'
-  },{
-      title: refundAmount,
-      dataIndex: 'returnAmount'
-  }];
+// const roleColumns = [{
+//       title: '姓名',
+//       dataIndex: 'name'
+//   }, {
+//       title:amount,
+//       dataIndex: 'saleAmount'
+//   }, {
+//       title:icAmount,
+//       dataIndex: 'cleanAmount'
+//   },{
+//       title: '订单数',
+//       dataIndex: 'orderSum'
+//   },{
+//       title: wechatAmount,
+//       dataIndex: 'wechatAmount'
+//   },{
+//       title: wechatAmounts,
+//       dataIndex: 'scanWechatAmount'
+//   },{
+//       title: alipayAmount,
+//       dataIndex: 'alipayAmount'
+//   },{
+//       title: alipayAmounts,
+//       dataIndex: 'scanAlipayAmount'
+//   },{
+//       title: unionpayAmount,
+//       dataIndex: 'unionpayAmount'
+//   },{
+//       title: cashAmount,
+//       dataIndex: 'cashAmount'
+//   },{
+//       title: '会员消费',
+//       dataIndex: 'cardConsumeAmount'
+//   },{
+//       title: '积分抵扣',
+//       dataIndex: 'pointAmount'
+//   },{
+//       title: refundAmount,
+//       dataIndex: 'returnAmount'
+//   }];
 
 //店员销售
 class ClerkSaleForm extends React.Component {
@@ -241,7 +241,8 @@ class ClerkSaleForm extends React.Component {
     let dd=d.getDate()//日
     let a=dy+'-'+dm+'-'+dd;
     let role = sessionStorage.getItem('role');
-    let columnsThis = role==3?roleColumns:columns
+    // let columnsThis = role==3?roleColumns:columns
+    let columnsThis = columns;
     return (
       <div className="clerk-sale">
         <div className="clerk-sale-wrapper">
