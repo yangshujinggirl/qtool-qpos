@@ -1,7 +1,7 @@
 import React , { Componet } from 'react';
 import { connect } from 'dva';
 import { Card,Row, Col, Table  } from 'antd';
-import { RechargeColumns, OrderColumns, ReturnOdColumns } from '../columns';
+import { RechargeColumns, OrderColumns, OrderAppColumns, ReturnOdColumns } from '../columns';
 import {
   BusinessTypeMap,
   OrderStatusMap,
@@ -199,9 +199,9 @@ function AppDetailMod({detailInfo}) {
           <div className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></div>
           <div className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></div>
           <div className="row">配送方式：<span className="field">{DeliveryMap[odOrder.deliveryType]}</span></div>
-          <div className="row">订单金额：<span className="field">{odOrder.orderAmount}</span></div>
+          {/*<div className="row">订单金额：<span className="field">{odOrder.orderAmount}</span></div>
           <div className="row">退款金额：<span className="field">{odOrder.refundAmount}</span></div>
-          <div className="row">实际订单金额：<span className="field">{odOrder.actualOrderAmount}</span></div>
+          <div className="row">实际订单金额：<span className="field">{odOrder.actualOrderAmount}</span></div>*/}
           {
             odOrder.orderStatus=='3'&&
             <div className="row">完成时间：<span className="field">{odOrder.completeTime}</span></div>
@@ -229,7 +229,7 @@ function AppDetailMod({detailInfo}) {
             <Table
               className="goods-table"
               pagination={false}
-              columns={OrderColumns}
+              columns={OrderAppColumns}
               dataSource={orderDetails}
               bordered/>
           }
@@ -242,7 +242,22 @@ function AppDetailMod({detailInfo}) {
               「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
             </div>
             <div className="row">
+              活动优惠：<span className="field">-{odOrder.activityDiscountAmount}</span>
+            </div>
+            <div className="row">
+              优惠券：<span className="field">-{odOrder.couponDiscountAmount}</span>
+            </div>
+          </div>
+          <div className="row-wrap return-goods">
+            <div className="row">
+              商品实付：<span className="field">-{odOrder.realPayAmount}</span>
+            </div>
+            <div className="row">
               配送费：<span className="field">{odOrder.deliveryCost}</span>
+              { brandPro() }
+            </div>
+            <div className="row">
+              Qtools补贴：<span className="field">{odOrder.allowanceAmount}</span>
               { brandPro() }
             </div>
           </div>
@@ -330,7 +345,7 @@ function OtherDetailMod({detailInfo}) {
         <Table
           className="goods-table"
           pagination={false}
-          columns={OrderColumns}
+          columns={OrderAppColumns}
           dataSource={orderDetails}
           bordered/>
       </Card>
@@ -341,6 +356,9 @@ function OtherDetailMod({detailInfo}) {
             「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
           </div>
           <div className="row-wrap return-goods">
+            <div className="row">商品实付：<span className="field">{odOrder.realPayAmount}</span></div>
+          </div>
+          {/*<div className="row-wrap return-goods">
             <div className="row">销售利润：<span className="field">{odOrder.salesProfit}</span></div>
             <div className="row">
               配送费差价：<span className="field">{odOrder.deliverPayDifference}</span>
@@ -348,7 +366,7 @@ function OtherDetailMod({detailInfo}) {
                 brandPro()
               }
             </div>
-          </div>
+          </div>*/}
           <div className="row return-goods">
             结算分成：<span className="field">{odOrder.billingSplit}</span>
         </div>

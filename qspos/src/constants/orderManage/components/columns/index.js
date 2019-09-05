@@ -15,7 +15,8 @@ const renderCol = (record, text) => {
   return Mod;
 }
 
-const OrderColumns = [{
+const OrderColumns = [
+  {
     title: '商品条码',
     dataIndex: 'code',
     render:(text,record,index) => {
@@ -42,9 +43,58 @@ const OrderColumns = [{
   },{
     title: '折后总价（元）',
     dataIndex: 'payPrice',
+  },{
+    title: '实付总价（元）',
+    dataIndex: 'realPrice',
+    render:(text,record,index)=> {
+      return<span>{record.payPrice}</span>
+    }
+  }]
+const OrderAppColumns = [
+  {
+    title: '商品条码',
+    dataIndex: 'code',
+    render:(text,record,index) => {
+      return <div className="td-wrap">
+        {renderCol(record, text)}
+        {record.activityName&&record.activityName!=''&&<span className="activity-mark"></span>}
+      </div>
+    }
+  },{
+    title: '商品名称',
+    dataIndex: 'name',
+  },{
+    title: '规格',
+    dataIndex: 'displayName',
+  },{
+    title: '标记',
+    dataIndex: 'sign',
+    render:(text,record,index)=> {
+      console.log(!!record.sign)
+      return<span>{record.sign==0&&record.sign!=null?'赠品':''}</span>
+    }
+  },{
+    title: '销售数量',
+    dataIndex: 'qty',
+  },{
+    title: '零售价（元/个）',
+    dataIndex: 'price',
+  },{
+    title: '折扣',
+    dataIndex: 'discount',
+  },{
+    title: '折后总价（元）',
+    dataIndex: 'payPrice',
+  },{
+    title: '实付总价（元）',
+    dataIndex: 'realPayAmount',
+    render:(text,record,index)=> {
+      return<span>{record.realPayAmount}</span>
+    }
   }]
 
-const ReturnOdColumns = [{
+const ReturnOdColumns = [
+  {
     title: '商品条码',
     dataIndex: 'code',
   },{
@@ -66,7 +116,8 @@ const ReturnOdColumns = [{
     title: '退货总价（元）',
     dataIndex: 'refundAmount',
   }]
-const RechargeColumns = [{
+const RechargeColumns = [
+  {
     title: '充值前余额',
     dataIndex: 'beforeAmount',
   },{
@@ -77,4 +128,4 @@ const RechargeColumns = [{
     dataIndex: 'afterAmount',
   }]
 
-export default {OrderColumns,ReturnOdColumns,RechargeColumns};
+export default {OrderColumns,ReturnOdColumns,RechargeColumns,OrderAppColumns};
