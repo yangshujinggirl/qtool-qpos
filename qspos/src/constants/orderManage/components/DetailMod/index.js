@@ -250,7 +250,7 @@ function AppDetailMod({detailInfo}) {
           </div>
           <div className="row-wrap return-goods">
             <div className="row">
-              商品实付：<span className="field">-{odOrder.realPayAmount}</span>
+              商品实付：<span className="field">{odOrder.realPayAmount}</span>
             </div>
             <div className="row">
               配送费：<span className="field">{odOrder.deliveryCost}</span>

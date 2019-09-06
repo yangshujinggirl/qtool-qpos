@@ -1,6 +1,7 @@
 import React from 'react';
 import { message} from 'antd';
-import {getJsessionId} from '../../utils/post'
+import NP from 'number-precision';
+import {getJsessionId} from '../../utils/post';
 
 var LODOP;
 var CreatedOKLodop7766=null;
@@ -2020,7 +2021,7 @@ function printCDSaleOrder(message,printCount){
 	for(var i=0;i<moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*11;
 		lineCount = Math.ceil(infoLen/lineWidth);
-
+    let goodsPrice = moneyInfo[i].sign!=null&&moneyInfo[i].sign==0?'赠品':moneyInfo[i].payPrice;
 		if(moneyInfo[i].displayName){
 			LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","70mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
 		}else{
@@ -2034,7 +2035,7 @@ function printCDSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","19mm",20,moneyInfo[i].payPrice);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","19mm",20,goodsPrice);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -2052,11 +2053,24 @@ function printCDSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","19mm",20,odOrder.amount);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","19mm",20,odOrder.totalAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum = posiTopNum+18;
+  console.log(odOrder.activityDiscountAmount)
+  //活动优惠
+  if(odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount != 0) {
+    LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"活动优惠");
+    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+
+    LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","19mm",20,'-'+odOrder.activityDiscountAmount);
+    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+    posiTopNum = posiTopNum+18;
+  }
   //配送费
   if(deliveryType&&deliveryType!=1) {
     LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"配送费用");
@@ -2088,7 +2102,7 @@ function printCDSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","19mm",20,actuallyPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"50mm","19mm",20,odOrder.realPayAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -2111,13 +2125,16 @@ function printCDSaleOrder(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		posiTopNum = posiTopNum+18;
 	}
-  //折扣优惠
-  if(discountAmount>0){
-    LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"折扣优惠");
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
+  posiTopNum = posiTopNum+15;
+  //合计优惠
+  if(odOrder.retailTotalPrice&&odOrder.realPayAmount){
+    let yh = NP.minus(odOrder.retailTotalPrice, odOrder.realPayAmount);
+    LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"合计优惠");
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-    LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,discountAmount);
+    LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,yh);
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
     LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -2194,6 +2211,8 @@ function printCDSaleOrder(message,printCount){
 }
 
 function printCDSaleOrderSmall(message,printCount){
+  console.log('C端订单58');
+  console.log(message);
 	let print_count = Number(printCount);
 	let saleInfoAll = message;
   const { odOrder, orOrderPay } =saleInfoAll;
@@ -2295,7 +2314,7 @@ function printCDSaleOrderSmall(message,printCount){
 	for(var i=0;i<moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*9;
 		lineCount = Math.ceil(infoLen/lineWidth);
-
+    let goodsPrice = moneyInfo[i].sign!=null&&moneyInfo[i].sign==0?'赠品':moneyInfo[i].payPrice;
 		if(moneyInfo[i].displayName){
 			LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","48mm",20+(lineCount-1)*12,moneyInfo[i].name+'「'+moneyInfo[i].displayName+'」');
 		}else{
@@ -2309,7 +2328,7 @@ function printCDSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-		LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,moneyInfo[i].payPrice);
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,goodsPrice);
 		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -2326,11 +2345,23 @@ function printCDSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,odOrder.amount);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,odOrder.totalAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum = posiTopNum+15;
+  //活动优惠
+  if(odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount != 0) {
+    LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"活动优惠");
+    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+
+    LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","28mm",20,'-'+odOrder.activityDiscountAmount);
+    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+    posiTopNum = posiTopNum+15;
+  }
   //配送费
   if(deliveryType&&deliveryType!=1) {
     LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"配送费用");
@@ -2362,7 +2393,7 @@ function printCDSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,actuallyPay);
+	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","13mm",20,odOrder.realPayAmount);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
@@ -2389,13 +2420,16 @@ function printCDSaleOrderSmall(message,printCount){
 		LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
 		posiTopNum = posiTopNum+15;
 	}
-  //折扣优惠
-  if(discountAmount>0){
-    LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"折扣优惠");
+  LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
+  posiTopNum = posiTopNum+15;
+  //合计优惠
+  if(odOrder.retailTotalPrice&&odOrder.realPayAmount){
+    let yh = NP.minus(odOrder.retailTotalPrice, odOrder.realPayAmount);
+    LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"合计优惠");
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 
-    LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","28mm",20,discountAmount);
+    LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","28mm",20,yh);
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
     LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
