@@ -87,9 +87,9 @@ const OrderAppColumns = [
     dataIndex: 'payPrice',
   },{
     title: '实付总价（元）',
-    dataIndex: 'realPayAmount',
+    dataIndex: 'realPayPrice',
     render:(text,record,index)=> {
-      return<span>{record.realPayAmount}</span>
+      return<span>{record.realPayPrice}</span>
     }
   }]
 

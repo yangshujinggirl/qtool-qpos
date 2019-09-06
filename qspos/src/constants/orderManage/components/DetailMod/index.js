@@ -242,10 +242,10 @@ function AppDetailMod({detailInfo}) {
               「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
             </div>
             <div className="row">
-              活动优惠：<span className="field">-{odOrder.activityDiscountAmount}</span>
+              活动优惠：<span className="field">{odOrder.activityDiscountAmount=='0'?`-${odOrder.activityDiscountAmount}`:'0.00'}</span>
             </div>
             <div className="row">
-              优惠券：<span className="field">-{odOrder.couponDiscountAmount}</span>
+              优惠券：<span className="field">{odOrder.couponDiscountAmount=='0'?`-${odOrder.couponDiscountAmount}`:'0.00'}</span>
             </div>
           </div>
           <div className="row-wrap return-goods">
@@ -351,13 +351,22 @@ function OtherDetailMod({detailInfo}) {
       </Card>
       <Card title="结算信息">
         <div>
-          <div className="row">
-            商品总价：<span className="field">{odOrder.totalAmount}</span>
-            「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
+          <div className="row-wrap return-goods">
+            <div className="row">
+              商品总价：<span className="field">{odOrder.totalAmount}</span>
+              「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
+            </div>
+            <div className="row">
+              活动优惠：<span className="field">{odOrder.activityDiscountAmount=='0'?`-${odOrder.activityDiscountAmount}`:'0.00'}</span>
+            </div>
+            <div className="row">
+              优惠券：<span className="field">{odOrder.couponDiscountAmount=='0'?`-${odOrder.couponDiscountAmount}`:'0.00'}</span>
+            </div>
           </div>
           <div className="row-wrap return-goods">
             <div className="row">商品实付：<span className="field">{odOrder.realPayAmount}</span></div>
           </div>
+
           {/*<div className="row-wrap return-goods">
             <div className="row">销售利润：<span className="field">{odOrder.salesProfit}</span></div>
             <div className="row">
