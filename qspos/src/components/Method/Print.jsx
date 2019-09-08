@@ -2351,7 +2351,7 @@ function printCDSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum = posiTopNum+15;
   //活动优惠
-  if(odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount != 0) {
+  if(odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount != '0') {
     LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"活动优惠");
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
     LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
