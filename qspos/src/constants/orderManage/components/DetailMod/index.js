@@ -242,10 +242,10 @@ function AppDetailMod({detailInfo}) {
               「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
             </div>
             <div className="row">
-              活动优惠：<span className="field">{odOrder.activityDiscountAmount=='0'?`-${odOrder.activityDiscountAmount}`:'0.00'}</span>
+              活动优惠：<span className="field">{!odOrder.activityDiscountAmount?'0.00':`-${odOrder.activityDiscountAmount}`}</span>
             </div>
             <div className="row">
-              优惠券：<span className="field">{odOrder.couponDiscountAmount=='0'?`-${odOrder.couponDiscountAmount}`:'0.00'}</span>
+              优惠券：<span className="field">{!odOrder.couponDiscountAmount?'0.00':`-${odOrder.couponDiscountAmount}`}</span>
             </div>
           </div>
           <div className="row-wrap return-goods">
