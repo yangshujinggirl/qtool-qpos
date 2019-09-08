@@ -189,6 +189,7 @@ function AppDetailMod({detailInfo}) {
     }
     return mod;
   }
+  console.log(odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount!='0')
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
@@ -242,10 +243,10 @@ function AppDetailMod({detailInfo}) {
               「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
             </div>
             <div className="row">
-              活动优惠：<span className="field">{!odOrder.activityDiscountAmount?'0.00':`-${odOrder.activityDiscountAmount}`}</span>
+              活动优惠：<span className="field">{odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount!='0.00'?`-${odOrder.activityDiscountAmount}`:'0.00'}</span>
             </div>
             <div className="row">
-              优惠券：<span className="field">{!odOrder.couponDiscountAmount?'0.00':`-${odOrder.couponDiscountAmount}`}</span>
+              优惠券：<span className="field">{odOrder.couponDiscountAmount&&odOrder.couponDiscountAmount!='0.00'?`-${odOrder.couponDiscountAmount}`:'0.00'}</span>
             </div>
           </div>
           <div className="row-wrap return-goods">
@@ -357,10 +358,10 @@ function OtherDetailMod({detailInfo}) {
               「零售总价：{odOrder.retailTotalPrice}，折扣优惠：{odOrder.discountAmount}」
             </div>
             <div className="row">
-              活动优惠：<span className="field">{odOrder.activityDiscountAmount=='0'?`-${odOrder.activityDiscountAmount}`:'0.00'}</span>
+              活动优惠：<span className="field">{odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount!='0.00'?`-${odOrder.activityDiscountAmount}`:'0.00'}</span>
             </div>
             <div className="row">
-              优惠券：<span className="field">{odOrder.couponDiscountAmount=='0'?`-${odOrder.couponDiscountAmount}`:'0.00'}</span>
+              优惠券：<span className="field">{odOrder.couponDiscountAmount&&odOrder.couponDiscountAmount!='0.00'?`-${odOrder.couponDiscountAmount}`:'0.00'}</span>
             </div>
           </div>
           <div className="row-wrap return-goods">
