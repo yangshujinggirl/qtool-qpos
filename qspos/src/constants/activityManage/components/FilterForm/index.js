@@ -37,7 +37,7 @@ class NormalForm extends Component {
           <div className="search-form-wrap">
             <FormItem label='活动类型'>
                {getFieldDecorator('activityType',{
-                 initialValue:0
+                 initialValue:'0'
                })(
                  <Select placeholder="请选择订单分类" allowClear={false}>
                    {
@@ -50,7 +50,7 @@ class NormalForm extends Component {
              </FormItem>
              <FormItem label='活动状态'>
                 {getFieldDecorator('activityStatus',{
-                  initialValue:0
+                  initialValue:'0'
                 })(
                   <Select allowClear={false} placeholder="请选择订单状态">
                     {
