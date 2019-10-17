@@ -1,9 +1,15 @@
 import { Popover } from 'antd';
 
 const renderCol = (record, text) => {
-  const popverContent = <span>{record.activityName}</span>;
+  const popverContent = <div>
+          {
+            record.promotionMsg&&record.promotionMsg.map((el,index)=>(
+              <span key={index}>{el}</span>
+            ))
+          }
+        </div>
   let Mod;
-  if (record.activityName&&record.activityName!='') {
+  if (record.promotionMsg&&record.promotionMsg.length>0) {
     Mod = <Popover content={popverContent} placement="bottom">
             <span className="pover-text">
               {text}
@@ -22,7 +28,7 @@ const OrderColumns = [
     render:(text,record,index) => {
       return <div className="td-wrap">
         {renderCol(record, text)}
-        {record.activityName&&record.activityName!=''&&<span className="activity-mark"></span>}
+        {record.promotionMsg&&record.promotionMsg!=''&&<span className="activity-mark"></span>}
       </div>
     }
   },{
@@ -57,7 +63,7 @@ const OrderAppColumns = [
     render:(text,record,index) => {
       return <div className="td-wrap">
         {renderCol(record, text)}
-        {record.activityName&&record.activityName!=''&&<span className="activity-mark"></span>}
+        {record.promotionMsg&&record.promotionMsg.length>0&&<span className="activity-mark"></span>}
       </div>
     }
   },{

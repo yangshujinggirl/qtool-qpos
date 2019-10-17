@@ -10,6 +10,7 @@ import {
   DatePicker
 } from 'antd';
 import QsearchInput from '../../../../components/QsearchInput/index';
+import  { activityStatusOption, activityTypeOption } from '../../optionMap';
 
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -39,33 +40,39 @@ class NormalForm extends Component {
                  initialValue:0
                })(
                  <Select placeholder="请选择订单分类" allowClear={false}>
-                   <Option value={0} key={0}>全部</Option>
-                   {/* <Option value={1} key={1}>b端限时直降</Option>
-                   <Option value={2} key={2}>b端活动进价</Option> */}
-                   <Option value={3} key={3}>c端限时直降</Option>
+                   {
+                     activityTypeOption.map((el)=> (
+                       <Option value={el.key} key={el.key}>{el.value}</Option>
+                     ))
+                   }
                  </Select>
                )}
              </FormItem>
              <FormItem label='活动状态'>
                 {getFieldDecorator('activityStatus',{
-                  initialValue:9
+                  initialValue:0
                 })(
                   <Select allowClear={false} placeholder="请选择订单状态">
-                    <Option value={9} key={9}>全部</Option>
-                    <Option value={0} key={0}>未开始</Option>
-                    <Option value={1} key={1}>进行中</Option>
-                    <Option value={2} key={2}>已结束</Option>
-                    <Option value={3} key={3}>已失效</Option>
+                    {
+                      activityStatusOption.map((el)=> (
+                        <Option value={el.key} key={el.key}>{el.value}</Option>
+                      ))
+                    }
                   </Select>
                 )}
             </FormItem>
-            <FormItem label=''>
-               <QsearchInput
-                name="searchCondition"
-                form={this.props.form}
-                placeholder="请输入商品条码、商品名称、活动名称"
-                handleSearch={this.handleSubmit}/>
+            <FormItem label='商品条码'>
+              {getFieldDecorator('pdCode')(
+                <Input placeholder="请输入商品条码" autoComplete="off"/>
+              )}
              </FormItem>
+             <FormItem label=''>
+                <QsearchInput
+                 name="activityName"
+                 form={this.props.form}
+                 placeholder="活动名称"
+                 handleSearch={this.handleSubmit}/>
+              </FormItem>
            </div>
         </Form>
     )

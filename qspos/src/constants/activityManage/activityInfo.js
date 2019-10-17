@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'dva/router';
 import { connect } from 'dva';
 import { Spin, Card } from 'antd';
 import Header from '../../components/Qheader';
@@ -6,12 +7,17 @@ import Header from '../../components/Qheader';
 import QcardTable from '../../components/QcardTable';
 import Qpagination from '../../components/Qpagination';
 import Qtable from '../../components/Qtable';
-import { columnsInfo, activityTypeMap, statusMap } from './columns';
+import { columnsInfo, columnsSingleInfo, columnsAreaSubtractInfo } from './columns';
+import  { activityStatusOption, activityTypeOption } from './optionMap';
+import GiftModal from './components/GiftModal';
 import './activityInfo.less';
 
 class ActivityManageIndex extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      giftVisible:false
+    }
   }
   componentDidMount() {
     this.initPage()
@@ -38,8 +44,55 @@ class ActivityManageIndex extends Component {
   changePageSize =(values)=> {
     this.initPage(values)
   }
+  promotionContent=()=>{
+    let { totalInfo }=this.props.activityManage;
+    let content;
+    switch(totalInfo.activityType){
+      case "10":
+        content=<span>见商品活动价</span>;
+        break;
+      case "11":
+        content=<span>见商品活动描述</span>;
+        break;
+      case "20":
+      case "21":
+        content=<span>
+          消费满指定门槛，可得专属赠品，
+          <span className="linkStyle" onClick={this.handleVisible}>查看赠品明细>></span>
+        </span>;
+        break;
+      case "22":
+      case "23":
+        content=<span>{totalInfo.activityContent}</span>;
+        break;
+    }
+    return content;
+  }
+  getColumns=()=>{
+    let { totalInfo }=this.props.activityManage;
+    let columns;
+    switch(totalInfo.activityType){
+      case "10":
+        columns=columnsInfo;
+        break;
+      case "11":
+        columns=columnsSingleInfo;
+        break;
+      case "20":
+      case "21":
+      case "22":
+      case "23":
+        columns=columnsAreaSubtractInfo;
+        break;
+    }
+    return columns;
+  }
+  handleVisible=()=> {
+    this.setState({ giftVisible:!this.state.giftVisible })
+  }
   render() {
-    const { dataSourceInfo, data, totalInfo } =this.props.activityManage;
+    const { dataSourceInfo, data, totalInfo, giftList } =this.props.activityManage;
+
     return(
       <div className="activity-info-pages common-pages-wrap">
         <Spin tip='加载中，请稍后...'  spinning={this.props.spinLoad.loading}>
@@ -58,15 +111,27 @@ class ActivityManageIndex extends Component {
                   </div>
                   <div className='label-item'>
                     <label>活动类型：</label>
-                    <span>{activityTypeMap[totalInfo.activityType]}</span>
+                      <span>{
+                        activityTypeOption.map((el,index)=>(
+                          <span key={index}>{el.key==totalInfo.activityType&&el.value}</span>
+                        ))
+                      }</span>
                   </div>
                   <div className='label-item'>
                     <label>活动状态：</label>
-                    <span>{statusMap[totalInfo.activityStatus]}</span>
+                      <span>{
+                        activityStatusOption.map((el,index)=>(
+                          <span key={index}>{el.key==totalInfo.activityStatus&&el.value}</span>
+                        ))
+                      }</span>
                   </div>
                   <div className='label-item'>
                     <label>参与平台：</label>
                     <span>{totalInfo.activtyPlatform}</span>
+                  </div>
+                  <div className='label-item'>
+                    <label>促销内容：</label>
+                    <span>{this.promotionContent()}</span>
                   </div>
                 </div>
               </Card>
@@ -74,7 +139,7 @@ class ActivityManageIndex extends Component {
             <div className="card-action-wrap">
               <QcardTable
                 title={()=> "活动商品信息"}
-                columns={columnsInfo}
+                columns={this.getColumns()}
                 data={dataSourceInfo}/>
               {
                 dataSourceInfo.length>0&&
@@ -86,6 +151,11 @@ class ActivityManageIndex extends Component {
               }
             </div>
           </div>
+          <GiftModal
+            dataSource={giftList}
+            visible={this.state.giftVisible}
+            onOk={this.handleVisible}
+            onCancel={this.handleVisible}/>
         </Spin>
       </div>
     )

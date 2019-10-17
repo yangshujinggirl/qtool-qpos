@@ -1,0 +1,39 @@
+const activityStatusOption=[{
+  key:"0",
+  value:'全部'
+},{
+  key:"3",
+  value:'待开始'
+},{
+  key:"4",
+  value:'进行中'
+},{
+  key:"5",
+  value:'已结束'
+},{
+  key:"6",
+  value:'已作废'
+}]
+const activityTypeOption=[{
+  key:"0",
+  value:'全部'
+},{
+  key:"10",
+  value:'单品直降'
+},{
+  key:"11",
+  value:'单品多级满赠'
+},{
+  key:"20",
+  value:'专区多级满元赠'
+},{
+  key:"21",
+  value:'专区多级满件赠'
+},{
+  key:"22",
+  value:'专区多级满元减'
+},{
+  key:"23",
+  value:'专区满件减免'
+}]
+export { activityStatusOption, activityTypeOption }

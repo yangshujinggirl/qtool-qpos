@@ -189,7 +189,7 @@ function AppDetailMod({detailInfo}) {
     }
     return mod;
   }
-  console.log(odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount!='0')
+  // console.log(odOrder.activityDiscountAmount&&odOrder.activityDiscountAmount!='0')
   return (
     <div className="order-detail-info-wrap">
       <Card title="订单信息">
