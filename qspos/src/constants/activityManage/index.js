@@ -14,8 +14,7 @@ class ActivityManageIndex extends Component {
     this.state={
       fields: {
         activityType:'',
-        activityStatus:9,
-        searchCondition:''
+        activityStatus:"",
       },
     }
   }
