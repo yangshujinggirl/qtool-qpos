@@ -905,7 +905,7 @@ function printRechargeOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",info.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${info.fileDomain}${info.codeUrl}`);
   posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
@@ -1048,7 +1048,7 @@ function printRechargeOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",info.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",`${info.fileDomain}${info.codeUrl}`);
   posiTopNum = posiTopNum+124
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,footerContent.scanText);
@@ -1254,7 +1254,7 @@ function printReturnOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",returnInfoAll.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`);
   posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
@@ -1448,7 +1448,7 @@ function printReturnOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",returnInfoAll.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",`${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`);
   posiTopNum = posiTopNum+124;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);
@@ -1511,7 +1511,6 @@ function printSaleOrder(message,printCount){
   let posiTopNum = 0;
   var titleFz = 10;
   var contentFz = 8;
-
 	LODOP=getLodop();
 	LODOP.PRINT_INIT('打印'+new Date());
 	LODOP.SET_PRINT_PAGESIZE(3,800,40,"");
@@ -1667,7 +1666,7 @@ function printSaleOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",saleInfoAll.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
   posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
@@ -1885,7 +1884,7 @@ function printSaleOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",saleInfoAll.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
   posiTopNum = posiTopNum+124;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);
@@ -2178,7 +2177,7 @@ function printCDSaleOrder(message,printCount){
   }
 
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",saleInfoAll.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
   posiTopNum = posiTopNum+170;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
@@ -2472,7 +2471,7 @@ function printCDSaleOrderSmall(message,printCount){
     posiTopNum = posiTopNum+20
   }
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",saleInfoAll.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
   posiTopNum = posiTopNum+124;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);
