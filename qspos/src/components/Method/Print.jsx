@@ -905,8 +905,10 @@ function printRechargeOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${info.fileDomain}${info.codeUrl}`);
-  posiTopNum = posiTopNum+170;
+  let codeUrl = `${info.fileDomain}${info.codeUrl}`;
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"20mm",160,160,"<img src='"+codeUrl+"'/>");
+  LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+  posiTopNum = posiTopNum+130;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1048,8 +1050,10 @@ function printRechargeOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",`${info.fileDomain}${info.codeUrl}`);
-  posiTopNum = posiTopNum+124
+  let codeUrl = `${info.fileDomain}${info.codeUrl}`;
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",100,100,"<img src='"+codeUrl+"'/>");
+  LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+  posiTopNum = posiTopNum+100
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1254,8 +1258,10 @@ function printReturnOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`);
-  posiTopNum = posiTopNum+170;
+  let codeUrl = `${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`;
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"20mm",160,160,"<img src='"+codeUrl+"'/>");
+  LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+  posiTopNum = posiTopNum+130;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1448,8 +1454,10 @@ function printReturnOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",`${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`);
-  posiTopNum = posiTopNum+124;
+  let codeUrl = `${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`;
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",100,100,"<img src='"+codeUrl+"'/>");
+  LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+  posiTopNum = posiTopNum+100;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1665,13 +1673,11 @@ function printSaleOrder(message,printCount){
 	}
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
-  let codeImg = <img src={`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`}/>;
-  let ss = "http://v5.qby.test.qtoolsbaby.net:81/static/menu_logo.c8fb482f.png";
-  // let codeImg = <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2779908258,3927406589&fm=26&gp=0.jpg"/>;
 
-  LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",160,160,"<img src=`${ss}`/>");
-	// LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
-  posiTopNum = posiTopNum+170;
+  let codeUrl = `${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`;
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"20mm",160,160,"<img src='"+codeUrl+"'/>");
+  LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+  posiTopNum = posiTopNum+130;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1888,8 +1894,10 @@ function printSaleOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
-  posiTopNum = posiTopNum+124;
+  let codeUrl = `${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`;
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",100,100,"<img src='"+codeUrl+"'/>");
+  LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+  posiTopNum = posiTopNum+100;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -2181,8 +2189,10 @@ function printCDSaleOrder(message,printCount){
   }
 
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
-  posiTopNum = posiTopNum+170;
+  let codeUrl = `${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`;
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"20mm",160,160,"<img src='"+codeUrl+"'/>");
+  LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+  posiTopNum = posiTopNum+130;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -2475,8 +2485,10 @@ function printCDSaleOrderSmall(message,printCount){
     posiTopNum = posiTopNum+20
   }
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
-  posiTopNum = posiTopNum+124;
+  let codeUrl = `${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`;
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",100,100,"<img src='"+codeUrl+"'/>");
+  LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
+  posiTopNum = posiTopNum+100;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);
 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
