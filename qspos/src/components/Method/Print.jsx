@@ -905,7 +905,7 @@ function printRechargeOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",info.codeUrl);
   posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
@@ -1048,7 +1048,7 @@ function printRechargeOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",info.codeUrl);
   posiTopNum = posiTopNum+124
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"50mm",20,footerContent.scanText);
@@ -1254,7 +1254,7 @@ function printReturnOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",returnInfoAll.codeUrl);
   posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
@@ -1448,7 +1448,7 @@ function printReturnOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",returnInfoAll.codeUrl);
   posiTopNum = posiTopNum+124;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);
@@ -1667,7 +1667,7 @@ function printSaleOrder(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+30;
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",saleInfoAll.codeUrl);
   posiTopNum = posiTopNum+170;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
@@ -1885,7 +1885,7 @@ function printSaleOrderSmall(message,printCount){
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+30
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",saleInfoAll.codeUrl);
   posiTopNum = posiTopNum+124;
 
 	LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);
@@ -2178,7 +2178,7 @@ function printCDSaleOrder(message,printCount){
   }
 
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",saleInfoAll.codeUrl);
   posiTopNum = posiTopNum+170;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.scanText);
@@ -2211,8 +2211,6 @@ function printCDSaleOrder(message,printCount){
 }
 
 function printCDSaleOrderSmall(message,printCount){
-  console.log('C端订单58');
-  console.log(message);
 	let print_count = Number(printCount);
 	let saleInfoAll = message;
   const { odOrder, orOrderPay } =saleInfoAll;
@@ -2474,7 +2472,7 @@ function printCDSaleOrderSmall(message,printCount){
     posiTopNum = posiTopNum+20
   }
 
-	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
+	LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",saleInfoAll.codeUrl);
   posiTopNum = posiTopNum+124;
 
   LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.scanText);

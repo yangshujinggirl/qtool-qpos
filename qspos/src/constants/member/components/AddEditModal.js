@@ -11,8 +11,11 @@ const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const batrhdata=Gettime()
 
-
-
+let levelMap={
+  1:'金卡',
+  2:'银卡',
+  3:'普卡',
+}
 class Modelform extends Component {
   constructor(props) {
     super(props);
@@ -134,21 +137,33 @@ class Modelform extends Component {
                     checked={checked}
                     receivebabydata={this.receivebabydata.bind(this)}/>
             </FormItem>
-            <FormItem
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 16 }}
-              label="会员级别"
-              className='listform'>
-                {getFieldDecorator('level', {
-                    initialValue: Number(level)
-                })(
-                    <RadioGroup>
-                        <Radio value={1}>金卡</Radio>
-                        <Radio value={2}>银卡</Radio>
-                        <Radio value={3}>普卡</Radio>
-                    </RadioGroup>
-                )}
-            </FormItem>
+            {
+              !this.props.mbCardId?
+              <FormItem
+                labelCol={{ span: 5 }}
+                wrapperCol={{ span: 16 }}
+                label="会员级别"
+                className='listform'>
+                  {getFieldDecorator('level', {
+                      initialValue: 3
+                  })(
+                      <RadioGroup>
+                          {/*<Radio value={1}>金卡</Radio>
+                        <Radio value={2}>银卡</Radio>*/}
+                          <Radio value={3}>普卡</Radio>
+                      </RadioGroup>
+                  )}
+              </FormItem>
+              :
+              <FormItem
+                labelCol={{ span: 5 }}
+                wrapperCol={{ span: 16 }}
+                label="会员级别"
+                className='listform'>
+                  {levelMap[level]}
+              </FormItem>
+            }
+
             {
               !this.props.mbCardId?
               null
