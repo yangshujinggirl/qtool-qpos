@@ -137,32 +137,21 @@ class Modelform extends Component {
                     checked={checked}
                     receivebabydata={this.receivebabydata.bind(this)}/>
             </FormItem>
-            {
-              !this.props.mbCardId?
-              <FormItem
-                labelCol={{ span: 5 }}
-                wrapperCol={{ span: 16 }}
-                label="会员级别"
-                className='listform'>
-                  {getFieldDecorator('level', {
-                      initialValue: 3
-                  })(
-                      <RadioGroup>
-                          {/*<Radio value={1}>金卡</Radio>
-                        <Radio value={2}>银卡</Radio>*/}
-                          <Radio value={3}>普卡</Radio>
-                      </RadioGroup>
-                  )}
-              </FormItem>
-              :
-              <FormItem
-                labelCol={{ span: 5 }}
-                wrapperCol={{ span: 16 }}
-                label="会员级别"
-                className='listform'>
-                  {levelMap[level]}
-              </FormItem>
-            }
+            <FormItem
+              labelCol={{ span: 5 }}
+              wrapperCol={{ span: 16 }}
+              label="会员级别"
+              className='listform'>
+                {getFieldDecorator('level', {
+                    initialValue: Number(level)
+                })(
+                    <RadioGroup>
+                        <Radio value={1}>金卡</Radio>
+                      <Radio value={2}>银卡</Radio>
+                        <Radio value={3}>普卡</Radio>
+                    </RadioGroup>
+                )}
+            </FormItem>
 
             {
               !this.props.mbCardId?
