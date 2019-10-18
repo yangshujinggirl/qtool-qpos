@@ -87,7 +87,7 @@ function getLodop(oOBJECT,oEMBED){
     if(isOpenApp == '1') {
       footerContent = {
         // scanText:'下载Qtools官方APP 畅领600元红包大礼',
-        scanText:'扫码下载Qtools官方APP',
+        scanText:'扫码进入小程序  解锁潮妈购物新姿势',
         tipsTextOne:'时尚潮妈购物新姿势',
         tipsTextTwo:'发现好物  |  随时下单  |  到店体验',
         serverText:'官方服务热线：400-7766-999',
@@ -915,11 +915,11 @@ function printRechargeOrder(message,printCount){
   posiTopNum = posiTopNum+20;
 
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextOne);
-  	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-  	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-  	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-    posiTopNum = posiTopNum+16;
+    // LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextOne);
+  	// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  	// LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+  	// LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    // posiTopNum = posiTopNum+16;
 
     LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextTwo);
   	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1058,11 +1058,11 @@ function printRechargeOrderSmall(message,printCount){
   posiTopNum = posiTopNum+15;
 
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextOne);
-  	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-  	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-  	LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-    posiTopNum = posiTopNum+11;
+    // LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextOne);
+  	// LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+  	// LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+  	// LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    // posiTopNum = posiTopNum+11;
 
     LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextTwo);
   	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1264,11 +1264,11 @@ function printReturnOrder(message,printCount){
   posiTopNum = posiTopNum+20;
 
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextOne);
-    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-    LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-    posiTopNum = posiTopNum+16;
+    // LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextOne);
+    // LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    // LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    // LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    // posiTopNum = posiTopNum+16;
 
     LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextTwo);
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1458,11 +1458,11 @@ function printReturnOrderSmall(message,printCount){
   posiTopNum = posiTopNum+15;
 
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextOne);
-    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-    LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-    posiTopNum = posiTopNum+11;
+    // LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextOne);
+    // LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    // LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    // LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    // posiTopNum = posiTopNum+11;
 
     LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextTwo);
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1677,11 +1677,11 @@ function printSaleOrder(message,printCount){
   posiTopNum = posiTopNum+20;
 
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextOne);
-    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-    LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-    posiTopNum = posiTopNum+16;
+    // LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextOne);
+    // LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    // LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    // LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    // posiTopNum = posiTopNum+16;
 
     LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextTwo);
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -1895,11 +1895,11 @@ function printSaleOrderSmall(message,printCount){
   posiTopNum = posiTopNum+15;
 
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextOne);
-    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-    LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-    posiTopNum = posiTopNum+11;
+    // LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextOne);
+    // LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    // LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    // LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    // posiTopNum = posiTopNum+11;
 
     LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextTwo);
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -2188,11 +2188,11 @@ function printCDSaleOrder(message,printCount){
   posiTopNum = posiTopNum+20;
 
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextOne);
-    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-    LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-    posiTopNum = posiTopNum+16;
+    // LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextOne);
+    // LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    // LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    // LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    // posiTopNum = posiTopNum+16;
 
     LODOP.ADD_PRINT_TEXT(posiTopNum,0,"70mm",20,footerContent.tipsTextTwo);
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
@@ -2482,11 +2482,11 @@ function printCDSaleOrderSmall(message,printCount){
   posiTopNum = posiTopNum+15;
 
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextOne);
-    LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-    LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-    LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
-    posiTopNum = posiTopNum+11;
+    // LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextOne);
+    // LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+    // LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    // LODOP.SET_PRINT_STYLEA(0,"Alignment",2);
+    // posiTopNum = posiTopNum+11;
 
     LODOP.ADD_PRINT_TEXT(posiTopNum,0,"48mm",20,footerContent.tipsTextTwo);
     LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
