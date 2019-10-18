@@ -2,7 +2,7 @@ import { Popover } from 'antd';
 import React from 'react';
 
 const renderCol = (record, text) => {
-  const popverContent = <span>【{record.promotionTypeStr}】{record.activityName}(参与平台{record.activityPlat})</span>;
+  const popverContent = <span>【{record.promotionTypeStr}】{record.activityName}({record.activityPlat})</span>;
   let Mod;
   if (record.isShowActivity == '1') {
     Mod = <Popover content={popverContent} placement="bottom">
@@ -93,7 +93,7 @@ const columns = [{
           return <div>
                   {
                     record.activityContent&&record.activityContent.map((el,index)=>(
-                      <span key={index}>满{el.leastQty}赠{el.giftQty}</span>
+                      <span key={index}>满{el.param.leastQty}赠{el.param.giftQty}</span>
                     ))
                   }
                 </div>
