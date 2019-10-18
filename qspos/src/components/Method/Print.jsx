@@ -1668,7 +1668,7 @@ function printSaleOrder(message,printCount){
   let codeImg = <img src={`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`}/>;
   // let codeImg = <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2779908258,3927406589&fm=26&gp=0.jpg"/>;
 
-  LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",160,160,"<img src=`https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2779908258,3927406589&fm=26&gp=0.jpg` />");
+  LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",160,160,"<img src=‘https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2779908258,3927406589&fm=26&gp=0.jpg’ />");
 	// LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",`${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`);
   posiTopNum = posiTopNum+170;
 
