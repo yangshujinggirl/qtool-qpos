@@ -93,12 +93,16 @@ const columns = [{
           return <div>
                   {
                     record.activityContent&&record.activityContent.map((el,index)=>(
-                      <span key={index}>满{el.param.leastQty}赠{el.param.giftQty}</span>
+                      <span key={index}>满{el.param.leastQty}赠{el.param.giftQty},</span>
                     ))
                   }
                 </div>
+        } else if(record.promotionType=="10") {
+          return <span>活动价：{record.specialPrice}</span>
+        } else {
+          return ''
         }
-        return <span>活动价：{record.specialPrice}</span>
+
       },
     }, {
       title: '成本价',
