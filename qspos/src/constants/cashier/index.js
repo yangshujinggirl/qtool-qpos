@@ -250,6 +250,9 @@ class Cashierindex extends React.Component {
 							el.payPrice = zeropayPrice;
 						} else {//不参与活动
 							el.isJoin = "0";
+							el.spActivities.map((item) => (
+								item.barcode=el.barcode//绑定活动商品
+							))
 						}
 						if(index==0) {
 							selectActivityId = el.isJoin=='1'?el.activityId:'0';
@@ -546,7 +549,7 @@ class Cashierindex extends React.Component {
     render() {
       const { datasouce, memberinfo, currentActivityList, selectActivityId } =this.props;
       const { visible, visibleOne, visibleTwo, currentOrderNo, allOrderList, isPhone, loading } =this.state;
-
+			// console.log(currentActivityList)
       return(
         <div className="cashier-wrap-pages">
           <Header type={true} color={true}/>
