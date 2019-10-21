@@ -244,15 +244,15 @@ class Cashierindex extends React.Component {
 				putProducts.map((el,index) => {
 					//如果是活动商品,处理活动是否失效
 					if(el.spActivities&&el.spActivities.length>0) {
+						el.spActivities.map((item) => (
+							item.barcode=el.barcode//绑定活动商品
+						))
 						if(el.isJoin=='1') {//参加活动，活动更改，
 							el.isJoin = "1";
 							let zeropayPrice=String(NP.divide(NP.times(el.specialPrice, el.qty, el.discount),10));
 							el.payPrice = zeropayPrice;
 						} else {//不参与活动
 							el.isJoin = "0";
-							el.spActivities.map((item) => (
-								item.barcode=el.barcode//绑定活动商品
-							))
 						}
 						if(index==0) {
 							selectActivityId = el.isJoin=='1'?el.activityId:'0';

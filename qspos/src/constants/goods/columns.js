@@ -2,7 +2,14 @@ import { Popover } from 'antd';
 import React from 'react';
 
 const renderCol = (record, text) => {
-  const popverContent = <span>【{record.promotionTypeStr}】{record.activityName}({record.activityPlat})</span>;
+  const popverContent =<div>
+    {
+      record.spActivities&&record.spActivities.map((el,index)=>(
+        <span key={index}>【{el.promotionTypeStr}】{el.name}({el.activityPlat})<br/></span>
+      ))
+    }
+  </div>
+
   let Mod;
   if (record.isShowActivity == '1') {
     Mod = <Popover content={popverContent} placement="bottom">

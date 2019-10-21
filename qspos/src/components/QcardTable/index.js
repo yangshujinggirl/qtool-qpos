@@ -18,6 +18,7 @@ import './index.less';
 function QcardTable({ columns, data, title }){
   return(
     <Table
+      className="card-table-components"
       columns={columns}
       dataSource={data}
       bordered
