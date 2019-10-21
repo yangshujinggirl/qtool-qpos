@@ -1498,6 +1498,7 @@ export function getSaleOrderInfo(message,size,printCount){
 
 function printSaleOrder(message,printCount){
   console.log(message)
+  console.log('设置1000')
 	let print_count = Number(printCount);
 	let saleInfoAll = message;
   const { odOrder, orOrderPay } =saleInfoAll;
@@ -1673,7 +1674,6 @@ function printSaleOrder(message,printCount){
 
   let codeUrl = `${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`;
   LODOP.ADD_PRINT_IMAGE(posiTopNum,"20mm",160,160,"<img src='"+codeUrl+"'/>");
-  console.log('1000')
   LODOP.SET_PRINT_STYLEA(0,"HtmWaitMilSecs",1000);
   LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
   posiTopNum = posiTopNum+130;
