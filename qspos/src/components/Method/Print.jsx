@@ -201,8 +201,6 @@ function getLodop(oOBJECT,oEMBED){
 }
 
 function PrintOneURL(url,orderno){
-		console.log(url)
-		console.log(orderno)
 		if(orderno == undefined){
 			orderno = "";
 		}
@@ -798,7 +796,6 @@ export function getRechargeOrderInfo(message,size,printCount){
 }
 
 function printRechargeOrder(message,printCount){
-	console.log(message)
 	let print_count =Number(printCount);
 	let info = message;
 	var title = {

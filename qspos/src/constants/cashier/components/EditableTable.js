@@ -152,7 +152,7 @@ class EditableTable extends React.Component {
 	}
 	//列渲染
 	renderCol = (record, text) => {
-	  const popverContent = <span>【{record.promotionTypeStr}】{record.activityName}({record.activityPlat})</span>;
+	  const popverContent = <span>{record.activityName}</span>;
 	  let Mod;
 	  if (record.isJoin=="1") {
 	    Mod = <Popover content={popverContent} placement="bottom">
