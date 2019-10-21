@@ -95,21 +95,29 @@ const columns = [{
       width: '12%',
       dataIndex: 'specialPrice',
       render: (text, record, index) => {
-        let infoContent;
-        if(record.promotionType=="11") {
-          return <div>
-                  {
-                    record.activityContent&&record.activityContent.map((el,index)=>(
-                      <span key={index}>满{el.param.leastQty}赠{el.param.giftQty},</span>
-                    ))
-                  }
-                </div>
-        } else if(record.promotionType=="10") {
-          return <span>活动价：{record.specialPrice}</span>
+        let desc=(item)=>{
+          if(item.promotionType=="11") {
+            return <div key={item.activityId}>
+                    {
+                      item.activityContent&&item.activityContent.map((el,index)=>(
+                        <span key={index}>满{el.param.leastQty}赠{el.param.giftQty},</span>
+                      ))
+                    }
+                  </div>
+          } else if(item.promotionType=="10") {
+            return <span key={item.activityId}>活动价：{item.specialPrice}</span>
+          } else {
+            return ''
+          }
+        }
+
+        if(record.spActivities) {
+          return record.spActivities.map((item)=> {
+            return desc(item)
+          })
         } else {
           return ''
         }
-
       },
     }, {
       title: '成本价',
@@ -195,17 +203,29 @@ const columnsClerk = [
     width: '12%',
     dataIndex: 'specialPrice',
     render: (text, record, index) => {
-      let infoContent;
-      if(record.promotionType=="11") {
-        return <div>
-                {
-                  record.activityContent&&record.activityContent.map((el,index)=>(
-                    <span key={index}>满{el.leastQty}赠{el.giftQty}</span>
-                  ))
-                }
-              </div>
+      let desc=(item)=>{
+        if(item.promotionType=="11") {
+          return <div key={item.activityId}>
+                  {
+                    item.activityContent&&item.activityContent.map((el,index)=>(
+                      <span key={index}>满{el.param.leastQty}赠{el.param.giftQty},</span>
+                    ))
+                  }
+                </div>
+        } else if(item.promotionType=="10") {
+          return <span key={item.activityId}>活动价：{item.specialPrice}</span>
+        } else {
+          return ''
+        }
       }
-      return <span>活动价：{record.specialPrice}</span>
+
+      if(record.spActivities) {
+        return record.spActivities.map((item)=> {
+          return desc(item)
+        })
+      } else {
+        return ''
+      }
     },
   }];
 export default{ columnsClerk, columns }
