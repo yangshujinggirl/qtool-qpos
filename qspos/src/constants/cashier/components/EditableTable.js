@@ -102,7 +102,7 @@ class EditableTable extends React.Component {
 					)
 				}
 			},{
-				title: '折后价',
+				title: '折后总价',
 				width:'10%',
 				dataIndex: 'payPrice',
 				render: (text, record, index) => {
