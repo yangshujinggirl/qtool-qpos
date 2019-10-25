@@ -1471,9 +1471,9 @@ function printReturnOrderSmall(message,printCount){
 
   let appletCodeUrl = `${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`;
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",120,120,"<img src='"+appletCodeUrl+"'/>");
+    LODOP.ADD_PRINT_IMAGE(posiTopNum,"10mm",120,120,"<img src='"+appletCodeUrl+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
-    posiTopNum = posiTopNum+120;
+    posiTopNum = posiTopNum+130;
   } else {
     LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
     posiTopNum = posiTopNum+120;
