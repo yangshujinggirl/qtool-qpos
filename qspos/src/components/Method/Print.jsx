@@ -1269,9 +1269,9 @@ function printReturnOrder(message,printCount){
 
   let appletCodeUrl = `${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`;
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_IMAGE(posiTopNum,"20mm",140,140,"<img src='"+appletCodeUrl+"'/>");
+    LODOP.ADD_PRINT_IMAGE(posiTopNum,"20mm",150,150,"<img src='"+appletCodeUrl+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
-    posiTopNum = posiTopNum+150;
+    posiTopNum = posiTopNum+160;
   } else {
     LODOP.ADD_PRINT_BARCODE(posiTopNum,"15mm",160,160,"QRCode",footerContent.codeUrl);
     posiTopNum = posiTopNum+170;
@@ -1471,9 +1471,9 @@ function printReturnOrderSmall(message,printCount){
 
   let appletCodeUrl = `${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`;
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_IMAGE(posiTopNum,"10mm",120,120,"<img src='"+appletCodeUrl+"'/>");
+    LODOP.ADD_PRINT_IMAGE(posiTopNum,"10mm",130,130,"<img src='"+appletCodeUrl+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
-    posiTopNum = posiTopNum+130;
+    posiTopNum = posiTopNum+140;
   } else {
     LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
     posiTopNum = posiTopNum+120;
