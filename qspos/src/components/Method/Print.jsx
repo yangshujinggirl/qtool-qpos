@@ -904,7 +904,7 @@ function printRechargeOrder(message,printCount){
 
   let appletCodeUrl = `${info.fileDomain}${info.codeUrl}`;
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",150,150,"<img src='"+appletCodeUrl+"'/>");
+    LODOP.ADD_PRINT_IMAGE(posiTopNum,"18mm",150,150,"<img src='"+appletCodeUrl+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
     posiTopNum = posiTopNum+160;
   } else {
@@ -1269,7 +1269,7 @@ function printReturnOrder(message,printCount){
 
   let appletCodeUrl = `${returnInfoAll.fileDomain}${returnInfoAll.codeUrl}`;
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",150,150,"<img src='"+appletCodeUrl+"'/>");
+    LODOP.ADD_PRINT_IMAGE(posiTopNum,"18mm",150,150,"<img src='"+appletCodeUrl+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
     posiTopNum = posiTopNum+160;
   } else {
@@ -1698,7 +1698,7 @@ function printSaleOrder(message,printCount){
 
   let appletCodeUrl = `${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`;
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",150,150,"<img src='"+appletCodeUrl+"'/>");
+    LODOP.ADD_PRINT_IMAGE(posiTopNum,"18mm",150,150,"<img src='"+appletCodeUrl+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
     posiTopNum = posiTopNum+160;
   } else {
@@ -2227,7 +2227,7 @@ function printCDSaleOrder(message,printCount){
 
   let appletCodeUrl = `${saleInfoAll.fileDomain}${saleInfoAll.codeUrl}`;
   if(isOpenApp == '1') {
-    LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",150,150,"<img src='"+appletCodeUrl+"'/>");
+    LODOP.ADD_PRINT_IMAGE(posiTopNum,"18mm",150,150,"<img src='"+appletCodeUrl+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
     posiTopNum = posiTopNum+160;
   } else {
