@@ -1473,7 +1473,7 @@ function printReturnOrderSmall(message,printCount){
   if(isOpenApp == '1') {
     LODOP.ADD_PRINT_IMAGE(posiTopNum,"15mm",130,130,"<img src='"+appletCodeUrl+"'/>");
     LODOP.SET_PRINT_STYLEA(0,"Stretch",2);
-    posiTopNum = posiTopNum+100;
+    posiTopNum = posiTopNum+120;
   } else {
     LODOP.ADD_PRINT_BARCODE(posiTopNum,"10mm",120,120,"QRCode",footerContent.codeUrl);
     posiTopNum = posiTopNum+120;
