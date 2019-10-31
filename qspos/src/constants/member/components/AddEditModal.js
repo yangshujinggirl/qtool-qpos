@@ -69,7 +69,6 @@ class Modelform extends Component {
         className="member-width-style member-modal-wrap add-member-modal"
         title={this.props.texts}
         visible={this.props.visible}
-        // visible={true}
         onCancel={this.handleCancel}
         okText="确认"
         cancelText="取消"
@@ -137,22 +136,33 @@ class Modelform extends Component {
                     checked={checked}
                     receivebabydata={this.receivebabydata.bind(this)}/>
             </FormItem>
-            <FormItem
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 16 }}
-              label="会员级别"
-              className='listform'>
-                {getFieldDecorator('level', {
-                    initialValue: Number(level)
-                })(
-                    <RadioGroup>
-                        <Radio value={1}>金卡</Radio>
-                      <Radio value={2}>银卡</Radio>
-                        <Radio value={3}>普卡</Radio>
-                    </RadioGroup>
-                )}
-            </FormItem>
-
+            {
+              this.props.mbCardId?
+              <FormItem
+                labelCol={{ span: 5 }}
+                wrapperCol={{ span: 16 }}
+                label="会员级别"
+                className='listform'>
+                  {levelMap[level]}
+              </FormItem>
+              :
+              <FormItem
+                labelCol={{ span: 5 }}
+                wrapperCol={{ span: 16 }}
+                label="会员级别"
+                className='listform'>
+                  {getFieldDecorator('level', {
+                      initialValue: 3
+                  })(
+                      <RadioGroup>
+                        {/*  <Radio value={1}>金卡</Radio>
+                      <Radio value={2}>银卡</Radio>*/}
+                          <Radio value={3}>普卡</Radio>
+                      </RadioGroup>
+                  )}
+                  <span className="ant-form-text">初始会员均默认为“普卡”等级，不可修改</span>
+              </FormItem>
+            }
             {
               !this.props.mbCardId?
               null
