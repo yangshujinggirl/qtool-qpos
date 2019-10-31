@@ -13,6 +13,27 @@ import Cardlist from './card';
 
 
 class Memberinfoindex extends React.Component{
+  componentDidMount(){
+    const { query } =this.props.location;
+    this.props.dispatch({
+      type: 'memberinfo/resetPage',
+      payload: {}
+    })
+    this.props.dispatch({
+      type: 'memberinfo/fetch',
+      payload: {
+        code:'qerp.qpos.mb.card.detail',
+        values:{mbCardId:query.id}
+      }
+    })
+    this.props.dispatch({
+      type: 'memberinfo/fetchList',
+      payload: {
+        code:'qerp.qpos.mb.card.detail.page',
+        values:{mbCardId:query.id,limit:10,currentPage:0}
+      }
+    })
+  }
    render(){
       return (
         <div>
@@ -20,13 +41,13 @@ class Memberinfoindex extends React.Component{
             <div className='counters goods-countersme'>
                 <div className="memberinfo-wrapper">
                     <div className='mbindocardbox'><Cardlist cardlist={this.props.cardInfolist}/></div>
-                        <EditableTable mbCards={this.props.mbCards} 
-                                        dispatch={this.props.dispatch} 
-                                        loding={this.props.loding} 
-                                        total={this.props.total} 
+                        <EditableTable mbCards={this.props.mbCards}
+                                        dispatch={this.props.dispatch}
+                                        loding={this.props.loding}
+                                        total={this.props.total}
                                         current={this.props.current}
                                         ref='memberTable'/>
-                </div> 
+                </div>
             </div>
         </div>
      )

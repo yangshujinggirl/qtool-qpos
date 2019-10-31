@@ -17,10 +17,20 @@ state: {
 	},
 	titleInfo(state, { payload: {cardInfolist,mbCardId}}) {
 		return {...state,cardInfolist,mbCardId}
+	},
+	resetPage(state, { payload: {}}) {
+		let cardInfolist=[],
+		details=[],
+		limit=10,
+		total=0,
+		currentPage=0,
+		mbCardId=null;
+		return {...state,cardInfolist,details,limit,total,currentPage,mbCardId}
 	}
 },
 effects: {
 	*fetch({ payload: {code,values} }, { call, put }) {
+		yield put({type: 'spinLoad/setLoading',payload:true});
 		const result=yield call(GetServerData,code,values);
 		if(result.code=='0'){
 			const cardInfo=result.cardInfo
@@ -73,12 +83,14 @@ effects: {
 					})
 				}
 			}
+			yield put({type: 'spinLoad/setLoading',payload:false});
 			let cardInfolist=cardInfo1.concat(cardInfo2);
 			cardInfolist.map((el,index) =>el.key=index);
 			yield put({type: 'titleInfo',payload:{cardInfolist,mbCardId}});
 		}
 	},
 	*fetchList({ payload: {code,values} }, { call, put }) {
+		yield put({type: 'spinLoad/setLoading',payload:true});
 		const result=yield call(GetServerData,code,values);
 		if(result.code=='0'){
 			const details=result.details;
@@ -89,18 +101,19 @@ effects: {
 			yield put({type: 'infolist',payload:{details,limit,total,currentPage}});
 
 		}
+		yield put({type: 'spinLoad/setLoading',payload:false});
 	}
   },
-  subscriptions: {
-    setup({ dispatch, history }) {
-      return history.listen(({ pathname, query }) => {
-          if (pathname == '/member/info') {
-				dispatch({ type: 'fetch', payload: {code:'qerp.qpos.mb.card.detail',values:{mbCardId:query.id} }})
-				dispatch({ type: 'fetchList', payload: {code:'qerp.qpos.mb.card.detail.page',values:{mbCardId:query.id,limit:10,currentPage:0} }})
-		}
-	});
-	},
-},
+  // subscriptions: {
+  //   // setup({ dispatch, history }) {
+  //   //   return history.listen(({ pathname, query }) => {
+  //   //       if (pathname == '/member/info') {
+	// 	// 		dispatch({ type: 'fetch', payload: {code:'qerp.qpos.mb.card.detail',values:{mbCardId:query.id} }})
+	// 	// 		dispatch({ type: 'fetchList', payload: {code:'qerp.qpos.mb.card.detail.page',values:{mbCardId:query.id,limit:10,currentPage:0} }})
+	// 	// }
+	// // });
+	// },
+// },
 
 
 };
