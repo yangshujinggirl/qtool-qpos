@@ -7,9 +7,9 @@ class Memberinfo extends React.Component{
    render(){
       return (
         <div className="common-pages-wrap">
-            <Spin tip='加载中，请稍后...'  spinning={this.props.spinLoad.loading}>
-              <Memberinfoindex {...this.props}/>
-            </Spin>
+          <Spin tip='加载中，请稍后...'  spinning={this.props.spinLoad.loading}>
+            <Memberinfoindex {...this.props}/>
+          </Spin>
         </div>
      )
    }
