@@ -49,6 +49,7 @@ class Modelform extends Component {
           if(validData&&validData.length>0) {
             values.mbCardBirths=validData;
           }
+          values={...values,level:3}
           this.props.handleOk(values,this.handleCancel);
         }else{
           message.warning('生日信息不全');
