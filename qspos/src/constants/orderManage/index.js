@@ -188,6 +188,7 @@ class OrderManage extends Component {
     } else {
       tabsData = TabsDataSource;
     }
+    console.log('123455555我是测试代码')
     return(
       <div className="order-manage-content-wrap">
         <Tabs
