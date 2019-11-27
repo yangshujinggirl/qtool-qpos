@@ -191,6 +191,7 @@ class OrderManage extends Component {
     console.log('123455555我是测试代码')
     return(
       <div className="order-manage-content-wrap">
+        <div>123455555我是测试代码</div>
         <Tabs
           defaultActiveKey={this.state.tabKey}
           onChange={this.changeTab}
