@@ -3,6 +3,21 @@ import { Form, Input, Row, Col, Switch } from 'antd';
 import './index.less';
 
 class BottomPayMent extends Component {
+  hindleKeyUp(e) {
+    let keyCode=e.keyCode;
+    console.log(keyCode)
+  }
+  hindleKeyDown(e) {
+    let keyCode=e.keyCode;
+    console.log('hindleKeyDown')
+  }
+  getbarcodeDate=(value)=>{
+    const values={barCode:value}
+    this.props.dispatch({
+      type:'cashier/barfetch',
+      payload:{code:'qerp.pos.pd.spu.find',values:values}
+    })
+  }
   render() {
     const { getFieldDecorator } =this.props.form;
     return(
@@ -10,7 +25,11 @@ class BottomPayMent extends Component {
         <div className="part-lt">
           <div className="row-item flexBox">
             <div className="col-item">
-              <Input placeholder="扫码或输入条码"/>
+              <Input
+                autoComplete="off"
+                placeholder="扫码或输入条码"
+                onKeyUp={this.hindleKeyUp}
+                onKeyDown={this.hindleKeyDown}/>
             </div>
             <div className="col-item">
               <Input placeholder="会员号/手机号"/>
