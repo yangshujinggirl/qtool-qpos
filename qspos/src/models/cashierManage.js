@@ -1,6 +1,6 @@
 import {GetServerData} from '../services/services';
 import {message} from 'antd';
-import {isInArray} from '../components/Method/Method';
+import { fomatNumTofixedTwo } from '../utils/CommonUtils';
 import { routerRedux } from 'dva/router';
 import NP from 'number-precision'
 
@@ -8,6 +8,13 @@ export default {
   namespace: 'cashierManage',
   state: {
     goodsList:[], //收银数据表
+    payTotalData:{
+      totolNumber:0,
+      totolAmount:0,
+      thisPoint:0,
+      paytotolAmount:0
+    },
+    memberinfo:{}
   },
   reducers: {
       initstate(state, { payload: {}}) {
@@ -62,29 +69,21 @@ export default {
           rechargetype,memberinfo,currentActivityList
         }
        },
-	    datasouce(state, { payload: datasouce}) {
-          var totolnumber=0
-          var totolamount=0
-          var thispoint=0
-          for(var i=0;i<datasouce.length;i++){
-              datasouce[i].key=String((Number(i)+1));
-              totolnumber=NP.plus(totolnumber,datasouce[i].qty)
-              totolamount=NP.plus(totolamount,datasouce[i].payPrice)
-              thispoint=Math.round(totolamount)
-              datasouce[i].price=datasouce[i].toCPrice
+	    getGoodsList(state, { payload: goodsList}) {
+          var totolNumber=0
+          var totolAmount=0
+          var thisPoint=0
+          for(var i=0;i<goodsList.length;i++){
+              goodsList[i].key=String((Number(i)+1));
+              totolNumber=NP.plus(totolNumber,goodsList[i].qty)
+              totolAmount=NP.plus(totolAmount,goodsList[i].payPrice)
+              thisPoint=Math.round(totolAmount)
+              goodsList[i].price=goodsList[i].toCPrice
           }
-
-          var toxsd=totolamount.toString().split(".");
-          if(toxsd.length==1){
-              totolamount=totolamount.toString()+".00";
-          }
-          if(toxsd.length>1 && toxsd[1].length<2){
-              totolamount=totolamount.toString()+"0";
-          }
-
-          const paytotolamount=totolamount
-
-         return {...state,datasouce,totolnumber,totolamount,thispoint,paytotolamount}
+          totolAmount=fomatNumTofixedTwo(totolAmount)
+          const paytotolAmount=totolAmount
+          let totalData={ totolNumber,totolAmount,thisPoint,paytotolAmount }
+         return {...state,goodsList,totalData }
 
       },
       cardNoMobile(state, { payload: cardNoMobile}) {
@@ -183,94 +182,60 @@ export default {
       }
   },
   effects: {
-    *fetchGoods({ payload: {code,values} }, { call, put ,select}) {
+    *fetchbarCode({ payload:values }, { call, put ,select}) {
+      const initdatasouce = yield select(state => state.cashierManage.goodsList);
         yield put({type: 'spinLoad/setLoading',payload:true});
-        const result=yield call(GetServerData,code,values);
+        const result=yield call(GetServerData,'qerp.pos.pd.spu.find',values);
         if(result.code=='0'){
-          const initdatasouce = yield select(state => state.cashier.datasouce);
-          const datasouce=initdatasouce.slice(0)
-          const i=isInArray(datasouce,result.pdSpu.barcode);
-          let { activityId, spActivities } = result.pdSpu;
-          let selectActivityId = activityId;//默认活动id
-          let currentActivityList;//活动列表
-          let isJoin = "0";//是否参加活动
-          if(spActivities&&spActivities.length>0) {
-            spActivities.map((el,index) => el.barcode = result.pdSpu.barcode);
-            currentActivityList = spActivities;
-            isJoin = "1";
+          const { pdSpu } =result;
+          const goodsList=initdatasouce.slice(0)
+          const idx = goodsList.findIndex((value)=> value.barcode == pdSpu.barcode);
+          // let { activityId, spActivities } = result.pdSpu;
+          // let selectActivityId = activityId;//默认活动id
+          // let currentActivityList;//活动列表
+          // let isJoin = "0";//是否参加活动
+          // if(spActivities&&spActivities.length>0) {
+          //   spActivities.map((el,index) => el.barcode = result.pdSpu.barcode);
+          //   currentActivityList = spActivities;
+          //   isJoin = "1";
+          // }
+          // result.pdSpu.isJoin = isJoin;
+          if(Number(pdSpu.inventory)<=0) {//判断库存
+            message.error('商品库存不足');
+            yield put({type: 'spinLoad/setLoading',payload:false});
+            return;
           }
-          result.pdSpu.isJoin = isJoin;
-          if(i==='-1'){
-              //不存在，判断库存
-              if(Number(result.pdSpu.inventory)>0){
-                  const objects=result.pdSpu
-                  objects.qty='1'
-                  objects.discount='10';
-                  //活动价；
-                  let currentPrice = objects.toCPrice;
-                  if(objects.isJoin=='1') {
-                    currentPrice = objects.specialPrice;
-                  }
-                  // var zeropayPrice=String(NP.divide(NP.times(objects.toCPrice, objects.qty,objects.discount),10)); //计算值
-                  var zeropayPrice=String(NP.divide(NP.times(currentPrice, objects.qty,objects.discount),10)); //计算值
-                  //判断是否有小数点，及小数点时候有两位，当不满足时候补零
-                  var xsd=zeropayPrice.toString().split(".");
-                  if(xsd.length==1){
-                      zeropayPrice=zeropayPrice.toString()+".00";
-                  }
-                  if(xsd.length>1 && xsd[1].length<2){
-                      zeropayPrice=zeropayPrice.toString()+"0";
-                  }
-
-                  const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
-                  if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-                      objects.payPrice=String(NP.plus(editpayPrice, 0.01))
-                  }else{
-                      objects.payPrice=editpayPrice
-                  }
-                  datasouce.unshift(objects)
-              }else{
-                  message.error('商品库存不足');
-                  yield put({type: 'spinLoad/setLoading',payload:false});
-                  return
-              }
+          let newGoodsInfo={}, currentPrice;
+          if(idx=='-1'){
+            newGoodsInfo= pdSpu;
+            newGoodsInfo.qty='1'
+            newGoodsInfo.discount='10';
+            currentPrice = newGoodsInfo.toCPrice;//活动价；
+            if(newGoodsInfo.isJoin=='1') {
+              currentPrice = newGoodsInfo.specialPrice;
+            }
           }else{
-              //存在,库存判断是否大于0
-              if(Number(datasouce[i].qty)==Number(datasouce[i].inventory)){
-                  message.error('商品库存不足');
-                  yield put({type: 'spinLoad/setLoading',payload:false});
-                  return
-              }
-              datasouce[i].qty=String(Number(datasouce[i].qty)+1);
-              //活动价；
-              let currentPrice = datasouce[i].toCPrice;
-              if(datasouce[i].isJoin=='1') {
-                currentPrice = datasouce[i].specialPrice;
-              }else if(currentActivityList&&currentActivityList.length>0) {//有活动，但是不参与活动，活动id设置成0
-                selectActivityId = '0';
-              }
-              // var zeropayPrice=String(NP.divide(NP.times(datasouce[i].toCPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
-              var zeropayPrice=String(NP.divide(NP.times(currentPrice, datasouce[i].qty,datasouce[i].discount),10)); //计算值
-              //判断是否有小数点，及小数点时候有两位，当不满足时候补零
-              var xsd=zeropayPrice.toString().split(".");
-              if(xsd.length==1){
-                  zeropayPrice=zeropayPrice.toString()+".00";
-              }
-              if(xsd.length>1 && xsd[1].length<2){
-                  zeropayPrice=zeropayPrice.toString()+"0";
-              }
-              const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
-              if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
-                  datasouce[i].payPrice=String(NP.plus(editpayPrice, 0.01));
-
-              }else{
-                  datasouce[i].payPrice=editpayPrice
-              }
-              const str=datasouce.splice(i,1); //删除当前
-              datasouce.unshift(str[0]); //把这个元素添加到开头
+            newGoodsInfo = goodsList[idx];
+            newGoodsInfo.qty=Number(newGoodsInfo.qty)+1;
+            currentPrice = newGoodsInfo.toCPrice;//活动价；
+              // if(goodsList[idx].isJoin=='1') {
+              //   currentPrice = goodsList[idx].specialPrice;
+              // }else if(currentActivityList&&currentActivityList.length>0) {//有活动，但是不参与活动，活动id设置成0
+              //   selectActivityId = '0';
+              // }
+              goodsList.splice(idx,1); //删除当前
           }
-          yield put({type: 'datasouce',payload:datasouce});
-          yield put({type: 'getActivityList',payload:{ currentActivityList, selectActivityId }});
+          var zeropayPrice=NP.divide(NP.times(currentPrice, newGoodsInfo.qty,newGoodsInfo.discount),10); //计算值
+          zeropayPrice = fomatNumTofixedTwo(zeropayPrice);//两位小安数，当不满足时候补零
+          const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);  //截取小数后两位值
+          if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){
+            newGoodsInfo.payPrice=NP.plus(editpayPrice, 0.01);
+          }else{
+            newGoodsInfo.payPrice=editpayPrice
+          }
+          goodsList.unshift(newGoodsInfo); //把这个元素添加到开头
+          yield put({type: 'getGoodsList',payload:goodsList});
+          // yield put({type: 'getActivityList',payload:{ currentActivityList, selectActivityId }});
         }else{
              message.error(result.message);
         }
@@ -300,16 +265,5 @@ export default {
     *fetch2({ payload: {code,values} }, { call, put }) {
         const result=yield call(GetServerData,code,values);
     },
-  },
-  subscriptions: {
-      setup({ dispatch, history }) {
-          return history.listen(({ pathname, query }) => {
-              if (pathname === '/cashier' && (!query.backinit)) {
-                  dispatch({ type: 'initstate', payload:[]})
-              }else if(pathname === '/cashier' && (query.backinit)) {
-                  dispatch({ type: 'fetch2', payload: {code:'qerp.web.qpos.od.scan.cancel',values:JSON.parse(localStorage.getItem("payCancelValues"))}});
-              }
-          });
-      },
   },
 };

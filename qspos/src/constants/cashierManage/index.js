@@ -13,7 +13,7 @@ class CashierManage extends Component {
     return(
       <div className="cashier-mainContent-wrap">
         <div className="top-part">
-          <GoodsTable />
+          <GoodsTable form={this.props.form}/>
         </div>
         <div className="middle-part">
           <BtnsAction />
