@@ -8,7 +8,7 @@ const columnsIndx =(form)=> {
       dataIndex: 'key',
       width:'8%',
       render: (text, record, index) => {
-        return <div className="td-wrap">123</div>
+        return <div className="td-wrap">{++index}</div>
       }
     }, {
       title: '商品条码',
@@ -62,20 +62,15 @@ const columnsIndx =(form)=> {
       width:'10%',
       dataIndex: 'discount',
       render: (text, record, index) => {
-        let value;
-        if(record.isJoin=="1") {
-          value = record.activityDiscount
-        }else {
-          value = record.discount
-        }
         const { getFieldDecorator } =form;
         return (
           <FormItem>
             {getFieldDecorator(`orderDetails[${index}].discount`,{
-              initialValue:value,
+              initialValue:record.discount,
               rules:[{pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'}]
             })(
               <Input
+                disabled={record.activityId?true:false}
                 maxLength='15'
                 autoComplete="off"/>
             )}
@@ -95,6 +90,7 @@ const columnsIndx =(form)=> {
               rules:[{pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'}]
             })(
               <Input
+                disabled={record.activityId?true:false}
                 maxLength='15'
                 autoComplete="off"/>
             )}

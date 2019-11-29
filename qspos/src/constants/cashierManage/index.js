@@ -9,7 +9,6 @@ import './index.less';
 
 class CashierManage extends Component {
   render(){
-    console.log(this.props)
     return(
       <div className="cashier-mainContent-wrap">
         <div className="top-part">
@@ -25,7 +24,7 @@ class CashierManage extends Component {
     )
   }
 }
-const CashierManageF = Form.create({ name: 'register' })(CashierManage);
+const CashierManageF = Form.create()(CashierManage);
 
 function mapStateToProps(state) {
     const { cashierManage } = state;
