@@ -29,9 +29,37 @@ class GoodsTable extends React.Component {
       windowHeight:0.4*height
     });
 	}
+  onRowClick=(record,index)=> {
+    this.props.dispatch({
+      type:'cashierManage/getCurrentRowIndex',
+      payload:index
+    })
+    let { spActivities, activityId } = record;
+    spActivities = spActivities?spActivities:[];
+    this.props.dispatch({
+      type:'cashierManage/getActivityOptions',
+      payload:{
+        activityOptions:spActivities,
+        selectedActivityId:activityId
+      }
+    })
+  }
+  renderRowStyle=(record,index)=> {
+    const { currentRowIndex }=this.props;
+    if(index == currentRowIndex ) {
+      return 'highLightcolor'
+    } else {
+      if (index % 2) {
+				return 'table_white'
+			}else{
+				return 'table_gray'
+			}
+    }
+  }
   render() {
     const { goodsList } = this.props;
     let columns= columnsIndx(this.props.form);
+    console.log(this.props.currentRowIndex)
     return(
       <div ref="tableWrapper"  className="goods-table-action">
         <Table
@@ -39,6 +67,12 @@ class GoodsTable extends React.Component {
           columns={columns}
           dataSource={goodsList}
           pagination={false}
+          rowClassName={this.renderRowStyle}
+          onRow={(record,index) => {
+            return {
+              onClick:()=>this.onRowClick(record,index), // 点击行
+            }
+          }}
           scroll={{ y: this.state.windowHeight }} />
       </div>
     )
