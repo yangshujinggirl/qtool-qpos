@@ -94,6 +94,7 @@ class BtnsAction extends Component {
         message.success(`挂单成功，挂单号：0${currentOrderNo}`);
         this.props.dispatch({type:'cashierManage/resetData',payload:{} });
         this.getAllOrderListApi();//更新挂单列表
+        this.props.form.resetFields()
       }
       this.setState({ loading: false, visiblePut:false });
     })
@@ -103,14 +104,20 @@ class BtnsAction extends Component {
   }
   //取单
   goPullOrder=()=> {
+    const { allPutOrderList } =this.state;
+    if(allPutOrderList.length==1) {
+      let putNo = allPutOrderList[0].putNo;
+      this.getOrderApi(putNo);
+      return;
+    }
     this.setState({ visiblePull:true })
   }
   onCancelPull=()=> {
     this.setState({ visiblePull:false })
   }
   //取单
-  getOrderApi(orderNo) {
-    GetServerData('qerp.web.qpos.od.order.take',{ putNo: orderNo })
+  getOrderApi(putNo) {
+    GetServerData('qerp.web.qpos.od.order.take',{ putNo })
     .then((res) => {
       const { code, message, putOrder } =res;
       if(code !== '0') {
@@ -176,8 +183,6 @@ class BtnsAction extends Component {
   render() {
     const { activityOptions, selectedActivityId, goodsList } =this.props;
     const { visiblePut, currentOrderNo, allPutOrderList, visiblePull } =this.state;
-    console.log(this.props)
-    console.log(allPutOrderList)
     return(
       <div className="handle-actions">
         {

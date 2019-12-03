@@ -2,13 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Form, Input, Row, Col, Switch } from 'antd';
 import RechargeModal from '../RechargeModal';
+import ToggleVipModal from '../ToggleVipModal';
+import {GetServerData} from '../../../../services/services';
 import './index.less';
 
 class BottomPayMent extends Component {
   constructor(props) {
     super(props);
     this.state={
-      visible:false
+      visible:false,
+      isPhone:true,
+      visibleToggle:false,
+      vipList:[],
+      selectedRowKeys:[]
     }
     this.barCodeInput = null;
     this.memberInput = null;
@@ -16,6 +22,7 @@ class BottomPayMent extends Component {
   componentDidMount(){
     this.barCodeInput.input.select();
   }
+
   hindleKeyDown=(e)=> {
     let keyCode=e.keyCode;
     if(keyCode==9){
@@ -49,7 +56,20 @@ class BottomPayMent extends Component {
       this.barCodeInput.input.select();
     }
   }
+  //判断是会员手机号还会员卡号
+  checkIsPhone=(value,type)=> {
+    let regMb = /^[1][3,4,5,7,8][0-9]{9}$/;
+    let isPhone;
+    //手机号&&表单输入
+    if(!regMb.test(value)&&type=='input') {
+      isPhone = false;
+    } else {
+      isPhone = true;
+    }
+    this.setState({ isPhone })
+  }
   getMemberInfo=(value)=>{
+    this.checkIsPhone(value,'input')
     this.props.dispatch({
       type:'cashierManage/fetchMemberInfo',
       payload:{ cardNoMobile: value }
@@ -64,27 +84,55 @@ class BottomPayMent extends Component {
   handleRechargeOk=()=> {
     this.setState({ visible:false })
   }
+  //切换会员
+  goToggleVip=()=> {
+		GetServerData('qerp.pos.mb.card.switch',{ mobile:this.props.memberInfo.cardNoMobile})
+		.then((res) => {
+			if(res.code == '0') {
+				res.iQposMbCards&&res.iQposMbCards.map((el,index) => (el.key = index))
+				let selectedRowKeys = res.iQposMbCards.findIndex((value, index, arr) => {
+					return value.cardNo == this.props.memberInfo.cardNo
+				})
+				this.setState({ vipList:res.iQposMbCards, visibleToggle:true });
+			}
+		})
+  }
+  onCancelToggle=()=> {
+    this.setState({ visibleToggle:false });
+  }
   render() {
     const { getFieldDecorator } =this.props.form;
     const { payTotalData,memberInfo } =this.props;
+    const { visibleToggle, vipList, isPhone } =this.state;
     return(
       <div className="bottom-payment-action flexBox">
         <div className="part-lt">
           <div className="row-item flexBox">
             <div className="col-item">
-              <Input
-                ref={(input)=>this.barCodeInput = input}
-                autoComplete="off"
-                placeholder="扫码或输入条码"
-                onKeyUp={this.hindleKeyUpBarcode}
-                onKeyDown={this.hindleKeyDown}/>
+              {
+                getFieldDecorator('barcode')(
+                  <Input
+                    ref={(input)=>this.barCodeInput = input}
+                    autoComplete="off"
+                    placeholder="扫码或输入条码"
+                    onKeyUp={this.hindleKeyUpBarcode}
+                    onKeyDown={this.hindleKeyDown}/>
+                )
+              }
+
             </div>
             <div className="col-item">
-              <Input
-                ref={(input)=>this.memberInput = input}
-                placeholder="会员号/手机号"
-                onKeyUp={this.hindleKeyUpMember}
-                onKeyDown={this.hindleKeyDown}/>
+              {
+                getFieldDecorator('memberCode',{
+                  initialValue:memberInfo.mobile
+                })(
+                  <Input
+                    ref={(input)=>this.memberInput = input}
+                    placeholder="会员号/手机号"
+                    onKeyUp={this.hindleKeyUpMember}
+                    onKeyDown={this.hindleKeyDown}/>
+                )
+              }
             </div>
           </div>
           <div className="row-item flexBox row-two">
@@ -92,12 +140,24 @@ class BottomPayMent extends Component {
               <Switch defaultChecked/>
             </div>
             <div className="col-item member-actions">
-              <div className="member-info flexBox">
-                <div className="members-detail">
-                  祖国的花朵
-                  <span className="icon-label">生日月</span>
+              <div className="member-info">
+                <div className="flexBox member-info-wrap">
+                  <div className="members-detail">
+                    {memberInfo.name}
+                    {
+                      memberInfo.isBirthMonth =='true'&&memberInfo.isLocalShop =='true'&&
+                      <span className="icon-label">生日月</span>
+                    }
+                    <span className="icon-label">金冠兔</span>
+                    {
+    									memberInfo.isLocalShop =='false'&&<span className='icon-label'>异店</span>
+    								}
+                  </div>
+                  {
+                    isPhone&&memberInfo.isMoreShop =='true'&&
+                    <p className="toggle-arrow" onClick={this.goToggleVip}>切换会员>></p>
+                  }
                 </div>
-                <p>切换会员>></p>
               </div>
               <div className="memberCard-info flexBox">
                 <p className="lable-item">
@@ -118,6 +178,12 @@ class BottomPayMent extends Component {
             <p className="field">金额<span className="money-num">{payTotalData.totolAmount}</span></p>
           </div>
         </div>
+        <ToggleVipModal
+          {...this.props}
+          validateToggle={this.checkIsPhone}
+          onCancel={this.onCancelToggle}
+          visible={visibleToggle}
+          dataSource={vipList}/>
         <RechargeModal
           onOk={this.handleRechargeOk}
           onCancel={this.handleRechargeCancel}

@@ -15,7 +15,7 @@ class CashierManage extends Component {
           <GoodsTable form={this.props.form}/>
         </div>
         <div className="middle-part">
-          <BtnsAction />
+          <BtnsAction form={this.props.form}/>
         </div>
         <div className="bottom-part">
           <BottomPayMent form={this.props.form}/>
