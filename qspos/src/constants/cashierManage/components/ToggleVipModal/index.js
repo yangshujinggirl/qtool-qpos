@@ -21,9 +21,6 @@ class ToggleVipModal extends Component{
       selectedRowKeys:[]
     }
   }
-  componentWillReceiveProps(props) {
-    console.log('componentWillReceiveProps')
-  }
   //选择会员
 	checkChange=(selectedRowKeys, selectedRows)=> {
 		let cardNoMobile = selectedRows[0].cardNo;

@@ -24,7 +24,27 @@ class CashierManage extends Component {
     )
   }
 }
-const CashierManageF = Form.create()(CashierManage);
+const CashierManageF = Form.create({
+  // onValuesChange(props, changedFields, allFields) {
+  //   let currentKey = Object.keys(changedFields)[0];
+  //   if(currentKey == 'orderDetails') {
+  //     let { goodsList } =props;
+  //     let { orderDetails } =allFields;
+  //     goodsList = goodsList.map((el,index) =>{
+  //       orderDetails.map((item,idx) => {
+  //         if(index == idx) {
+  //           el = {...el,...item}
+  //         }
+  //       })
+  //       return el;
+  //     })
+  //     props.dispatch({
+  //       type:'cashierManage/getGoodsList',
+  //       payload:goodsList
+  //     })
+  //   }
+  // }
+})(CashierManage);
 
 function mapStateToProps(state) {
     const { cashierManage } = state;

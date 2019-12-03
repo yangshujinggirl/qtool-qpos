@@ -1,6 +1,6 @@
 import {GetServerData} from '../services/services';
 import {message} from 'antd';
-import { fomatNumTofixedTwo } from '../utils/CommonUtils';
+import { fomatNumTofixedTwo,fomatNumAddFloat } from '../utils/CommonUtils';
 import { routerRedux } from 'dva/router';
 import NP from 'number-precision'
 
@@ -48,15 +48,17 @@ export default {
             }
             var zeropayPrice=NP.divide(NP.times(currentPrice, el.qty,el.discount),10); //计算值
             zeropayPrice = fomatNumTofixedTwo(zeropayPrice);//两位小安数，当不满足时候补零
-            const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);
-            if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){//3位小数，直接进0.01
-              el.payPrice=NP.plus(editpayPrice, 0.01);
-            }else{
-              el.payPrice=editpayPrice
-            }
+            el.payPrice = fomatNumAddFloat(zeropayPrice)
+            // const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);
+            // if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){//3位小数，直接进0.01
+            //   el.payPrice=NP.plus(editpayPrice, 0.01);
+            // }else{
+            //   el.payPrice=editpayPrice
+            // }
             el.key=++index;
             totolNumber=NP.plus(totolNumber,el.qty);
             totolAmount=NP.plus(totolAmount,el.payPrice);
+            debugger
             totolAmount=fomatNumTofixedTwo(totolAmount);
             thisPoint=Math.round(totolAmount);
             el.price=el.toCPrice;
@@ -65,6 +67,9 @@ export default {
           let payTotalData={ totolNumber,totolAmount,thisPoint,paytotolAmount:totolAmount }
          return {...state,goodsList,payTotalData }
 
+      },
+      getChangGoodsList(state, { payload: goodsList}) {
+        return { ...state, goodsList }
       },
       getCurrentRowIndex(state, { payload: currentRowIndex}) {
         return { ...state, currentRowIndex }

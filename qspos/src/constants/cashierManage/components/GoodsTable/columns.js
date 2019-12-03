@@ -1,7 +1,8 @@
 import { Input, Form, Select, Button, DatePicker, Popover } from 'antd';
+
 const FormItem = Form.Item;
 
-const columnsIndx =(form)=> {
+const columnsIndx =(form,onChangeField, onBlurField)=> {
   //列渲染
 	const renderCol = (record, text) => {
 	  const popverContent = <span>{record.activityName}</span>;
@@ -66,16 +67,12 @@ const columnsIndx =(form)=> {
       render: (text, record, index) => {
         const { getFieldDecorator } =form;
         return (
-          <FormItem>
-            {getFieldDecorator(`orderDetails[${index}].qty`,{
-              initialValue:record.qty,
-              rules:[{pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'}]
-            })(
-              <Input
-                maxLength='15'
-                autoComplete="off"/>
-            )}
-          </FormItem>
+					<Input
+						value={record.qty}
+						onChange={(e)=>onChangeField(e,index,'qty')}
+						onBlur={(e)=>onBlurField(e,index,'qty')}
+						maxLength='15'
+						autoComplete="off"/>
         )
       }
     },{
@@ -89,17 +86,13 @@ const columnsIndx =(form)=> {
 					disabled=true;
 				}
         return (
-          <FormItem>
-            {getFieldDecorator(`orderDetails[${index}].discount`,{
-              initialValue:record.discount,
-              rules:[{pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'}]
-            })(
-              <Input
-                disabled={disabled}
-                maxLength='15'
-                autoComplete="off"/>
-            )}
-          </FormItem>
+					<Input
+						value={record.discount}
+						onChange={(e)=>onChangeField(e,index,'discount')}
+						onBlur={(e)=>onBlurField(e,index,'discount')}
+						disabled={disabled}
+						maxLength='15'
+						autoComplete="off"/>
         )
       }
     },{
@@ -113,17 +106,13 @@ const columnsIndx =(form)=> {
 					disabled=true;
 				}
         return (
-          <FormItem>
-            {getFieldDecorator(`orderDetails[${index}].payPrice`,{
-              initialValue:record.payPrice,
-              rules:[{pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'}]
-            })(
-              <Input
-                disabled={disabled}
-                maxLength='15'
-                autoComplete="off"/>
-            )}
-          </FormItem>
+					<Input
+						value={record.payPrice}
+						disabled={disabled}
+						onChange={(e)=>onChangeField(e,index,'payPrice')}
+						onBlur={(e)=>onBlurField(e,index,'payPrice')}
+						maxLength='15'
+						autoComplete="off"/>
         )
       }
   }];
