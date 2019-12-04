@@ -2,10 +2,10 @@ import NP from 'number-precision';
 
 export function fomatNumTofixedTwo(value){
   let newVal = value.toString().split(".");
-  if(value.length==1){
-    value=newVal.toString()+".00";
-  }else if(value.length>1 && value[1].length<2){
-    value=newVal.toString()+"0";
+  if(newVal.length==1){
+    value=value.toString()+".00";
+  }else if(newVal.length>1 && newVal[1].length<2){
+    value=value.toString()+"0";
   }
   value = String(value);
   return value;

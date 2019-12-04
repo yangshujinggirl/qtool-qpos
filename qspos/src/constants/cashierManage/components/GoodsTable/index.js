@@ -31,6 +31,7 @@ class GoodsTable extends React.Component {
       windowHeight:0.4*height
     });
 	}
+  //切换行
   onRowClick=(record,index)=> {
     this.props.dispatch({
       type:'cashierManage/getCurrentRowIndex',
@@ -58,57 +59,57 @@ class GoodsTable extends React.Component {
 			}
     }
   }
+  //表单change事件
   changeField=(e,index,keyName)=> {
     let value = e.target.value;
     let regexp;
     let { goodsList } =this.props;
     switch(keyName) {
       case 'qty':
-        regexp=/^[1-9]+$/
+        regexp=/^[1-9]+(\d)*$/
       break;
       case 'discount':
         regexp=/^\d+(\.\d{1})?$/
       break;
       case 'payPrice':
-        regexp=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
-        // regexp=/^\d+((\.)|(\.\d{1,2}))?$/
+        regexp=/^\d+((\.)|(\.\d{1,2}))?$/
       break;
     }
     if(regexp.test(value)) {
       goodsList[index][keyName] =value;
-      // debugger
       this.props.dispatch({
         type:'cashierManage/getChangGoodsList',
         payload:goodsList
       })
     }
   }
+  //表单blur事件
   onBlurField=(e,index,keyName)=> {
     let value = e.target.value;
     let role=sessionStorage.getItem('role');
     let { goodsList } =this.props;
     switch(keyName) {
       case 'qty':
-        if(value>goodsList[index].inventory) {
+        if(Number(value)>Number(goodsList[index].inventory)) {
           goodsList[index].qty=goodsList[index].inventory;
           message.warning('商品库存不足')
         }
       break;
       case 'discount':
-        if((role=='2'||role=='1') && values<6){
+        if((role=='2'||role=='1') && value<6){
           goodsList[index].discount=6
         }
-        if((role=='3') && values<9){
+        if((role=='3') && value<9){
           goodsList[index].discount=9
         }
       break;
       case 'payPrice':
         let zeropayPrice=value,discount;
         discount=NP.times(NP.divide(value,goodsList[index].toCPrice,goodsList[index].qty),10)
-        if((role=='2'||role=='1') && goodsList[index].discount<8){
+        if((role=='2'||role=='1') && discount<8){
           discount=8;
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
-        }else if((role=='3') && goodsList[index].discount<9){
+        }else if((role=='3') && discount<9){
           discount=9
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
         }
@@ -118,14 +119,13 @@ class GoodsTable extends React.Component {
       break;
     }
     this.props.dispatch({
-      type:'cashierManage/getChangGoodsList',
+      type:'cashierManage/getGoodsList',
       payload:goodsList
     })
   }
   render() {
     const { goodsList } = this.props;
-    let columns= columnsIndx(this.props.form,this.changeField,this.onBlurField);
-    console.log(goodsList)
+    let columns= columnsIndx(this.changeField,this.onBlurField);
     return(
       <div ref="tableWrapper"  className="goods-table-action">
         <Table

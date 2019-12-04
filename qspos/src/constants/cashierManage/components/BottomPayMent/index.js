@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Form, Input, Row, Col, Switch } from 'antd';
 import RechargeModal from '../RechargeModal';
 import ToggleVipModal from '../ToggleVipModal';
+import PayMentModal from '../PayMentModal';
 import {GetServerData} from '../../../../services/services';
 import './index.less';
 
@@ -10,9 +11,10 @@ class BottomPayMent extends Component {
   constructor(props) {
     super(props);
     this.state={
-      visible:false,
+      visibleRecharge:false,//充值
       isPhone:true,
-      visibleToggle:false,
+      visibleToggle:false,//切换会员
+      visiblePay:true,//支付
       vipList:[],
       selectedRowKeys:[]
     }
@@ -76,13 +78,13 @@ class BottomPayMent extends Component {
     })
   }
   goRecharge=()=> {
-    this.setState({ visible:true })
+    this.setState({ visibleRecharge:true })
   }
   handleRechargeCancel=()=> {
-    this.setState({ visible:false })
+    this.setState({ visibleRecharge:false })
   }
   handleRechargeOk=()=> {
-    this.setState({ visible:false })
+    this.setState({ visibleRecharge:false })
   }
   //切换会员
   goToggleVip=()=> {
@@ -100,10 +102,14 @@ class BottomPayMent extends Component {
   onCancelToggle=()=> {
     this.setState({ visibleToggle:false });
   }
+  //结算
+  goSettlingAccount=()=> {
+    this.setState({ visiblePay:false });
+  }
   render() {
     const { getFieldDecorator } =this.props.form;
     const { payTotalData,memberInfo } =this.props;
-    const { visibleToggle, vipList, isPhone } =this.state;
+    const { visibleToggle, vipList, isPhone, visiblePay, visibleRecharge } =this.state;
     return(
       <div className="bottom-payment-action flexBox">
         <div className="part-lt">
@@ -173,7 +179,7 @@ class BottomPayMent extends Component {
         </div>
         <div className="part-rt">
           <div className="part-wrap flexBox">
-            <p className="field"><span className="pay-btns">结算</span>「空格键」</p>
+            <p className="field" onClick={this.goSettlingAccount}><span className="pay-btns">结算</span>「空格键」</p>
             <p className="field">数量<span className="money-num">{payTotalData.totolNumber}</span></p>
             <p className="field">金额<span className="money-num">{payTotalData.totolAmount}</span></p>
           </div>
@@ -187,7 +193,10 @@ class BottomPayMent extends Component {
         <RechargeModal
           onOk={this.handleRechargeOk}
           onCancel={this.handleRechargeCancel}
-          visible={this.state.visible}/>
+          visible={visibleRecharge}/>
+        <PayMentModal
+          form={this.props.form}
+          visible={visiblePay}/>
       </div>
     )
   }

@@ -20,7 +20,23 @@ export default {
       point:0,
     },
     selectedActivityId:'0',
-    activityOptions:[]
+    activityOptions:[],
+    payMentTypeOptionsOne:[
+      {name:'微信',checked:false,disabled:false,type:'1'},
+      {name:'支付宝',checked:false,disabled:false,type:'2'},
+      {name:'银联',checked:false,disabled:false,type:'3'},
+      {name:'现金',checked:false,disabled:false,type:'4'},
+      {name:'会员卡',checked:false,disabled:false,type:'5'},
+      {name:'积分',checked:false,disabled:false,type:'6'}
+    ],
+    payMentTypeOptionsTwo:[
+      {name:'微信',checked:false,disabled:false,type:'1'},
+      {name:'支付宝',checked:false,disabled:false,type:'2'},
+      {name:'银联',checked:false,disabled:false,type:'3'},
+      {name:'现金',checked:false,disabled:false,type:'4'},
+    ],
+    checkedPayTypeOne:'1',
+    checkedPayTypeTwo:null
   },
   reducers: {
       resetData(state,payload:{}) {
@@ -39,26 +55,21 @@ export default {
         return {...state, currentRowIndex, goodsList, payTotalData, memberInfo, selectedActivityId, activityOptions }
       },
 	    getGoodsList(state, { payload: goodsList}) {
-          var totolNumber=0,totolAmount=0,thisPoint=0;
+          let totolNumber=0,totolAmount=0,thisPoint=0,zeropayPrice;
           goodsList = goodsList.map((el,index) => {
             let currentPrice = el.toCPrice;
             if(el.isShowActivity=='1'&&el.activityId!='0') {
               el.discount = el.activityDiscount;
               currentPrice = el.specialPrice;
+              zeropayPrice=NP.divide(NP.times(currentPrice, el.qty),10); //计算值
+            } else {
+              zeropayPrice=NP.divide(NP.times(currentPrice, el.qty,el.discount),10); //计算值
             }
-            var zeropayPrice=NP.divide(NP.times(currentPrice, el.qty,el.discount),10); //计算值
             zeropayPrice = fomatNumTofixedTwo(zeropayPrice);//两位小安数，当不满足时候补零
             el.payPrice = fomatNumAddFloat(zeropayPrice)
-            // const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);
-            // if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){//3位小数，直接进0.01
-            //   el.payPrice=NP.plus(editpayPrice, 0.01);
-            // }else{
-            //   el.payPrice=editpayPrice
-            // }
             el.key=++index;
             totolNumber=NP.plus(totolNumber,el.qty);
             totolAmount=NP.plus(totolAmount,el.payPrice);
-            debugger
             totolAmount=fomatNumTofixedTwo(totolAmount);
             thisPoint=Math.round(totolAmount);
             el.price=el.toCPrice;
@@ -69,6 +80,7 @@ export default {
 
       },
       getChangGoodsList(state, { payload: goodsList}) {
+        goodsList =[...goodsList]
         return { ...state, goodsList }
       },
       getCurrentRowIndex(state, { payload: currentRowIndex}) {
@@ -79,6 +91,9 @@ export default {
       },
       getActivityOptions(state, { payload: { activityOptions, selectedActivityId } }) {
         return {...state, activityOptions, selectedActivityId }
+      },
+      getCheckedPayType(state, { payload: { checkedPayTypeOne, checkedPayTypeTwo } }) {
+        return {...state, checkedPayTypeOne, checkedPayTypeTwo }
       }
   },
   effects: {

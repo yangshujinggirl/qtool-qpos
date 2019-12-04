@@ -2,7 +2,7 @@ import { Input, Form, Select, Button, DatePicker, Popover } from 'antd';
 
 const FormItem = Form.Item;
 
-const columnsIndx =(form,onChangeField, onBlurField)=> {
+const columnsIndx =(onChangeField, onBlurField)=> {
   //列渲染
 	const renderCol = (record, text) => {
 	  const popverContent = <span>{record.activityName}</span>;
@@ -65,7 +65,7 @@ const columnsIndx =(form,onChangeField, onBlurField)=> {
       width:'10%',
       dataIndex: 'qty',
       render: (text, record, index) => {
-        const { getFieldDecorator } =form;
+        // const { getFieldDecorator } =form;
         return (
 					<Input
 						value={record.qty}
@@ -80,7 +80,7 @@ const columnsIndx =(form,onChangeField, onBlurField)=> {
       width:'10%',
       dataIndex: 'discount',
       render: (text, record, index) => {
-        const { getFieldDecorator } =form;
+        // const { getFieldDecorator } =form;
 				let disabled = false;
 				if(record.isShowActivity=='1'&&record.activityId!='0') {
 					disabled=true;
@@ -100,7 +100,7 @@ const columnsIndx =(form,onChangeField, onBlurField)=> {
       width:'10%',
       dataIndex: 'payPrice',
       render: (text, record, index) => {
-        const { getFieldDecorator } =form;
+        // const { getFieldDecorator } =form;
 				let disabled = false;
 				if(record.isShowActivity=='1'&&record.activityId!='0') {
 					disabled=true;
