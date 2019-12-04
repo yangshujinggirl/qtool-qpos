@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Row, Col, Switch } from 'antd';
+import { Form, Input, Row, Col, Switch, message } from 'antd';
 import RechargeModal from '../RechargeModal';
 import ToggleVipModal from '../ToggleVipModal';
 import PayMentModal from '../PayMentModal';
@@ -14,7 +14,7 @@ class BottomPayMent extends Component {
       visibleRecharge:false,//充值
       isPhone:true,
       visibleToggle:false,//切换会员
-      visiblePay:true,//支付
+      visiblePay:false,//支付
       vipList:[],
       selectedRowKeys:[]
     }
@@ -104,6 +104,14 @@ class BottomPayMent extends Component {
   }
   //结算
   goSettlingAccount=()=> {
+    const { goodsList } =this.props;
+    if(goodsList.length==0) {
+      message.error('请选择商品');
+      return;
+    }
+    this.setState({ visiblePay:true });
+  }
+  onCancelPayMent=()=> {
     this.setState({ visiblePay:false });
   }
   render() {
@@ -195,6 +203,7 @@ class BottomPayMent extends Component {
           onCancel={this.handleRechargeCancel}
           visible={visibleRecharge}/>
         <PayMentModal
+          onCancel={this.onCancelPayMent}
           form={this.props.form}
           visible={visiblePay}/>
       </div>

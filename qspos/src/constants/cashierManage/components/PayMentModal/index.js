@@ -8,7 +8,7 @@ const Option = Select.Option;
 
 class PayMentModal extends Component {
   onCancel=()=> {
-
+    this.props.onCancel()
   }
   //切换支付方式
   goTogglePayType=(value)=> {
@@ -34,7 +34,7 @@ class PayMentModal extends Component {
 
   }
   render() {
-    const { visible, payMentTypeOptionsOne, payMentTypeOptionsTwo, checkedPayTypeOne,checkedPayTypeTwo } =this.props;
+    const { payTotalData, memberInfo, visible, payMentTypeOptionsOne, payMentTypeOptionsTwo, checkedPayTypeOne,checkedPayTypeTwo } =this.props;
     const { getFieldDecorator } =this.props.form;
     return(
       <Modal
@@ -48,13 +48,15 @@ class PayMentModal extends Component {
           <div className="main-content-body">
             <Form.Item label="应付金额">
               {getFieldDecorator('amount',{
-                initialValue:'1234'
+                initialValue:payTotalData.totolAmount
               })(
                 <Input autoComplete={'off'} disabled/>
               )}
             </Form.Item>
             <Form.Item label="会员信息">
-              {getFieldDecorator('password')(
+              {getFieldDecorator('memberInfo',{
+                initialValue:`${memberInfo.name}/${memberInfo.mobile}`
+              })(
                 <Input autoComplete={'off'} disabled/>
               )}
             </Form.Item>
@@ -167,7 +169,8 @@ class PayMentModal extends Component {
                 <Button className="go-settling-btn">结算<span className="space-code">「空格键</span></Button>
                 <Button
                   onClick={this.goToggleGroupPay}
-                  className="go-group-btn" type="primary" ghost>组合支付</Button>
+                  className="go-group-btn" type="primary" ghost={checkedPayTypeTwo?false:true}>组合支付</Button>
+
               </div>
               <div className='footer-row'>
                 <Checkbox>打印小票</Checkbox>
