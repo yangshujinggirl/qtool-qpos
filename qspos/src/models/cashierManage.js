@@ -13,7 +13,8 @@ export default {
       totolNumber:0,
       totolAmount:0,
       thisPoint:0,
-      paytotolAmount:0
+      payAmount:0,
+      cutAmount:'0'
     },
     memberInfo:{
       amount:0,
@@ -21,7 +22,7 @@ export default {
     },
     selectedActivityId:'0',
     activityOptions:[],
-    payMentTypeOptionsOne:[
+    baseOptions:[
       {name:'微信',checked:false,disabled:false,type:'1'},
       {name:'支付宝',checked:false,disabled:false,type:'2'},
       {name:'银联',checked:false,disabled:false,type:'3'},
@@ -29,30 +30,34 @@ export default {
       {name:'会员卡',checked:false,disabled:false,type:'5'},
       {name:'积分',checked:false,disabled:false,type:'6'}
     ],
-    payMentTypeOptionsTwo:[
-      {name:'微信',checked:false,disabled:false,type:'1'},
-      {name:'支付宝',checked:false,disabled:false,type:'2'},
-      {name:'银联',checked:false,disabled:false,type:'3'},
-      {name:'现金',checked:false,disabled:false,type:'4'},
-    ],
-    checkedPayTypeOne:'1',
-    checkedPayTypeTwo:null
+    payMentTypeOptionsOne:[],
+    payMentTypeOptionsTwo:[],
+    checkedPayTypeOne:{
+      type:'1',
+      amount:0
+    },
+    checkedPayTypeTwo:{},
+    errorText:null
   },
   reducers: {
       resetData(state,payload:{}) {
         const currentRowIndex=0,goodsList=[], //收银数据表
-        payTotalData = {
-          totolNumber:0,
-          totolAmount:0,
-          thisPoint:0,
-          paytotolAmount:0
-        },
-        memberInfo = {
-          amount:0,
-          point:0,
-        },
-        selectedActivityId='0',activityOptions = []
-        return {...state, currentRowIndex, goodsList, payTotalData, memberInfo, selectedActivityId, activityOptions }
+        payTotalData = { cutAmount:'0',totolNumber:0, totolAmount:0, thisPoint:0, payAmount:0 },
+        memberInfo = { amount:0, point:0, },
+        baseOptions = [
+          {name:'微信',checked:false,disabled:false,type:'1'},
+          {name:'支付宝',checked:false,disabled:false,type:'2'},
+          {name:'银联',checked:false,disabled:false,type:'3'},
+          {name:'现金',checked:false,disabled:false,type:'4'},
+          {name:'会员卡',checked:false,disabled:false,type:'5'},
+          {name:'积分',checked:false,disabled:false,type:'6'}
+        ],
+        checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},
+        payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [],selectedActivityId='0',activityOptions = [];
+        return {...state, currentRowIndex, goodsList, payTotalData,
+          memberInfo, selectedActivityId, activityOptions,baseOptions,
+          checkedPayTypeOne,checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
+        }
       },
 	    getGoodsList(state, { payload: goodsList}) {
           let totolNumber=0,totolAmount=0,thisPoint=0,zeropayPrice;
@@ -75,9 +80,12 @@ export default {
             el.price=el.toCPrice;
             return el;
           })
-          let payTotalData={ totolNumber,totolAmount,thisPoint,paytotolAmount:totolAmount }
+          let payTotalData={ totolNumber,totolAmount,thisPoint,payAmount:totolAmount,cutAmount:'0' }
          return {...state,goodsList,payTotalData }
 
+      },
+      getTotalData(state,{ payload: payTotalData }) {
+        return {...state, payTotalData }
       },
       getChangGoodsList(state, { payload: goodsList}) {
         goodsList =[...goodsList]
@@ -94,6 +102,9 @@ export default {
       },
       getCheckedPayType(state, { payload: { checkedPayTypeOne, checkedPayTypeTwo } }) {
         return {...state, checkedPayTypeOne, checkedPayTypeTwo }
+      },
+      getPayMentTypeOptions(state, {payload:{ payMentTypeOptionsOne, payMentTypeOptionsTwo }}) {
+        return {...state, payMentTypeOptionsOne, payMentTypeOptionsTwo}
       }
   },
   effects: {

@@ -5,6 +5,7 @@ import RechargeModal from '../RechargeModal';
 import ToggleVipModal from '../ToggleVipModal';
 import PayMentModal from '../PayMentModal';
 import {GetServerData} from '../../../../services/services';
+import NP from 'number-precision'
 import './index.less';
 
 class BottomPayMent extends Component {
@@ -109,6 +110,88 @@ class BottomPayMent extends Component {
       message.error('请选择商品');
       return;
     }
+    this.checkCardAndPoint()
+  }
+  //支付弹框逻辑
+  checkCardAndPoint() {
+    let { memberInfo, payTotalData, baseOptions, payMentTypeOptionsOne,
+      payMentTypeOptionsTwo,checkedPayTypeOne, checkedPayTypeTwo } = this.props;
+
+    if(memberInfo.mbCardId) {//会员
+      let isCardDisabled;
+      let isPointDisabled = Number(memberInfo.point)<=0?true:false;
+      let payAmount = parseFloat(payTotalData.payAmount);//应付总额；
+      let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
+      if(memberInfo.isLocalShop == 'true') {//本店会员
+        checkedPayTypeOne = { type:'5', amount: payAmount };
+        if(Number(memberInfo.amount)<=0){//会员余额=0
+          isCardDisabled = true;
+          checkedPayTypeOne.type = '1';
+        }else if(memberAmount >= payAmount) {
+          isCardDisabled = false;
+        } else {//会员卡余额不足
+          isCardDisabled = false;
+          checkedPayTypeOne.amount = memberAmount;
+          checkedPayTypeTwo = {
+            type:'1',
+            amount:NP.minus(payAmount, memberAmount)
+          }
+        }
+      } else {//异店会员
+        isCardDisabled = false;
+        if(!isPointDisabled) {//有积分
+          checkedPayTypeOne = { type:'6', amount: payAmount };
+          let pointAmount = NP.divide(memberInfo.point,100);
+          if(pointAmount < payAmount){//积分余额不足
+            checkedPayTypeOne.amount = pointAmount;
+            checkedPayTypeTwo = {
+              type:'1',
+              amount:NP.minus(payAmount, pointAmount)
+            }
+          }
+        }
+      }
+      payMentTypeOptionsOne = baseOptions;
+      payMentTypeOptionsOne.map((el,index) => {
+        switch(el.type) {
+          case "5":
+            el.disabled = isCardDisabled;
+            break;
+          case "6":
+            el.disabled = isPointDisabled;
+            break;
+        }
+      })
+      //组合支付
+      if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
+        baseOptions.map((el,index) => {
+          switch(el.type) {
+            case "5":
+            case "6":
+              payMentTypeOptionsOne.push(el);
+              break;
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+              payMentTypeOptionsTwo.push(el);
+              break;
+          }
+        })
+      }
+    } else {//非会员
+      checkedPayTypeOne = { type:'1', amount:payTotalData.payAmount };
+      payMentTypeOptionsOne = baseOptions;
+      payMentTypeOptionsOne = payMentTypeOptionsOne.filter((el)=>el.type!='5'&&el.type!='6')
+    }
+    this.props.dispatch({
+      type:'cashierManage/getCheckedPayType',
+      payload:{ checkedPayTypeOne, checkedPayTypeTwo }
+    })
+    this.props.dispatch({
+      type:'cashierManage/getPayMentTypeOptions',
+      payload:{ payMentTypeOptionsOne,payMentTypeOptionsTwo }
+    })
     this.setState({ visiblePay:true });
   }
   onCancelPayMent=()=> {
@@ -116,7 +199,7 @@ class BottomPayMent extends Component {
   }
   render() {
     const { getFieldDecorator } =this.props.form;
-    const { payTotalData,memberInfo } =this.props;
+    const { payTotalData,memberInfo, odOrder } =this.props;
     const { visibleToggle, vipList, isPhone, visiblePay, visibleRecharge } =this.state;
     return(
       <div className="bottom-payment-action flexBox">
