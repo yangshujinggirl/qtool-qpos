@@ -7,6 +7,7 @@ import NP from 'number-precision'
 export default {
   namespace: 'cashierManage',
   state: {
+    selectedActivityId:'0',
     currentRowIndex:0,
     goodsList:[], //收银数据表
     payTotalData:{
@@ -20,7 +21,6 @@ export default {
       amount:0,
       point:0,
     },
-    selectedActivityId:'0',
     activityOptions:[],
     baseOptions:[
       {name:'微信',checked:false,disabled:false,type:'1'},
@@ -37,11 +37,14 @@ export default {
       amount:0
     },
     checkedPayTypeTwo:{},
-    errorText:null
+    payPart:{
+      isGroupDisabled:false,
+      errorText:null
+    }
   },
   reducers: {
       resetData(state,payload:{}) {
-        const currentRowIndex=0,goodsList=[], //收银数据表
+        const currentRowIndex=0,goodsList=[],payPart = { isGroupDisabled:false, errorText:null }, //收银数据表
         payTotalData = { cutAmount:'0',totolNumber:0, totolAmount:0, thisPoint:0, payAmount:0 },
         memberInfo = { amount:0, point:0, },
         baseOptions = [
@@ -51,12 +54,20 @@ export default {
           {name:'现金',checked:false,disabled:false,type:'4'},
           {name:'会员卡',checked:false,disabled:false,type:'5'},
           {name:'积分',checked:false,disabled:false,type:'6'}
-        ],
+        ],selectedActivityId='0',
         checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},
-        payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [],selectedActivityId='0',activityOptions = [];
-        return {...state, currentRowIndex, goodsList, payTotalData,
-          memberInfo, selectedActivityId, activityOptions,baseOptions,
+        payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [],activityOptions = [];
+        return {...state, currentRowIndex, goodsList, payTotalData,payPart,
+          memberInfo, activityOptions,baseOptions,selectedActivityId,
           checkedPayTypeOne,checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
+        }
+      },
+      resetPayModalData(state,payload:{}) {
+        const payPart = { isGroupDisabled:false, errorText:null }, //收银数据表
+        checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},
+        payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [];
+        return {...state,payPart,checkedPayTypeOne,
+          checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
         }
       },
 	    getGoodsList(state, { payload: goodsList}) {
@@ -100,7 +111,12 @@ export default {
       getActivityOptions(state, { payload: { activityOptions, selectedActivityId } }) {
         return {...state, activityOptions, selectedActivityId }
       },
+      getPayPart(state, { payload: payPart }) {
+        return {...state, payPart }
+      },
       getCheckedPayType(state, { payload: { checkedPayTypeOne, checkedPayTypeTwo } }) {
+        checkedPayTypeOne.amount = checkedPayTypeOne.type&&fomatNumTofixedTwo(checkedPayTypeOne.amount)
+        checkedPayTypeTwo.amount = checkedPayTypeTwo.type&&fomatNumTofixedTwo(checkedPayTypeTwo.amount)
         return {...state, checkedPayTypeOne, checkedPayTypeTwo }
       },
       getPayMentTypeOptions(state, {payload:{ payMentTypeOptionsOne, payMentTypeOptionsTwo }}) {
