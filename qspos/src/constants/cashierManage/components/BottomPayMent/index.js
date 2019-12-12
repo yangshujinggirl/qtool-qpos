@@ -298,8 +298,7 @@ class BottomPayMent extends Component {
           onCancel={this.onCancelPayMent}
           form={this.props.form}
           visible={visiblePay}/>
-        <ValidataModal
-          visible={this.state.validateVisible}/>
+        <ValidataModal />
       </div>
     )
   }

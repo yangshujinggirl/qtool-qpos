@@ -40,7 +40,8 @@ export default {
     payPart:{
       isGroupDisabled:false,
       errorText:null
-    }
+    },
+    validateVisible:false
   },
   reducers: {
       resetData(state,payload:{}) {
@@ -121,6 +122,9 @@ export default {
       },
       getPayMentTypeOptions(state, {payload:{ payMentTypeOptionsOne, payMentTypeOptionsTwo }}) {
         return {...state, payMentTypeOptionsOne, payMentTypeOptionsTwo}
+      },
+      getValidateVisible(state, {payload: validateVisible }) {
+        return {...state, validateVisible }
       }
   },
   effects: {

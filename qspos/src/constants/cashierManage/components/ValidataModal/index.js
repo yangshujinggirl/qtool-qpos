@@ -1,5 +1,6 @@
 import { Modal, Button ,Input,message,Checkbox } from 'antd';
 import ReactDOM from 'react-dom';
+import { connect } from 'dva';
 import {GetServerData} from '../../../../services/services';
 import NP from 'number-precision'
 import './index.less';
@@ -16,6 +17,7 @@ class ValidataModal extends React.Component {
       isSend:true,
       loading:false,
       disabled:false,
+      submitLoading:true
     }
   }
   //倒计时
@@ -42,9 +44,10 @@ class ValidataModal extends React.Component {
   //获取code
   getPhoneCode() {
     this.setState({ loading: true });
+    let { memberInfo } =this.props;
     let params = {
-          phoneNo:this.props.memberinfo.mobile,
-          mbCardId:this.props.memberinfo.mbCardId
+          phoneNo: memberInfo.mobile,
+          mbCardId: memberInfo.mbCardId
         }
     GetServerData('qerp.web.qpos.od.pay.code',params)
     .then((res) => {
@@ -60,7 +63,7 @@ class ValidataModal extends React.Component {
     const target = e.nativeEvent.target;
     const value = target.value;
     let disabled;
-    this.props.changePhoneCode(value);
+    // this.props.changePhoneCode(value);
     this.setState({
       phoneCode:value,
       disabled:!!value
@@ -78,8 +81,9 @@ class ValidataModal extends React.Component {
       })
       .then((res) => {
         if(res.code == '0') {
-          this.resetForm()
-          this.props.onSubmit()
+          this.resetForm();
+          console.log(this.props);
+          // this.props.onSubmit()
         } else {
           message.error(res.message)
         }
@@ -126,12 +130,11 @@ class ValidataModal extends React.Component {
   }
   render() {
     const { phone, btnText, disabled, isSend, loading } = this.state;
-    const { memberinfo } =this.props;
+    const { memberInfo, validateVisible } =this.props;
     return(
       <Modal
         title="会员使用会员卡/积分支付需进行手机验证"
-        // visible={true}
-        visible={this.props.visible}
+        visible={validateVisible}
         onCancel={()=>this.onCancel()}
         width={400}
         closable={false}
@@ -145,7 +148,7 @@ class ValidataModal extends React.Component {
                 autoComplete="off"
                 disabled={true}
                 maxLength={11}
-                value={memberinfo&&memberinfo.mobile}
+                value={memberInfo.mobile}
                 onKeyUp={this.onKeyUp.bind(this)}
                 onKeyDown={this.onKeydown.bind(this)}
                 placeholder="请输入手机号"/>
@@ -168,7 +171,7 @@ class ValidataModal extends React.Component {
             <div className="row btn-list">
               <Button className="cancel-btn" onClick={()=>this.onCancel()}>取消</Button>
               <Button
-                loading={this.props.loading}
+                loading={this.state.submitLoading}
                 disabled={!disabled}
                 type="primary"
                 className="sure-btn"
@@ -179,5 +182,8 @@ class ValidataModal extends React.Component {
     )
   }
 }
-
-export default ValidataModal;
+function mapStateToProps(state) {
+    const { cashierManage } = state;
+    return cashierManage;
+}
+export default connect(mapStateToProps)(ValidataModal);

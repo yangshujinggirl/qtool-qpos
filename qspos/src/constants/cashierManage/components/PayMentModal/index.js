@@ -202,11 +202,10 @@ class PayMentModal extends Component {
         }else if(code == 'I_1031'){
           //是否校验弹框
           // this.props.setSpace(false);//非结算弹框时，不可空格结算;
-          // this.setState({ validateVisible:true });
-          // this.props.dispatch({
-          //   type:'cashierManage/payvisible',
-          //   payload:false
-          // })
+          this.props.dispatch({
+            type:'cashierManage/getValidateVisible',
+            payload:true
+          })
         } else {
           message.error(json.message)
         }
