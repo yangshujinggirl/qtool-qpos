@@ -41,13 +41,14 @@ export default {
       isGroupDisabled:false,
       errorText:null
     },
-    validateVisible:false
+    payMentVisible:false,
+    couponDetail:{}
   },
   reducers: {
       resetData(state,payload:{}) {
         const currentRowIndex=0,goodsList=[],payPart = { isGroupDisabled:false, errorText:null }, //收银数据表
         payTotalData = { cutAmount:'0',totolNumber:0, totolAmount:0, thisPoint:0, payAmount:0 },
-        memberInfo = { amount:0, point:0, },
+        memberInfo = { amount:0, point:0, }, couponDetail={}, payMentVisible=false,
         baseOptions = [
           {name:'微信',checked:false,disabled:false,type:'1'},
           {name:'支付宝',checked:false,disabled:false,type:'2'},
@@ -65,9 +66,9 @@ export default {
       },
       resetPayModalData(state,payload:{}) {
         const payPart = { isGroupDisabled:false, errorText:null }, //收银数据表
-        checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},
+        checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},couponDetail={},
         payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [];
-        return {...state,payPart,checkedPayTypeOne,
+        return {...state,payPart,checkedPayTypeOne,couponDetail,
           checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
         }
       },
@@ -123,8 +124,11 @@ export default {
       getPayMentTypeOptions(state, {payload:{ payMentTypeOptionsOne, payMentTypeOptionsTwo }}) {
         return {...state, payMentTypeOptionsOne, payMentTypeOptionsTwo}
       },
-      getValidateVisible(state, {payload: validateVisible }) {
-        return {...state, validateVisible }
+      getPayMentVisible(state, {payload: payMentVisible }) {
+        return {...state, payMentVisible }
+      },
+      getCouponDetail(state, {payload: couponDetail }) {
+        return {...state, couponDetail }
       }
   },
   effects: {

@@ -15,6 +15,7 @@ class CashierManage extends Component {
     })
   }
   render(){
+
     return(
       <div className="cashier-mainContent-wrap">
         <div className="top-part">

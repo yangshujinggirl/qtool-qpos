@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Modal, Form, Input, Button, Checkbox,Select } from 'antd';
+import { message, Modal, Form, Input, Button, Checkbox,Select } from 'antd';
 import { fomatNumTofixedTwo } from '../../../../utils/CommonUtils';
 import {GetServerData} from '../../../../services/services';
+import ValidataModal from '../ValidataModal';
 
 import NP from 'number-precision'
 
@@ -12,7 +13,11 @@ const Option = Select.Option;
 
 class PayMentModal extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      validateVisible:false,
+      remark:''
+    }
   }
   onCancel=()=> {
     this.props.dispatch({
@@ -20,9 +25,27 @@ class PayMentModal extends Component {
       payload:{}
     })
     this.props.onCancel();
-    // this.props.form.setFieldsValue({
-    //
-    // })
+  }
+  onChangeRemark=(e)=> {
+    this.setState({ remark: e.target.value });
+  }
+  goScanDiscount=()=> {
+    const { goodsList } =this.props;
+    let spShopId = sessionStorage.getItem('spShopId');
+    let spuList = goodsList.map((el)=> {
+      let item ={};
+        item.pdSkuId = el.pdSkuId
+        item.pdSpuId = el.pdSpuId
+        item.price = el.payPrice
+        item.activityId = el.truenumber
+        item.pdBrandId = el.pdBrandId
+        item.activityNotUseCoupons = el.activityNotUseCoupons;
+        return item;
+    })
+    this.context.router.push({
+      pathname : '/pay',
+      state : { spShopId,spuList }
+    });
   }
   //切换支付方式
   goTogglePayType=(record)=> {
@@ -161,31 +184,29 @@ class PayMentModal extends Component {
   }
   //处理结算逻辑
   handleSubmit=()=>{
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      let { goodsList, memberInfo, payTotalData,
-        checkedPayTypeOne, checkedPayTypeTwo, errorText } =this.props;
-      let orderPay=[];//支付方式
-      if(checkedPayTypeOne.type&&checkedPayTypeTwo.type){
-        orderPay.push(checkedPayTypeOne,checkedPayTypeTwo)
-      }else{
-        orderPay.push(checkedPayTypeOne)
-      }
-      let params={
-            mbCard:{ mbCardId:memberInfo.mbCardId?memberInfo.mbCardId:null },
-            odOrder:{
-              amount:payTotalData.totolAmount,
-              orderPoint:payTotalData.thisPoint,
-              payAmount:payTotalData.payAmount,
-              qty:payTotalData.totolNumber,
-              skuQty:goodsList.length,
-              cutAmount:payTotalData.cutAmount,
-              remark:values.remark
-            },
-            orderDetails:goodsList,orderPay
-         };
-         console.log(params)
-      this.goPayApi(params);
-    });
+    let { goodsList, memberInfo, payTotalData,couponDetail,
+      checkedPayTypeOne, checkedPayTypeTwo, errorText } =this.props;
+    let orderPay=[];//支付方式
+    if(checkedPayTypeOne.type&&checkedPayTypeTwo.type){
+      orderPay.push(checkedPayTypeOne,checkedPayTypeTwo)
+    }else{
+      orderPay.push(checkedPayTypeOne)
+    }
+    let params={
+          mbCard:{ mbCardId:memberInfo.mbCardId?memberInfo.mbCardId:null },
+          odOrder:{
+            amount:payTotalData.totolAmount,
+            orderPoint:payTotalData.thisPoint,
+            payAmount:payTotalData.payAmount,
+            qty:payTotalData.totolNumber,
+            skuQty:goodsList.length,
+            cutAmount:payTotalData.cutAmount,
+            remark:this.state.remark,
+            ...couponDetail
+          },
+          orderDetails:goodsList,orderPay
+       };
+    this.goPayApi(params);
   }
   //结算Api
   goPayApi=(values)=>{
@@ -195,28 +216,66 @@ class PayMentModal extends Component {
         if(code=='0'){
           const orderAll  = res,odOrderIds= odOrderId,orderNos= orderNo
           const checkPrint = this.props.checkPrint;
-          // this.handleOk()
           this.props.onCancel()
           message.success('收银成功',1)
           // printSaleOrder(checkPrint,odOrderIds)
         }else if(code == 'I_1031'){
-          //是否校验弹框
-          // this.props.setSpace(false);//非结算弹框时，不可空格结算;
+          this.setState({ validateVisible:true });
           this.props.dispatch({
-            type:'cashierManage/getValidateVisible',
-            payload:true
+            type:'cashierManage/getPayMentVisible',
+            payload:false
           })
         } else {
           message.error(json.message)
         }
       })
   }
+  onCancelValidate=()=>{
+    this.setState({ validateVisible:false });
+  }
+  //优惠券核销
+  onBlurCoupon=(e)=> {
+    //输入框失去焦点
+    const { goodsList } =this.props;
+    let spShopId = sessionStorage.getItem('spShopId');
+    let spuList = goodsList.map((el)=> {
+      let item ={};
+        item.pdSkuId = el.pdSkuId
+        item.pdSpuId = el.pdSpuId
+        item.price = el.payPrice
+        item.activityId = el.truenumber
+        item.pdBrandId = el.pdBrandId
+        item.activityNotUseCoupons = el.activityNotUseCoupons;
+        return item;
+    })
+    let value = e.target.value;
+    if(!value) {
+      return;
+    }
+    let params ={ couponDetailCode:value, value, spShopId, spuList }
+    this.setState({ loding:true })
+    GetServerData('qerp.web.qpos.od.coupon.query',params)
+    .then((res) => {
+      let { code, couponFullAmount,couponId,couponMoney, couponDetailCode, message } =res;
+      this.setState({ loding:false })
+      if(code != '0') {
+        message.error(message);
+        return;
+      }
+      let couponDetail = { couponFullAmount,couponId,couponMoney, couponDetailCode }
+      this.props.dispatch({
+        type:'cashierManage/getCouponDetail',
+        payload:couponDetail
+      })
+    })
+  }
   render() {
-    const { payTotalData, memberInfo, visible,payPart,
+    const { payTotalData, memberInfo, visible,payPart,couponDetail,
             payMentTypeOptionsOne, payMentTypeOptionsTwo,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
-    const { getFieldDecorator } =this.props.form;
+    const { validateVisible } =this.state;
     return(
+      <div>
         <Modal
           closable={false}
           onOk={this.onCancel}
@@ -224,39 +283,28 @@ class PayMentModal extends Component {
           visible={visible}
           footer={null}
           width={865}
+          destroyOnClose={true}
           className="settling-account-modal">
             <div className="main-content-body">
               <Form.Item label="应付金额">
-                {getFieldDecorator('amount',{
-                  initialValue:payTotalData.totolAmount
-                })(
-                  <Input autoComplete={'off'} disabled/>
-                )}
+                <Input autoComplete={'off'} disabled value={payTotalData.totolAmount}/>
               </Form.Item>
               {
                 memberInfo.mbCardId&&
                 <Form.Item label="会员信息">
-                  {getFieldDecorator('memberInfo',{
-                    initialValue:`${memberInfo.name}/${memberInfo.mobile}`
-                  })(
-                    <Input autoComplete={'off'} disabled/>
-                  )}
+                  <Input autoComplete={'off'} disabled value={`${memberInfo.name}/${memberInfo.mobile}`}/>
                 </Form.Item>
               }
-              <Form.Item label="优惠券抵扣">
-                {getFieldDecorator('password')(
-                  <Input autoComplete={'off'} disabled/>
-                )}
-                <div className="btn-wrap">
-                  <Button className="scanCode-btn" type="primary" ghost>扫码核销</Button>
-                </div>
-              </Form.Item>
+              <div className="more-formItem">
+                <Form.Item label="优惠券抵扣" className="label-item">
+                  <Input autoComplete={'off'} disabled value={couponDetail.couponFullAmount&&`-${couponDetail.couponMoney}满${couponDetail.couponFullAmount}减${couponDetail.couponMoney}`}/>
+                  <div className="btn-wrap">
+                    <Input autoComplete={'off'} placeholder="请输入优惠券码" onBlur={this.onBlurCoupon}/>
+                  </div>
+                </Form.Item>
+              </div>
               <Form.Item label="实付金额">
-                {getFieldDecorator('payAmount',{
-                  initialValue:payTotalData.payAmount
-                })(
-                  <Input autoComplete={'off'} disabled/>
-                )}
+                <Input autoComplete={'off'} disabled value={payTotalData.payAmount}/>
                 <div className="btn-wrap">
                   <Button
                     className="scanCode-btn"
@@ -272,48 +320,34 @@ class PayMentModal extends Component {
                 <div>
                   <div className="group-pay-formItem">
                     <Form.Item label="支付方式1" className="label-col">
-                      {getFieldDecorator('checkedPayTypeOne',{
-                        initialValue:checkedPayTypeOne.type,
-                        onChange:(value, option)=>this.handleTogglePayType(option,'checkedPayTypeOne')
-                      })(
-                        <Select>
-                          {
-                            payMentTypeOptionsOne.map((el)=> (
-                              <Option  disabled={el.disabled} value={el.type} key={el.type}>{el.name}</Option>
-                            ))
-                          }
-                        </Select>
-                      )}
+                      <Select
+                        value={checkedPayTypeOne.type}
+                        onChange={(option)=>this.handleTogglePayType(option,'checkedPayTypeOne')}>
+                        {
+                          payMentTypeOptionsOne.map((el)=> (
+                            <Option  disabled={el.disabled} value={el.type} key={el.type}>{el.name}</Option>
+                          ))
+                        }
+                      </Select>
                     </Form.Item>
                     <Form.Item className="field-col">
-                      {getFieldDecorator('amountOne',{
-                        initialValue:checkedPayTypeOne.amount,
-                      })(
-                        <Input autoComplete={'off'}/>
-                      )}
+                      <Input autoComplete={'off'} value={checkedPayTypeOne.amount}/>
                     </Form.Item>
                   </div>
                   <div className="group-pay-formItem">
                     <Form.Item label="支付方式2" className="label-col">
-                      {getFieldDecorator('checkedPayTypeTwo',{
-                        initialValue:checkedPayTypeTwo.type,
-                        onChange:(value, option)=>this.handleTogglePayType(option,'checkedPayTypeTwo')
-                      })(
-                        <Select>
-                          {
-                            payMentTypeOptionsTwo.map((el)=> (
-                              <Option value={el.type} key={el.type}>{el.name}</Option>
-                            ))
-                          }
-                        </Select>
-                      )}
+                      <Select
+                        value={checkedPayTypeTwo.type}
+                        onChange={(value, option)=>this.handleTogglePayType(option,'checkedPayTypeTwo')}>
+                        {
+                          payMentTypeOptionsTwo.map((el)=> (
+                            <Option value={el.type} key={el.type}>{el.name}</Option>
+                          ))
+                        }
+                      </Select>
                     </Form.Item>
                     <Form.Item className="field-col">
-                      {getFieldDecorator('amountTwo',{
-                        initialValue:checkedPayTypeTwo.amount,
-                      })(
-                        <Input autoComplete={'off'} disabled/>
-                      )}
+                      <Input autoComplete={'off'} disabled value={checkedPayTypeTwo.amount}/>
                     </Form.Item>
                   </div>
                 </div>
@@ -341,21 +375,15 @@ class PayMentModal extends Component {
                 (checkedPayTypeOne.type=='4'||checkedPayTypeTwo.type=='4')&&
                 <div className="more-formItem">
                   <Form.Item label="现金实收" className="label-item">
-                    {getFieldDecorator('cashier')(
-                      <Input autoComplete={'off'}/>
-                    )}
+                    <Input autoComplete={'off'}/>
                   </Form.Item>
                   <Form.Item label="找零" className="field-item">
-                    {getFieldDecorator('dispenser')(
-                      <Input autoComplete={'off'} disabled/>
-                    )}
+                    <Input autoComplete={'off'} disabled/>
                   </Form.Item>
                 </div>
               }
               <Form.Item label="备注信息">
-                {getFieldDecorator('remark')(
-                  <Input autoComplete={'off'}  placeholder="可输入20字订单备注"/>
-                )}
+                <Input autoComplete={'off'}  placeholder="可输入20字订单备注" onChange={this.onChangeRemark}/>
               </Form.Item>
               <div className="footer-part">
                 {payPart.errorText&&<p className="error-validate">{payPart.errorText}</p>}
@@ -382,8 +410,17 @@ class PayMentModal extends Component {
               </div>
             </div>
         </Modal>
+        <ValidataModal
+          onCancel={this.onCancelValidate}
+          visible={validateVisible}
+          onSubmit={this.handleSubmit}/>
+      </div>
+
     )
   }
+}
+PayMentModal.contextTypes= {
+    router: React.PropTypes.object
 }
 function mapStateToProps(state) {
     const { cashierManage } = state;

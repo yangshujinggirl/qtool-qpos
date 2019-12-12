@@ -32,7 +32,7 @@ import MemberBirth from './routes/MemberBirth';
 import ReceviceDetail from './constants/dataManage/ChargeBackList/GoodsDetail';//收货详情
 import ActivityManage from './constants/activityManage';//活动列表
 import ActivityInfo from './constants/activityManage/activityInfo';//活动详情
-
+import CashierPayCoupon from './constants/cashierManage/CashierPayCoupon';
 function RouterConfig({ history }) {
   return (
 		<LocaleProvider locale={zhCN}>
@@ -55,7 +55,7 @@ function RouterConfig({ history }) {
       <Route path="/chargeBack/:type/:id" component={ReceviceDetail}/>
       <Route path="/adjustLog" component={AdjustLog}/>
       <Route path="/inventorydiffLog" component={InventorydiffLog}/>
-      <Route path="/pay" component={Payamount}/>
+      <Route path="/pay" component={CashierPayCoupon}/>
       <Route path="/adjustLog/info" component={Adjustloginfo}/>
       <Route path="/gooddb" component={Gooddb}/>
       <Route path="/dblog" component={DbLogIndex}/>

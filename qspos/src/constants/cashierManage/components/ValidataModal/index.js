@@ -17,7 +17,7 @@ class ValidataModal extends React.Component {
       isSend:true,
       loading:false,
       disabled:false,
-      submitLoading:true
+      submitLoading:false
     }
   }
   //倒计时
@@ -63,7 +63,6 @@ class ValidataModal extends React.Component {
     const target = e.nativeEvent.target;
     const value = target.value;
     let disabled;
-    // this.props.changePhoneCode(value);
     this.setState({
       phoneCode:value,
       disabled:!!value
@@ -72,18 +71,17 @@ class ValidataModal extends React.Component {
   //提交
   onOk() {
     if(this.validateCode()) {
-      const { memberinfo } =this.props;
+      let { memberInfo } =this.props;
       //校验验证码是否有效
       GetServerData('qerp.web.qpos.od.pay.codevalid',{
-        phoneNo:memberinfo.mobile,
+        phoneNo:memberInfo.mobile,
         messagecode:this.state.phoneCode,
-        mbCardId:memberinfo.mbCardId
+        mbCardId:memberInfo.mbCardId
       })
       .then((res) => {
         if(res.code == '0') {
           this.resetForm();
-          console.log(this.props);
-          // this.props.onSubmit()
+          this.props.onSubmit()
         } else {
           message.error(res.message)
         }
@@ -100,13 +98,6 @@ class ValidataModal extends React.Component {
       return true
     }
   }
-  //tab键聚焦验证码表单
-  onKeyUp=(e)=>{
-		if(e.keyCode==9){
-      const Valuemember=ReactDOM.findDOMNode(this.refs.phoneCode);
-  		Valuemember.focus()
-		}
-	}
   //阻止默认事件
 	onKeydown=(e)=>{
 		if(e.keyCode==9){
@@ -130,11 +121,11 @@ class ValidataModal extends React.Component {
   }
   render() {
     const { phone, btnText, disabled, isSend, loading } = this.state;
-    const { memberInfo, validateVisible } =this.props;
+    const { memberInfo, visible } =this.props;
     return(
       <Modal
         title="会员使用会员卡/积分支付需进行手机验证"
-        visible={validateVisible}
+        visible={visible}
         onCancel={()=>this.onCancel()}
         width={400}
         closable={false}
@@ -149,7 +140,6 @@ class ValidataModal extends React.Component {
                 disabled={true}
                 maxLength={11}
                 value={memberInfo.mobile}
-                onKeyUp={this.onKeyUp.bind(this)}
                 onKeyDown={this.onKeydown.bind(this)}
                 placeholder="请输入手机号"/>
                 <div className="get-code-btn">

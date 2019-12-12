@@ -29,8 +29,9 @@ class Modelform extends Component {
   }
   //确认保存
   handleOk = () => {
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err, val) => {
       if (!err) {
+        let { level, ...values } =val;
         let babeBirthList = JSON.parse(JSON.stringify(this.props.data.mbCardBirths));
         babeBirthList.map((el,index) => {
           if(el.year==null && el.month==null && el.day==null) {

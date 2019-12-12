@@ -4,7 +4,6 @@ import { Form, Input, Row, Col, Switch, message } from 'antd';
 import RechargeModal from '../RechargeModal';
 import ToggleVipModal from '../ToggleVipModal';
 import PayMentModal from '../PayMentModal';
-import ValidataModal from '../ValidataModal';
 import {GetServerData} from '../../../../services/services';
 import NP from 'number-precision'
 import './index.less';
@@ -129,7 +128,10 @@ class BottomPayMent extends Component {
         payload:{ payMentTypeOptionsOne,payMentTypeOptionsTwo }
       })
     }
-    this.setState({ visiblePay:true });
+    this.props.dispatch({
+      type:'cashierManage/getPayMentVisible',
+      payload:true
+    })
   }
   //会员：初始化时；//切换组合支付时计算。
   hasCardOrPoint=()=> {
@@ -203,11 +205,15 @@ class BottomPayMent extends Component {
     })
   }
   onCancelPayMent=()=> {
-    this.setState({ visiblePay:false });
+    // this.setState({ visiblePay:false });
+    this.props.dispatch({
+      type:'cashierManage/getPayMentVisible',
+      payload:false
+    })
   }
   render() {
     const { getFieldDecorator } =this.props.form;
-    const { payTotalData,memberInfo, odOrder } =this.props;
+    const { payTotalData,memberInfo, odOrder, payMentVisible } =this.props;
     const { visibleToggle, vipList, isPhone, visiblePay, visibleRecharge } =this.state;
     return(
       <div className="bottom-payment-action flexBox">
@@ -297,8 +303,7 @@ class BottomPayMent extends Component {
           initLogic={this.hasCardOrPoint}
           onCancel={this.onCancelPayMent}
           form={this.props.form}
-          visible={visiblePay}/>
-        <ValidataModal />
+          visible={payMentVisible}/>
       </div>
     )
   }
@@ -308,4 +313,3 @@ function mapStateToProps(state) {
     return cashierManage;
 }
 export default connect(mapStateToProps)(BottomPayMent);
-// export default BottomPayMent;
