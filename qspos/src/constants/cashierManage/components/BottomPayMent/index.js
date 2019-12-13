@@ -253,17 +253,20 @@ class BottomPayMent extends Component {
             <div className="col-item member-actions">
               <div className="member-info">
                 <div className="flexBox member-info-wrap">
-                  <div className="members-detail">
-                    {memberInfo.name}
-                    {
-                      memberInfo.isBirthMonth =='true'&&memberInfo.isLocalShop =='true'&&
-                      <span className="icon-label">生日月</span>
-                    }
-                    <span className="icon-label">金冠兔</span>
-                    {
-    									memberInfo.isLocalShop =='false'&&<span className='icon-label'>异店</span>
-    								}
-                  </div>
+                  {
+                    memberInfo.mbCardId&&
+                    <div className="members-detail">
+                      {memberInfo.name}
+                      {
+                        memberInfo.isBirthMonth =='true'&&memberInfo.isLocalShop =='true'&&
+                        <span className="icon-label">生日月</span>
+                      }
+                      <span className="icon-label">{memberInfo.levelStr}</span>
+                      {
+      									memberInfo.isLocalShop =='false'&&<span className='icon-label'>异店</span>
+      								}
+                    </div>
+                  }
                   {
                     isPhone&&memberInfo.isMoreShop =='true'&&
                     <p className="toggle-arrow" onClick={this.goToggleVip}>切换会员>></p>

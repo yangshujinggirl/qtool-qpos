@@ -269,6 +269,10 @@ class PayMentModal extends Component {
       })
     })
   }
+  //支付方式1
+  onChangePayOne=()=> {
+
+  }
   render() {
     const { payTotalData, memberInfo, visible,payPart,couponDetail,
             payMentTypeOptionsOne, payMentTypeOptionsTwo,
@@ -287,12 +291,12 @@ class PayMentModal extends Component {
           className="settling-account-modal">
             <div className="main-content-body">
               <Form.Item label="应付金额">
-                <Input autoComplete={'off'} disabled value={payTotalData.totolAmount}/>
+                <Input autoComplete={'off'} disabled defaultValue={payTotalData.totolAmount}/>
               </Form.Item>
               {
                 memberInfo.mbCardId&&
                 <Form.Item label="会员信息">
-                  <Input autoComplete={'off'} disabled value={`${memberInfo.name}/${memberInfo.mobile}`}/>
+                  <Input autoComplete={'off'} disabled defaultValue={`${memberInfo.name}/${memberInfo.mobile}`}/>
                 </Form.Item>
               }
               <div className="more-formItem">
@@ -304,7 +308,7 @@ class PayMentModal extends Component {
                 </Form.Item>
               </div>
               <Form.Item label="实付金额">
-                <Input autoComplete={'off'} disabled value={payTotalData.payAmount}/>
+                <Input autoComplete={'off'} disabled defaultValue={payTotalData.payAmount}/>
                 <div className="btn-wrap">
                   <Button
                     className="scanCode-btn"
@@ -331,14 +335,14 @@ class PayMentModal extends Component {
                       </Select>
                     </Form.Item>
                     <Form.Item className="field-col">
-                      <Input autoComplete={'off'} value={checkedPayTypeOne.amount}/>
+                      <Input autoComplete={'off'} value={checkedPayTypeOne.amount} onChange={this.onChangePayOne}/>
                     </Form.Item>
                   </div>
                   <div className="group-pay-formItem">
                     <Form.Item label="支付方式2" className="label-col">
                       <Select
                         value={checkedPayTypeTwo.type}
-                        onChange={(value, option)=>this.handleTogglePayType(option,'checkedPayTypeTwo')}>
+                        onChange={(option)=>this.handleTogglePayType(option,'checkedPayTypeTwo')}>
                         {
                           payMentTypeOptionsTwo.map((el)=> (
                             <Option value={el.type} key={el.type}>{el.name}</Option>
@@ -347,7 +351,7 @@ class PayMentModal extends Component {
                       </Select>
                     </Form.Item>
                     <Form.Item className="field-col">
-                      <Input autoComplete={'off'} disabled value={checkedPayTypeTwo.amount}/>
+                      <Input autoComplete={'off'} disabled defaultValue={checkedPayTypeTwo.amount}/>
                     </Form.Item>
                   </div>
                 </div>
@@ -378,7 +382,7 @@ class PayMentModal extends Component {
                     <Input autoComplete={'off'}/>
                   </Form.Item>
                   <Form.Item label="找零" className="field-item">
-                    <Input autoComplete={'off'} disabled/>
+                    <Input autoComplete={'off'} disabled defaultValue={0}/>
                   </Form.Item>
                 </div>
               }
