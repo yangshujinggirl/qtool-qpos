@@ -117,8 +117,10 @@ export default {
         return {...state, payPart }
       },
       getCheckedPayType(state, { payload: { checkedPayTypeOne, checkedPayTypeTwo } }) {
-        checkedPayTypeOne.amount = checkedPayTypeOne.type&&fomatNumTofixedTwo(checkedPayTypeOne.amount)
-        checkedPayTypeTwo.amount = checkedPayTypeTwo.type&&fomatNumTofixedTwo(checkedPayTypeTwo.amount)
+        // checkedPayTypeOne.amount = checkedPayTypeOne.type&&fomatNumTofixedTwo(checkedPayTypeOne.amount)
+        // checkedPayTypeTwo.amount = checkedPayTypeTwo.type&&fomatNumTofixedTwo(checkedPayTypeTwo.amount)
+        checkedPayTypeOne ={...checkedPayTypeOne};
+        checkedPayTypeTwo ={...checkedPayTypeTwo}
         return {...state, checkedPayTypeOne, checkedPayTypeTwo }
       },
       getPayMentTypeOptions(state, {payload:{ payMentTypeOptionsOne, payMentTypeOptionsTwo }}) {

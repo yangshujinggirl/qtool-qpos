@@ -29,9 +29,8 @@ class Modelform extends Component {
   }
   //确认保存
   handleOk = () => {
-    this.props.form.validateFields((err, val) => {
+    this.props.form.validateFields((err, values) => {
       if (!err) {
-        let { level, ...values } =val;
         let babeBirthList = JSON.parse(JSON.stringify(this.props.data.mbCardBirths));
         babeBirthList.map((el,index) => {
           if(el.year==null && el.month==null && el.day==null) {
@@ -64,6 +63,7 @@ class Modelform extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { data } =this.props;
     const { name, mobile, cardNo, level, amount, point, mbCardBirths, type, checked} = this.props.data;
     return (
       <Modal
@@ -85,45 +85,70 @@ class Modelform extends Component {
         </div>}>
           <Form className='formdis member-form-wrap'>
             {
-              !this.props.mbCardId?
-              null
+              this.props.mbCardId?
+              <div>
+                <FormItem
+                  label="会员卡号"
+                  labelCol={{ span: 5 }}
+                  wrapperCol={{ span: 16 }}>
+                    {getFieldDecorator('cardNo', {
+                        initialValue: cardNo,
+                        rules: [{ required: true, message: '请输入1-5位会员姓名' }],
+                    })(
+                        <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off" disabled/>
+                    )}
+                </FormItem>
+                <FormItem
+                  label="会员电话"
+                  labelCol={{ span: 5 }}
+                  wrapperCol={{ span: 16 }}>
+                    {mobile}
+                </FormItem>
+                <FormItem
+                  labelCol={{ span: 5 }}
+                  wrapperCol={{ span: 16 }}
+                  label="会员级别"
+                  className='listform'>
+                    {data.levelStr}
+                </FormItem>
+                <FormItem
+                  label="会员姓名"
+                  labelCol={{ span: 5 }}
+                  wrapperCol={{ span: 16 }}>
+                    {getFieldDecorator('name', {
+                        initialValue: name,
+                        rules: [{ required: true, message: '请输入1-5位会员姓名' }],
+                    })(
+                        <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off"/>
+                    )}
+                </FormItem>
+              </div>
               :
-              <FormItem
-                label="会员卡号"
-                labelCol={{ span: 5 }}
-                wrapperCol={{ span: 16 }}>
-                  {getFieldDecorator('cardNo', {
-                      initialValue: cardNo,
-                      rules: [{ required: true, message: '请输入1-5位会员姓名' }],
-                  })(
-
-                      <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off" disabled/>
-                  )}
-              </FormItem>
+              <div>
+                <FormItem
+                  label="会员姓名"
+                  labelCol={{ span: 5 }}
+                  wrapperCol={{ span: 16 }}>
+                    {getFieldDecorator('name', {
+                        initialValue: name,
+                        rules: [{ required: true, message: '请输入1-5位会员姓名' }],
+                    })(
+                        <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off"/>
+                    )}
+                </FormItem>
+                <FormItem
+                  label="会员电话"
+                  labelCol={{ span: 5 }}
+                  wrapperCol={{ span: 16 }}>
+                    {getFieldDecorator('mobile', {
+                        initialValue: mobile,
+                        rules: [{ required: true, message: '请输入11位手机号' }],
+                    })(
+                        <Input placeholder="请输入11位手机号" className='inputwidth' autoComplete="off" />
+                    )}
+                </FormItem>
+              </div>
             }
-            <FormItem
-              label="会员姓名"
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 16 }}>
-                {getFieldDecorator('name', {
-                    initialValue: name,
-                    rules: [{ required: true, message: '请输入1-5位会员姓名' }],
-                })(
-
-                    <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off"/>
-                )}
-            </FormItem>
-            <FormItem
-              label="会员电话"
-              labelCol={{ span: 5 }}
-              wrapperCol={{ span: 16 }}>
-                {getFieldDecorator('mobile', {
-                    initialValue: mobile,
-                    rules: [{ required: true, message: '请输入11位手机号' }],
-                })(
-                    <Input placeholder="请输入11位手机号" className='inputwidth' autoComplete="off" />
-                )}
-            </FormItem>
             <FormItem
               label="宝宝生日"
               labelCol={{ span: 5 }}
@@ -137,65 +162,6 @@ class Modelform extends Component {
                     checked={checked}
                     receivebabydata={this.receivebabydata.bind(this)}/>
             </FormItem>
-            {
-              this.props.mbCardId?
-              <FormItem
-                labelCol={{ span: 5 }}
-                wrapperCol={{ span: 16 }}
-                label="会员级别"
-                className='listform'>
-                  {levelMap[level]}
-              </FormItem>
-              :
-              <FormItem
-                labelCol={{ span: 5 }}
-                wrapperCol={{ span: 16 }}
-                label="会员级别"
-                className='listform'>
-                  {getFieldDecorator('level', {
-                      initialValue: 3
-                  })(
-                      <RadioGroup>
-                        {/*  <Radio value={1}>金卡</Radio>
-                      <Radio value={2}>银卡</Radio>*/}
-                          <Radio value={3}>普卡</Radio>
-                      </RadioGroup>
-                  )}
-                  <span className="ant-form-text">初始会员均默认为“普卡”等级，不可修改</span>
-              </FormItem>
-            }
-            {
-              !this.props.mbCardId?
-              null
-              :
-              <FormItem
-                label="账户金额"
-                labelCol={{ span: 5 }}
-                wrapperCol={{ span: 16 }}
-                className='listform'>
-                  {getFieldDecorator('amount', {
-                      initialValue: Number(amount)
-                  })(
-                      <Input className='inputwidth teinput' disabled  autoComplete="off"/>
-                  )}
-              </FormItem>
-            }
-            {
-              !this.props.mbCardId?
-              null
-              :
-              <FormItem
-                label="会员积分"
-                labelCol={{ span: 5 }}
-                wrapperCol={{ span: 16 }}
-                className='listform'>
-                  {getFieldDecorator('point', {
-                      initialValue: Number(point)
-                  })(
-                      <Input className='inputwidth teinput' disabled  autoComplete="off"/>
-                  )}
-              </FormItem>
-             }
           </Form>
       </Modal>
     );

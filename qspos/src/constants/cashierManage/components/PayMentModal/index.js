@@ -124,7 +124,6 @@ class PayMentModal extends Component {
           payload:{ checkedPayTypeOne, checkedPayTypeTwo }
         })
         this.props.initLogic()
-        // this.props.initLogic(checkedPayTypeTwo)
     }
     this.props.dispatch({
       type:'cashierManage/getPayPart',
@@ -181,10 +180,7 @@ class PayMentModal extends Component {
     }
     this.props.dispatch({
       type:'cashierManage/getCheckedPayType',
-      payload:{
-        checkedPayTypeOne:{ ...checkedPayTypeOne },
-        checkedPayTypeTwo:{ ...checkedPayTypeTwo }
-      }
+      payload:{ checkedPayTypeOne, checkedPayTypeTwo }
     })
   }
   //处理结算逻辑
@@ -231,7 +227,7 @@ class PayMentModal extends Component {
             payload:false
           })
         } else {
-          message.error(json.message)
+          message.error(res.message)
         }
       })
   }
@@ -242,7 +238,7 @@ class PayMentModal extends Component {
   //优惠券核销
   onBlurCoupon=(e)=> {
     //输入框失去焦点
-    const { goodsList } =this.props;
+    const { goodsList, payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
     let spShopId = sessionStorage.getItem('spShopId');
     let spuList = goodsList.map((el)=> {
       let item ={};
@@ -268,6 +264,13 @@ class PayMentModal extends Component {
         message.error(message);
         return;
       }
+      payTotalData.cutAmount = '0';
+      payTotalData.payAmount = NP.minus(payTotalData.totolAmount,couponMoney)
+      this.props.dispatch({
+        type:'cashierManage/getTotalData',
+        payload:payTotalData
+      })
+      this.checkCardAndPoint()
       let couponDetail = { couponFullAmount,couponId,couponMoney, couponDetailCode }
       this.props.dispatch({
         type:'cashierManage/getCouponDetail',
@@ -276,22 +279,76 @@ class PayMentModal extends Component {
     })
   }
   //支付方式1
-  onChangePayOne=()=> {
-
+  onChangePayOne=(e)=> {
+    let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let value = e.target.value;
+    let regExp=/^\d*((\.)|(\.\d{1,2}))?$/
+    if(regExp.test(value)) {
+      checkedPayTypeOne.amount = value;
+      this.props.dispatch({
+        type:'cashierManage/getCheckedPayType',
+        payload:{ checkedPayTypeOne, checkedPayTypeTwo }
+      })
+    }
+  }
+  //支付方式1
+  onBlurPayOne=(e)=> {
+    let { payTotalData, memberInfo, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
+    let pointAmount = NP.divide(memberInfo.point,100);//积分余额
+    let payAmount = payTotalData.payAmount;
+    checkedPayTypeOne.amount = checkedPayTypeOne.amount==''?0:checkedPayTypeOne.amount;
+    if(checkedPayTypeOne.amount>payAmount) {
+      checkedPayTypeOne.amount = payAmount;
+      checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+    } else {
+      switch(checkedPayTypeOne.type) {
+        case "5":
+          if( memberAmount >= checkedPayTypeOne.amount) {
+            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+          } else {//会员卡余额不足
+            checkedPayTypeOne.amount = memberAmount;
+            checkedPayTypeTwo.amount = NP.minus(payAmount, memberAmount);
+          }
+          break;
+        case "6":
+          if(pointAmount >= checkedPayTypeOne.amount) {
+            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+          } else {//会员卡余额不足
+            checkedPayTypeOne.amount = pointAmount;
+            checkedPayTypeTwo.amount = NP.minus(payAmount, pointAmount);
+          }
+          break;
+      }
+    }
+    this.props.dispatch({
+      type:'cashierManage/getCheckedPayType',
+      payload:{ checkedPayTypeOne, checkedPayTypeTwo }
+    })
   }
   //现金实收
   onChangeCashReal=(e)=> {
-    const { payTotalData } =this.props;
-    let value = e.target.value,disVal;
-    disVal = NP.minus(payTotalData.payAmount,value);
-    this.setState({ cashRealVal:value, disVal })
+    let value = e.target.value;
+    this.setState({ cashRealVal:value })
+  }
+  onBlurCashReal=()=> {
+    let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let { cashRealVal,disVal } =this.state;
+    disVal= NP.minus(cashRealVal,payTotalData.payAmount);
+    if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
+      disVal= NP.minus(cashRealVal,checkedPayTypeTwo.amount);
+    } else if(Number(cashRealVal)< Number(payTotalData.payAmount)) {
+      message.error('金额有误');
+      return;
+    }
+    this.setState({ disVal })
   }
   render() {
     const { payTotalData, memberInfo, visible,payPart,couponDetail,
             payMentTypeOptionsOne, payMentTypeOptionsTwo,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
     const { validateVisible, cashRealVal, disVal } =this.state;
-    // console.log(checkedPayTypeOne,checkedPayTypeTwo)
+    console.log(this.props)
     return(
       <div>
         <Modal
@@ -315,14 +372,18 @@ class PayMentModal extends Component {
               }
               <div className="more-formItem">
                 <Form.Item label="优惠券抵扣" className="label-item">
-                  <Input autoComplete={'off'} disabled value={couponDetail.couponFullAmount&&`-${couponDetail.couponMoney}满${couponDetail.couponFullAmount}减${couponDetail.couponMoney}`}/>
+                  <Input
+                    autoComplete={'off'}
+                    disabled
+                    readOnly
+                    value={couponDetail.couponFullAmount&&`-${couponDetail.couponMoney}满${couponDetail.couponFullAmount}减${couponDetail.couponMoney}`}/>
                   <div className="btn-wrap">
                     <Input autoComplete={'off'} placeholder="请输入优惠券码" onBlur={this.onBlurCoupon}/>
                   </div>
                 </Form.Item>
               </div>
               <Form.Item label="实付金额">
-                <Input autoComplete={'off'} disabled defaultValue={payTotalData.payAmount}/>
+                <Input autoComplete={'off'} disabled readOnly value={payTotalData.payAmount}/>
                 <div className="btn-wrap">
                   <Button
                     className="scanCode-btn"
@@ -348,7 +409,11 @@ class PayMentModal extends Component {
                       </Select>
                     </Form.Item>
                     <Form.Item className="field-col">
-                      <Input autoComplete={'off'} value={checkedPayTypeOne.amount} onChange={this.onChangePayOne}/>
+                      <Input
+                        autoComplete={'off'}
+                        value={checkedPayTypeOne.amount}
+                        onChange={this.onChangePayOne}
+                        onBlur={this.onBlurPayOne}/>
                     </Form.Item>
                   </div>
                   <div className="group-pay-formItem">
@@ -364,7 +429,7 @@ class PayMentModal extends Component {
                       </Select>
                     </Form.Item>
                     <Form.Item className="field-col">
-                      <Input autoComplete={'off'} disabled defaultValue={checkedPayTypeTwo.amount}/>
+                      <Input autoComplete={'off'} disabled value={checkedPayTypeTwo.amount}/>
                     </Form.Item>
                   </div>
                 </div>
@@ -392,10 +457,14 @@ class PayMentModal extends Component {
                 (checkedPayTypeOne.type=='4'||checkedPayTypeTwo.type=='4')&&
                 <div className="more-formItem">
                   <Form.Item label="现金实收" className="label-item">
-                    <Input autoComplete={'off'} value={cashRealVal} onChange={this.onChangeCashReal}/>
+                    <Input
+                      autoComplete={'off'}
+                      value={cashRealVal}
+                      onChange={this.onChangeCashReal}
+                      onBlur={this.onBlurCashReal}/>
                   </Form.Item>
                   <Form.Item label="找零" className="field-item">
-                    <Input autoComplete={'off'} disabled defaultValue={disVal}/>
+                    <Input autoComplete={'off'}  disabled readOnly value={disVal}/>
                   </Form.Item>
                 </div>
               }

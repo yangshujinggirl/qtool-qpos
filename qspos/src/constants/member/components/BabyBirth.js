@@ -19,6 +19,7 @@ class EditableTablebaby extends React.Component {
     this.columns = [{
         title: 'year',
         dataIndex: 'year',
+        width: '33%',
         render: (text, record, index) => (
           <div>
             <Select
@@ -37,7 +38,7 @@ class EditableTablebaby extends React.Component {
       }, {
         title: 'month',
         dataIndex: 'month',
-        width: '30%',
+        width: '33%',
         render: (text, record, index) => (
           <div>
             <Select
@@ -56,7 +57,7 @@ class EditableTablebaby extends React.Component {
       }, {
         title: 'day',
         dataIndex: 'day',
-        width: '30%',
+        width: '33%',
         render: (text, record, index) => (
            <div>
             <Select
@@ -133,7 +134,7 @@ class EditableTablebaby extends React.Component {
             bordered={false}
             className='babytables'/>
         </div>
-        <div className='fl clearfix' style={{width:'86px'}}>
+        {/*<div className='fl clearfix' style={{width:'86px'}}>
           <div
             onClick={this.handleAdd}
             className='fl mr8 ml8 themecolor '
@@ -147,7 +148,7 @@ class EditableTablebaby extends React.Component {
               onChange={this.SwitchChange.bind(this)}
               checked={checked}/>
           </div>
-        </div>
+        </div>*/}
       </div>
     );
   }
