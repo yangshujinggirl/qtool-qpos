@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
+import NP from 'number-precision'
 import { message, Modal, Form, Input, Button, Checkbox,Select } from 'antd';
 import { fomatNumTofixedTwo } from '../../../../utils/CommonUtils';
 import {GetServerData} from '../../../../services/services';
 import ValidataModal from '../ValidataModal';
 
-import NP from 'number-precision'
+
 
 import './index.less';
 
@@ -16,7 +17,9 @@ class PayMentModal extends Component {
     super(props);
     this.state = {
       validateVisible:false,
-      remark:''
+      remark:'',
+      cashRealVal:'',
+      disVal:''
     }
   }
   onCancel=()=> {
@@ -93,7 +96,6 @@ class PayMentModal extends Component {
         payload:{ checkedPayTypeOne, checkedPayTypeTwo }
       })
     }
-
   }
   //切换组合《---》单体支付方式
   goToggleGroupPay=()=> {
@@ -179,7 +181,10 @@ class PayMentModal extends Component {
     }
     this.props.dispatch({
       type:'cashierManage/getCheckedPayType',
-      payload:{ checkedPayTypeOne, checkedPayTypeTwo }
+      payload:{
+        checkedPayTypeOne:{ ...checkedPayTypeOne },
+        checkedPayTypeTwo:{ ...checkedPayTypeTwo }
+      }
     })
   }
   //处理结算逻辑
@@ -230,6 +235,7 @@ class PayMentModal extends Component {
         }
       })
   }
+  //异店积分校验
   onCancelValidate=()=>{
     this.setState({ validateVisible:false });
   }
@@ -273,11 +279,19 @@ class PayMentModal extends Component {
   onChangePayOne=()=> {
 
   }
+  //现金实收
+  onChangeCashReal=(e)=> {
+    const { payTotalData } =this.props;
+    let value = e.target.value,disVal;
+    disVal = NP.minus(payTotalData.payAmount,value);
+    this.setState({ cashRealVal:value, disVal })
+  }
   render() {
     const { payTotalData, memberInfo, visible,payPart,couponDetail,
             payMentTypeOptionsOne, payMentTypeOptionsTwo,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
-    const { validateVisible } =this.state;
+    const { validateVisible, cashRealVal, disVal } =this.state;
+    // console.log(checkedPayTypeOne,checkedPayTypeTwo)
     return(
       <div>
         <Modal
@@ -318,7 +332,6 @@ class PayMentModal extends Component {
                 </div>
               </Form.Item>
               <p className="separate-line"></p>
-
               {
                 checkedPayTypeOne.type&&checkedPayTypeTwo.type?
                 <div>
@@ -326,7 +339,7 @@ class PayMentModal extends Component {
                     <Form.Item label="支付方式1" className="label-col">
                       <Select
                         value={checkedPayTypeOne.type}
-                        onChange={(option)=>this.handleTogglePayType(option,'checkedPayTypeOne')}>
+                        onChange={(value,option)=>this.handleTogglePayType(option,'checkedPayTypeOne')}>
                         {
                           payMentTypeOptionsOne.map((el)=> (
                             <Option  disabled={el.disabled} value={el.type} key={el.type}>{el.name}</Option>
@@ -342,7 +355,7 @@ class PayMentModal extends Component {
                     <Form.Item label="支付方式2" className="label-col">
                       <Select
                         value={checkedPayTypeTwo.type}
-                        onChange={(option)=>this.handleTogglePayType(option,'checkedPayTypeTwo')}>
+                        onChange={(value,option)=>this.handleTogglePayType(option,'checkedPayTypeTwo')}>
                         {
                           payMentTypeOptionsTwo.map((el)=> (
                             <Option value={el.type} key={el.type}>{el.name}</Option>
@@ -379,10 +392,10 @@ class PayMentModal extends Component {
                 (checkedPayTypeOne.type=='4'||checkedPayTypeTwo.type=='4')&&
                 <div className="more-formItem">
                   <Form.Item label="现金实收" className="label-item">
-                    <Input autoComplete={'off'}/>
+                    <Input autoComplete={'off'} value={cashRealVal} onChange={this.onChangeCashReal}/>
                   </Form.Item>
                   <Form.Item label="找零" className="field-item">
-                    <Input autoComplete={'off'} disabled defaultValue={0}/>
+                    <Input autoComplete={'off'} disabled defaultValue={disVal}/>
                   </Form.Item>
                 </div>
               }
