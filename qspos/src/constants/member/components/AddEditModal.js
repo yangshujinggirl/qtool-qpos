@@ -49,6 +49,9 @@ class Modelform extends Component {
           if(validData&&validData.length>0) {
             values.mbCardBirths=validData;
           }
+          if(!values.mobile) {
+            values.mobile=this.props.data.mobile;
+          }
           this.props.handleOk(values,this.handleCancel);
         }else{
           message.warning('生日信息不全');
@@ -65,6 +68,7 @@ class Modelform extends Component {
     const { getFieldDecorator } = this.props.form;
     const { data } =this.props;
     const { name, mobile, cardNo, level, amount, point, mbCardBirths, type, checked} = this.props.data;
+
     return (
       <Modal
         className="member-width-style member-modal-wrap add-member-modal"

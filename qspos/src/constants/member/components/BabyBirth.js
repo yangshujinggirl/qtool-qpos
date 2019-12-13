@@ -134,21 +134,21 @@ class EditableTablebaby extends React.Component {
             bordered={false}
             className='babytables'/>
         </div>
-        {/*<div className='fl clearfix' style={{width:'86px'}}>
+        <div className='fl clearfix' style={{width:'86px'}}>
           <div
             onClick={this.handleAdd}
             className='fl mr8 ml8 themecolor '
             style={{height:'40px',lineHeight:'40px'}}>
             <Icon type="plus-circle-o" />
           </div>
-          <div className='fl' style={{width:'54px',height:'40ox',lineHeight:'36px'}}>
+          {/*<div className='fl' style={{width:'54px',height:'40ox',lineHeight:'36px'}}>
             <Switch
               checkedChildren="公历"
               unCheckedChildren="农历"
               onChange={this.SwitchChange.bind(this)}
               checked={checked}/>
-          </div>
-        </div>*/}
+          </div>*/}
+        </div>
       </div>
     );
   }
