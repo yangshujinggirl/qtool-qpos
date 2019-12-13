@@ -11,11 +11,6 @@ const Option = Select.Option;
 const RadioGroup = Radio.Group;
 const batrhdata=Gettime()
 
-let levelMap={
-  1:'金卡',
-  2:'银卡',
-  3:'普卡',
-}
 class Modelform extends Component {
   constructor(props) {
     super(props);
