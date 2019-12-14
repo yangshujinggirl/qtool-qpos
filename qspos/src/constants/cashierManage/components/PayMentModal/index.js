@@ -218,7 +218,7 @@ class PayMentModal extends Component {
   //优惠券核销
   onBlurCoupon=(e)=> {
     //输入框失去焦点
-    const { goodsList, payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let { goodsList, payTotalData, couponDetail, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
     let spShopId = sessionStorage.getItem('spShopId');
     let spuList = goodsList.map((el)=> {
       let item ={};
@@ -231,32 +231,40 @@ class PayMentModal extends Component {
         return item;
     })
     let value = e.target.value;
-    if(!value) {
-      return;
-    }
-    let params ={ couponDetailCode:value, value, spShopId, spuList }
-    this.setState({ loding:true })
-    GetServerData('qerp.web.qpos.od.coupon.query',params)
-    .then((res) => {
-      let { code, couponFullAmount,couponId,couponMoney, couponDetailCode, message } =res;
-      this.setState({ loding:false })
-      if(code != '0') {
-        message.error(message);
-        return;
-      }
-      payTotalData.cutAmount = '0';
-      payTotalData.payAmount = NP.minus(payTotalData.totolAmount,couponMoney)
+    if(!value) {//无优惠券
+      this.props.dispatch({
+        type:'cashierManage/getCouponDetail',
+        payload:{}
+      })
+      payTotalData.payAmount = payTotalData.totolAmount
       this.props.dispatch({
         type:'cashierManage/getTotalData',
         payload:payTotalData
       })
       this.checkCardAndPoint()
-      let couponDetail = { couponFullAmount,couponId,couponMoney, couponDetailCode }
-      this.props.dispatch({
-        type:'cashierManage/getCouponDetail',
-        payload:couponDetail
+    } else {
+      let params ={ couponDetailCode:value, value, spShopId, spuList }
+      GetServerData('qerp.web.qpos.od.coupon.query',params)
+      .then((res) => {
+        let { code, couponFullAmount,couponId,couponMoney, couponDetailCode, message } =res;
+        if(code != '0') {
+          message.error(message);
+          return;
+        }
+        payTotalData.cutAmount = '0';
+        payTotalData.payAmount = NP.minus(payTotalData.totolAmount,couponMoney);
+        couponDetail = { couponFullAmount,couponId,couponMoney, couponDetailCode }
+        this.props.dispatch({
+          type:'cashierManage/getTotalData',
+          payload:payTotalData
+        })
+        this.props.dispatch({
+          type:'cashierManage/getCouponDetail',
+          payload:couponDetail
+        })
+        this.checkCardAndPoint()
       })
-    })
+    }
   }
   //支付方式1
   onChangePayOne=(e)=> {
@@ -356,7 +364,7 @@ class PayMentModal extends Component {
                     autoComplete={'off'}
                     disabled
                     readOnly
-                    value={couponDetail.couponFullAmount&&`-${couponDetail.couponMoney}满${couponDetail.couponFullAmount}减${couponDetail.couponMoney}`}/>
+                    value={couponDetail.couponFullAmount&&`-${couponDetail.couponMoney}(满${couponDetail.couponFullAmount}减${couponDetail.couponMoney})`}/>
                   <div className="btn-wrap">
                     <Input autoComplete={'off'} placeholder="请输入优惠券码" onBlur={this.onBlurCoupon}/>
                   </div>

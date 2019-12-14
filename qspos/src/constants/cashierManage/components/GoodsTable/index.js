@@ -66,13 +66,13 @@ class GoodsTable extends React.Component {
     let { goodsList } =this.props;
     switch(keyName) {
       case 'qty':
-        regexp=/^[1-9]+(\d)*$/
+        regexp=/^[1-9]*(\d)*$/
       break;
       case 'discount':
-        regexp=/^\d+(\.\d{1})?$/
+        regexp=/^\d*(\.\d{1})?$/
       break;
       case 'payPrice':
-        regexp=/^\d+((\.)|(\.\d{1,2}))?$/
+        regexp=/^\d*((\.)|(\.\d{1,2}))?$/
       break;
     }
     if(regexp.test(value)) {
@@ -90,33 +90,36 @@ class GoodsTable extends React.Component {
     let { goodsList } =this.props;
     switch(keyName) {
       case 'qty':
+        value = value==''?1:value;
         if(Number(value)>Number(goodsList[index].inventory)) {
           goodsList[index].qty=goodsList[index].inventory;
           message.warning('商品库存不足')
         }
-      break;
+        break;
       case 'discount':
-        if((role=='2'||role=='1') && value<6){
-          goodsList[index].discount=6
+        value = value==''?10:value;
+        if((role=='2'||role=='1') && value< 6){
+          goodsList[index].discount=6;
         }
-        if((role=='3') && value<9){
-          goodsList[index].discount=9
+        if((role=='3') && value< 9){
+          goodsList[index].discount= 9;
         }
-      break;
+        break;
       case 'payPrice':
+        value = value==''?goodsList[index].toCPrice:value;
         let zeropayPrice=value,discount;
         discount=NP.times(NP.divide(value,goodsList[index].toCPrice,goodsList[index].qty),10)
-        if((role=='2'||role=='1') && discount<8){
+        if((role=='2'||role=='1') && discount< 8){
           discount=8;
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
-        }else if((role=='3') && discount<9){
+        }else if((role=='3') && discount< 9){
           discount=9
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
         }
         zeropayPrice =fomatNumTofixedTwo(zeropayPrice)
         goodsList[index].payPrice =fomatNumAddFloat(zeropayPrice);
         goodsList[index].discount = discount;
-      break;
+        break;
     }
     this.props.dispatch({
       type:'cashierManage/getGoodsList',

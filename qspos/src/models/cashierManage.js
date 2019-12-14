@@ -30,6 +30,12 @@ export default {
       {name:'会员卡',checked:false,disabled:false,type:'5'},
       {name:'积分',checked:false,disabled:false,type:'6'}
     ],
+    rechargeOptions:[
+      {name:'微信',checked:false,disabled:false,type:'1'},
+      {name:'支付宝',checked:false,disabled:false,type:'2'},
+      {name:'银联',checked:false,disabled:false,type:'3'},
+      {name:'现金',checked:false,disabled:false,type:'4'},
+    ],
     payMentTypeOptionsOne:[],//支付方式1
     payMentTypeOptionsTwo:[],//支付方式2
     checkedPayTypeOne:{//支付金额1
@@ -37,6 +43,7 @@ export default {
       amount:0
     },
     checkedPayTypeTwo:{},//支付金额2
+    rechargePayType:'1',//支付金额2
     payPart:{//支付区
       isGroupDisabled:false,
       errorText:null
