@@ -213,6 +213,12 @@ class BottomPayMent extends Component {
       payload:false
     })
   }
+  //跳转到退货
+	hindchange=(e)=>{
+		if(e==true){
+			this.context.router.push('/returngoods')
+		}
+	}
   render() {
     const { getFieldDecorator } =this.props.form;
     const { payTotalData,memberInfo, odOrder, payMentVisible } =this.props;
@@ -249,8 +255,12 @@ class BottomPayMent extends Component {
             </div>
           </div>
           <div className="row-item flexBox row-two">
-            <div className="col-item">
-              <Switch defaultChecked/>
+            <div className="col-item toggle-switch">
+              <Switch
+                checkedChildren="用户退货"
+  							unCheckedChildren="对外售卖"
+                checked={false}
+                onChange={this.hindchange.bind(this)}/>
             </div>
             <div className="col-item member-actions">
               <div className="member-info">
@@ -316,5 +326,8 @@ class BottomPayMent extends Component {
 function mapStateToProps(state) {
     const { cashierManage } = state;
     return cashierManage;
+}
+BottomPayMent.contextTypes= {
+    router: React.PropTypes.object
 }
 export default connect(mapStateToProps)(BottomPayMent);
