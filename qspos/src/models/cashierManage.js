@@ -7,8 +7,8 @@ import NP from 'number-precision'
 export default {
   namespace: 'cashierManage',
   state: {
-    selectedActivityId:'0',
-    currentRowIndex:0,
+    selectedActivityId:'0',//选中活动id
+    currentRowIndex:0,//当前选中行
     goodsList:[], //收银数据表
     payTotalData:{
       totolNumber:0,
@@ -21,7 +21,7 @@ export default {
       amount:0,
       point:0,
     },
-    activityOptions:[],
+    activityOptions:[],//活动列表
     baseOptions:[
       {name:'微信',checked:false,disabled:false,type:'1'},
       {name:'支付宝',checked:false,disabled:false,type:'2'},
@@ -30,19 +30,19 @@ export default {
       {name:'会员卡',checked:false,disabled:false,type:'5'},
       {name:'积分',checked:false,disabled:false,type:'6'}
     ],
-    payMentTypeOptionsOne:[],
-    payMentTypeOptionsTwo:[],
-    checkedPayTypeOne:{
+    payMentTypeOptionsOne:[],//支付方式1
+    payMentTypeOptionsTwo:[],//支付方式2
+    checkedPayTypeOne:{//支付金额1
       type:'1',
       amount:0
     },
-    checkedPayTypeTwo:{},
-    payPart:{
+    checkedPayTypeTwo:{},//支付金额2
+    payPart:{//支付区
       isGroupDisabled:false,
       errorText:null
     },
-    payMentVisible:false,
-    couponDetail:{}
+    payMentVisible:false,//支付弹框
+    couponDetail:{}//优惠券核销内容
   },
   reducers: {
       resetData(state,payload:{}) {
@@ -60,7 +60,7 @@ export default {
         checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},
         payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [],activityOptions = [];
         return {...state, currentRowIndex, goodsList, payTotalData,payPart,
-          memberInfo, activityOptions,baseOptions,selectedActivityId,
+          memberInfo, activityOptions,baseOptions,selectedActivityId,couponDetail,
           checkedPayTypeOne,checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
         }
       },
@@ -79,7 +79,7 @@ export default {
             if(el.isShowActivity=='1'&&el.activityId!='0') {
               el.discount = el.activityDiscount;
               currentPrice = el.specialPrice;
-              zeropayPrice=NP.divide(NP.times(currentPrice, el.qty),10); //计算值
+              zeropayPrice=NP.times(currentPrice, el.qty); //计算值
             } else {
               zeropayPrice=NP.divide(NP.times(currentPrice, el.qty,el.discount),10); //计算值
             }
@@ -117,8 +117,6 @@ export default {
         return {...state, payPart }
       },
       getCheckedPayType(state, { payload: { checkedPayTypeOne, checkedPayTypeTwo } }) {
-        // checkedPayTypeOne.amount = checkedPayTypeOne.type&&fomatNumTofixedTwo(checkedPayTypeOne.amount)
-        // checkedPayTypeTwo.amount = checkedPayTypeTwo.type&&fomatNumTofixedTwo(checkedPayTypeTwo.amount)
         checkedPayTypeOne ={...checkedPayTypeOne};
         checkedPayTypeTwo ={...checkedPayTypeTwo}
         return {...state, checkedPayTypeOne, checkedPayTypeTwo }
@@ -151,7 +149,6 @@ export default {
         }
         let activityOptions=[],selectedActivityId='0',
             newGoodsInfo=pdSpu;
-            // currentPrice = newGoodsInfo.toCPrice;
         if(idx=='-1'){
           newGoodsInfo.qty='1'
           newGoodsInfo.discount='10';
@@ -160,20 +157,6 @@ export default {
           newGoodsInfo.qty++;
           goodsList.splice(idx,1); //删除当前
         }
-        // if(newGoodsInfo.isShowActivity=='1') {
-        //   newGoodsInfo.discount = newGoodsInfo.activityDiscount;
-        //   currentPrice = newGoodsInfo.specialPrice;
-        //   activityOptions = newGoodsInfo.spActivities;
-        //   selectedActivityId = newGoodsInfo.activityId;
-        // }
-        // var zeropayPrice=NP.divide(NP.times(currentPrice, newGoodsInfo.qty,newGoodsInfo.discount),10); //计算值
-        // zeropayPrice = fomatNumTofixedTwo(zeropayPrice);//两位小安数，当不满足时候补零
-        // const editpayPrice =zeropayPrice.substring(0,zeropayPrice.indexOf(".")+3);
-        // if(parseFloat(zeropayPrice)-parseFloat(editpayPrice)>0){//3位小数，直接进0.01
-        //   newGoodsInfo.payPrice=NP.plus(editpayPrice, 0.01);
-        // }else{
-        //   newGoodsInfo.payPrice=editpayPrice
-        // }
         if(newGoodsInfo.isShowActivity=='1') {
           activityOptions = newGoodsInfo.spActivities;
           selectedActivityId = newGoodsInfo.activityId;

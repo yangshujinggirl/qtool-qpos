@@ -4,6 +4,7 @@ import { Form, Input, Row, Col, Switch, message } from 'antd';
 import RechargeModal from '../RechargeModal';
 import ToggleVipModal from '../ToggleVipModal';
 import PayMentModal from '../PayMentModal';
+import { fomatNumTofixedTwo } from '../../../../utils/CommonUtils';
 import {GetServerData} from '../../../../services/services';
 import NP from 'number-precision'
 import './index.less';
@@ -186,11 +187,13 @@ class BottomPayMent extends Component {
           break;
       }
     })
-    //组合支付
+    //组合支付,支付方法渲染
     if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
       payMentTypeOptionsOne = baseOptions.filter((el) => el.type=='5'||el.type=='6');
       payMentTypeOptionsTwo = baseOptions.filter((el) => el.type!='5'&&el.type!='6');
     }
+    checkedPayTypeOne.amount = fomatNumTofixedTwo(checkedPayTypeOne.amount)
+    checkedPayTypeTwo.amount = checkedPayTypeTwo.type&&fomatNumTofixedTwo(checkedPayTypeTwo.amount)
     this.props.dispatch({
       type:'cashierManage/getCheckedPayType',
       payload:{ checkedPayTypeOne, checkedPayTypeTwo }
@@ -205,7 +208,6 @@ class BottomPayMent extends Component {
     })
   }
   onCancelPayMent=()=> {
-    // this.setState({ visiblePay:false });
     this.props.dispatch({
       type:'cashierManage/getPayMentVisible',
       payload:false

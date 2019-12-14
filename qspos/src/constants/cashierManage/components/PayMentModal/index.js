@@ -6,8 +6,6 @@ import { fomatNumTofixedTwo } from '../../../../utils/CommonUtils';
 import {GetServerData} from '../../../../services/services';
 import ValidataModal from '../ValidataModal';
 
-
-
 import './index.less';
 
 const Option = Select.Option;
@@ -31,24 +29,6 @@ class PayMentModal extends Component {
   }
   onChangeRemark=(e)=> {
     this.setState({ remark: e.target.value });
-  }
-  goScanDiscount=()=> {
-    const { goodsList } =this.props;
-    let spShopId = sessionStorage.getItem('spShopId');
-    let spuList = goodsList.map((el)=> {
-      let item ={};
-        item.pdSkuId = el.pdSkuId
-        item.pdSpuId = el.pdSpuId
-        item.price = el.payPrice
-        item.activityId = el.truenumber
-        item.pdBrandId = el.pdBrandId
-        item.activityNotUseCoupons = el.activityNotUseCoupons;
-        return item;
-    })
-    this.context.router.push({
-      pathname : '/pay',
-      state : { spShopId,spuList }
-    });
   }
   //切换支付方式
   goTogglePayType=(record)=> {
@@ -118,7 +98,6 @@ class PayMentModal extends Component {
         let payAmount = parseFloat(payTotalData.payAmount);//应付总额；
         checkedPayTypeTwo.type = '1';
         checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-         // checkedPayTypeTwo = { type:'1', amount: NP.minus(payAmount, checkedPayTypeOne.amount) };
         this.props.dispatch({
           type:'cashierManage/getCheckedPayType',
           payload:{ checkedPayTypeOne, checkedPayTypeTwo }
@@ -146,7 +125,6 @@ class PayMentModal extends Component {
       payload:payTotalData
     })
     this.checkCardAndPoint()
-    this.props.form.setFieldsValue({ payAmount: payAmount })
   }
   //计算组合支付，单体支付金额
   checkCardAndPoint() {
@@ -178,6 +156,8 @@ class PayMentModal extends Component {
     } else {
       checkedPayTypeOne.amount = payTotalData.payAmount;
     }
+    checkedPayTypeOne.amount = fomatNumTofixedTwo(checkedPayTypeOne.amount)
+    checkedPayTypeTwo.amount = checkedPayTypeTwo.type&&fomatNumTofixedTwo(checkedPayTypeTwo.amount)
     this.props.dispatch({
       type:'cashierManage/getCheckedPayType',
       payload:{ checkedPayTypeOne, checkedPayTypeTwo }
