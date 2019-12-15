@@ -23,7 +23,7 @@ class HotSellGoodsForm extends React.Component {
         startDate:"",
         endDate:"",
         onSale:1,
-        name:'all',
+        pdCategoryId1:0,
         pdCategoryList:[]
     };
     this.columns = [
@@ -117,8 +117,8 @@ class HotSellGoodsForm extends React.Component {
       type:'spinLoad/setLoading',
       payload:true
     })
-    const { currentPage, limit, startDate, endDate, onSale, name } =this.state;
-    let params = { currentPage, limit, startDate, endDate, onSale, name };
+    const { currentPage, limit, startDate, endDate, onSale, pdCategoryId1 } =this.state;
+    let params = { currentPage, limit, startDate, endDate, onSale, pdCategoryId1 };
     GetServerData('qerp.pos.rp.pd.sell.list',params)
     .then((json) => {
       if(json.code=='0'){
@@ -144,7 +144,7 @@ class HotSellGoodsForm extends React.Component {
     })
   }
   onSelectPdCategory=(value)=> {
-    this.setState({ name:value })
+    this.setState({ pdCategoryId1:value })
   }
   onSelectYs=(value)=> {
     this.setState({ onSale:value })
@@ -176,7 +176,7 @@ class HotSellGoodsForm extends React.Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { onSale, name, pdCategoryList } =this.state;
+    const { onSale, pdCategoryId1, pdCategoryList } =this.state;
     return (
         <div className="hot-sell">
             <div className="scroll-wrapper">
@@ -196,11 +196,11 @@ class HotSellGoodsForm extends React.Component {
                       label="商品分类"
                       labelCol={{ span: 5 }}
                       wrapperCol={{span: 10}}>
-                      <Select onSelect={this.onSelectPdCategory} value={name}>
-                        <Option value="all">全部</Option>
+                      <Select onSelect={this.onSelectPdCategory} value={pdCategoryId1}>
+                        <Option value={0}>全部</Option>
                           {
                             pdCategoryList.map((el,index)=> (
-                              <Option value={el.name} key={el.pdCategoryId}>{el.name}</Option>
+                              <Option value={el.pdCategoryId} key={el.pdCategoryId}>{el.name}</Option>
                             ))
                           }
                       </Select>

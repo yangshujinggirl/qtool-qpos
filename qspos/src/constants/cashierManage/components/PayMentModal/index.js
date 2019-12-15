@@ -333,10 +333,10 @@ class PayMentModal extends Component {
   }
   render() {
     const { payTotalData, memberInfo, visible,payPart,couponDetail,
-            payMentTypeOptionsOne, payMentTypeOptionsTwo,
+            payMentTypeOptionsOne, payMentTypeOptionsTwo,isPrint,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
     const { validateVisible, cashRealVal, disVal } =this.state;
-    console.log(this.props)
+
     return(
       <div>
         <Modal
@@ -479,7 +479,7 @@ class PayMentModal extends Component {
 
                 </div>
                 <div className='footer-row'>
-                  <Checkbox>打印小票</Checkbox>
+                  <Checkbox checked={isPrint}>打印小票</Checkbox>
                 </div>
               </div>
             </div>
@@ -489,7 +489,6 @@ class PayMentModal extends Component {
           visible={validateVisible}
           onSubmit={this.handleSubmit}/>
       </div>
-
     )
   }
 }

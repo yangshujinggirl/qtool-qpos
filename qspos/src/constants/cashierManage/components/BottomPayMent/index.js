@@ -27,13 +27,24 @@ class BottomPayMent extends Component {
   componentDidMount(){
     this.barCodeInput.input.select();
   }
-
   hindleKeyDown=(e)=> {
     let keyCode=e.keyCode;
     if(keyCode==9){
 			e.preventDefault()
 		}
   }
+  upDateUserInfo=(func)=> {
+    GetServerData('qerp.pos.sy.config.info')
+    .then((res)=> {
+      let { config } =res;
+      this.props.dispatch({
+        type:'cashierManage/getIsPrint',
+        payload:config.submitPrint==1?true:false
+      })
+      func && typeof func == 'function' && func()
+    })
+  }
+  //enter搜索商品
   hindleKeyUpBarcode=(e)=> {
     let keyCode=e.keyCode;
     if(keyCode==13) {
@@ -50,6 +61,7 @@ class BottomPayMent extends Component {
       payload:{ barCode: value }
     })
   }
+  //enter搜索会员信息
   hindleKeyUpMember=(e)=> {
     let keyCode=e.keyCode;
     if(keyCode==13) {
@@ -60,6 +72,13 @@ class BottomPayMent extends Component {
     if(keyCode == 9) {
       this.barCodeInput.input.select();
     }
+  }
+  getMemberInfo=(value)=>{
+    this.checkIsPhone(value,'input')
+    this.props.dispatch({
+      type:'cashierManage/fetchMemberInfo',
+      payload:{ cardNoMobile: value }
+    })
   }
   //判断是会员手机号还会员卡号
   checkIsPhone=(value,type)=> {
@@ -73,21 +92,8 @@ class BottomPayMent extends Component {
     }
     this.setState({ isPhone })
   }
-  getMemberInfo=(value)=>{
-    this.checkIsPhone(value,'input')
-    this.props.dispatch({
-      type:'cashierManage/fetchMemberInfo',
-      payload:{ cardNoMobile: value }
-    })
-  }
-  goRecharge=()=> {
-    this.setState({ visibleRecharge:true })
-  }
-  handleRechargeCancel=()=> {
-    this.setState({ visibleRecharge:false })
-  }
-  handleRechargeOk=()=> {
-    this.setState({ visibleRecharge:false })
+  goRecharge=(value)=> {
+    this.setState({ visibleRecharge:value })
   }
   //切换会员
   goToggleVip=()=> {
@@ -105,15 +111,15 @@ class BottomPayMent extends Component {
   onCancelToggle=()=> {
     this.setState({ visibleToggle:false });
   }
-  //结算
+  //结算==》弹框
   goSettlingAccount=()=> {
-    const { goodsList } =this.props;
+    let { goodsList, memberInfo, payTotalData, baseOptions, payMentTypeOptionsOne,
+      payMentTypeOptionsTwo,checkedPayTypeOne, checkedPayTypeTwo } = this.props;
     if(goodsList.length==0) {
       message.error('请选择商品');
       return;
     }
-    let { memberInfo, payTotalData, baseOptions, payMentTypeOptionsOne,
-      payMentTypeOptionsTwo,checkedPayTypeOne, checkedPayTypeTwo } = this.props;
+    this.upDateUserInfo();
     if(memberInfo.mbCardId) {//会员
       this.hasCardOrPoint()
     } else {//非会员
@@ -134,10 +140,10 @@ class BottomPayMent extends Component {
       payload:true
     })
   }
-  //会员：初始化时；//切换组合支付时计算。
+  //会员：初始化时；//单体《--》组合切换时计算。
   hasCardOrPoint=()=> {
     let { memberInfo, payPart, payTotalData, baseOptions, payMentTypeOptionsOne,
-      payMentTypeOptionsTwo,checkedPayTypeOne, checkedPayTypeTwo } = this.props;
+          payMentTypeOptionsTwo,checkedPayTypeOne, checkedPayTypeTwo } = this.props;
     payPart.isGroupDisabled = true;
     let isCardDisabled = Number(memberInfo.amount)<=0?true:false;
     let isPointDisabled = Number(memberInfo.point)<=0?true:false;
@@ -145,6 +151,7 @@ class BottomPayMent extends Component {
     let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
     let pointAmount = NP.divide(memberInfo.point,100);//积分余额换算；
     checkedPayTypeOne = { type:'5', amount: payAmount };
+    
     if(isCardDisabled&&isPointDisabled) {//会员余额:0，积分余额:0
       checkedPayTypeOne.type = '1';
       payPart.isGroupDisabled = false;
@@ -288,7 +295,10 @@ class BottomPayMent extends Component {
               <div className="memberCard-info flexBox">
                 <p className="lable-item">
                   余额
-                  <span className="recharge-btn" onClick={this.goRecharge}>充值</span>
+                  {
+                    memberInfo.mbCardId&&memberInfo.isMoreShop=='true'&&
+                    <span className="recharge-btn" onClick={()=>this.goRecharge(true)}>充值</span>
+                  }
                   <span className="card-num">{memberInfo.amount}</span>
                 </p>
               <p className="lable-item">剩余积分<span className="card-num">{memberInfo.point}</span></p>
@@ -311,8 +321,7 @@ class BottomPayMent extends Component {
           visible={visibleToggle}
           dataSource={vipList}/>
         <RechargeModal
-          onOk={this.handleRechargeOk}
-          onCancel={this.handleRechargeCancel}
+          onCancel={()=>this.goRecharge(false)}
           visible={visibleRecharge}/>
         <PayMentModal
           initLogic={this.hasCardOrPoint}

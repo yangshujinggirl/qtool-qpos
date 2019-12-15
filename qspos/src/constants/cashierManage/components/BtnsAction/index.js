@@ -4,12 +4,14 @@ import { connect } from 'dva';
 import {GetServerData} from '../../../../services/services';
 import PutOrderModal from '../PutOrderModal';
 import PullOrderModal from '../PullOrderModal';
+import AllDiscountModal from '../AllDiscountModal';
 import './index.less';
 
 class BtnsAction extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      disVisible:false,//整单折扣
       visiblePut:false,
       visiblePull:false,
       allPutOrderList:[],
@@ -176,13 +178,13 @@ class BtnsAction extends Component {
       payload:{ activityOptions, selectedActivityId }
     })
   }
-  //移除
-  goDiscount=()=> {
-
+  //整单折扣
+  goDiscount=(value)=> {
+    this.setState({ disVisible:value })
   }
   render() {
     const { activityOptions, selectedActivityId, goodsList } =this.props;
-    const { visiblePut, currentOrderNo, allPutOrderList, visiblePull } =this.state;
+    const { visiblePut, currentOrderNo, allPutOrderList, visiblePull, disVisible } =this.state;
     return(
       <div className="handle-actions">
         {
@@ -207,8 +209,8 @@ class BtnsAction extends Component {
         <div className="handle-rt">
           <Button onClick={this.goPutOrder} disabled={goodsList.length>0?false:true}>挂单F2</Button>
           <Button onClick={this.goPullOrder} disabled={ allPutOrderList.length>0?false:true}>取单F3</Button>
-          <Button onClick={this.goDeleteOrder}>移除商品F4</Button>
-          <Button onClick={this.goDiscount}>整单折扣</Button>
+          <Button onClick={this.goDeleteOrder} disabled={goodsList.length>0?false:true}>移除商品F4</Button>
+          <Button onClick={()=>this.goDiscount(true)} disabled={goodsList.length>0?false:true}>整单折扣</Button>
         </div>
         <PutOrderModal
           onOk={this.onOkPut}
@@ -220,6 +222,9 @@ class BtnsAction extends Component {
           getOrder={this.getOrderApi.bind(this)}
           onCancel={this.onCancelPull}
           visible={visiblePull}/>
+        <AllDiscountModal
+          onCancel={()=>this.goDiscount(false)}
+          visible={disVisible} {...this.props}/>
       </div>
     )
   }

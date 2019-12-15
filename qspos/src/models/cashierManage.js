@@ -30,12 +30,6 @@ export default {
       {name:'会员卡',checked:false,disabled:false,type:'5'},
       {name:'积分',checked:false,disabled:false,type:'6'}
     ],
-    rechargeOptions:[
-      {name:'微信',checked:false,disabled:false,type:'1'},
-      {name:'支付宝',checked:false,disabled:false,type:'2'},
-      {name:'银联',checked:false,disabled:false,type:'3'},
-      {name:'现金',checked:false,disabled:false,type:'4'},
-    ],
     payMentTypeOptionsOne:[],//支付方式1
     payMentTypeOptionsTwo:[],//支付方式2
     checkedPayTypeOne:{//支付金额1
@@ -43,13 +37,13 @@ export default {
       amount:0
     },
     checkedPayTypeTwo:{},//支付金额2
-    rechargePayType:'1',//支付金额2
     payPart:{//支付区
       isGroupDisabled:false,
-      errorText:null
+      errorText:null,
     },
     payMentVisible:false,//支付弹框
-    couponDetail:{}//优惠券核销内容
+    couponDetail:{},//优惠券核销内容
+    isPrint:false
   },
   reducers: {
       resetData(state,payload:{}) {
@@ -72,10 +66,13 @@ export default {
         }
       },
       resetPayModalData(state,payload:{}) {
-        const payPart = { isGroupDisabled:false, errorText:null }, //收银数据表
+        console.log(state)
+        let payTotalData = state.payTotalData;
+        payTotalData.cutAmount = '0';
+        const payPart = { isGroupDisabled:false, errorText:null },
         checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},couponDetail={},
         payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [];
-        return {...state,payPart,checkedPayTypeOne,couponDetail,
+        return {...state,payPart,checkedPayTypeOne,couponDetail,payTotalData,
           checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
         }
       },
@@ -136,6 +133,9 @@ export default {
       },
       getCouponDetail(state, {payload: couponDetail }) {
         return {...state, couponDetail }
+      },
+      getIsPrint(state, {payload: isPrint }) {
+        return {...state, isPrint }
       }
   },
   effects: {

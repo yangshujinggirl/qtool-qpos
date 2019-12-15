@@ -15,139 +15,69 @@ class RechargeModal extends Component {
     super(props);
     this.state = {
       remark:'',
+      amount:'',
+      rechargeType:'1',
+      rechargeOptions:[
+        {name:'微信',checked:false,disabled:false,type:'1'},
+        {name:'支付宝',checked:false,disabled:false,type:'2'},
+        {name:'银联',checked:false,disabled:false,type:'3'},
+        {name:'现金',checked:false,disabled:false,type:'4'},
+      ]
     }
   }
   onCancel=()=> {
-    this.props.dispatch({
-      type:'cashierManage/resetPayModalData',
-      payload:{}
+    this.setState({
+      remark:'',
+      amount:'',
+      rechargeType:'1',
     })
     this.props.onCancel();
   }
   onChangeRemark=(e)=> {
     this.setState({ remark: e.target.value });
   }
+  onChangeRecharge=(e)=> {
+    let value = e.target.value;
+    let regexp=/^\d*((\.)|(\.\d{1,2}))?$/;
+    if(regexp.test(value)) {
+      this.setState({ amount: e.target.value });
+    }
+  }
   //切换支付方式
   goTogglePayType=(record)=> {
-    let { payPart, payTotalData, memberInfo, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
-    let errorText;
-    switch(record.type) {
-      case "5":
-        let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
-        if(memberAmount < payTotalData.payAmount) {
-          errorText = '余额不足，请更换支付方式或组合支付'
-        }
-        break;
-      case "6":
-        let pointAmount = NP.divide(memberInfo.point,100);//积分余额
-        if(pointAmount < payTotalData.payAmount) {
-          errorText = '余额不足，请更换支付方式或组合支付'
-        }
-        break;
-      default:
-        errorText = null;
-    }
-    payPart.errorText = errorText;
-    checkedPayTypeOne = {...checkedPayTypeOne,type:record.type };
-    this.props.dispatch({
-      type:'cashierManage/getCheckedPayType',
-      payload:{ checkedPayTypeOne, checkedPayTypeTwo }
-    })
-    this.props.dispatch({
-      type:'cashierManage/getPayPart',
-      payload:payPart
-    })
-  }
-  //计算组合支付，单体支付金额
-  checkCardAndPoint() {
-    let { memberInfo, payTotalData, payPart, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
-    let payAmount = payTotalData.payAmount;
-    if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
-      let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
-      let pointAmount = NP.divide(memberInfo.point,100);//积分余额
-      switch(checkedPayTypeOne.type) {
-        case "5":
-          if(memberAmount >= payAmount) {
-            checkedPayTypeOne.amount = payAmount;
-            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-          } else {//会员卡余额不足
-            checkedPayTypeOne.amount = memberAmount;
-            checkedPayTypeTwo.amount = NP.minus(payAmount, memberAmount);
-          }
-          break;
-        case "6":
-          if(pointAmount >= payAmount) {
-            checkedPayTypeOne.amount = payAmount;
-            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-          } else {//会员卡余额不足
-            checkedPayTypeOne.amount = pointAmount;
-            checkedPayTypeTwo.amount = NP.minus(payAmount, pointAmount);
-          }
-          break;
-      }
-    } else {
-      checkedPayTypeOne.amount = payTotalData.payAmount;
-    }
-    checkedPayTypeOne.amount = fomatNumTofixedTwo(checkedPayTypeOne.amount)
-    checkedPayTypeTwo.amount = checkedPayTypeTwo.type&&fomatNumTofixedTwo(checkedPayTypeTwo.amount)
-    this.props.dispatch({
-      type:'cashierManage/getCheckedPayType',
-      payload:{ checkedPayTypeOne, checkedPayTypeTwo }
-    })
+    this.setState({ rechargeType:record.type })
   }
   //处理结算逻辑
   handleSubmit=()=>{
-    let { goodsList, memberInfo, payTotalData,couponDetail,
-      checkedPayTypeOne, checkedPayTypeTwo, errorText } =this.props;
-    let orderPay=[];//支付方式
-    if(checkedPayTypeOne.type&&checkedPayTypeTwo.type){
-      orderPay.push(checkedPayTypeOne,checkedPayTypeTwo)
-    }else{
-      orderPay.push(checkedPayTypeOne)
-    }
-    let params={
-          mbCard:{ mbCardId:memberInfo.mbCardId?memberInfo.mbCardId:null },
-          odOrder:{
-            amount:payTotalData.totolAmount,
-            orderPoint:payTotalData.thisPoint,
-            payAmount:payTotalData.payAmount,
-            qty:payTotalData.totolNumber,
-            skuQty:goodsList.length,
-            cutAmount:payTotalData.cutAmount,
-            remark:this.state.remark,
-            ...couponDetail
-          },
-          orderDetails:goodsList,orderPay
-       };
-    this.goPayApi(params);
-  }
-  //结算Api
-  goPayApi=(values)=>{
-      GetServerData('qerp.web.qpos.od.order.save',values)
-      .then((res) => {
-        const { code, odOrderId, orderNo } =res;
-        if(code=='0'){
-          const orderAll  = res,odOrderIds= odOrderId,orderNos= orderNo
-          const checkPrint = this.props.checkPrint;
-          this.props.onCancel()
-          message.success('收银成功',1)
-          // printSaleOrder(checkPrint,odOrderIds)
-        }else if(code == 'I_1031'){
-          this.setState({ validateVisible:true });
-          this.props.dispatch({
-            type:'cashierManage/getPayMentVisible',
-            payload:false
-          })
-        } else {
-          message.error(res.message)
-        }
-      })
+    const { memberInfo, rechargePayType } =this.props;
+    const { amount, rechargeType, remark } =this.state;
+    GetServerData('qerp.pos.mb.card.charge',{
+      mbCardId:memberInfo.mbCardId,
+      amount:amount,
+      type:rechargeType,
+      remark:remark
+    })
+    .then((res) => {
+      const { code, odOrderId, orderNo } =res;
+      if(code=='0'){
+        const orderAll  = res,odOrderIds= odOrderId,orderNos= orderNo
+        const checkPrint = this.props.checkPrint;
+        this.props.onCancel();
+        this.setState({
+          remark:'',
+          amount:'',
+          rechargeType:'1',
+        })
+        message.success('充值成功',1)
+        // printSaleOrder(checkPrint,odOrderIds)
+      } else {
+        message.error(res.message)
+      }
+    })
   }
   render() {
-    const { payTotalData, memberInfo, visible,checkedPayTypeOne,rechargePayType,
-            rechargeOptions } =this.props;
-    const { validateVisible, cashRealVal, disVal } =this.state;
-    console.log(this.props)
+    const { payTotalData, memberInfo, visible } =this.props;
+    const { rechargeOptions, rechargeType, amount } =this.state;
     return(
         <Modal
           closable={false}
@@ -163,10 +93,10 @@ class RechargeModal extends Component {
                 <Input autoComplete={'off'} disabled defaultValue={`${memberInfo.name}/${memberInfo.mobile}`}/>
               </Form.Item>
               <Form.Item label="账户金额">
-                <Input autoComplete={'off'} disabled readOnly value={payTotalData.payAmount}/>
+                <Input autoComplete={'off'} disabled readOnly value={memberInfo.amount}/>
               </Form.Item>
               <Form.Item label="充值金额">
-                <Input autoComplete={'off'}  value={payTotalData.payAmount}/>
+                <Input autoComplete={'off'} value={amount} onChange={this.onChangeRecharge}/>
               </Form.Item>
               <p className="separate-line"></p>
               <div className="row-item">
@@ -178,7 +108,7 @@ class RechargeModal extends Component {
                         onClick={()=>this.goTogglePayType(el)}
                         key={el.type}
                         disabled={el.disabled}
-                        className={`payType-btn ${el.type ==rechargePayType?'selected':''}`}>
+                        className={`payType-btn ${el.type ==rechargeType?'selected':''}`}>
                         {el.name}
                       </Button>
                     ))
@@ -191,6 +121,7 @@ class RechargeModal extends Component {
               <div className="footer-part">
                 <div className="footer-row">
                   <Button
+                    disabled={amount?false:true}
                     type="primary"
                     onClick={this.handleSubmit}
                     className="go-settling-btn">
