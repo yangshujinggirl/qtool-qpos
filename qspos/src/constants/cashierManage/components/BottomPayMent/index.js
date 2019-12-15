@@ -33,6 +33,7 @@ class BottomPayMent extends Component {
 			e.preventDefault()
 		}
   }
+  //更新用户信息
   upDateUserInfo=(func)=> {
     GetServerData('qerp.pos.sy.config.info')
     .then((res)=> {
@@ -92,7 +93,11 @@ class BottomPayMent extends Component {
     }
     this.setState({ isPhone })
   }
+  //充值
   goRecharge=(value)=> {
+    if(value) {
+      this.upDateUserInfo()
+    }
     this.setState({ visibleRecharge:value })
   }
   //切换会员
@@ -151,7 +156,7 @@ class BottomPayMent extends Component {
     let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
     let pointAmount = NP.divide(memberInfo.point,100);//积分余额换算；
     checkedPayTypeOne = { type:'5', amount: payAmount };
-    
+
     if(isCardDisabled&&isPointDisabled) {//会员余额:0，积分余额:0
       checkedPayTypeOne.type = '1';
       payPart.isGroupDisabled = false;
@@ -219,12 +224,11 @@ class BottomPayMent extends Component {
       type:'cashierManage/getPayMentVisible',
       payload:false
     })
+    this.props.form.resetFields()
   }
   //跳转到退货
 	hindchange=(e)=>{
-		if(e==true){
-			this.context.router.push('/returngoods')
-		}
+		this.context.router.push('/returngoods')
 	}
   render() {
     const { getFieldDecorator } =this.props.form;

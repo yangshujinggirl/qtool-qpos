@@ -1,7 +1,12 @@
 import { message } from 'antd';
 import ReactDOM from 'react-dom';
 import {GetServerData} from '../../services/services';
-import {getSaleOrderInfo,getShiftInfo,getRechargeOrderInfo} from '../../components/Method/Print';
+import {
+  getSaleOrderInfo,
+  getShiftInfo,
+  getRechargeOrderInfo,
+  getReturnOrderInfo
+} from '../../components/Method/Print';
 
 export function Messagesuccess(values, time, call) {
    message.success(values, time, call);
@@ -51,19 +56,18 @@ export function isInArray(arr,value) {
                                 message.error(data.message);
                             }
                         });
-                    } 
+                    }
                 }else{
                     message.warning('打印失败')
                 }
             })
         }
     }else{
-        message.warning('请在win系统下操作打印') 
+        message.warning('请在win系统下操作打印')
     }
  }
 
  //打印充值订单
-
 export function printRechargeOrder(checkPrint,orderid) {
         if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
         //判断打印
@@ -107,22 +111,36 @@ export function printRechargeOrder(checkPrint,orderid) {
                 })
             }
     }else{
-        message.warning('请在win系统下操作打印') 
+        message.warning('请在win系统下操作打印')
     }
  }
 
+ //打印退货订单
+export function printReturnOrder(checkPrint,orderid) {
+        if(navigator.platform == "Windows" || navigator.platform == "Win32" || navigator.platform == "Win64"){
+        //判断打印
+            if(checkPrint){
+                GetServerData('qerp.pos.sy.config.info')
+                .then((json) => {
+                    if(json.code == "0"){
+                      //判断是打印大的还是小的
+                      let valueData =  {type:"3",outId:orderid};
+                      let size = json.config.paperSize;
 
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
+                      GetServerData('qerp.web.qpos.st.sale.order.detail',valueData)
+                      .then((data) => {
+                        if(data.code == "0"){
+                          getReturnOrderInfo(data,size,json.config.submitPrintNum);
+                        }else{
+                          message.error(data.message);
+                        }
+                      });
+                    }else{
+                        message.warning('打印失败')
+                    }
+                })
+            }
+    }else{
+        message.warning('请在win系统下操作打印')
+    }
+ }

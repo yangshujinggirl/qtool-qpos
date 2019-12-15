@@ -4,6 +4,7 @@ import NP from 'number-precision'
 import { message, Modal, Form, Input, Button, Checkbox,Select } from 'antd';
 import { fomatNumTofixedTwo } from '../../../../utils/CommonUtils';
 import {GetServerData} from '../../../../services/services';
+import {printSaleOrder} from '../../../../components/Method/Method'
 import ValidataModal from '../ValidataModal';
 
 import './index.less';
@@ -195,11 +196,14 @@ class PayMentModal extends Component {
       .then((res) => {
         const { code, odOrderId, orderNo } =res;
         if(code=='0'){
-          const orderAll  = res,odOrderIds= odOrderId,orderNos= orderNo
-          const checkPrint = this.props.checkPrint;
+          const {isPrint} = this.props;
+          message.success('收银成功',.5)
+          printSaleOrder(isPrint,odOrderId);
+          this.props.dispatch({
+            type:'cashierManage/resetData',
+            payload:{}
+          })
           this.props.onCancel()
-          message.success('收银成功',1)
-          // printSaleOrder(checkPrint,odOrderIds)
         }else if(code == 'I_1031'){
           this.setState({ validateVisible:true });
           this.props.dispatch({
@@ -318,6 +322,13 @@ class PayMentModal extends Component {
   onChangeCashReal=(e)=> {
     let value = e.target.value;
     this.setState({ cashRealVal:value })
+  }
+  onChangePrint=(e)=> {
+    let value = e.target.checked;
+    this.props.dispatch({
+      type:'cashierManage/getIsPrint',
+      payload:value
+    })
   }
   onBlurCashReal=()=> {
     let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
@@ -479,7 +490,7 @@ class PayMentModal extends Component {
 
                 </div>
                 <div className='footer-row'>
-                  <Checkbox checked={isPrint}>打印小票</Checkbox>
+                  <Checkbox checked={isPrint} onChange={this.onChangePrint}>打印小票</Checkbox>
                 </div>
               </div>
             </div>

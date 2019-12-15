@@ -4,6 +4,7 @@ import NP from 'number-precision'
 import { message, Modal, Form, Input, Button, Checkbox,Select } from 'antd';
 import { fomatNumTofixedTwo } from '../../../../utils/CommonUtils';
 import {GetServerData} from '../../../../services/services';
+import {printReturnOrder} from '../../../../components/Method/Method'
 
 import './index.less';
 
@@ -80,13 +81,14 @@ class PayMentModal extends Component {
        };
     GetServerData('qerp.web.qpos.od.return.save',params)
     .then((res) => {
-     const { code, odOrderId, orderNo } =res;
+     const { code, odReturnId } =res;
      if(code=='0'){
-       const orderAll  = res,odOrderIds= odOrderId,orderNos= orderNo
-       const checkPrint = this.props.checkPrint;
-       this.props.onCancel()
+       const { isPrint } = this.props;
        message.success('退款成功',1)
-       // printSaleOrder(checkPrint,odOrderIds)
+       printReturnOrder(isPrint,odReturnId)
+       this.props.onCancel();
+       //页面跳转
+      this.context.router.push('/cashier')
      }else {
        message.error(res.message)
      }
@@ -120,8 +122,15 @@ class PayMentModal extends Component {
     }
     this.setState({ disVal })
   }
+  onChangePrint=(e)=> {
+    let value = e.target.checked;
+    this.props.dispatch({
+      type:'returnSales/getIsPrint',
+      payload:value
+    })
+  }
   render() {
-    const { payTotalData, visible, memberInfo, baseOptions,checkedPayTypeOne } =this.props;
+    const { payTotalData, isPrint, visible, memberInfo, baseOptions,checkedPayTypeOne } =this.props;
     const { cashRealVal, disVal } =this.state;
 
     return(
@@ -199,7 +208,7 @@ class PayMentModal extends Component {
                   </Button>
                 </div>
                 <div className='footer-row'>
-                  <Checkbox>打印小票</Checkbox>
+                  <Checkbox checked={isPrint} onChange={this.onChangePrint}>打印小票</Checkbox>
                 </div>
               </div>
             </div>

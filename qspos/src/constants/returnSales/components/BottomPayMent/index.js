@@ -18,6 +18,18 @@ class BottomPayMent extends Component {
   componentDidMount(){
     this.barCodeInput.input.select();
   }
+  //更新用户信息
+  upDateUserInfo=(func)=> {
+    GetServerData('qerp.pos.sy.config.info')
+    .then((res)=> {
+      let { config } =res;
+      this.props.dispatch({
+        type:'returnSales/getIsPrint',
+        payload:config.submitPrint==1?true:false
+      })
+      func && typeof func == 'function' && func()
+    })
+  }
   hindleKeyDown=(e)=> {
     let keyCode=e.keyCode;
     if(keyCode==9){
@@ -44,6 +56,7 @@ class BottomPayMent extends Component {
       message.error('请选择商品');
       return;
     }
+    this.upDateUserInfo()
     let isCardDisabled = memberInfo.mbCardId?true:false;
 
     if(isCardDisabled) {//会员
@@ -71,9 +84,7 @@ class BottomPayMent extends Component {
   }
   //跳转到收银
 	hindchange=(e)=>{
-		if(e==true){
-			this.context.router.push('/cashier')
-		}
+		this.context.router.push('/cashier')
 	}
   render() {
     const { getFieldDecorator } =this.props.form;
@@ -142,7 +153,7 @@ class BottomPayMent extends Component {
                   <span className="card-num">{memberInfo.amount}</span>
                 </p>
               <p className="lable-item">剩余积分<span className="card-num">{memberInfo.point}</span></p>
-                <p className="lable-item">本次积分<span className="card-num"></span></p>
+                <p className="lable-item">本次积分<span className="card-num">0</span></p>
               </div>
             </div>
           </div>
@@ -162,8 +173,12 @@ class BottomPayMent extends Component {
     )
   }
 }
+BottomPayMent.contextTypes= {
+    router: React.PropTypes.object
+}
 function mapStateToProps(state) {
     const { returnSales } = state;
     return returnSales;
 }
+
 export default connect(mapStateToProps)(BottomPayMent);

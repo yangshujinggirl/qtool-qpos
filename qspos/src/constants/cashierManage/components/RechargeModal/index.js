@@ -4,6 +4,7 @@ import NP from 'number-precision'
 import { message, Modal, Form, Input, Button, Checkbox,Select } from 'antd';
 import { fomatNumTofixedTwo } from '../../../../utils/CommonUtils';
 import {GetServerData} from '../../../../services/services';
+import {printRechargeOrder} from '../../../../components/Method/Method'
 import ValidataModal from '../ValidataModal';
 
 import './index.less';
@@ -58,25 +59,31 @@ class RechargeModal extends Component {
       remark:remark
     })
     .then((res) => {
-      const { code, odOrderId, orderNo } =res;
+      const { code, mbCardMoneyChargeId } =res;
       if(code=='0'){
-        const orderAll  = res,odOrderIds= odOrderId,orderNos= orderNo
-        const checkPrint = this.props.checkPrint;
-        this.props.onCancel();
-        this.setState({
-          remark:'',
-          amount:'',
-          rechargeType:'1',
+        const { isPrint } = this.props;
+        this.setState({ remark:'', amount:'',rechargeType:'1'});
+        message.success('充值成功',1);
+        this.props.dispatch({
+          type:'cashierManage/fetchMemberInfo',
+          payload:{cardNoMobile:memberInfo.mobile}
         })
-        message.success('充值成功',1)
-        // printSaleOrder(checkPrint,odOrderIds)
+        printRechargeOrder(isPrint,mbCardMoneyChargeId);
+        this.props.onCancel();
       } else {
         message.error(res.message)
       }
     })
   }
+  onChangePrint=(e)=> {
+    let value = e.target.checked;
+    this.props.dispatch({
+      type:'cashierManage/getIsPrint',
+      payload:value
+    })
+  }
   render() {
-    const { payTotalData, memberInfo, visible } =this.props;
+    const { payTotalData, memberInfo, visible, isPrint } =this.props;
     const { rechargeOptions, rechargeType, amount } =this.state;
     return(
         <Modal
@@ -85,14 +92,14 @@ class RechargeModal extends Component {
           onCancel={this.onCancel}
           visible={visible}
           footer={null}
-          width={865}
+          width={716}
           destroyOnClose={true}
           className="settling-account-modal">
             <div className="main-content-body">
               <Form.Item label="会员信息">
                 <Input autoComplete={'off'} disabled defaultValue={`${memberInfo.name}/${memberInfo.mobile}`}/>
               </Form.Item>
-              <Form.Item label="账户金额">
+              <Form.Item label="账户余额">
                 <Input autoComplete={'off'} disabled readOnly value={memberInfo.amount}/>
               </Form.Item>
               <Form.Item label="充值金额">
@@ -130,7 +137,7 @@ class RechargeModal extends Component {
                   </Button>
                 </div>
                 <div className='footer-row'>
-                  <Checkbox>打印小票</Checkbox>
+                  <Checkbox checked={isPrint} onChange={this.onChangePrint}>打印小票</Checkbox>
                 </div>
               </div>
             </div>

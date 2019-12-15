@@ -32,6 +32,7 @@ export default {
       type:'1',
       amount:0
     },
+    isPrint:false
   },
   reducers: {
       resetData(state,payload:{}) {
@@ -90,6 +91,9 @@ export default {
       getPayMentTypeOptions(state, {payload: baseOptions }) {
         return {...state, baseOptions }
       },
+      getIsPrint(state, {payload: isPrint }) {
+        return {...state, isPrint }
+      }
   },
   effects: {
     *fetchbarCode({ payload:values }, { call, put ,select}) {
