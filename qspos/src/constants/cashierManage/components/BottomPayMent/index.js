@@ -26,12 +26,27 @@ class BottomPayMent extends Component {
   }
   componentDidMount(){
     this.barCodeInput.input.select();
+    window.addEventListener('keydown', this.handleUpSpaceBar,true);
+    window.addEventListener('keyup', this.handleDownSpaceBar,true);
   }
-  hindleKeyDown=(e)=> {
-    let keyCode=e.keyCode;
-    if(keyCode==9){
-			e.preventDefault()
-		}
+  componentWillUnmount(){
+    window.removeEventListener('keydown', this.handleUpSpaceBar,true);
+    window.removeEventListener('keyup', this.handleDownSpaceBar,true);
+	}
+  //空格键结算收银
+  handleUpSpaceBar=(e)=> {
+    let keyCode = e.keyCode;
+    const { goodsList, payMentVisible } =this.props;
+    if(keyCode == 32) {
+      if(goodsList.length>0&&!payMentVisible) {
+        this.goSettlingAccount();
+      }
+    }
+  }
+  handleDownSpaceBar=(e)=>{
+    if(e.keyCode==32){
+       e.preventDefault()
+    }
   }
   //更新用户信息
   upDateUserInfo=(func)=> {
@@ -49,7 +64,10 @@ class BottomPayMent extends Component {
   hindleKeyUpBarcode=(e)=> {
     let keyCode=e.keyCode;
     if(keyCode==13) {
-      const value=e.target.value
+      const value=e.target.value;
+      if(value == '') {
+        return;
+      }
       this.getbarCodeSeach(value)
     }
     if(keyCode == 9) {
@@ -65,8 +83,11 @@ class BottomPayMent extends Component {
   //enter搜索会员信息
   hindleKeyUpMember=(e)=> {
     let keyCode=e.keyCode;
+    const value=e.target.value;
+    if(value == '') {
+      return;
+    }
     if(keyCode==13) {
-      const value=e.target.value
       this.getMemberInfo(value);
       this.barCodeInput.input.select();
     }
@@ -80,6 +101,12 @@ class BottomPayMent extends Component {
       type:'cashierManage/fetchMemberInfo',
       payload:{ cardNoMobile: value }
     })
+  }
+  hindleKeyDown=(e)=> {
+    let keyCode=e.keyCode;
+    if(keyCode==9){
+			e.preventDefault()
+		}
   }
   //判断是会员手机号还会员卡号
   checkIsPhone=(value,type)=> {
@@ -219,13 +246,6 @@ class BottomPayMent extends Component {
       payload:payPart
     })
   }
-  onCancelPayMent=()=> {
-    this.props.dispatch({
-      type:'cashierManage/getPayMentVisible',
-      payload:false
-    })
-    this.props.form.resetFields()
-  }
   //跳转到退货
 	hindchange=(e)=>{
 		this.context.router.push('/returngoods')
@@ -329,7 +349,6 @@ class BottomPayMent extends Component {
           visible={visibleRecharge}/>
         <PayMentModal
           initLogic={this.hasCardOrPoint}
-          onCancel={this.onCancelPayMent}
           form={this.props.form}
           visible={payMentVisible}/>
       </div>

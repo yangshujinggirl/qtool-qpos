@@ -43,13 +43,13 @@ export default {
     },
     payMentVisible:false,//支付弹框
     couponDetail:{},//优惠券核销内容
-    isPrint:false
+    isPrint:false,
   },
   reducers: {
-      resetData(state,payload:{}) {
+      resetData(state,payload:{}) {//页面数据重置
         const currentRowIndex=0,goodsList=[],payPart = { isGroupDisabled:false, errorText:null }, //收银数据表
         payTotalData = { cutAmount:'0',totolNumber:0, totolAmount:0, thisPoint:0, payAmount:0 },
-        memberInfo = { amount:0, point:0, }, couponDetail={}, payMentVisible=false,
+        memberInfo = { amount:0, point:0, }, couponDetail={}, payMentVisible=false,isPrint=false,
         baseOptions = [
           {name:'微信',checked:false,disabled:false,type:'1'},
           {name:'支付宝',checked:false,disabled:false,type:'2'},
@@ -57,23 +57,25 @@ export default {
           {name:'现金',checked:false,disabled:false,type:'4'},
           {name:'会员卡',checked:false,disabled:false,type:'5'},
           {name:'积分',checked:false,disabled:false,type:'6'}
-        ],selectedActivityId='0',
-        checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},
+        ],
+        checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},selectedActivityId='0',
         payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [],activityOptions = [];
-        return {...state, currentRowIndex, goodsList, payTotalData,payPart,
+
+        return {...state, currentRowIndex, goodsList, payTotalData,payPart,isPrint,
           memberInfo, activityOptions,baseOptions,selectedActivityId,couponDetail,
           checkedPayTypeOne,checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
         }
       },
-      resetPayModalData(state,payload:{}) {
-        console.log(state)
+      resetPayModalData(state,payload:{}) {//弹框数据重置
         let payTotalData = state.payTotalData;
         payTotalData.cutAmount = '0';
-        const payPart = { isGroupDisabled:false, errorText:null },
+        payTotalData.payAmount = payTotalData.totolAmount;
+        const payPart = { isGroupDisabled:false, errorText:null },isPrint=false,
         checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},couponDetail={},
         payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [];
+
         return {...state,payPart,checkedPayTypeOne,couponDetail,payTotalData,
-          checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
+          checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,isPrint
         }
       },
 	    getGoodsList(state, { payload: goodsList}) {
@@ -87,7 +89,7 @@ export default {
             } else {
               zeropayPrice=NP.divide(NP.times(currentPrice, el.qty,el.discount),10); //计算值
             }
-            zeropayPrice = fomatNumTofixedTwo(zeropayPrice);//两位小安数，当不满足时候补零
+            zeropayPrice = fomatNumTofixedTwo(zeropayPrice);//两位小数，当不满足时候补零
             el.payPrice = fomatNumAddFloat(zeropayPrice)
             el.key=++index;
             totolNumber=NP.plus(totolNumber,el.qty);
@@ -145,13 +147,13 @@ export default {
         const result=yield call(GetServerData,'qerp.pos.pd.spu.find',values);
         yield put({type: 'spinLoad/setLoading',payload:false});
         if(result.code!='0'){
-          message.error(result.message);
+          message.error(result.message,.5);
           return;
         }
         let { pdSpu } =result, goodsList=initDatasouce.slice(0);
         const idx = goodsList.findIndex((value)=> value.barcode == pdSpu.barcode);
         if(Number(pdSpu.inventory)<=0) {//判断库存
-          message.error('商品库存不足');
+          message.error('商品库存不足',.5);
           return;
         }
         let activityOptions=[],selectedActivityId='0',
@@ -177,7 +179,7 @@ export default {
         const result=yield call(GetServerData,'qerp.pos.mb.card.find',values);
         yield put({type: 'spinLoad/setLoading',payload:false});
         if(result.code!='0'){
-          message.error(result.message);
+          message.error(result.message,.5);
           return;
         }
         const { mbCardInfo } = result;

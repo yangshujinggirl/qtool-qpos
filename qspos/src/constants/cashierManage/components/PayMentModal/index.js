@@ -18,16 +18,11 @@ class PayMentModal extends Component {
       validateVisible:false,
       remark:'',
       cashRealVal:'',
-      disVal:''
+      disVal:'',
+      payLoading:false
     }
   }
-  onCancel=()=> {
-    this.props.dispatch({
-      type:'cashierManage/resetPayModalData',
-      payload:{}
-    })
-    this.props.onCancel();
-  }
+  //备注
   onChangeRemark=(e)=> {
     this.setState({ remark: e.target.value });
   }
@@ -62,7 +57,7 @@ class PayMentModal extends Component {
       payload:payPart
     })
   }
-  //组合支付切换支付方式
+  //组合支付---切换支付方式
   handleTogglePayType=(option,type)=> {
     let { checkedPayTypeOne, checkedPayTypeTwo } =this.props;
     if(type == 'checkedPayTypeOne') {
@@ -105,6 +100,7 @@ class PayMentModal extends Component {
         })
         this.props.initLogic()
     }
+    this.setState({ cashRealVal:'', disVal:'' });
     this.props.dispatch({
       type:'cashierManage/getPayPart',
       payload:payPart
@@ -131,6 +127,7 @@ class PayMentModal extends Component {
   checkCardAndPoint() {
     let { memberInfo, payTotalData, payPart, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
     let payAmount = payTotalData.payAmount;
+    let { cashRealVal, disVal } =this.state;
     if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
       let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
       let pointAmount = NP.divide(memberInfo.point,100);//积分余额
@@ -162,7 +159,23 @@ class PayMentModal extends Component {
     this.props.dispatch({
       type:'cashierManage/getCheckedPayType',
       payload:{ checkedPayTypeOne, checkedPayTypeTwo }
-    })
+    });
+    this.upDateCashVal()
+  }
+  //现金支付时 更新val；
+  upDateCashVal=()=> {
+    const { checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let { cashRealVal, disVal } =this.state;
+    if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
+      if(checkedPayTypeTwo.type == '4'&& cashRealVal!='') {
+        disVal = NP.minus(cashRealVal, checkedPayTypeTwo.amount);
+      }
+    } else {
+      if(checkedPayTypeOne.type == '4'&& cashRealVal!='') {
+        disVal = NP.minus(cashRealVal, checkedPayTypeOne.amount);
+      }
+    }
+    this.setState({ disVal })
   }
   //处理结算逻辑
   handleSubmit=()=>{
@@ -192,28 +205,113 @@ class PayMentModal extends Component {
   }
   //结算Api
   goPayApi=(values)=>{
-      GetServerData('qerp.web.qpos.od.order.save',values)
-      .then((res) => {
-        const { code, odOrderId, orderNo } =res;
-        if(code=='0'){
-          const {isPrint} = this.props;
-          message.success('收银成功',.5)
-          printSaleOrder(isPrint,odOrderId);
-          this.props.dispatch({
-            type:'cashierManage/resetData',
-            payload:{}
-          })
-          this.props.onCancel()
-        }else if(code == 'I_1031'){
-          this.setState({ validateVisible:true });
-          this.props.dispatch({
-            type:'cashierManage/getPayMentVisible',
-            payload:false
-          })
-        } else {
-          message.error(res.message)
-        }
+    this.setState({ payLoading:true })
+    GetServerData('qerp.web.qpos.od.order.save',values)
+    .then((res) => {
+      const { code, odOrderId, orderNo } =res;
+      this.setState({ payLoading:false })
+      if(code=='0'){
+        const {isPrint} = this.props;
+        message.success('收银成功',.5)
+        printSaleOrder(isPrint,odOrderId);
+        this.props.dispatch({
+          type:'cashierManage/resetData',
+          payload:{}
+        })
+        this.props.dispatch({
+          type:'cashierManage/getPayMentVisible',
+          payload:false
+        })
+        this.setState({ cashRealVal:'', disVal:'' });
+        this.props.form.resetFields();
+      }else if(code == 'I_1031'){
+        this.setState({ validateVisible:true });
+        this.props.dispatch({
+          type:'cashierManage/getPayMentVisible',
+          payload:false
+        })
+      } else {
+        message.error(res.message)
+      }
+    })
+  }
+  //关闭支付弹框
+  onCancelPay=()=> {
+    this.props.dispatch({
+      type:'cashierManage/resetPayModalData',
+      payload:{}
+    })
+    this.props.dispatch({
+      type:'cashierManage/getPayMentVisible',
+      payload:false
+    });
+    this.setState({ cashRealVal:'', disVal:'' });
+  }
+  //支付方式1
+  onChangePayOne=(e)=> {
+    let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let value = e.target.value;
+    let regExp=/^\d*((\.)|(\.\d{1,2}))?$/
+    if(regExp.test(value)) {
+      checkedPayTypeOne.amount = value;
+      this.props.dispatch({
+        type:'cashierManage/getCheckedPayType',
+        payload:{ checkedPayTypeOne, checkedPayTypeTwo }
       })
+    }
+  }
+  //支付方式1
+  onBlurPayOne=(e)=> {
+    let { payTotalData, memberInfo, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
+    let pointAmount = NP.divide(memberInfo.point,100);//积分余额
+    let payAmount = payTotalData.payAmount;
+    checkedPayTypeOne.amount = checkedPayTypeOne.amount==''?0:checkedPayTypeOne.amount;
+    if(checkedPayTypeOne.amount>payAmount) {
+      checkedPayTypeOne.amount = payAmount;
+      checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+    } else {
+      switch(checkedPayTypeOne.type) {
+        case "5":
+          if( memberAmount >= checkedPayTypeOne.amount) {
+            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+          } else {//会员卡余额不足
+            checkedPayTypeOne.amount = memberAmount;
+            checkedPayTypeTwo.amount = NP.minus(payAmount, memberAmount);
+          }
+          break;
+        case "6":
+          if(pointAmount >= checkedPayTypeOne.amount) {
+            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+          } else {//会员卡余额不足
+            checkedPayTypeOne.amount = pointAmount;
+            checkedPayTypeTwo.amount = NP.minus(payAmount, pointAmount);
+          }
+          break;
+      }
+    }
+    this.props.dispatch({
+      type:'cashierManage/getCheckedPayType',
+      payload:{ checkedPayTypeOne, checkedPayTypeTwo }
+    })
+    this.upDateCashVal()
+  }
+  //现金实收
+  onChangeCashReal=(e)=> {
+    let value = e.target.value;
+    this.setState({ cashRealVal:value })
+  }
+  onBlurCashReal=()=> {
+    let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let { cashRealVal,disVal } =this.state;
+    disVal= NP.minus(cashRealVal,payTotalData.payAmount);
+    if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
+      disVal= NP.minus(cashRealVal,checkedPayTypeTwo.amount);
+    } else if(Number(cashRealVal)< Number(payTotalData.payAmount)) {
+      message.error('金额有误');
+      return;
+    }
+    this.setState({ disVal })
   }
   //异店积分校验
   onCancelValidate=()=>{
@@ -270,59 +368,7 @@ class PayMentModal extends Component {
       })
     }
   }
-  //支付方式1
-  onChangePayOne=(e)=> {
-    let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
-    let value = e.target.value;
-    let regExp=/^\d*((\.)|(\.\d{1,2}))?$/
-    if(regExp.test(value)) {
-      checkedPayTypeOne.amount = value;
-      this.props.dispatch({
-        type:'cashierManage/getCheckedPayType',
-        payload:{ checkedPayTypeOne, checkedPayTypeTwo }
-      })
-    }
-  }
-  //支付方式1
-  onBlurPayOne=(e)=> {
-    let { payTotalData, memberInfo, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
-    let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
-    let pointAmount = NP.divide(memberInfo.point,100);//积分余额
-    let payAmount = payTotalData.payAmount;
-    checkedPayTypeOne.amount = checkedPayTypeOne.amount==''?0:checkedPayTypeOne.amount;
-    if(checkedPayTypeOne.amount>payAmount) {
-      checkedPayTypeOne.amount = payAmount;
-      checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-    } else {
-      switch(checkedPayTypeOne.type) {
-        case "5":
-          if( memberAmount >= checkedPayTypeOne.amount) {
-            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-          } else {//会员卡余额不足
-            checkedPayTypeOne.amount = memberAmount;
-            checkedPayTypeTwo.amount = NP.minus(payAmount, memberAmount);
-          }
-          break;
-        case "6":
-          if(pointAmount >= checkedPayTypeOne.amount) {
-            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-          } else {//会员卡余额不足
-            checkedPayTypeOne.amount = pointAmount;
-            checkedPayTypeTwo.amount = NP.minus(payAmount, pointAmount);
-          }
-          break;
-      }
-    }
-    this.props.dispatch({
-      type:'cashierManage/getCheckedPayType',
-      payload:{ checkedPayTypeOne, checkedPayTypeTwo }
-    })
-  }
-  //现金实收
-  onChangeCashReal=(e)=> {
-    let value = e.target.value;
-    this.setState({ cashRealVal:value })
-  }
+  //切换打印
   onChangePrint=(e)=> {
     let value = e.target.checked;
     this.props.dispatch({
@@ -330,30 +376,16 @@ class PayMentModal extends Component {
       payload:value
     })
   }
-  onBlurCashReal=()=> {
-    let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
-    let { cashRealVal,disVal } =this.state;
-    disVal= NP.minus(cashRealVal,payTotalData.payAmount);
-    if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
-      disVal= NP.minus(cashRealVal,checkedPayTypeTwo.amount);
-    } else if(Number(cashRealVal)< Number(payTotalData.payAmount)) {
-      message.error('金额有误');
-      return;
-    }
-    this.setState({ disVal })
-  }
   render() {
     const { payTotalData, memberInfo, visible,payPart,couponDetail,
             payMentTypeOptionsOne, payMentTypeOptionsTwo,isPrint,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
-    const { validateVisible, cashRealVal, disVal } =this.state;
-
+    const { validateVisible, cashRealVal, disVal, payLoading } =this.state;
     return(
       <div>
         <Modal
           closable={false}
-          onOk={this.onCancel}
-          onCancel={this.onCancel}
+          onCancel={this.onCancelPay}
           visible={visible}
           footer={null}
           width={865}
@@ -474,6 +506,7 @@ class PayMentModal extends Component {
                 {payPart.errorText&&<p className="error-validate">{payPart.errorText}</p>}
                 <div className="footer-row">
                   <Button
+                    loading={payLoading}
                     type="primary"
                     disabled={payPart.errorText?true:false}
                     onClick={this.handleSubmit}

@@ -16,7 +16,8 @@ class PayMentModal extends Component {
     this.state = {
       remark:'',
       cashRealVal:'',
-      disVal:''
+      disVal:'',
+      loading:false,
     }
   }
   onCancel=()=> {
@@ -79,19 +80,21 @@ class PayMentModal extends Component {
           },
           odReturnDetails,
        };
+    this.setState({ loading:true });
     GetServerData('qerp.web.qpos.od.return.save',params)
     .then((res) => {
-     const { code, odReturnId } =res;
-     if(code=='0'){
-       const { isPrint } = this.props;
-       message.success('退款成功',1)
-       printReturnOrder(isPrint,odReturnId)
-       this.props.onCancel();
-       //页面跳转
-      this.context.router.push('/cashier')
-     }else {
-       message.error(res.message)
-     }
+      const { code, odReturnId } =res;
+      this.setState({ loading:false });
+      if(code=='0'){
+        const { isPrint } = this.props;
+        message.success('退货成功',.5)
+        printReturnOrder(isPrint,odReturnId)
+        this.props.onCancel();
+        //页面跳转
+        this.context.router.push('/cashier')
+      }else {
+        message.error(res.message,.5)
+      }
     })
   }
   //支付方式1
@@ -117,7 +120,7 @@ class PayMentModal extends Component {
     let { cashRealVal,disVal } =this.state;
     disVal= NP.minus(cashRealVal,payTotalData.payAmount);
     if(Number(cashRealVal)< Number(payTotalData.payAmount)) {
-      message.error('金额有误');
+      message.error('金额有误',.5);
       return;
     }
     this.setState({ disVal })
@@ -131,7 +134,7 @@ class PayMentModal extends Component {
   }
   render() {
     const { payTotalData, isPrint, visible, memberInfo, baseOptions,checkedPayTypeOne } =this.props;
-    const { cashRealVal, disVal } =this.state;
+    const { cashRealVal, disVal, loading } =this.state;
 
     return(
       <div>
@@ -200,6 +203,7 @@ class PayMentModal extends Component {
                 {/*payPart.errorText&&<p className="error-validate">{payPart.errorText}</p>*/}
                 <div className="footer-row">
                   <Button
+                    loading={loading}
                     type="primary"
                     onClick={this.handleSubmit}
                     className="go-settling-btn">

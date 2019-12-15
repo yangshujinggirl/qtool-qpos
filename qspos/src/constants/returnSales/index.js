@@ -21,11 +21,14 @@ class CashierManage extends Component {
           <GoodsTable form={this.props.form}/>
         </div>
         <div className="middle-part">
-          <div className="handle-rt">
-            <label className="mon-item">实付金额：{orderTotalData.amount}</label>
-            <label className="mon-item">已退金额：{orderTotalData.returnAmount}</label>
-            <label className="mon-item">可退金额：<label className="highCol">{orderTotalData.canReturnAmount}</label></label>
-          </div>
+          {
+            orderTotalData.amount&&
+            <div className="handle-rt">
+              <label className="mon-item">实付金额：{orderTotalData.amount}</label>
+              <label className="mon-item">已退金额：{orderTotalData.returnAmount}</label>
+              <label className="mon-item">可退金额：<label className="highCol">{orderTotalData.canReturnAmount}</label></label>
+            </div>
+          }
         </div>
         <div className="bottom-part">
           <BottomPayMent form={this.props.form}/>

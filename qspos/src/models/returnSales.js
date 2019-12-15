@@ -38,7 +38,7 @@ export default {
       resetData(state,payload:{}) {
         const currentRowIndex=0,goodsList=[], //收银数据表
         payTotalData = { cutAmount:'0',totolNumber:0, totolAmount:0, returnPoint:0, payAmount:0 },
-        memberInfo = { amount:0, point:0, },
+        memberInfo = { amount:0, point:0, },orderTotalData={},isPrint=false,
         baseOptions = [
           {name:'微信',checked:false,disabled:false,type:'1'},
           {name:'支付宝',checked:false,disabled:false,type:'2'},
@@ -48,12 +48,14 @@ export default {
         ],
         checkedPayTypeOne = { type:'1', amount:0 };
         return {...state, currentRowIndex, goodsList, payTotalData,checkedPayTypeOne,
-          memberInfo,baseOptions,
+          memberInfo,baseOptions,orderTotalData,isPrint
         }
       },
       resetPayModalData(state,payload:{}) {
-        const  checkedPayTypeOne = { type:'1', amount:0 };
-        return {...state, checkedPayTypeOne }
+        let payTotalData = state.payTotalData;
+        payTotalData.cutAmount = '0';
+        const  checkedPayTypeOne = { type:'1', amount:0 },isPrint=false;
+        return {...state, checkedPayTypeOne, isPrint, payTotalData }
       },
 	    getGoodsList(state, { payload: goodsList}) {
         let totolNumber=0,totolAmount=0,returnPoint=0;
@@ -102,7 +104,7 @@ export default {
         const result=yield call(GetServerData,'qerp.web.qpos.od.return.query',values);
         yield put({type: 'spinLoad/setLoading',payload:false});
         if(result.code!='0'){
-          message.error(result.message);
+          message.error(result.message,.5);
           return;
         }
         let { odOrderDetails, order, mbCard } =result;
@@ -123,7 +125,7 @@ export default {
         const result=yield call(GetServerData,'qerp.pos.mb.card.find',values);
         yield put({type: 'spinLoad/setLoading',payload:false});
         if(result.code!='0'){
-          message.error(result.message);
+          message.error(result.message,.5);
           return;
         }
         const { mbCardInfo } = result;

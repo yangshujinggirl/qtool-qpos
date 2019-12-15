@@ -18,6 +18,7 @@ class RechargeModal extends Component {
       remark:'',
       amount:'',
       rechargeType:'1',
+      rechargeLoading:false,
       rechargeOptions:[
         {name:'微信',checked:false,disabled:false,type:'1'},
         {name:'支付宝',checked:false,disabled:false,type:'2'},
@@ -52,6 +53,7 @@ class RechargeModal extends Component {
   handleSubmit=()=>{
     const { memberInfo, rechargePayType } =this.props;
     const { amount, rechargeType, remark } =this.state;
+    this.setState({ rechargeLoading:true })
     GetServerData('qerp.pos.mb.card.charge',{
       mbCardId:memberInfo.mbCardId,
       amount:amount,
@@ -64,6 +66,7 @@ class RechargeModal extends Component {
         const { isPrint } = this.props;
         this.setState({ remark:'', amount:'',rechargeType:'1'});
         message.success('充值成功',1);
+        this.setState({ rechargeLoading:false })
         this.props.dispatch({
           type:'cashierManage/fetchMemberInfo',
           payload:{cardNoMobile:memberInfo.mobile}
@@ -84,7 +87,7 @@ class RechargeModal extends Component {
   }
   render() {
     const { payTotalData, memberInfo, visible, isPrint } =this.props;
-    const { rechargeOptions, rechargeType, amount } =this.state;
+    const { rechargeOptions, rechargeType, amount, rechargeLoading } =this.state;
     return(
         <Modal
           closable={false}
@@ -128,6 +131,7 @@ class RechargeModal extends Component {
               <div className="footer-part">
                 <div className="footer-row">
                   <Button
+                    loading={rechargeLoading}
                     disabled={amount?false:true}
                     type="primary"
                     onClick={this.handleSubmit}

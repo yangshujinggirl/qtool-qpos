@@ -17,6 +17,27 @@ class BottomPayMent extends Component {
   }
   componentDidMount(){
     this.barCodeInput.input.select();
+    window.addEventListener('keydown', this.handleUpSpaceBar,true);
+    window.addEventListener('keyup', this.handleDownSpaceBar,true);
+  }
+  componentWillUnmount(){
+    window.removeEventListener('keydown', this.handleUpSpaceBar,true);
+    window.removeEventListener('keyup', this.handleDownSpaceBar,true);
+	}
+  //空格键结算收银
+  handleUpSpaceBar=(e)=> {
+    let keyCode = e.keyCode;
+    const { goodsList } =this.props;
+    if(keyCode == 32) {
+      if(goodsList.length>0&&!this.state.visiblePay) {
+        this.goSettlingAccount();
+      }
+    }
+  }
+  handleDownSpaceBar=(e)=>{
+    if(e.keyCode==32){
+       e.preventDefault()
+    }
   }
   //更新用户信息
   upDateUserInfo=(func)=> {
@@ -30,6 +51,7 @@ class BottomPayMent extends Component {
       func && typeof func == 'function' && func()
     })
   }
+  //enter查订单；
   hindleKeyDown=(e)=> {
     let keyCode=e.keyCode;
     if(keyCode==9){
@@ -38,8 +60,11 @@ class BottomPayMent extends Component {
   }
   hindleKeyUpBarcode=(e)=> {
     let keyCode=e.keyCode;
+    const value=e.target.value;
+    if(value == '') {
+      return;
+    }
     if(keyCode==13) {
-      const value=e.target.value
       this.getbarCodeSeach(value)
     }
   }
@@ -49,7 +74,7 @@ class BottomPayMent extends Component {
       payload:{ odOrderNo: value }
     })
   }
-  //结算
+  //结算弹框
   goSettlingAccount=()=> {
     let { goodsList, memberInfo, payPart, payTotalData, baseOptions, checkedPayTypeOne } = this.props;
     if(payTotalData.totolNumber==0) {

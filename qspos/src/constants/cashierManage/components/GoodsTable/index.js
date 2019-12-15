@@ -21,6 +21,7 @@ class GoodsTable extends React.Component {
   componentWillUnmount(){
 		window.removeEventListener('resize', this.windowResize);
 	}
+
   //适配屏幕
 	windowResize = () =>{
 		if(!this.refs.tableWrapper){
@@ -69,7 +70,8 @@ class GoodsTable extends React.Component {
         regexp=/^[1-9]*(\d)*$/
       break;
       case 'discount':
-        regexp=/^\d*(\.\d{1})?$/
+        // regexp=/^\d*(\.\d{1})?$/
+        regexp=/^\d*((\.)|(\.\d{1}))?$/
       break;
       case 'payPrice':
         regexp=/^\d*((\.)|(\.\d{1,2}))?$/
@@ -91,6 +93,7 @@ class GoodsTable extends React.Component {
     switch(keyName) {
       case 'qty':
         value = value==''?1:value;
+        goodsList[index].qty = value;
         if(Number(value)>Number(goodsList[index].inventory)) {
           goodsList[index].qty=goodsList[index].inventory;
           message.warning('商品库存不足')
@@ -98,6 +101,7 @@ class GoodsTable extends React.Component {
         break;
       case 'discount':
         value = value==''?10:value;
+        goodsList[index].discount = value;
         if((role=='2'||role=='1') && value< 6){
           goodsList[index].discount=6;
         }

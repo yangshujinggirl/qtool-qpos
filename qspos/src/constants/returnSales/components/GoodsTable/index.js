@@ -64,7 +64,6 @@ class GoodsTable extends React.Component {
     let value = e.target.value;
     let regexp;
     let { goodsList } =this.props;
-    debugger
     switch(keyName) {
       case 'qty':
         regexp=/^[1-9]*(\d)*$/
