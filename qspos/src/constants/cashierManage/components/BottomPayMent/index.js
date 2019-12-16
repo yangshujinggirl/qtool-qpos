@@ -85,6 +85,14 @@ class BottomPayMent extends Component {
     let keyCode=e.keyCode;
     const value=e.target.value;
     if(value == '') {
+      let memberInfo={
+        amount:0,
+        point:0,
+      }
+      this.props.dispatch({
+        type:'cashierManage/getMemberInfo',
+        payload:memberInfo
+      })
       return;
     }
     if(keyCode==13) {
@@ -129,7 +137,8 @@ class BottomPayMent extends Component {
   }
   //切换会员
   goToggleVip=()=> {
-		GetServerData('qerp.pos.mb.card.switch',{ mobile:this.props.memberInfo.cardNoMobile})
+    const { memberInfo } =this.props;
+		GetServerData('qerp.pos.mb.card.switch',{ mobile:memberInfo.mobile})
 		.then((res) => {
 			if(res.code == '0') {
 				res.iQposMbCards&&res.iQposMbCards.map((el,index) => (el.key = index))
@@ -176,7 +185,7 @@ class BottomPayMent extends Component {
   hasCardOrPoint=()=> {
     let { memberInfo, payPart, payTotalData, baseOptions, payMentTypeOptionsOne,
           payMentTypeOptionsTwo,checkedPayTypeOne, checkedPayTypeTwo } = this.props;
-    payPart.isGroupDisabled = true;
+    payPart.isGroupDisabled = false;
     let isCardDisabled = Number(memberInfo.amount)<=0?true:false;
     let isPointDisabled = Number(memberInfo.point)<=0?true:false;
     let payAmount = parseFloat(payTotalData.payAmount);//应付总额；
@@ -186,7 +195,7 @@ class BottomPayMent extends Component {
 
     if(isCardDisabled&&isPointDisabled) {//会员余额:0，积分余额:0
       checkedPayTypeOne.type = '1';
-      payPart.isGroupDisabled = false;
+      payPart.isGroupDisabled = true;
     } else if(!isCardDisabled) {//会员有余额
       if(memberAmount < payAmount){
         checkedPayTypeOne.amount = memberAmount;
@@ -202,6 +211,7 @@ class BottomPayMent extends Component {
         }
       }
     }
+    // debugger
     if(memberInfo.isLocalShop == 'false') {//异店会员
       isCardDisabled = true;
       if(!isPointDisabled) {//积分有余额
@@ -213,6 +223,10 @@ class BottomPayMent extends Component {
             amount:NP.minus(payAmount, pointAmount)
           }
         }
+      } else {
+        checkedPayTypeOne = { type:'1', amount: payAmount };
+        checkedPayTypeTwo ={};
+        payPart.isGroupDisabled = true;
       }
     }
     payMentTypeOptionsOne = baseOptions;
@@ -254,6 +268,7 @@ class BottomPayMent extends Component {
     const { getFieldDecorator } =this.props.form;
     const { payTotalData,memberInfo, odOrder, payMentVisible } =this.props;
     const { visibleToggle, vipList, isPhone, visiblePay, visibleRecharge } =this.state;
+
     return(
       <div className="bottom-payment-action flexBox">
         <div className="part-lt">

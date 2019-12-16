@@ -550,7 +550,7 @@ class PayMentModal extends Component {
                     onClick={this.goToggleGroupPay}
                     className="go-group-btn"
                     type="primary"
-                    disabled={payPart.isGroupDisabled?false:true}
+                    disabled={payPart.isGroupDisabled}
                     ghost={checkedPayTypeOne.type&&checkedPayTypeTwo.type?false:true}>组合支付</Button>
 
                 </div>
