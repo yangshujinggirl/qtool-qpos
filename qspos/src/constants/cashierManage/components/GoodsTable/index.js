@@ -113,8 +113,8 @@ class GoodsTable extends React.Component {
         value = value==''?goodsList[index].toCPrice:value;
         let zeropayPrice=value,discount;
         discount=NP.times(NP.divide(value,goodsList[index].toCPrice,goodsList[index].qty),10)
-        if((role=='2'||role=='1') && discount< 8){
-          discount=8;
+        if((role=='2'||role=='1') && discount< 6){
+          discount=6;
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
         }else if((role=='3') && discount< 9){
           discount=9
