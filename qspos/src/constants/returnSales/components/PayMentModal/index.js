@@ -18,6 +18,7 @@ class PayMentModal extends Component {
       cashRealVal:'',
       disVal:'0.00',
       loading:false,
+      errorText:null
     }
   }
   onCancel=()=> {
@@ -125,17 +126,21 @@ class PayMentModal extends Component {
   //现金实收
   onChangeCashReal=(e)=> {
     let value = e.target.value;
-    this.setState({ cashRealVal:value })
+    let regexp=/^\d*((\.)|(\.\d{1,2}))?$/;
+    if(regexp.test(value)) {
+      this.setState({ cashRealVal: value, errorText:null});
+    }
   }
   onBlurCashReal=()=> {
     let { payTotalData, checkedPayTypeOne } =this.props;
-    let { cashRealVal,disVal } =this.state;
+    let { cashRealVal,disVal, errorText } =this.state;
     disVal= NP.minus(cashRealVal,payTotalData.payAmount);
+    errorText =null;
     if(Number(cashRealVal)< Number(payTotalData.payAmount)) {
-      message.error('金额有误',.5);
-      return;
+      disVal= '0.00'
+      errorText = '金额有误'
     }
-    this.setState({ disVal })
+    this.setState({ disVal, errorText})
   }
   onChangePrint=(e)=> {
     let value = e.target.checked;
@@ -146,7 +151,7 @@ class PayMentModal extends Component {
   }
   render() {
     const { payTotalData, isPrint, visible, memberInfo, baseOptions,checkedPayTypeOne } =this.props;
-    const { cashRealVal, disVal, loading } =this.state;
+    const { cashRealVal, disVal, loading, errorText } =this.state;
 
     return(
       <div>
@@ -197,7 +202,7 @@ class PayMentModal extends Component {
               {
                 checkedPayTypeOne.type=='4'&&
                 <div className="more-formItem">
-                  <Form.Item label="现金实收" className="label-item">
+                  <Form.Item label="现金实退" className="label-item">
                     <Input
                       autoComplete={'off'}
                       value={cashRealVal}
@@ -213,11 +218,12 @@ class PayMentModal extends Component {
                 <Input autoComplete={'off'}  placeholder="可输入20字订单备注" onChange={this.onChangeRemark}/>
               </Form.Item>
               <div className="footer-part">
-                {/*payPart.errorText&&<p className="error-validate">{payPart.errorText}</p>*/}
+                {errorText&&<p className="error-validate">{errorText}</p>}
                 <div className="footer-row">
                   <Button
                     loading={loading}
                     type="primary"
+                    disabled={errorText?true:false}
                     onClick={this.handleSubmit}
                     className="go-settling-btn">
                       结算
