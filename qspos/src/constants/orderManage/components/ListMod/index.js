@@ -44,7 +44,7 @@ class ListMod extends Component {
                     <p>{ele.createTime}</p>
                   </div>
                   <div className="flex-wrap">
-                    <p>{BusinessTypeMap[ele.businessType]} {ele.level&&'/'} {ele.levelStr} / {OrderStatusMap[ele.orderStatus]}</p>
+                    <p>{BusinessTypeMap[ele.businessType]} / {ele.level?ele.levelStr:'来宾'} / {OrderStatusMap[ele.orderStatus]}</p>
                     <p className="money-num">
                       {ele.amount}元
                       {

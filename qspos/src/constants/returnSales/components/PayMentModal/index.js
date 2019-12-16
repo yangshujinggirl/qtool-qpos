@@ -176,6 +176,7 @@ class PayMentModal extends Component {
                         disabled={el.disabled}
                         className={`payType-btn ${el.type ==checkedPayTypeOne.type?'selected':''}`}>
                         {el.name}
+                        {el.type=='5'&&<span className="desc-tips">余额 {memberInfo.amount}</span>}
                       </Button>
                     ))
                   }
@@ -208,7 +209,6 @@ class PayMentModal extends Component {
                     onClick={this.handleSubmit}
                     className="go-settling-btn">
                       结算
-                      <span className="space-code">「空格键</span>
                   </Button>
                 </div>
                 <div className='footer-row'>

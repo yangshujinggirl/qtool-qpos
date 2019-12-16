@@ -512,7 +512,6 @@ class PayMentModal extends Component {
                     onClick={this.handleSubmit}
                     className="go-settling-btn">
                       结算
-                      <span className="space-code">「空格键</span>
                   </Button>
                   <Button
                     onClick={this.goToggleGroupPay}
