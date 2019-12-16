@@ -292,6 +292,7 @@ class BottomPayMent extends Component {
                   initialValue:memberInfo.mobile
                 })(
                   <Input
+                    autoComplete="off"
                     ref={(input)=>this.memberInput = input}
                     placeholder="会员号/手机号"
                     onKeyUp={this.hindleKeyUpMember}
@@ -335,7 +336,7 @@ class BottomPayMent extends Component {
                 <p className="lable-item">
                   余额
                   {
-                    memberInfo.mbCardId&&memberInfo.isMoreShop=='true'&&
+                    memberInfo.mbCardId&&memberInfo.isLocalShop=='true'&&
                     <span className="recharge-btn" onClick={()=>this.goRecharge(true)}>充值</span>
                   }
                   <span className="card-num">{memberInfo.amount}</span>
