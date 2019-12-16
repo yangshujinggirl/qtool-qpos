@@ -435,7 +435,7 @@ function printShiftInfo(userSales,urUser,printCount){
     })
     moneyInfo.splice(index,1)
   }
-  for(var i=0;i<moneyInfo.length;i++){
+  for(var i=0;i< moneyInfo.length;i++){
 			LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","17mm",20,moneyInfo[i].use);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",contentTwoFz);
@@ -720,7 +720,7 @@ function printShiftInfoSmall(userSales,urUser,printCount){
     moneyInfo.splice(index,1)
   }
 
-	for(var i=0;i<moneyInfo.length;i++){
+	for(var i = 0;i< moneyInfo.length; i++){
 			 LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","12mm",20,moneyInfo[i].use);
 			LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
 			LODOP.SET_PRINT_STYLEA(0,"FontSize",contentTwoFz);
@@ -1180,7 +1180,7 @@ function printReturnOrder(message,printCount){
 	//8pt=11px
 	var infoLen;
 	var lineCount;
-	for(var i=0;i<moneyInfo.length;i++){
+	for(var i=0;i< moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*11;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
@@ -1383,7 +1383,7 @@ function printReturnOrderSmall(message,printCount){
 	//8pt=11px
 	var infoLen;
 	var lineCount;
-	for(var i=0;i<moneyInfo.length;i++){
+	for(var i=0;i< moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*9;
 		lineCount = Math.ceil(infoLen/lineWidth);
 		if(moneyInfo[i].displayName){
@@ -1596,7 +1596,7 @@ function printSaleOrder(message,printCount){
 	//8pt=11px
 	var infoLen;
 	var lineCount;
-	for(var i=0;i<moneyInfo.length;i++){
+	for(var i=0;i< moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*11;
 		lineCount = Math.ceil(infoLen/lineWidth);
 
@@ -1636,18 +1636,18 @@ function printSaleOrder(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum = posiTopNum+18;
-	// //抹零优惠
-	// if(cutAmount != 0){
-	// 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"抹零优惠");
-	// 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	// 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-  //
-	// 	LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,cutAmount);
-	// 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	// 	LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
-  //   LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
-  //   posiTopNum = posiTopNum+18;
-	// }
+	//抹零优惠
+	if(cutAmount != 0){
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"抹零优惠");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"20mm","50mm",20,cutAmount);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",contentFz);
+    LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+    posiTopNum = posiTopNum+18;
+	}
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"70mm",3,0);
   posiTopNum = posiTopNum+12;
 
@@ -1679,7 +1679,7 @@ function printSaleOrder(message,printCount){
 		posiTopNum = posiTopNum+18
 	}
 	//折扣优惠
-	if(discountAmount&&discountAmount<0){
+	if(discountAmount&&discountAmount< 0){
     discountAmount = discountAmount.split('-');
     discountAmount = discountAmount[1]
 		LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"折扣优惠");
@@ -1820,7 +1820,7 @@ function printSaleOrderSmall(message,printCount){
 	//8pt=11px
 	var infoLen;
 	var lineCount;
-	for(var i=0;i<moneyInfo.length;i++){
+	for(var i=0;i< moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*9;
 		lineCount = Math.ceil(infoLen/lineWidth);
 		if(moneyInfo[i].displayName){
@@ -1859,18 +1859,18 @@ function printSaleOrderSmall(message,printCount){
 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
 	LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
   posiTopNum = posiTopNum+15;
-	// //抹零优惠
-	// if(cutAmount !=0){
-	// 	LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","15mm",20,"抹零优惠");
-	// 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	// 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-  //
-	// 	LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","14mm",20,cutAmount);
-	// 	LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
-	// 	LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
-  //   LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
-	// 	posiTopNum = posiTopNum+15;
-	// }
+	//抹零优惠
+	if(cutAmount !=0){
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","15mm",20,"抹零优惠");
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+
+		LODOP.ADD_PRINT_TEXT(posiTopNum,"35mm","14mm",20,cutAmount);
+		LODOP.SET_PRINT_STYLEA(0,"FontName","微软雅黑");
+		LODOP.SET_PRINT_STYLEA(0,"FontSize",7);
+    LODOP.SET_PRINT_STYLEA(0,"Alignment",3);
+		posiTopNum = posiTopNum+15;
+	}
   LODOP.ADD_PRINT_LINE(posiTopNum,0,posiTopNum,"48mm",3,0);
   posiTopNum = posiTopNum+10;
 
@@ -1907,7 +1907,7 @@ function printSaleOrderSmall(message,printCount){
 		posiTopNum = posiTopNum+15;
 	}
   //折扣优惠
-  if(discountAmount&&discountAmount<0){
+  if(discountAmount&&discountAmount< 0){
     discountAmount = discountAmount.split('-');
     discountAmount = discountAmount[1]
     LODOP.ADD_PRINT_TEXT(posiTopNum,"0mm","20mm",20,"折扣优惠");
@@ -2065,7 +2065,7 @@ function printCDSaleOrder(message,printCount){
 	//8pt=11px
 	var infoLen;
 	var lineCount;
-	for(var i=0;i<moneyInfo.length;i++){
+	for(var i=0;i< moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*11;
 		lineCount = Math.ceil(infoLen/lineWidth);
     let goodsPrice = moneyInfo[i].sign!=null&&moneyInfo[i].sign==0?'赠品':moneyInfo[i].payPrice;
@@ -2286,7 +2286,7 @@ function printCDSaleOrderSmall(message,printCount){
   var discountAmount = odOrder.memberDiscount?Number(odOrder.memberDiscount):0;//添加折扣优惠
   var deliveryType = odOrder.deliveryType;//配送方式：1自提，2同城配送，3：快递
   var coupon = 0;//优惠券
-  if(orOrderPay.length>1) {
+  if(orOrderPay.length> 1) {
     coupon = orOrderPay[1].amount;
   } else {
     coupon = 0;
@@ -2366,7 +2366,7 @@ function printCDSaleOrderSmall(message,printCount){
 
 	var infoLen;
 	var lineCount;
-	for(var i=0;i<moneyInfo.length;i++){
+	for(var i=0;i< moneyInfo.length;i++){
 		infoLen = moneyInfo[i].name.length*9;
 		lineCount = Math.ceil(infoLen/lineWidth);
     let goodsPrice = moneyInfo[i].sign!=null&&moneyInfo[i].sign==0?'赠品':moneyInfo[i].payPrice;
