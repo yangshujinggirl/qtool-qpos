@@ -446,6 +446,7 @@ class PayMentModal extends Component {
                 <Input autoComplete={'off'} disabled readOnly value={payTotalData.payAmount}/>
                 <div className="btn-wrap">
                   <Button
+                    ghost
                     className="scanCode-btn"
                     type="primary"
                     disabled={payTotalData.cutAmount=='1'?true:false}

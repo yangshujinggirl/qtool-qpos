@@ -163,7 +163,7 @@ class PayMentModal extends Component {
           footer={null}
           width={865}
           destroyOnClose={true}
-          className="settling-account-modal">
+          className="settling-account-modal returnSales-account-modal">
             <div className="main-content-body">
               {
                 memberInfo.mbCardId&&
@@ -175,6 +175,7 @@ class PayMentModal extends Component {
                 <Input autoComplete={'off'} disabled readOnly value={payTotalData.payAmount}/>
                 <div className="btn-wrap">
                   <Button
+                    ghost
                     className="scanCode-btn"
                     type="primary"
                     disabled={payTotalData.cutAmount=='1'?true:false}
