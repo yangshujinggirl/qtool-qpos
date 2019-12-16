@@ -437,10 +437,10 @@ class PayMentModal extends Component {
                     disabled
                     readOnly
                     value={couponDetail.couponFullAmount&&`-${couponDetail.couponMoney}(满${couponDetail.couponFullAmount}减${couponDetail.couponMoney})`}/>
-                  <div className="btn-wrap">
-                    <Input autoComplete={'off'} placeholder="请输入优惠券码" onBlur={this.onBlurCoupon}/>
-                  </div>
                 </Form.Item>
+                <div className="coupon-code">
+                  <Input autoComplete={'off'} placeholder="请输入优惠券码" onBlur={this.onBlurCoupon}/>
+                </div>
               </div>
               <Form.Item label="实付金额">
                 <Input autoComplete={'off'} disabled readOnly value={payTotalData.payAmount}/>

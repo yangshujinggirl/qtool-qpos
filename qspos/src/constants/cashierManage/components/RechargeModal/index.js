@@ -7,7 +7,6 @@ import {GetServerData} from '../../../../services/services';
 import {printRechargeOrder} from '../../../../components/Method/Method'
 import ValidataModal from '../ValidataModal';
 
-import './index.less';
 
 const Option = Select.Option;
 
