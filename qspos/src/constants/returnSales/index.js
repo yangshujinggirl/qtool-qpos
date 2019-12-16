@@ -24,7 +24,7 @@ class CashierManage extends Component {
           {
             orderTotalData.amount&&
             <div className="handle-rt">
-              <label className="mon-item">实付金额：{orderTotalData.amount}</label>
+              <label className="mon-item">实付金额：{orderTotalData.payAmount}</label>
               <label className="mon-item">已退金额：{orderTotalData.returnAmount}</label>
               <label className="mon-item">可退金额：<label className="highCol">{orderTotalData.canReturnAmount}</label></label>
             </div>

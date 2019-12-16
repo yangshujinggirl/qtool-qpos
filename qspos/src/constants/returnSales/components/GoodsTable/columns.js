@@ -58,14 +58,14 @@ const columnsIndx =(onChangeRowKey, onChangeField, onBlurField)=> {
     },{
       title: '退货总价',
       width:'10%',
-      dataIndex: 'canReturnPayPrice',
+      dataIndex: 'refundPrice',
       render: (text, record, index) => {
         return (
 					<Input
 						disabled={record.canReturnQty<=0?true:false}
-						value={record.canReturnPayPrice}
-						onChange={(e)=>onChangeField(e,index,'canReturnPayPrice')}
-						onBlur={(e)=>onBlurField(e,index,'canReturnPayPrice')}
+						value={record.refundPrice}
+						onChange={(e)=>onChangeField(e,index,'refundPrice')}
+						onBlur={(e)=>onBlurField(e,index,'refundPrice')}
 						maxLength='15'
 						autoComplete="off"/>
         )

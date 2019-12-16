@@ -68,7 +68,7 @@ class GoodsTable extends React.Component {
       case 'qty':
         regexp=/^[1-9]*(\d)*$/
         break;
-      case 'canReturnPayPrice':
+      case 'refundPrice':
         regexp=/^\d*((\.)|(\.\d{1,2}))?$/
         break;
     }
@@ -91,27 +91,27 @@ class GoodsTable extends React.Component {
         if(Number(value)>=Number(goodsList[index].canReturnQty)) {
           goodsList[index].qty=goodsList[index].canReturnQty;
           let returnedAmount = NP.times(goodsList[index].returnQty,goodsList[index].canReturnPrice);
-          goodsList[index].canReturnPayPrice=NP.minus(goodsList[index].payPrice,returnedAmount);
+          goodsList[index].refundPrice=NP.minus(goodsList[index].payPrice,returnedAmount);
           if(Number(value)>Number(goodsList[index].canReturnQty)) {
             message.warning(`最多可退${goodsList[index].canReturnQty}个`)
           }
         } else {
           goodsList[index].qty = value;
-          goodsList[index].canReturnPayPrice=NP.times(value,goodsList[index].canReturnPrice);
+          goodsList[index].refundPrice=NP.times(value,goodsList[index].canReturnPrice);
         }
         break;
-      case 'canReturnPayPrice':
+      case 'refundPrice':
         value = value==''?0:value;
         if(Number(value)>Number(goodsList[index].canReturnAmount)) {
           if(Number(goodsList[index].qty)==Number(goodsList[index].canReturnQty)) {
             let returnedAmount = NP.times(goodsList[index].returnQty,goodsList[index].canReturnPrice);
-            goodsList[index].canReturnPayPrice=NP.minus(goodsList[index].payPrice,returnedAmount);
+            goodsList[index].refundPrice=NP.minus(goodsList[index].payPrice,returnedAmount);
           } else {
-            goodsList[index].canReturnPayPrice=NP.times(goodsList[index].qty,goodsList[index].canReturnPrice);
+            goodsList[index].refundPrice=NP.times(goodsList[index].qty,goodsList[index].canReturnPrice);
           }
           message.warning(`最多可退${goodsList[index].canReturnAmount}元`)
         } else {
-          goodsList[index].canReturnPayPrice=value;
+          goodsList[index].refundPrice=value;
         }
         break;
     }

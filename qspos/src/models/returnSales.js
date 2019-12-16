@@ -62,7 +62,7 @@ export default {
         goodsList.map((el)=> {
           if(el.checked) {
             totolNumber=NP.plus(totolNumber,el.qty);
-            totolAmount=NP.plus(totolAmount,el.canReturnPayPrice);
+            totolAmount=NP.plus(totolAmount,el.refundPrice);
             totolAmount=fomatNumTofixedTwo(totolAmount);
             returnPoint=Math.round(totolAmount);
           }
@@ -111,7 +111,8 @@ export default {
         odOrderDetails.map((el) => {
           el.qty = el.canReturnQty;
           el.key = el.odOrderDetailId;
-          el.canReturnPayPrice = el.canReturnAmount;
+          // el.canReturnPayPrice = el.canReturnAmount;
+          el.refundPrice = el.canReturnAmount;//退货总价
           el.checked=false;
         })
         if(mbCard&&mbCard.mbCardId) {
