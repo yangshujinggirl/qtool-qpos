@@ -18,7 +18,7 @@ class PayMentModal extends Component {
       validateVisible:false,
       remark:'',
       cashRealVal:'',
-      disVal:'',
+      disVal:'0.00',
       payLoading:false
     }
   }
@@ -100,7 +100,7 @@ class PayMentModal extends Component {
         })
         this.props.initLogic()
     }
-    this.setState({ cashRealVal:'', disVal:'' });
+    this.setState({ cashRealVal:'', disVal:'0.00' });
     this.props.dispatch({
       type:'cashierManage/getPayPart',
       payload:payPart
@@ -169,10 +169,12 @@ class PayMentModal extends Component {
     if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
       if(checkedPayTypeTwo.type == '4'&& cashRealVal!='') {
         disVal = NP.minus(cashRealVal, checkedPayTypeTwo.amount);
+        disVal = fomatNumTofixedTwo(disVal)
       }
     } else {
       if(checkedPayTypeOne.type == '4'&& cashRealVal!='') {
         disVal = NP.minus(cashRealVal, checkedPayTypeOne.amount);
+        disVal = fomatNumTofixedTwo(disVal)
       }
     }
     this.setState({ disVal })
@@ -222,7 +224,7 @@ class PayMentModal extends Component {
           type:'cashierManage/getPayMentVisible',
           payload:false
         })
-        this.setState({ cashRealVal:'', disVal:'' });
+        this.setState({ cashRealVal:'', disVal:'0.00' });
         this.props.form.resetFields();
       }else if(code == 'I_1031'){
         this.setState({ validateVisible:true });
@@ -245,7 +247,7 @@ class PayMentModal extends Component {
       type:'cashierManage/getPayMentVisible',
       payload:false
     });
-    this.setState({ cashRealVal:'', disVal:'' });
+    this.setState({ cashRealVal:'', disVal:'0.00' });
   }
   //支付方式1
   onChangePayOne=(e)=> {
@@ -304,13 +306,21 @@ class PayMentModal extends Component {
   onBlurCashReal=()=> {
     let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
     let { cashRealVal,disVal } =this.state;
-    disVal= NP.minus(cashRealVal,payTotalData.payAmount);
     if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
       disVal= NP.minus(cashRealVal,checkedPayTypeTwo.amount);
-    } else if(Number(cashRealVal)< Number(payTotalData.payAmount)) {
-      message.error('金额有误');
-      return;
+      disVal = fomatNumTofixedTwo(disVal);
+      if(Number(cashRealVal) < Number(checkedPayTypeTwo.amount)) {
+        message.error('现金实收金额不得小于现金付款金额',.5);
+        return;
+      }
+    } else {
+      disVal= NP.minus(cashRealVal,payTotalData.payAmount);
+      if(Number(cashRealVal)< Number(payTotalData.payAmount)) {
+        message.error('现金实收金额不得小于实付金额');
+        return;
+      }
     }
+
     this.setState({ disVal })
   }
   //异店积分校验

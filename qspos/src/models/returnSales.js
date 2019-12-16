@@ -54,6 +54,7 @@ export default {
       resetPayModalData(state,payload:{}) {
         let payTotalData = state.payTotalData;
         payTotalData.cutAmount = '0';
+        payTotalData.payAmount = payTotalData.totolAmount;
         const  checkedPayTypeOne = { type:'1', amount:0 },isPrint=false;
         return {...state, checkedPayTypeOne, isPrint, payTotalData }
       },

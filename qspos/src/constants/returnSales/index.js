@@ -15,6 +15,7 @@ class CashierManage extends Component {
   }
   render(){
     const { orderTotalData } =this.props;
+    console.log(this.props)
     return(
       <div className="cashier-mainContent-wrap returnSales-mainContent-wrap">
         <div className="top-part">

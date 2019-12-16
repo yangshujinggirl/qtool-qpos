@@ -16,7 +16,7 @@ class PayMentModal extends Component {
     this.state = {
       remark:'',
       cashRealVal:'',
-      disVal:'',
+      disVal:'0.00',
       loading:false,
     }
   }
@@ -25,6 +25,7 @@ class PayMentModal extends Component {
       type:'returnSales/resetPayModalData',
       payload:{}
     })
+    this.setState({ cashRealVal:'', disVal:'0.00' });
     this.props.onCancel();
   }
   onChangeRemark=(e)=> {
@@ -60,6 +61,17 @@ class PayMentModal extends Component {
       type:'returnSales/getTotalData',
       payload:payTotalData
     })
+    this.upDateCashVal()
+  }
+  //现金支付时 更新val；
+  upDateCashVal=()=> {
+    const { checkedPayTypeOne } =this.props;
+    let { cashRealVal, disVal } =this.state;
+    if(checkedPayTypeOne.type == '4'&& cashRealVal!='') {
+      disVal = NP.minus(cashRealVal, checkedPayTypeOne.amount);
+      disVal = fomatNumTofixedTwo(disVal)
+    }
+    this.setState({ disVal })
   }
   //处理结算逻辑
   handleSubmit=()=>{

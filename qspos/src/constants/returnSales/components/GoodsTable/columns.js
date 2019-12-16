@@ -12,6 +12,7 @@ const columnsIndx =(onChangeRowKey, onChangeField, onBlurField)=> {
 			render:(text, record, index)=>{
 					return (
 							<Checkbox
+                checked={record.checked}
 								disabled={record.canReturnQty<=0?true:false}
 								onChange={(e)=>onChangeRowKey(e,record,index)}></Checkbox>
 					)
