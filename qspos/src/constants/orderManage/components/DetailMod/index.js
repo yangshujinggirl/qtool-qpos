@@ -138,7 +138,7 @@ function PosDetailMod({detailInfo}) {
               {odOrder.couponMoney&&<span className="field">{Number(odOrder.couponMoney)!=0?`-${odOrder.couponMoney}`:0}</span>}
             </div>
             <div className="row">抹零优惠：
-              {odOrder.cutAmount&&<span className="field">{Number(odOrder.cutAmount)!=0?`-${odOrder.cutAmount}`:0}</span>}
+              {odOrder.cutAmount&&<span className="field">{Number(odOrder.cutAmount)!=0?odOrder.cutAmount:0}</span>}
             </div>
           </div>
           <div className="row return-goods">商品实付：

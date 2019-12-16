@@ -126,7 +126,10 @@ class RechargeModal extends Component {
                 </div>
               </div>
               <Form.Item label="备注信息">
-                <Input autoComplete={'off'}  placeholder="可输入20字订单备注" onChange={this.onChangeRemark}/>
+                <Input
+                  autoComplete={'off'}
+                  placeholder="可输入20字订单备注"
+                  onChange={this.onChangeRemark} maxLength={20}/>
               </Form.Item>
               <div className="footer-part">
                 <div className="footer-row">

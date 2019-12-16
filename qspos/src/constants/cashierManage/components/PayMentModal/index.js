@@ -301,27 +301,37 @@ class PayMentModal extends Component {
   //现金实收
   onChangeCashReal=(e)=> {
     let value = e.target.value;
-    this.setState({ cashRealVal:value })
+    let regexp=/^\d*((\.)|(\.\d{1,2}))?$/;
+    if(regexp.test(value)) {
+      this.setState({ cashRealVal: e.target.value });
+    }
   }
-  onBlurCashReal=()=> {
-    let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+  onBlurCashReal=(e)=> {
+    let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo, payPart } =this.props;
     let { cashRealVal,disVal } =this.state;
+    let value = e.target.value;
+    let errorText;
     if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
-      disVal= NP.minus(cashRealVal,checkedPayTypeTwo.amount);
-      disVal = fomatNumTofixedTwo(disVal);
-      if(Number(cashRealVal) < Number(checkedPayTypeTwo.amount)) {
-        message.error('现金实收金额不得小于现金付款金额',.5);
-        return;
+      if(Number(value) < Number(checkedPayTypeTwo.amount)) {
+        disVal = '0.00';
+        payPart.errorText = '现金实收金额不得小于现金付款金额';
+      } else {
+        disVal= NP.minus(value,checkedPayTypeTwo.amount);
       }
     } else {
-      disVal= NP.minus(cashRealVal,payTotalData.payAmount);
-      if(Number(cashRealVal)< Number(payTotalData.payAmount)) {
-        message.error('现金实收金额不得小于实付金额');
-        return;
+      if(Number(value)< Number(payTotalData.payAmount)) {
+        disVal = '0.00';
+        payPart.errorText = '现金实收金额不得小于实付金额';
+      } else {
+        disVal= NP.minus(value,payTotalData.payAmount);
       }
     }
-
-    this.setState({ disVal })
+    disVal = fomatNumTofixedTwo(disVal);
+    this.setState({ disVal });
+    this.props.dispatch({
+      type:'cashierManage/getPayPart',
+      payload:payPart
+    })
   }
   //异店积分校验
   onCancelValidate=()=>{
@@ -391,6 +401,7 @@ class PayMentModal extends Component {
             payMentTypeOptionsOne, payMentTypeOptionsTwo,isPrint,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
     const { validateVisible, cashRealVal, disVal, payLoading } =this.state;
+    console.log(this.props)
     return(
       <div>
         <Modal
@@ -510,7 +521,11 @@ class PayMentModal extends Component {
                 </div>
               }
               <Form.Item label="备注信息">
-                <Input autoComplete={'off'}  placeholder="可输入20字订单备注" onChange={this.onChangeRemark}/>
+                <Input
+                  maxLength={20}
+                  autoComplete={'off'}
+                  placeholder="可输入20字订单备注"
+                  onChange={this.onChangeRemark}/>
               </Form.Item>
               <div className="footer-part">
                 {payPart.errorText&&<p className="error-validate">{payPart.errorText}</p>}
