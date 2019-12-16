@@ -80,8 +80,8 @@ class ValidataModal extends React.Component {
       })
       .then((res) => {
         if(res.code == '0') {
+          this.props.onSubmit();
           this.resetForm();
-          this.props.onSubmit()
         } else {
           message.error(res.message)
         }

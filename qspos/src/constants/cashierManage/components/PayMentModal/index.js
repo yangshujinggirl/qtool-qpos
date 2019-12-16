@@ -224,7 +224,7 @@ class PayMentModal extends Component {
           type:'cashierManage/getPayMentVisible',
           payload:false
         })
-        this.setState({ cashRealVal:'', disVal:'0.00' });
+        this.setState({ cashRealVal:'', disVal:'0.00', validateVisible:false });
         this.props.form.resetFields();
       }else if(code == 'I_1031'){
         this.setState({ validateVisible:true });
