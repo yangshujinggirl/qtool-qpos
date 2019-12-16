@@ -300,22 +300,30 @@ class PayMentModal extends Component {
   }
   //现金实收
   onChangeCashReal=(e)=> {
+    const { payPart } =this.props;
     let value = e.target.value;
     let regexp=/^\d*((\.)|(\.\d{1,2}))?$/;
     if(regexp.test(value)) {
-      this.setState({ cashRealVal: e.target.value });
+      this.setState({ cashRealVal: value });
+      payPart.errorText=null;
+      this.props.dispatch({
+        type:'cashierManage/getPayPart',
+        payload:payPart
+      })
     }
   }
   onBlurCashReal=(e)=> {
     let { payTotalData, checkedPayTypeOne, checkedPayTypeTwo, payPart } =this.props;
-    let { cashRealVal,disVal } =this.state;
+    let { disVal } =this.state;
     let value = e.target.value;
+    value = fomatNumTofixedTwo(value);
     let errorText;
     if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
       if(Number(value) < Number(checkedPayTypeTwo.amount)) {
         disVal = '0.00';
         payPart.errorText = '现金实收金额不得小于现金付款金额';
       } else {
+        payPart.errorText=null;
         disVal= NP.minus(value,checkedPayTypeTwo.amount);
       }
     } else {
@@ -323,11 +331,12 @@ class PayMentModal extends Component {
         disVal = '0.00';
         payPart.errorText = '现金实收金额不得小于实付金额';
       } else {
+        payPart.errorText=null;
         disVal= NP.minus(value,payTotalData.payAmount);
       }
     }
     disVal = fomatNumTofixedTwo(disVal);
-    this.setState({ disVal });
+    this.setState({ cashRealVal:value, disVal });
     this.props.dispatch({
       type:'cashierManage/getPayPart',
       payload:payPart
@@ -401,7 +410,6 @@ class PayMentModal extends Component {
             payMentTypeOptionsOne, payMentTypeOptionsTwo,isPrint,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
     const { validateVisible, cashRealVal, disVal, payLoading } =this.state;
-    console.log(this.props)
     return(
       <div>
         <Modal

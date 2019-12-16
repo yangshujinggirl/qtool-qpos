@@ -101,6 +101,10 @@ class GoodsTable extends React.Component {
         break;
       case 'discount':
         value = value==''?10:value;
+        let forMatVal = value.split('.');
+        if(forMatVal.length>1&&forMatVal[1]=='') {
+          value = `${forMatVal[0]}.0`;
+        }
         goodsList[index].discount = value;
         if((role=='2'||role=='1') && value< 6){
           goodsList[index].discount=6;

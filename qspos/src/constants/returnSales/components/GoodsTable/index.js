@@ -102,6 +102,10 @@ class GoodsTable extends React.Component {
         break;
       case 'refundPrice':
         value = value==''?0:value;
+        let forMatVal = value.split('.');
+        if(forMatVal.length>1&&forMatVal[1]=='') {
+          value = `${forMatVal[0]}.0`;
+        }
         if(Number(value)>Number(goodsList[index].canReturnAmount)) {
           if(Number(goodsList[index].qty)==Number(goodsList[index].canReturnQty)) {
             let returnedAmount = NP.times(goodsList[index].returnQty,goodsList[index].canReturnPrice);
