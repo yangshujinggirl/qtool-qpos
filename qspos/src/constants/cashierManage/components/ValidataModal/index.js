@@ -72,6 +72,7 @@ class ValidataModal extends React.Component {
   onOk() {
     if(this.validateCode()) {
       let { memberInfo } =this.props;
+      this.setState({ submitLoading:true })
       //校验验证码是否有效
       GetServerData('qerp.web.qpos.od.pay.codevalid',{
         phoneNo:memberInfo.mobile,
@@ -80,11 +81,11 @@ class ValidataModal extends React.Component {
       })
       .then((res) => {
         if(res.code == '0') {
-          this.props.onSubmit();
-          this.resetForm();
+          this.props.onSubmit(this.resetForm);
         } else {
           message.error(res.message)
         }
+        this.setState({ submitLoading:false })
       })
     }
   }
@@ -104,9 +105,9 @@ class ValidataModal extends React.Component {
 			e.preventDefault()
 		}
 	}
-  resetForm() {
-    const phoneCode = ReactDOM.findDOMNode(this.refs.phoneCode);
-    phoneCode.value = '';
+  resetForm=()=> {
+    // const phoneCode = ReactDOM.findDOMNode(this.refs.phoneCode);
+    // phoneCode.value = '';
     clearInterval(timer);
     this.setState({
       phoneCode:'',
@@ -117,7 +118,7 @@ class ValidataModal extends React.Component {
   }
   onCancel() {
     this.resetForm();
-    this.props.onCancel()
+    this.props.onCancel();
   }
   render() {
     const { phone, btnText, disabled, isSend, loading } = this.state;
@@ -129,6 +130,7 @@ class ValidataModal extends React.Component {
         onCancel={()=>this.onCancel()}
         width={400}
         closable={false}
+        destroyOnClose={true}
         className="validate-modal-wrap"
         footer={null}>
           <div className='validate-modal-components'>

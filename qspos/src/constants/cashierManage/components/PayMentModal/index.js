@@ -15,7 +15,7 @@ class PayMentModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      validateVisible:false,
+      validateVisible:false,//校验弹框
       remark:'',
       cashRealVal:'',
       disVal:'0.00',
@@ -180,7 +180,7 @@ class PayMentModal extends Component {
     this.setState({ disVal })
   }
   //处理结算逻辑
-  handleSubmit=()=>{
+  handleSubmit=(func)=>{
     let { goodsList, memberInfo, payTotalData,couponDetail,
       checkedPayTypeOne, checkedPayTypeTwo, errorText } =this.props;
     let orderPay=[];//支付方式
@@ -203,10 +203,10 @@ class PayMentModal extends Component {
           },
           orderDetails:goodsList,orderPay
        };
-    this.goPayApi(params);
+    this.goPayApi(params,func);
   }
   //结算Api
-  goPayApi=(values)=>{
+  goPayApi=(values,func)=>{
     this.setState({ payLoading:true })
     GetServerData('qerp.web.qpos.od.order.save',values)
     .then((res) => {
@@ -216,6 +216,7 @@ class PayMentModal extends Component {
         const {isPrint} = this.props;
         message.success('收银成功',.5)
         printSaleOrder(isPrint,odOrderId);
+        this.setState({ validateVisible:false, cashRealVal:'', disVal:'0.00', validateVisible:false });
         this.props.dispatch({
           type:'cashierManage/resetData',
           payload:{}
@@ -224,10 +225,10 @@ class PayMentModal extends Component {
           type:'cashierManage/getPayMentVisible',
           payload:false
         })
-        this.setState({ cashRealVal:'', disVal:'0.00', validateVisible:false });
+        func && typeof func == 'function'&&func();
         this.props.form.resetFields();
       }else if(code == 'I_1031'){
-        this.setState({ validateVisible:true });
+        this.setState({ validateVisible:true })
         this.props.dispatch({
           type:'cashierManage/getPayMentVisible',
           payload:false
@@ -344,7 +345,7 @@ class PayMentModal extends Component {
   }
   //异店积分校验
   onCancelValidate=()=>{
-    this.setState({ validateVisible:false });
+    this.setState({ validateVisible:false })
   }
   //优惠券核销
   onBlurCoupon=(e)=> {
@@ -409,7 +410,7 @@ class PayMentModal extends Component {
     const { payTotalData, memberInfo, visible,payPart,couponDetail,
             payMentTypeOptionsOne, payMentTypeOptionsTwo,isPrint,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
-    const { validateVisible, cashRealVal, disVal, payLoading } =this.state;
+    const { cashRealVal, disVal, payLoading, validateVisible } =this.state;
     return(
       <div>
         <Modal

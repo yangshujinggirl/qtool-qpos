@@ -47,7 +47,7 @@ export default {
   },
   reducers: {
       resetData(state,payload:{}) {//页面数据重置
-        const currentRowIndex=0,goodsList=[],payPart = { isGroupDisabled:false, errorText:null }, //收银数据表
+        const currentRowIndex=0,goodsList=[],payPart = { isGroupDisabled:true, errorText:null }, //收银数据表
         payTotalData = { cutAmount:'0',totolNumber:0, totolAmount:0, thisPoint:0, payAmount:0 },
         memberInfo = { amount:0, point:0, }, couponDetail={}, payMentVisible=false,isPrint=false,
         baseOptions = [
@@ -70,7 +70,7 @@ export default {
         let payTotalData = state.payTotalData;
         payTotalData.cutAmount = '0';
         payTotalData.payAmount = payTotalData.totolAmount;
-        const payPart = { isGroupDisabled:false, errorText:null },isPrint=false,
+        const payPart = { isGroupDisabled:true, errorText:null },isPrint=false,
         checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},couponDetail={},
         payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [];
 
