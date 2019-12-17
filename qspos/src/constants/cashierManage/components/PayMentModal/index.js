@@ -43,6 +43,12 @@ class PayMentModal extends Component {
           errorText = '余额不足，请更换支付方式或组合支付'
         }
         break;
+      case "4":
+        let { cashRealVal } =this.state;
+        if(cashRealVal == '') {
+          errorText = '请输入现金金额'
+        }
+        break;
       default:
         errorText = null;
     }
@@ -59,7 +65,7 @@ class PayMentModal extends Component {
   }
   //组合支付---切换支付方式
   handleTogglePayType=(option,type)=> {
-    let { checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    let { checkedPayTypeOne, checkedPayTypeTwo, payPart } =this.props;
     if(type == 'checkedPayTypeOne') {
       if(option.key == '5'||option.key=='6') {
         checkedPayTypeOne.type = option.key;
@@ -67,6 +73,14 @@ class PayMentModal extends Component {
       }
     } else {
       checkedPayTypeTwo.type = option.key;
+      let { cashRealVal } =this.state;
+      if(option.key == '4'&&cashRealVal == '') {
+        payPart.errorText = '请输入现金金额';
+      }
+      this.props.dispatch({
+        type:'cashierManage/getPayPart',
+        payload:payPart
+      })
       this.props.dispatch({
         type:'cashierManage/getCheckedPayType',
         payload:{ checkedPayTypeOne, checkedPayTypeTwo }

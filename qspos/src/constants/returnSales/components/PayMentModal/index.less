@@ -5,15 +5,38 @@
   .footer-part .go-settling-btn {
     background: #FB6349;
     border-color: #FB6349;
-    color: #fff;
   }
-  .ant-btn-primary {
-    border-color: #FB6349;
+  .ant-btn-background-ghost.ant-btn-primary {
     color: #FB6349;
-    &:focus,&:hover,&:active {
-      border-color: #FB6349;
-      color: #FB6349;
-    }
+    border-color: #FB6349;
+  }
+  .ant-btn-primary.disabled,
+  .ant-btn-primary[disabled],
+  .ant-btn-primary.disabled:hover,
+  .ant-btn-primary[disabled]:hover,
+  .ant-btn-primary.disabled:focus,
+  .ant-btn-primary[disabled]:focus,
+  .ant-btn-primary.disabled:active,
+  .ant-btn-primary[disabled]:active,
+  .ant-btn-primary.disabled.active,
+  .ant-btn-primary[disabled].active {
+    color: rgba(0, 0, 0, 0.25);
+    background-color: #f5f5f5;
+    border-color: #d9d9d9;
+  }
+  .ant-btn-background-ghost.ant-btn-primary.disabled,
+  .ant-btn-background-ghost.ant-btn-primary[disabled],
+  .ant-btn-background-ghost.ant-btn-primary.disabled:hover,
+  .ant-btn-background-ghost.ant-btn-primary[disabled]:hover,
+  .ant-btn-background-ghost.ant-btn-primary.disabled:focus,
+  .ant-btn-background-ghost.ant-btn-primary[disabled]:focus,
+  .ant-btn-background-ghost.ant-btn-primary.disabled:active,
+  .ant-btn-background-ghost.ant-btn-primary[disabled]:active,
+  .ant-btn-background-ghost.ant-btn-primary.disabled.active,
+  .ant-btn-background-ghost.ant-btn-primary[disabled].active {
+    color: rgba(0, 0, 0, 0.25);
+    background-color: #f5f5f5;
+    border-color: #d9d9d9;
   }
   .ant-checkbox-checked .ant-checkbox-inner,
   .ant-checkbox-indeterminate .ant-checkbox-inner {

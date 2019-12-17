@@ -35,7 +35,14 @@ class PayMentModal extends Component {
   //切换支付方式
   goTogglePayType=(record)=> {
     let { checkedPayTypeOne } =this.props;
-    checkedPayTypeOne.type = record.type
+    let { errorText, cashRealVal } =this.state;
+    checkedPayTypeOne.type = record.type;
+    if(checkedPayTypeOne.type == '4'&& cashRealVal == '') {
+      errorText = '请输入现金金额';
+    } else {
+      errorText = null;
+    }
+    this.setState({ errorText });
     this.props.dispatch({
       type:'returnSales/getCheckedPayType',
       payload:checkedPayTypeOne
