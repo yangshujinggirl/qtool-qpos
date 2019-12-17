@@ -79,6 +79,10 @@ class PayMentModal extends Component {
       disVal = NP.minus(cashRealVal, checkedPayTypeOne.amount);
       disVal = fomatNumTofixedTwo(disVal)
     }
+    //重置结算按钮
+    if(checkedPayTypeOne.type == '4'&&cashRealVal>= checkedPayTypeOne.amount) {
+      this.setState({ errorText:null })
+    }
     this.setState({ disVal })
   }
   //处理结算逻辑
