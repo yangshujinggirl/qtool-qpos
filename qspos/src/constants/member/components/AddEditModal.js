@@ -125,6 +125,7 @@ class Modelform extends Component {
               :
               <div>
                 <FormItem
+                  maxLength={7}
                   label="会员姓名"
                   labelCol={{ span: 5 }}
                   wrapperCol={{ span: 16 }}>
