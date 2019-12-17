@@ -63,9 +63,9 @@ class Modelform extends Component {
     const { getFieldDecorator } = this.props.form;
     const { data } =this.props;
     const { name, mobile, cardNo, level, amount, point, mbCardBirths, type, checked} = this.props.data;
-
     return (
       <Modal
+        destroyOnClose={true}
         className="member-width-style member-modal-wrap add-member-modal"
         title={this.props.texts}
         visible={this.props.visible}
@@ -101,7 +101,12 @@ class Modelform extends Component {
                   label="会员电话"
                   labelCol={{ span: 5 }}
                   wrapperCol={{ span: 16 }}>
-                    {mobile}
+                    {getFieldDecorator('mobile', {
+                        initialValue: mobile,
+                        rules: [{ required: true, message: '请输入1-5位会员姓名' }],
+                    })(
+                        <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off" disabled/>
+                    )}
                 </FormItem>
                 <FormItem
                   labelCol={{ span: 5 }}
