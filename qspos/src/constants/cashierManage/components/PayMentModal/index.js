@@ -178,17 +178,33 @@ class PayMentModal extends Component {
   }
   //现金支付时 更新val；
   upDateCashVal=()=> {
-    const { checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+    const { checkedPayTypeOne, checkedPayTypeTwo, payPart } =this.props;
     let { cashRealVal, disVal } =this.state;
     if(checkedPayTypeOne.type&&checkedPayTypeTwo.type) {
-      if(checkedPayTypeTwo.type == '4'&& cashRealVal!='') {
+      if(checkedPayTypeTwo.type == '4'&& cashRealVal !='') {
         disVal = NP.minus(cashRealVal, checkedPayTypeTwo.amount);
         disVal = fomatNumTofixedTwo(disVal)
+      }
+      //重置结算按钮
+      if(checkedPayTypeTwo.type == '4'&&cashRealVal>= checkedPayTypeTwo.amount) {
+        payPart.errorText = null;
+        this.props.dispatch({
+          type:'cashierManage/getPayPart',
+          payload:payPart
+        })
       }
     } else {
       if(checkedPayTypeOne.type == '4'&& cashRealVal!='') {
         disVal = NP.minus(cashRealVal, checkedPayTypeOne.amount);
         disVal = fomatNumTofixedTwo(disVal)
+      }
+      //重置结算按钮
+      if(checkedPayTypeOne.type == '4'&&cashRealVal>= checkedPayTypeOne.amount) {
+        payPart.errorText = null;
+        this.props.dispatch({
+          type:'cashierManage/getPayPart',
+          payload:payPart
+        })
       }
     }
     this.setState({ disVal })
