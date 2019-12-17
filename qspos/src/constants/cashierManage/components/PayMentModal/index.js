@@ -440,7 +440,7 @@ class PayMentModal extends Component {
                     value={couponDetail.couponFullAmount&&`-${couponDetail.couponMoney}(满${couponDetail.couponFullAmount}减${couponDetail.couponMoney})`}/>
                 </Form.Item>
                 <div className="coupon-code">
-                  <Input autoComplete={'off'} placeholder="请输入优惠券码" onBlur={this.onBlurCoupon}/>
+                  <Input autoComplete={'off'} placeholder="请扫码或输入优惠券码" onBlur={this.onBlurCoupon}/>
                 </div>
               </div>
               <Form.Item label="实付金额">

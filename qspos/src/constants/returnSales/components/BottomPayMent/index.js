@@ -113,7 +113,7 @@ class BottomPayMent extends Component {
 	}
   render() {
     const { getFieldDecorator } =this.props.form;
-    const { payTotalData, memberInfo } =this.props;
+    const { payTotalData, memberInfo, orderTotalData } =this.props;
     const { visibleToggle, visiblePay } =this.state;
     return(
       <div className="bottom-payment-action flexBox">
@@ -152,6 +152,9 @@ class BottomPayMent extends Component {
                 unCheckedChildren="对外售卖"
                 checked={true}
                 onChange={this.hindchange.bind(this)}/>
+                {
+                  orderTotalData.messageInfo&&<div className="order-message">{orderTotalData.messageInfo}</div>
+                }
             </div>
             <div className="col-item member-actions">
               <div className="member-info">
