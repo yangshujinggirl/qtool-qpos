@@ -81,7 +81,7 @@ class PayMentModal extends Component {
     let params={
           qposMbCard:{ mbCardId:memberInfo.mbCardId?memberInfo.mbCardId:null },
           odReturn:{
-            amount:payTotalData.totolAmount,
+            amount:payTotalData.payAmount,
             refundAmount:payTotalData.payAmount,
             orderNo:orderTotalData.orderNo,
             qty:payTotalData.totolNumber,
