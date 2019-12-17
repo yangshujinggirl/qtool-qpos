@@ -116,24 +116,23 @@ class Modelform extends Component {
                   wrapperCol={{ span: 16 }}>
                     {getFieldDecorator('name', {
                         initialValue: name,
-                        rules: [{ required: true, message: '请输入1-5位会员姓名' }],
+                        rules: [{ required: true, message: '请输入1-7位会员姓名' }],
                     })(
-                        <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off"/>
+                        <Input maxLength={7} placeholder="请输入1-7位会员姓名" className='inputwidth' autoComplete="off"/>
                     )}
                 </FormItem>
               </div>
               :
               <div>
                 <FormItem
-                  maxLength={7}
                   label="会员姓名"
                   labelCol={{ span: 5 }}
                   wrapperCol={{ span: 16 }}>
                     {getFieldDecorator('name', {
                         initialValue: name,
-                        rules: [{ required: true, message: '请输入1-5位会员姓名' }],
+                        rules: [{ required: true, message: '请输入1-7位会员姓名' }],
                     })(
-                        <Input placeholder="请输入1-5位会员姓名" className='inputwidth' autoComplete="off"/>
+                        <Input maxLength={7} placeholder="请输入1-7位会员姓名" className='inputwidth' autoComplete="off"/>
                     )}
                 </FormItem>
                 <FormItem
