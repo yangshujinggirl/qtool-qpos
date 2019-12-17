@@ -455,7 +455,7 @@ function ReturnSalesMod({detailInfo}) {
                 退货总价：<span className="field">{odReturn.refundTotalAmount}</span>
               </div>
               <div className="row">
-                抹零金额：{odReturn.cutAmount&&<span className="field">{odReturn.cutAmount!=0?`-${odReturn.cutAmount}`:0}</span>}
+                抹零金额：{odReturn.cutAmount&&<span className="field">{odReturn.cutAmount!=0?odReturn.cutAmount:0}</span>}
               </div>
             </div>
             :
