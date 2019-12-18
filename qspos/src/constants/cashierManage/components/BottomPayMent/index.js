@@ -197,31 +197,25 @@ class BottomPayMent extends Component {
       checkedPayTypeOne.type = '1';
       payPart.isGroupDisabled = true;
     } else if(!isCardDisabled) {//会员有余额
-      if(memberAmount < payAmount){
-        checkedPayTypeOne.amount = memberAmount;
-        checkedPayTypeTwo = { type:'1', amount:NP.minus(payAmount, memberAmount) }
+      checkedPayTypeOne.type = '5';
+      if(memberAmount < payAmount&&!checkedPayTypeTwo.type){//会员余额不足,//单体支付，余额不足默认为微信支付
+        checkedPayTypeOne.type = '1'
+        checkedPayTypeTwo={};
       }
     } else if(!isPointDisabled) {//积分有余额
       checkedPayTypeOne.type = '6';
-      if(pointAmount < payAmount) {
-        checkedPayTypeOne.amount = pointAmount;
-        checkedPayTypeTwo = {
-          type:'1',
-          amount:NP.minus(payAmount, pointAmount)
-        }
+      if(pointAmount < payAmount&&!checkedPayTypeTwo.type) {//积分余额不足,//单体支付，余额不足默认为微信支付
+        checkedPayTypeOne.type = '1'
+        checkedPayTypeTwo={};
       }
     }
-    // debugger
     if(memberInfo.isLocalShop == 'false') {//异店会员
       isCardDisabled = true;
       if(!isPointDisabled) {//积分有余额
         checkedPayTypeOne.type = '6';
-        if(pointAmount < payAmount) {
-          checkedPayTypeOne.amount = pointAmount;
-          checkedPayTypeTwo = {
-            type:'1',
-            amount:NP.minus(payAmount, pointAmount)
-          }
+        if(pointAmount < payAmount&&!checkedPayTypeTwo.type) {//积分余额不足,//单体支付，余额不足默认为微信支付
+          checkedPayTypeOne.type = '1'
+          checkedPayTypeTwo={};
         }
       } else {
         checkedPayTypeOne = { type:'1', amount: payAmount };
