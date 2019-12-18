@@ -268,7 +268,7 @@ function AppDetailMod({detailInfo}) {
             </div>
             <div className="row">
               Qtools补贴：<span className="field">{odOrder.allowanceAmount}</span>
-              { brandPro() }
+
             </div>
           </div>
           <div className="row return-goods">
