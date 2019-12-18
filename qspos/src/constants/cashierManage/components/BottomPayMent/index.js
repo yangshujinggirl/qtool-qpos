@@ -191,31 +191,57 @@ class BottomPayMent extends Component {
     let payAmount = parseFloat(payTotalData.payAmount);//应付总额；
     let memberAmount = parseFloat(memberInfo.amount);//会员卡余额；
     let pointAmount = NP.divide(memberInfo.point,100);//积分余额换算；
-    checkedPayTypeOne = { type:'5', amount: payAmount };
+    checkedPayTypeOne = { type:'5', amount: payAmount };//默认是会员支付
 
     if(isCardDisabled&&isPointDisabled) {//会员余额:0，积分余额:0
       checkedPayTypeOne.type = '1';
       payPart.isGroupDisabled = true;
     } else if(!isCardDisabled) {//会员有余额
-      checkedPayTypeOne.type = '5';
-      if(memberAmount < payAmount&&!checkedPayTypeTwo.type){//会员余额不足,//单体支付，余额不足默认为微信支付
-        checkedPayTypeOne.type = '1'
-        checkedPayTypeTwo={};
+      if(!checkedPayTypeTwo.type) {//单体支付
+        if(memberAmount < payAmount) {//会员余额不足
+          checkedPayTypeOne.type = '1'
+          checkedPayTypeTwo={};
+        }
+      } else {//组合支付
+        if(memberAmount < payAmount) {//会员余额不足
+          checkedPayTypeOne.amount = memberAmount;
+          checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+        } else {
+          checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+        }
       }
     } else if(!isPointDisabled) {//积分有余额
       checkedPayTypeOne.type = '6';
-      if(pointAmount < payAmount&&!checkedPayTypeTwo.type) {//积分余额不足,//单体支付，余额不足默认为微信支付
-        checkedPayTypeOne.type = '1'
-        checkedPayTypeTwo={};
+      if(!checkedPayTypeTwo.type) {//单体支付
+        if(pointAmount < payAmount) {//会员余额不足
+          checkedPayTypeOne.type = '1'
+          checkedPayTypeTwo={};
+        }
+      } else {//组合支付
+        if(pointAmount < payAmount) {//会员余额不足
+          checkedPayTypeOne.amount = pointAmount;
+          checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+        } else {
+          checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+        }
       }
     }
     if(memberInfo.isLocalShop == 'false') {//异店会员
       isCardDisabled = true;
       if(!isPointDisabled) {//积分有余额
         checkedPayTypeOne.type = '6';
-        if(pointAmount < payAmount&&!checkedPayTypeTwo.type) {//积分余额不足,//单体支付，余额不足默认为微信支付
-          checkedPayTypeOne.type = '1'
-          checkedPayTypeTwo={};
+        if(!checkedPayTypeTwo.type) {//单体支付
+          if(pointAmount < payAmount) {//会员余额不足
+            checkedPayTypeOne.type = '1'
+            checkedPayTypeTwo={};
+          }
+        } else {//组合支付
+          if(pointAmount < payAmount) {//会员余额不足
+            checkedPayTypeOne.amount = pointAmount;
+            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+          } else {
+            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+          }
         }
       } else {
         checkedPayTypeOne = { type:'1', amount: payAmount };

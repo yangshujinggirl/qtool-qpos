@@ -107,7 +107,7 @@ class PayMentModal extends Component {
     } else {
         let payAmount = parseFloat(payTotalData.payAmount);//应付总额；
         checkedPayTypeTwo.type = '1';
-        checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+        // checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
         this.props.dispatch({
           type:'cashierManage/getCheckedPayType',
           payload:{ checkedPayTypeOne, checkedPayTypeTwo }
@@ -300,28 +300,27 @@ class PayMentModal extends Component {
     let pointAmount = NP.divide(memberInfo.point,100);//积分余额
     let payAmount = payTotalData.payAmount;
     checkedPayTypeOne.amount = checkedPayTypeOne.amount==''?0:checkedPayTypeOne.amount;
-    if(checkedPayTypeOne.amount>payAmount) {
+    if(Number(checkedPayTypeOne.amount)>Number(payAmount)) {
       checkedPayTypeOne.amount = payAmount;
       checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-    } else {
-      switch(checkedPayTypeOne.type) {
-        case "5":
-          if( memberAmount >= checkedPayTypeOne.amount) {
-            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-          } else {//会员卡余额不足
-            checkedPayTypeOne.amount = memberAmount;
-            checkedPayTypeTwo.amount = NP.minus(payAmount, memberAmount);
-          }
-          break;
-        case "6":
-          if(pointAmount >= checkedPayTypeOne.amount) {
-            checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
-          } else {//会员卡余额不足
-            checkedPayTypeOne.amount = pointAmount;
-            checkedPayTypeTwo.amount = NP.minus(payAmount, pointAmount);
-          }
-          break;
-      }
+    }
+    switch(checkedPayTypeOne.type) {
+      case "5":
+        if( memberAmount >= checkedPayTypeOne.amount) {
+          checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+        } else {//会员卡余额不足
+          checkedPayTypeOne.amount = memberAmount;
+          checkedPayTypeTwo.amount = NP.minus(payAmount, memberAmount);
+        }
+        break;
+      case "6":
+        if(pointAmount >= checkedPayTypeOne.amount) {
+          checkedPayTypeTwo.amount = NP.minus(payAmount, checkedPayTypeOne.amount);
+        } else {//会员卡余额不足
+          checkedPayTypeOne.amount = pointAmount;
+          checkedPayTypeTwo.amount = NP.minus(payAmount, pointAmount);
+        }
+        break;
     }
     this.props.dispatch({
       type:'cashierManage/getCheckedPayType',
