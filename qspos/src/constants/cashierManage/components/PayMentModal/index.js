@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import NP from 'number-precision'
-import { message, Modal, Form, Input, Button, Checkbox,Select } from 'antd';
+import { message, Icon, Popover, Modal, Form, Input, Button, Checkbox,Select } from 'antd';
 import { fomatNumTofixedTwo } from '../../../../utils/CommonUtils';
 import {GetServerData} from '../../../../services/services';
 import {printSaleOrder} from '../../../../components/Method/Method'
@@ -440,6 +440,11 @@ class PayMentModal extends Component {
             payMentTypeOptionsOne, payMentTypeOptionsTwo,isPrint,
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
     const { cashRealVal, disVal, payLoading, validateVisible } =this.state;
+    let popoverContent =<div className="coupon-tips-popover">
+        <p>(1）打开Qtools APP 或 Qtool+ 小程序；</p>
+        <p>(2）进入“我的” - “优惠券”，选择优惠券；</p>
+        <p>(3）收银员扫描或输入优惠券码</p>
+    </div>
     return(
       <div>
         <Modal
@@ -470,6 +475,9 @@ class PayMentModal extends Component {
                 </Form.Item>
                 <div className="coupon-code">
                   <Input autoComplete={'off'} placeholder="请扫码或输入优惠券码" onBlur={this.onBlurCoupon}/>
+                  <Popover content={popoverContent}>
+                    <Icon type="question-circle" style={{cursor:'pointer',marginLeft:'10px'}}/>
+                  </Popover>
                 </div>
               </div>
               <Form.Item label="实付金额">
