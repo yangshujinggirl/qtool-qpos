@@ -135,7 +135,7 @@ function PosDetailMod({detailInfo}) {
               「零售总价：{odOrder.retailTotalPrice}，折扣/直降：{odOrder.discountAmount}」
             </div>
             <div className="row">优惠券：
-              {odOrder.couponMoney&&<span className="field">{Number(odOrder.couponMoney)!=0?`-${odOrder.couponMoney}`:0}</span>}
+              {odOrder.couponMoney&&<span className="field">{Number(odOrder.couponMoney)!=0?odOrder.couponMoney:0}</span>}
             </div>
             <div className="row">抹零优惠：
               {odOrder.cutAmount&&<span className="field">{Number(odOrder.cutAmount)!=0?odOrder.cutAmount:0}</span>}
@@ -191,7 +191,7 @@ function AppDetailMod({detailInfo}) {
           mod = <label>「品牌直供，免配送费」</label>
         } else if(odOrder.expressType == '3'){
           mod = <label>「用户到付」</label>
-        } else if(odOrder.equityId){
+        } else if(odOrder.equityId&&odOrder.equity=='1'){
           mod = <labe>「{odOrder.equityStr}」</labe>
         } else {
           mod = <labe></labe>
