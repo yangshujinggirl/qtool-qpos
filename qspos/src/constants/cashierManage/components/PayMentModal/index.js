@@ -434,7 +434,7 @@ class PayMentModal extends Component {
 	// 		e.preventDefault()
 	// 	}
   // }
-  //enter搜索会员信息
+  //enter搜索优惠券
   hindleKeyCoupon=(e)=> {
     let keyCode=e.keyCode;
     const value=e.target.value;
@@ -452,7 +452,7 @@ class PayMentModal extends Component {
       return;
     }
     if(keyCode==13) {
-      let { goodsList, payTotalData, couponDetail, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+      let { memberInfo, goodsList, payTotalData, couponDetail, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
       let spShopId = sessionStorage.getItem('spShopId');
       let spuList = goodsList.map((el)=> {
         let item ={};
@@ -465,6 +465,9 @@ class PayMentModal extends Component {
           return item;
       })
       let params ={ couponDetailCode:value, value, spShopId, spuList }
+      if(memberInfo.mbCardId) {
+        params = {...params,moblie:memberInfo.mobile};
+      }
       GetServerData('qerp.web.qpos.od.coupon.query',params)
       .then((res) => {
         let { code, couponFullAmount,couponId,couponMoney, couponDetailCode, message } =res;
