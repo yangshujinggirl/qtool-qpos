@@ -501,9 +501,10 @@ class PayMentModal extends Component {
             checkedPayTypeOne,checkedPayTypeTwo } =this.props;
     const { cashRealVal, disVal, payLoading, validateVisible } =this.state;
     let popoverContent =<div className="coupon-tips-popover">
-        <p>(1）打开Qtools APP 或 Qtool+ 小程序；</p>
-        <p>(2）进入“我的” - “优惠券”，选择优惠券；</p>
-        <p>(3）收银员扫描或输入优惠券码</p>
+        <p>（1）打开Qtools APP 或 Qtool+ 小程序；</p>
+        <p>（2）进入“我的” - “优惠券”，选择优惠券；</p>
+        <p>（3）点击“查看详情”；</p>
+        <p>（4）收银员扫描或输入优惠券码；</p>
     </div>
     return(
       <div>
