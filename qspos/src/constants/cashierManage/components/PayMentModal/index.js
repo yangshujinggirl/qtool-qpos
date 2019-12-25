@@ -74,6 +74,7 @@ class PayMentModal extends Component {
     } else {
       checkedPayTypeTwo.type = option.key;
       let { cashRealVal } =this.state;
+      payPart.errorText = null;
       if(option.key == '4'&&cashRealVal == '') {
         payPart.errorText = '请输入现金金额';
       }
