@@ -377,21 +377,66 @@ class PayMentModal extends Component {
     this.setState({ validateVisible:false })
   }
   //优惠券核销
-  onBlurCoupon=(e)=> {
-    //输入框失去焦点
-    let { goodsList, payTotalData, couponDetail, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
-    let spShopId = sessionStorage.getItem('spShopId');
-    let spuList = goodsList.map((el)=> {
-      let item ={};
-        item.pdSkuId = el.pdSkuId
-        item.pdSpuId = el.pdSpuId
-        item.price = el.payPrice
-        item.activityId = el.truenumber
-        item.pdBrandId = el.pdBrandId
-        item.activityNotUseCoupons = el.activityNotUseCoupons;
-        return item;
-    })
-    let value = e.target.value;
+  // onBlurCoupon=(e)=> {
+  //   //输入框失去焦点
+  //   let { goodsList, payTotalData, couponDetail, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+  //   let spShopId = sessionStorage.getItem('spShopId');
+  //   let spuList = goodsList.map((el)=> {
+  //     let item ={};
+  //       item.pdSkuId = el.pdSkuId
+  //       item.pdSpuId = el.pdSpuId
+  //       item.price = el.payPrice
+  //       item.activityId = el.truenumber
+  //       item.pdBrandId = el.pdBrandId
+  //       item.activityNotUseCoupons = el.activityNotUseCoupons;
+  //       return item;
+  //   })
+  //   let value = e.target.value;
+  //   if(!value) {//无优惠券
+  //     this.props.dispatch({
+  //       type:'cashierManage/getCouponDetail',
+  //       payload:{}
+  //     })
+  //     payTotalData.payAmount = payTotalData.totolAmount
+  //     this.props.dispatch({
+  //       type:'cashierManage/getTotalData',
+  //       payload:payTotalData
+  //     })
+  //     this.checkCardAndPoint()
+  //   } else {
+  //     let params ={ couponDetailCode:value, value, spShopId, spuList }
+  //     GetServerData('qerp.web.qpos.od.coupon.query',params)
+  //     .then((res) => {
+  //       let { code, couponFullAmount,couponId,couponMoney, couponDetailCode, message } =res;
+  //       if(code != '0') {
+  //         message.error(message);
+  //         return;
+  //       }
+  //       payTotalData.cutAmount = '0';
+  //       payTotalData.payAmount = NP.minus(payTotalData.totolAmount,couponMoney);
+  //       couponDetail = { couponFullAmount,couponId,couponMoney, couponDetailCode }
+  //       this.props.dispatch({
+  //         type:'cashierManage/getTotalData',
+  //         payload:payTotalData
+  //       })
+  //       this.props.dispatch({
+  //         type:'cashierManage/getCouponDetail',
+  //         payload:couponDetail
+  //       })
+  //       this.checkCardAndPoint()
+  //     })
+  //   }
+  // }
+  // hindleKeyDown=(e)=> {
+  //   let keyCode=e.keyCode;
+  //   if(keyCode==9){
+	// 		e.preventDefault()
+	// 	}
+  // }
+  //enter搜索会员信息
+  hindleKeyCoupon=(e)=> {
+    let keyCode=e.keyCode;
+    const value=e.target.value;
     if(!value) {//无优惠券
       this.props.dispatch({
         type:'cashierManage/getCouponDetail',
@@ -403,7 +448,21 @@ class PayMentModal extends Component {
         payload:payTotalData
       })
       this.checkCardAndPoint()
-    } else {
+      return;
+    }
+    if(keyCode==13) {
+      let { goodsList, payTotalData, couponDetail, checkedPayTypeOne, checkedPayTypeTwo } =this.props;
+      let spShopId = sessionStorage.getItem('spShopId');
+      let spuList = goodsList.map((el)=> {
+        let item ={};
+          item.pdSkuId = el.pdSkuId
+          item.pdSpuId = el.pdSpuId
+          item.price = el.payPrice
+          item.activityId = el.truenumber
+          item.pdBrandId = el.pdBrandId
+          item.activityNotUseCoupons = el.activityNotUseCoupons;
+          return item;
+      })
       let params ={ couponDetailCode:value, value, spShopId, spuList }
       GetServerData('qerp.web.qpos.od.coupon.query',params)
       .then((res) => {
@@ -474,7 +533,10 @@ class PayMentModal extends Component {
                     value={couponDetail.couponFullAmount&&`-${couponDetail.couponMoney}(满${couponDetail.couponFullAmount}减${couponDetail.couponMoney})`}/>
                 </Form.Item>
                 <div className="coupon-code">
-                  <Input autoComplete={'off'} placeholder="请扫码或输入优惠券码" onBlur={this.onBlurCoupon}/>
+                  <Input
+                    onKeyUp={this.hindleKeyCoupon}
+                    autoComplete={'off'}
+                    placeholder="请扫码或输入优惠券码"/>
                   <Popover content={popoverContent}>
                     <Icon type="question-circle" style={{cursor:'pointer',marginLeft:'10px'}}/>
                   </Popover>
