@@ -4,6 +4,8 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
+import Qpagination from '../../components/Qpagination';
+import Qtable from '../../components/Qtable';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
 const FormItem = Form.Item;
@@ -176,7 +178,8 @@ class HotSellGoodsForm extends React.Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { onSale, pdCategoryId1, pdCategoryList } =this.state;
+    const { onSale, pdCategoryId1, pdCategoryList, dataSource, total, currentPage, limit } =this.state;
+
     return (
         <div className="hot-sell">
             <div className="scroll-wrapper">
@@ -241,30 +244,19 @@ class HotSellGoodsForm extends React.Component {
                         )
                         :null
                     }
-                    <CommonTable
-                        columns={this.columns}
-                        dataSource={this.state.dataSource}
-                        pagination={false}
-                        total={this.state.total}
-                        current={this.state.currentPage}
-                        pageSize={10}
+                    <Qtable
+                      columns={this.columns}
+                      dataSource={dataSource}/>
+                    {
+                      dataSource.length>0&&
+                      <Qpagination
+                        sizeOptions="2"
                         onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
-                        locale={true}
-                        />
+                        onChange={this.pageChange}
+                        data={{ total, currentPage, limit }}/>
+                    }
                 </div>
             </div>
-            {/* <div className="footer-pagefixed">
-                <Pagination
-                    total={this.state.total}
-                    current={this.state.currentPage+1}
-                    pageSize={this.state.limit}
-                    // showSizeChanger
-                    // onShowSizeChange={this.onShowSizeChange}
-                    onChange={this.pageChange}
-                    // pageSizeOptions={['10','12','15','17','20','50','100','200']}
-                    />
-            </div> */}
         </div>
     );
   }
