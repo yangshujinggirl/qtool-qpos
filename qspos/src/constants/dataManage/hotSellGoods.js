@@ -167,10 +167,10 @@ class HotSellGoodsForm extends React.Component {
       self.getServerData();
     });
   }
-  onShowSizeChange=(current, pageSize)=>{
+  onShowSizeChange=({currentPage, limit})=>{
     const self = this;
     this.setState({
-      limit:pageSize,
+      limit:limit,
       currentPage:0
     },()=>{
       self.getServerData();
