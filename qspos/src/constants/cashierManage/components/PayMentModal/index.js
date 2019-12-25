@@ -466,7 +466,7 @@ class PayMentModal extends Component {
       })
       let params ={ couponDetailCode:value, value, spShopId, spuList }
       if(memberInfo.mbCardId) {
-        params = {...params,moblie:memberInfo.mobile};
+        params = {...params,mobile:memberInfo.mobile};
       }
       GetServerData('qerp.web.qpos.od.coupon.query',params)
       .then((res) => {
