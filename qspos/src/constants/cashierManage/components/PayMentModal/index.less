@@ -2,9 +2,6 @@
   height: calc(100vh);
   top:0;
   padding: 0;
-  .ant-modal-body {
-    // padding-top: 60px;
-  }
   .ant-modal-content {
     height: 100%;
   }
@@ -15,17 +12,17 @@
     margin-bottom: 16px;
     .ant-form-item-label {
       width: 100px;
-      line-height: 56px;
+      line-height: 48px;
       display: inline-block;
+    }
+    input {
+      width: 540px;
+      height: 48px;
+      color: #999;
+      font-size: 20px;
     }
     .ant-form-item-control-wrapper {
       display: inline-block;
-      input {
-        width: 540px;
-        height: 48px;
-        color: #999;
-        font-size: 20px;
-      }
     }
     .btn-wrap {
       display: inline-block;
@@ -55,7 +52,6 @@
         width: 120px;
         height: 48px;
         font-size: 16px;
-        // color: #333333;
         border: 1px solid #E7E8EC;
         box-shadow: 2px 2px 7px 0 rgba(57,57,57,0.06);
         border-radius: 4px;
@@ -165,5 +161,34 @@
   p {
     margin:0;
     margin-bottom: 10px;
+  }
+}
+/*小屏样式 */
+// @media only screen and (min-width: 950px) and (max-width: 1366px)
+@media screen and (max-width: 1366px){
+  .settling-account-modal {
+    .ant-form-item {
+      .ant-form-item-label {
+        line-height: 44px;
+      }
+      input {
+        height: 44px;
+      }
+      .btn-wrap {
+        .ant-btn {
+          height: 44px;
+          line-height: 44px;
+        }
+      }
+    }
+
+    .group-pay-formItem {
+      .ant-select-selection--single {
+        height: 40px;
+      }
+      .ant-select-selection-selected-value {
+        line-height: 40px;
+      }
+    }
   }
 }
