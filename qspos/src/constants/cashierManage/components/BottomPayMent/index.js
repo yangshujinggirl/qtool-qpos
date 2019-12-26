@@ -68,6 +68,7 @@ class BottomPayMent extends Component {
       if(value == '') {
         return;
       }
+      this.barCodeInput.input.select();
       this.getbarCodeSeach(value)
     }
     if(keyCode == 9) {
