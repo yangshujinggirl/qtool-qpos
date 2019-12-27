@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import NP from 'number-precision'
 import Header from '../../components/Qheader';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,AutoComplete,Spin} from 'antd';
 import AntIcon from '../../components/loding/payloding';
@@ -193,9 +194,9 @@ class EditableTable extends React.Component {
         }else{
           if(!(Number(qtyvalue) > Number(record.inventory))){  //数量符合,后校验钱
             if(price != null){
-              if(price > parseFloat(cPrice*qtyvalue)){  //不正常
+              if(price > NP.times(cPrice,qtyvalue)){  //不正常
                 message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价',1.5)
-              }else if(price < parseFloat(bPrice*qtyvalue)){
+              }else if(price < NP.times(bPrice,qtyvalue)){
                 message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价',1.5)
               }else{
                 dataSource[index].exchangeQty=qtyvalue
