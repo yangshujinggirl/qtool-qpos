@@ -19,7 +19,7 @@ class  AllDiscountModal extends Component {
     }
   }
   onChange=(e)=> {
-    var regex = /^\d*(\.\d{1})?$/;
+    var regex = /^\d*((\.)|(\.\d{1}))?$/
     let value = e.target.value;
     if(regex.test(value)) {
       this.setState({ disVal:value })

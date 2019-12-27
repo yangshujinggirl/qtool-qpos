@@ -20,7 +20,11 @@ class BtnsAction extends Component {
   }
   componentDidMount() {
     this.getAllOrderListApi();
+    window.addEventListener('keyup', this.hindleKeyDelete,true);
   }
+  componentWillUnmount(){
+    window.removeEventListener('keyup', this.hindleKeyDelete,true);
+	}
   //切换活动
   handleSelect=(value,options)=> {
     const { activityOptions, goodsList, currentRowIndex } =this.props;
@@ -151,6 +155,13 @@ class BtnsAction extends Component {
       this.setState({ visiblePull: false });
     })
   }
+  //快捷键移除商品
+  hindleKeyDelete=(e)=> {
+    let keyCode = e.keyCode;
+    if(keyCode == 115) {
+      this.goDeleteOrder()
+    }
+  }
   //移除
   goDeleteOrder=()=> {
     let { goodsList,currentRowIndex,selectedActivityId } =this.props;
@@ -165,7 +176,7 @@ class BtnsAction extends Component {
       currentRowIndex = 0;
       currentItem = goodsList[0];
     }
-    if(currentItem.isShowActivity=='1') {
+    if(currentItem&&currentItem.isShowActivity=='1') {
       activityOptions = currentItem.spActivities,
       selectedActivityId = currentItem.activityId
     }
@@ -207,9 +218,11 @@ class BtnsAction extends Component {
           </div>
         }
         <div className="handle-rt">
-          <Button onClick={this.goPutOrder} disabled={goodsList.length>0?false:true}>挂单F2</Button>
-          <Button onClick={this.goPullOrder} disabled={ allPutOrderList.length>0?false:true}>取单F3</Button>
-          <Button onClick={this.goDeleteOrder} disabled={goodsList.length>0?false:true}>移除商品F4</Button>
+          <Button onClick={this.goPutOrder} disabled={goodsList.length>0?false:true}>挂单</Button>
+          <Button onClick={this.goPullOrder} disabled={ allPutOrderList.length>0?false:true}>取单</Button>
+          <Button
+            onClick={this.goDeleteOrder}
+            disabled={goodsList.length>0?false:true}>移除商品F4</Button>
           <Button onClick={()=>this.goDiscount(true)} disabled={goodsList.length>0?false:true}>整单折扣</Button>
         </div>
         <PutOrderModal
