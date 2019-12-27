@@ -161,7 +161,10 @@ export default {
         if(idx=='-1'){
           newGoodsInfo.qty='1'
           newGoodsInfo.discount='10';
-        }else{
+        }else if(newGoodsInfo.qty == newGoodsInfo.inventory){
+          message.error('商品库存不足');
+          return;
+        } else {
           newGoodsInfo = goodsList[idx];
           newGoodsInfo.qty++;
           goodsList.splice(idx,1); //删除当前
