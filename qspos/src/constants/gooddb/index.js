@@ -96,24 +96,21 @@ class EditableTable extends React.Component {
       this._isMounted = false;
       window.removeEventListener('resize', this.windowResize);
   }
-  onSelect=(value)=>{
-     let shopList = this.state.shopList
-     let shopId
-     for(let i=0;i<shopList.length;i++){
-       if(shopList[i].name == value){
-         shopId = shopList[i].spShopId
-       }
-     }
-     this.setState({
-       shopId:shopId
-     })
-     this.props.getShopId(shopId)
+  onSelect=(value,option)=>{
+    //  let shopList = this.state.shopList
+     // let shopId
+    //  for(let i=0;i<shopList.length;i++){
+    //    if(shopList[i].name == value){
+    //      shopId = shopList[i].spShopId
+    //    }
+    //  }
+     // this.props.getShopId(shopId)
+		 this.setState({ shopId:option.key })
+     this.props.getShopId(option.key)
   }
   handleChange=(value)=>{
    if(value == ''){
-     this.setState({
-       shopId:null
-     })
+     this.setState({ shopId:null })
      this.props.getShopId(null)
    }
   }
@@ -127,7 +124,11 @@ class EditableTable extends React.Component {
               let shopList=json.shops;
               let dataSources=[];
               for(let i=0;i<shopList.length;i++){
-                  dataSources.push(shopList[i].name)
+								let item ={
+									text:shopList[i].name,
+			            value:shopList[i].spShopId
+								}
+                dataSources.push(item)
               }
               this.setState({
                   shopList:shopList,
@@ -235,6 +236,7 @@ class EditableTable extends React.Component {
     if(record.exchangePrice == undefined){
       message.error('请先输入调拨数量',1.5)
     }else{
+			const { dataSource } =this.state;
       dataSource[index].exchangePrice = record.exchangePrice
       this.setState({
         dataSource:dataSource
