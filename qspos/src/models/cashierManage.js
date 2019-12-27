@@ -161,7 +161,7 @@ export default {
         if(idx=='-1'){
           newGoodsInfo.qty='1'
           newGoodsInfo.discount='10';
-        }else if(newGoodsInfo.qty == newGoodsInfo.inventory){
+        }else if(goodsList[idx].qty == newGoodsInfo.inventory){
           message.error('商品库存不足');
           return;
         } else {
