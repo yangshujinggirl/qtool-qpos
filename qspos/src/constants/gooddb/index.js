@@ -252,9 +252,9 @@ class EditableTable extends React.Component {
       if(price != ''){
         if(dataSource[index].exchangeQty != undefined){  //用户先点击调拨数量,后点击调拨总价
           let qty = dataSource[index].exchangeQty
-          if(price > parseFloat(cPrice*qty)){  //不正常
+          if(price > NP.times(cPrice,qty)){  //不正常
             message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价',1.5)
-          }else if(price < parseFloat(bPrice*qty)){
+          }else if(price < NP.times(bPrice,qty)){
             message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价',1.5)
           }else{
             dataSource[index].exchangePrice=Number(price).toFixed(2)
