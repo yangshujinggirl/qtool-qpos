@@ -1,0 +1,207 @@
+.settling-account-modal {
+  height: calc(100vh);
+  top:0;
+  padding: 0;
+  .ant-modal-content {
+    height: 100%;
+  }
+  .separate-line {
+    border-top: 1px solid #E7E8EC;
+  }
+  .ant-form-item {
+    margin-bottom: 16px;
+    .ant-form-item-label {
+      width: 100px;
+      line-height: 48px;
+      display: inline-block;
+    }
+    input {
+      width: 540px;
+      height: 48px;
+      color: #999;
+      font-size: 20px;
+    }
+    .ant-form-item-control-wrapper {
+      display: inline-block;
+    }
+    .btn-wrap {
+      display: inline-block;
+      margin-left: 20px;
+      .ant-btn {
+        width: 116px;
+        height: 48px;
+        font-size: 20px;
+        line-height: 48px;
+      }
+    }
+  }
+  .row-item {
+    .item-l {
+      color: rgba(0, 0, 0, 0.85);
+      width: 100px;
+      padding-right: 10px;
+      box-sizing: border-box;
+      text-align: right;
+      display: inline-block;
+    }
+    .item-r {
+      width: 540px;
+      display: inline-block;
+      vertical-align: top;
+      .payType-btn {
+        width: 120px;
+        height: 48px;
+        font-size: 16px;
+        border: 1px solid #E7E8EC;
+        box-shadow: 2px 2px 7px 0 rgba(57,57,57,0.06);
+        border-radius: 4px;
+        margin-bottom: 20px;
+        &:not(:nth-child(4)) {
+          margin-right: 20px;
+        }
+        .desc-tips {
+          display: block;
+          font-size: 12px;
+          padding-top: 4px;
+          color: #999;
+        }
+        &.selected {
+          background: #35BAB0;
+          color: #fff;
+          .desc-tips {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+  .more-formItem {
+    .label-item,.field-item {
+      display: inline-block;
+    }
+    .label-item {
+      input {
+        width: 260px;
+      }
+    }
+    .field-item {
+      margin-left: 60px;
+      input {
+        width: 120px;
+      }
+    }
+    .coupon-code {
+      input {
+        width: 260px;
+        height: 48px;
+      }
+      display: inline-block;
+      margin-left: 20px;
+    }
+  }
+
+  .group-pay-formItem {
+    .label-col,.field-col {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .ant-select-selection--single {
+      width: 120px;
+      height: 48px;
+    }
+    .ant-select-selection-selected-value {
+      line-height: 48px;
+    }
+    .field-col {
+      margin-left: 20px;
+      input {
+        width: 380px;
+      }
+    }
+  }
+  .footer-part {
+    position: absolute;
+    bottom: 0;
+    left: 32px;
+    padding-bottom: 8px;
+    .error-validate {
+      width:  652px;
+      font-size: 16px;
+      color: #D7636B;
+      text-align: center;
+      margin: 0;
+      padding: 6px 0;
+    }
+    .footer-row {
+      text-align: center;
+    }
+    .go-settling-btn {
+      width: 652px;
+      height: 80px;
+      font-size: 38px;
+      vertical-align: top;
+      // background: #35BAB0;
+      // color: #fff;
+      margin: 0 32px 16px 0;
+      .space-code {
+        display: block;
+        font-size: 16px;
+      }
+    }
+    .go-group-btn {
+      width: 118px;
+      height: 80px;
+      vertical-align: top;
+      // color: #35BAB0;
+    }
+  }
+}
+.coupon-tips-popover {
+  font-size: 12px;
+  p {
+    margin:0;
+    margin-bottom: 10px;
+  }
+}
+/*小屏样式 */
+// @media only screen and (min-width: 950px) and (max-width: 1366px)
+@media screen and (max-width: 1366px){
+  .settling-account-modal {
+    .ant-form-item {
+      .ant-form-item-label {
+        line-height: 44px;
+      }
+      input {
+        height: 40px;
+      }
+      .btn-wrap {
+        .ant-btn {
+          height: 40px;
+          line-height: 40px;
+        }
+      }
+    }
+    .row-item {
+      .item-r {
+        .payType-btn {
+          margin-bottom: 12px;
+        }
+      }
+    }
+    .more-formItem {
+      .coupon-code {
+        input {
+          height: 40px;
+        }
+      }
+    }
+    .group-pay-formItem {
+      .ant-select-selection--single {
+        height: 40px;
+      }
+      .ant-select-selection-selected-value {
+        line-height: 40px;
+      }
+    }
+  }
+}

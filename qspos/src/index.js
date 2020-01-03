@@ -35,6 +35,8 @@ app.model(require("./models/orderManage"));
 app.model(require("./models/dataManage/dailyCheck"));
 app.model(require("./models/dataManage/chargeBackList"));
 app.model(require("./models/activityManage"));
+app.model(require("./models/cashierManage"));
+app.model(require("./models/returnSales"));
 // 4. Router
 app.router(require('./router'));
 

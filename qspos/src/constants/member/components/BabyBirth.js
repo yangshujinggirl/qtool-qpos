@@ -19,6 +19,7 @@ class EditableTablebaby extends React.Component {
     this.columns = [{
         title: 'year',
         dataIndex: 'year',
+        width: '33%',
         render: (text, record, index) => (
           <div>
             <Select
@@ -37,7 +38,7 @@ class EditableTablebaby extends React.Component {
       }, {
         title: 'month',
         dataIndex: 'month',
-        width: '30%',
+        width: '33%',
         render: (text, record, index) => (
           <div>
             <Select
@@ -56,7 +57,7 @@ class EditableTablebaby extends React.Component {
       }, {
         title: 'day',
         dataIndex: 'day',
-        width: '30%',
+        width: '33%',
         render: (text, record, index) => (
            <div>
             <Select
@@ -140,13 +141,13 @@ class EditableTablebaby extends React.Component {
             style={{height:'40px',lineHeight:'40px'}}>
             <Icon type="plus-circle-o" />
           </div>
-          <div className='fl' style={{width:'54px',height:'40ox',lineHeight:'36px'}}>
+          {/*<div className='fl' style={{width:'54px',height:'40ox',lineHeight:'36px'}}>
             <Switch
               checkedChildren="公历"
               unCheckedChildren="农历"
               onChange={this.SwitchChange.bind(this)}
               checked={checked}/>
-          </div>
+          </div>*/}
         </div>
       </div>
     );

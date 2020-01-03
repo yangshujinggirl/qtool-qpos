@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
+import NP from 'number-precision'
 import Header from '../../components/Qheader';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Tooltip ,DatePicker,Select,message,Upload,AutoComplete,Spin} from 'antd';
 import AntIcon from '../../components/loding/payloding';
@@ -95,24 +96,21 @@ class EditableTable extends React.Component {
       this._isMounted = false;
       window.removeEventListener('resize', this.windowResize);
   }
-  onSelect=(value)=>{
-     let shopList = this.state.shopList
-     let shopId
-     for(let i=0;i<shopList.length;i++){
-       if(shopList[i].name == value){
-         shopId = shopList[i].spShopId
-       }
-     }
-     this.setState({
-       shopId:shopId
-     })
-     this.props.getShopId(shopId)
+  onSelect=(value,option)=>{
+    //  let shopList = this.state.shopList
+     // let shopId
+    //  for(let i=0;i<shopList.length;i++){
+    //    if(shopList[i].name == value){
+    //      shopId = shopList[i].spShopId
+    //    }
+    //  }
+     // this.props.getShopId(shopId)
+		 this.setState({ shopId:option.key })
+     this.props.getShopId(option.key)
   }
   handleChange=(value)=>{
    if(value == ''){
-     this.setState({
-       shopId:null
-     })
+     this.setState({ shopId:null })
      this.props.getShopId(null)
    }
   }
@@ -126,7 +124,11 @@ class EditableTable extends React.Component {
               let shopList=json.shops;
               let dataSources=[];
               for(let i=0;i<shopList.length;i++){
-                  dataSources.push(shopList[i].name)
+								let item ={
+									text:shopList[i].name,
+			            value:shopList[i].spShopId
+								}
+                dataSources.push(item)
               }
               this.setState({
                   shopList:shopList,
@@ -193,9 +195,9 @@ class EditableTable extends React.Component {
         }else{
           if(!(Number(qtyvalue) > Number(record.inventory))){  //数量符合,后校验钱
             if(price != null){
-              if(price > parseFloat(cPrice*qtyvalue)){  //不正常
+              if(price > NP.times(cPrice,qtyvalue)){  //不正常
                 message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价',1.5)
-              }else if(price < parseFloat(bPrice*qtyvalue)){
+              }else if(price < NP.times(bPrice,qtyvalue)){
                 message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价',1.5)
               }else{
                 dataSource[index].exchangeQty=qtyvalue
@@ -234,6 +236,7 @@ class EditableTable extends React.Component {
     if(record.exchangePrice == undefined){
       message.error('请先输入调拨数量',1.5)
     }else{
+			const { dataSource } =this.state;
       dataSource[index].exchangePrice = record.exchangePrice
       this.setState({
         dataSource:dataSource
@@ -249,9 +252,9 @@ class EditableTable extends React.Component {
       if(price != ''){
         if(dataSource[index].exchangeQty != undefined){  //用户先点击调拨数量,后点击调拨总价
           let qty = dataSource[index].exchangeQty
-          if(price > parseFloat(cPrice*qty)){  //不正常
+          if(price > NP.times(cPrice,qty)){  //不正常
             message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价',1.5)
-          }else if(price < parseFloat(bPrice*qty)){
+          }else if(price < NP.times(bPrice,qty)){
             message.error('第'+ (index+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价',1.5)
           }else{
             dataSource[index].exchangePrice=Number(price).toFixed(2)

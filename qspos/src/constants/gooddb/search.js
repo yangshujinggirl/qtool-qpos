@@ -1,6 +1,7 @@
 import { Button,Input,Icon,message } from 'antd';
 import "./gooddb.css"
-import MyUpload from './upload'
+import MyUpload from './upload';
+import NP from 'number-precision'
 import { Link } from 'dva/router';
 import {GetServerData} from '../../services/services';
 import DbTextModal from './model'
@@ -92,10 +93,10 @@ class Searchcomponent extends React.Component {
                 message.error('第'+ (i+1) + '行商品调拨数量填写错误。调拨数量不得大于商品库存数量',1.5)
               }else{
                 if(item.exchangePrice != null){
-                  if(item.exchangePrice > parseFloat(item.toCPrice*item.exchangeQty)){
+                  if(item.exchangePrice > NP.times(item.toCPrice,item.exchangeQty)){
                     hasError = true
                     message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得大于商品零售总价',1.5)
-                  }else if(item.exchangePrice < parseFloat(item.toBPrice*item.exchangeQty)){
+                  }else if(item.exchangePrice < NP.times(item.toBPrice,item.exchangeQty)){
                     hasError = true
                     message.error('第'+ (i+1) +'行商品调拨总价填写错误。调拨总价不得小于商品进货总价',1.5)
                   }

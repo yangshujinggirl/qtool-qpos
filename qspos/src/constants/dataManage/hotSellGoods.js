@@ -4,6 +4,8 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import CommonTable from './commonTable';
+import Qpagination from '../../components/Qpagination';
+import Qtable from '../../components/Qtable';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
 const FormItem = Form.Item;
@@ -14,27 +16,34 @@ const dateFormat = 'YYYY-MM-DD';
 //热销商品
 class HotSellGoodsForm extends React.Component {
   constructor(props) {
-      super(props);
-      this.state={
-          dataSource:[],
-          total:0,
-          currentPage:0,
-          limit:10,
-          startDate:"",
-          endDate:"",
-      };
-      this.columns = [{
-          title: '排名',
-          dataIndex: 'index',
-          render:(text, record, index) =>{
-              return <span>{index+1}</span>
-          }
+    super(props);
+    this.state={
+        dataSource:[],
+        total:0,
+        currentPage:0,
+        limit:10,
+        startDate:"",
+        endDate:"",
+        onSale:1,
+        pdCategoryId1:0,
+        pdCategoryList:[]
+    };
+    this.columns = [
+      {
+        title: '排名',
+        dataIndex: 'index',
+        render:(text, record, index) =>{
+            return <span>{index+1}</span>
+        }
       },{
           title: '商品条码',
           dataIndex: 'barcode',
       },{
           title: '商品名称',
           dataIndex: 'name',
+      },{
+          title: '商品分类',
+          dataIndex: 'pdCategory1Name',
       },{
           title: '规格',
           dataIndex: 'displayName',
@@ -60,54 +69,59 @@ class HotSellGoodsForm extends React.Component {
       }];
   }
   componentDidMount(){
-    //获取当前时间
     this.getNowFormatDate();
-  }
-  //时间改变
-  dateChange = (date, dateString) =>{
-      console.log(date, dateString);
-      this.setState({
-          startDate:dateString[0],
-          endDate:dateString[1]
-      })
-  }
-  //表格的方法
-  pageChange=(page,pageSize)=>{
-      const self = this;
-      this.setState({
-          currentPage:page-1
-      },function(){
-          let data = {
-              currentPage:this.state.currentPage,
-              limit:10,
-              startDate:this.state.startDate,
-              endDate:this.state.endDate
-          }
-          self.getServerData(data);
-      });
-  }
-  onShowSizeChange=(current, pageSize)=>{
-    const self = this;
-    this.setState({
-      limit:pageSize,
-      currentPage:0
-    },()=>{
-      let data = {
-          currentPage:this.state.currentPage,
-          limit:this.state.limit,
-          startDate:this.state.startDate,
-          endDate:this.state.endDate
-      };
-      self.getServerData(data);
-    })
+    this.getPdCategoriList()
   }
   //获取数据
-  getServerData = (values) =>{
+  getPdCategoriList = () =>{
     this.props.dispatch({
       type:'spinLoad/setLoading',
       payload:true
     })
-    GetServerData('qerp.pos.rp.pd.sell.list',values)
+    GetServerData('qerp.pos.pd.category.list',{})
+    .then((res) => {
+      const { code, pdCategories } =res;
+      if(code=='0'){
+        this.setState({ pdCategoryList: pdCategories })
+      }else{
+          message.error(message);
+      }
+      this.props.dispatch({
+        type:'spinLoad/setLoading',
+        payload:false
+      })
+    })
+  }
+  getNowFormatDate = () =>{
+    const self =this;
+    var curDate = new Date();
+    var date = new Date(curDate.getTime() - 24*60*60*1000); //前一天;
+    var seperator1 = "-";
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+        month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+    }
+    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+    this.setState({
+      startDate:currentdate,
+      endDate:currentdate
+    },()=>{
+      self.getServerData();
+    })
+  }
+  //获取数据
+  getServerData = () =>{
+    this.props.dispatch({
+      type:'spinLoad/setLoading',
+      payload:true
+    })
+    const { currentPage, limit, startDate, endDate, onSale, pdCategoryId1 } =this.state;
+    let params = { currentPage, limit, startDate, endDate, onSale, pdCategoryId1 };
+    GetServerData('qerp.pos.rp.pd.sell.list',params)
     .then((json) => {
       if(json.code=='0'){
         let dataList = json.analysis;
@@ -131,64 +145,80 @@ class HotSellGoodsForm extends React.Component {
       })
     })
   }
-  getNowFormatDate = () =>{
-    const self =this;
-    var curDate = new Date();
-    var date = new Date(curDate.getTime() - 24*60*60*1000); //前一天;
-    var seperator1 = "-";
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+  onSelectPdCategory=(value)=> {
+    this.setState({ pdCategoryId1:value })
+  }
+  onSelectYs=(value)=> {
+    this.setState({ onSale:value })
+  }
+  //时间改变
+  dateChange = (date, dateString) =>{
     this.setState({
-        startDate:currentdate,
-        endDate:currentdate
-    },()=>{
-      let values = {
-          currentPage:0,
-          limit:10,
-          startDate:this.state.startDate,
-          endDate:this.state.endDate
-      }
-      self.getServerData(values);
+      startDate:dateString[0],
+      endDate:dateString[1]
     })
   }
-  handleSubmit = (e) =>{
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      let data = {
-          currentPage:0,
-          limit:this.state.limit,
-          startDate:this.state.startDate,
-          endDate:this.state.endDate
-      }
-      this.getServerData(data);
+  //表格的方法
+  pageChange=(page,pageSize)=>{
+    const self = this;
+    this.setState({
+        currentPage:page-1
+    },()=>{
+      self.getServerData();
+    });
+  }
+  onShowSizeChange=({currentPage, limit})=>{
+    const self = this;
+    this.setState({
+      limit:limit,
+      currentPage:0
+    },()=>{
+      self.getServerData();
     })
   }
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { onSale, pdCategoryId1, pdCategoryList, dataSource, total, currentPage, limit } =this.state;
+
     return (
         <div className="hot-sell">
             <div className="scroll-wrapper">
                 {/*搜索部分 */}
                 <Form className="search-form hot-goods">
                     <FormItem
-                    label="选择时间"
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{span: 10}}>
+                      label="选择时间"
+                      labelCol={{ span: 5 }}
+                      wrapperCol={{span: 10}}>
                         <RangePicker
                             allowClear={false}
                             value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
                             format={dateFormat}
                             onChange={this.dateChange.bind(this)} />
                     </FormItem>
+                    <FormItem
+                      label="商品分类"
+                      labelCol={{ span: 5 }}
+                      wrapperCol={{span: 10}}>
+                      <Select onSelect={this.onSelectPdCategory} value={pdCategoryId1}>
+                        <Option value={0}>全部</Option>
+                          {
+                            pdCategoryList.map((el,index)=> (
+                              <Option value={el.pdCategoryId} key={el.pdCategoryId}>{el.name}</Option>
+                            ))
+                          }
+                      </Select>
+                    </FormItem>
+                    <FormItem
+                      label="是否在售"
+                      labelCol={{ span: 5 }}
+                      wrapperCol={{span: 10}}>
+                      <Select onSelect={this.onSelectYs} value={onSale}>
+                        <Option value={1} key={1}>是</Option>
+                        <Option value={0} key={0}>否</Option>
+                      </Select>
+                    </FormItem>
                     <FormItem>
-                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                        <Button type="primary" icon="search" onClick={this.getServerData.bind(this)}>搜索</Button>
                     </FormItem>
                 </Form>
                 <div className="hotSell-wrapper add-norecord-img">
@@ -214,30 +244,19 @@ class HotSellGoodsForm extends React.Component {
                         )
                         :null
                     }
-                    <CommonTable
-                        columns={this.columns}
-                        dataSource={this.state.dataSource}
-                        pagination={false}
-                        total={this.state.total}
-                        current={this.state.currentPage}
-                        pageSize={10}
+                    <Qtable
+                      columns={this.columns}
+                      dataSource={dataSource}/>
+                    {
+                      dataSource.length>0&&
+                      <Qpagination
+                        sizeOptions="2"
                         onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
-                        locale={true}
-                        />
+                        onChange={this.pageChange}
+                        data={{ total, currentPage, limit }}/>
+                    }
                 </div>
             </div>
-            {/* <div className="footer-pagefixed">
-                <Pagination
-                    total={this.state.total}
-                    current={this.state.currentPage+1}
-                    pageSize={this.state.limit}
-                    // showSizeChanger
-                    // onShowSizeChange={this.onShowSizeChange}
-                    onChange={this.pageChange}
-                    // pageSizeOptions={['10','12','15','17','20','50','100','200']}
-                    />
-            </div> */}
         </div>
     );
   }
