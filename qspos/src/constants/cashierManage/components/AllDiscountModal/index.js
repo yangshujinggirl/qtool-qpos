@@ -32,8 +32,11 @@ class  AllDiscountModal extends Component {
     switch(role) {
       case '1':
       case '2':
-      if(dis<=6) {
-        dis = 6;
+      // if(dis<=8) {
+      //   dis = 8;
+      // }
+      if(dis<=7) {
+        dis = 7;
       }
       break;
     case '3':
@@ -50,8 +53,11 @@ class  AllDiscountModal extends Component {
     switch(role) {
       case '1':
       case '2':
-      if(disVal<=6) {
-        disVal = 6;
+      // if(disVal<=8) {
+      //   disVal = 8;
+      // }
+      if(disVal<=7) {
+        disVal = 7;
       }
       break;
     case '3':

@@ -106,9 +106,12 @@ class GoodsTable extends React.Component {
           value = `${forMatVal[0]}.0`;
         }
         goodsList[index].discount = value;
-        if((role=='2'||role=='1') && value< 8){
-          goodsList[index].discount=8;
+        if((role=='2'||role=='1') && value< 7){//临时修改折扣为7折
+          goodsList[index].discount=7;
         }
+        // if((role=='2'||role=='1') && value< 8){
+        //   goodsList[index].discount=8;
+        // }
         if((role=='3') && value< 9){
           goodsList[index].discount= 9;
         }
@@ -117,13 +120,20 @@ class GoodsTable extends React.Component {
         value = value==''?goodsList[index].toCPrice:value;
         let zeropayPrice=value,discount;
         discount=NP.times(NP.divide(value,goodsList[index].toCPrice,goodsList[index].qty),10)
-        if((role=='2'||role=='1') && discount< 8){
-          discount=8;
+        if((role=='2'||role=='1') && discount< 7){//临时修改折扣为7折
+          discount=7;
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
         }else if((role=='3') && discount< 9){
           discount=9
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
         }
+        // if((role=='2'||role=='1') && discount< 8){
+        //   discount=8;
+        //   zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
+        // }else if((role=='3') && discount< 9){
+        //   discount=9
+        //   zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
+        // }
         zeropayPrice =fomatNumTofixedTwo(zeropayPrice)
         goodsList[index].payPrice =fomatNumAddFloat(zeropayPrice);
         goodsList[index].discount = discount;
