@@ -82,9 +82,9 @@ class BottomPayMent extends Component {
       return;
     }
     this.upDateUserInfo()
-    let isCardDisabled = memberInfo.mbCardId?true:false;
+    let isCardDisabled = memberInfo.mbCardId&&memberInfo.isLocalShop=='true'?true:false;
 
-    if(isCardDisabled) {//会员
+    if(isCardDisabled) {//本店会员
       checkedPayTypeOne = { type:'5', amount:payTotalData.payAmount };
     } else {//非会员
       checkedPayTypeOne = { type:'1', amount:payTotalData.payAmount };
