@@ -294,7 +294,7 @@ class InOutReportForm extends React.Component {
     const { visible, others, rpInventoryHeaderVo } =this.state;
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="daily-bill border-top-style">
+      <div className="daily-bill border-top-style InOutReport-contents-pages">
         <div className="scroll-wrapper">
           {/* 数据展示部分 */}
           <div className="top-data inout-data">
