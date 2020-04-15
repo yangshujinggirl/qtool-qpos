@@ -8,6 +8,7 @@ import Qpagination from '../../components/Qpagination';
 import Qtable from '../../components/Qtable';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
+import {GetExportData} from '../../services/services';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -42,8 +43,11 @@ class HotSellGoodsForm extends React.Component {
           title: '商品名称',
           dataIndex: 'name',
       },{
-          title: '商品分类',
+          title: '一级分类',
           dataIndex: 'pdCategory1Name',
+      },{
+          title: '二级分类',
+          dataIndex: 'pdCategory2Name',
       },{
           title: '规格',
           dataIndex: 'displayName',
@@ -176,6 +180,11 @@ class HotSellGoodsForm extends React.Component {
       self.getServerData();
     })
   }
+  export=()=> {
+    const { currentPage, limit, startDate, endDate, onSale, pdCategoryId1 } =this.state;
+    let params = { currentPage, limit, startDate, endDate, onSale, pdCategoryId1 };
+    const res= GetExportData('qerp.pos.rp.share.profit.export',params)
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { onSale, pdCategoryId1, pdCategoryList, dataSource, total, currentPage, limit } =this.state;
@@ -196,7 +205,7 @@ class HotSellGoodsForm extends React.Component {
                             onChange={this.dateChange.bind(this)} />
                     </FormItem>
                     <FormItem
-                      label="商品分类"
+                      label="一级分类"
                       labelCol={{ span: 5 }}
                       wrapperCol={{span: 10}}>
                       <Select onSelect={this.onSelectPdCategory} value={pdCategoryId1}>
@@ -219,6 +228,9 @@ class HotSellGoodsForm extends React.Component {
                     </FormItem>
                     <FormItem>
                         <Button type="primary" icon="search" onClick={this.getServerData.bind(this)}>搜索</Button>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" onClick={this.export}>导出数据</Button>
                     </FormItem>
                 </Form>
                 <div className="hotSell-wrapper add-norecord-img">
