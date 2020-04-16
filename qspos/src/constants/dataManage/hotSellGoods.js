@@ -183,7 +183,7 @@ class HotSellGoodsForm extends React.Component {
   export=()=> {
     const { currentPage, limit, startDate, endDate, onSale, pdCategoryId1 } =this.state;
     let params = { currentPage, limit, startDate, endDate, onSale, pdCategoryId1 };
-    const res= GetExportData('qerp.pos.rp.share.profit.export',params)
+    const res= GetExportData('qerp.pos.rp.pd.sell.list.export',params)
   }
   render() {
     const { getFieldDecorator } = this.props.form;
