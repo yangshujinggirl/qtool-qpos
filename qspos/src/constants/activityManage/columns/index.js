@@ -49,7 +49,7 @@ const columns = [
             </span>
     }
   },{
-    title: '参与平台',
+    title: '活动来源',
     dataIndex: 'activtyPlatform',
 
   }]
