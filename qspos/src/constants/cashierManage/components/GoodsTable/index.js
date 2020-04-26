@@ -89,7 +89,7 @@ class GoodsTable extends React.Component {
   onBlurField=(e,index,keyName)=> {
     let value = e.target.value;
     let role=sessionStorage.getItem('role');
-    let { goodsList } =this.props;
+    let { goodsList, minDiscount, maxDiscount } =this.props;
     switch(keyName) {
       case 'qty':
         value = value==''?1:value;
@@ -106,25 +106,25 @@ class GoodsTable extends React.Component {
           value = `${forMatVal[0]}.0`;
         }
         goodsList[index].discount = value;
-        if((role=='2'||role=='1') && value< 7){//临时修改折扣为7折
-          goodsList[index].discount=7;
+        if((role=='2'||role=='1') && value< maxDiscount){//临时修改折扣为7折
+          goodsList[index].discount= maxDiscount;
         }
         // if((role=='2'||role=='1') && value< 8){
         //   goodsList[index].discount=8;
         // }
-        if((role=='3') && value< 9){
-          goodsList[index].discount= 9;
+        if((role=='3') && value< minDiscount){
+          goodsList[index].discount= minDiscount;
         }
         break;
       case 'payPrice':
         value = value==''?goodsList[index].toCPrice:value;
         let zeropayPrice=value,discount;
         discount=NP.times(NP.divide(value,goodsList[index].toCPrice,goodsList[index].qty),10)
-        if((role=='2'||role=='1') && discount< 7){//临时修改折扣为7折
-          discount=7;
+        if((role=='2'||role=='1') && discount< maxDiscount){//临时修改折扣为7折
+          discount= maxDiscount;
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
-        }else if((role=='3') && discount< 9){
-          discount=9
+        }else if((role=='3') && discount< minDiscount){
+          discount = minDiscount
           zeropayPrice=NP.divide(NP.times(value, goodsList[index].qty,discount),10); //计算值
         }
         // if((role=='2'||role=='1') && discount< 8){

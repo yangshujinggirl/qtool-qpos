@@ -7,6 +7,8 @@ import NP from 'number-precision'
 export default {
   namespace: 'cashierManage',
   state: {
+    minDiscount:9,
+    maxDiscount:6,
     selectedActivityId:'0',//选中活动id
     currentRowIndex:0,//当前选中行
     goodsList:[], //收银数据表
@@ -59,9 +61,9 @@ export default {
           {name:'积分',checked:false,disabled:false,type:'6'}
         ],
         checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},selectedActivityId='0',
-        payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [],activityOptions = [];
-
-        return {...state, currentRowIndex, goodsList, payTotalData,payPart,isPrint,
+        payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [],activityOptions = [],
+        minDiscount = 9,maxDiscount = 6;
+        return {...state, currentRowIndex, goodsList, payTotalData,payPart,isPrint,minDiscount,maxDiscount,
           memberInfo, activityOptions,baseOptions,selectedActivityId,couponDetail,
           checkedPayTypeOne,checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
         }

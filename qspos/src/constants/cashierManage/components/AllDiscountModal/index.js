@@ -29,19 +29,20 @@ class  AllDiscountModal extends Component {
     let value = e.target.value;
     var dis=value
     let role=sessionStorage.getItem('role');
+    const { goodsList, maxDiscount, minDiscount } =this.props;
     switch(role) {
       case '1':
       case '2':
       // if(dis<=8) {
       //   dis = 8;
       // }
-      if(dis<=7) {
-        dis = 7;
+      if(dis<=maxDiscount) {
+        dis = maxDiscount;
       }
       break;
     case '3':
-      if(dis<=9) {
-        dis = 9;
+      if(dis<=minDiscount) {
+        dis = minDiscount;
       }
       break;
     }
@@ -49,6 +50,7 @@ class  AllDiscountModal extends Component {
   }
   handleOk=()=> {
     let { disVal } =this.state;
+    const { goodsList, maxDiscount, minDiscount } =this.props;
     let role=sessionStorage.getItem('role');
     switch(role) {
       case '1':
@@ -56,17 +58,17 @@ class  AllDiscountModal extends Component {
       // if(disVal<=8) {
       //   disVal = 8;
       // }
-      if(disVal<=7) {
-        disVal = 7;
+      if(disVal<=maxDiscount) {
+        disVal = maxDiscount;
       }
       break;
     case '3':
-      if(disVal<=9) {
-        disVal = 9;
+      if(disVal<=minDiscount) {
+        disVal = minDiscount;
       }
       break;
     }
-    const { goodsList } =this.props;
+
     goodsList.map((el)=> {
       if(el.isShowActivity!="1"||el.activityId=='0') {
         el.discount = disVal;
