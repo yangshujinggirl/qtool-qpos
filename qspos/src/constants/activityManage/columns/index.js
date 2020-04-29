@@ -6,7 +6,7 @@ const columns = [
     title: '活动名称',
     dataIndex: 'activityName',
     render:(text,record,index)=> {
-      return <Link className="linkStyle" to={`/activityInfo/${record.activityId}`}>{record.activityName}</Link>
+      return <Link className="linkStyle" to={`/activityInfo/${record.activityId}/?type=${record.type}`}>{record.activityName}</Link>
     }
   },{
     title: '活动时间',
