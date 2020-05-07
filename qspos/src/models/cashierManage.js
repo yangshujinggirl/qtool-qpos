@@ -8,7 +8,7 @@ export default {
   namespace: 'cashierManage',
   state: {
     minDiscount:9,
-    maxDiscount:6,
+    maxDiscount:7,
     selectedActivityId:'0',//选中活动id
     currentRowIndex:0,//当前选中行
     goodsList:[], //收银数据表
