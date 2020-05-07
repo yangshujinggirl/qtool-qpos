@@ -62,7 +62,7 @@ export default {
         ],
         checkedPayTypeOne = { type:'1', amount:0 }, checkedPayTypeTwo = {},selectedActivityId='0',
         payMentTypeOptionsOne = [], payMentTypeOptionsTwo = [],activityOptions = [],
-        minDiscount = 9,maxDiscount = 6;
+        minDiscount = 9,maxDiscount = 7;
         return {...state, currentRowIndex, goodsList, payTotalData,payPart,isPrint,minDiscount,maxDiscount,
           memberInfo, activityOptions,baseOptions,selectedActivityId,couponDetail,
           checkedPayTypeOne,checkedPayTypeTwo,payMentTypeOptionsOne,payMentTypeOptionsTwo,
