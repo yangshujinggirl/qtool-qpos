@@ -220,6 +220,7 @@ class PayMentModal extends Component {
     }else{
       orderPay.push(checkedPayTypeOne)
     }
+
     let params={
           mbCard:{ mbCardId:memberInfo.mbCardId?memberInfo.mbCardId:null },
           odOrder:{
