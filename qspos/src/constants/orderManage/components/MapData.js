@@ -5,7 +5,7 @@ const BusinessTypeMap={
   4:'保税订单',
 }
 const OrderStatusMap={
-  1:"已接单",
+  // 1:"已接单",
   2:"进行中",
   3:"已完成",
   4:"已关闭",

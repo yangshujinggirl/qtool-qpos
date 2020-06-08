@@ -24,7 +24,8 @@ class ActivityManageIndex extends Component {
   }
   initPage(values) {
     let params = {
-      activityId:this.props.params.id
+      activityId:this.props.params.id,
+      type:this.props.location.query.type
     }
     if(values) {
       params = {...params,...values}

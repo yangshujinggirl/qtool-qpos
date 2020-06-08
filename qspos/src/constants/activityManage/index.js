@@ -1,90 +1,38 @@
 import React, { Component } from 'react';
-import { connect } from 'dva';
-import { Spin} from 'antd';
+import { Tabs } from 'antd';
+import ActivityList from './ActivityList';
 import Header from '../../components/Qheader';
-import FilterForm from './components/FilterForm';
-import Qpagination from '../../components/Qpagination';
-import Qtable from '../../components/Qtable';
-import {columns} from './columns';
 import './index.less';
 
-class ActivityManageIndex extends Component {
+const TabPane = Tabs.TabPane;
+
+class DailyStatement extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      fields: {
-        activityType:'',
-        activityStatus:"",
-      },
+    this.state = {
+      key:'1'
     }
   }
-  componentDidMount() {
-    this.props.dispatch({
-      type:'activityManage/fetchList',
-      payload: {}
-    });
-  }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
-  changePage = (currentPage) => {
-    currentPage--;
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
-    this.props.dispatch({
-      type:'activityManage/fetchList',
-      payload: paramsObj
-    });
-  }
-  //修改pageSize
-  changePageSize =(values)=> {
-    this.props.dispatch({
-      type:'activityManage/fetchList',
-      payload: values
-    });
-  }
-  searchData =(values)=> {
-    this.props.dispatch({
-      type:'activityManage/fetchList',
-      payload: values
-    });
+  callback=(key)=> {
+    this.setState({ key })
   }
   render() {
-    const { fields } =this.state;
-    const { dataSource, data } =this.props.activityManage;
     return(
-      <div className="activity-manage-pages common-pages-wrap">
-        <Spin tip='加载中，请稍后...'  spinning={this.props.spinLoad.loading}>
-          <Header type={false} color={true} />
-          <div className="common-main-contents-wrap">
-            <FilterForm
-              {...fields}
-              onValuesChange={this.handleFormChange}
-              submit={this.searchData}/>
-              <Qtable
-                columns={columns}
-                dataSource={dataSource}/>
-              {
-                dataSource.length>0&&
-                <Qpagination
-                  sizeOptions="2"
-                  onShowSizeChange={this.changePageSize.bind(this)}
-                  onChange={this.changePage.bind(this)}
-                  data={data}/>
-              }
-          </div>
-        </Spin>
+      <div className="activity-statement-pages">
+        <Header type={false} color={true} />
+        <div className="content-wrap">
+          <Tabs type="card" defaultActiveKey={this.state.key} onChange={this.callback}>
+            <TabPane tab="pos促销活动" key="1">
+              {this.state.key=='1'&&<ActivityList activityType={1}/>}
+            </TabPane>
+            <TabPane tab="App促销活动" key="2">
+              {this.state.key=='2'&&<ActivityList  activityType={2}/>}
+            </TabPane>
+          </Tabs>
+        </div>
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
-  const { activityManage, spinLoad } = state;
-  return { activityManage, spinLoad };
-}
-
-export default connect(mapStateToProps)(ActivityManageIndex);
+export default DailyStatement;

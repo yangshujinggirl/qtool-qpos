@@ -55,8 +55,13 @@ export default {
       }
       const result=yield call(GetServerData,'qerp.web.qpos.at.query.list',values);
       if(result.code == '0') {
-        const { qPosActivitys, limit, total, currentPage } =result;
-        qPosActivitys.length>0&&qPosActivitys.map((el)=>el.key = el.activityId);
+        let { qPosActivitys, limit, total, currentPage } =result;
+        qPosActivitys = qPosActivitys?qPosActivitys:[];
+        qPosActivitys = qPosActivitys.map((el)=>{
+          el.key = el.activityId;
+          el.type = values.type;
+          return el;
+        });
         yield put({
           type:'getDataSource',
           payload:{

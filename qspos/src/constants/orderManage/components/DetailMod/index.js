@@ -208,7 +208,7 @@ function AppDetailMod({detailInfo}) {
         <div className="row-wrap">
           <div className="row">销售单号：<span className="field">{odOrder.orderNo}</span></div>
           <div className="row">接单时间：<span className="field">{odOrder.createTime}</span></div>
-          <div className="row">接单员：<span className="field">{odOrder.nickname}</span></div>
+          <div className="row">操作员：<span className="field">{odOrder.nickname}</span></div>
           <div className="row">业务类型：<span className="field">{BusinessTypeMap[odOrder.businessType]}</span></div>
           <div className="row">订单状态：<span className="field">{OrderStatusMap[odOrder.orderStatus]}</span></div>
           <div className="row">配送方式：<span className="field">{DeliveryMap[odOrder.deliveryType]}</span></div>
